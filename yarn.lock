@@ -5967,6 +5967,11 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.9.tgz#97edc9037ea0c38585320b28964dde3b39e4660d"
   integrity sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==
 
+"@types/jsrsasign@^8.0.13":
+  version "8.0.13"
+  resolved "https://registry.yarnpkg.com/@types/jsrsasign/-/jsrsasign-8.0.13.tgz#770c1e429107dfb0cc4f5b78b472584511a55a28"
+  integrity sha512-+0Ij59D6NXP48KkeLhPXeQKOyLjvA9CD7zacc0Svy2IWHdl62BmDeTvGSIwKaGZSoamLJOo+on1AG/wPRLsd7A==
+
 "@types/lodash@^4.14.165":
   version "4.14.165"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.165.tgz#74d55d947452e2de0742bad65270433b63a8c30f"
@@ -15983,11 +15988,6 @@ jest@24.9.0:
     import-local "^2.0.0"
     jest-cli "^24.9.0"
 
-jose@^3.19.0:
-  version "3.19.0"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-3.19.0.tgz#4b64c89b619d6256268865ed223c5228203d50df"
-  integrity sha512-G5imz/7oSe8Ohg4EMEhGhMhN+yzACMw7NC7ZrEYSoJekQXHPf+TPQNc/XJkYRm6TFWIbf3HA4OHZhdRv8KsskA==
-
 js-levenshtein@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/js-levenshtein/-/js-levenshtein-1.1.6.tgz#c6cee58eb3550372df8deb85fad5ce66ce01d59d"
@@ -16272,6 +16272,11 @@ jsqr@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/jsqr/-/jsqr-1.4.0.tgz#8efb8d0a7cc6863cb6d95116b9069123ce9eb2d1"
   integrity sha512-dxLob7q65Xg2DvstYkRpkYtmKm2sPJ9oFhrhmudT1dZvNFFTlroai3AWSpLey/w5vMcLBXRgOJsbXpdN9HzU/A==
+
+jsrsasign@^10.4.1:
+  version "10.4.1"
+  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-10.4.1.tgz#3aec10b6201e3c321d4ee2b1e010bc2f808ed4d0"
+  integrity sha512-g2CP2nb8xKdmfZhuHaJEz1zVYTsZc+lUjLFvgbMX35/cUALK0G15sQfCbCpDg/UivkjCNlq0lV6FxCfPhv0shw==
 
 jss-plugin-camel-case@^10.0.3:
   version "10.4.0"

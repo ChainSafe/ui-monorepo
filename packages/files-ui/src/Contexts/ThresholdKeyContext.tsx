@@ -68,6 +68,8 @@ export type TThresholdKeyContext = {
   getAvailableShareIndices(): string[] | undefined
   refreshTKeyMeta(): Promise<void>
   loggedinAs: string
+  //remove that privateKey
+  privateKey?: string
 }
 
 type ThresholdKeyProviderProps = {
@@ -133,6 +135,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     () => TKeySdk?.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule | undefined
     , [TKeySdk]
   )
+
+  console.log("privateKey", privateKey)
   // `shares` object contains security question and local device shares
   // The service provider share as well as backup mnemonic do not appear in this share 
   // array. Note: Files accounts have one service provider by default.
@@ -828,7 +832,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         resetStatus: () => setStatus("initialized"),
         getAvailableShareIndices,
         refreshTKeyMeta,
-        loggedinAs
+        loggedinAs,
+        privateKey
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && process.env.REACT_APP_TEST !== "true" && (

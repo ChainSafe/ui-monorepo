@@ -15,6 +15,8 @@ import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
+import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
+import { KJUR } from "jsrsasign"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -200,6 +202,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const [nameError, setNameError] = useState("")
   const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
   const { filesApiClient } = useFilesApi()
+  const { privateKey } = useThresholdKey()
 
   const isReader = useMemo(() => {
     if (!bucket) return false
@@ -308,9 +311,81 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
     filesApiClient.getAllNonces().then(n => console.log("nonces", n)).catch(console.error)
   }, [filesApiClient])
 
-  const onSharingLink = useCallback(() => {
+  const onCreateNonce = useCallback(() => {
     bucket?.id && filesApiClient.createNonce({ bucket_id: bucket.id, permission: "read" }).catch(console.error)
   }, [bucket, filesApiClient])
+
+  const onCreateJWT = useCallback(async () => {
+    if(!privateKey) {
+      console.log("no private key found")
+      return
+    }
+
+    // function arrayBufferToBase64(arrayBuffer: any) {
+    //   const byteArray = new Uint8Array(arrayBuffer)
+    //   let byteString = ""
+    //   for(let i = 0; i < byteArray.byteLength; i++) {
+    //     byteString += String.fromCharCode(byteArray[i])
+    //   }
+    //   const b64 = window.btoa(byteString)
+
+    //   return b64
+    // }
+
+    function addNewLines(str: any) {
+      let finalString = ""
+      while(str.length > 0) {
+        finalString += str.substring(0, 64) + "\n"
+        str = str.substring(64)
+      }
+
+      return finalString
+    }
+
+    function toPem(privateKey: any) {
+      const b64 = addNewLines(window.btoa((privateKey)))
+      const pem = "-----BEGIN PRIVATE KEY-----\n" + b64 + "-----END PRIVATE KEY-----"
+
+      return pem
+    }
+
+    const pem = toPem(privateKey)
+    console.log("pem", pem)
+
+    //  using JOSE
+    //     const algorithm = "ES256"
+    //     const ecPrivateKey = await importPKCS8(pkcs8, algorithm)
+    //     const jwt = await new SignJWT({ "urn:example:claim": true })
+    //       .setProtectedHeader({ alg: "ES256" })
+    //       .setIssuedAt()
+    //       .setIssuer("urn:example:issuer")
+    //       .setAudience("urn:example:audience")
+    //       .setExpirationTime("2h")
+    //       .sign(ecPrivateKey)
+
+    // console.log("jwt", jwt)
+
+    // Header
+    const oHeader = { alg: "ES256", typ: "JWT" }
+    // Payload
+    const oPayload: any = {}
+    const tNow = KJUR.jws.IntDate.get("now")
+    const tEnd = KJUR.jws.IntDate.get("now + 1day")
+    oPayload.iss = "http://foo.com"
+    oPayload.sub = "mailto:mike@foo.com"
+    oPayload.nbf = tNow
+    oPayload.iat = tNow
+    oPayload.exp = tEnd
+    oPayload.jti = "id123456"
+    oPayload.aud = "http://foo.com/employee"
+    // Sign JWT, password=616161
+    const sHeader = JSON.stringify(oHeader)
+    const sPayload = JSON.stringify(oPayload)
+    // const prvKey = KEYUTIL.getKey(pkcs8)
+
+    const sJWT = KJUR.jws.JWS.sign("ES256", sHeader, sPayload, pem)
+    console.log("sJWT", sJWT)
+  }, [privateKey])
 
   return (
     <CustomModal
@@ -335,7 +410,8 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
         </div>
 
         <div className={classes.modalFlexItem}>
-          <button onClick={onSharingLink}>Sharing link</button>
+          <button onClick={onCreateNonce}>Create nonce</button>
+          <button onClick={onCreateJWT}>Create JWT</button>
           {isUsingCurrentBucket
             ? (
               <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
@@ -477,3 +553,4 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
 }
 
 export default ShareModal
+
