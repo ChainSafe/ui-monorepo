@@ -122,7 +122,7 @@ interface IFileSystemItemProps {
   browserView: BrowserView
   reportFile?: (path: string) => void
   showFileInfo?: (path: string) => void
-  share?: (path: string, fileIndex: number) => void
+  handleShare?: (file: FileSystemItemType) => void
   showPreview?: (fileIndex: number) => void
 }
 
@@ -145,7 +145,7 @@ const FileSystemItem = ({
   resetSelectedFiles,
   reportFile,
   showFileInfo,
-  share,
+  handleShare,
   showPreview
 }: IFileSystemItemProps) => {
   const { bucket, downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
@@ -247,7 +247,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => share && share(filePath, files?.indexOf(file))
+      onClick: () => handleShare && handleShare(file)
     },
     info: {
       contents: (
@@ -316,9 +316,8 @@ const FileSystemItem = ({
     currentPath,
     downloadFile,
     moveFile,
-    share,
+    handleShare,
     filePath,
-    files,
     showFileInfo,
     recoverFile,
     onFilePreview,

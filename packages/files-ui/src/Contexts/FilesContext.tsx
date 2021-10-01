@@ -81,7 +81,7 @@ type FilesContext = {
   ) => Promise<void>
   transferFileBetweenBuckets: (
     sourceBucketId: string,
-    sourceFile: FileSystemItem,
+    sourceItem: FileSystemItem,
     path: string,
     destinationBucket: BucketKeyPermission,
     deleteFromSource?: boolean
@@ -747,9 +747,104 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         .catch(console.error)
     }, [publicKey, getUsersWithEncryptionKey, filesApiClient, refreshBuckets])
 
+  // const transferFileBetweenBuckets = useCallback(async (
+  //   sourceBucketId: string,
+  //   sourceItem: FileSystemItem,
+  //   path: string,
+  //   destinationBucket: BucketKeyPermission,
+  //   keepOriginal = true
+  // ) => {
+  //   const UPLOAD_PATH = "/"
+
+  //   const cancelSource = axios.CancelToken.source()
+  //   const cancelToken = cancelSource.token
+
+  //   const toastParams: ToastParams = {
+  //     title: t`Sharing your file (Downloading)`,
+  //     type: "success",
+  //     progress: 0,
+  //     onProgressCancel: cancelSource.cancel,
+  //     isClosable: false
+  //   }
+  //   const toastId = addToast(toastParams)
+  //   setTransfersInProgress(true)
+
+  //   getFileContent(sourceBucketId, {
+  //     cid: sourceItem.cid,
+  //     file: sourceItem,
+  //     path: getPathWithFile(path, sourceItem.name),
+  //     cancelToken,
+  //     onDownloadProgress: (progressEvent) => {
+  //       updateToast(toastId, {
+  //         ...toastParams,
+  //         progress: Math.ceil(
+  //           (progressEvent.loaded / sourceItem.size) * 50
+  //         )
+  //       })
+  //     }
+  //   }).then(async (fileContent) => {
+  //     if (!fileContent) {
+  //       updateToast(toastId, {
+  //         title: t`An error occurred while downloading the file`,
+  //         type: "error",
+  //         progress: undefined,
+  //         onProgressCancel: undefined,
+  //         isClosable: true
+  //       }, true)
+  //       setTransfersInProgress(false)
+  //       return
+  //     }
+
+  //     await encryptAndUploadFiles(
+  //       destinationBucket,
+  //       [new File([fileContent], sourceItem.name, { type: sourceItem.content_type })],
+  //       UPLOAD_PATH,
+  //       (progressEvent) => {
+  //         updateToast(toastId, {
+  //           title: t`Encrypting & uploading`,
+  //           type: "success",
+  //           progress:  Math.ceil(
+  //             50 + (progressEvent.loaded / sourceItem.size) * 50
+  //           )
+  //         })
+  //       },
+  //       cancelToken
+  //     )
+
+  //     if (!keepOriginal) {
+  //       await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(path, sourceItem.name)] })
+  //     }
+  //     updateToast(toastId, {
+  //       title: t`Transfer complete`,
+  //       type: "success",
+  //       progress: undefined,
+  //       isClosable: true
+  //     }, true)
+  //     setTransfersInProgress(false)
+  //     return Promise.resolve()
+  //   }).catch((error) => {
+  //     console.error(error)
+  //     let errorMessage = `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.length ? error[0].message : ""}`
+  //     if (axios.isCancel(error)) {
+  //       errorMessage = t`Sharing cancelled`
+  //     }
+  //     updateToast(toastId, {
+  //       title: errorMessage,
+  //       type: "error",
+  //       progress: undefined,
+  //       onProgressCancel: undefined,
+  //       isClosable: true
+  //     }, true)
+  //     setTransfersInProgress(false)
+  //   }).finally(() => {
+  //     refreshBuckets()
+  //   })
+  // }, [getFileContent, encryptAndUploadFiles, filesApiClient, refreshBuckets, addToast, updateToast])
+
+
   const transferFileBetweenBuckets = useCallback(async (
     sourceBucketId: string,
-    sourceFile: FileSystemItem,
+    sourceItem: FileSystemItem,
     path: string,
     destinationBucket: BucketKeyPermission,
     keepOriginal = true
@@ -769,16 +864,29 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     const toastId = addToast(toastParams)
     setTransfersInProgress(true)
 
+    let SOURCE_PATHS: string[] = []
+    if (sourceItem.isFolder) {
+      const filePaths = await getFileList([sourceItem], path, sourceBucketId)
+      SOURCE_PATHS = filePaths.map((filePath) => filePath.path)
+    } else {
+      SOURCE_PATHS = [getPathWithFile(path, sourceItem.name)]
+    }
+
+    console.log(SOURCE_PATHS)
+
+    return
+
+
     getFileContent(sourceBucketId, {
-      cid: sourceFile.cid,
-      file: sourceFile,
-      path: getPathWithFile(path, sourceFile.name),
+      cid: sourceItem.cid,
+      file: sourceItem,
+      path: getPathWithFile(path, sourceItem.name),
       cancelToken,
       onDownloadProgress: (progressEvent) => {
         updateToast(toastId, {
           ...toastParams,
           progress: Math.ceil(
-            (progressEvent.loaded / sourceFile.size) * 50
+            (progressEvent.loaded / sourceItem.size) * 50
           )
         })
       }
@@ -797,14 +905,14 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
       await encryptAndUploadFiles(
         destinationBucket,
-        [new File([fileContent], sourceFile.name, { type: sourceFile.content_type })],
+        [new File([fileContent], sourceItem.name, { type: sourceItem.content_type })],
         UPLOAD_PATH,
         (progressEvent) => {
           updateToast(toastId, {
             title: t`Encrypting & uploading`,
             type: "success",
             progress:  Math.ceil(
-              50 + (progressEvent.loaded / sourceFile.size) * 50
+              50 + (progressEvent.loaded / sourceItem.size) * 50
             )
           })
         },
@@ -812,7 +920,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       )
 
       if (!keepOriginal) {
-        await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(path, sourceFile.name)] })
+        await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(path, sourceItem.name)] })
       }
       updateToast(toastId, {
         title: t`Transfer complete`,
@@ -839,7 +947,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }).finally(() => {
       refreshBuckets()
     })
-  }, [getFileContent, encryptAndUploadFiles, filesApiClient, refreshBuckets, addToast, updateToast])
+  }, [getFileContent, encryptAndUploadFiles, filesApiClient, refreshBuckets, addToast, updateToast, getFileList])
 
   return (
     <FilesContext.Provider

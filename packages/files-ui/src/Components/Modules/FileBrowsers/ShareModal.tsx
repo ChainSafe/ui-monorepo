@@ -237,6 +237,8 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
     }
   }, [hasNoSharedBucket])
 
+  console.log(file)
+
   const onNameChange = useCallback((value?: string | number) => {
     if (value === undefined) return
 

@@ -642,7 +642,7 @@ const FilesList = ({ isShared = false }: Props) => {
   ],
   [classes.menuIcon])
 
-  const onShare = useCallback((fileInfoPath: string, fileIndex: number) => {
+  const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
     if(hasSeenSharingExplainerModal) {
       setClickedShare(true)
     }
