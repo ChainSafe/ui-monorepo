@@ -43,8 +43,11 @@ msgstr "Add more files"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 
-msgid "An error occurred while downloading the file"
-msgstr "An error occurred while downloading the file"
+msgid "All files could not be shared - {successCount} files shared successfully"
+msgstr "All files could not be shared - {successCount} files shared successfully"
+
+#~ msgid "An error occurred while downloading the file"
+#~ msgstr "An error occurred while downloading the file"
 
 msgid "An error occurred:"
 msgstr "An error occurred:"
@@ -229,8 +232,8 @@ msgstr "Drop to upload files"
 msgid "Email is required"
 msgstr "Email is required"
 
-msgid "Encrypting & uploading"
-msgstr "Encrypting & uploading"
+#~ msgid "Encrypting & uploading"
+#~ msgstr "Encrypting & uploading"
 
 msgid "Enter backup secret phrase:"
 msgstr "Enter backup secret phrase:"
@@ -619,6 +622,9 @@ msgstr "Share"
 msgid "Share file"
 msgstr "Share file"
 
+msgid "Share selected"
+msgstr "Share selected"
+
 msgid "Shared"
 msgstr "Shared"
 
@@ -634,8 +640,23 @@ msgstr "Shared with"
 msgid "Sharing cancelled"
 msgstr "Sharing cancelled"
 
-msgid "Sharing your file (Downloading)"
-msgstr "Sharing your file (Downloading)"
+msgid "Sharing cancelled - {successCount} files shared successfully"
+msgstr "Sharing cancelled - {successCount} files shared successfully"
+
+msgid "Sharing complete"
+msgstr "Sharing complete"
+
+msgid "Sharing failed"
+msgstr "Sharing failed"
+
+msgid "Sharing files"
+msgstr "Sharing files"
+
+#~ msgid "Sharing your file (Downloading)"
+#~ msgstr "Sharing your file (Downloading)"
+
+msgid "Sharing {fileProgress} - {0}"
+msgstr "Sharing {fileProgress} - {0}"
 
 msgid "Sign Out"
 msgstr "Sign Out"
@@ -742,8 +763,8 @@ msgstr "This website uses cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 
-msgid "Transfer complete"
-msgstr "Transfer complete"
+#~ msgid "Transfer complete"
+#~ msgstr "Transfer complete"
 
 msgid "Try again"
 msgstr "Try again"

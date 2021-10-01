@@ -43,8 +43,11 @@ msgstr "Legg til flere filer"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
-msgid "An error occurred while downloading the file"
+msgid "All files could not be shared - {successCount} files shared successfully"
 msgstr ""
+
+#~ msgid "An error occurred while downloading the file"
+#~ msgstr ""
 
 msgid "An error occurred:"
 msgstr ""
@@ -229,8 +232,8 @@ msgstr "Dra for å laste opp filer"
 msgid "Email is required"
 msgstr "E-post kreves"
 
-msgid "Encrypting & uploading"
-msgstr ""
+#~ msgid "Encrypting & uploading"
+#~ msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -616,6 +619,9 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Delt"
 
@@ -631,7 +637,22 @@ msgstr ""
 msgid "Sharing cancelled"
 msgstr ""
 
-msgid "Sharing your file (Downloading)"
+msgid "Sharing cancelled - {successCount} files shared successfully"
+msgstr ""
+
+msgid "Sharing complete"
+msgstr ""
+
+msgid "Sharing failed"
+msgstr ""
+
+msgid "Sharing files"
+msgstr ""
+
+#~ msgid "Sharing your file (Downloading)"
+#~ msgstr ""
+
+msgid "Sharing {fileProgress} - {0}"
 msgstr ""
 
 msgid "Sign Out"
@@ -739,8 +760,8 @@ msgstr ""
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
-msgid "Transfer complete"
-msgstr ""
+#~ msgid "Transfer complete"
+#~ msgstr ""
 
 msgid "Try again"
 msgstr "Prøv igjen"

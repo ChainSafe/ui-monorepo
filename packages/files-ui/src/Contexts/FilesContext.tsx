@@ -834,9 +834,13 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     } catch (error) {
       console.error(error)
       setTransfersInProgress(false)
-      let errorMessage = t`All files could not be shared - ${successCount} files shared successfully`
+      let errorMessage = successCount
+        ? t`All files could not be shared - ${successCount} files shared successfully`
+        : t`Sharing failed`
       if (axios.isCancel(error)) {
-        errorMessage = t`Sharing cancelled - ${successCount} files shared successfully`
+        errorMessage = successCount
+          ? t`Sharing cancelled - ${successCount} files shared successfully`
+          : t`Sharing cancelled`
       }
       updateToast(toastId, {
         title: errorMessage,
