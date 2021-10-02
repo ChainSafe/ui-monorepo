@@ -754,102 +754,99 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     destinationBucket: BucketKeyPermission,
     keepOriginal = true
   ) => {
-    const cancelSource = axios.CancelToken.source()
-    const cancelToken = cancelSource.token
+    getFileList(sourceItems, currentPath, sourceBucketId).then(async (allItems) => {
+      setTransfersInProgress(true)
+      const cancelSource = axios.CancelToken.source()
+      const cancelToken = cancelSource.token
 
-    const toastParams: ToastParams = {
-      title: t`Sharing files`,
-      type: "success",
-      progress: 0,
-      onProgressCancel: cancelSource.cancel,
-      isClosable: false
-    }
-    const toastId = addToast(toastParams)
-    setTransfersInProgress(true)
-    let successCount = 0
-
-    try {
-      const fullStructure = await getFileList(sourceItems, currentPath, sourceBucketId)
-
-      const totalFileSize = fullStructure.reduce((sum, item) => sum + item.size, 0)
-      const totalFileNumber = fullStructure.length
-
-      await fullStructure.reduce(async (totalProgress: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
-        const fileProgress = totalFileNumber > 1 && `${index + 1}/${totalFileNumber}`
-        const file = await getFileContent(sourceBucketId, {
-          cid: item.cid,
-          file: item,
-          path: getPathWithFile(item.path, item.name),
-          cancelToken,
-          onDownloadProgress: async (progressEvent) => {
-            updateToast(toastId, {
-              ...toastParams,
-              title: t`Sharing ${fileProgress} - ${item.name}`,
-              progress: Math.ceil(
-                ((await totalProgress + (progressEvent.loaded / 2)) / totalFileSize) * 100
-              )
-            })
-          }
-        })
-
-
-        if(file) {
-          await encryptAndUploadFiles(
-            destinationBucket,
-            [new File([file], item.name, { type: item.content_type })],
-            getRelativePath(item.path, currentPath),
-            async (progressEvent) => {
-              updateToast(toastId, {
-                title: t`Sharing ${fileProgress} - ${item.name}`,
-                type: "success",
-                progress:  Math.ceil(
-                  ((await totalProgress + (progressEvent.loaded * 2)) / totalFileSize) * 100
-                )
-              })
-            },
-            cancelToken
-          )
-        }
-
-        successCount++
-
-        if (!keepOriginal) {
-          await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(item.path, item.name)] })
-        }
-
-        return await totalProgress + item.size
-      }, Promise.resolve(0))
-
-
-      updateToast(toastId, {
-        title: t`Sharing complete`,
+      const toastParams: ToastParams = {
+        title: t`Sharing files`,
         type: "success",
-        progress:  undefined,
-        isClosable: true,
-        autoDismiss: true
-      })
-      setTransfersInProgress(false)
-      refreshBuckets()
-
-    } catch (error) {
-      console.error(error)
-      setTransfersInProgress(false)
-      let errorMessage = successCount
-        ? t`All files could not be shared - ${successCount} files shared successfully`
-        : t`Sharing failed`
-      if (axios.isCancel(error)) {
-        errorMessage = successCount
-          ? t`Sharing cancelled - ${successCount} files shared successfully`
-          : t`Sharing cancelled`
+        progress: 0,
+        onProgressCancel: cancelSource.cancel,
+        isClosable: false
       }
-      updateToast(toastId, {
-        title: errorMessage,
-        type: "error",
-        progress:  undefined,
-        isClosable: true,
-        autoDismiss: true
-      })
-    }
+      const toastId = addToast(toastParams)
+      const totalFileSize = allItems.reduce((sum, item) => sum + item.size, 0)
+      const totalFileNumber = allItems.length
+      let successCount = 0
+      let totalProgress = 0
+
+      try {
+        for (let i = 0;i < totalFileNumber;i++) {
+          const item = allItems[i]
+          const fileProgress = `${i + 1}/${totalFileNumber}`
+          const previousProgress = totalProgress
+          const file = await getFileContent(sourceBucketId, {
+            cid: item.cid,
+            file: item,
+            path: getPathWithFile(item.path, item.name),
+            cancelToken,
+            onDownloadProgress: async (progressEvent) => {
+              const currentProgress = Math.ceil((((2 * previousProgress) + progressEvent.loaded) * 50) / totalFileSize)
+              console.log("currentProgress:", currentProgress)
+              updateToast(toastId, {
+                ...toastParams,
+                title: t`Sharing ${fileProgress} - ${item.name}`,
+                progress: currentProgress
+              })
+            }
+          })
+
+          if(file) {
+            await encryptAndUploadFiles(
+              destinationBucket,
+              [new File([file], item.name, { type: item.content_type })],
+              getRelativePath(item.path, currentPath),
+              async (progressEvent) => {
+                const currentProgress = Math.ceil((((2 * previousProgress) + progressEvent.loaded + item.size) * 50) / totalFileSize)
+                console.log("currentProgress:", currentProgress)
+                updateToast(toastId, {
+                  title: t`Sharing ${fileProgress} - ${item.name}`,
+                  type: "success",
+                  progress: currentProgress
+                })
+              },
+              cancelToken
+            )
+          }
+          if (!keepOriginal) {
+            await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(item.path, item.name)] })
+          }
+          totalProgress += item.size
+          successCount++
+        }
+
+        updateToast(toastId, {
+          title: t`Sharing complete`,
+          type: "success",
+          progress:  undefined,
+          isClosable: true
+        }, true)
+        setTransfersInProgress(false)
+        refreshBuckets()
+
+      } catch (error) {
+        console.error(error)
+        setTransfersInProgress(false)
+        let errorMessage = successCount
+          ? t`All files could not be shared - ${successCount} files shared successfully`
+          : t`Sharing failed`
+        if (axios.isCancel(error)) {
+          errorMessage = successCount
+            ? t`Sharing cancelled - ${successCount} files shared successfully`
+            : t`Sharing cancelled`
+        }
+        updateToast(toastId, {
+          title: errorMessage,
+          type: "error",
+          progress:  undefined,
+          isClosable: true
+        }, true)
+      }
+    }).catch((error) => {
+      console.error(error)
+    })
   }, [getFileContent, encryptAndUploadFiles, filesApiClient, refreshBuckets, addToast, updateToast, getFileList])
 
   return (
