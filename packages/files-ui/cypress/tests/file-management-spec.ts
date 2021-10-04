@@ -43,7 +43,7 @@ describe("File management", () => {
       fileUploadModal.body().should("not.exist")
     })
 
-    it("can move a file in and out of a folder", () => {
+    it.only("can move a file in and out of a folder", () => {
       cy.web3Login({ clearCSFBucket: true })
 
       // upload a file and save it's name as a cypress alias
@@ -81,6 +81,7 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
         moveItemModal.moveButton().safeClick()
+        homePage.moveSuccessToast().should("not.exist")
 
         // ensure the home root now has the folder and file
         navigationMenu.homeNavButton().click()

@@ -6,7 +6,8 @@ import {
   getPathWithFile,
   extractSharedFileBrowserPathFromURL,
   getUrlSafePathWithFile,
-  getAbsolutePathsFromCids
+  getAbsolutePathsFromCids,
+  pathEndingWithSlash
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "./types"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -21,7 +22,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
 
 const SharedFileBrowser = () => {
-  const { downloadFile, uploadFiles, buckets, getStorageSummary } = useFiles()
+  const { downloadFile, uploadFiles, buckets, getStorageSummary, refreshBuckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -113,8 +114,11 @@ const SharedFileBrowser = () => {
           title: t`There was an error deleting your data`,
           type: "error"
         })
-      }).finally(refreshContents)
-  }, [addToast, bucket, currentPath, filesApiClient, pathContents, refreshContents])
+      }).finally(() => {
+        refreshContents()
+        refreshBuckets()
+      })
+  }, [addToast, bucket, currentPath, filesApiClient, pathContents, refreshBuckets, refreshContents])
 
   // Rename
   const renameItem = useCallback(async (cid: string, newName: string) => {
@@ -134,7 +138,7 @@ const SharedFileBrowser = () => {
 
     filesApiClient.moveBucketObjects(bucket.id, {
       paths: pathsToMove,
-      new_path: newPath
+      new_path: pathEndingWithSlash(newPath)
     }).then(() => {
       addToast({
         title: t`Data moved successfully`,
