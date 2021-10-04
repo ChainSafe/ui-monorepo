@@ -178,7 +178,10 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
   }
 
-  const removeUser = useCallback(() => setProfile(undefined), [])
+  const removeUser = useCallback(() => {
+    setProfile(undefined)
+    _setLocalStore(undefined)
+  }, [])
 
   const getProfileTitle = () => {
     if (profile?.publicAddress) {
