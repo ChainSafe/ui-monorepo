@@ -46,9 +46,6 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "All files could not be shared - {successCount} files shared successfully"
 msgstr "All files could not be shared - {successCount} files shared successfully"
 
-#~ msgid "An error occurred while downloading the file"
-#~ msgstr "An error occurred while downloading the file"
-
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
@@ -234,9 +231,6 @@ msgstr "Drop to upload files"
 
 msgid "Email is required"
 msgstr "Email is required"
-
-#~ msgid "Encrypting & uploading"
-#~ msgstr "Encrypting & uploading"
 
 msgid "Enter backup secret phrase:"
 msgstr "Enter backup secret phrase:"
@@ -655,9 +649,6 @@ msgstr "Sharing failed"
 msgid "Sharing files"
 msgstr "Sharing files"
 
-#~ msgid "Sharing your file (Downloading)"
-#~ msgstr "Sharing your file (Downloading)"
-
 msgid "Sharing {fileProgress} - {0}"
 msgstr "Sharing {fileProgress} - {0}"
 
@@ -765,9 +756,6 @@ msgstr "This website uses cookies"
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-
-#~ msgid "Transfer complete"
-#~ msgstr "Transfer complete"
 
 msgid "Try again"
 msgstr "Try again"

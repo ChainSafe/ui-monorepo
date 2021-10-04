@@ -47,9 +47,6 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 msgid "All files could not be shared - {successCount} files shared successfully"
 msgstr ""
 
-#~ msgid "An error occurred while downloading the file"
-#~ msgstr "Une erreur s'est produite lors du téléchargement du fichier"
-
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
@@ -235,9 +232,6 @@ msgstr "Faire glisser pour téléverser un fichier"
 
 msgid "Email is required"
 msgstr "Un courriel est requis"
-
-#~ msgid "Encrypting & uploading"
-#~ msgstr "Chiffrement et téléversement"
 
 msgid "Enter backup secret phrase:"
 msgstr "Phrase secrète de sauvegarde :"
@@ -656,9 +650,6 @@ msgstr ""
 msgid "Sharing files"
 msgstr ""
 
-#~ msgid "Sharing your file (Downloading)"
-#~ msgstr "Partager votre fichier (Téléchargement)"
-
 msgid "Sharing {fileProgress} - {0}"
 msgstr ""
 
@@ -766,9 +757,6 @@ msgstr "Ce site web utilise des cookies"
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre les interactions à des fins d'analyse. Vous avez le droit de refuser notre utilisation des cookies. Pour que nous puissions vous offrir une expérience utilisateur personnalisable, veuillez cliquer sur le bouton Accepter ci-dessous.<0>En savoir plus</0>"
-
-#~ msgid "Transfer complete"
-#~ msgstr "Transfert terminé"
 
 msgid "Try again"
 msgstr "Essayer de nouveau"
