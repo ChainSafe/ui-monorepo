@@ -7,7 +7,8 @@ import {
   getPathWithFile,
   extractFileBrowserPathFromURL,
   getUrlSafePathWithFile,
-  getAbsolutePathsFromCids
+  getAbsolutePathsFromCids,
+  pathEndingWithSlash
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
@@ -85,7 +86,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     }).then(() => {
       if (!hideToast) {
         addToast({
-          title: t`Data deleted successfully`,
+          title: t`Data moved to bin successfully`,
           type: "success",
           testId: "deletion-success"
         })
@@ -114,15 +115,17 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
 
+
     const pathsToMove = getAbsolutePathsFromCids(cids, currentPath, pathContents)
 
     filesApiClient.moveBucketObjects(bucket.id, {
       paths: pathsToMove,
-      new_path: newPath
+      new_path: pathEndingWithSlash(newPath)
     }).then(() => {
       addToast({
         title: t`Data moved successfully`,
-        type: "success"
+        type: "success",
+        testId: "move-success"
       })
     }).catch((error) => {
       console.error("Error moving:", error)
