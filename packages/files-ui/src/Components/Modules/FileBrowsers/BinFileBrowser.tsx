@@ -7,7 +7,12 @@ import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 import { useHistory, useLocation, useToasts } from "@chainsafe/common-components"
-import { extractFileBrowserPathFromURL, getAbsolutePathsFromCids, getUrlSafePathWithFile } from "../../../Utils/pathUtils"
+import {
+  extractFileBrowserPathFromURL,
+  getAbsolutePathsFromCids,
+  getUrlSafePathWithFile,
+  pathEndingWithSlash
+} from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
@@ -82,7 +87,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       bucket.id,
       {
         paths: pathsToRecover,
-        new_path: newPath,
+        new_path: pathEndingWithSlash(newPath),
         destination: buckets.find(b => b.type === "csf")?.id
       }
     ).then(() => {
