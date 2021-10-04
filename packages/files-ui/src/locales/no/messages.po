@@ -172,6 +172,9 @@ msgstr ""
 msgid "Data moved successfully"
 msgstr ""
 
+msgid "Data moved to bin successfully"
+msgstr ""
+
 msgid "Data restored successfully"
 msgstr ""
 

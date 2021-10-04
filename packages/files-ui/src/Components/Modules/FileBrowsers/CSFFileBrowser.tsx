@@ -85,7 +85,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     }).then(() => {
       if (!hideToast) {
         addToast({
-          title: t`Data deleted successfully`,
+          title: t`Data moved to bin successfully`,
           type: "success",
           testId: "deletion-success"
         })
