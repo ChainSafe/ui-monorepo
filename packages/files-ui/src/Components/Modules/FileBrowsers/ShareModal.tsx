@@ -17,6 +17,7 @@ import { nameValidator } from "../../../Utils/validationSchema"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { KJUR } from "jsrsasign"
+import keyEncoder from 'key-encoder'
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -321,35 +322,8 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
       return
     }
 
-    // function arrayBufferToBase64(arrayBuffer: any) {
-    //   const byteArray = new Uint8Array(arrayBuffer)
-    //   let byteString = ""
-    //   for(let i = 0; i < byteArray.byteLength; i++) {
-    //     byteString += String.fromCharCode(byteArray[i])
-    //   }
-    //   const b64 = window.btoa(byteString)
-
-    //   return b64
-    // }
-
-    function addNewLines(str: any) {
-      let finalString = ""
-      while(str.length > 0) {
-        finalString += str.substring(0, 64) + "\n"
-        str = str.substring(64)
-      }
-
-      return finalString
-    }
-
-    function toPem(privateKey: any) {
-      const b64 = addNewLines(window.btoa((privateKey)))
-      const pem = "-----BEGIN PRIVATE KEY-----\n" + b64 + "-----END PRIVATE KEY-----"
-
-      return pem
-    }
-
-    const pem = toPem(privateKey)
+    const ke = new keyEncoder('secp256k1')
+    const pem = ke.encodePrivate(privateKey, 'raw', 'pem')
     console.log("pem", pem)
 
     //  using JOSE
