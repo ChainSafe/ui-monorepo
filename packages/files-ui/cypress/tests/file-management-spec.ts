@@ -81,6 +81,7 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
         moveItemModal.moveButton().safeClick()
+        homePage.moveSuccessToast().should("not.exist")
 
         // ensure the home root now has the folder and file
         navigationMenu.homeNavButton().click()

@@ -121,3 +121,10 @@ export const getAbsolutePathsFromCids = (cids: string[], currentPath: string, pa
     return getPathWithFile(currentPath, item.name)
   }).filter((item): item is string => !!item)
 }
+
+export const pathEndingWithSlash = (path: string) => {
+  const lastChar = path.substr(-1)
+  return lastChar === "/"
+    ? path
+    : `${path}/`
+}
