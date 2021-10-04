@@ -12,6 +12,8 @@
     "@lingui/react": "^3.7.2",
     "@material-ui/core": "^4.12.3",
     "@sentry/react": "^5.28.0",
+    "@stripe/react-stripe-js": "^1.4.1",
+    "@stripe/stripe-js": "^1.18.0",
     "@tkey/default": "3.14.2",
     "@tkey/security-questions": "3.14.2",
     "@tkey/web-storage": "3.14.2",

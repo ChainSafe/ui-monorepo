@@ -97,10 +97,13 @@ msgstr ""
 msgid "Cancel"
 msgstr "Avbryt"
 
-msgid "Card added successfully"
-msgstr ""
+#~ msgid "Card added successfully"
+#~ msgstr ""
 
-msgid "Card details could not be validated"
+#~ msgid "Card details could not be validated"
+#~ msgstr ""
+
+msgid "Card inputs invalid"
 msgstr ""
 
 msgid "Change Password"
@@ -264,6 +267,9 @@ msgstr "Skriv inn passord:"
 
 msgid "Enter the verification code:"
 msgstr "Skriv inn bekreftelseskoden:"
+
+msgid "Failed to add payment method"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr ""
@@ -433,11 +439,11 @@ msgstr "Mine filer"
 msgid "Name"
 msgstr "Navn"
 
-msgid "Name on card"
-msgstr ""
+#~ msgid "Name on card"
+#~ msgstr ""
 
-msgid "Name on card is required"
-msgstr ""
+#~ msgid "Name on card is required"
+#~ msgstr ""
 
 msgid "Name too long"
 msgstr "Navnet er for langt"
@@ -700,8 +706,8 @@ msgstr ""
 msgid "Something went wrong!"
 msgstr "Noe gikk galt."
 
-msgid "Something went wrong, please try again"
-msgstr ""
+#~ msgid "Something went wrong, please try again"
+#~ msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr ""

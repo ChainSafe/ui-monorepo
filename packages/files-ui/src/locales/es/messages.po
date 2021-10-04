@@ -98,10 +98,13 @@ msgstr "CID (Identificador de contenido)"
 msgid "Cancel"
 msgstr "Cancelar"
 
-msgid "Card added successfully"
-msgstr ""
+#~ msgid "Card added successfully"
+#~ msgstr ""
 
-msgid "Card details could not be validated"
+#~ msgid "Card details could not be validated"
+#~ msgstr ""
+
+msgid "Card inputs invalid"
 msgstr ""
 
 msgid "Change Password"
@@ -264,6 +267,9 @@ msgid "Enter password:"
 msgstr "Introducir la contraseña:"
 
 msgid "Enter the verification code:"
+msgstr ""
+
+msgid "Failed to add payment method"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -437,11 +443,11 @@ msgstr "Mis Archivos"
 msgid "Name"
 msgstr "Nombre"
 
-msgid "Name on card"
-msgstr ""
+#~ msgid "Name on card"
+#~ msgstr ""
 
-msgid "Name on card is required"
-msgstr ""
+#~ msgid "Name on card is required"
+#~ msgstr ""
 
 msgid "Name too long"
 msgstr ""
@@ -704,8 +710,8 @@ msgstr ""
 msgid "Something went wrong!"
 msgstr ""
 
-msgid "Something went wrong, please try again"
-msgstr ""
+#~ msgid "Something went wrong, please try again"
+#~ msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Algo salió mal. No pudimos subir tu archivo"
