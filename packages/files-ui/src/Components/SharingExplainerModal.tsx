@@ -1,4 +1,3 @@
-import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { Button, Link, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
@@ -10,6 +9,7 @@ import step1Image from "../Media/sharingExplainer/step1.png"
 import step2Image from "../Media/sharingExplainer/step2.png"
 import step3Image from "../Media/sharingExplainer/step3.png"
 import { DISMISSED_SHARING_EXPLAINER_KEY } from "./Modules/FileBrowsers/hooks/useSharingExplainerModalFlag"
+import { useUser } from "../Contexts/UserContext"
 
 const useStyles = makeStyles(
   ({ palette, constants }: CSFTheme) => {
@@ -76,7 +76,7 @@ const STEP_NUMBER = 3
 
 const SharingExplainerModal = ({ showModal, onHide }: Props) => {
   const classes = useStyles()
-  const { localStorageSet } = useLocalStorage()
+  const { setLocalStore } = useUser()
   const [step, setStep] = useState(1)
   const Slides = useCallback(() => {
     switch (step) {
@@ -133,7 +133,7 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
     } else {
       switch (next) {
         case 3:
-          localStorageSet(DISMISSED_SHARING_EXPLAINER_KEY, "true")
+          setLocalStore({ [DISMISSED_SHARING_EXPLAINER_KEY]:  "true" }, "update")
           setStep(3)
           break
         case STEP_NUMBER + 1:
@@ -143,7 +143,7 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
           break
       }
     }
-  }, [localStorageSet, onHide])
+  }, [setLocalStore, onHide])
 
   return (
     <CustomModal

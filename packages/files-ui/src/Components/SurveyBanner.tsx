@@ -1,8 +1,8 @@
-import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { CrossIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import React, { useCallback } from "react"
+import { useUser } from "../Contexts/UserContext"
 import { CSFTheme } from "../Themes/types"
 import { ROUTE_LINKS } from "./FilesRoutes"
 
@@ -55,12 +55,12 @@ interface Props {
 
 const SurveyBanner = ({ onHide }: Props) => {
   const classes = useStyles()
-  const { localStorageSet } = useLocalStorage()
+  const { setLocalStore } = useUser()
 
   const onClose = useCallback(() => {
     onHide()
-    localStorageSet(DISMISSED_SURVEY_KEY, "true")
-  }, [localStorageSet, onHide])
+    setLocalStore({ [DISMISSED_SURVEY_KEY]: "true" }, "update")
+  }, [setLocalStore, onHide])
 
   const onOpen = useCallback(() => {
     onClose()
