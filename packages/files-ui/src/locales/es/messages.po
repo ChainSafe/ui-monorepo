@@ -1,24 +1,30 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-06 20:51+0200\n"
-"Mime-Version: 1.0\n"
+"PO-Revision-Date: 2021-09-30 12:40+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
-"Language: es\n"
-"Project-Id-Version: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.9-dev\n"
+"Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
+msgid "A better sharing experience is coming soon."
+msgstr ""
+
 msgid "A file with the same name already exists"
 msgstr "Ya existe un archivo con el mismo nombre"
+
+msgid "Accept"
+msgstr ""
 
 msgid "Account"
 msgstr "Cuenta"
@@ -35,19 +41,25 @@ msgstr ""
 msgid "Add more files"
 msgstr "Agrega mas archivos"
 
+msgid "Add viewers and editors by username, sharing id or Ethereum address."
+msgstr ""
+
+msgid "An error occurred while downloading the file"
+msgstr ""
+
+msgid "An error occurred:"
+msgstr ""
+
 msgid "Approve"
 msgstr "Aprobar"
-
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr ""
-
-msgid "Back"
-msgstr ""
 
 msgid "Backup secret phrase"
 msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
+msgstr ""
+
+msgid "Basic - Free"
 msgstr ""
 
 msgid "Bin"
@@ -122,10 +134,16 @@ msgstr "Copiado!"
 msgid "Copy CID"
 msgstr "Copiar CID"
 
+msgid "Copy file"
+msgstr ""
+
 msgid "Copy info"
 msgstr ""
 
 msgid "Copy over"
+msgstr ""
+
+msgid "Copy to"
 msgstr ""
 
 msgid "Create"
@@ -146,11 +164,29 @@ msgstr ""
 msgid "Create folder"
 msgstr "Crear Carpeta"
 
+msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data moved to bin successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Fecha de subida"
+
+msgid "Decline"
+msgstr ""
 
 msgid "Decryption key"
 msgstr ""
@@ -160,9 +196,6 @@ msgstr "Borrar"
 
 msgid "Delete selected"
 msgstr "Eliminar seleccionado"
-
-msgid "Destination shared folder not selected"
-msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr "Dispositivo pendiente de confirmación"
@@ -176,13 +209,25 @@ msgstr "Configuración de pantalla"
 msgid "Download"
 msgstr "Descargar"
 
-msgid "Download complete"
-msgstr "Descarga completa"
+msgid "Download Complete"
+msgstr ""
+
+msgid "Download as zip"
+msgstr ""
 
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
 
-msgid "Downloading…"
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr ""
+
+msgid "Downloads cancelled"
+msgstr ""
+
+msgid "Downloads failed"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -191,7 +236,7 @@ msgstr "Suelta para subir archivos"
 msgid "Email is required"
 msgstr ""
 
-msgid "Encrypting and uploading…"
+msgid "Encrypting & uploading"
 msgstr ""
 
 msgid "Enter backup secret phrase:"
@@ -204,16 +249,19 @@ msgid "Enter password:"
 msgstr "Introducir la contraseña:"
 
 msgid "Enter the verification code:"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-msgid "Error while creating new shared folder"
-msgstr ""
+#~ msgid "Error while creating new shared folder"
+#~ msgstr ""
 
-msgid "Error while downloading {0}"
-msgstr ""
+#~ msgid "Error while downloading {0}"
+#~ msgstr ""
 
-msgid "Error while uploading {0}"
-msgstr ""
+#~ msgid "Error while uploading {0}"
+#~ msgstr "======="
+
+#~ msgid "Essentials - Free"
+#~ msgstr "Esenciales - Gratis>>>>>>> dev"
 
 msgid "Failed to get signature"
 msgstr "No se pudo obtener la firma"
@@ -230,9 +278,6 @@ msgstr ""
 "Si está utilizando una billetera de contrato, haga\n"
 "seguro que has activado tu billetera."
 
-msgid "File"
-msgstr "Archivo"
-
 msgid "File Info"
 msgstr "Información del archivo"
 
@@ -240,9 +285,6 @@ msgid "File format not supported."
 msgstr "Formato de archivo no soportado."
 
 msgid "File path"
-msgstr ""
-
-msgid "File shared successfully!"
 msgstr ""
 
 msgid "File size"
@@ -257,10 +299,10 @@ msgstr ""
 msgid "First name"
 msgstr "Primer Nombre"
 
-msgid "Folder"
-msgstr "Archivo"
-
 msgid "Folder name is already in use"
+msgstr ""
+
+msgid "Folder uploads are not supported currently"
 msgstr ""
 
 msgid "Folders"
@@ -295,6 +337,9 @@ msgstr ""
 
 msgid "Go back"
 msgstr "Regresar"
+
+msgid "Got it"
+msgstr ""
 
 msgid "Hello again!"
 msgstr "Hola de nuevo!"
@@ -341,10 +386,16 @@ msgstr "Vamos a configurarlo."
 msgid "Light Theme"
 msgstr "Tema Claro"
 
+msgid "Loading"
+msgstr ""
+
 msgid "Loading preview"
 msgstr "Cargando vista previa"
 
 msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -386,6 +437,9 @@ msgstr "Próximo"
 msgid "Nice to see you again!"
 msgstr "Encantado de verte de nuevo!"
 
+msgid "No file to download."
+msgstr ""
+
 msgid "No files to show"
 msgstr "No hay archivos para mostrar"
 
@@ -397,6 +451,9 @@ msgstr "No hay resultados de búsqueda para"
 
 msgid "No thanks"
 msgstr "No gracias"
+
+msgid "No user found for this query."
+msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Número de copias (factor de replicación)"
@@ -509,6 +566,9 @@ msgstr ""
 msgid "Report a File"
 msgstr ""
 
+msgid "Report a bug"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Solicitado a"
 
@@ -536,6 +596,9 @@ msgstr "Navegadores guardados"
 msgid "Saved on:"
 msgstr "Guardado el:"
 
+msgid "Schedule a 15 min call"
+msgstr ""
+
 msgid "Search results"
 msgstr "Resultados de la búsqueda"
 
@@ -548,11 +611,8 @@ msgstr "Seguridad"
 msgid "Select a wallet"
 msgstr "Seleccione una billetera"
 
-msgid "Select an existing shared folder"
+msgid "Select an existing shared folder or your home"
 msgstr ""
-
-msgid "Send Feedback"
-msgstr "Enviar comentarios"
 
 msgid "Send another email"
 msgstr ""
@@ -584,13 +644,16 @@ msgstr ""
 msgid "Shared Folder Name"
 msgstr ""
 
-msgid "Shared folder is undefined"
-msgstr ""
-
 msgid "Shared folders"
 msgstr ""
 
 msgid "Shared with"
+msgstr ""
+
+msgid "Sharing cancelled"
+msgstr ""
+
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -601,6 +664,9 @@ msgstr "Registrarse"
 
 msgid "Sign in with a different account"
 msgstr "Inicie sesión con una cuenta diferente"
+
+msgid "Sign me up!"
+msgstr ""
 
 msgid "Sign-in methods"
 msgstr "Métodos de inicio de sesión"
@@ -626,11 +692,17 @@ msgstr "Algo salió mal. No pudimos subir tu archivo"
 msgid "Start Upload"
 msgstr "Iniciar la subida"
 
+msgid "Start a team"
+msgstr ""
+
 msgid "Storage Plan"
 msgstr "Plan de almacenamiento"
 
 msgid "Stored by miner"
 msgstr "Almacenado por el minero"
+
+msgid "Teams"
+msgstr ""
 
 msgid "Technical"
 msgstr "Técnico"
@@ -647,6 +719,9 @@ msgstr ""
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "El sistema está en mantenimiento, gracias por su paciencia."
 
+msgid "The username is too long"
+msgstr ""
+
 msgid "Theme"
 msgstr "Tema"
 
@@ -656,8 +731,8 @@ msgstr "Hubo un error de autenticación."
 msgid "There was an error connecting your wallet"
 msgstr "Hubo un error al conectar su billetera"
 
-msgid "There was an error deleting this"
-msgstr "Hubo un error al eliminar esto."
+msgid "There was an error deleting your data"
+msgstr ""
 
 msgid "There was an error getting search results"
 msgstr "Se produjo un error al obtener los resultados de la búsqueda."
@@ -665,22 +740,28 @@ msgstr "Se produjo un error al obtener los resultados de la búsqueda."
 msgid "There was an error getting the preview."
 msgstr "Hubo un error al obtener la vista previa."
 
-msgid "There was an error moving this"
+msgid "There was an error moving your data"
 msgstr ""
 
-msgid "There was an error recovering this"
-msgstr "Hubo un error al recuperar esto."
+msgid "There was an error restoring your data"
+msgstr ""
 
 msgid "There was an error when setting username."
-msgstr ""
-
-msgid "This may take some time depending on the file size"
 msgstr ""
 
 msgid "This username is already taken"
 msgstr ""
 
 msgid "This username is public"
+msgstr ""
+
+msgid "This website uses cookies"
+msgstr ""
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr ""
+
+msgid "Transfer complete"
 msgstr ""
 
 msgid "Try again"
@@ -698,11 +779,8 @@ msgstr ""
 msgid "Upload"
 msgstr "Subir"
 
-msgid "Upload complete"
-msgstr "Carga completa"
-
-msgid "Uploading {0} files"
-msgstr "Subiendo {0} archivos"
+msgid "Uploads cancelled"
+msgstr ""
 
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
@@ -740,11 +818,11 @@ msgstr ""
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
 
-msgid "View shared folder"
-msgstr ""
-
 msgid "Wallet address"
 msgstr "Utilice un navegador guardado"
+
+msgid "Want to help shape this product?"
+msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr ""
@@ -770,6 +848,9 @@ msgstr "Si guárdalo"
 msgid "You can change this later."
 msgstr "Puedes cambiar esto más tarde."
 
+msgid "You can now create shared folders to share a file."
+msgstr ""
+
 msgid "You can't move folders to this path"
 msgstr ""
 
@@ -779,35 +860,26 @@ msgstr ""
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
 
+msgid "Your plan"
+msgstr ""
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "deleted successfully"
-msgstr "borrado exitosamente"
-
-msgid "file"
-msgstr "archivo"
-
-msgid "folder"
-msgstr "carpeta"
-
 msgid "me"
-msgstr ""
-
-msgid "moved successfully"
 msgstr ""
 
 msgid "on"
 msgstr "en"
 
-msgid "recovered successfully"
-msgstr "recuperado con éxito"
-
 msgid "unknown"
+msgstr ""
+
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
-
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"

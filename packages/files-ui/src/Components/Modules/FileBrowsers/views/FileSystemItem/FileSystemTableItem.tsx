@@ -1,5 +1,5 @@
-import React, { useCallback } from "react"
-import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import React, { useCallback, useRef } from "react"
+import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
@@ -7,7 +7,6 @@ import {
   formatBytes,
   FormikTextInput,
   IMenuItem,
-  MenuDropdown,
   MoreIcon,
   TableCell,
   TableRow,
@@ -19,6 +18,7 @@ import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import Menu from "../../../../../UI-components/Menu"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -26,7 +26,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 
   return createStyles({
     tableRow: {
-      border: "2px solid transparent",
+      border: "1px solid transparent",
       [breakpoints.up("md")]: {
         gridTemplateColumns: desktopGridSettings
       },
@@ -34,7 +34,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         gridTemplateColumns: mobileGridSettings
       },
       "&.droppable": {
-        border: `2px solid ${palette.primary.main}`
+        border: `1px solid ${constants.fileSystemItemRow.borderColor}`
+      },
+      "&.highlighted": {
+        border: `1px solid ${constants.fileSystemItemRow.borderColor}`
       }
     },
     fileIcon: {
@@ -61,16 +64,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         margin: `${constants.generalUnit * 4.2}px 0`
       }
     },
-    menuIcon: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: 20,
-      marginRight: constants.generalUnit * 1.5,
-      "& svg": {
-        fill: constants.fileSystemItemRow.menuIcon
-      }
-    },
     desktopRename: {
       display: "flex",
       flexDirection: "row",
@@ -89,18 +82,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       }
     },
     dropdownIcon: {
+      width: 14,
+      height: 14,
+      padding: 0,
+      position: "relative",
+      fontSize: "unset",
       "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon
+        fill: constants.fileSystemItemRow.dropdownIcon,
+        top: "50%",
+        left: 0,
+        width: 14,
+        height: 14,
+        position: "absolute"
       }
     },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
-    dropdownItem: {
-      backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
+    focusVisible: {
+      backgroundColor: "transparent !important"
     }
   })
 })
@@ -109,17 +106,18 @@ interface IFileSystemTableItemProps {
   isFolder: boolean
   isOverMove: boolean
   isOverUpload: boolean
-  selected: string[]
+  selectedCids: string[]
   file: FileSystemItem
   editing: string | undefined
-  handleAddToSelectedCids: (selected: string) => void
+  handleAddToSelectedItems: (selected: FileSystemItem) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: string |  undefined) => void
+  setEditing: (editing: string | undefined) => void
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
   menuItems: IMenuItem[]
+  longPressEvents?: LongPressEvents
 }
 
 const FileSystemTableItem = React.forwardRef(
@@ -127,27 +125,26 @@ const FileSystemTableItem = React.forwardRef(
     isFolder,
     isOverMove,
     isOverUpload,
-    selected,
+    selectedCids,
     file,
     editing,
-    handleAddToSelectedCids,
+    handleAddToSelectedItems,
     onFolderOrFileClicks,
     icon,
     preview,
     setEditing,
     handleRename,
-    menuItems
+    menuItems,
+    longPressEvents
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
-
+    const formRef = useRef(null)
     const formik = useFormik({
-      initialValues: {
-        name
-      },
+      initialValues: { name },
       validationSchema: nameValidator,
-      onSubmit: (values: {name: string}) => {
+      onSubmit: (values: { name: string }) => {
         const newName = values.name.trim()
 
         newName && handleRename && handleRename(file.cid, newName)
@@ -160,27 +157,31 @@ const FileSystemTableItem = React.forwardRef(
       formik.resetForm()
     }, [formik, setEditing])
 
-    return  (
+    useOnClickOutside(formRef, stopEditing)
+
+    return (
       <TableRow
         data-cy="file-item-row"
         className={clsx(classes.tableRow, {
-          droppable: isFolder && (isOverMove || isOverUpload)
+          droppable: isFolder && (isOverMove || isOverUpload),
+          highlighted: !desktop && selectedCids.includes(cid)
         })}
         type="grid"
         ref={forwardedRef}
-        selected={selected.includes(cid)}
+        selected={selectedCids.includes(cid)}
       >
         {desktop && (
           <TableCell>
             <CheckboxInput
-              value={selected.includes(cid)}
-              onChange={() => handleAddToSelectedCids(cid)}
+              value={selectedCids.includes(cid)}
+              onChange={() => handleAddToSelectedItems(file)}
             />
           </TableCell>
         )}
         <TableCell
           className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
           onClick={(e) => onFolderOrFileClicks(e)}
+          {...longPressEvents}
         >
           {icon}
         </TableCell>
@@ -190,6 +191,7 @@ const FileSystemTableItem = React.forwardRef(
           align="left"
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
+          {...longPressEvents}
         >
           {editing === cid && desktop
             ? (
@@ -197,7 +199,7 @@ const FileSystemTableItem = React.forwardRef(
                 <Form
                   className={classes.desktopRename}
                   data-cy='rename-form'
-                  onBlur={stopEditing}
+                  ref={formRef}
                 >
                   <FormikTextInput
                     className={classes.renameInput}
@@ -208,7 +210,7 @@ const FileSystemTableItem = React.forwardRef(
                         stopEditing()
                       }
                     }}
-                    placeholder = {isFolder
+                    placeholder={isFolder
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
@@ -232,18 +234,14 @@ const FileSystemTableItem = React.forwardRef(
           </>
         )}
         <TableCell align="right">
-          <MenuDropdown
-            testId='fileDropdown'
-            animation="none"
-            anchor={desktop ? "bottom-center" : "bottom-right"}
-            menuItems={menuItems}
-            classNames={{
-              icon: classes.dropdownIcon,
-              options: classes.dropdownOptions,
-              item: classes.dropdownItem
-            }}
-            indicator={MoreIcon}
-          />
+          {!!menuItems.length && (
+            <Menu
+              testId='fileDropdown'
+              icon={<MoreIcon className={classes.dropdownIcon} />}
+              options={menuItems}
+              style={{ focusVisible: classes.focusVisible }}
+            />
+          )}
         </TableCell>
       </TableRow>
     )

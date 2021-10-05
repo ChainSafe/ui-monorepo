@@ -10,10 +10,10 @@ import clsx from "clsx"
 import { CSFTheme } from "../../Themes/types"
 
 interface Props {
-    requests: ShareTransferRequest[]
+  requests: ShareTransferRequest[]
 }
 
-const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
+const useStyles = makeStyles(({ constants }: CSFTheme) =>
   createStyles({
     root: {},
     modalInner: {
@@ -24,29 +24,6 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
         margin: "auto",
         marginTop: constants.generalUnit * 5,
         marginBottom: constants.generalUnit * 5
-      },
-      [breakpoints.up("sm")]: {
-        top: "50%",
-        left: "50%",
-        display: "flex",
-        position: "absolute",
-        flexGrow: 1,
-        transform: "translate(-50%, -50%)",
-        flexDirection: "column",
-        backgroundColor: "var(--gray1)",
-        minHeight: 550
-      },
-      [breakpoints.down("sm")]: {
-        backgroundColor: constants?.modalDefault?.background,
-        top: "unset",
-        bottom: 0,
-        left: 0,
-        width: "100% !important",
-        transform: "unset",
-        borderRadiusLeftTop: `${constants.generalUnit * 1.5}px`,
-        borderRadiusRightTop: `${constants.generalUnit * 1.5}px`,
-        borderRadiusLeftBottom: 0,
-        borderRadiusRightBottom: 0
       }
     },
     button: {
@@ -106,6 +83,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
       injectedClass={{
         inner: classes.modalInner
       }}
+      mobileStickyBottom={false}
     >
       <>
         <Typography variant="h3">

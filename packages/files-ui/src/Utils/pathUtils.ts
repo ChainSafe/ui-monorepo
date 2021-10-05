@@ -1,3 +1,5 @@
+import { FileSystemItem } from "../Contexts/FilesContext"
+
 // trims a string at both ends for a character
 export function trimChar(str: string, char: string) {
   char = char.charAt(0)
@@ -38,6 +40,17 @@ export function getPathWithFile(path: string, fileName: string) {
     : path[path.length - 1] === "/"
       ? `${path}${fileName}`
       : `${path}/${fileName}`
+}
+
+// Removes a parent element
+// /some/parent/a_foler/1.txt -> a_foler/1.txt
+export function getRelativePath(path: string, parentPath: string) {
+  const relativeFilePath = path.indexOf(parentPath) === 0 ? path.slice(parentPath.length) : path
+
+  // remove any leading slash
+  return relativeFilePath[0] === "/"
+    ? relativeFilePath.slice(1)
+    : relativeFilePath
 }
 
 // /path/to/somewhere/1.txt -> /path/to/somewhere
@@ -97,4 +110,21 @@ export const getUrlSafePathWithFile = (path: string, fileName: string) => {
   }
 
   return `${urlSafePath}/${encodeURIComponent(fileName)}`
+}
+
+export const getAbsolutePathsFromCids = (cids: string[], currentPath: string, pathContents: FileSystemItem[]) => {
+  return cids.map((cid: string) => {
+    const item = pathContents.find((i) => i.cid === cid)
+    if (!item) {
+      return undefined
+    }
+    return getPathWithFile(currentPath, item.name)
+  }).filter((item): item is string => !!item)
+}
+
+export const pathEndingWithSlash = (path: string) => {
+  const lastChar = path.substr(-1)
+  return lastChar === "/"
+    ? path
+    : `${path}/`
 }

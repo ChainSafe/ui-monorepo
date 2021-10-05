@@ -6,10 +6,10 @@
 export type Overwrite<T, U> = Omit<T, keyof U> & U
 
 type GenerateStringUnion<T> = Extract<
-  {
-    [Key in keyof T]: true extends T[Key] ? Key : never
-  }[keyof T],
-  string
+{
+  [Key in keyof T]: true extends T[Key] ? Key : never
+}[keyof T],
+string
 >
 
 /**
@@ -22,18 +22,18 @@ type GenerateStringUnion<T> = Extract<
  * @internal
  */
 export type OverridableStringUnion<T, U = Record<any, any>> = GenerateStringUnion<
-  Overwrite<T, U>
+Overwrite<T, U>
 >
 
 export type BreakpointDefaults = Record<
-  "xs" | "sm" | "md" | "lg" | "xl" | string,
-  true
+"xs" | "sm" | "md" | "lg" | "xl" | string,
+true
 >
 export interface BreakpointOverrides {[key: string]: unknown}
 
 export type Breakpoint = OverridableStringUnion<
-  BreakpointDefaults,
-  BreakpointOverrides
+BreakpointDefaults,
+BreakpointOverrides
 >
 export type BreakpointValues = { [key in Breakpoint]: number }
 export const keys: Breakpoint[] = []
@@ -49,10 +49,10 @@ export interface IBreakpoints {
 }
 
 export type BreakpointsOptions = Partial<
-  {
-    unit: string
-    step: number
-  } & IBreakpoints
+{
+  unit: string
+  step: number
+} & IBreakpoints
 >
 
 // Keep in mind that @media is inclusive by the CSS specification.

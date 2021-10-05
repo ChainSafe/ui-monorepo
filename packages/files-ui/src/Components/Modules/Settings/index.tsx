@@ -126,6 +126,11 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10
       }
+    },
+    profileIcon : {
+      "& path": {
+        stroke: palette.additional["gray"][9]
+      }
     }
   })
 )
@@ -182,7 +187,7 @@ const Settings: React.FC = () => {
           >
             <TabPane
               className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
-              icon={<ProfileIcon/>}
+              icon={<ProfileIcon className={classes.profileIcon}/>}
               iconRight={<CaretRightIcon/>}
               title={t`Profile and Display`}
               tabKey="profile"

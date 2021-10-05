@@ -16,6 +16,7 @@ import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
+import { usePageTrack } from "../../Contexts/PosthogContext"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -158,6 +159,7 @@ const Content = ({ className }: { className: string }) => {
 const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
+  usePageTrack()
 
   return (
     <div className={classes.root}>
@@ -173,7 +175,7 @@ const LoginPage = () => {
             <BottomDarkSVG className={classes.bgBottom} />
             <TopDarkSVG className={classes.bgTop} />
           </>
-          :          <>
+          : <>
             <BottomLightSVG className={classes.bgBottom} />
             <TopLightSVG className={classes.bgTop} />
           </>

@@ -5,7 +5,7 @@ import {
   Grid,
   Button,
   Typography,
-  useToaster,
+  useToasts,
   RadioInput,
   TextInput,
   CheckIcon
@@ -187,7 +187,7 @@ const profileValidation = yup.object().shape({
 
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
-  const { addToastMessage } = useToaster()
+  const { addToast } = useToasts()
   const { profile, updateProfile, addUsername, lookupOnUsername } = useUser()
   const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
@@ -214,10 +214,10 @@ const ProfileView = () => {
     try {
       setUpdatingProfile(true)
       await updateProfile(firstName, lastName)
-      addToastMessage({ message: t`Profile updated` })
+      addToast({ title: t`Profile updated`, type: "success" })
       setUpdatingProfile(false)
     } catch (error) {
-      addToastMessage({ message: error, appearance: "error" })
+      error instanceof Error && addToast({ title: error.message, type: "error" })
       setUpdatingProfile(false)
     }
   }
@@ -286,7 +286,18 @@ const ProfileView = () => {
     const sanitizedValue = value?.toString() || ""
 
     setUsername(sanitizedValue)
-    !!sanitizedValue && debouncedOnLookupUsername(sanitizedValue)
+    if (sanitizedValue.length > 32) {
+      setUsernameData({
+        loading: false,
+        error: t`The username is too long`
+      })
+    } else {
+      setUsernameData({
+        loading: false,
+        error: ""
+      })
+      !!sanitizedValue && debouncedOnLookupUsername(sanitizedValue)
+    }
   }
 
   const onSubmitUsername = (e: React.FormEvent<HTMLFormElement>) => {
@@ -294,7 +305,7 @@ const ProfileView = () => {
     setUsernameData({ ...usernameData, loading: true })
     addUsername(username)
       .then(() => {
-        addToastMessage({ message: t`Username set successfully` })
+        addToast({ title: t`Username set successfully`, type: "success" })
       })
       .catch((error) => {
         setUsernameData({

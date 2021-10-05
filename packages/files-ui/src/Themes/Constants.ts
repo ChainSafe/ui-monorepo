@@ -45,7 +45,10 @@ export interface CsfColors extends IConstants {
   }
   modalDefault: {
     fadeBackground: string
-    background: string
+    backgroundColor: string
+    color: string
+    iconBackingColor: string
+    closeIconColor: string
   }
   nav: {
     backgroundColor: string
@@ -122,6 +125,7 @@ export interface CsfColors extends IConstants {
     optionsBorder: string
     itemBackground: string
     itemColor: string
+    borderColor: string
   }
   masterKey: {
     desktop: {
@@ -156,11 +160,14 @@ export interface CsfColors extends IConstants {
     }
   }
   surveyBanner: {
-   color: string
-  }
-  createShareModal: {
     color: string
+  }
+  menu: {
     backgroundColor: string
-    iconBackingColor: string
+    color: string
+    backgroundOptionHover: string
+  }
+  cookieBanner: {
+    backgroundColor: string
   }
 }

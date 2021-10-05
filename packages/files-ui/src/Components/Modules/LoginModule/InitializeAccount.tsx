@@ -22,19 +22,19 @@ const InitializeAccount = ({ className }: IInitializeAccount) => {
   , [addPasswordShare, resetShouldInitialize])
 
   switch (initializeState) {
-  case "explainer":
-    return <ConciseExplainer
-      className={className}
-      onContinue={() => setInitializeState("setUpPassword")}
-    />
-  case "setUpPassword":
-    return <PasswordSetup
-      className={className}
-      cancel={() => setInitializeState("explainer")}
-      setPassword={onSetPassword}
-    />
-  default:
-    return null
+    case "explainer":
+      return <ConciseExplainer
+        className={className}
+        onContinue={() => setInitializeState("setUpPassword")}
+      />
+    case "setUpPassword":
+      return <PasswordSetup
+        className={className}
+        cancel={() => setInitializeState("explainer")}
+        setPassword={onSetPassword}
+      />
+    default:
+      return null
   }
 }
 

@@ -1,14 +1,15 @@
 import { Button, FileInput } from "@chainsafe/common-components"
-import { useFiles } from "../../Contexts/FilesContext"
+import { useFiles } from "../../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
 import { array, object } from "yup"
-import CustomModal from "../Elements/CustomModal"
+import CustomModal from "../../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
-import { CSFTheme } from "../../Themes/types"
-import { useFileBrowser } from "../../Contexts/FileBrowserContext"
+import { CSFTheme } from "../../../Themes/types"
+import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { getPathWithFile } from "../../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -89,15 +90,19 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
     setIsDoneDisabled(filesNumber === 0)
   }, [])
 
-  const onSubmit = useCallback(async (values, helpers) => {
+  const onSubmit = useCallback(async (values: {files: Array<File & {path: string}>}, helpers) => {
     if (!bucket) return
     helpers.setSubmitting(true)
     try {
       close()
-      await uploadFiles(bucket.id, values.files, currentPath)
+      const paths = [...new Set(values.files.map(f => f.path.substring(0, f.path.lastIndexOf("/"))))]
+      paths.forEach(async p => {
+        const filesToUpload = values.files.filter((f => f.path.substring(0, f.path.lastIndexOf("/")) === p))
+        await uploadFiles(bucket, filesToUpload, getPathWithFile(currentPath, p))
+      })
       refreshContents && refreshContents()
       helpers.resetForm()
-    } catch (errors) {
+    } catch (errors: any) {
       if (errors[0].message.includes("conflict with existing")) {
         helpers.setFieldError("files", "File/Folder exists")
       } else {

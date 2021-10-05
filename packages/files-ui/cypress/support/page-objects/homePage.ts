@@ -1,27 +1,25 @@
 import { basePage } from "./basePage"
-import { folderName } from "../../fixtures/filesTestData"
-import { createFolderModal } from "./modals/createFolderModal"
+import { fileBrowser } from "./fileBrowser"
 import { fileUploadModal } from "./modals/fileUploadModal"
 
 export const homePage = {
   ...basePage,
+  ...fileBrowser,
 
-  // main file browser elements
+  // home page specific file browser elements
   newFolderButton: () => cy.get("[data-cy=button-new-folder]"),
   uploadButton: () => cy.get("[data-cy=button-upload-file]"),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
-  uploadStatusToast: () => cy.get("[data-cy=upload-status-toast-message]", { timeout: 10000 }),
-
-  // file browser row elements
-  fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
-  fileItemName: () => cy.get("[data-cy=file-item-name]"),
+  selectAllCheckbox: () => cy.get("[data-testId=checkbox-select-all]"),
+  uploadStatusToast: () => cy.get("[data-testId=toast-upload-status]", { timeout: 10000 }),
+  deleteSuccessToast: () => cy.get("[data-testId=toast-deletion-success]", { timeout: 10000 }),
+  moveSuccessToast: () => cy.get("[data-testId=toast-move-success]", { timeout: 10000 }),
   fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
-  fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
 
-  // menu elements
+  // kebab menu elements
   previewMenuOption: () => cy.get("[data-cy=menu-preview]"),
   downloadMenuOption: () => cy.get("[data-cy=menu-download]"),
   infoMenuOption: () => cy.get("[data-cy=menu-info]"),
@@ -40,14 +38,6 @@ export const homePage = {
     // ensure upload is complete before proceeding
     fileUploadModal.body().should("not.exist")
     this.uploadStatusToast().should("not.exist")
-  },
-
-  createFolder(name: string = folderName) {
-    this.newFolderButton().click()
-    createFolderModal.folderNameInput().type(name)
-    createFolderModal.createButton().safeClick()
-    createFolderModal.body().should("not.exist")
-    this.fileItemName().contains(name)
   }
 
 }

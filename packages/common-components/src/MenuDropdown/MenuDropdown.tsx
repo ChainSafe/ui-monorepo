@@ -1,10 +1,5 @@
 import React, { ReactNode, useRef, useState } from "react"
-import {
-  makeStyles,
-  createStyles,
-  ITheme,
-  useOnClickOutside
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles, ITheme, useOnClickOutside } from "@chainsafe/common-theme"
 import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalDownIcon, SvgIcon } from "../Icons"
@@ -167,12 +162,12 @@ interface IMenuDropdownProps {
   indicator?: typeof SvgIcon
   animation?: "rotate" | "flip" | "none"
   anchor?:
-    | "top-left"
-    | "top-center"
-    | "top-right"
-    | "bottom-left"
-    | "bottom-center"
-    | "bottom-right"
+  | "top-left"
+  | "top-center"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-center"
+  | "bottom-right"
   menuItems: IMenuItem[]
   title?: string
   classNames?: {

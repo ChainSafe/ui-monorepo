@@ -3,7 +3,7 @@ import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/rea
 import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
-import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
+import { Button, CssBaseline, Modal, Router, ToastProvider, Typography } from "@chainsafe/common-components"
 import StorageRoutes from "./Components/StorageRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { useHotjar } from "react-use-hotjar"
@@ -73,7 +73,7 @@ const App = () => {
     <Modal
       active
       closePosition="none"
-      setActive={resetError}
+      onClose={resetError}
     >
       <Typography>
         An error occurred and has been logged. If you would like to
@@ -103,7 +103,8 @@ const App = () => {
       >
         <CssBaseline />
         <LanguageProvider availableLanguages={availableLanguages}>
-          <ToasterProvider autoDismiss>
+          <ToastProvider autoDismiss
+            defaultPosition="bottomRight">
             <Web3Provider
               onboardConfig={onboardConfig}
               checkNetwork={false}
@@ -124,7 +125,7 @@ const App = () => {
                 </UserProvider>
               </StorageApiProvider>
             </Web3Provider>
-          </ToasterProvider>
+          </ToastProvider>
         </LanguageProvider>
       </ErrorBoundary>
     </ThemeSwitcher>

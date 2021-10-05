@@ -16,8 +16,14 @@ msgstr ""
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
+msgid "A better sharing experience is coming soon."
+msgstr "A better sharing experience is coming soon."
+
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
+
+msgid "Accept"
+msgstr "Accept"
 
 msgid "Account"
 msgstr "Account"
@@ -34,20 +40,26 @@ msgstr "Add by sharing address, username or wallet address"
 msgid "Add more files"
 msgstr "Add more files"
 
+msgid "Add viewers and editors by username, sharing id or Ethereum address."
+msgstr "Add viewers and editors by username, sharing id or Ethereum address."
+
+msgid "An error occurred while downloading the file"
+msgstr "An error occurred while downloading the file"
+
+msgid "An error occurred:"
+msgstr "An error occurred:"
+
 msgid "Approve"
 msgstr "Approve"
-
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Are we on the right track? Let us know in less than 1 minute."
-
-msgid "Back"
-msgstr "Back"
 
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
+
+msgid "Basic - Free"
+msgstr "Basic - Free"
 
 msgid "Bin"
 msgstr "Bin"
@@ -121,11 +133,17 @@ msgstr "Copied!"
 msgid "Copy CID"
 msgstr "Copy CID"
 
+msgid "Copy file"
+msgstr "Copy file"
+
 msgid "Copy info"
 msgstr "Copy info"
 
 msgid "Copy over"
 msgstr "Copy over"
+
+msgid "Copy to"
+msgstr "Copy to"
 
 msgid "Create"
 msgstr "Create"
@@ -145,11 +163,29 @@ msgstr "Create a new shared folder"
 msgid "Create folder"
 msgstr "Create folder"
 
+msgid "Create your public username in <0>Settings</0>!"
+msgstr "Create your public username in <0>Settings</0>!"
+
 msgid "Dark Theme"
 msgstr "Dark Theme"
 
+msgid "Data deleted successfully"
+msgstr "Data deleted successfully"
+
+msgid "Data moved successfully"
+msgstr "Data moved successfully"
+
+msgid "Data moved to bin successfully"
+msgstr "Data moved to bin successfully"
+
+msgid "Data restored successfully"
+msgstr "Data restored successfully"
+
 msgid "Date uploaded"
 msgstr "Date uploaded"
+
+msgid "Decline"
+msgstr "Decline"
 
 msgid "Decryption key"
 msgstr "Decryption key"
@@ -159,9 +195,6 @@ msgstr "Delete"
 
 msgid "Delete selected"
 msgstr "Delete selected"
-
-msgid "Destination shared folder not selected"
-msgstr "Destination shared folder not selected"
 
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
@@ -175,14 +208,26 @@ msgstr "Display Settings"
 msgid "Download"
 msgstr "Download"
 
-msgid "Download complete"
-msgstr "Download complete"
+msgid "Download Complete"
+msgstr "Download Complete"
+
+msgid "Download as zip"
+msgstr "Download as zip"
 
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
-msgid "Downloading…"
-msgstr "Downloading…"
+msgid "Downloading file - {0}"
+msgstr "Downloading file - {0}"
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr "Downloading {fileProgress} - {0}"
+
+msgid "Downloads cancelled"
+msgstr "Downloads cancelled"
+
+msgid "Downloads failed"
+msgstr "Downloads failed"
 
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
@@ -190,8 +235,8 @@ msgstr "Drop to upload files"
 msgid "Email is required"
 msgstr "Email is required"
 
-msgid "Encrypting and uploading…"
-msgstr "Encrypting and uploading…"
+msgid "Encrypting & uploading"
+msgstr "Encrypting & uploading"
 
 msgid "Enter backup secret phrase:"
 msgstr "Enter backup secret phrase:"
@@ -203,16 +248,19 @@ msgid "Enter password:"
 msgstr "Enter password:"
 
 msgid "Enter the verification code:"
-msgstr "Enter the verification code:"
+msgstr "Enter the verification code:<<<<<<< HEAD"
 
-msgid "Error while creating new shared folder"
-msgstr "Error while creating new shared folder"
+#~ msgid "Error while creating new shared folder"
+#~ msgstr "Error while creating new shared folder"
 
-msgid "Error while downloading {0}"
-msgstr "Error while downloading {0}"
+#~ msgid "Error while downloading {0}"
+#~ msgstr "Error while downloading {0}"
 
-msgid "Error while uploading {0}"
-msgstr "Error while uploading {0}"
+#~ msgid "Error while uploading {0}"
+#~ msgstr "Error while uploading {0}======="
+
+#~ msgid "Essentials - Free"
+#~ msgstr "Essentials - Free>>>>>>> dev"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -229,9 +277,6 @@ msgstr ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 
-msgid "File"
-msgstr "File"
-
 msgid "File Info"
 msgstr "File Info"
 
@@ -240,9 +285,6 @@ msgstr "File format not supported."
 
 msgid "File path"
 msgstr "File path"
-
-msgid "File shared successfully!"
-msgstr "File shared successfully!"
 
 msgid "File size"
 msgstr "File size"
@@ -256,11 +298,11 @@ msgstr "Files sharing key"
 msgid "First name"
 msgstr "First name"
 
-msgid "Folder"
-msgstr "Folder"
-
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
+
+msgid "Folder uploads are not supported currently"
+msgstr "Folder uploads are not supported currently"
 
 msgid "Folders"
 msgstr "Folders"
@@ -294,6 +336,9 @@ msgstr "Give view-only permission to:"
 
 msgid "Go back"
 msgstr "Go back"
+
+msgid "Got it"
+msgstr "Got it"
 
 msgid "Hello again!"
 msgstr "Hello again!"
@@ -340,11 +385,17 @@ msgstr "Let's get you set up."
 msgid "Light Theme"
 msgstr "Light Theme"
 
+msgid "Loading"
+msgstr "Loading"
+
 msgid "Loading preview"
 msgstr "Loading preview"
 
 msgid "Loading your shared folders…"
 msgstr "Loading your shared folders…"
+
+msgid "Loading..."
+msgstr "Loading..."
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -385,6 +436,9 @@ msgstr "Next"
 msgid "Nice to see you again!"
 msgstr "Nice to see you again!"
 
+msgid "No file to download."
+msgstr "No file to download."
+
 msgid "No files to show"
 msgstr "No files to show"
 
@@ -396,6 +450,9 @@ msgstr "No search results for"
 
 msgid "No thanks"
 msgstr "No thanks"
+
+msgid "No user found for this query."
+msgstr "No user found for this query."
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
@@ -508,6 +565,9 @@ msgstr "Report"
 msgid "Report a File"
 msgstr "Report a File"
 
+msgid "Report a bug"
+msgstr "Report a bug"
+
 msgid "Requested from"
 msgstr "Requested from"
 
@@ -535,6 +595,9 @@ msgstr "Saved Browsers"
 msgid "Saved on:"
 msgstr "Saved on:"
 
+msgid "Schedule a 15 min call"
+msgstr "Schedule a 15 min call"
+
 msgid "Search results"
 msgstr "Search results"
 
@@ -547,11 +610,8 @@ msgstr "Security"
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
-msgid "Select an existing shared folder"
-msgstr "Select an existing shared folder"
-
-msgid "Send Feedback"
-msgstr "Send Feedback"
+msgid "Select an existing shared folder or your home"
+msgstr "Select an existing shared folder or your home"
 
 msgid "Send another email"
 msgstr "Send another email"
@@ -583,14 +643,17 @@ msgstr "Shared"
 msgid "Shared Folder Name"
 msgstr "Shared Folder Name"
 
-msgid "Shared folder is undefined"
-msgstr "Shared folder is undefined"
-
 msgid "Shared folders"
 msgstr "Shared folders"
 
 msgid "Shared with"
 msgstr "Shared with"
+
+msgid "Sharing cancelled"
+msgstr "Sharing cancelled"
+
+msgid "Sharing your file (Downloading)"
+msgstr "Sharing your file (Downloading)"
 
 msgid "Sign Out"
 msgstr "Sign Out"
@@ -600,6 +663,9 @@ msgstr "Sign in"
 
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
+
+msgid "Sign me up!"
+msgstr "Sign me up!"
 
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
@@ -625,11 +691,17 @@ msgstr "Something went wrong. We couldn't upload your file"
 msgid "Start Upload"
 msgstr "Start Upload"
 
+msgid "Start a team"
+msgstr "Start a team"
+
 msgid "Storage Plan"
 msgstr "Storage Plan"
 
 msgid "Stored by miner"
 msgstr "Stored by miner"
+
+msgid "Teams"
+msgstr "Teams"
 
 msgid "Technical"
 msgstr "Technical"
@@ -646,6 +718,9 @@ msgstr "The files are already in this folder"
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "The system is undergoing maintenance, thank you for being patient."
 
+msgid "The username is too long"
+msgstr "The username is too long"
+
 msgid "Theme"
 msgstr "Theme"
 
@@ -655,8 +730,8 @@ msgstr "There was an error authenticating"
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
 
-msgid "There was an error deleting this"
-msgstr "There was an error deleting this"
+msgid "There was an error deleting your data"
+msgstr "There was an error deleting your data"
 
 msgid "There was an error getting search results"
 msgstr "There was an error getting search results"
@@ -664,23 +739,29 @@ msgstr "There was an error getting search results"
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
-msgid "There was an error moving this"
-msgstr "There was an error moving this"
+msgid "There was an error moving your data"
+msgstr "There was an error moving your data"
 
-msgid "There was an error recovering this"
-msgstr "There was an error recovering this"
+msgid "There was an error restoring your data"
+msgstr "There was an error restoring your data"
 
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
-
-msgid "This may take some time depending on the file size"
-msgstr "This may take some time depending on the file size"
 
 msgid "This username is already taken"
 msgstr "This username is already taken"
 
 msgid "This username is public"
 msgstr "This username is public"
+
+msgid "This website uses cookies"
+msgstr "This website uses cookies"
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+
+msgid "Transfer complete"
+msgstr "Transfer complete"
 
 msgid "Try again"
 msgstr "Try again"
@@ -697,11 +778,8 @@ msgstr "Update Shared Folder"
 msgid "Upload"
 msgstr "Upload"
 
-msgid "Upload complete"
-msgstr "Upload complete"
-
-msgid "Uploading {0} files"
-msgstr "Uploading {0} files"
+msgid "Uploads cancelled"
+msgstr "Uploads cancelled"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"
@@ -739,11 +817,11 @@ msgstr "Verification code sent!"
 msgid "View folder"
 msgstr "View folder"
 
-msgid "View shared folder"
-msgstr "View shared folder"
-
 msgid "Wallet address"
 msgstr "Wallet address"
+
+msgid "Want to help shape this product?"
+msgstr "Want to help shape this product?"
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "We can't encrypt files larger than 2GB. Some items will not be uploaded"
@@ -769,6 +847,9 @@ msgstr "Yes, save it"
 msgid "You can change this later."
 msgstr "You can change this later."
 
+msgid "You can now create shared folders to share a file."
+msgstr "You can now create shared folders to share a file."
+
 msgid "You can't move folders to this path"
 msgstr "You can't move folders to this path"
 
@@ -778,35 +859,26 @@ msgstr "You haven't set a username yet."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
+msgid "Your plan"
+msgstr "Your plan"
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
-
-msgid "deleted successfully"
-msgstr "deleted successfully"
-
-msgid "file"
-msgstr "file"
-
-msgid "folder"
-msgstr "folder"
 
 msgid "me"
 msgstr "me"
 
-msgid "moved successfully"
-msgstr "moved successfully"
-
 msgid "on"
 msgstr "on"
-
-msgid "recovered successfully"
-msgstr "recovered successfully"
 
 msgid "unknown"
 msgstr "unknown"
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
-
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

@@ -9,7 +9,7 @@ import {
   makeStyles,
   useMediaQuery
 } from "@chainsafe/common-theme"
-import React, { useRef, useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Formik, Form } from "formik"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
@@ -77,22 +77,12 @@ interface ICreateFolderModalProps {
   close: () => void
 }
 
-const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
-  modalOpen,
-  close
-}: ICreateFolderModalProps) => {
+const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
   const classes = useStyles()
   const { storageApiClient } = useStorageApi()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
   const [creatingFolder, setCreatingFolder] = useState(false)
   const desktop = useMediaQuery("md")
-  const inputRef = useRef<any>(null)
-
-  useEffect(() => {
-    if (modalOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100)
-    }
-  }, [modalOpen])
 
   return (
     <CustomModal
@@ -120,7 +110,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
             setCreatingFolder(false)
             helpers.resetForm()
             close()
-          } catch (errors) {
+          } catch (errors: any) {
             setCreatingFolder(false)
             if (errors[0].message.includes("Entry with such name can")) {
               helpers.setFieldError("name", t`Folder name is already in use`)
@@ -130,6 +120,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           }
           helpers.setSubmitting(false)
         }}
+        enableReinitialize
       >
         <Form>
           <div className={classes.root}>
@@ -160,7 +151,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
                 placeholder={t`Name`}
                 labelClassName={classes.label}
                 label={t`Folder Name`}
-                ref={inputRef}
+                autoFocus
               />
             </Grid>
             <Grid

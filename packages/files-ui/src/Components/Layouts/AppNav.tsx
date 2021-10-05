@@ -1,9 +1,5 @@
 import { useFiles } from "../../Contexts/FilesContext"
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { useCallback } from "react"
 import clsx from "clsx"
 import {
@@ -14,10 +10,10 @@ import {
   SettingSvg,
   PowerDownSvg,
   ProgressBar,
-  Button,
   formatBytes,
   DeleteSvg,
-  UserShareSvg } from "@chainsafe/common-components"
+  UserShareSvg
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
@@ -211,15 +207,12 @@ interface IAppNav {
   setNavOpen: (state: boolean) => void
 }
 
-const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
+const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-
   const { storageSummary } = useFiles()
-
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
-
   const { removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -233,19 +226,15 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
     }
   }, [desktop, navOpen, setNavOpen])
 
-  const collectFeedback = () => {
-    window.open(ROUTE_LINKS.GeneralFeedbackForm, "_blank")
-  }
-
   return (
     <section
       className={clsx(classes.root, {
         active: desktop
           ? isLoggedIn &&
-          secured &&
-          !!publicKey &&
-          !isNewDevice &&
-          !shouldInitializeAccount
+            secured &&
+            !!publicKey &&
+            !isNewDevice &&
+            !shouldInitializeAccount
           : navOpen
       })}
     >
@@ -346,39 +335,25 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           </div>
           <section>
             {desktop && (
-              <div
-                data-cy="label-space-used"
-              >
-                {
-                  storageSummary && (
-                    <>
-                      <Typography
-                        variant="body2"
-                        className={classes.spaceUsedMargin}
-                        component="p"
-                      >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
-                          storageSummary.total_storage, 2
-                        )} used`}</Typography>
-                      <ProgressBar
-                        data-cy="progress-bar-space-used"
-                        className={classes.spaceUsedMargin}
-                        progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
-                        size="small"
-                      />
-                    </>
-                  )
+              <div data-cy="label-space-used">
+                {storageSummary && (
+                  <>
+                    <Typography
+                      variant="body2"
+                      className={classes.spaceUsedMargin}
+                      component="p"
+                    >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+                        storageSummary.total_storage, 2
+                      )} used`}</Typography>
+                    <ProgressBar
+                      data-cy="progress-bar-space-used"
+                      className={classes.spaceUsedMargin}
+                      progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
+                      size="small"
+                    />
+                  </>
+                )
                 }
-                {/* <Button disabled variant="outline" size="small">
-                  <Trans>UPGRADE</Trans>
-                </Button> */}
-                <Button
-                  data-cy="send-feedback-nav"
-                  variant="outline"
-                  size="small"
-                  onClick={() => collectFeedback()}
-                >
-                  <Trans>Send Feedback</Trans>
-                </Button>
               </div>
             )}
             {!desktop && (

@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
+import { Crumb, useToasts, useHistory, useLocation } from "@chainsafe/common-components"
 import { useFiles, FileSystemItem } from "../../../Contexts/FilesContext"
 import {
   getArrayOfPaths,
   getURISafePathFromArray,
   getPathWithFile,
   extractFileBrowserPathFromURL,
-  getUrlSafePathWithFile
+  getUrlSafePathWithFile,
+  getAbsolutePathsFromCids,
+  pathEndingWithSlash
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
@@ -21,16 +23,12 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
+import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
-  const {
-    downloadFile,
-    uploadFiles,
-    uploadsInProgress,
-    buckets
-  } = useFiles()
+  const { downloadFile, uploadFiles, buckets } = useFiles()
   const { filesApiClient } = useFilesApi()
-  const { addToastMessage } = useToaster()
+  const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
@@ -78,42 +76,29 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const moveItemsToBin = useCallback(async (cids: string[], hideToast?: boolean) => {
     if (!bucket) return
-    await Promise.all(
-      cids.map(async (cid: string) => {
-        const itemToDelete = pathContents.find((i) => i.cid === cid)
-        if (!itemToDelete) {
-          console.error("No item found to move to the trash")
-          return
-        }
 
-        try {
-          await filesApiClient.moveBucketObjects(bucket.id, {
-            path: getPathWithFile(currentPath, itemToDelete.name),
-            new_path: getPathWithFile("/", itemToDelete.name),
-            destination: buckets.find(b => b.type === "trash")?.id
-          })
-          if (!hideToast) {
-            const message = `${
-              itemToDelete.isFolder ? t`Folder` : t`File`
-            } ${t`deleted successfully`}`
-            addToastMessage({
-              message: message,
-              appearance: "success"
-            })
-          }
-          return Promise.resolve()
-        } catch (error) {
-          const message = `${t`There was an error deleting this`} ${
-            itemToDelete.isFolder ? t`folder` : t`file`
-          }`
-          addToastMessage({
-            message: message,
-            appearance: "error"
-          })
-          return Promise.reject()
-        }}
-      )).finally(refreshContents)
-  }, [addToastMessage, currentPath, pathContents, refreshContents, filesApiClient, bucket, buckets])
+    const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+
+    filesApiClient.moveBucketObjects(bucket.id, {
+      paths: pathsToDelete,
+      new_path: "/",
+      destination: buckets.find(b => b.type === "trash")?.id
+    }).then(() => {
+      if (!hideToast) {
+        addToast({
+          title: t`Data moved to bin successfully`,
+          type: "success",
+          testId: "deletion-success"
+        })
+      }
+    }).catch((error) => {
+      console.error("Error deleting:", error)
+      addToast({
+        title: t`There was an error deleting your data`,
+        type: "error"
+      })
+    }).finally(refreshContents)
+  }, [addToast, currentPath, pathContents, refreshContents, filesApiClient, bucket, buckets])
 
   // Rename
   const renameItem = useCallback(async (cid: string, newName: string) => {
@@ -121,7 +106,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     if (!bucket || !itemToRename) return
 
     filesApiClient.moveBucketObjects(bucket.id, {
-      path: getPathWithFile(currentPath, itemToRename.name),
+      paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) })
       .then(() => refreshContents())
       .catch(console.error)
@@ -129,34 +114,27 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
-    await Promise.all(
-      cids.map(async (cid: string) => {
-        const itemToMove = pathContents.find((i) => i.cid === cid)
-        if (!itemToMove) return
-        try {
-          await filesApiClient.moveBucketObjects(bucket.id, {
-            path: getPathWithFile(currentPath, itemToMove.name),
-            new_path: getPathWithFile(newPath, itemToMove.name)
-          })
-          const message = `${
-            itemToMove.isFolder ? t`Folder` : t`File`
-          } ${t`moved successfully`}`
 
-          addToastMessage({
-            message: message,
-            appearance: "success"
-          })
-        } catch (error) {
-          const message = `${t`There was an error moving this`} ${
-            itemToMove.isFolder ? t`folder` : t`file`
-          }`
-          addToastMessage({
-            message: message,
-            appearance: "error"
-          })
-        }
-      })).finally(refreshContents)
-  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, currentPath])
+
+    const pathsToMove = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+
+    filesApiClient.moveBucketObjects(bucket.id, {
+      paths: pathsToMove,
+      new_path: pathEndingWithSlash(newPath)
+    }).then(() => {
+      addToast({
+        title: t`Data moved successfully`,
+        type: "success",
+        testId: "move-success"
+      })
+    }).catch((error) => {
+      console.error("Error moving:", error)
+      addToast({
+        title: t`There was an error moving your data`,
+        type: "error"
+      })
+    }).finally(refreshContents)
+  }, [addToast, pathContents, refreshContents, filesApiClient, bucket, currentPath])
 
   const handleDownload = useCallback(async (cid: string) => {
     const itemToDownload = pathContents.find(item => item.cid === cid)
@@ -178,23 +156,12 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
-    let hasFolder = false
-    for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry().isDirectory) {
-        hasFolder = true
-      }
-    }
-    if (hasFolder) {
-      addToastMessage({
-        message: "Folder uploads are not supported currently",
-        appearance: "error"
-      })
-    } else {
-      uploadFiles(bucket.id, files, path)
-        .then(() => refreshContents())
-        .catch(console.error)
-    }
-  }, [addToastMessage, uploadFiles, bucket, refreshContents])
+    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
+    const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
+    paths.forEach(p => {
+      uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
+    })
+  }, [uploadFiles, bucket])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
@@ -204,8 +171,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   }, [currentPath, pathContents, redirect])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["move", "delete"],
-    [CONTENT_TYPES.File]: ["delete", "move"]
+    [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
+    [CONTENT_TYPES.File]: ["download", "delete", "move"]
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
@@ -215,7 +182,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.Pdf]: ["preview"],
     [CONTENT_TYPES.Text]: ["preview"],
     [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
-    [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+    [CONTENT_TYPES.Directory]: ["download", "rename", "move", "delete"]
   }), [])
 
   return (
@@ -232,7 +199,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       renameItem: renameItem,
       viewFolder,
       handleUploadOnDrop,
-      uploadsInProgress,
       loadingCurrentPath,
       showUploadsInTable: true,
       sourceFiles: pathContents,

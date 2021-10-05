@@ -11,30 +11,32 @@ import { capitalize, centerEllipsis } from "../Utils/StringHelpers"
 export type { IdentityProvider as OAuthProvider }
 
 const tokenStorageKey = "csg.refreshToken"
+const isReturningUserStorageKey = "csg.isReturningUser"
+const TORUS_USERINFO_KEY = "csg.userInfo"
 
 const getProviderSpecificParams = (loginType: LOGIN_TYPE):
-  {typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
+{typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
   switch (loginType) {
-  case "google": {
-    return {
-      typeOfLogin: loginType,
-      clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
-      verifier: ""
-    }
-  }
-  case "github":{
-    return {
-      typeOfLogin: loginType,
-      clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
-      verifier: "",
-      jwtParams: {
-        domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+    case "google": {
+      return {
+        typeOfLogin: loginType,
+        clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
+        verifier: "chainsafe-uuid-testnet"
       }
     }
-  }
-  default:{
-    throw new Error(`${loginType} is unsupported`)
-  }
+    case "github":{
+      return {
+        typeOfLogin: loginType,
+        clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
+        verifier: "chainsafe-uuid-testnet",
+        jwtParams: {
+          domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+        }
+      }
+    }
+    default:{
+      throw new Error(`${loginType} is unsupported`)
+    }
   }
 }
 
@@ -60,6 +62,7 @@ type GamingApiContext = {
   userInfo?: GamingUserInfo
   gamingApiClient: IFilesApiClient
   isLoggedIn: boolean | undefined
+  isReturningUser: boolean
   selectWallet: () => Promise<void>
   resetAndSelectWallet: () => Promise<void>
   login(loginType: IdentityProvider, tokenInfo?: {token: IdentityToken; email: string}): Promise<void>
@@ -75,7 +78,7 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
   const { wallet, onboard, checkIsReady, isReady, provider, address } = useWeb3()
-  const { localStorageRemove, localStorageGet, localStorageSet } = useLocalStorage()
+  const { canUseLocalStorage, localStorageRemove, localStorageGet, localStorageSet } = useLocalStorage()
   const { sessionStorageRemove, sessionStorageGet, sessionStorageSet } = useSessionStorage()
 
   // initializing api
@@ -99,37 +102,50 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
-    { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
+  { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
   >(undefined)
+
+  // returning user
+  const isReturningUserLocal = localStorageGet(isReturningUserStorageKey)
+  const [isReturningUser, setIsReturningUser] = useState(!!isReturningUserLocal)
 
   const setTokensAndSave = useCallback((accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
     setRefreshToken(refreshToken)
-
-    withLocalStorage
-      ? localStorageSet(tokenStorageKey, refreshToken.token)
-      : sessionStorageSet(tokenStorageKey, refreshToken.token)
-
+    refreshToken.token && withLocalStorage && localStorageSet(tokenStorageKey, refreshToken.token)
+    !withLocalStorage && sessionStorageSet(tokenStorageKey, refreshToken.token)
     accessToken.token && gamingApiClient.setToken(accessToken.token)
   }, [gamingApiClient, localStorageSet, sessionStorageSet, withLocalStorage])
+
+  const setReturningUser = () => {
+    // set returning user
+    localStorageSet(isReturningUserStorageKey, "returning")
+    setIsReturningUser(true)
+  }
+
+  useEffect(() => {
+    if (userInfo) {
+      sessionStorage.setItem(TORUS_USERINFO_KEY, JSON.stringify(userInfo))
+    }
+  }, [userInfo])
 
   useEffect(() => {
     const loginType = userInfo?.typeOfLogin as LOGIN_TYPE
 
     if (userInfo && loginType) {
       switch (loginType) {
-      case "jwt":
-        setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
-        break
-      case "google":
-        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
-        break
-      case "github":
-        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
-        break
-      default:
-        setLoggedinAs(`${centerEllipsis(`${userInfo.publicAddress}`, 4)}`)
-        break
+        case "jwt":
+          setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
+          break
+        case "google":
+          setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
+          break
+        case "github":
+          setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
+          break
+        default:
+          setLoggedinAs(`${centerEllipsis(`${userInfo.publicAddress}`, 4)}`)
+          break
       }
     }
   }, [userInfo, address])
@@ -151,8 +167,8 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
             error.config._retry = true
             const refreshTokenLocal =
               (withLocalStorage)
-                ? localStorage.getItem(tokenStorageKey)
-                : sessionStorage.getItem(tokenStorageKey)
+                ? localStorageGet(tokenStorageKey)
+                : sessionStorageGet(tokenStorageKey)
             if (refreshTokenLocal) {
               const refreshTokenApiClient = new FilesApiClient(
                 {},
@@ -211,7 +227,7 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
 
     initializeApiClient()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [canUseLocalStorage])
 
   const selectWallet = async () => {
     if (onboard && !isReady) {
@@ -363,6 +379,7 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
         publicAddress: userInfo.address
       })
       setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
     } catch(error) {
       console.error(error)
       throw new Error("Login Error")
@@ -385,6 +402,7 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
       value={{
         gamingApiClient: gamingApiClient,
         isLoggedIn: isLoggedIn(),
+        isReturningUser: isReturningUser,
         login,
         resetStatus: () => setStatus("initialized"),
         status,
@@ -403,7 +421,7 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
 const useGamingApi = () => {
   const context = React.useContext(GamingApiContext)
   if (context === undefined) {
-    throw new Error("useStorage must be used within a StorageProvider")
+    throw new Error("useGamingApi must be used within a GamingApiProvider")
   }
   return context
 }

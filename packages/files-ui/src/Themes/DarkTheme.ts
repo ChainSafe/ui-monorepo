@@ -331,6 +331,11 @@ export const darkTheme = createTheme<CsfColors>({
     constants: {
       ...UI_CONSTANTS,
       ...({
+        menu:{
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray8)",
+          backgroundOptionHover: "var(--gray2)"
+        },
         landing: {
           background: "var(--gray2)",
           border: "var(--gray4)",
@@ -352,7 +357,10 @@ export const darkTheme = createTheme<CsfColors>({
         },
         modalDefault: {
           fadeBackground: "var(--gray7)",
-          background: "var(--gray2)"
+          backgroundColor: "var(--gray2)",
+          color: "var(--gray10)",
+          iconBackingColor: "#EBEEFF",
+          closeIconColor: "var(--gray8)"
         },
         header: {
           rootBackground: "var(--gray1)",
@@ -437,7 +445,8 @@ export const darkTheme = createTheme<CsfColors>({
           optionsColor: "var(--gray9)",
           optionsBorder: "var(--gray5)",
           itemBackground: "var(--gray1)",
-          itemColor: "var(--gray9)"
+          itemColor: "var(--gray9)",
+          borderColor: "var(--blue6)"
         },
         masterKey: {
           desktop: {
@@ -472,10 +481,8 @@ export const darkTheme = createTheme<CsfColors>({
         surveyBanner: {
           color: "var(--gray9)"
         },
-        createShareModal: {
-          backgroundColor: "var(--gray2)",
-          color: "var(--gray10)",
-          iconBackingColor: "#EBEEFF"
+        cookieBanner: {
+          backgroundColor: "var(--gray9)"
         }
       } as CsfColors)
     },
@@ -526,25 +533,6 @@ export const darkTheme = createTheme<CsfColors>({
           color: "var(--gray9)"
         }
       },
-      Toaster: {
-        closeIcon: {
-          fill: "var(--gray9)"
-        },
-        message: {
-          color: "var(--gray9)"
-        },
-        typeIcon: {
-          root: {
-            fill: "var(--gray9)"
-          },
-          success: {
-            fill: "var(--green8)"
-          },
-          error: {
-            fill: "var(--red8)"
-          }
-        }
-      },
       TagsInput: {
         root: {
           color: "var(--gray9)"
@@ -570,17 +558,16 @@ export const darkTheme = createTheme<CsfColors>({
             borderColor: "var(--blue3) !important"
           }
         },
-        menu: {
-          backgroundColor: "var(--gray1)",
-          borderColor: "var(--gray4)"
+        menuList: {
+          backgroundColor: "var(--gray4)",
+          color: "var(--gray10)"
         },
         input: {
           color: "var(--gray9)"
         },
         option: {
-          backgroundColor: "var(--gray1)",
-          color: "var(--gray9)",
-          borderColor: "var(--gray4)",
+          backgroundColor: "var(--gray4)",
+          color: "var(--gray10)",
           cursor: "pointer"
         },
         multiValue: {
@@ -604,8 +591,9 @@ export const darkTheme = createTheme<CsfColors>({
           color: "var(--gray9)"
         },
         option: {
-          backgroundColor: "var(--gray1)",
-          color: "var(--gray9)"
+          backgroundColor: "var(--gray4)",
+          color: "var(--gray10)",
+          cursor: "pointer"
         },
         dropdownIndicator: {
           backgroundColor: "var(--gray1)",
@@ -615,9 +603,9 @@ export const darkTheme = createTheme<CsfColors>({
           backgroundColor: "var(--gray1)",
           color: "var(--gray9)"
         },
-        menu: {
-          backgroundColor: "var(--gray1)",
-          color: "var(--gray9)"
+        menuList: {
+          backgroundColor: "var(--gray4)",
+          color: "var(--gray10)"
         },
         indicatorsContainer: {
           backgroundColor: "transparent",
@@ -631,11 +619,44 @@ export const darkTheme = createTheme<CsfColors>({
         },
         singleValue: {
           color: "var(--gray9)"
+        },
+        input: {
+          color: "var(--gray9)"
         }
       },
       Button: {
         variants: {
           primary: {
+            root: {
+              backgroundColor: "var(--gray5)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            active: {
+              backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            hover: {
+              backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            focus: {
+              color: "none",
+              backgroundColor: "none",
+              "& svg": {
+                fill: "none"
+              }
+            }
+          },
+          tertiary: {
             root: {
               backgroundColor: "var(--gray5)",
               color: "var(--gray9)",

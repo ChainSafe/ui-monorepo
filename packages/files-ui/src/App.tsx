@@ -3,7 +3,7 @@ import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/rea
 import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
-import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
+import { Button, CssBaseline, Modal, Router, ToastProvider, Typography } from "@chainsafe/common-components"
 import { FilesProvider } from "./Contexts/FilesContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
@@ -15,6 +15,7 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { FilesApiProvider }  from "./Contexts/FilesApiContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
+import { PosthogProvider } from "./Contexts/PosthogContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -63,6 +64,7 @@ const onboardConfig = {
 
 const App = () => {
   const { canUseLocalStorage } = useLocalStorage()
+
   const apiUrl = process.env.REACT_APP_API_URL || "https://stage.imploy.site/api/v1"
   // This will default to testnet unless mainnet is specifically set in the ENV
   const directAuthNetwork = (process.env.REACT_APP_DIRECT_AUTH_NETWORK === "mainnet") ? "mainnet" : "testnet"
@@ -71,7 +73,7 @@ const App = () => {
     <Modal
       active
       closePosition="none"
-      setActive={resetError}
+      onClose={resetError}
     >
       <Typography>
         An error occurred and has been logged. If you would like to
@@ -84,13 +86,14 @@ const App = () => {
       <Button
         onClick={() => showReportDialog({ eventId: eventId || "" })}
       >
-      Provide Additional Details
+        Provide Additional Details
       </Button>
       <Button onClick={resetError}>Reset error</Button>
     </Modal>
   ), [])
 
   return (
+
     <ThemeSwitcher
       storageKey="csf.themeKey"
       themes={{ light: lightTheme, dark: darkTheme }}
@@ -101,7 +104,10 @@ const App = () => {
       >
         <CssBaseline />
         <LanguageProvider availableLanguages={availableLanguages}>
-          <ToasterProvider autoDismiss>
+          <ToastProvider
+            autoDismiss
+            defaultPosition="bottomRight"
+          >
             <Web3Provider
               onboardConfig={onboardConfig}
               checkNetwork={false}
@@ -119,9 +125,11 @@ const App = () => {
                     <FilesProvider>
                       <BillingProvider>
                         <Router>
-                          <AppWrapper>
-                            <FilesRoutes />
-                          </AppWrapper>
+                          <PosthogProvider>
+                            <AppWrapper>
+                              <FilesRoutes />
+                            </AppWrapper>
+                          </PosthogProvider>
                         </Router>
                       </BillingProvider>
                     </FilesProvider>
@@ -129,10 +137,11 @@ const App = () => {
                 </ThresholdKeyProvider>
               </FilesApiProvider>
             </Web3Provider>
-          </ToasterProvider>
+          </ToastProvider>
         </LanguageProvider>
       </ErrorBoundary>
     </ThemeSwitcher>
+
   )
 }
 
