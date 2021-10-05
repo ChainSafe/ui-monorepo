@@ -17,7 +17,8 @@ import { nameValidator } from "../../../Utils/validationSchema"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { KJUR } from "jsrsasign"
-import keyEncoder from 'key-encoder'
+import keyEncoder from "key-encoder"
+import { NonceResponse } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -204,6 +205,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
   const { filesApiClient } = useFilesApi()
   const { privateKey } = useThresholdKey()
+  const [nonces, setNonces] = useState<NonceResponse[]>([])
 
   const isReader = useMemo(() => {
     if (!bucket) return false
@@ -309,11 +311,20 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   ])
 
   useEffect(() => {
-    filesApiClient.getAllNonces().then(n => console.log("nonces", n)).catch(console.error)
+    filesApiClient.getAllNonces().then(setNonces).catch(console.error)
   }, [filesApiClient])
 
   const onCreateNonce = useCallback(() => {
-    bucket?.id && filesApiClient.createNonce({ bucket_id: bucket.id, permission: "read" }).catch(console.error)
+    if(!bucket || bucket.type === "csf") {
+      console.log("no current bucket, or it's your home, which you can't share...")
+      return
+    }
+
+    filesApiClient
+      .createNonce({ bucket_id: bucket.id, permission: "read" })
+      // dirty hack
+      .then((n) => setNonces([n]))
+      .catch(console.error)
   }, [bucket, filesApiClient])
 
   const onCreateJWT = useCallback(async () => {
@@ -322,44 +333,63 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
       return
     }
 
-    const ke = new keyEncoder('secp256k1')
-    const pem = ke.encodePrivate(privateKey, 'raw', 'pem')
-    console.log("pem", pem)
+    if(!nonces.length) {
+      console.log("no nonce created")
+      return
+    }
 
-    //  using JOSE
-    //     const algorithm = "ES256"
-    //     const ecPrivateKey = await importPKCS8(pkcs8, algorithm)
-    //     const jwt = await new SignJWT({ "urn:example:claim": true })
-    //       .setProtectedHeader({ alg: "ES256" })
-    //       .setIssuedAt()
-    //       .setIssuer("urn:example:issuer")
-    //       .setAudience("urn:example:audience")
-    //       .setExpirationTime("2h")
-    //       .sign(ecPrivateKey)
+    if(!bucket || bucket.type === "csf") {
+      console.log("no current bucket, or it's your home, which you can't share...")
+      return
+    }
 
-    // console.log("jwt", jwt)
+    const ke = new keyEncoder("secp256k1")
+    const pem = ke.encodePrivate(privateKey, "raw", "pem")
 
     // Header
-    const oHeader = { alg: "ES256", typ: "JWT" }
+    const header = { alg: "ES256", typ: "JWT" }
     // Payload
-    const oPayload: any = {}
-    const tNow = KJUR.jws.IntDate.get("now")
-    const tEnd = KJUR.jws.IntDate.get("now + 1day")
-    oPayload.iss = "http://foo.com"
-    oPayload.sub = "mailto:mike@foo.com"
-    oPayload.nbf = tNow
-    oPayload.iat = tNow
-    oPayload.exp = tEnd
-    oPayload.jti = "id123456"
-    oPayload.aud = "http://foo.com/employee"
-    // Sign JWT, password=616161
-    const sHeader = JSON.stringify(oHeader)
-    const sPayload = JSON.stringify(oPayload)
-    // const prvKey = KEYUTIL.getKey(pkcs8)
+    const payload = {
+      type: "link_sharing",
+      permission: nonces[0].permission,
+      // oPayload.nbf = tNow,
+      iat:  KJUR.jws.IntDate.get("now"),
+      // oPayload.exp = tEnd,
+      bucket_id: bucket.id,
+      nonce_id: nonces[0].id
+    }
+    // const tNow = KJUR.jws.IntDate.get("now")
+    // const tEnd = KJUR.jws.IntDate.get("now + 1day")
+    // oPayload.type = "link_sharing"
+    // oPayload.permission = nonces[0].permission
+    // // oPayload.nbf = tNow
+    // // oPayload.iat = tNow
+    // // oPayload.exp = tEnd
+    // oPayload.bucket_id = bucket.id
+    // oPayload.nonce_id = nonces[0].id
+    const sHeader = JSON.stringify(header)
+    const sPayload = JSON.stringify(payload)
 
     const sJWT = KJUR.jws.JWS.sign("ES256", sHeader, sPayload, pem)
     console.log("sJWT", sJWT)
-  }, [privateKey])
+  }, [bucket, nonces, privateKey])
+
+  const onVerifyJWT = useCallback(() => {
+    if(!bucket || bucket.type === "csf") {
+      console.log("no current bucket, or it's your home, which you can't share...")
+      return
+    }
+
+    filesApiClient
+      .verifyNonce({
+        // eslint-disable-next-line max-len
+        jwt: "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoibGlua19zaGFyaW5nIiwicGVybWlzc2lvbiI6InJlYWQiLCJpYXQiOjE2MzMzNjM1MjksImJ1Y2tldF9pZCI6ImU1YTk3ODJkLTI1ZTUtNDM4NS05NTcwLTlkYTJlZTZkNDY2MiIsIm5vbmNlX2lkIjoiNTkxYTZmNzEtZjQ5Yi00Mzg2LThlMTYtOTRiY2JiMDAyYWNmIn0.SC_0SzGEihJYJZKZT3AqrOiWEn5NXAJaI3446CgaNC-ZSAB3p3OpJIWe56_TjclKD9db-wvWBFkh1coVtI26xw",
+        encryption_key: "someEncryptedEncryptionKey"
+      })
+      // dirty hack
+      .then(console.log)
+      .catch(console.error)
+  }, [bucket, filesApiClient])
 
   return (
     <CustomModal
@@ -386,6 +416,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
         <div className={classes.modalFlexItem}>
           <button onClick={onCreateNonce}>Create nonce</button>
           <button onClick={onCreateJWT}>Create JWT</button>
+          <button onClick={onVerifyJWT}>verify hardcoded JWT</button>
           {isUsingCurrentBucket
             ? (
               <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
