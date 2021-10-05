@@ -93,6 +93,7 @@ const UserProvider = ({ children }: UserContextProps) => {
             _setLocalStore(fetched)
           }
         } catch(error) {
+          console.error(error)
           _setLocalStore({})
         }
       } else {
