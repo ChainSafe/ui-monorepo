@@ -732,7 +732,7 @@ msgid "There was an error restoring your data"
 msgstr ""
 
 msgid "There was an error when setting username."
-msgstr "Il y a eu une erreur dans le paramétrage du nom d’utilisateur."
+msgstr ""
 
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
