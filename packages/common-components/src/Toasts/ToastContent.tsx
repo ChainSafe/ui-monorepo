@@ -140,6 +140,7 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
       }
       {isClosable &&
         <div
+          data-testid="button-close-toast"
           className={classes.closeIcon}
           onClick={onClose}
         >

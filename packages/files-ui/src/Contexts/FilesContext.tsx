@@ -380,8 +380,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       type: "success",
       progress: 0,
       onProgressCancel: cancelSource.cancel,
-      isClosable: false,
-      testId: "upload-status"
+      isClosable: false
     }
 
     const toastId = addToast(toastParams)
@@ -411,7 +410,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         title: "Upload complete",
         progress: undefined,
         onProgressCancel: undefined,
-        isClosable: true
+        isClosable: true,
+        testId: "upload-complete"
       }, true)
       return Promise.resolve()
     } catch (error: any) {
