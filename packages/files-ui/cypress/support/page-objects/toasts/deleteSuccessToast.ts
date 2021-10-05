@@ -1,6 +1,4 @@
-import { baseToast } from "./baseToast"
-
 export const deleteSuccessToast = {
-  ...baseToast,
-  body: () => cy.get("[data-testId=toast-deletion-success]", { timeout: 10000 })
+  body: () => cy.get("[data-testId=toast-deletion-success]", { timeout: 10000 }),
+  closeButton: () => cy.get("[data-testid=button-close-toast-deletion-success]")
 }
