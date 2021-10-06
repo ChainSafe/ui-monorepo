@@ -770,54 +770,58 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       const totalFileSize = allItems.reduce((sum, item) => sum + item.size, 0)
       const totalFileNumber = allItems.length
       let successCount = 0
-      let totalProgress = 0
 
       try {
-        for (let i = 0;i < totalFileNumber;i++) {
-          const item = allItems[i]
-          const fileProgress = `${i + 1}/${totalFileNumber}`
-          const previousProgress = totalProgress
-          const file = await getFileContent(sourceBucketId, {
-            cid: item.cid,
-            file: item,
-            path: getPathWithFile(item.path, item.name),
-            cancelToken,
-            onDownloadProgress: async (progressEvent) => {
-              const currentProgress = Math.ceil((((2 * previousProgress) + progressEvent.loaded) * 50) / totalFileSize)
-              console.log("currentProgress:", currentProgress)
-              updateToast(toastId, {
-                ...toastParams,
-                title: t`Sharing ${fileProgress} - ${item.name}`,
-                progress: currentProgress
-              })
-            }
-          })
-
-          if(file) {
-            await encryptAndUploadFiles(
-              destinationBucket,
-              [new File([file], item.name, { type: item.content_type })],
-              getRelativePath(item.path, currentPath),
-              async (progressEvent) => {
-                const currentProgress = Math.ceil((((2 * previousProgress) + progressEvent.loaded + item.size) * 50) / totalFileSize)
+        await allItems.reduce(async (totalProgress: Promise<number>, item, i) => {
+          try {
+            const fileProgress = `${i + 1}/${totalFileNumber}`
+            const previousProgress = await totalProgress
+            const file = await getFileContent(sourceBucketId, {
+              cid: item.cid,
+              file: item,
+              path: getPathWithFile(item.path, item.name),
+              cancelToken,
+              onDownloadProgress: async (progressEvent) => {
+                const currentProgress = Math.ceil((((2 * previousProgress) + progressEvent.loaded) * 50) / totalFileSize)
                 updateToast(toastId, {
+                  ...toastParams,
                   title: t`Sharing ${fileProgress} - ${item.name}`,
-                  type: "success",
                   progress: currentProgress
                 })
-              },
-              cancelToken
-            )
-          }
-          if (!keepOriginal) {
-            await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(item.path, item.name)] })
-          }
-          totalProgress += item.size
-          successCount++
-        }
+              }
+            })
 
+            if(file) {
+              await encryptAndUploadFiles(
+                destinationBucket,
+                [new File([file], item.name, { type: item.content_type })],
+                getRelativePath(item.path, currentPath),
+                async (progressEvent) => {
+                  const currentProgress = Math.ceil((((2 * previousProgress) + progressEvent.loaded + item.size) * 50) / totalFileSize)
+                  updateToast(toastId, {
+                    title: t`Sharing ${fileProgress} - ${item.name}`,
+                    type: "success",
+                    progress: currentProgress
+                  })
+                },
+                cancelToken
+              )
+            }
+            
+            if (!keepOriginal) {
+              await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(item.path, item.name)] })
+            }
+            successCount++
+            return await totalProgress + item.size
+          } catch (error) {
+            console.error(error)
+            return await totalProgress + item.size
+          }
+      }, Promise.resolve(0))
         updateToast(toastId, {
-          title: t`Sharing complete`,
+          title: successCount === totalFileNumber 
+            ? t`Sharing complete` 
+            : t`All files could not be shared - ${successCount} files shared successfully`,
           type: "success",
           progress:  undefined,
           isClosable: true
