@@ -1,18 +1,18 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-06 20:51+0200\n"
-"Mime-Version: 1.0\n"
+"PO-Revision-Date: 2021-09-30 12:40+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
-"Language: es\n"
-"Project-Id-Version: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.9-dev\n"
+"Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
@@ -167,6 +167,18 @@ msgstr ""
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data moved to bin successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Fecha de subida"
 
@@ -254,9 +266,6 @@ msgstr ""
 "Si está utilizando una billetera de contrato, haga\n"
 "seguro que has activado tu billetera."
 
-msgid "File"
-msgstr "Archivo"
-
 msgid "File Info"
 msgstr "Información del archivo"
 
@@ -277,9 +286,6 @@ msgstr ""
 
 msgid "First name"
 msgstr "Primer Nombre"
-
-msgid "Folder"
-msgstr "Archivo"
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -710,8 +716,8 @@ msgstr "Hubo un error de autenticación."
 msgid "There was an error connecting your wallet"
 msgstr "Hubo un error al conectar su billetera"
 
-msgid "There was an error deleting this"
-msgstr "Hubo un error al eliminar esto."
+msgid "There was an error deleting your data"
+msgstr ""
 
 msgid "There was an error getting search results"
 msgstr "Se produjo un error al obtener los resultados de la búsqueda."
@@ -719,11 +725,11 @@ msgstr "Se produjo un error al obtener los resultados de la búsqueda."
 msgid "There was an error getting the preview."
 msgstr "Hubo un error al obtener la vista previa."
 
-msgid "There was an error moving this"
+msgid "There was an error moving your data"
 msgstr ""
 
-msgid "There was an error recovering this"
-msgstr "Hubo un error al recuperar esto."
+msgid "There was an error restoring your data"
+msgstr ""
 
 msgid "There was an error when setting username."
 msgstr ""
@@ -842,26 +848,11 @@ msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de se
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "deleted successfully"
-msgstr "borrado exitosamente"
-
-msgid "file"
-msgstr "archivo"
-
-msgid "folder"
-msgstr "carpeta"
-
 msgid "me"
-msgstr ""
-
-msgid "moved successfully"
 msgstr ""
 
 msgid "on"
 msgstr "en"
-
-msgid "recovered successfully"
-msgstr "recuperado con éxito"
 
 msgid "unknown"
 msgstr ""

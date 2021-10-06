@@ -6,7 +6,9 @@ import {
   getURISafePathFromArray,
   getPathWithFile,
   extractFileBrowserPathFromURL,
-  getUrlSafePathWithFile
+  getUrlSafePathWithFile,
+  getAbsolutePathsFromCids,
+  pathEndingWithSlash
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
@@ -17,7 +19,6 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 import dayjs from "dayjs"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useUser } from "../../../Contexts/UserContext"
-import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
@@ -49,10 +50,9 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       }).finally(() => showLoading && setLoadingCurrentPath(false))
   }, [bucket, filesApiClient, currentPath])
 
-  const { localStorageGet, localStorageSet } = useLocalStorage()
-  const { profile } = useUser()
+  const { profile, localStore, setLocalStore } = useUser()
 
-  const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
+  const showSurvey = localStore && localStore[DISMISSED_SURVEY_KEY] === "false"
 
   const olderThanOneWeek = useMemo(
     () => profile?.createdAt
@@ -62,11 +62,11 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   )
 
   useEffect(() => {
-    const dismissedFlag = localStorageGet(DISMISSED_SURVEY_KEY)
+    const dismissedFlag = localStore && localStore[DISMISSED_SURVEY_KEY]
     if (dismissedFlag === undefined || dismissedFlag === null) {
-      localStorageSet(DISMISSED_SURVEY_KEY, "false")
+      setLocalStore({ [DISMISSED_SURVEY_KEY]: "false" }, "update")
     }
-  }, [localStorageGet, localStorageSet])
+  }, [localStore, setLocalStore])
 
   useEffect(() => {
     refreshContents(true)
@@ -74,43 +74,28 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const moveItemsToBin = useCallback(async (cids: string[], hideToast?: boolean) => {
     if (!bucket) return
-    await Promise.all(
-      cids.map(async (cid: string) => {
-        const itemToDelete = pathContents.find((i) => i.cid === cid)
-        if (!itemToDelete) {
-          console.error("No item found to move to the trash")
-          return
-        }
 
-        try {
-          await filesApiClient.moveBucketObjects(bucket.id, {
-            paths: [getPathWithFile(currentPath, itemToDelete.name)],
-            new_path: getPathWithFile("/", itemToDelete.name),
-            destination: buckets.find(b => b.type === "trash")?.id
-          })
-          if (!hideToast) {
-            const message = `${
-              itemToDelete.isFolder ? t`Folder` : t`File`
-            } ${t`deleted successfully`}`
-            const id = addToast({
-              title: message,
-              type: "success",
-              testId: "deletion-success"
-            })
-            console.log(id)
-          }
-          return Promise.resolve()
-        } catch (error) {
-          const message = `${t`There was an error deleting this`} ${
-            itemToDelete.isFolder ? t`folder` : t`file`
-          }`
-          addToast({
-            title: message,
-            type: "error"
-          })
-          return Promise.reject()
-        }}
-      )).finally(refreshContents)
+    const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+
+    filesApiClient.moveBucketObjects(bucket.id, {
+      paths: pathsToDelete,
+      new_path: "/",
+      destination: buckets.find(b => b.type === "trash")?.id
+    }).then(() => {
+      if (!hideToast) {
+        addToast({
+          title: t`Data moved to bin successfully`,
+          type: "success",
+          testId: "deletion-success"
+        })
+      }
+    }).catch((error) => {
+      console.error("Error deleting:", error)
+      addToast({
+        title: t`There was an error deleting your data`,
+        type: "error"
+      })
+    }).finally(refreshContents)
   }, [addToast, currentPath, pathContents, refreshContents, filesApiClient, bucket, buckets])
 
   // Rename
@@ -127,33 +112,26 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
-    await Promise.all(
-      cids.map(async (cid: string) => {
-        const itemToMove = pathContents.find((i) => i.cid === cid)
-        if (!itemToMove) return
-        try {
-          await filesApiClient.moveBucketObjects(bucket.id, {
-            paths: [getPathWithFile(currentPath, itemToMove.name)],
-            new_path: getPathWithFile(newPath, itemToMove.name)
-          })
-          const message = `${
-            itemToMove.isFolder ? t`Folder` : t`File`
-          } ${t`moved successfully`}`
 
-          addToast({
-            title: message,
-            type: "success"
-          })
-        } catch (error) {
-          const message = `${t`There was an error moving this`} ${
-            itemToMove.isFolder ? t`folder` : t`file`
-          }`
-          addToast({
-            title: message,
-            type: "error"
-          })
-        }
-      })).finally(refreshContents)
+
+    const pathsToMove = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+
+    filesApiClient.moveBucketObjects(bucket.id, {
+      paths: pathsToMove,
+      new_path: pathEndingWithSlash(newPath)
+    }).then(() => {
+      addToast({
+        title: t`Data moved successfully`,
+        type: "success",
+        testId: "move-success"
+      })
+    }).catch((error) => {
+      console.error("Error moving:", error)
+      addToast({
+        title: t`There was an error moving your data`,
+        type: "error"
+      })
+    }).finally(refreshContents)
   }, [addToast, pathContents, refreshContents, filesApiClient, bucket, currentPath])
 
   const handleDownload = useCallback(async (cid: string) => {

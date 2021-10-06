@@ -9,6 +9,9 @@ import { deleteFileModal } from "../support/page-objects/modals/deleteFileModal"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { moveItemModal } from "../support/page-objects/modals/moveItemModal"
 import { recoverItemModal } from "../support/page-objects/modals/recoverItemModal"
+import { deleteSuccessToast } from "../support/page-objects/toasts/deleteSuccessToast"
+import { moveSuccessToast } from "../support/page-objects/toasts/moveSuccessToast"
+import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 
 describe("File management", () => {
 
@@ -81,6 +84,8 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
         moveItemModal.moveButton().safeClick()
+        moveSuccessToast.body().should("be.visible")
+        moveSuccessToast.closeButton().click()
 
         // ensure the home root now has the folder and file
         navigationMenu.homeNavButton().click()
@@ -174,6 +179,8 @@ describe("File management", () => {
       fileUploadModal.removeFileButton().should("have.length", 2)
       fileUploadModal.uploadButton().safeClick()
       fileUploadModal.body().should("not.exist")
+      uploadCompleteToast.body().should("be.visible")
+      uploadCompleteToast.closeButton().click()
       homePage.fileItemRow().should("have.length", 2)
     })
 
@@ -229,6 +236,8 @@ describe("File management", () => {
       deleteFileModal.body().should("be.visible")
       deleteFileModal.confirmButton().safeClick()
       deleteFileModal.body().should("not.exist")
+      deleteSuccessToast.body().should("be.visible")
+      deleteSuccessToast.closeButton().click()
       homePage.fileItemRow().should("not.exist")
 
       // confirm the deleted file is moved to the bin
@@ -267,10 +276,14 @@ describe("File management", () => {
       homePage.fileItemKebabButton().first().click()
       homePage.deleteMenuOption().click()
       deleteFileModal.confirmButton().safeClick()
+      deleteSuccessToast.body().should("be.visible")
+      deleteSuccessToast.closeButton().click()
       navigationMenu.binNavButton().click()
       binPage.fileItemKebabButton().first().click()
       binPage.deleteMenuOption().click()
       deleteFileModal.confirmButton().safeClick()
+      deleteSuccessToast.body().should("be.visible")
+      deleteSuccessToast.closeButton().click()
       binPage.fileItemRow().should("not.exist")
       navigationMenu.homeNavButton().click()
       homePage.fileItemRow().should("not.exist")
@@ -288,6 +301,8 @@ describe("File management", () => {
       deleteFileModal.body().should("be.visible")
       deleteFileModal.confirmButton().safeClick()
       deleteFileModal.body().should("not.exist")
+      deleteSuccessToast.body().should("be.visible")
+      deleteSuccessToast.closeButton().click()
       homePage.fileItemRow().should("not.exist")
 
       // confirm the deleted folder is moved to the bin
@@ -312,10 +327,14 @@ describe("File management", () => {
       homePage.fileItemKebabButton().first().click()
       homePage.deleteMenuOption().click()
       deleteFileModal.confirmButton().safeClick()
+      deleteSuccessToast.body().should("be.visible")
+      deleteSuccessToast.closeButton().click()
       navigationMenu.binNavButton().click()
       binPage.fileItemKebabButton().first().click()
       binPage.deleteMenuOption().click()
       deleteFileModal.confirmButton().safeClick()
+      deleteSuccessToast.body().should("be.visible")
+      deleteSuccessToast.closeButton().click()
       binPage.fileItemRow().should("not.exist")
       navigationMenu.homeNavButton().click()
       homePage.fileItemRow().should("not.exist")
@@ -366,12 +385,15 @@ describe("File management", () => {
       homePage.fileItemKebabButton().click()
       homePage.deleteMenuOption().click()
       deleteFileModal.confirmButton().safeClick()
-      homePage.deleteSuccessToast().should("not.exist")
+      deleteSuccessToast.body().should("be.visible")
+      deleteSuccessToast.closeButton().click()
+
       navigationMenu.binNavButton().click()
       binPage.fileItemKebabButton().click()
       binPage.deleteMenuOption().click()
       deleteFileModal.confirmButton().safeClick()
-      binPage.permanentDeleteSuccessToast().should("not.exist")
+      deleteSuccessToast.body().should("be.visible")
+      deleteSuccessToast.closeButton().click()
       navigationMenu.spaceUsedLabel().should("contain.text", "0 Bytes")
     })
 
@@ -391,7 +413,8 @@ describe("File management", () => {
       homePage.selectAllCheckbox().click()
       homePage.deleteSelectedButton().click()
       deleteFileModal.confirmButton().safeClick()
-      homePage.deleteSuccessToast().should("not.exist")
+      deleteSuccessToast.body().should("be.visible")
+      deleteSuccessToast.closeButton().click()
       homePage.fileItemRow().should("have.length", 0)
 
       // recover both of the files in the same action

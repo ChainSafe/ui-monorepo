@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-07-29 09:32+0000\n"
+"PO-Revision-Date: 2021-09-30 12:40+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/nb_NO/>\n"
 "Language: no\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7.2-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -166,6 +166,18 @@ msgstr ""
 msgid "Dark Theme"
 msgstr "Mørk drakt"
 
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data moved to bin successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Dato opplastet"
 
@@ -250,9 +262,6 @@ msgid ""
 "sure you have activated your wallet."
 msgstr ""
 
-msgid "File"
-msgstr "Fil"
-
 msgid "File Info"
 msgstr "Filinfo"
 
@@ -273,9 +282,6 @@ msgstr ""
 
 msgid "First name"
 msgstr "Fornavn"
-
-msgid "Folder"
-msgstr "Mappe"
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -706,7 +712,7 @@ msgstr ""
 msgid "There was an error connecting your wallet"
 msgstr ""
 
-msgid "There was an error deleting this"
+msgid "There was an error deleting your data"
 msgstr ""
 
 msgid "There was an error getting search results"
@@ -715,10 +721,10 @@ msgstr ""
 msgid "There was an error getting the preview."
 msgstr ""
 
-msgid "There was an error moving this"
+msgid "There was an error moving your data"
 msgstr ""
 
-msgid "There was an error recovering this"
+msgid "There was an error restoring your data"
 msgstr ""
 
 msgid "There was an error when setting username."
@@ -838,26 +844,11 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "deleted successfully"
-msgstr "slettet"
-
-msgid "file"
-msgstr "fil"
-
-msgid "folder"
-msgstr "mappe"
-
 msgid "me"
 msgstr ""
 
-msgid "moved successfully"
-msgstr "flyttet"
-
 msgid "on"
 msgstr ""
-
-msgid "recovered successfully"
-msgstr "gjenopprettet"
 
 msgid "unknown"
 msgstr ""

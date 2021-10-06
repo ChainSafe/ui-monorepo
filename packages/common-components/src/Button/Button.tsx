@@ -118,19 +118,19 @@ const useStyles = makeStyles(
         "&:hover": {
           backgroundColor: palette.primary.main,
           color: palette.common.white.main,
-          ...overrides?.Button?.variants?.secondary?.hover
+          ...overrides?.Button?.variants?.tertiary?.hover
         },
         "&:focus": {
           backgroundColor: palette.primary.main,
           color: palette.common.white.main,
-          ...overrides?.Button?.variants?.secondary?.focus
+          ...overrides?.Button?.variants?.tertiary?.focus
         },
         "&:active": {
           backgroundColor: palette.primary.main,
           color: palette.common.white.main,
-          ...overrides?.Button?.variants?.secondary?.active
+          ...overrides?.Button?.variants?.tertiary?.active
         },
-        ...overrides?.Button?.variants?.secondary?.root
+        ...overrides?.Button?.variants?.tertiary?.root
       },
       outline: {
         color: palette.additional["gray"][8],
