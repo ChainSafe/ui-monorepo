@@ -30,6 +30,7 @@ import Menu from "../../UI-components/Menu"
 
 export interface IPreviewRendererProps {
   contents: Blob
+  contentType?: string
 }
 
 const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
@@ -196,6 +197,13 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     delta: 20
   })
 
+  const validRendererMimeType = content_type &&
+    Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
+      const matcher = new MimeMatcher(type)
+
+      return matcher.match(content_type)
+    })
+
   useEffect(() => {
     let bucketId
     // Handle preview in Search where a Bucket is not available, but can be assumed to be a `CSF` bucket
@@ -205,18 +213,12 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     } else {
       bucketId = bucket.id
     }
-    getFile({ file, filePath, bucketId })
+    !!validRendererMimeType && getFile({ file, filePath, bucketId })
       .then(setFileContent)
       .catch(console.error)
-  }, [file, filePath, getFile, bucket, buckets])
+  }, [file, filePath, getFile, bucket, buckets, validRendererMimeType])
 
-  const validRendererMimeType =
-    content_type &&
-    Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
-      const matcher = new MimeMatcher(type)
 
-      return matcher.match(content_type)
-    })
 
   const PreviewComponent =
     content_type &&
@@ -389,7 +391,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
               !error &&
               compatibleFilesMatcher.match(content_type) &&
               fileContent &&
-              PreviewComponent && <PreviewComponent contents={fileContent} />}
+              PreviewComponent && <PreviewComponent contents={fileContent} contentType={content_type} />}
           </div>
         </Grid>
         {desktop && (

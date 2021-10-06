@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch"
+import heicConvert from 'heic-convert'
+
 import {
   makeStyles,
   ITheme,
@@ -41,17 +43,28 @@ const useStyles = makeStyles(
     })
 )
 
-const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
+const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }) => {
   const [imageUrl, setImageUrl] = useState<string | undefined>()
-
   useEffect(() => {
-    setImageUrl(URL.createObjectURL(contents))
+    const handleCreateImageUrl = async () => {
+      if (contentType !== 'image/heic') {
+        setImageUrl(URL.createObjectURL(contents))
+      } else {
+        const convertedImage = await heicConvert({
+          buffer: Buffer.from(await contents.arrayBuffer()),
+          format: 'PNG',
+        })
+        setImageUrl(URL.createObjectURL(new Blob([convertedImage])))
+      }
 
+    }
+
+    handleCreateImageUrl()
     return () => {
       imageUrl && URL.revokeObjectURL(imageUrl)
     }
     // eslint-disable-next-line
-  }, [contents])
+  }, [contents, contentType])
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
 
