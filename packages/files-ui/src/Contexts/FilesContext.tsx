@@ -800,7 +800,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               getRelativePath(item.path, currentPath),
               async (progressEvent) => {
                 const currentProgress = Math.ceil((((2 * previousProgress) + progressEvent.loaded + item.size) * 50) / totalFileSize)
-                console.log("currentProgress:", currentProgress)
                 updateToast(toastId, {
                   title: t`Sharing ${fileProgress} - ${item.name}`,
                   type: "success",
