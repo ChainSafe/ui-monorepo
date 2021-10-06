@@ -44,9 +44,6 @@ msgstr "Ajouter d’autres fichiers"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
-#~ msgid "All files could not be shared - {successCount} files shared successfully"
-#~ msgstr ""
-
 msgid "All files could not be {0} - {successCount} files {1} successfully"
 msgstr ""
 
@@ -353,9 +350,6 @@ msgstr "Infos"
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
-#~ msgid "Keep original file"
-#~ msgstr "Conserver le fichier original"
-
 msgid "Keep original files"
 msgstr ""
 
@@ -644,23 +638,8 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-#~ msgid "Sharing cancelled"
-#~ msgstr "Partage annulé"
-
-#~ msgid "Sharing cancelled - {successCount} files shared successfully"
-#~ msgstr ""
-
-#~ msgid "Sharing complete"
-#~ msgstr ""
-
-#~ msgid "Sharing failed"
-#~ msgstr ""
-
 msgid "Sharing files"
 msgstr ""
-
-#~ msgid "Sharing {fileProgress} - {0}"
-#~ msgstr ""
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -887,7 +866,7 @@ msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} ot
 msgid "{0} cancelled"
 msgstr ""
 
-msgid "{0} cancelled - {successCount} files shared successfully"
+msgid "{0} cancelled - {successCount} files {1} successfully"
 msgstr ""
 
 msgid "{0} complete"

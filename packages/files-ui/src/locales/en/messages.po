@@ -43,9 +43,6 @@ msgstr "Add more files"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 
-#~ msgid "All files could not be shared - {successCount} files shared successfully"
-#~ msgstr "All files could not be shared - {successCount} files shared successfully"
-
 msgid "All files could not be {0} - {successCount} files {1} successfully"
 msgstr "All files could not be {0} - {successCount} files {1} successfully"
 
@@ -352,9 +349,6 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
 
-#~ msgid "Keep original file"
-#~ msgstr "Keep original file"
-
 msgid "Keep original files"
 msgstr "Keep original files"
 
@@ -643,23 +637,8 @@ msgstr "Shared folders"
 msgid "Shared with"
 msgstr "Shared with"
 
-#~ msgid "Sharing cancelled"
-#~ msgstr "Sharing cancelled"
-
-#~ msgid "Sharing cancelled - {successCount} files shared successfully"
-#~ msgstr "Sharing cancelled - {successCount} files shared successfully"
-
-#~ msgid "Sharing complete"
-#~ msgstr "Sharing complete"
-
-#~ msgid "Sharing failed"
-#~ msgstr "Sharing failed"
-
 msgid "Sharing files"
 msgstr "Sharing files"
-
-#~ msgid "Sharing {fileProgress} - {0}"
-#~ msgstr "Sharing {fileProgress} - {0}"
 
 msgid "Sign Out"
 msgstr "Sign Out"
@@ -886,8 +865,8 @@ msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about
 msgid "{0} cancelled"
 msgstr "{0} cancelled"
 
-msgid "{0} cancelled - {successCount} files shared successfully"
-msgstr "{0} cancelled - {successCount} files shared successfully"
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr "{0} cancelled - {successCount} files {1} successfully"
 
 msgid "{0} complete"
 msgstr "{0} complete"

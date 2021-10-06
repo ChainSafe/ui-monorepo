@@ -43,9 +43,6 @@ msgstr "Legg til flere filer"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
-#~ msgid "All files could not be shared - {successCount} files shared successfully"
-#~ msgstr ""
-
 msgid "All files could not be {0} - {successCount} files {1} successfully"
 msgstr ""
 
@@ -349,9 +346,6 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
-#~ msgid "Keep original file"
-#~ msgstr ""
-
 msgid "Keep original files"
 msgstr ""
 
@@ -640,23 +634,8 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-#~ msgid "Sharing cancelled"
-#~ msgstr ""
-
-#~ msgid "Sharing cancelled - {successCount} files shared successfully"
-#~ msgstr ""
-
-#~ msgid "Sharing complete"
-#~ msgstr ""
-
-#~ msgid "Sharing failed"
-#~ msgstr ""
-
 msgid "Sharing files"
 msgstr ""
-
-#~ msgid "Sharing {fileProgress} - {0}"
-#~ msgstr ""
 
 msgid "Sign Out"
 msgstr "Logg ut"
@@ -883,7 +862,7 @@ msgstr ""
 msgid "{0} cancelled"
 msgstr ""
 
-msgid "{0} cancelled - {successCount} files shared successfully"
+msgid "{0} cancelled - {successCount} files {1} successfully"
 msgstr ""
 
 msgid "{0} complete"
