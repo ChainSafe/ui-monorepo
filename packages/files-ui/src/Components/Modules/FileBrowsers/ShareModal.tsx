@@ -283,7 +283,7 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
       return
     }
 
-    transferFileBetweenBuckets(bucket.id, fileSystemItems, currentPath, bucketToUpload, keepOriginalFile)
+    transferFileBetweenBuckets(bucket, fileSystemItems, currentPath, bucketToUpload, keepOriginalFile)
     close()
   }, [
     bucket,
@@ -427,7 +427,7 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
               <CheckboxInput
                 value={keepOriginalFile}
                 onChange={() => setKeepOriginalFile(!keepOriginalFile)}
-                label={t`Keep original file`}
+                label={t`Keep original files`}
               />
             </div>
           )}

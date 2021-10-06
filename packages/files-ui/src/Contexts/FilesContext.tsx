@@ -80,7 +80,7 @@ type FilesContext = {
     readers?: UpdateSharedFolderUser[]
   ) => Promise<void>
   transferFileBetweenBuckets: (
-    sourceBucketId: string,
+    sourceBucket: BucketKeyPermission,
     sourceItems: FileSystemItem[],
     currentPath: string,
     destinationBucket: BucketKeyPermission,
@@ -748,19 +748,22 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }, [publicKey, getUsersWithEncryptionKey, filesApiClient, refreshBuckets])
 
   const transferFileBetweenBuckets = useCallback(async (
-    sourceBucketId: string,
+    sourceBucket: BucketKeyPermission,
     sourceItems: FileSystemItem[],
     currentPath: string,
     destinationBucket: BucketKeyPermission,
     keepOriginal = true
   ) => {
-    getFileList(sourceItems, currentPath, sourceBucketId).then(async (allItems) => {
+    getFileList(sourceItems, currentPath, sourceBucket.id).then(async (allItems) => {
       setTransfersInProgress(true)
+      const inSharedBucket = sourceBucket.type === "share"
       const cancelSource = axios.CancelToken.source()
       const cancelToken = cancelSource.token
 
       const toastParams: ToastParams = {
-        title: t`Sharing files`,
+        title: inSharedBucket 
+          ? t`Copying files`
+          : t`Sharing files`,
         type: "success",
         progress: 0,
         onProgressCancel: cancelSource.cancel,
@@ -773,10 +776,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
       try {
         await allItems.reduce(async (totalProgress: Promise<number>, item, i) => {
+          const previousProgress = await totalProgress
+          const fileProgress = `${i + 1}/${totalFileNumber}`
           try {
-            const fileProgress = `${i + 1}/${totalFileNumber}`
-            const previousProgress = await totalProgress
-            const file = await getFileContent(sourceBucketId, {
+            const file = await getFileContent(sourceBucket.id, {
               cid: item.cid,
               file: item,
               path: getPathWithFile(item.path, item.name),
@@ -785,7 +788,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
                 const currentProgress = Math.ceil((((2 * previousProgress) + progressEvent.loaded) * 50) / totalFileSize)
                 updateToast(toastId, {
                   ...toastParams,
-                  title: t`Sharing ${fileProgress} - ${item.name}`,
+                  title: t`${inSharedBucket ? "Copying" : "Sharing"} ${fileProgress} - ${item.name}`,
                   progress: currentProgress
                 })
               }
@@ -799,7 +802,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
                 async (progressEvent) => {
                   const currentProgress = Math.ceil((((2 * previousProgress) + progressEvent.loaded + item.size) * 50) / totalFileSize)
                   updateToast(toastId, {
-                    title: t`Sharing ${fileProgress} - ${item.name}`,
+                    title: t`${inSharedBucket ? "Copying" : "Sharing"} ${fileProgress} - ${item.name}`,
                     type: "success",
                     progress: currentProgress
                   })
@@ -809,19 +812,24 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             }
             
             if (!keepOriginal) {
-              await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(item.path, item.name)] })
+              await filesApiClient.removeBucketObject(sourceBucket.id, { paths: [getPathWithFile(item.path, item.name)] })
             }
             successCount++
-            return await totalProgress + item.size
+            return previousProgress + item.size
           } catch (error) {
             console.error(error)
-            return await totalProgress + item.size
+            return previousProgress + item.size
           }
-      }, Promise.resolve(0))
+        }, Promise.resolve(0))
+
         updateToast(toastId, {
           title: successCount === totalFileNumber 
-            ? t`Sharing complete` 
-            : t`All files could not be shared - ${successCount} files shared successfully`,
+            ? t`${inSharedBucket ? "Copying" : "Sharing"} complete` 
+            : successCount
+              ? t`All files could not be ${
+                  inSharedBucket ? "copied" : "shared"
+                } - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
+              : t`${inSharedBucket ? "Copying" : "Sharing"} failed`,
           type: "success",
           progress:  undefined,
           isClosable: true
@@ -833,12 +841,16 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         console.error(error)
         setTransfersInProgress(false)
         let errorMessage = successCount
-          ? t`All files could not be shared - ${successCount} files shared successfully`
-          : t`Sharing failed`
+          ? t`All files could not be ${
+              inSharedBucket ? "copied" : "shared"
+            } - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
+          : t`${inSharedBucket ? "Copying" : "Sharing"} failed`
         if (axios.isCancel(error)) {
           errorMessage = successCount
-            ? t`Sharing cancelled - ${successCount} files shared successfully`
-            : t`Sharing cancelled`
+            ? t`${
+                inSharedBucket ? "Copying" : "Sharing"
+              } cancelled - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
+            : t`${inSharedBucket ? "Copying" : "Sharing"} cancelled`
         }
         updateToast(toastId, {
           title: errorMessage,
