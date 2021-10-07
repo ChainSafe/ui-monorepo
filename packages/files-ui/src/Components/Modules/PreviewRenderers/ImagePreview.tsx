@@ -46,20 +46,18 @@ const useStyles = makeStyles(
 const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }) => {
   const [imageUrl, setImageUrl] = useState<string | undefined>()
   useEffect(() => {
-    const handleCreateImageUrl = async () => {
-      if (contentType !== "image/heic") {
-        setImageUrl(URL.createObjectURL(contents))
-      } else {
-        const convertedImage = await heicConvert({
-          buffer: Buffer.from(await contents.arrayBuffer()),
+    if (contentType !== "image/heic") {
+      setImageUrl(URL.createObjectURL(contents))
+    } else {
+      contents.arrayBuffer()
+        .then(b => heicConvert({
+          buffer: Buffer.from(b),
           format: "PNG"
-        })
-        setImageUrl(URL.createObjectURL(new Blob([convertedImage])))
-      }
-
+        }))
+        .catch(console.error)
+        .then(c => setImageUrl(URL.createObjectURL(new Blob([c]))))
     }
 
-    handleCreateImageUrl()
     return () => {
       imageUrl && URL.revokeObjectURL(imageUrl)
     }
