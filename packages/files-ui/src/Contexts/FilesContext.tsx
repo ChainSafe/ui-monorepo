@@ -837,9 +837,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           title: successCount === totalFileNumber 
             ? t`${inSharedBucket ? "Copying" : "Sharing"} complete` 
             : successCount
-              ? t`All files could not be ${
-                  inSharedBucket ? "copied" : "shared"
-                } - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
+              ? t`${successCount} files transferred successfully, ${totalFileNumber - successCount} failed`
               : t`${inSharedBucket ? "Copying" : "Sharing"} failed`,
           type: "success",
           progress:  undefined,
@@ -852,9 +850,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         console.error(error)
         setTransfersInProgress(false)
         let errorMessage = successCount
-          ? t`All files could not be ${
-              inSharedBucket ? "copied" : "shared"
-            } - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
+          ? t`${successCount} files transferred successfully, ${totalFileNumber - successCount} failed`
           : t`${inSharedBucket ? "Copying" : "Sharing"} failed`
         if (axios.isCancel(error)) {
           errorMessage = successCount

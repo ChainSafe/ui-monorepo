@@ -43,8 +43,8 @@ msgstr "Legg til flere filer"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
-msgid "All files could not be {0} - {successCount} files {1} successfully"
-msgstr ""
+#~ msgid "All files could not be {0} - {successCount} files {1} successfully"
+#~ msgstr ""
 
 msgid "An error occurred:"
 msgstr ""
@@ -422,6 +422,12 @@ msgid "Nice to see you again!"
 msgstr ""
 
 msgid "No file to download."
+msgstr ""
+
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
 msgstr ""
 
 msgid "No files to show"
@@ -873,3 +879,9 @@ msgstr ""
 
 msgid "{0} {fileProgress} - {1}"
 msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
+msgstr ""
+
+#~ msgid "{successCount} files {0} transferred successfully, {1} failed"
+#~ msgstr ""
