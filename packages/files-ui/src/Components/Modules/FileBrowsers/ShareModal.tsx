@@ -198,7 +198,6 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const { profile } = useUser()
   const [nameError, setNameError] = useState("")
   const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
-
   const isReader = useMemo(() => {
     if (!bucket) return false
 
