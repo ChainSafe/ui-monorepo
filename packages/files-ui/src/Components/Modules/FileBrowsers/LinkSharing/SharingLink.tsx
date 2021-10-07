@@ -82,7 +82,7 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
       return
     }
 
-    setLink(ROUTE_LINKS.SharingLink(nonce.permission, jwt, bucketEncryptionKey))
+    setLink(`${window.location.origin}${ROUTE_LINKS.SharingLink(nonce.permission, jwt, bucketEncryptionKey)}`)
   }, [jwt, bucketEncryptionKey, nonce])
 
 
