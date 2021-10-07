@@ -44,9 +44,6 @@ msgstr "Ajouter d’autres fichiers"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
-#~ msgid "All files could not be {0} - {successCount} files {1} successfully"
-#~ msgstr ""
-
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
@@ -886,6 +883,3 @@ msgstr ""
 
 msgid "{successCount} files transferred successfully, {0} failed"
 msgstr ""
-
-#~ msgid "{successCount} files {0} transferred successfully, {1} failed"
-#~ msgstr ""
