@@ -760,6 +760,19 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       const cancelSource = axios.CancelToken.source()
       const cancelToken = cancelSource.token
 
+      const totalFileSize = allItems.reduce((sum, item) => sum + item.size, 0)
+      const totalFileNumber = allItems.length
+
+      if (!totalFileNumber) {
+        addToast({
+          title: inSharedBucket 
+            ? t`No files to copy`
+            : t`No files to share`,
+          type: "error",
+        })
+        return
+      }
+      
       const toastParams: ToastParams = {
         title: inSharedBucket 
           ? t`Copying files`
@@ -770,8 +783,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         isClosable: false
       }
       const toastId = addToast(toastParams)
-      const totalFileSize = allItems.reduce((sum, item) => sum + item.size, 0)
-      const totalFileNumber = allItems.length
       let successCount = 0
 
       try {
