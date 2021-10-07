@@ -12,6 +12,8 @@ import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
+import LinkList from "./LinkSharing/LinkList"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -102,6 +104,9 @@ const useStyles = makeStyles(
       errorText: {
         marginLeft: constants.generalUnit * 1.5,
         color: palette.error.main
+      },
+      sharingLink: {
+        padding: 10
       }
     })
   }
@@ -185,6 +190,8 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
       .catch(console.error)
       .finally(handleClose)
   }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
+
+  if (!bucketToEdit) return null
 
   return (
     <CustomModal
@@ -275,6 +282,17 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             noOptionsMessage={t`No user found for this query.`}
           />
         </div>
+        {mode === "edit"  && (
+          <div className={clsx(classes.modalFlexItem, classes.sharingLink)}>
+            <Typography className={classes.inputLabel}>
+              <Trans>Sharing link</Trans>
+            </Typography>
+            <LinkList
+              bucketEncryptionKey={bucketToEdit.encryptionKey}
+              bucketId={bucketToEdit.id}
+            />
+          </div>
+        )}
         <Grid
           item
           flexDirection="row"

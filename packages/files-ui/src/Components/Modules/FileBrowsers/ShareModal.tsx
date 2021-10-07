@@ -14,11 +14,6 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
-import { useFilesApi } from "../../../Contexts/FilesApiContext"
-import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import { KJUR } from "jsrsasign"
-import keyEncoder from "key-encoder"
-import { NonceResponse } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -203,9 +198,6 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const { profile } = useUser()
   const [nameError, setNameError] = useState("")
   const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
-  const { filesApiClient } = useFilesApi()
-  const { privateKey } = useThresholdKey()
-  const [nonces, setNonces] = useState<NonceResponse[]>([])
 
   const isReader = useMemo(() => {
     if (!bucket) return false
@@ -310,87 +302,6 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
     transferFileBetweenBuckets
   ])
 
-  useEffect(() => {
-    filesApiClient.getAllNonces().then(setNonces).catch(console.error)
-  }, [filesApiClient])
-
-  const onCreateNonce = useCallback(() => {
-    if(!bucket || bucket.type === "csf") {
-      console.log("no current bucket, or it's your home, which you can't share...")
-      return
-    }
-
-    filesApiClient
-      .createNonce({ bucket_id: bucket.id, permission: "read" })
-      // dirty hack
-      .then((n) => setNonces([n]))
-      .catch(console.error)
-  }, [bucket, filesApiClient])
-
-  const onCreateJWT = useCallback(async () => {
-    if(!privateKey) {
-      console.log("no private key found")
-      return
-    }
-
-    if(!nonces.length) {
-      console.log("no nonce created")
-      return
-    }
-
-    if(!bucket || bucket.type === "csf") {
-      console.log("no current bucket, or it's your home, which you can't share...")
-      return
-    }
-
-    const ke = new keyEncoder("secp256k1")
-    const pem = ke.encodePrivate(privateKey, "raw", "pem")
-
-    // Header
-    const header = { alg: "ES256", typ: "JWT" }
-    // Payload
-    const payload = {
-      type: "link_sharing",
-      permission: nonces[0].permission,
-      // oPayload.nbf = tNow,
-      iat:  KJUR.jws.IntDate.get("now"),
-      // oPayload.exp = tEnd,
-      bucket_id: bucket.id,
-      nonce_id: nonces[0].id
-    }
-    // const tNow = KJUR.jws.IntDate.get("now")
-    // const tEnd = KJUR.jws.IntDate.get("now + 1day")
-    // oPayload.type = "link_sharing"
-    // oPayload.permission = nonces[0].permission
-    // // oPayload.nbf = tNow
-    // // oPayload.iat = tNow
-    // // oPayload.exp = tEnd
-    // oPayload.bucket_id = bucket.id
-    // oPayload.nonce_id = nonces[0].id
-    const sHeader = JSON.stringify(header)
-    const sPayload = JSON.stringify(payload)
-
-    const sJWT = KJUR.jws.JWS.sign("ES256", sHeader, sPayload, pem)
-    console.log("sJWT", sJWT)
-  }, [bucket, nonces, privateKey])
-
-  const onVerifyJWT = useCallback(() => {
-    if(!bucket || bucket.type === "csf") {
-      console.log("no current bucket, or it's your home, which you can't share...")
-      return
-    }
-
-    filesApiClient
-      .verifyNonce({
-        // eslint-disable-next-line max-len
-        jwt: "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoibGlua19zaGFyaW5nIiwicGVybWlzc2lvbiI6InJlYWQiLCJpYXQiOjE2MzMzNjM1MjksImJ1Y2tldF9pZCI6ImU1YTk3ODJkLTI1ZTUtNDM4NS05NTcwLTlkYTJlZTZkNDY2MiIsIm5vbmNlX2lkIjoiNTkxYTZmNzEtZjQ5Yi00Mzg2LThlMTYtOTRiY2JiMDAyYWNmIn0.SC_0SzGEihJYJZKZT3AqrOiWEn5NXAJaI3446CgaNC-ZSAB3p3OpJIWe56_TjclKD9db-wvWBFkh1coVtI26xw",
-        encryption_key: "someEncryptedEncryptionKey"
-      })
-      // dirty hack
-      .then(console.log)
-      .catch(console.error)
-  }, [bucket, filesApiClient])
-
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -412,11 +323,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
             }
           </Typography>
         </div>
-
         <div className={classes.modalFlexItem}>
-          <button onClick={onCreateNonce}>Create nonce</button>
-          <button onClick={onCreateJWT}>Create JWT</button>
-          <button onClick={onVerifyJWT}>verify hardcoded JWT</button>
           {isUsingCurrentBucket
             ? (
               <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
