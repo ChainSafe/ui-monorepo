@@ -72,9 +72,11 @@ describe("File Preview", () => {
         homePage.fileItemName().dblclick()
         previewModal.unsupportedFileLabel().should("exist")
         previewModal.downloadUnsupportedFileButton().should("be.visible")
-
+        // ensure that the file download does not start until the download button is clicked
+        cy.get("@downloadRequest").should('be.null')
+        previewModal.downloadUnsupportedFileButton().click()
         // ensure the download request contains the correct file
-        cy.get("@downloadRequest").its("request.body").should("contain", {
+        cy.get("@downloadRequest").should('not.be.null').its("request.body").should("contain", {
           path: "/file.zip"
         })
       })
