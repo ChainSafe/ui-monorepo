@@ -1,9 +1,13 @@
-import * as React from "react"
+import  React, { ReactNode, useCallback, useEffect } from "react"
 // import { useFilesApi } from "./FilesApiContext"
 import axios, { AxiosResponse } from "axios"
+import { CurrentSubscription } from "@chainsafe/files-api-client"
+import { useFilesApi } from "./FilesApiContext"
+import { useState } from "react"
+import { t } from "@lingui/macro"
 
 type BillingContextProps = {
-  children: React.ReactNode | React.ReactNode[]
+  children: ReactNode | ReactNode[]
 }
 
 interface IBillingContext {
@@ -12,6 +16,26 @@ interface IBillingContext {
     card: ICard,
     stripePk: string,
   ): Promise<AxiosResponse<IStripeResponse>>
+  currentSubscription: CurrentSubscription | undefined
+  fetchCurrentSubscription: () => void
+}
+
+const ProductMapping: {[key: string]: {
+  name: string
+  description: string
+}} = {
+  prod_JwRu6Ph25b1f2O: {
+    name: t`Free plan`,
+    description: t`This is the free product.`
+  },
+  prod_JwS49Qfnr6vD3K: {
+    name: t`Standard plan`,
+    description: t`Standard plan`
+  },
+  prod_JwSGHB8qFx7rRM: {
+    name: t`Premium plan`,
+    description: t`Premium plan`
+  }
 }
 
 const BillingContext = React.createContext<IBillingContext | undefined>(
@@ -31,7 +55,8 @@ interface IStripeResponse {
 }
 
 const BillingProvider = ({ children }: BillingContextProps) => {
-  // const { filesApiClient } = useFilesApi()
+  const { filesApiClient, isLoggedIn } = useFilesApi()
+  const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
 
   const addCard = async (
   //cardToken: string
@@ -62,11 +87,33 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     })
   }
 
+  const fetchCurrentSubscription = useCallback(() => {
+    filesApiClient.getCurrentSubscription()
+      .then((subscription) => {
+        subscription.product.name = ProductMapping[subscription.product.id].name
+        subscription.product.description = ProductMapping[subscription.product.id].description
+        setCurrentSubscription(subscription)
+      })
+      .catch((error: any) => {
+        console.error(error)
+      })
+  }, [filesApiClient])
+
+  useEffect(() => {
+    if (isLoggedIn && !currentSubscription) {
+      fetchCurrentSubscription()
+    } else if (!isLoggedIn) {
+      setCurrentSubscription(undefined)
+    }
+  }, [isLoggedIn, fetchCurrentSubscription, currentSubscription])
+
   return (
     <BillingContext.Provider
       value={{
         addCard,
-        getCardTokenFromStripe
+        getCardTokenFromStripe,
+        currentSubscription,
+        fetchCurrentSubscription
       }}
     >
       {children}

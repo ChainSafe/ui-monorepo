@@ -11,9 +11,7 @@ import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { useFiles } from "../../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
 import clsx from "clsx"
-import { useFilesApi } from "../../../../Contexts/FilesApiContext"
-import { useEffect } from "react"
-import { useUser } from "../../../../Contexts/UserContext"
+import { useBilling } from "../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
@@ -48,7 +46,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
     },
     link: {
       display: "block",
-      width: `calc(50% - ${constants.generalUnit}px)`,
+      width: "100%",
       textDecoration: "none"
     }
   })
@@ -61,20 +59,7 @@ interface ISubscriptionWidget {
 const SubscriptionWidget = ({ className }: ISubscriptionWidget) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
-  const { filesApiClient } = useFilesApi()
-  const { profile } = useUser()
-
-  useEffect(() => {
-    const test = async () => {
-      try {
-        const returnData = await filesApiClient.getCurrentSubscription()
-        console.log(returnData)
-      } catch (error: any) {
-        console.error(error)
-      }
-    }
-    test()
-  }, [filesApiClient, profile])
+  const { currentSubscription } = useBilling()
 
   return (<section className={clsx(classes.root, className)}>
     <Typography
@@ -87,7 +72,9 @@ const SubscriptionWidget = ({ className }: ISubscriptionWidget) => {
       variant="h5"
       component="h5"
     >
-      <Trans>Basic - Free</Trans>
+      {
+        currentSubscription?.product.name
+      }
     </Typography>
     {storageSummary &&
       <div className={classes.spaceUsedBox}>
@@ -116,17 +103,6 @@ const SubscriptionWidget = ({ className }: ISubscriptionWidget) => {
           variant="primary"
         >
             Change Plan
-        </Button>
-      </Link>
-      <Link
-        className={classes.link}
-        to={ROUTE_LINKS.PurchasePlan}
-      >
-        <Button
-          fullsize
-          variant="secondary"
-        >
-            Cancel Plan
         </Button>
       </Link>
     </div>
