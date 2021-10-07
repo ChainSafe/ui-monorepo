@@ -137,6 +137,9 @@ msgstr "Copier le fichier"
 msgid "Copy info"
 msgstr "Copier les infos"
 
+msgid "Copy link"
+msgstr ""
+
 msgid "Copy over"
 msgstr "Copier"
 
@@ -160,6 +163,9 @@ msgstr "Créer un nouveau dossier partagé"
 
 msgid "Create folder"
 msgstr "Créer un dossier"
+
+msgid "Create new link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
@@ -638,6 +644,9 @@ msgstr "Partagé avec"
 msgid "Sharing cancelled"
 msgstr "Partage annulé"
 
+msgid "Sharing link"
+msgstr ""
+
 msgid "Sharing your file (Downloading)"
 msgstr "Partager votre fichier (Téléchargement)"
 
@@ -848,14 +857,23 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
 
+msgid "edit rights"
+msgstr ""
+
 msgid "me"
 msgstr "moi"
 
 msgid "on"
 msgstr "le"
 
+msgid "read rights"
+msgstr ""
+
 msgid "unknown"
 msgstr "inconnu"
+
+msgid "with"
+msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargement de {2} fichiers}}"

@@ -136,6 +136,9 @@ msgstr ""
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy link"
+msgstr ""
+
 msgid "Copy over"
 msgstr ""
 
@@ -159,6 +162,9 @@ msgstr ""
 
 msgid "Create folder"
 msgstr "Opprett mappe"
+
+msgid "Create new link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
@@ -634,6 +640,9 @@ msgstr ""
 msgid "Sharing cancelled"
 msgstr ""
 
+msgid "Sharing link"
+msgstr ""
+
 msgid "Sharing your file (Downloading)"
 msgstr ""
 
@@ -844,13 +853,22 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
+msgid "edit rights"
+msgstr ""
+
 msgid "me"
 msgstr ""
 
 msgid "on"
 msgstr ""
 
+msgid "read rights"
+msgstr ""
+
 msgid "unknown"
+msgstr ""
+
+msgid "with"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
