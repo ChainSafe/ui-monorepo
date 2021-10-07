@@ -76,7 +76,7 @@ describe("File Preview", () => {
         cy.get("@downloadRequest").should('be.null')
         previewModal.downloadUnsupportedFileButton().click()
         // ensure the download request contains the correct file
-        cy.get("@downloadRequest").should('not.be.null').its("request.body").should("contain", {
+        cy.get("@downloadRequest").its("request.body").should("contain", {
           path: "/file.zip"
         })
       })
