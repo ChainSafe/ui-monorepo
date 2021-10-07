@@ -3,10 +3,11 @@ import { Button, DeleteSvg, Typography } from "@chainsafe/common-components"
 import { createStyles, debounce, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponse } from "@chainsafe/files-api-client"
 import { Trans } from "@lingui/macro"
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../../../Themes/types"
+import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { editMenu, readMenu } from "./LinkList"
 
 const useStyles = makeStyles(
@@ -64,7 +65,6 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
   const [jwt, setJwt] = useState("")
   const { createJWT } = useThresholdKey()
   const [copied, setCopied] = useState(false)
-  const linkPermission = useMemo(() => nonce.permission === "read" ? "read" : "edit", [nonce.permission])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -82,9 +82,8 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
       return
     }
 
-    // eslint-disable-next-line max-len
-    setLink(`${window.location.origin}/sharing-link/${linkPermission}/${encodeURIComponent(jwt)}#${encodeURIComponent(bucketEncryptionKey)}`)
-  }, [jwt, bucketEncryptionKey, linkPermission])
+    setLink(ROUTE_LINKS.SharingLink(nonce.permission, jwt, bucketEncryptionKey))
+  }, [jwt, bucketEncryptionKey, nonce])
 
 
 

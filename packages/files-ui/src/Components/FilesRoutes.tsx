@@ -10,6 +10,7 @@ import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
+import { NonceResponsePermission } from "@chainsafe/files-api-client"
 
 export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
@@ -27,6 +28,9 @@ export const ROUTE_LINKS = {
   UserSurvey: "https://calendly.com/colinschwarz/chainsafe-files-chat",
   SharedFolders: "/shared-overview",
   SharedFolderBrowserRoot: "/shared",
+  SharingLink: (permission: NonceResponsePermission, jwt: string, bucketEncryptionKey: string) =>
+    // eslint-disable-next-line max-len
+    `${window.location.origin}/sharing-link/${permissionPath(permission)}/${encodeURIComponent(jwt)}#${encodeURIComponent(bucketEncryptionKey)}`,
   SharedFolderExplorer: (bucketId: string, rawCurrentPath: string) => {
     // bucketId should not have a / at the end
     // rawCurrentPath can be empty, or /
@@ -37,6 +41,7 @@ export const ROUTE_LINKS = {
   TeamSignup: "https://shrl.ink/cgQy"
 }
 
+export const permissionPath = (permission: NonceResponsePermission) => permission === "read" ? "read" : "edit"
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
