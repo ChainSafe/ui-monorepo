@@ -27,6 +27,7 @@ import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 import { useGetFile } from "./FileBrowsers/hooks/useGetFile"
 import { useMemo } from "react"
 import Menu from "../../UI-components/Menu"
+import {getPathWithFile} from "../../Utils/pathUtils"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -213,7 +214,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     } else {
       bucketId = bucket.id
     }
-    !!previewRendererKey && getFile({ file, filePath, bucketId })
+    !!previewRendererKey && getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
       .then(setFileContent)
       .catch(console.error)
   }, [file, filePath, getFile, bucket, buckets, previewRendererKey])

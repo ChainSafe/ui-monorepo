@@ -84,7 +84,7 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   const getPath = useCallback((cid: string): string => {
     const searchEntry = getSearchEntry(cid)
     // Set like this as look ups should always be using available cids
-    return searchEntry ? searchEntry.path : ""
+    return searchEntry ? searchEntry.path.replace(searchEntry.content.name, '') : ""
   }, [getSearchEntry])
 
   const pathContents: FileSystemItem[] = useMemo(() =>

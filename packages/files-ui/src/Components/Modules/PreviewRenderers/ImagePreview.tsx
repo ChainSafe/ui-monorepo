@@ -13,7 +13,8 @@ import {
   Button,
   ZoomInIcon,
   ZoomOutIcon,
-  FullscreenIcon
+  FullscreenIcon,
+  Loading
 } from "@chainsafe/common-components"
 
 const useStyles = makeStyles(
@@ -45,10 +46,13 @@ const useStyles = makeStyles(
 
 const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }) => {
   const [imageUrl, setImageUrl] = useState<string | undefined>()
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     if (contentType !== "image/heic") {
       setImageUrl(URL.createObjectURL(contents))
     } else {
+      setLoading(true)
       contents.arrayBuffer()
         .then(b => heicConvert({
           buffer: Buffer.from(b),
@@ -56,6 +60,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
         }))
         .catch(console.error)
         .then(c => setImageUrl(URL.createObjectURL(new Blob([c]))))
+        .finally(() => setLoading(false))
     }
 
     return () => {
@@ -102,13 +107,18 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
                   </Button>
                 </div>
               )}
-              <TransformComponent>
-                <img
-                  src={imageUrl}
-                  alt=""
-                  className={classes.root}
+              {loading
+                ? <Loading
+                  size={50}
+                  type='primary'                  
                 />
-              </TransformComponent>
+                : <TransformComponent>
+                  <img
+                    src={imageUrl}
+                    alt=""
+                    className={classes.root}
+                  />
+                </TransformComponent>}
             </>
           )
         }

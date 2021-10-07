@@ -43,7 +43,6 @@ import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
 import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
-import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
@@ -1072,7 +1071,7 @@ const FilesList = ({ isShared = false }: Props) => {
           closePreview={closePreview}
           nextFile={fileIndex < files.length - 1 ? setNextPreview : undefined}
           previousFile={fileIndex > 0 ? setPreviousPreview : undefined}
-          filePath={isSearch && getPath ? getPath(files[fileIndex].cid) : getPathWithFile(currentPath, files[fileIndex].name)}
+          filePath={isSearch && getPath ? getPath(files[fileIndex].cid) : currentPath}
         />
       )}
       { filePath && isReportFileModalOpen &&
