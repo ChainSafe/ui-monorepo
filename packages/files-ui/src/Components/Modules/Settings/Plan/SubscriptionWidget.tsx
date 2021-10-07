@@ -13,6 +13,7 @@ import { Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useEffect } from "react"
+import { useUser } from "../../../../Contexts/UserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
@@ -61,14 +62,19 @@ const SubscriptionWidget = ({ className }: ISubscriptionWidget) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
   const { filesApiClient } = useFilesApi()
+  const { profile } = useUser()
 
   useEffect(() => {
     const test = async () => {
-      // const returnData = await filesApiClient.()
-      // console.log(returnData)
+      try {
+        const returnData = await filesApiClient.getCurrentSubscription()
+        console.log(returnData)
+      } catch (error: any) {
+        console.error(error)
+      }
     }
     test()
-  }, [filesApiClient])
+  }, [filesApiClient, profile])
 
   return (<section className={clsx(classes.root, className)}>
     <Typography
