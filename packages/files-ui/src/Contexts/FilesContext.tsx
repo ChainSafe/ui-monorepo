@@ -765,16 +765,16 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
       if (!totalFileNumber) {
         addToast({
-          title: inSharedBucket 
+          title: inSharedBucket
             ? t`No files to copy`
             : t`No files to share`,
-          type: "error",
+          type: "error"
         })
         return
       }
-      
+
       const toastParams: ToastParams = {
-        title: inSharedBucket 
+        title: inSharedBucket
           ? t`Copying files`
           : t`Sharing files`,
         type: "success",
@@ -821,7 +821,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
                 cancelToken
               )
             }
-            
+
             if (!keepOriginal) {
               await filesApiClient.removeBucketObject(sourceBucket.id, { paths: [getPathWithFile(item.path, item.name)] })
             }
@@ -834,8 +834,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         }, Promise.resolve(0))
 
         updateToast(toastId, {
-          title: successCount === totalFileNumber 
-            ? t`${inSharedBucket ? "Copying" : "Sharing"} complete` 
+          title: successCount === totalFileNumber
+            ? t`${inSharedBucket ? "Copying" : "Sharing"} complete`
             : successCount
               ? t`${successCount} files transferred successfully, ${totalFileNumber - successCount} failed`
               : t`${inSharedBucket ? "Copying" : "Sharing"} failed`,
@@ -855,8 +855,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         if (axios.isCancel(error)) {
           errorMessage = successCount
             ? t`${
-                inSharedBucket ? "Copying" : "Sharing"
-              } cancelled - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
+              inSharedBucket ? "Copying" : "Sharing"
+            } cancelled - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
             : t`${inSharedBucket ? "Copying" : "Sharing"} cancelled`
         }
         updateToast(toastId, {
