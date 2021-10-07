@@ -424,6 +424,12 @@ msgstr ""
 msgid "No file to download."
 msgstr ""
 
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
+
 msgid "No files to show"
 msgstr "Ingen filer å vise"
 

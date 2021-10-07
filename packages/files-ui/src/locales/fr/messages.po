@@ -428,6 +428,12 @@ msgstr "Ravi de te revoir !"
 msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
 
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
+
 msgid "No files to show"
 msgstr "Aucun fichier à afficher"
 

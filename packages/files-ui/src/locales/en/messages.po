@@ -427,6 +427,12 @@ msgstr "Nice to see you again!"
 msgid "No file to download."
 msgstr "No file to download."
 
+msgid "No files to copy"
+msgstr "No files to copy"
+
+msgid "No files to share"
+msgstr "No files to share"
+
 msgid "No files to show"
 msgstr "No files to show"
 
