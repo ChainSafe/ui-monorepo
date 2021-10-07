@@ -197,7 +197,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     delta: 20
   })
 
-  const validRendererMimeType = useMemo(() => content_type &&
+  const previewRendererKey = useMemo(() => content_type &&
     Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
       const matcher = new MimeMatcher(type)
 
@@ -213,18 +213,18 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     } else {
       bucketId = bucket.id
     }
-    !!validRendererMimeType && getFile({ file, filePath, bucketId })
+    !!previewRendererKey && getFile({ file, filePath, bucketId })
       .then(setFileContent)
       .catch(console.error)
-  }, [file, filePath, getFile, bucket, buckets, validRendererMimeType])
+  }, [file, filePath, getFile, bucket, buckets, previewRendererKey])
 
 
 
   const PreviewComponent =
     content_type &&
     fileContent &&
-    validRendererMimeType &&
-    SUPPORTED_FILE_TYPES[validRendererMimeType]
+    previewRendererKey &&
+    SUPPORTED_FILE_TYPES[previewRendererKey]
 
   useHotkeys("Esc,Escape", () => {
     if (file) {
