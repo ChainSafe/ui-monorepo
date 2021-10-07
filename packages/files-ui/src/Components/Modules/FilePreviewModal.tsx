@@ -197,12 +197,12 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     delta: 20
   })
 
-  const validRendererMimeType = content_type &&
+  const validRendererMimeType = useMemo(() => content_type &&
     Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
       const matcher = new MimeMatcher(type)
 
       return matcher.match(content_type)
-    })
+    }), [content_type])
 
   useEffect(() => {
     let bucketId
@@ -391,7 +391,8 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
               !error &&
               compatibleFilesMatcher.match(content_type) &&
               fileContent &&
-              PreviewComponent && <PreviewComponent contents={fileContent} contentType={content_type} />}
+              PreviewComponent && <PreviewComponent contents={fileContent}
+              contentType={content_type} />}
           </div>
         </Grid>
         {desktop && (
