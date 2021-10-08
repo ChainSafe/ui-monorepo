@@ -72,16 +72,23 @@ describe("File Preview", () => {
         homePage.fileItemName().dblclick()
         previewModal.unsupportedFileLabel().should("exist")
         previewModal.downloadUnsupportedFileButton().should("be.visible")
+
         // ensure that the file download does not start until the download button is clicked
-        cy.get("@downloadRequest").should('be.null')
+        cy.get("@downloadRequest").then(($request) => {
+          // retrieving the alias (spy) should yield null because posts should not have been made yet
+          expect($request).to.be.null
+        })
+
+        // begin the file download 
         previewModal.downloadUnsupportedFileButton().click()
+
         // ensure the download request contains the correct file
-        cy.get("@downloadRequest").its("request.body").should("contain", {
+        cy.wait("@downloadRequest").its("request.body").should("contain", {
           path: "/file.zip"
         })
       })
 
-      // return to the home and ensure preview menu option is not shown for unsupported file
+      // return to home, ensure the preview menu option is not shown for an unsupported file
       previewModal.closeButton().click()
       homePage.fileItemKebabButton().click()
       homePage.previewMenuOption().should("not.exist")
