@@ -43,9 +43,6 @@ msgstr "Legg til flere filer"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
-msgid "An error occurred while downloading the file"
-msgstr ""
-
 msgid "An error occurred:"
 msgstr ""
 
@@ -142,6 +139,9 @@ msgstr ""
 msgid "Copy to"
 msgstr ""
 
+msgid "Copying files"
+msgstr ""
+
 msgid "Create"
 msgstr "Opprett"
 
@@ -231,9 +231,6 @@ msgstr "Dra for å laste opp filer"
 
 msgid "Email is required"
 msgstr "E-post kreves"
-
-msgid "Encrypting & uploading"
-msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -346,7 +343,7 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
-msgid "Keep original file"
+msgid "Keep original files"
 msgstr ""
 
 msgid "Language"
@@ -422,6 +419,12 @@ msgid "Nice to see you again!"
 msgstr ""
 
 msgid "No file to download."
+msgstr ""
+
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
 msgstr ""
 
 msgid "No files to show"
@@ -619,6 +622,9 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Delt"
 
@@ -631,10 +637,7 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing cancelled"
-msgstr ""
-
-msgid "Sharing your file (Downloading)"
+msgid "Sharing files"
 msgstr ""
 
 msgid "Sign Out"
@@ -740,9 +743,6 @@ msgid "This website uses cookies"
 msgstr ""
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-msgstr ""
-
-msgid "Transfer complete"
 msgstr ""
 
 msgid "Try again"
@@ -860,4 +860,22 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} cancelled"
+msgstr ""
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr ""
+
+msgid "{0} complete"
+msgstr ""
+
+msgid "{0} failed"
+msgstr ""
+
+msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
 msgstr ""

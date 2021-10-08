@@ -246,7 +246,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         } else {
           setPrivateKey(privKeyString)
         }
-      } catch (error) {
+      } catch (error: any) {
         // Under certain circumstances (approval of login on another device) the metadata
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
         // identified through the nonce. Manually refreshing the metadata cache solves this problem
@@ -781,7 +781,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const newKeyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(newKeyDetails)
       return
-    } catch (error) {
+    } catch (error: any) {
       if (error.message.includes("nonce")) {
         await TKeySdk.updateMetadata()
         await TKeySdk.syncShareMetadata()
