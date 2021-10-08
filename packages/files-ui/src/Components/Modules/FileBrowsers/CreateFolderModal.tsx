@@ -19,6 +19,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
+import { ErrorDto } from "@chainsafe/files-api-client"
 
 
 const useStyles = makeStyles(
@@ -99,12 +100,12 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
         setCreatingFolder(false)
         helpers.resetForm()
         onCancel()
-      } catch (errors: any) {
+      } catch ({ error }: any) {
         setCreatingFolder(false)
-        if (errors[0].message.includes("Entry with such name can")) {
+        if ((error as ErrorDto).code === 409) {
           helpers.setFieldError("name", t`Folder name is already in use`)
         } else {
-          helpers.setFieldError("name", errors[0].message)
+          helpers.setFieldError("name", (error as ErrorDto).message || t`There was an error creating the folder`)
         }
         helpers.setSubmitting(false)
       }

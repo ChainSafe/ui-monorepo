@@ -1925,19 +1925,19 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/browser-storage-hooks/-/browser-storage-hooks-1.0.1.tgz#26d32cde1999914db755a631e2643823c54959f7"
   integrity sha512-Q4b5gQAZnsRXKeADspd5isqfwwhhXjDk70y++YadufA6EZ3tf340oW0OVszp74KaGEw+CAYFGQR4X7bzpZ3x9Q==
 
-"@chainsafe/files-api-client@^1.18.10":
-  version "1.18.10"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.10.tgz#a359f0d40916afec41ea7ffc8aa4ffc505c25c17"
-  integrity sha512-Rpuk7jDF0cFg53xIrfHsp20aA37QwYd/WDv28JjlhpBI9egbk6oTgVuB9LEiR9mYWb65CIXxfxGvc6WmE3DWTw==
+"@chainsafe/files-api-client@1.18.15", "@chainsafe/files-api-client@1:18:15":
+  version "1.18.15"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.15.tgz#452572eb0ecb8178617d9faa37b7866bcfeeb4ec"
+  integrity sha512-W7MkZnK44dV1JixPavKKppi8KVhBk60uHoaDv/zRH0WVXT5QsWjQuCLpeWv9NcytHezsOv+5AAbovnjaZFwjpA==
   dependencies:
     "@redocly/openapi-cli" "^1.0.0-beta.58"
     "@redocly/openapi-core" "^1.0.0-beta.58"
     redoc-cli "^0.12.3"
 
-"@chainsafe/files-api-client@^1.18.11":
-  version "1.18.11"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.11.tgz#82f0d0b6848833680e5c6b6721b602f963d9c4d4"
-  integrity sha512-hH5B0hh3E7Ot1+uXwrId3ofsSOC8OQKcHTDkmhlVsSOG0etJLBV13w615LKGK3enabHbWV/xBhhP5rym9Hma+g==
+"@chainsafe/files-api-client@^1.18.10":
+  version "1.18.10"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.10.tgz#a359f0d40916afec41ea7ffc8aa4ffc505c25c17"
+  integrity sha512-Rpuk7jDF0cFg53xIrfHsp20aA37QwYd/WDv28JjlhpBI9egbk6oTgVuB9LEiR9mYWb65CIXxfxGvc6WmE3DWTw==
   dependencies:
     "@redocly/openapi-cli" "^1.0.0-beta.58"
     "@redocly/openapi-core" "^1.0.0-beta.58"

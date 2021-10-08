@@ -418,13 +418,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       setUploadsInProgress(false)
       // setting error
       let errorMessage = t`Something went wrong. We couldn't upload your file`
-
       // uploads cancelled through button
       if (axios.isCancel(error)) {
         errorMessage = t`Uploads cancelled`
       }
       // we will need a method to parse server errors
-      if (Array.isArray(error) && error[0].message.includes("conflict")) {
+      if (error.error.code === 409) {
         errorMessage = t`A file with the same name already exists`
       }
       updateToast(toastId, {
@@ -663,7 +662,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       return Promise.resolve()
     } catch (error: any) {
       console.error(error)
-      let errorMessage = `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.length ? error[0].message : ""}`
+      let errorMessage = `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.error.message ? error.error.message : ""}`
       if (axios.isCancel(error)) {
         errorMessage = t`Downloads cancelled`
       }

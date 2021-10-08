@@ -9,6 +9,7 @@ import { ROUTE_LINKS } from "../GamingRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./LoginModule/PasswordlessEmail"
+import { ErrorDto } from '@chainsafe/files-api-client';
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSGTheme) =>
@@ -177,23 +178,21 @@ const LoginModule = ({ className }: IInitialScreen) => {
     } catch (error: any) {
       let errorMessage = t`There was an error authenticating`
       console.log(error)
-      if (Array.isArray(error) && error[0]) {
-        if (
-          error[0].type === "signature" &&
-          error[0].message === "Invalid signature"
-        ) {
+      if ((error as ErrorDto).code === 403 && (error as ErrorDto).message?.includes('Invalid signature')) {
           errorMessage = t`Failed to validate signature.
             If you are using a contract wallet, please make 
             sure you have activated your wallet.`
-        }
       }
+
       // WalletConnect be sassy
-      if (error?.message === "Just nope" || error?.code === 4001) {
+      if (error.message === "Just nope" || error.code === 4001) {
         errorMessage = t`Failed to get signature`
       }
-      if (error?.message === "user closed popup") {
+
+      if (error.message === "user closed popup") {
         errorMessage = t`The authentication popup was closed`
       }
+
       setError(errorMessage)
     }
     setIsConnecting(false)
