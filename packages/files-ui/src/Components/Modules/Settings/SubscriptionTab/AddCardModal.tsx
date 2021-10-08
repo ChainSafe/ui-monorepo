@@ -145,6 +145,9 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
         setCardAddError(t`Failed to add payment method`)
         return
       }
+      await filesApiClient.updateDefaultCard({
+        payment_method_id: paymentMethod.id
+      })
       refreshDefaultCard()
       onClose()
       setLoadingPaymentMethodAdd(false)
