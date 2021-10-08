@@ -167,8 +167,6 @@ const LoginPage = () => {
         <ChainsafeFilesLogo className={classes.filesLogo} />
         ChainSafe Files
       </Typography>
-      <>
-      </>
       {
         themeKey === "dark"
           ? <>
