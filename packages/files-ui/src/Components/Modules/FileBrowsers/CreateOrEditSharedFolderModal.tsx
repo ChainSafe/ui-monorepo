@@ -191,8 +191,6 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
       .finally(handleClose)
   }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
 
-  if (!bucketToEdit) return null
-
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -282,7 +280,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             noOptionsMessage={t`No user found for this query.`}
           />
         </div>
-        {mode === "edit"  && (
+        {mode === "edit" && !!bucketToEdit && (
           <div className={clsx(classes.modalFlexItem, classes.sharingLink)}>
             <Typography className={classes.inputLabel}>
               <Trans>Sharing link</Trans>
