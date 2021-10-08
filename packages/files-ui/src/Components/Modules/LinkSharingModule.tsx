@@ -10,7 +10,6 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { ROUTE_LINKS } from "../FilesRoutes"
 
-
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints }: CSFTheme) =>
     createStyles({
@@ -42,12 +41,10 @@ const useStyles = makeStyles(
       error: {
         color: palette.error.main
       },
-      successWrapper: {
+      messageWrapper: {
         display: "flex",
-        flexDirection: "column"
-      },
-      successMessage: {
-        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
         alignItems: "center"
       },
       browseButton : {
@@ -55,8 +52,6 @@ const useStyles = makeStyles(
       }
     })
 )
-
-
 
 const LinkSharingModule = () => {
   const { pathname, hash } = useLocation()
@@ -106,40 +101,39 @@ const LinkSharingModule = () => {
   return (
     <div className={classes.root}>
       <div className={classes.box}>
-        {isLoading && (
-          <>
-            <Loading
-              type="inherit"
-              size={48}
-              className={classes.icon}
-            />
-            <Typography variant={"h4"} >
-              <Trans>Adding you to the shared folder...</Trans>
-            </Typography>
-          </>
-        )}
-        {!isLoading && !error && newBucket && (
-          <div className={classes.successWrapper}>
-            <div className={classes.successMessage}>
+        <div className={classes.messageWrapper}>
+          {isLoading && (
+            <>
+              <Loading
+                type="inherit"
+                size={48}
+                className={classes.icon}
+              />
+              <Typography variant={"h4"} >
+                <Trans>Adding you to the shared folder...</Trans>
+              </Typography>
+            </>
+          )}
+          {!isLoading && !error && newBucket && (
+            <>
               <CheckCircleIcon
                 size={48}
                 className={classes.icon}
               />
               <Typography variant={"h4"} >
-
                 <Trans>
-                  Got added to the shared folder: {newBucket.name}
+                  You were added to the shared folder: {newBucket.name}
                 </Trans>
               </Typography>
-            </div>
-            <Button
-              className={classes.browseButton}
-              onClick={onBrowserBucker}
-            >
-              <Trans>Browse {newBucket.name}</Trans>
-            </Button>
-          </div>
-        )}
+              <Button
+                className={classes.browseButton}
+                onClick={onBrowserBucker}
+              >
+                <Trans>Browse {newBucket.name}</Trans>
+              </Button>
+            </>
+          )}
+        </div>
         {!!error && (
           <Typography
             variant="body2"

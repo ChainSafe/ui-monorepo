@@ -43,6 +43,9 @@ msgstr "Add more files"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 
+msgid "Adding you to the shared folder..."
+msgstr "Adding you to the shared folder..."
+
 msgid "An error occurred while downloading the file"
 msgstr "An error occurred while downloading the file"
 
@@ -60,6 +63,9 @@ msgstr "Backup secret phrase does not match user account, please double-check an
 
 msgid "Bin"
 msgstr "Bin"
+
+msgid "Browse {0}"
+msgstr "Browse {0}"
 
 msgid "Browser:"
 msgstr "Browser:"
@@ -658,6 +664,9 @@ msgstr "Sign in"
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
 
+msgid "Sign in/up to access the shared folder"
+msgstr "Sign in/up to access the shared folder"
+
 msgid "Sign me up!"
 msgstr "Sign me up!"
 
@@ -849,6 +858,9 @@ msgstr "You can't move folders to this path"
 
 msgid "You haven't set a username yet."
 msgstr "You haven't set a username yet."
+
+msgid "You were added to the shared folder: {0}"
+msgstr "You were added to the shared folder: {0}"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
