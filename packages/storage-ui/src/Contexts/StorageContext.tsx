@@ -75,6 +75,7 @@ interface IFileSystemItem extends FileContentResponse {
 
 type FileSystemItem = IFileSystemItem
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
+const PIN_PAGE_SIZE = 20
 
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
@@ -83,6 +84,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse | undefined>()
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const [pins, setPins] = useState<PinStatus[]>([])
+  const [pinsPageNo, setPinsPageNo] = useState(1)
 
   const getStorageSummary = useCallback(async () => {
     try {

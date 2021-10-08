@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
+import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography, Pagination } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
@@ -46,6 +46,11 @@ const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings
       }
+    },
+    pagination: {
+      margin: `${constants.generalUnit * 3}px 0`,
+      display: "flex",
+      justifyContent: "flex-end"
     }
   })
 )
@@ -179,6 +184,14 @@ const CidsPage = () => {
             )}
           </TableBody>
         </Table>
+      </div>
+      <div className={classes.pagination}>
+        <Pagination
+          pageNo={1}
+          totalPages={3}
+          onNextClick={() => undefined}
+          onPreviousClick={() => undefined}
+        />
       </div>
       <AddCIDModal
         close={() => setAddCIDOpen(false)}
