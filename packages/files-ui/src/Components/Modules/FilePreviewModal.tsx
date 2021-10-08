@@ -27,7 +27,7 @@ import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 import { useGetFile } from "./FileBrowsers/hooks/useGetFile"
 import { useMemo } from "react"
 import Menu from "../../UI-components/Menu"
-import {getPathWithFile} from "../../Utils/pathUtils"
+import { getPathWithFile } from "../../Utils/pathUtils"
 
 export interface IPreviewRendererProps {
   contents: Blob

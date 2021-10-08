@@ -110,7 +110,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
               {loading
                 ? <Loading
                   size={50}
-                  type='primary'                  
+                  type='primary'
                 />
                 : <TransformComponent>
                   <img
