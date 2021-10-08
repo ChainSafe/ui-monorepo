@@ -823,7 +823,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       return Promise.resolve()
     }).catch((error) => {
       console.error(error)
-      let errorMessage = `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.length ? error[0].message : ""}`
+      let errorMessage = `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.error.message ? error.error.message : ""}`
       if (axios.isCancel(error)) {
         errorMessage = t`Sharing cancelled`
       }
