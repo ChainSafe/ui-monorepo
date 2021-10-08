@@ -44,9 +44,6 @@ msgstr "Ajouter d’autres fichiers"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
-msgid "An error occurred while downloading the file"
-msgstr "Une erreur s'est produite lors du téléchargement du fichier"
-
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
@@ -143,6 +140,9 @@ msgstr "Copier"
 msgid "Copy to"
 msgstr "Copier vers"
 
+msgid "Copying files"
+msgstr ""
+
 msgid "Create"
 msgstr "Créer"
 
@@ -232,9 +232,6 @@ msgstr "Faire glisser pour téléverser un fichier"
 
 msgid "Email is required"
 msgstr "Un courriel est requis"
-
-msgid "Encrypting & uploading"
-msgstr "Chiffrement et téléversement"
 
 msgid "Enter backup secret phrase:"
 msgstr "Phrase secrète de sauvegarde :"
@@ -350,8 +347,8 @@ msgstr "Infos"
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
-msgid "Keep original file"
-msgstr "Conserver le fichier original"
+msgid "Keep original files"
+msgstr ""
 
 msgid "Language"
 msgstr "Langue"
@@ -427,6 +424,12 @@ msgstr "Ravi de te revoir !"
 
 msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
+
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
 
 msgid "No files to show"
 msgstr "Aucun fichier à afficher"
@@ -623,6 +626,9 @@ msgstr "Partager"
 msgid "Share file"
 msgstr "Partager le fichier"
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Partagé"
 
@@ -635,11 +641,8 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-msgid "Sharing cancelled"
-msgstr "Partage annulé"
-
-msgid "Sharing your file (Downloading)"
-msgstr "Partager votre fichier (Téléchargement)"
+msgid "Sharing files"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -745,9 +748,6 @@ msgstr "Ce site web utilise des cookies"
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre les interactions à des fins d'analyse. Vous avez le droit de refuser notre utilisation des cookies. Pour que nous puissions vous offrir une expérience utilisateur personnalisable, veuillez cliquer sur le bouton Accepter ci-dessous.<0>En savoir plus</0>"
-
-msgid "Transfer complete"
-msgstr "Transfert terminé"
 
 msgid "Try again"
 msgstr "Essayer de nouveau"
@@ -865,3 +865,21 @@ msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {C
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
+
+msgid "{0} cancelled"
+msgstr ""
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr ""
+
+msgid "{0} complete"
+msgstr ""
+
+msgid "{0} failed"
+msgstr ""
+
+msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
+msgstr ""

@@ -180,12 +180,11 @@ const useStyles = makeStyles(
 )
 
 interface IShareFileProps {
-  file: FileSystemItem
+  fileSystemItems: FileSystemItem[]
   close: () => void
-  filePath: string
 }
 
-const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
+const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
   const classes = useStyles()
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
@@ -194,7 +193,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
   const { buckets, transferFileBetweenBuckets } = useFiles()
-  const { bucket } = useFileBrowser()
+  const { bucket, currentPath } = useFileBrowser()
   const { profile } = useUser()
   const [nameError, setNameError] = useState("")
   const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
@@ -284,13 +283,11 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
       return
     }
 
-    transferFileBetweenBuckets(bucket.id, file, filePath, bucketToUpload, keepOriginalFile)
+    transferFileBetweenBuckets(bucket, fileSystemItems, currentPath, bucketToUpload, keepOriginalFile)
     close()
   }, [
     bucket,
     destinationBucket,
-    file,
-    filePath,
     handleCreateSharedFolder,
     isUsingCurrentBucket,
     sharedFolderName,
@@ -298,7 +295,9 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
     sharedFolderWriters,
     keepOriginalFile,
     close,
-    transferFileBetweenBuckets
+    transferFileBetweenBuckets,
+    currentPath,
+    fileSystemItems
   ])
 
   return (
@@ -428,7 +427,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
               <CheckboxInput
                 value={keepOriginalFile}
                 onChange={() => setKeepOriginalFile(!keepOriginalFile)}
-                label={t`Keep original file`}
+                label={t`Keep original files`}
               />
             </div>
           )}
