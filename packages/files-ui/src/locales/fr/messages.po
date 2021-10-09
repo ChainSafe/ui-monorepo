@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-09-29 19:36+0000\n"
+"PO-Revision-Date: 2021-10-09 17:23+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
 "chainsafe-files-user-interface/fr/>\n"
@@ -169,7 +169,7 @@ msgid "Copy to"
 msgstr "Copier vers"
 
 msgid "Copying files"
-msgstr ""
+msgstr "Copie de fichiers"
 
 msgid "Create"
 msgstr "Créer"
@@ -394,7 +394,7 @@ msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
 msgid "Keep original files"
-msgstr ""
+msgstr "Conserver les fichiers originaux"
 
 msgid "Language"
 msgstr "Langue"
@@ -480,10 +480,10 @@ msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
 
 msgid "No files to copy"
-msgstr ""
+msgstr "Aucun fichier à copier"
 
 msgid "No files to share"
-msgstr ""
+msgstr "Aucun fichier à partager"
 
 msgid "No files to show"
 msgstr "Aucun fichier à afficher"
@@ -686,7 +686,7 @@ msgid "Share file"
 msgstr "Partager le fichier"
 
 msgid "Share selected"
-msgstr ""
+msgstr "Partager la sélection"
 
 msgid "Shared"
 msgstr "Partagé"
@@ -701,7 +701,7 @@ msgid "Shared with"
 msgstr "Partagé avec"
 
 msgid "Sharing files"
-msgstr ""
+msgstr "Partage des fichiers"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -968,22 +968,22 @@ msgstr ""
 "{Vous êtes sur le point de supprimer {2} éléments.}}"
 
 msgid "{0} cancelled"
-msgstr ""
+msgstr "{0} annulé(s)"
 
 msgid "{0} cancelled - {successCount} files {1} successfully"
-msgstr ""
+msgstr "{0} annulé – {successCount} fichiers {1} avec succès"
 
 msgid "{0} complete"
-msgstr ""
+msgstr "{0} terminé"
 
 msgid "{0} failed"
-msgstr ""
+msgstr "échec de {0}"
 
 msgid "{0} {fileProgress} - {1}"
-msgstr ""
+msgstr "{0} {fileProgress} – {1}"
 
 msgid "{successCount} files transferred successfully, {0} failed"
-msgstr ""
+msgstr "{successCount} fichiers transférés avec succès, {0} échec(s)"
 
 msgid "An error occurred while downloading the file"
 msgstr "Une erreur s'est produite lors du téléchargement du fichier"
