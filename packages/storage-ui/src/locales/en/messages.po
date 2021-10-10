@@ -112,9 +112,6 @@ msgstr "Create"
 msgid "Create Bucket"
 msgstr "Create Bucket"
 
-msgid "Create Folder"
-msgstr "Create Folder"
-
 msgid "Create folder"
 msgstr "Create folder"
 
@@ -178,17 +175,8 @@ msgstr ""
 msgid "File"
 msgstr "File"
 
-msgid "File/Folder already exists"
-msgstr "File/Folder already exists"
-
 msgid "Folder"
 msgstr "Folder"
-
-msgid "Folder Name"
-msgstr "Folder Name"
-
-msgid "Folder name is already in use"
-msgstr "Folder name is already in use"
 
 msgid "Folder uploads are currently not supported"
 msgstr "Folder uploads are currently not supported"
@@ -243,9 +231,6 @@ msgstr "No files to show"
 
 msgid "No folders"
 msgstr "No folders"
-
-msgid "OK"
-msgstr "OK"
 
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
