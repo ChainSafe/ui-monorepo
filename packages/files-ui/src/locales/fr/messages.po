@@ -146,9 +146,6 @@ msgstr ""
 msgid "Create"
 msgstr "Créer"
 
-msgid "Create Folder"
-msgstr "Créer un dossier"
-
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
@@ -283,9 +280,6 @@ msgstr "Clé de partage des fichiers"
 
 msgid "First name"
 msgstr "Prénom"
-
-msgid "Folder name is already in use"
-msgstr "Le nom du dossier est déjà utilisé"
 
 msgid "Folder uploads are not supported currently"
 msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
@@ -448,9 +442,6 @@ msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
-
-msgid "OK"
-msgstr "OK"
 
 msgid "One sec, getting files ready…"
 msgstr "Un instant, nous préparons les fichiers…"
@@ -640,6 +631,9 @@ msgstr "Dossiers partagés"
 
 msgid "Shared with"
 msgstr "Partagé avec"
+
+msgid "Sharing cancelled"
+msgstr ""
 
 msgid "Sharing files"
 msgstr ""
