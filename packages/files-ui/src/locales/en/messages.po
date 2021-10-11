@@ -145,6 +145,9 @@ msgstr "Copying files"
 msgid "Create"
 msgstr "Create"
 
+msgid "Create Folder"
+msgstr "Create Folder"
+
 msgid "Create Shared Folder"
 msgstr "Create Shared Folder"
 
@@ -279,6 +282,9 @@ msgstr "Files sharing key"
 
 msgid "First name"
 msgstr "First name"
+
+msgid "Folder name is already in use"
+msgstr "Folder name is already in use"
 
 msgid "Folder uploads are not supported currently"
 msgstr "Folder uploads are not supported currently"
@@ -441,6 +447,9 @@ msgstr "No user found for this query."
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "One sec, getting files ready…"
 msgstr "One sec, getting files ready…"
@@ -631,9 +640,6 @@ msgstr "Shared folders"
 msgid "Shared with"
 msgstr "Shared with"
 
-msgid "Sharing cancelled"
-msgstr "Sharing cancelled"
-
 msgid "Sharing files"
 msgstr "Sharing files"
 
@@ -711,6 +717,9 @@ msgstr "There was an error authenticating"
 
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
+
+msgid "There was an error creating the folder"
+msgstr "There was an error creating the folder"
 
 msgid "There was an error deleting your data"
 msgstr "There was an error deleting your data"
