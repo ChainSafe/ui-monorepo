@@ -94,7 +94,7 @@ const LinkSharingModule = () => {
       })
   }, [encryptedEncryptionKey, error, filesApiClient, jwt, refreshBuckets])
 
-  const onBrowserBucker = useCallback(() => {
+  const onBrowseBucket = useCallback(() => {
     newBucket && redirect(ROUTE_LINKS.SharedFolderExplorer(newBucket.id, "/"))
   }, [newBucket, redirect])
 
@@ -127,7 +127,7 @@ const LinkSharingModule = () => {
               </Typography>
               <Button
                 className={classes.browseButton}
-                onClick={onBrowserBucker}
+                onClick={onBrowseBucket}
               >
                 <Trans>Browse {newBucket.name}</Trans>
               </Button>
