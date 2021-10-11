@@ -867,18 +867,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }
     }).catch((error) => {
       console.error(error)
-      let errorMessage = `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.error.message ? error.error.message : ""}`
-      if (axios.isCancel(error)) {
-        errorMessage = t`Sharing cancelled`
-      }
-      updateToast(toastId, {
-        title: errorMessage,
-        type: "error",
-        progress: undefined,
-        onProgressCancel: undefined,
-        isClosable: true
-      }, true)
-      setTransfersInProgress(false)
     }).finally(() => {
       refreshBuckets()
     })
