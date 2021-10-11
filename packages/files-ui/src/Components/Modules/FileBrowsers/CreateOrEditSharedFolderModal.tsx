@@ -106,7 +106,7 @@ const useStyles = makeStyles(
         color: palette.error.main
       },
       sharingLink: {
-        padding: 10
+        padding: constants.generalUnit * 1.25
       }
     })
   }
@@ -190,8 +190,6 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
       .catch(console.error)
       .finally(handleClose)
   }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
-
-  if (!bucketToEdit) return null
 
   return (
     <CustomModal
@@ -282,7 +280,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             noOptionsMessage={t`No user found for this query.`}
           />
         </div>
-        {mode === "edit"  && (
+        {mode === "edit" && !!bucketToEdit && (
           <div className={clsx(classes.modalFlexItem, classes.sharingLink)}>
             <Typography className={classes.inputLabel}>
               <Trans>Sharing link</Trans>

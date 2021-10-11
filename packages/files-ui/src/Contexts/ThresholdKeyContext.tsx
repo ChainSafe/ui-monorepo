@@ -402,7 +402,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const createJWT = useCallback((bucketId: string, nonceId: string, permission: NonceResponsePermission) => {
 
     if(!privateKey) {
-      console.log("no private key found")
+      console.error("no private key found")
       return
     }
 

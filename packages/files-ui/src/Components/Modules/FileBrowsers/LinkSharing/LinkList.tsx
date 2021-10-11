@@ -1,4 +1,3 @@
-
 import { Button, MenuDropdown } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-client"
@@ -12,7 +11,6 @@ const useStyles = makeStyles(
   ({ constants, palette }: CSFTheme) => {
     return createStyles({
       root: {
-
       },
       options: {
         backgroundColor: constants.header.optionsBackground,
@@ -61,7 +59,7 @@ const useStyles = makeStyles(
         marginRight: constants.generalUnit
       },
       dropdownTitle: {
-        padding: "6px 8px"
+        padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit}px`
       }
     })
   }
@@ -172,7 +170,6 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
           />
         )
       }
-
     </div>
   )
 }
