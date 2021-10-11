@@ -106,7 +106,7 @@ const useStyles = makeStyles(
         color: palette.error.main
       },
       sharingLink: {
-        padding: 10
+        padding: constants.generalUnit * 1.25
       }
     })
   }

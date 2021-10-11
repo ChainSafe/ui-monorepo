@@ -85,8 +85,6 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
     setLink(ROUTE_LINKS.SharingLink(nonce.permission, jwt, bucketEncryptionKey))
   }, [jwt, bucketEncryptionKey, nonce])
 
-
-
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
 
   const onCopyInfo = useCallback(() => {
@@ -104,7 +102,7 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
       .catch(console.error)
       .finally(() => {
         refreshNonces()
-        setIsLoading(true)
+        setIsLoading(false)
       })
   }, [filesApiClient, nonce, refreshNonces])
 
