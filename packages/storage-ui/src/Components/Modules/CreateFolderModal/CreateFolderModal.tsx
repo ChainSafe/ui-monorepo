@@ -116,7 +116,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
             if ((error.error as ErrorDto).code === 409) {
               helpers.setFieldError("name", t`Folder name is already in use`)
             } else {
-              helpers.setFieldError("name", (error as ErrorDto).message || t`There was an error creating the folder`)
+              helpers.setFieldError("name", t`There was an error creating the folder ${(error as ErrorDto).message}`)
             }
             helpers.setSubmitting(false)
           }
