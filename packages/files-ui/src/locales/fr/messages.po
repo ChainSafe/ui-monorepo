@@ -719,7 +719,7 @@ msgstr "Une erreur s’est produite lors de l’authentification"
 msgid "There was an error connecting your wallet"
 msgstr "Une erreur s’est produite lors de la connexion de votre wallet"
 
-msgid "There was an error creating the folder"
+msgid "There was an error creating the folder {0}"
 msgstr ""
 
 msgid "There was an error deleting your data"
