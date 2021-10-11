@@ -3,7 +3,7 @@ import { useCallback, useEffect } from "react"
 import { useFilesApi } from "./FilesApiContext"
 import { useState } from "react"
 import { t } from "@lingui/macro"
-import {Details} from "@chainsafe/files-api-client"
+import { Details } from "@chainsafe/files-api-client"
 
 type UserContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -137,7 +137,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       console.error(error)
       return Promise.reject(
         Array.isArray(error.error.details)
-          ? error.error.details.map((e: Details) => e.message).join(',')
+          ? error.error.details.map((e: Details) => e.message).join(",")
           : t`There was an error when setting username.`
       )
     }
@@ -165,7 +165,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       console.error(error)
       return Promise.reject(
         Array.isArray(error.error.details)
-          ? error.error.details.map((e: Details) => e.message).join(',')
+          ? error.error.details.map((e: Details) => e.message).join(",")
           : t`There was an error when setting username.`
       )
     }

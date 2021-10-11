@@ -9,7 +9,6 @@ import { ROUTE_LINKS } from "../GamingRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./LoginModule/PasswordlessEmail"
-import { ErrorDto } from '@chainsafe/files-api-client';
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSGTheme) =>
@@ -178,8 +177,8 @@ const LoginModule = ({ className }: IInitialScreen) => {
     } catch (error: any) {
       let errorMessage = t`There was an error authenticating`
       console.log(error)
-      if ((error as ErrorDto).code === 403 && (error as ErrorDto).message?.includes('Invalid signature')) {
-          errorMessage = t`Failed to validate signature.
+      if (error.error.code === 403 && error.error.message?.includes("Invalid signature")) {
+        errorMessage = t`Failed to validate signature.
             If you are using a contract wallet, please make 
             sure you have activated your wallet.`
       }
