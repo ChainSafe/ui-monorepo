@@ -56,7 +56,8 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
       contents.arrayBuffer()
         .then(b => heicConvert({
           buffer: Buffer.from(b),
-          format: "PNG"
+          format: "JPEG",
+          quality: 0.5
         }))
         .catch(console.error)
         .then(c => setImageUrl(URL.createObjectURL(new Blob([c]))))
@@ -110,7 +111,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
               {loading
                 ? <Loading
                   size={50}
-                  type='primary'
+                  type='inherit'
                 />
                 : <TransformComponent>
                   <img
