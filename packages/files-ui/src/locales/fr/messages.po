@@ -146,6 +146,9 @@ msgstr ""
 msgid "Create"
 msgstr "Créer"
 
+msgid "Create Folder"
+msgstr ""
+
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
@@ -280,6 +283,9 @@ msgstr "Clé de partage des fichiers"
 
 msgid "First name"
 msgstr "Prénom"
+
+msgid "Folder name is already in use"
+msgstr ""
 
 msgid "Folder uploads are not supported currently"
 msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
@@ -442,6 +448,9 @@ msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
+
+msgid "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr "Un instant, nous préparons les fichiers…"
@@ -632,9 +641,6 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-msgid "Sharing cancelled"
-msgstr ""
-
 msgid "Sharing files"
 msgstr ""
 
@@ -712,6 +718,9 @@ msgstr "Une erreur s’est produite lors de l’authentification"
 
 msgid "There was an error connecting your wallet"
 msgstr "Une erreur s’est produite lors de la connexion de votre wallet"
+
+msgid "There was an error creating the folder"
+msgstr ""
 
 msgid "There was an error deleting your data"
 msgstr ""
