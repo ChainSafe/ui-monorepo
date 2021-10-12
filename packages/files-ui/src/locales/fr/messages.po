@@ -860,7 +860,7 @@ msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
-msgid "You were added to the shared folder: {0}"
+msgid "You were added to the shared folder ({0}): {1}"
 msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."

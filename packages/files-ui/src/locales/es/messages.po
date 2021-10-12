@@ -860,7 +860,7 @@ msgstr ""
 msgid "You haven't set a username yet."
 msgstr ""
 
-msgid "You were added to the shared folder: {0}"
+msgid "You were added to the shared folder ({0}): {1}"
 msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."

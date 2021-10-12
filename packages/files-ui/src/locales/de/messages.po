@@ -856,7 +856,7 @@ msgstr "Sie können keine Ordner in diesen Pfad verschieben"
 msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 
-msgid "You were added to the shared folder: {0}"
+msgid "You were added to the shared folder ({0}): {1}"
 msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."

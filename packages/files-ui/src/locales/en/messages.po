@@ -859,8 +859,8 @@ msgstr "You can't move folders to this path"
 msgid "You haven't set a username yet."
 msgstr "You haven't set a username yet."
 
-msgid "You were added to the shared folder: {0}"
-msgstr "You were added to the shared folder: {0}"
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr "You were added to the shared folder ({0}): {1}"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
