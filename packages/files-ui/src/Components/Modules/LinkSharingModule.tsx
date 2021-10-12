@@ -64,7 +64,7 @@ const LinkSharingModule = () => {
   const [encryptedEncryptionKey, setEncryptedEncryptionKey] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
-  const bucketId = useMemo(() => jwt && jwtDecode<{bucket_id?: string}>(jwt)?.bucket_id, [jwt])
+  const { bucket_id: bucketId, permission } = useMemo(() => jwt && jwtDecode<{bucket_id?: string; permission?: string}>(jwt) || {}, [jwt])
   const classes = useStyles()
   const newBucket = useMemo(() => buckets.find((b) => b.id === bucketId), [bucketId, buckets])
 
@@ -76,7 +76,6 @@ const LinkSharingModule = () => {
       .catch(console.error)
 
   }, [bucketDecryptionKey, encryptForPublicKey, publicKey])
-
 
   useEffect(() => {
     if(!jwt || !encryptedEncryptionKey) return
