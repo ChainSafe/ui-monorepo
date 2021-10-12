@@ -8,6 +8,7 @@ import { CSFTheme } from "../Themes/types"
 interface Option {
   contents: ReactNode
   onClick?: () => void
+  disabled?: boolean
 }
 
 interface CustomClasses {
@@ -78,6 +79,7 @@ export default function Menu({ icon, options, style, testId }: Props) {
             }}
             focusVisibleClassName={clsx(style?.focusVisible)}
             className={classes.options}
+            disabled={option.disabled}
           >
             {option.contents}
           </MenuItem>

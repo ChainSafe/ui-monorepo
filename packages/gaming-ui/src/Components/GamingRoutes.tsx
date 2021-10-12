@@ -5,7 +5,7 @@ import { useGamingApi }  from "../Contexts/GamingApiContext"
 import SettingsPage from "./Pages/SettingsPage"
 import DashboardPage from "./Pages/DashboardPage"
 
-export const SETTINGS_PATHS = ["apiKeys"] as const
+export const SETTINGS_PATHS = ["apiKeys", "billing"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 export const ROUTE_LINKS = {
@@ -15,7 +15,9 @@ export const ROUTE_LINKS = {
   Settings: (path: SettingsPath) => `/settings/${path}`,
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
-  ChainSafe: "https://chainsafe.io/"
+  ChainSafe: "https://chainsafe.io/",
+  Billing: "/billing",
+  Products: "/products"
 }
 
 const GamingRoutes = () => {
@@ -25,6 +27,12 @@ const GamingRoutes = () => {
     <Switch>
       <ConditionalRoute
         path={ROUTE_LINKS.Dashboard}
+        isAuthorized={isLoggedIn}
+        component={DashboardPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path={ROUTE_LINKS.SettingsRoot}
         isAuthorized={isLoggedIn}
         component={DashboardPage}
         redirectPath={ROUTE_LINKS.Landing}

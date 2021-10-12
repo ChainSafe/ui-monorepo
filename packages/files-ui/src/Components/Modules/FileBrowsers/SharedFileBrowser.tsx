@@ -20,10 +20,11 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useUser } from "../../../Contexts/UserContext"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
+import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 
 const SharedFileBrowser = () => {
   const { downloadFile, uploadFiles, buckets, getStorageSummary, refreshBuckets } = useFiles()
-  const { filesApiClient } = useFilesApi()
+  const { filesApiClient, accountRestricted } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
@@ -171,6 +172,14 @@ const SharedFileBrowser = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
+    if (accountRestricted) {
+      addToast({
+        type:"error",
+        title: t`Unable to upload`,
+        subtitle: t`Oops! You need to pay for this month to upload more content.`
+      })
+      return
+    }
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
       if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
@@ -182,12 +191,13 @@ const SharedFileBrowser = () => {
         title: t`Folder uploads are not supported currently`,
         type: "error"
       })
-    } else {
-      uploadFiles(bucket, files, path)
-        .then(() => refreshContents())
-        .catch(console.error)
     }
-  }, [addToast, uploadFiles, bucket, refreshContents])
+    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
+    const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
+    paths.forEach(p => {
+      uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
+    })
+  }, [uploadFiles, bucket, accountRestricted, addToast])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete"],

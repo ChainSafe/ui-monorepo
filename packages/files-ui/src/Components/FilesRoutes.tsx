@@ -6,10 +6,10 @@ import { useFilesApi }  from "../Contexts/FilesApiContext"
 import DrivePage from "./Pages/DrivePage"
 import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
-import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
+import PlansPage from "./Pages/PlansPage"
 
 export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
@@ -23,8 +23,9 @@ export const ROUTE_LINKS = {
   ApplyCryptography: "https://medium.com/chainsafe-systems/major-improvement-to-chainsafe-files-ab489d3e52a2",
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
-  PurchasePlan: "/purchase",
+  SettingsPath: (settingsPath: SettingsPath) => `${SETTINGS_BASE}/${settingsPath}`,
   UserSurvey: "https://calendly.com/colinschwarz/chainsafe-files-chat",
+  Plans: "/plans",
   SharedFolders: "/shared-overview",
   SharedFolderBrowserRoot: "/shared",
   SharedFolderExplorer: (bucketId: string, rawCurrentPath: string) => {
@@ -37,7 +38,7 @@ export const ROUTE_LINKS = {
   TeamSignup: "https://shrl.ink/cgQy"
 }
 
-export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
+export const SETTINGS_PATHS = ["profile", "security", "plan"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
@@ -95,9 +96,9 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.PurchasePlan}
+        path={ROUTE_LINKS.Plans}
         isAuthorized={isAuthorized}
-        component={PurchasePlanPage}
+        component={PlansPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

@@ -96,7 +96,7 @@ const SubscriptionWidget = ({ className }: ISubscriptionWidget) => {
     <div className={classes.buttons}>
       <Link
         className={classes.link}
-        to={ROUTE_LINKS.PurchasePlan}
+        to={ROUTE_LINKS.Plans}
       >
         <Button
           fullsize

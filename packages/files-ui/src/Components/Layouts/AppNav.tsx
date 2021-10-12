@@ -197,6 +197,9 @@ const useStyles = makeStyles(
       },
       betaCaption: {
         marginBottom: constants.generalUnit * 0.5
+      },
+      supportButton: {
+        margin: "auto"
       }
     })
   }

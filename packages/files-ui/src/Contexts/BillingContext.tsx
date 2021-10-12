@@ -1,9 +1,8 @@
-import  React, { ReactNode, useCallback, useEffect } from "react"
-// import { useFilesApi } from "./FilesApiContext"
-import axios, { AxiosResponse } from "axios"
-import { CurrentSubscription } from "@chainsafe/files-api-client"
+import * as React from "react"
 import { useFilesApi } from "./FilesApiContext"
-import { useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
+import { Card, CurrentSubscription } from "@chainsafe/files-api-client"
+import { useCallback } from "react"
 import { t } from "@lingui/macro"
 
 type BillingContextProps = {
@@ -11,11 +10,8 @@ type BillingContextProps = {
 }
 
 interface IBillingContext {
-  addCard(cardToken: string): Promise<void>
-  getCardTokenFromStripe(
-    card: ICard,
-    stripePk: string,
-  ): Promise<AxiosResponse<IStripeResponse>>
+  defaultCard: Card | undefined
+  refreshDefaultCard: () => void
   currentSubscription: CurrentSubscription | undefined
   fetchCurrentSubscription: () => void
 }
@@ -42,50 +38,25 @@ const BillingContext = React.createContext<IBillingContext | undefined>(
   undefined
 )
 
-const STRIPE_API = "https://api.stripe.com/v1/tokens"
-
-interface ICard {
-  cardNumber: string
-  cardExpiry: string
-  cardCvc: string
-}
-
-interface IStripeResponse {
-  id: string
-}
-
 const BillingProvider = ({ children }: BillingContextProps) => {
   const { filesApiClient, isLoggedIn } = useFilesApi()
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
+  const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
 
-  const addCard = async (
-  //cardToken: string
-  ) => {
-    try {
-      // await filesApiClient.addCard({ token: cardToken })
-      return Promise.resolve()
-    } catch (error) {
-      return Promise.reject("There was an error adding card.")
-    }
-  }
-
-  const getCardTokenFromStripe = (
-    data: ICard,
-    stripePk: string
-  ): Promise<AxiosResponse<IStripeResponse>> => {
-    const cardExpiryMonth = data.cardExpiry.split("/")[0]?.trim()
-    const cardExpiryYear = data.cardExpiry.split("/")[1]?.trim()
-
-    // eslint-disable-next-line max-len
-    const dataString = `card[number]=${data.cardNumber}&card[exp_month]=${cardExpiryMonth}&card[exp_year]=${cardExpiryYear}&card[cvc]=${data.cardCvc}`
-
-    return axios.post<IStripeResponse>(STRIPE_API, dataString, {
-      headers: {
-        Authorization: `Bearer ${stripePk}`,
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
+  const refreshDefaultCard = useCallback(() => {
+    filesApiClient.getDefaultCard().then((card) => {
+      setDefaultCard(card)
+    }).catch((err) => {
+      console.error(err)
+      setDefaultCard(undefined)
     })
-  }
+  }, [filesApiClient])
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      refreshDefaultCard()
+    }
+  }, [refreshDefaultCard, isLoggedIn, filesApiClient])
 
   const fetchCurrentSubscription = useCallback(() => {
     filesApiClient.getCurrentSubscription()
@@ -110,10 +81,10 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   return (
     <BillingContext.Provider
       value={{
-        addCard,
-        getCardTokenFromStripe,
         currentSubscription,
-        fetchCurrentSubscription
+        fetchCurrentSubscription,
+        refreshDefaultCard,
+        defaultCard
       }}
     >
       {children}

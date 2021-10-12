@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react"
-import Profile from "./Profile"
+import ProfileTab from "./ProfileTab"
 import { Tabs,
   TabPane as TabPaneOrigin,
   Typography, Divider,
@@ -12,12 +12,12 @@ import { Tabs,
   LockIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { ROUTE_LINKS, SettingsPath, SETTINGS_BASE } from "../../FilesRoutes"
+import { ROUTE_LINKS, SettingsPath } from "../../FilesRoutes"
 import { t, Trans } from "@lingui/macro"
-// import Plan from "./Plan"
-import { ProfileIcon } from "@chainsafe/common-components"
+import SubscriptionTab from "./SubscriptionTab"
+import { ProfileIcon, SubscriptionPlanIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
-import Security from "./Security"
+import SecurityTab from "./SecurityTab"
 import Plan from "./Plan"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
@@ -66,14 +66,11 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     tabPane: {
       flex: 1,
       padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`,
-      "&.securityPane": {
+      "&.fullWidthTab": {
         [breakpoints.down("lg")]: {
           paddingLeft: constants.generalUnit,
           paddingRight: constants.generalUnit
         }
-      },
-      [breakpoints.down("md")]: {
-        padding: `${constants.generalUnit * 2}px`
       },
       [breakpoints.down("md")]: {
         padding: `${constants.generalUnit * 2}px 0`
@@ -141,9 +138,8 @@ const Settings: React.FC = () => {
   const classes = useStyles()
   const { redirect } = useHistory()
 
-
   const onSelectTab = useCallback(
-    (key: string) => redirect(`${SETTINGS_BASE}/${key}`)
+    (key: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(key))
     , [redirect])
 
   const crumbs: Crumb[] = useMemo(() => [
@@ -172,7 +168,7 @@ const Settings: React.FC = () => {
         <div className={classes.tabsContainer}>
           <Tabs
             activeKey={path}
-            onTabSelect={onSelectTab}
+            onTabSelect={onSelectTab as (key: string) => void}
             injectedClass={{
               root: classes.injectedTabRoot,
               tabBar: classes.injectedTabBar,
@@ -193,17 +189,26 @@ const Settings: React.FC = () => {
               tabKey="profile"
               testId="profile-tab"
             >
-              <Profile />
+              <ProfileTab />
             </TabPane>
             <TabPane
-              className={clsx(classes.tabPane, "securityPane", (!desktop && !path) ? classes.hideTabPane : "")}
+              className={clsx(classes.tabPane, "fullWidthTab", (!desktop && !path) ? classes.hideTabPane : "")}
               icon={<LockIcon className={classes.lockIcon}/>}
               iconRight={<CaretRightIcon/>}
               title={t`Security`}
               tabKey="security"
               testId="security-tab"
             >
-              <Security />
+              <SecurityTab />
+            </TabPane>
+            <TabPane
+              className={clsx(classes.tabPane, "fullWidthTab", (!desktop && !path) ? classes.hideTabPane : "")}
+              title={t`Subscription Plan`}
+              tabKey="plan"
+              icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
+              iconRight={<CaretRightIcon/>}
+            >
+              <SubscriptionTab />
             </TabPane>
             <TabPane
               title={t`Plan`}
