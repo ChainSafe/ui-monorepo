@@ -77,9 +77,6 @@ const LinkSharingModule = () => {
 
   }, [bucketDecryptionKey, encryptForPublicKey, publicKey])
 
-  useEffect(() => {
-    !!newBucket && setIsLoading(false)
-  }, [newBucket])
 
   useEffect(() => {
     if(!jwt || !encryptedEncryptionKey) return
@@ -90,6 +87,7 @@ const LinkSharingModule = () => {
         setError(e.message)
       })
       .finally(() => {
+        setIsLoading(false)
         refreshBuckets()
       })
   }, [encryptedEncryptionKey, error, filesApiClient, jwt, refreshBuckets])

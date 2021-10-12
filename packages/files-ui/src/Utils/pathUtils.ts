@@ -119,7 +119,7 @@ export const getJWT = (pathname: string) => {
 export const getBucketDecryptionFromHash = (hash: string) => {
 
   if(!hash.startsWith("#")){
-    console.error("Bucket encryption key extractione error, unexpected hash", hash)
+    console.error("Bucket encryption key extraction error, unexpected hash", hash)
     return
   }
 
