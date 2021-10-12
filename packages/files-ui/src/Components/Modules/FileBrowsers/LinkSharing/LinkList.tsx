@@ -1,4 +1,4 @@
-import { Button, MenuDropdown } from "@chainsafe/common-components"
+import { Button, Loading, MenuDropdown } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-client"
 import { t, Trans } from "@lingui/macro"
@@ -102,12 +102,12 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
 
     return filesApiClient
       .createNonce({ bucket_id: bucketId, permission: newLinkPermission })
-      .then((n) => {
-        setNonces((olderNonces) => [...olderNonces, n])
-      })
       .catch(console.error)
-      .finally(() => setIsLoading(false))
-  }, [bucketId, filesApiClient, newLinkPermission])
+      .finally(() => {
+        setIsLoading(false)
+        refreshNonces()
+      })
+  }, [bucketId, filesApiClient, newLinkPermission, refreshNonces])
 
   return (
     <div className={classes.root}>
@@ -115,13 +115,9 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
         <Button
           className={classes.createLinkButton}
           onClick={onCreateNonce}
-          loading={isLoading}
           disabled={isLoading}
         >
-          { isLoading
-            ? <Trans>Loading...</Trans>
-            : <Trans>Create new link</Trans>
-          }
+          <Trans>Create new link</Trans>
         </Button>
         <Trans>with</Trans>
         <MenuDropdown
@@ -161,7 +157,10 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
         />
       </div>
       {
-        nonces.length > 0 && nonces.map((nonce) =>
+        isLoading && <Loading size={16} />
+      }
+      {
+        !isLoading && nonces.length > 0 && nonces.map((nonce) =>
           <SharingLink
             key={nonce.id}
             refreshNonces={refreshNonces}
