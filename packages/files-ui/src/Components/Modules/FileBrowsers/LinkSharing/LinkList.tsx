@@ -70,9 +70,9 @@ interface Props {
   bucketEncryptionKey: string
 }
 
-export const readMenu = t`read rights`
-export const editMenu = t`edit rights`
-
+const readRights = t`read rights`
+const editRights = t`edit rights`
+export const translatedPermission = (permission: NonceResponsePermission) => permission === "read" ? readRights : editRights
 
 const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
   const classes = useStyles()
@@ -125,7 +125,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
         </Button>
         <Trans>with</Trans>
         <MenuDropdown
-          title={newLinkPermission === "read" ? readMenu : editMenu}
+          title={translatedPermission(newLinkPermission)}
           anchor="bottom-right"
           className={classes.permissionDropdown}
           classNames={{
@@ -142,7 +142,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                   data-cy="menu-read"
                   className={classes.menuItem}
                 >
-                  {readMenu}
+                  {readRights}
                 </div>
               )
             },
@@ -153,7 +153,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                   data-cy="menu-write"
                   className={classes.menuItem}
                 >
-                  {editMenu}
+                  {editRights}
                 </div>
               )
             }

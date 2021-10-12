@@ -9,6 +9,8 @@ import jwtDecode from "jwt-decode"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { ROUTE_LINKS } from "../FilesRoutes"
+import { translatedPermission } from "./FileBrowsers/LinkSharing/LinkList"
+import { NonceResponsePermission } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints }: CSFTheme) =>
@@ -64,7 +66,14 @@ const LinkSharingModule = () => {
   const [encryptedEncryptionKey, setEncryptedEncryptionKey] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
-  const { bucket_id: bucketId, permission } = useMemo(() => jwt && jwtDecode<{bucket_id?: string; permission?: string}>(jwt) || {}, [jwt])
+  const { bucket_id: bucketId, permission } = useMemo(() => {
+    try {
+      return jwt && jwtDecode<{bucket_id?: string; permission?: NonceResponsePermission}>(jwt) || {}
+    }catch (e) {
+      console.error(e)
+      return {}
+    }
+  }, [jwt])
   const classes = useStyles()
   const newBucket = useMemo(() => buckets.find((b) => b.id === bucketId), [bucketId, buckets])
 
@@ -78,7 +87,7 @@ const LinkSharingModule = () => {
   }, [bucketDecryptionKey, encryptForPublicKey, publicKey])
 
   useEffect(() => {
-    if(!jwt || !encryptedEncryptionKey) return
+    if(!jwt || !encryptedEncryptionKey || !!newBucket) return
 
     filesApiClient.verifyNonce({ jwt, encryption_key: encryptedEncryptionKey })
       .catch((e:any) => {
@@ -89,7 +98,7 @@ const LinkSharingModule = () => {
         setIsLoading(false)
         refreshBuckets()
       })
-  }, [encryptedEncryptionKey, error, filesApiClient, jwt, refreshBuckets])
+  }, [encryptedEncryptionKey, error, filesApiClient, jwt, newBucket, refreshBuckets])
 
   const onBrowseBucket = useCallback(() => {
     newBucket && redirect(ROUTE_LINKS.SharedFolderExplorer(newBucket.id, "/"))
@@ -111,7 +120,7 @@ const LinkSharingModule = () => {
               </Typography>
             </>
           )}
-          {!isLoading && !error && newBucket && (
+          {!isLoading && !error && newBucket && permission && (
             <>
               <CheckCircleIcon
                 size={48}
@@ -119,7 +128,7 @@ const LinkSharingModule = () => {
               />
               <Typography variant={"h4"} >
                 <Trans>
-                  You were added to the shared folder: {newBucket.name}
+                  You were added to the shared folder ({translatedPermission(permission)})): {newBucket.name}
                 </Trans>
               </Typography>
               <Button
