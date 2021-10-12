@@ -106,7 +106,6 @@ const LinkSharingModule = () => {
     newBucket && redirect(ROUTE_LINKS.SharedFolderExplorer(newBucket.id, "/"))
   }, [newBucket, redirect])
 
-  console.log("!error && !newBucket && !permission", error, newBucket, permission)
   return (
     <div className={classes.root}>
       <div className={classes.box}>
