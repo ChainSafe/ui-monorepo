@@ -278,7 +278,7 @@ msgid "Enter password:"
 msgstr "Enter password:"
 
 msgid "Enter the verification code:"
-msgstr "Enter the verification code:<<<<<<< HEAD"
+msgstr "Enter the verification code:"
 
 #~ msgid "Error while creating new shared folder"
 #~ msgstr "Error while creating new shared folder"
@@ -287,10 +287,10 @@ msgstr "Enter the verification code:<<<<<<< HEAD"
 #~ msgstr "Error while downloading {0}"
 
 #~ msgid "Error while uploading {0}"
-#~ msgstr "Error while uploading {0}======="
+#~ msgstr "Error while uploading {0}"
 
 #~ msgid "Essentials - Free"
-#~ msgstr "Essentials - Free>>>>>>> dev"
+#~ msgstr "Essentials - Free"
 
 msgid "Failed to add payment method"
 msgstr "Failed to add payment method"

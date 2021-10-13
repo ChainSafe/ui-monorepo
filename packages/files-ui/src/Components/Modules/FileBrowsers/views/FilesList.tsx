@@ -841,6 +841,15 @@ const FilesList = ({ isShared = false }: Props) => {
                   <Trans>Delete selected</Trans>
                 </Button>
               )}
+              {validBulkOps.includes("share") && (
+                <Button
+                  onClick={handleOpenShareDialog}
+                  variant="outline"
+                  testId="share-selected-file"
+                >
+                  <Trans>Share selected</Trans>
+                </Button>
+              )}
             </>
           )}
         </section>
@@ -1101,13 +1110,8 @@ const FilesList = ({ isShared = false }: Props) => {
             setFilePath(undefined)
           }}
         />
-<<<<<<< HEAD
         }
-        { !showExplainerBeforeShare && isShareModalOpen && filePath && fileIndex !== undefined &&
-=======
-      }
-      { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
->>>>>>> dev
+        { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
         <ShareModal
           close={() => {
             setIsShareModalOpen(false)
