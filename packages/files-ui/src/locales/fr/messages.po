@@ -29,6 +29,12 @@ msgstr "Accepter"
 msgid "Account"
 msgstr "Compte"
 
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
+
 msgid "Add a username"
 msgstr "Ajouter un nom d’utilisateur"
 
@@ -37,6 +43,9 @@ msgstr "Ajoutez au moins une méthode d’authentification pour protéger ce com
 
 msgid "Add by sharing address, username or wallet address"
 msgstr "Ajouter par adresse de partage, nom d'utilisateur ou adresse de portefeuille"
+
+msgid "Add card"
+msgstr ""
 
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
@@ -53,13 +62,22 @@ msgstr "Une erreur s'est produite :"
 msgid "Approve"
 msgstr "Accepter"
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et réessayer."
 
-msgid "Basic - Free"
+#~ msgid "Basic - Free"
+#~ msgstr ""
+
+msgid "Billed Monthly"
+msgstr ""
+
+msgid "Billed Yearly"
 msgstr ""
 
 msgid "Bin"
@@ -70,6 +88,9 @@ msgstr "Explorateur :"
 
 msgid "Bucket id"
 msgstr "Identifiant du seau"
+
+msgid "Buy more storage"
+msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "En connectant votre portefeuille, vous acceptez nos <0>conditions de service</0> et notre <1>politique de confidentialité</1>"
@@ -82,6 +103,9 @@ msgstr "CID (Identifiant de contenu)"
 
 msgid "Cancel"
 msgstr "Annuler"
+
+msgid "Card inputs invalid"
+msgstr ""
 
 msgid "Change Password"
 msgstr "Changer le mot de passe"
@@ -167,6 +191,9 @@ msgstr "Créer un dossier"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
@@ -233,6 +260,9 @@ msgstr "Les téléchargements ont échoué"
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr "Un courriel est requis"
 
@@ -262,6 +292,9 @@ msgstr "Entrez le code de vérification :<<<<<<< HEAD"
 
 #~ msgid "Essentials - Free"
 #~ msgstr "Essentials - Gratuit>>>>>>> dev"
+
+msgid "Failed to add payment method"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
@@ -314,6 +347,9 @@ msgstr "Pour des raisons de sécurité, chaque fois que vous vous connectez, nou
 msgid "Forget this browser"
 msgstr "Oublier ce navigateur"
 
+msgid "Free plan"
+msgstr ""
+
 msgid "General"
 msgstr "Général"
 
@@ -337,6 +373,9 @@ msgstr "Donner l’accès en lecture seule à :"
 
 msgid "Go back"
 msgstr "Retour"
+
+msgid "Go to Payments"
+msgstr ""
 
 msgid "Got it"
 msgstr "Compris"
@@ -437,11 +476,14 @@ msgstr "Suivant"
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
 
+msgid "No Card"
+msgstr ""
+
 msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
 
-msgid "No files to show"
-msgstr "Aucun fichier à afficher"
+#~ msgid "No files to show"
+#~ msgstr "Aucun fichier à afficher"
 
 msgid "No folders"
 msgstr "Aucun dossier"
@@ -466,6 +508,9 @@ msgstr "Un instant, nous préparons les fichiers…"
 
 msgid "Only you can see this."
 msgstr "Vous seul(e) pouvez voir ceci."
+
+msgid "Oops! You need to pay for this month to upload more content."
+msgstr ""
 
 msgid "Operating system:"
 msgstr "Système d’exploitation :"
@@ -497,6 +542,9 @@ msgstr "Mot de passe :"
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
+msgid "Payment and Subscriptions"
+msgstr ""
+
 msgid "Plan"
 msgstr ""
 
@@ -515,6 +563,9 @@ msgstr "Merci de donner un mot de passe"
 msgid "Please select a file to upload"
 msgstr "Merci de sélectionner un fichier à téléverser"
 
+msgid "Premium plan"
+msgstr ""
+
 msgid "Preview"
 msgstr "Aperçu"
 
@@ -532,6 +583,9 @@ msgstr "Paramètres du profil"
 
 msgid "Profile updated"
 msgstr "Profile mis à jour"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Recover"
 msgstr "Récupérer"
@@ -689,6 +743,9 @@ msgstr "Quelque chose a mal tourné !"
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
 
+msgid "Standard plan"
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
 
@@ -700,6 +757,9 @@ msgstr "Plan de stockage"
 
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
+
+msgid "Subscription Plan"
+msgstr ""
 
 msgid "Teams"
 msgstr "Équipes"
@@ -749,6 +809,9 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This is the free product."
+msgstr ""
+
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
 
@@ -770,17 +833,32 @@ msgstr "Essayer de nouveau"
 msgid "Try another method"
 msgstr "Essayer une autre méthode"
 
+msgid "Try for 7 days"
+msgstr ""
+
+msgid "Unable to upload"
+msgstr ""
+
 msgid "Update"
 msgstr "Mettre à jour"
 
+msgid "Update Card"
+msgstr ""
+
 msgid "Update Shared Folder"
 msgstr "Mettre à jour le dossier partagé"
+
+msgid "Upgrade your plan"
+msgstr ""
 
 msgid "Upload"
 msgstr "Téléverser"
 
 msgid "Uploads cancelled"
 msgstr "Téléversements annulés"
+
+msgid "Uploads disabled"
+msgstr ""
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
@@ -860,6 +938,12 @@ msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
 
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr ""
+
 msgid "Your plan"
 msgstr ""
 
@@ -883,3 +967,6 @@ msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {C
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr ""

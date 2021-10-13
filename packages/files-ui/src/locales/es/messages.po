@@ -29,6 +29,12 @@ msgstr ""
 msgid "Account"
 msgstr "Cuenta"
 
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
+
 msgid "Add a username"
 msgstr ""
 
@@ -36,6 +42,9 @@ msgid "Add at least one more authentication method to protect your account. You�
 msgstr "Agregue al menos un método de autenticación más para proteger su cuenta. Solo necesitaría dos para iniciar sesión en Archivos desde cualquier dispositivo."
 
 msgid "Add by sharing address, username or wallet address"
+msgstr ""
+
+msgid "Add card"
 msgstr ""
 
 msgid "Add more files"
@@ -53,13 +62,22 @@ msgstr ""
 msgid "Approve"
 msgstr "Aprobar"
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
 
-msgid "Basic - Free"
+#~ msgid "Basic - Free"
+#~ msgstr ""
+
+msgid "Billed Monthly"
+msgstr ""
+
+msgid "Billed Yearly"
 msgstr ""
 
 msgid "Bin"
@@ -69,6 +87,9 @@ msgid "Browser:"
 msgstr "Navegador:"
 
 msgid "Bucket id"
+msgstr ""
+
+msgid "Buy more storage"
 msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -82,6 +103,9 @@ msgstr "CID (Identificador de contenido)"
 
 msgid "Cancel"
 msgstr "Cancelar"
+
+msgid "Card inputs invalid"
+msgstr ""
 
 msgid "Change Password"
 msgstr "Cambiar la contraseña"
@@ -167,6 +191,9 @@ msgstr "Crear Carpeta"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
@@ -233,6 +260,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr ""
 
@@ -262,6 +292,9 @@ msgstr "<<<<<<< HEAD"
 
 #~ msgid "Essentials - Free"
 #~ msgstr "Esenciales - Gratis>>>>>>> dev"
+
+msgid "Failed to add payment method"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr "No se pudo obtener la firma"
@@ -314,6 +347,9 @@ msgstr "Por motivos de seguridad, cada vez que inicie sesión le pediremos uno d
 msgid "Forget this browser"
 msgstr "Olvida este navegador"
 
+msgid "Free plan"
+msgstr ""
+
 msgid "General"
 msgstr "General"
 
@@ -337,6 +373,9 @@ msgstr ""
 
 msgid "Go back"
 msgstr "Regresar"
+
+msgid "Go to Payments"
+msgstr ""
 
 msgid "Got it"
 msgstr ""
@@ -437,11 +476,14 @@ msgstr "Próximo"
 msgid "Nice to see you again!"
 msgstr "Encantado de verte de nuevo!"
 
+msgid "No Card"
+msgstr ""
+
 msgid "No file to download."
 msgstr ""
 
-msgid "No files to show"
-msgstr "No hay archivos para mostrar"
+#~ msgid "No files to show"
+#~ msgstr "No hay archivos para mostrar"
 
 msgid "No folders"
 msgstr "Sin carpetas"
@@ -465,6 +507,9 @@ msgid "One sec, getting files ready…"
 msgstr ""
 
 msgid "Only you can see this."
+msgstr ""
+
+msgid "Oops! You need to pay for this month to upload more content."
 msgstr ""
 
 msgid "Operating system:"
@@ -497,6 +542,9 @@ msgstr "Contraseña:"
 msgid "Passwords must match"
 msgstr "Las contraseñas deben coincidir"
 
+msgid "Payment and Subscriptions"
+msgstr ""
+
 msgid "Plan"
 msgstr ""
 
@@ -513,6 +561,9 @@ msgid "Please provide a password"
 msgstr "Por favor ingrese una contraseña"
 
 msgid "Please select a file to upload"
+msgstr ""
+
+msgid "Premium plan"
 msgstr ""
 
 msgid "Preview"
@@ -532,6 +583,9 @@ msgstr ""
 
 msgid "Profile updated"
 msgstr "Perfil actualizado"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Recover"
 msgstr "Recuperar"
@@ -689,6 +743,9 @@ msgstr ""
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Algo salió mal. No pudimos subir tu archivo"
 
+msgid "Standard plan"
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Iniciar la subida"
 
@@ -700,6 +757,9 @@ msgstr "Plan de almacenamiento"
 
 msgid "Stored by miner"
 msgstr "Almacenado por el minero"
+
+msgid "Subscription Plan"
+msgstr ""
 
 msgid "Teams"
 msgstr ""
@@ -749,6 +809,9 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This is the free product."
+msgstr ""
+
 msgid "This username is already taken"
 msgstr ""
 
@@ -770,16 +833,31 @@ msgstr "Intentar otra vez"
 msgid "Try another method"
 msgstr "Prueba con otro método"
 
+msgid "Try for 7 days"
+msgstr ""
+
+msgid "Unable to upload"
+msgstr ""
+
 msgid "Update"
 msgstr "Actualizar"
 
+msgid "Update Card"
+msgstr ""
+
 msgid "Update Shared Folder"
+msgstr ""
+
+msgid "Upgrade your plan"
 msgstr ""
 
 msgid "Upload"
 msgstr "Subir"
 
 msgid "Uploads cancelled"
+msgstr ""
+
+msgid "Uploads disabled"
 msgstr ""
 
 msgid "Use a different login method"
@@ -860,6 +938,12 @@ msgstr ""
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
 
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr ""
+
 msgid "Your plan"
 msgstr ""
 
@@ -882,4 +966,7 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} of {1} used ({2}%)"
 msgstr ""

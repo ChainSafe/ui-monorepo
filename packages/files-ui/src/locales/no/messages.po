@@ -28,6 +28,12 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
+
 msgid "Add a username"
 msgstr "Legg til et brukernavn"
 
@@ -35,6 +41,9 @@ msgid "Add at least one more authentication method to protect your account. You�
 msgstr ""
 
 msgid "Add by sharing address, username or wallet address"
+msgstr ""
+
+msgid "Add card"
 msgstr ""
 
 msgid "Add more files"
@@ -52,13 +61,22 @@ msgstr ""
 msgid "Approve"
 msgstr "Godkjenn"
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
 
-msgid "Basic - Free"
+#~ msgid "Basic - Free"
+#~ msgstr ""
+
+msgid "Billed Monthly"
+msgstr ""
+
+msgid "Billed Yearly"
 msgstr ""
 
 msgid "Bin"
@@ -68,6 +86,9 @@ msgid "Browser:"
 msgstr ""
 
 msgid "Bucket id"
+msgstr ""
+
+msgid "Buy more storage"
 msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -81,6 +102,9 @@ msgstr ""
 
 msgid "Cancel"
 msgstr "Avbryt"
+
+msgid "Card inputs invalid"
+msgstr ""
 
 msgid "Change Password"
 msgstr "Endre passord"
@@ -166,6 +190,9 @@ msgstr "Opprett mappe"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Mørk drakt"
 
@@ -232,6 +259,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -261,6 +291,9 @@ msgstr "Skriv inn bekreftelseskoden:<<<<<<< HEAD"
 
 #~ msgid "Essentials - Free>>>>>>> dev"
 #~ msgstr ""
+
+msgid "Failed to add payment method"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr ""
@@ -310,6 +343,9 @@ msgstr ""
 msgid "Forget this browser"
 msgstr ""
 
+msgid "Free plan"
+msgstr ""
+
 msgid "General"
 msgstr ""
 
@@ -333,6 +369,9 @@ msgstr ""
 
 msgid "Go back"
 msgstr "Tilbake"
+
+msgid "Go to Payments"
+msgstr ""
 
 msgid "Got it"
 msgstr ""
@@ -433,11 +472,14 @@ msgstr "Neste"
 msgid "Nice to see you again!"
 msgstr ""
 
+msgid "No Card"
+msgstr ""
+
 msgid "No file to download."
 msgstr ""
 
-msgid "No files to show"
-msgstr "Ingen filer å vise"
+#~ msgid "No files to show"
+#~ msgstr "Ingen filer å vise"
 
 msgid "No folders"
 msgstr "Ingen mapper"
@@ -462,6 +504,9 @@ msgstr ""
 
 msgid "Only you can see this."
 msgstr "Kun du kan se dette."
+
+msgid "Oops! You need to pay for this month to upload more content."
+msgstr ""
 
 msgid "Operating system:"
 msgstr "Operativsystem:"
@@ -493,6 +538,9 @@ msgstr "Passord:"
 msgid "Passwords must match"
 msgstr "Passordene må samsvare"
 
+msgid "Payment and Subscriptions"
+msgstr ""
+
 msgid "Plan"
 msgstr ""
 
@@ -511,6 +559,9 @@ msgstr "Angi et passord"
 msgid "Please select a file to upload"
 msgstr "Velg en fil å laste opp"
 
+msgid "Premium plan"
+msgstr ""
+
 msgid "Preview"
 msgstr "Forhåndsvis"
 
@@ -528,6 +579,9 @@ msgstr "Profilinnstillinger"
 
 msgid "Profile updated"
 msgstr "Profil oppdatert"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Recover"
 msgstr "Gjenopprett"
@@ -685,6 +739,9 @@ msgstr "Noe gikk galt."
 msgid "Something went wrong. We couldn't upload your file"
 msgstr ""
 
+msgid "Standard plan"
+msgstr ""
+
 msgid "Start Upload"
 msgstr ""
 
@@ -695,6 +752,9 @@ msgid "Storage Plan"
 msgstr ""
 
 msgid "Stored by miner"
+msgstr ""
+
+msgid "Subscription Plan"
 msgstr ""
 
 msgid "Teams"
@@ -745,6 +805,9 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This is the free product."
+msgstr ""
+
 msgid "This username is already taken"
 msgstr ""
 
@@ -766,16 +829,31 @@ msgstr "Prøv igjen"
 msgid "Try another method"
 msgstr "Prøv annen metode"
 
+msgid "Try for 7 days"
+msgstr ""
+
+msgid "Unable to upload"
+msgstr ""
+
 msgid "Update"
 msgstr "Oppdater"
 
+msgid "Update Card"
+msgstr ""
+
 msgid "Update Shared Folder"
+msgstr ""
+
+msgid "Upgrade your plan"
 msgstr ""
 
 msgid "Upload"
 msgstr "Last opp"
 
 msgid "Uploads cancelled"
+msgstr ""
+
+msgid "Uploads disabled"
 msgstr ""
 
 msgid "Use a different login method"
@@ -856,6 +934,12 @@ msgstr "Du har ikke satt noe brukernavn enda."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr ""
+
 msgid "Your plan"
 msgstr ""
 
@@ -878,4 +962,7 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} of {1} used ({2}%)"
 msgstr ""

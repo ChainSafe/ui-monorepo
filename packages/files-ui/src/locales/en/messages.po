@@ -28,6 +28,12 @@ msgstr "Accept"
 msgid "Account"
 msgstr "Account"
 
+msgid "Add Card"
+msgstr "Add Card"
+
+msgid "Add a credit card"
+msgstr "Add a credit card"
+
 msgid "Add a username"
 msgstr "Add a username"
 
@@ -36,6 +42,9 @@ msgstr "Add at least one more authentication method to protect your account. You
 
 msgid "Add by sharing address, username or wallet address"
 msgstr "Add by sharing address, username or wallet address"
+
+msgid "Add card"
+msgstr "Add card"
 
 msgid "Add more files"
 msgstr "Add more files"
@@ -52,14 +61,23 @@ msgstr "An error occurred:"
 msgid "Approve"
 msgstr "Approve"
 
+msgid "Back to plan settings"
+msgstr "Back to plan settings"
+
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
 
-msgid "Basic - Free"
-msgstr "Basic - Free"
+#~ msgid "Basic - Free"
+#~ msgstr "Basic - Free"
+
+msgid "Billed Monthly"
+msgstr "Billed Monthly"
+
+msgid "Billed Yearly"
+msgstr "Billed Yearly"
 
 msgid "Bin"
 msgstr "Bin"
@@ -69,6 +87,9 @@ msgstr "Browser:"
 
 msgid "Bucket id"
 msgstr "Bucket id"
+
+msgid "Buy more storage"
+msgstr "Buy more storage"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -81,6 +102,9 @@ msgstr "CID (Content Identifier)"
 
 msgid "Cancel"
 msgstr "Cancel"
+
+msgid "Card inputs invalid"
+msgstr "Card inputs invalid"
 
 msgid "Change Password"
 msgstr "Change Password"
@@ -166,6 +190,9 @@ msgstr "Create folder"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
 
+msgid "Credit card on file"
+msgstr "Credit card on file"
+
 msgid "Dark Theme"
 msgstr "Dark Theme"
 
@@ -232,6 +259,9 @@ msgstr "Downloads failed"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr "Early Adopter: Free up to {0}"
+
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -261,6 +291,9 @@ msgstr "Enter the verification code:<<<<<<< HEAD"
 
 #~ msgid "Essentials - Free"
 #~ msgstr "Essentials - Free>>>>>>> dev"
+
+msgid "Failed to add payment method"
+msgstr "Failed to add payment method"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -313,6 +346,9 @@ msgstr "For security reasons, each time you sign in we’ll ask you for one of t
 msgid "Forget this browser"
 msgstr "Forget this browser"
 
+msgid "Free plan"
+msgstr "Free plan"
+
 msgid "General"
 msgstr "General"
 
@@ -336,6 +372,9 @@ msgstr "Give view-only permission to:"
 
 msgid "Go back"
 msgstr "Go back"
+
+msgid "Go to Payments"
+msgstr "Go to Payments"
 
 msgid "Got it"
 msgstr "Got it"
@@ -436,11 +475,14 @@ msgstr "Next"
 msgid "Nice to see you again!"
 msgstr "Nice to see you again!"
 
+msgid "No Card"
+msgstr "No Card"
+
 msgid "No file to download."
 msgstr "No file to download."
 
-msgid "No files to show"
-msgstr "No files to show"
+#~ msgid "No files to show"
+#~ msgstr "No files to show"
 
 msgid "No folders"
 msgstr "No folders"
@@ -465,6 +507,9 @@ msgstr "One sec, getting files ready…"
 
 msgid "Only you can see this."
 msgstr "Only you can see this."
+
+msgid "Oops! You need to pay for this month to upload more content."
+msgstr "Oops! You need to pay for this month to upload more content."
 
 msgid "Operating system:"
 msgstr "Operating system:"
@@ -496,6 +541,9 @@ msgstr "Password:"
 msgid "Passwords must match"
 msgstr "Passwords must match"
 
+msgid "Payment and Subscriptions"
+msgstr "Payment and Subscriptions"
+
 msgid "Plan"
 msgstr "Plan"
 
@@ -514,6 +562,9 @@ msgstr "Please provide a password"
 msgid "Please select a file to upload"
 msgstr "Please select a file to upload"
 
+msgid "Premium plan"
+msgstr "Premium plan"
+
 msgid "Preview"
 msgstr "Preview"
 
@@ -531,6 +582,9 @@ msgstr "Profile settings"
 
 msgid "Profile updated"
 msgstr "Profile updated"
+
+msgid "Purchase with card"
+msgstr "Purchase with card"
 
 msgid "Recover"
 msgstr "Recover"
@@ -688,6 +742,9 @@ msgstr "Something went wrong!"
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
 
+msgid "Standard plan"
+msgstr "Standard plan"
+
 msgid "Start Upload"
 msgstr "Start Upload"
 
@@ -699,6 +756,9 @@ msgstr "Storage Plan"
 
 msgid "Stored by miner"
 msgstr "Stored by miner"
+
+msgid "Subscription Plan"
+msgstr "Subscription Plan"
 
 msgid "Teams"
 msgstr "Teams"
@@ -748,6 +808,9 @@ msgstr "There was an error restoring your data"
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
 
+msgid "This is the free product."
+msgstr "This is the free product."
+
 msgid "This username is already taken"
 msgstr "This username is already taken"
 
@@ -769,17 +832,32 @@ msgstr "Try again"
 msgid "Try another method"
 msgstr "Try another method"
 
+msgid "Try for 7 days"
+msgstr "Try for 7 days"
+
+msgid "Unable to upload"
+msgstr "Unable to upload"
+
 msgid "Update"
 msgstr "Update"
 
+msgid "Update Card"
+msgstr "Update Card"
+
 msgid "Update Shared Folder"
 msgstr "Update Shared Folder"
+
+msgid "Upgrade your plan"
+msgstr "Upgrade your plan"
 
 msgid "Upload"
 msgstr "Upload"
 
 msgid "Uploads cancelled"
 msgstr "Uploads cancelled"
+
+msgid "Uploads disabled"
+msgstr "Uploads disabled"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"
@@ -859,6 +937,12 @@ msgstr "You haven't set a username yet."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+
 msgid "Your plan"
 msgstr "Your plan"
 
@@ -882,3 +966,6 @@ msgstr "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting an
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr "{0} of {1} used ({2}%)"
