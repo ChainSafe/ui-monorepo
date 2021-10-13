@@ -37,7 +37,8 @@ const useStyles = makeStyles(
         alignItems: "center",
         fontSize: constants.generalUnit * 6,
         "& svg": {
-          marginRight: constants.generalUnit
+          marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7]
         }
       },
       error: {
