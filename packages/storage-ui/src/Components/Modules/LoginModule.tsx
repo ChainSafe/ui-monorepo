@@ -205,7 +205,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
       await login(loginType)
     } catch (error: any) {
       let errorMessage = t`There was an error authenticating`
-      
+
       // Invalid signature, or contract wallet not deployed
       if (error?.error?.code === 403 && error?.error?.message?.includes("Invalid signature")) {
         errorMessage = t`Failed to validate signature.
