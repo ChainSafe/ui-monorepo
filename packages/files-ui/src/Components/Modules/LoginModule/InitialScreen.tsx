@@ -215,7 +215,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             sure you have activated your wallet.`
       }
 
-      // WalletConnect be sassy
+      // User rejected the signature request (WalletConnect be sassy)
       if (error?.message === "Just nope" || error?.code === 4001) {
         errorMessage = t`Failed to get signature`
       }
