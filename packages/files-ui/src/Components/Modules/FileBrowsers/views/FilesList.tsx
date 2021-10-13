@@ -873,77 +873,134 @@ const FilesList = ({ isShared = false }: Props) => {
         </div>
         {!items.length
           ? (
-          <section
-            className={clsx(
-              classes.noFiles,
-              loadingCurrentPath && classes.fadeOutLoading
-            )}
-            data-cy="data-state-no-files"
-          >
-            <EmptySvg />
-            <Typography variant="h4"
-              component="h4">
-              <Trans>No files to show</Trans>
-            </Typography>
-          </section>
-        )
-        : browserView === "table"
-          ? (
-            <Table
-              fullWidth={true}
-              striped={true}
-              hover={true}
-              className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
-              testId="home"
-            >
-              {desktop && (
-                <TableHead>
-                  <TableRow type="grid"
-                    className={classes.tableRow}>
-                    <TableHeadCell>
-                      <CheckboxInput
-                        value={selectedItems.length === items.length}
-                        onChange={() => toggleAll()}
-                        testId="select-all"
-                      />
-                    </TableHeadCell>
-                    <TableHeadCell>
-                      {/* Icon */}
-                    </TableHeadCell>
-                    <TableHeadCell
-                      sortButtons={true}
-                      align="left"
-                      onSortChange={() => handleSortToggle("name")}
-                      sortDirection={column === "name" ? direction : undefined}
-                      sortActive={column === "name"}
-                    >
-                      <Trans>Name</Trans>
-                    </TableHeadCell>
-                    <TableHeadCell
-                      sortButtons={true}
-                      align="left"
-                      onSortChange={() => handleSortToggle("date_uploaded")}
-                      sortDirection={
-                        column === "date_uploaded" ? direction : undefined
-                      }
-                      sortActive={column === "date_uploaded"}
-                    >
-                      <Trans>Date uploaded</Trans>
-                    </TableHeadCell>
-                    <TableHeadCell
-                      sortButtons={true}
-                      align="left"
-                      onSortChange={() => handleSortToggle("size")}
-                      sortDirection={column === "size" ? direction : undefined}
-                      sortActive={column === "size"}
-                    >
-                      <Trans>Size</Trans>
-                    </TableHeadCell>
-                    <TableHeadCell>{/* Menu */}</TableHeadCell>
-                  </TableRow>
-                </TableHead>
+            <section
+              className={clsx(
+                classes.noFiles,
+                loadingCurrentPath && classes.fadeOutLoading
               )}
-              <TableBody>
+              data-cy="data-state-no-files"
+            >
+              <EmptySvg />
+              <Typography variant="h4"
+                component="h4">
+                <Trans>No files to show</Trans>
+              </Typography>
+            </section>
+          )
+          : browserView === "table"
+            ? (
+              <Table
+                fullWidth={true}
+                striped={true}
+                hover={true}
+                className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+                testId="home"
+              >
+                {desktop && (
+                  <TableHead>
+                    <TableRow type="grid"
+                      className={classes.tableRow}>
+                      <TableHeadCell>
+                        <CheckboxInput
+                          value={selectedItems.length === items.length}
+                          onChange={() => toggleAll()}
+                          testId="select-all"
+                        />
+                      </TableHeadCell>
+                      <TableHeadCell>
+                        {/* Icon */}
+                      </TableHeadCell>
+                      <TableHeadCell
+                        sortButtons={true}
+                        align="left"
+                        onSortChange={() => handleSortToggle("name")}
+                        sortDirection={column === "name" ? direction : undefined}
+                        sortActive={column === "name"}
+                      >
+                        <Trans>Name</Trans>
+                      </TableHeadCell>
+                      <TableHeadCell
+                        sortButtons={true}
+                        align="left"
+                        onSortChange={() => handleSortToggle("date_uploaded")}
+                        sortDirection={
+                          column === "date_uploaded" ? direction : undefined
+                        }
+                        sortActive={column === "date_uploaded"}
+                      >
+                        <Trans>Date uploaded</Trans>
+                      </TableHeadCell>
+                      <TableHeadCell
+                        sortButtons={true}
+                        align="left"
+                        onSortChange={() => handleSortToggle("size")}
+                        sortDirection={column === "size" ? direction : undefined}
+                        sortActive={column === "size"}
+                      >
+                        <Trans>Size</Trans>
+                      </TableHeadCell>
+                      <TableHeadCell>{/* Menu */}</TableHeadCell>
+                    </TableRow>
+                  </TableHead>
+                )}
+                <TableBody>
+                  {items.map((file, index) => (
+                    <FileSystemItem
+                      key={index}
+                      file={file}
+                      files={files}
+                      selectedCids={selectedCids}
+                      handleSelectItem={handleSelectItem}
+                      viewFolder={handleViewFolder}
+                      handleAddToSelectedItems={handleAddToSelectedItems}
+                      editing={editing}
+                      setEditing={setEditing}
+                      handleRename={async (path: string, newPath: string) => {
+                        handleRename && (await handleRename(path, newPath))
+                        setEditing(undefined)
+                      }}
+                      deleteFile={() => {
+                        setSelectedItems([file])
+                        setIsDeleteModalOpen(true)
+                      }}
+                      moveFile={() => {
+                        setSelectedItems([file])
+                        setIsMoveFileModalOpen(true)
+                        setMoveModalMode("move")
+                      }}
+                      itemOperations={getItemOperations(file.content_type)}
+                      resetSelectedFiles={resetSelectedItems}
+                      recoverFile={() => {
+                        setSelectedItems([file])
+                        setIsMoveFileModalOpen(true)
+                        setMoveModalMode("recover")
+                      }}
+                      browserView='table'
+                      reportFile={(fileInfoPath: string) => {
+                        setFilePath(fileInfoPath)
+                        setIsReportFileModalOpen(true)}
+                      }
+                      showFileInfo={(fileInfoPath: string) => {
+                        setFilePath(fileInfoPath)
+                        setIsFileInfoModalOpen(true)
+                      }}
+                      showPreview={(fileIndex: number) => {
+                        setFileIndex(fileIndex)
+                        setIsPreviewOpen(true)
+                      }}
+                      handleShare={onShare}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            )
+            : (
+              <section
+                className={clsx(
+                  classes.gridRoot,
+                  loadingCurrentPath && classes.fadeOutLoading
+                )}
+              >
                 {items.map((file, index) => (
                   <FileSystemItem
                     key={index}
@@ -975,7 +1032,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       setIsMoveFileModalOpen(true)
                       setMoveModalMode("recover")
                     }}
-                    browserView='table'
+                    browserView="grid"
                     reportFile={(fileInfoPath: string) => {
                       setFilePath(fileInfoPath)
                       setIsReportFileModalOpen(true)}
@@ -984,72 +1041,15 @@ const FilesList = ({ isShared = false }: Props) => {
                       setFilePath(fileInfoPath)
                       setIsFileInfoModalOpen(true)
                     }}
+                    handleShare={onShare}
                     showPreview={(fileIndex: number) => {
                       setFileIndex(fileIndex)
                       setIsPreviewOpen(true)
                     }}
-                    handleShare={onShare}
                   />
                 ))}
-              </TableBody>
-            </Table>
-          )
-          : (
-            <section
-              className={clsx(
-                classes.gridRoot,
-                loadingCurrentPath && classes.fadeOutLoading
-              )}
-            >
-              {items.map((file, index) => (
-                <FileSystemItem
-                  key={index}
-                  file={file}
-                  files={files}
-                  selectedCids={selectedCids}
-                  handleSelectItem={handleSelectItem}
-                  viewFolder={handleViewFolder}
-                  handleAddToSelectedItems={handleAddToSelectedItems}
-                  editing={editing}
-                  setEditing={setEditing}
-                  handleRename={async (path: string, newPath: string) => {
-                    handleRename && (await handleRename(path, newPath))
-                    setEditing(undefined)
-                  }}
-                  deleteFile={() => {
-                    setSelectedItems([file])
-                    setIsDeleteModalOpen(true)
-                  }}
-                  moveFile={() => {
-                    setSelectedItems([file])
-                    setIsMoveFileModalOpen(true)
-                    setMoveModalMode("move")
-                  }}
-                  itemOperations={getItemOperations(file.content_type)}
-                  resetSelectedFiles={resetSelectedItems}
-                  recoverFile={() => {
-                    setSelectedItems([file])
-                    setIsMoveFileModalOpen(true)
-                    setMoveModalMode("recover")
-                  }}
-                  browserView="grid"
-                  reportFile={(fileInfoPath: string) => {
-                    setFilePath(fileInfoPath)
-                    setIsReportFileModalOpen(true)}
-                  }
-                  showFileInfo={(fileInfoPath: string) => {
-                    setFilePath(fileInfoPath)
-                    setIsFileInfoModalOpen(true)
-                  }}
-                  handleShare={onShare}
-                  showPreview={(fileIndex: number) => {
-                    setFileIndex(fileIndex)
-                    setIsPreviewOpen(true)
-                  }}
-                />
-              ))}
-            </section>
-          )
+              </section>
+            )
         }
         <Dialog
           active={isDeleteModalOpen}
