@@ -1,15 +1,19 @@
 import React from "react"
 import CurrentCard from "./CurrentCard"
 import { Divider, Typography } from "@chainsafe/common-components"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import CurrentProduct from "./CurrentProduct"
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
     root: {
+      [breakpoints.down("sm")]: {
+        paddingLeft: constants.generalUnit,
+        paddingRight: constants.generalUnit
+      }
     }
   })
 )

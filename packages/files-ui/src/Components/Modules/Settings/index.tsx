@@ -24,6 +24,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     title: {
       marginTop: constants.generalUnit,
+      cursor: "pointer",
       [breakpoints.down("md")]: {
         fontSize: 20,
         lineHeight: "28px",
@@ -129,7 +130,7 @@ const Settings: React.FC = () => {
   const { desktop } = useThemeSwitcher()
   const { path = desktop ? "profile" : "" } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
-  const { redirect } = useHistory()
+  const { redirect, history } = useHistory()
 
   const onSelectTab = useCallback(
     (key: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(key))
@@ -152,6 +153,7 @@ const Settings: React.FC = () => {
           variant="h1"
           component="p"
           className={classes.title}
+          onClick={() => history.push(ROUTE_LINKS.SettingsDefault)}
         >
           <Trans>Settings</Trans>
         </Typography>
