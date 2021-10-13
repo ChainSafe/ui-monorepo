@@ -253,7 +253,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       let errorMessage = t`Something went wrong. We couldn't upload your file`
 
       // we will need a method to parse server errors
-      if (error.code === 409) {
+      if (error?.error?.code === 409) {
         errorMessage = t`A file with the same name already exists`
       }
       dispatchUploadsInProgress({

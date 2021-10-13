@@ -19,7 +19,6 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
-import { ErrorDto } from "@chainsafe/files-api-client"
 
 
 const useStyles = makeStyles(
@@ -113,10 +112,10 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
             close()
           } catch (error: any) {
             setCreatingFolder(false)
-            if ((error.error as ErrorDto).code === 409) {
+            if (error?.error?.code === 409) {
               helpers.setFieldError("name", t`Folder name is already in use`)
             } else {
-              helpers.setFieldError("name", t`There was an error creating the folder ${(error as ErrorDto).message}`)
+              helpers.setFieldError("name", t`There was an error creating the folder ${error?.message}`)
             }
             helpers.setSubmitting(false)
           }

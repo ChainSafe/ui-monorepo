@@ -423,7 +423,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         errorMessage = t`Uploads cancelled`
       }
       // we will need a method to parse server errors
-      if (error.error.code === 409) {
+      if (error?.error?.code === 409) {
         errorMessage = t`A file with the same name already exists`
       }
       updateToast(toastId, {
