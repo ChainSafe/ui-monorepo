@@ -127,7 +127,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       borderRadius: 4,
       paddingLeft: 20,
       paddingTop: 14,
-      margin: 6,
+      margin: "6px 0",
       [breakpoints.down("sm")]: {
         width: "100%"
       },
