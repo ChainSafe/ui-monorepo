@@ -8,7 +8,8 @@ import {
   useToasts,
   RadioInput,
   TextInput,
-  CheckIcon
+  CheckIcon,
+  Divider
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -41,11 +42,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       [breakpoints.down("md")]: {
         borderBottom: "none"
       }
-    },
-    header: {
-      fontSize: 28,
-      lineHeight: "32px",
-      marginBottom: constants.generalUnit * 5
     },
     boxContainer: {
       marginBottom: constants.generalUnit * 4
@@ -330,10 +326,10 @@ const ProfileView = () => {
               <Typography
                 variant="h3"
                 component="h3"
-                className={classes.header}
               >
                 <Trans>Profile settings</Trans>
               </Typography>
+              <Divider />
               {profile?.publicAddress &&
                 <div
                   className={classes.boxContainer}

@@ -18,7 +18,6 @@ import SubscriptionTab from "./SubscriptionTab"
 import { ProfileIcon, SubscriptionPlanIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import SecurityTab from "./SecurityTab"
-import Plan from "./Plan"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -57,7 +56,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     tabsContainer: {
       borderRadius: 10,
       backgroundColor: palette.additional["gray"][3],
-      marginTop: constants.generalUnit * 4,
+      marginTop: constants.generalUnit * 2,
       [breakpoints.down("md")]: {
         borderRadius: 0,
         marginTop: 0
@@ -65,13 +64,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     tabPane: {
       flex: 1,
-      padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`,
-      "&.fullWidthTab": {
-        [breakpoints.down("lg")]: {
-          paddingLeft: constants.generalUnit,
-          paddingRight: constants.generalUnit
-        }
-      },
+      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`,
       [breakpoints.down("md")]: {
         padding: `${constants.generalUnit * 2}px 0`
       }
@@ -192,7 +185,7 @@ const Settings: React.FC = () => {
               <ProfileTab />
             </TabPane>
             <TabPane
-              className={clsx(classes.tabPane, "fullWidthTab", (!desktop && !path) ? classes.hideTabPane : "")}
+              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
               icon={<LockIcon className={classes.lockIcon}/>}
               iconRight={<CaretRightIcon/>}
               title={t`Security`}
@@ -202,19 +195,13 @@ const Settings: React.FC = () => {
               <SecurityTab />
             </TabPane>
             <TabPane
-              className={clsx(classes.tabPane, "fullWidthTab", (!desktop && !path) ? classes.hideTabPane : "")}
+              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
               title={t`Subscription Plan`}
               tabKey="plan"
               icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
               iconRight={<CaretRightIcon/>}
             >
               <SubscriptionTab />
-            </TabPane>
-            <TabPane
-              title={t`Plan`}
-              tabKey="plan"
-            >
-              <Plan />
             </TabPane>
           </Tabs>
         </div>

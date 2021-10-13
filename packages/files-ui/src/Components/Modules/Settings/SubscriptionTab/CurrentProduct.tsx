@@ -1,140 +1,121 @@
 import React from "react"
 import {
-  Grid,
   Button,
-  Typography,
-  ProgressBar,
   formatBytes,
-  Link
+  Link,
+  Loading,
+  ProgressBar,
+  Typography
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
-import clsx from "clsx"
-import { useFiles } from "../../../../Contexts/FilesContext"
-import { t, Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
+import { useFiles } from "../../../../Contexts/FilesContext"
+import { Trans } from "@lingui/macro"
+import clsx from "clsx"
+import { useBilling } from "../../../../Contexts/BillingContext"
 
-const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
-    container: {
-      margin: constants.generalUnit * 4
-    },
-    storageBox: {
-      maxWidth: 400
-    },
-    margins: {
-      marginBottom: constants.generalUnit * 2
-    },
-    storagePlan: {
-      marginTop: constants.generalUnit * 4
-    },
-    earlyAdopter: {
-      fontWeight: "bold"
-    },
-    essentialContainer: {
-      width: 300
-    },
-    subtitle: {
-      color: palette.additional["gray"][8],
-      [breakpoints.down("md")]: {
-        fontSize: 16,
-        lineHeight: "22px"
+    root: {
+      padding: constants.generalUnit,
+      maxWidth: 240,
+      "& h2, & h5": {
+        marginBottom: constants.generalUnit,
+        fontWeight: 400
+      },
+      "& h5": {
       }
     },
     spaceUsedBox: {
-      marginTop: constants.generalUnit * 3,
       [breakpoints.down("md")]: {
         marginBottom: constants.generalUnit,
         width: "inherit"
       }
     },
-    spaceUsedMargin: {
-      marginBottom: constants.generalUnit
+    usageBar: {
+      maxWidth: "70%",
+      marginBottom: constants.generalUnit,
+      marginTop: constants.generalUnit,
+      overflow: "hidden"
     },
-    changePlanButton: {
-      marginTop: constants.generalUnit * 2,
-      width: "inherit"
+    buttons: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      "& > *:first-child": {
+        marginRight: constants.generalUnit
+      }
     },
     link: {
+      display: "block",
+      width: "100%",
       textDecoration: "none"
     }
   })
 )
 
-const CurrentProduct: React.FC = () => {
+interface ISubscriptionWidget {
+  className?: string
+}
+
+const CurrentProduct = ({ className }: ISubscriptionWidget) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
+  const { currentSubscription } = useBilling()
 
-  return (
-    <Grid container>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        md={12}
-      >
-        {storageSummary &&
-        <div className={classes.container}>
-          <div className={classes.storageBox}>
-            <Typography
-              variant="h4"
-              component="h4"
-              className={clsx(classes.margins, classes.storagePlan)}
-            >
-              <Trans>Storage Plan</Trans>
-            </Typography>
-            <Typography
-              variant="h5"
-              component="h5"
-              className={clsx(classes.earlyAdopter)}
-            >
-              {t`Early Adopter: Free up to ${formatBytes(
-                storageSummary.total_storage, 2
-              )}`}
-            </Typography>
-            <Typography
-              variant="body1"
-              component="p"
-              className={clsx(classes.margins, classes.subtitle)}
-            >
-              {t`Your first ${formatBytes(
-                storageSummary.total_storage, 2
-              )} are free, and you’ll get a discount on our monthly plan once you need more than that`}.
-            </Typography>
-          </div>
-          <div className={classes.essentialContainer}>
-            <div className={classes.spaceUsedBox}>
-              <Typography
-                variant="body1"
-                className={classes.spaceUsedMargin}
-                component="p"
-              >{t`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
-                  storageSummary.total_storage, 2
-                )} used (${Math.ceil(storageSummary.used_storage / storageSummary.total_storage) * 100}%)`}
-              </Typography>
-              <ProgressBar
-                className={classes.spaceUsedMargin}
-                progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
-                size="small"
-              />
-            </div>
-            <Link
-              className={classes.link}
-              to={ROUTE_LINKS.Plans}
-            >
-              <Button
-                variant="primary"
-                className={classes.changePlanButton}
-              >
-                <Trans>Buy more storage</Trans>
-              </Button>
-            </Link>
-          </div>
+  return (<section className={clsx(classes.root, className)}>
+    <Typography
+      variant="h4"
+      component="h2"
+    >
+      <Trans>Your plan</Trans>
+    </Typography>
+    {
+      currentSubscription
+        ?  <Typography
+          variant="h5"
+          component="h5"
+        >
+          {
+            currentSubscription?.product.name
+          }
+        </Typography>
+        : <Loading />
+    }
+    {storageSummary &&
+      <>
+        <div className={classes.spaceUsedBox}>
+          <Typography
+            variant="body2"
+            component="p"
+          >
+            {`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+              storageSummary.total_storage, 2
+            )} used`} {((storageSummary.used_storage / storageSummary.total_storage) * 100).toFixed(1)}%
+          </Typography>
+          <ProgressBar
+            className={classes.usageBar}
+            progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
+            size="small"
+          />
         </div>
-        }
+        <div className={classes.buttons}>
+          <Link
+            className={classes.link}
+            to={ROUTE_LINKS.Plans}
+          >
+            <Button
+              fullsize
+              variant="primary"
+            >
+            Change Plan
+            </Button>
+          </Link>
+        </div>
+      </>
+    }
 
-      </Grid>
-    </Grid>
-  )
+  </section>)
 }
 
 export default CurrentProduct
