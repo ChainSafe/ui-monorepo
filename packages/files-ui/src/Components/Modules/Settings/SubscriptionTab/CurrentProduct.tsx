@@ -91,7 +91,7 @@ const CurrentProduct = ({ className }: ISubscriptionWidget) => {
           >
             {`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
               storageSummary.total_storage, 2
-            )} used`} {((storageSummary.used_storage / storageSummary.total_storage) * 100).toFixed(1)}%
+            )} used`} ({((storageSummary.used_storage / storageSummary.total_storage) * 100).toFixed(1)}%)
           </Typography>
           <ProgressBar
             className={classes.usageBar}

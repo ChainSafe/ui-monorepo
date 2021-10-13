@@ -54,6 +54,7 @@ import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalF
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import clsx from "clsx"
+import EmptySvg from "../../../../Media/Empty.svg"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -872,6 +873,22 @@ const FilesList = ({ isShared = false }: Props) => {
         </div>
         {!items.length
           ? (
+          <section
+            className={clsx(
+              classes.noFiles,
+              loadingCurrentPath && classes.fadeOutLoading
+            )}
+            data-cy="data-state-no-files"
+          >
+            <EmptySvg />
+            <Typography variant="h4"
+              component="h4">
+              <Trans>No files to show</Trans>
+            </Typography>
+          </section>
+        )
+        : browserView === "table"
+          ? (
             <Table
               fullWidth={true}
               striped={true}
@@ -958,7 +975,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       setIsMoveFileModalOpen(true)
                       setMoveModalMode("recover")
                     }}
-                    browserView="grid"
+                    browserView='table'
                     reportFile={(fileInfoPath: string) => {
                       setFilePath(fileInfoPath)
                       setIsReportFileModalOpen(true)}
