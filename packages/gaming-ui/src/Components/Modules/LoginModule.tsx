@@ -176,22 +176,23 @@ const LoginModule = ({ className }: IInitialScreen) => {
       await login(loginType)
     } catch (error: any) {
       let errorMessage = t`There was an error authenticating`
-      console.log(error)
-      if (error.error.code === 403 && error.error.message?.includes("Invalid signature")) {
+
+      // Invalid signature, or contract wallet not deployed
+      if (error?.error?.code === 403 && error?.error?.message?.includes("Invalid signature")) {
         errorMessage = t`Failed to validate signature.
             If you are using a contract wallet, please make 
             sure you have activated your wallet.`
       }
 
-      // WalletConnect be sassy
-      if (error.message === "Just nope" || error.code === 4001) {
+      // User rejected the signature request (WalletConnect be sassy)
+      if (error?.message === "Just nope" || error?.code === 4001) {
         errorMessage = t`Failed to get signature`
       }
 
-      if (error.message === "user closed popup") {
+      // DirectAuth popup was closed
+      if (error?.message === "user closed popup") {
         errorMessage = t`The authentication popup was closed`
       }
-
       setError(errorMessage)
     }
     setIsConnecting(false)
