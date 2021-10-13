@@ -625,6 +625,12 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsDeleteModalOpen(true)
   }, [])
 
+  const handleOpenShareDialog = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsShareModalOpen(true)
+  }, [])
+
   const mobileMenuItems = useMemo(() => [
     {
       contents: (
@@ -653,13 +659,12 @@ const FilesList = ({ isShared = false }: Props) => {
   ],
   [classes.menuIcon, accountRestricted])
 
-  const onShare = useCallback((fileInfoPath: string, fileIndex: number) => {
+  const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
     if(hasSeenSharingExplainerModal) {
       setClickedShare(true)
     }
 
-    setFilePath(fileInfoPath)
-    setFileIndex(fileIndex)
+    setSelectedItems([fileSystemItem])
     setIsShareModalOpen(true)
   }, [hasSeenSharingExplainerModal])
 
@@ -953,11 +958,11 @@ const FilesList = ({ isShared = false }: Props) => {
                       setFilePath(fileInfoPath)
                       setIsFileInfoModalOpen(true)
                     }}
-                    share={onShare}
                     showPreview={(fileIndex: number) => {
                       setFileIndex(fileIndex)
                       setIsPreviewOpen(true)
                     }}
+                    handleShare={onShare}
                   />
                 ))}
               </TableBody>
@@ -1010,7 +1015,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     setFilePath(fileInfoPath)
                     setIsFileInfoModalOpen(true)
                   }}
-                  share={onShare}
+                  handleShare={onShare}
                   showPreview={(fileIndex: number) => {
                     setFileIndex(fileIndex)
                     setIsPreviewOpen(true)
@@ -1096,15 +1101,19 @@ const FilesList = ({ isShared = false }: Props) => {
             setFilePath(undefined)
           }}
         />
+<<<<<<< HEAD
         }
         { !showExplainerBeforeShare && isShareModalOpen && filePath && fileIndex !== undefined &&
+=======
+      }
+      { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
+>>>>>>> dev
         <ShareModal
-          file={files[fileIndex]}
           close={() => {
             setIsShareModalOpen(false)
             setFilePath(undefined)
           }}
-          filePath={currentPath}
+          fileSystemItems={selectedItems}
         />
         }
         <SharingExplainerModal
