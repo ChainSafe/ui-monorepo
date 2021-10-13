@@ -43,6 +43,9 @@ msgstr "Legg til flere filer"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
 msgid "An error occurred while downloading the file"
 msgstr ""
 
@@ -59,6 +62,9 @@ msgid "Backup secret phrase does not match user account, please double-check and
 msgstr ""
 
 msgid "Bin"
+msgstr ""
+
+msgid "Browse {0}"
 msgstr ""
 
 msgid "Browser:"
@@ -655,6 +661,9 @@ msgstr "Logg inn"
 msgid "Sign in with a different account"
 msgstr "Logg inn med en annen konto"
 
+msgid "Sign in/up to access the shared folder"
+msgstr ""
+
 msgid "Sign me up!"
 msgstr ""
 
@@ -846,6 +855,9 @@ msgstr ""
 
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
+
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""

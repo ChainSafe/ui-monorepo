@@ -43,6 +43,9 @@ msgstr "Weitere Dateien hinzufügen"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
 msgid "An error occurred while downloading the file"
 msgstr "Beim Herunterladen der Datei ist ein Fehler aufgetreten"
 
@@ -60,6 +63,9 @@ msgstr "Der Sicherungsgeheimsatz stimmt nicht mit dem Benutzerkonto überein, bi
 
 msgid "Bin"
 msgstr "Papierkorb"
+
+msgid "Browse {0}"
+msgstr ""
 
 msgid "Browser:"
 msgstr "Browser:"
@@ -655,6 +661,9 @@ msgstr "Anmelden"
 msgid "Sign in with a different account"
 msgstr "Mit einem anderen Konto anmelden"
 
+msgid "Sign in/up to access the shared folder"
+msgstr ""
+
 msgid "Sign me up!"
 msgstr ""
 
@@ -846,6 +855,9 @@ msgstr "Sie können keine Ordner in diesen Pfad verschieben"
 
 msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
+
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""

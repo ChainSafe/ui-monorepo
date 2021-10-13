@@ -8,7 +8,7 @@ import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../../../Themes/types"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
-import { editMenu, readMenu } from "./LinkList"
+import { translatedPermission } from "./LinkList"
 
 const useStyles = makeStyles(
   ({ constants }: CSFTheme) => {
@@ -82,7 +82,7 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
       return
     }
 
-    setLink(ROUTE_LINKS.SharingLink(nonce.permission, jwt, bucketEncryptionKey))
+    setLink(`${window.location.origin}${ROUTE_LINKS.SharingLink(nonce.permission, jwt, bucketEncryptionKey)}`)
   }, [jwt, bucketEncryptionKey, nonce])
 
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
@@ -115,7 +115,7 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
       </div>
       <div className={classes.permissionWrapper}>
         <Typography className={classes.link}>
-          {nonce.permission === "read" ? readMenu : editMenu}
+          {translatedPermission(nonce.permission)}
         </Typography>
       </div>
       <Button

@@ -44,6 +44,9 @@ msgstr "Agrega mas archivos"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
 msgid "An error occurred while downloading the file"
 msgstr ""
 
@@ -61,6 +64,9 @@ msgstr ""
 
 msgid "Bin"
 msgstr "Papelera"
+
+msgid "Browse {0}"
+msgstr ""
 
 msgid "Browser:"
 msgstr "Navegador:"
@@ -659,6 +665,9 @@ msgstr "Registrarse"
 msgid "Sign in with a different account"
 msgstr "Inicie sesión con una cuenta diferente"
 
+msgid "Sign in/up to access the shared folder"
+msgstr ""
+
 msgid "Sign me up!"
 msgstr ""
 
@@ -849,6 +858,9 @@ msgid "You can't move folders to this path"
 msgstr ""
 
 msgid "You haven't set a username yet."
+msgstr ""
+
+msgid "You were added to the shared folder ({0}): {1}"
 msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."

@@ -44,6 +44,9 @@ msgstr "Ajouter d’autres fichiers"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
 msgid "An error occurred while downloading the file"
 msgstr "Une erreur s'est produite lors du téléchargement du fichier"
 
@@ -61,6 +64,9 @@ msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et r
 
 msgid "Bin"
 msgstr "Corbeille"
+
+msgid "Browse {0}"
+msgstr ""
 
 msgid "Browser:"
 msgstr "Explorateur :"
@@ -659,6 +665,9 @@ msgstr "Se connecter"
 msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
 
+msgid "Sign in/up to access the shared folder"
+msgstr ""
+
 msgid "Sign me up!"
 msgstr "S'inscrire !"
 
@@ -850,6 +859,9 @@ msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
+
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
