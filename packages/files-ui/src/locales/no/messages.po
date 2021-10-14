@@ -46,9 +46,6 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
-msgid "An error occurred while downloading the file"
-msgstr ""
-
 msgid "An error occurred:"
 msgstr ""
 
@@ -652,13 +649,10 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing cancelled"
+msgid "Sharing files"
 msgstr ""
 
 msgid "Sharing link"
-msgstr ""
-
-msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"

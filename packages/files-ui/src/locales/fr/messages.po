@@ -47,9 +47,6 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 msgid "Adding you to the shared folder..."
 msgstr ""
 
-msgid "An error occurred while downloading the file"
-msgstr "Une erreur s'est produite lors du téléchargement du fichier"
-
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
@@ -656,14 +653,11 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-msgid "Sharing cancelled"
-msgstr "Partage annulé"
+msgid "Sharing files"
+msgstr ""
 
 msgid "Sharing link"
 msgstr ""
-
-msgid "Sharing your file (Downloading)"
-msgstr "Partager votre fichier (Téléchargement)"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"

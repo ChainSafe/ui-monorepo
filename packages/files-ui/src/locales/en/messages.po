@@ -46,9 +46,6 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
 
-msgid "An error occurred while downloading the file"
-msgstr "An error occurred while downloading the file"
-
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
@@ -655,14 +652,11 @@ msgstr "Shared folders"
 msgid "Shared with"
 msgstr "Shared with"
 
-msgid "Sharing cancelled"
-msgstr "Sharing cancelled"
+msgid "Sharing files"
+msgstr "Sharing files"
 
 msgid "Sharing link"
 msgstr "Sharing link"
-
-msgid "Sharing your file (Downloading)"
-msgstr "Sharing your file (Downloading)"
 
 msgid "Sign Out"
 msgstr "Sign Out"
