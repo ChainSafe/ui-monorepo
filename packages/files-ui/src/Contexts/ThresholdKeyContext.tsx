@@ -15,12 +15,14 @@ import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
-import { IdentityProvider } from "@chainsafe/files-api-client"
+import { IdentityProvider, NonceResponsePermission } from "@chainsafe/files-api-client"
 import { capitalize, centerEllipsis } from "../Utils/Helpers"
 import { t } from "@lingui/macro"
 import jwtDecode from "jwt-decode"
 import { IdentityToken } from "@chainsafe/files-api-client"
 import dayjs from "dayjs"
+import keyEncoder from "key-encoder"
+import { KJUR } from "jsrsasign"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -68,6 +70,7 @@ export type TThresholdKeyContext = {
   getAvailableShareIndices(): string[] | undefined
   refreshTKeyMeta(): Promise<void>
   loggedinAs: string
+  createJWT: (bucketId: string, nonceId: string, nonce: NonceResponsePermission) => string | undefined
 }
 
 type ThresholdKeyProviderProps = {
@@ -246,7 +249,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         } else {
           setPrivateKey(privKeyString)
         }
-      } catch (error) {
+      } catch (error: any) {
         // Under certain circumstances (approval of login on another device) the metadata
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
         // identified through the nonce. Manually refreshing the metadata cache solves this problem
@@ -395,6 +398,31 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       }
     }
   }, [userInfo, address])
+
+  const createJWT = useCallback((bucketId: string, nonceId: string, permission: NonceResponsePermission) => {
+
+    if(!privateKey) {
+      console.error("no private key found")
+      return
+    }
+
+    const ke = new keyEncoder("secp256k1")
+    const pem = ke.encodePrivate(privateKey, "raw", "pem")
+    const header = { alg: "ES256", typ: "JWT" }
+    const payload = {
+      type: "link_sharing",
+      permission,
+      iat:  KJUR.jws.IntDate.get("now"),
+      bucket_id: bucketId,
+      nonce_id: nonceId
+    }
+
+    const sHeader = JSON.stringify(header)
+    const sPayload = JSON.stringify(payload)
+
+    const sJWT = KJUR.jws.JWS.sign("ES256", sHeader, sPayload, pem)
+    return sJWT
+  }, [privateKey])
 
   const login = async (loginType: IdentityProvider, tokenInfo?: {token: string; email: string}) => {
     if (!TKeySdk || maintenanceMode) return
@@ -781,7 +809,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const newKeyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(newKeyDetails)
       return
-    } catch (error) {
+    } catch (error: any) {
       if (error.message.includes("nonce")) {
         await TKeySdk.updateMetadata()
         await TKeySdk.syncShareMetadata()
@@ -828,7 +856,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         resetStatus: () => setStatus("initialized"),
         getAvailableShareIndices,
         refreshTKeyMeta,
-        loggedinAs
+        loggedinAs,
+        createJWT
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && process.env.REACT_APP_TEST !== "true" && (

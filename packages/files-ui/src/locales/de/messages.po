@@ -43,6 +43,9 @@ msgstr "Weitere Dateien hinzufügen"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
 msgid "An error occurred while downloading the file"
 msgstr "Beim Herunterladen der Datei ist ein Fehler aufgetreten"
 
@@ -60,6 +63,9 @@ msgstr "Der Sicherungsgeheimsatz stimmt nicht mit dem Benutzerkonto überein, bi
 
 msgid "Bin"
 msgstr "Papierkorb"
+
+msgid "Browse {0}"
+msgstr ""
 
 msgid "Browser:"
 msgstr "Browser:"
@@ -136,6 +142,9 @@ msgstr ""
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy link"
+msgstr ""
+
 msgid "Copy over"
 msgstr ""
 
@@ -159,6 +168,9 @@ msgstr ""
 
 msgid "Create folder"
 msgstr "Ordner erstellen"
+
+msgid "Create new link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
@@ -634,6 +646,9 @@ msgstr ""
 msgid "Sharing cancelled"
 msgstr ""
 
+msgid "Sharing link"
+msgstr ""
+
 msgid "Sharing your file (Downloading)"
 msgstr ""
 
@@ -645,6 +660,9 @@ msgstr "Anmelden"
 
 msgid "Sign in with a different account"
 msgstr "Mit einem anderen Konto anmelden"
+
+msgid "Sign in/up to access the shared folder"
+msgstr ""
 
 msgid "Sign me up!"
 msgstr ""
@@ -838,11 +856,17 @@ msgstr "Sie können keine Ordner in diesen Pfad verschieben"
 msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
+
+msgid "edit rights"
+msgstr ""
 
 msgid "me"
 msgstr "ich"
@@ -850,8 +874,14 @@ msgstr "ich"
 msgid "on"
 msgstr "am"
 
+msgid "read rights"
+msgstr ""
+
 msgid "unknown"
 msgstr "unbekannt"
+
+msgid "with"
+msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {{1} Datei wird heruntergeladen} other {{2} Dateien werden heruntergeladen}}"

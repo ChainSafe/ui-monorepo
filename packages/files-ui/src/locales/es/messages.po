@@ -44,6 +44,9 @@ msgstr "Agrega mas archivos"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
 msgid "An error occurred while downloading the file"
 msgstr ""
 
@@ -61,6 +64,9 @@ msgstr ""
 
 msgid "Bin"
 msgstr "Papelera"
+
+msgid "Browse {0}"
+msgstr ""
 
 msgid "Browser:"
 msgstr "Navegador:"
@@ -137,6 +143,9 @@ msgstr ""
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy link"
+msgstr ""
+
 msgid "Copy over"
 msgstr ""
 
@@ -160,6 +169,9 @@ msgstr ""
 
 msgid "Create folder"
 msgstr "Crear Carpeta"
+
+msgid "Create new link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
@@ -638,6 +650,9 @@ msgstr ""
 msgid "Sharing cancelled"
 msgstr ""
 
+msgid "Sharing link"
+msgstr ""
+
 msgid "Sharing your file (Downloading)"
 msgstr ""
 
@@ -649,6 +664,9 @@ msgstr "Registrarse"
 
 msgid "Sign in with a different account"
 msgstr "Inicie sesión con una cuenta diferente"
+
+msgid "Sign in/up to access the shared folder"
+msgstr ""
 
 msgid "Sign me up!"
 msgstr ""
@@ -842,10 +860,16 @@ msgstr ""
 msgid "You haven't set a username yet."
 msgstr ""
 
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
+
+msgid "edit rights"
 msgstr ""
 
 msgid "me"
@@ -854,7 +878,13 @@ msgstr ""
 msgid "on"
 msgstr "en"
 
+msgid "read rights"
+msgstr ""
+
 msgid "unknown"
+msgstr ""
+
+msgid "with"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"

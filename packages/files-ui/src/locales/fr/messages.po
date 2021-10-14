@@ -44,6 +44,9 @@ msgstr "Ajouter d’autres fichiers"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
 msgid "An error occurred while downloading the file"
 msgstr "Une erreur s'est produite lors du téléchargement du fichier"
 
@@ -61,6 +64,9 @@ msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et r
 
 msgid "Bin"
 msgstr "Corbeille"
+
+msgid "Browse {0}"
+msgstr ""
 
 msgid "Browser:"
 msgstr "Explorateur :"
@@ -137,6 +143,9 @@ msgstr "Copier le fichier"
 msgid "Copy info"
 msgstr "Copier les infos"
 
+msgid "Copy link"
+msgstr ""
+
 msgid "Copy over"
 msgstr "Copier"
 
@@ -160,6 +169,9 @@ msgstr "Créer un nouveau dossier partagé"
 
 msgid "Create folder"
 msgstr "Créer un dossier"
+
+msgid "Create new link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
@@ -638,6 +650,9 @@ msgstr "Partagé avec"
 msgid "Sharing cancelled"
 msgstr "Partage annulé"
 
+msgid "Sharing link"
+msgstr ""
+
 msgid "Sharing your file (Downloading)"
 msgstr "Partager votre fichier (Téléchargement)"
 
@@ -649,6 +664,9 @@ msgstr "Se connecter"
 
 msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
+
+msgid "Sign in/up to access the shared folder"
+msgstr ""
 
 msgid "Sign me up!"
 msgstr "S'inscrire !"
@@ -842,11 +860,17 @@ msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
+
+msgid "edit rights"
+msgstr ""
 
 msgid "me"
 msgstr "moi"
@@ -854,8 +878,14 @@ msgstr "moi"
 msgid "on"
 msgstr "le"
 
+msgid "read rights"
+msgstr ""
+
 msgid "unknown"
 msgstr "inconnu"
+
+msgid "with"
+msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargement de {2} fichiers}}"
