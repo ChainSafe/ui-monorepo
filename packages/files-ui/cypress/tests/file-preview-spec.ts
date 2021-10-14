@@ -72,7 +72,6 @@ describe("File Preview", () => {
         homePage.fileItemName().dblclick()
         previewModal.unsupportedFileLabel().should("exist")
         previewModal.downloadUnsupportedFileButton().should("be.visible")
-
         // ensure that the file download does not start until the download button is clicked
         cy.get("@downloadRequest").then(($request) => {
           // retrieving the alias (spy) should yield null because posts should not have been made yet
