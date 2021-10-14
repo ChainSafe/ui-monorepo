@@ -108,7 +108,7 @@ export const getJWT = (pathname: string) => {
   const arrayOfPaths =  getArrayOfPaths(pathname)
 
   if(arrayOfPaths.length !== 3){
-    console.error("JWT extractione error, unexpected path", pathname)
+    console.error("JWT extraction error, unexpected path", pathname)
     return
   }
 
