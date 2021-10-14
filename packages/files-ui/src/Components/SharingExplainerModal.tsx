@@ -132,9 +132,9 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
       return
     } else {
       switch (next) {
-        case 3:
+        case STEP_NUMBER:
           setLocalStore({ [DISMISSED_SHARING_EXPLAINER_KEY]:  "true" }, "update")
-          setStep(3)
+          setStep(STEP_NUMBER)
           break
         case STEP_NUMBER + 1:
           onHide()

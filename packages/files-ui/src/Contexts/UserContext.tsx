@@ -48,18 +48,16 @@ const UserProvider = ({ children }: UserContextProps) => {
   const [localStore, _setLocalStore] = useState<ILocalStore | undefined>()
 
   const setLocalStore = useCallback((newData: ILocalStore, method: "update" | "overwrite" = "update") => {
-    switch (method) {
-      case "update":
-        _setLocalStore({
-          ...localStore,
-          ...newData
-        })
-        break
-      case "overwrite":
-        _setLocalStore(newData)
-        break
-    }
-  }, [localStore])
+
+    const toStore = method === "update"
+      ? { ...localStore, ...newData }
+      : newData
+
+    filesApiClient.updateUserLocalStore(toStore)
+      .then(_setLocalStore)
+      .catch(console.error)
+
+  }, [filesApiClient, localStore])
 
   const refreshProfile = useCallback(async () => {
     try {
@@ -77,40 +75,32 @@ const UserProvider = ({ children }: UserContextProps) => {
       setProfile(profileState)
       return Promise.resolve()
     } catch (error) {
+      console.error(error)
       return Promise.reject("There was an error getting profile.")
     }
   }, [filesApiClient])
 
   useEffect(() => {
-    const manageAsync = async () => {
-      if (!localStore) {
-        // Fetch
-        try {
-          const fetched = await filesApiClient.getUserLocalStore()
-          if (!fetched) {
-            _setLocalStore({})
-          } else {
-            _setLocalStore(fetched)
-          }
-        } catch(error) {
-          console.error(error)
-          _setLocalStore({})
-        }
-      } else {
-        // Store 
-        await filesApiClient.updateUserLocalStore(localStore)
-      }
+    if (!isLoggedIn) {
+      return
     }
-    if (isLoggedIn) {
-      manageAsync()
-    }
-  }, [isLoggedIn, localStore, filesApiClient])
+
+    filesApiClient.getUserLocalStore()
+      .then(_setLocalStore)
+      .catch((e) => {
+        console.error(e)
+        _setLocalStore({})
+      })
+  }, [isLoggedIn, filesApiClient])
 
   useEffect(() => {
-    if (isLoggedIn) {
-      refreshProfile()
-        .catch(console.error)
+    if (!isLoggedIn) {
+      return
     }
+
+    refreshProfile()
+      .catch(console.error)
+
   }, [isLoggedIn, refreshProfile])
 
   const updateProfile = async (firstName?: string, lastName?: string) => {
