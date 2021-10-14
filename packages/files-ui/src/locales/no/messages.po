@@ -43,6 +43,12 @@ msgstr "Legg til flere filer"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
+msgid "An error occurred while downloading the file"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr ""
 
@@ -56,6 +62,9 @@ msgid "Backup secret phrase does not match user account, please double-check and
 msgstr ""
 
 msgid "Bin"
+msgstr ""
+
+msgid "Browse {0}"
 msgstr ""
 
 msgid "Browser:"
@@ -133,6 +142,9 @@ msgstr ""
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy link"
+msgstr ""
+
 msgid "Copy over"
 msgstr ""
 
@@ -159,6 +171,9 @@ msgstr ""
 
 msgid "Create folder"
 msgstr "Opprett mappe"
+
+msgid "Create new link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
@@ -637,7 +652,13 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing files"
+msgid "Sharing cancelled"
+msgstr ""
+
+msgid "Sharing link"
+msgstr ""
+
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -648,6 +669,9 @@ msgstr "Logg inn"
 
 msgid "Sign in with a different account"
 msgstr "Logg inn med en annen konto"
+
+msgid "Sign in/up to access the shared folder"
+msgstr ""
 
 msgid "Sign me up!"
 msgstr ""
@@ -838,10 +862,16 @@ msgstr ""
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
+
+msgid "edit rights"
 msgstr ""
 
 msgid "me"
@@ -850,7 +880,13 @@ msgstr ""
 msgid "on"
 msgstr ""
 
+msgid "read rights"
+msgstr ""
+
 msgid "unknown"
+msgstr ""
+
+msgid "with"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"

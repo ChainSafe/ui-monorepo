@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import {
   Button,
   GithubLogoIcon,
@@ -7,7 +7,8 @@ import {
   Loading,
   Typography,
   FormikTextInput,
-  EthereumLogoIcon
+  EthereumLogoIcon,
+  useLocation
 } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -16,7 +17,7 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
-import { ROUTE_LINKS } from "../../FilesRoutes"
+import { LINK_SHARING_BASE, ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./PasswordlessEmail"
@@ -91,14 +92,14 @@ const useStyles = makeStyles(
         maxWidth: 240
       },
       headerText: {
+        textAlign: "center",
         [breakpoints.up("md")]: {
           paddingTop: constants.generalUnit * 4,
           paddingBottom: constants.generalUnit * 8
         },
         [breakpoints.down("md")]: {
           paddingTop: constants.generalUnit * 3,
-          paddingBottom: constants.generalUnit * 3,
-          textAlign: "center"
+          paddingBottom: constants.generalUnit * 3
         }
       },
       footer: {
@@ -173,6 +174,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [isConnecting, setIsConnecting] = useState(false)
   const { filesApiClient } = useFilesApi()
   const [email, setEmail] = useState("")
+  const { state } = useLocation<{from?: string}>()
+  const isSharing = useMemo(() => state?.from?.includes(LINK_SHARING_BASE), [state])
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
@@ -379,7 +382,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           component="h1"
           className={classes.headerText}
         >
-          <Trans>Get Started</Trans>
+          {isSharing
+            ? <Trans>Sign in/up to access the shared folder</Trans>
+            : <Trans>Get Started</Trans>
+          }
         </Typography>
       )}
       {!error && (
