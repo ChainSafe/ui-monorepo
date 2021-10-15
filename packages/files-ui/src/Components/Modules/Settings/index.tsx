@@ -1,8 +1,10 @@
 import React, { useCallback, useMemo } from "react"
 import ProfileTab from "./ProfileTab"
-import { Tabs,
+import {
+  Tabs,
   TabPane as TabPaneOrigin,
-  Typography, Divider,
+  Typography,
+  Divider,
   Breadcrumb,
   Crumb,
   useParams,
@@ -128,7 +130,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
 
 const Settings: React.FC = () => {
   const { desktop } = useThemeSwitcher()
-  const { path = desktop ? "profile" : "" } = useParams<{path: SettingsPath}>()
+  const { path = desktop ? "profile" : undefined } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
   const { redirect, history } = useHistory()
 

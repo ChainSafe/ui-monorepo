@@ -54,11 +54,11 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   })
 )
 
-interface ISubscriptionWidget {
+interface ICurrentProduct {
   className?: string
 }
 
-const CurrentProduct = ({ className }: ISubscriptionWidget) => {
+const CurrentProduct = ({ className }: ICurrentProduct ) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
   const { currentSubscription } = useBilling()
@@ -76,9 +76,7 @@ const CurrentProduct = ({ className }: ISubscriptionWidget) => {
           variant="h5"
           component="h5"
         >
-          {
-            currentSubscription?.product.name
-          }
+          {currentSubscription?.product.name}
         </Typography>
         : <Loading />
     }
@@ -89,7 +87,7 @@ const CurrentProduct = ({ className }: ISubscriptionWidget) => {
             variant="body2"
             component="p"
           >
-            {`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+            {t`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
               storageSummary.total_storage, 2
             )} used`} ({((storageSummary.used_storage / storageSummary.total_storage) * 100).toFixed(1)}%)
           </Typography>
@@ -108,7 +106,7 @@ const CurrentProduct = ({ className }: ISubscriptionWidget) => {
               fullsize
               variant="primary"
             >
-            Change Plan
+            <Trans>Change Plan</Trans>
             </Button>
           </Link>
         </div>
