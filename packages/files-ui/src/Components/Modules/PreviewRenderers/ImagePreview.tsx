@@ -74,56 +74,57 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
 
   return (
     <div className={classes.root}>
-      <TransformWrapper
-        options={{
-          limitToBounds: true,
-          limitToWrapper: true,
-          minScale: 0.2
-        }}
-      >
-        {
+      {loading
+        ? <Loading
+          size={50}
+          type='inherit'
+        />
+        : <TransformWrapper
+            options={{
+              limitToBounds: true,
+              limitToWrapper: true,
+              minScale: 0.2
+            }}
+          >
+          {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          ({ zoomIn, zoomOut, resetTransform }) => (
-            <>
-              {desktop && (
-                <div className={classes.controlsContainer}>
-                  <Button
-                    onClick={zoomIn}
-                    data-cy="button-zoom-in"
-                  >
-                    <ZoomInIcon />
-                  </Button>
-                  <Button
-                    onClick={zoomOut}
-                    data-cy="button-zoom-out"
-                  >
-                    <ZoomOutIcon />
-                  </Button>
-                  <Button
-                    onClick={resetTransform}
-                    data-cy="button-full-screen"
-                  >
-                    <FullscreenIcon />
-                  </Button>
-                </div>
-              )}
-              {loading
-                ? <Loading
-                  size={50}
-                  type='inherit'
-                />
-                : <TransformComponent>
+            ({ zoomIn, zoomOut, resetTransform }) => (
+              <>
+                {desktop && (
+                  <div className={classes.controlsContainer}>
+                    <Button
+                      onClick={zoomIn}
+                      data-cy="button-zoom-in"
+                    >
+                      <ZoomInIcon />
+                    </Button>
+                    <Button
+                      onClick={zoomOut}
+                      data-cy="button-zoom-out"
+                    >
+                      <ZoomOutIcon />
+                    </Button>
+                    <Button
+                      onClick={resetTransform}
+                      data-cy="button-full-screen"
+                    >
+                      <FullscreenIcon />
+                    </Button>
+                  </div>
+                )}
+                <TransformComponent>
                   <img
                     src={imageUrl}
                     alt=""
                     className={classes.root}
                   />
-                </TransformComponent>}
-            </>
-          )
-        }
-      </TransformWrapper>
+                </TransformComponent>
+              </>
+            )
+          }
+        </TransformWrapper>
+      }
     </div>
   )
 }
