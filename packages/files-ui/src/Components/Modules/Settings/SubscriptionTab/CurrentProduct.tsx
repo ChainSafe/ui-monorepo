@@ -10,7 +10,7 @@ import {
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { useFiles } from "../../../../Contexts/FilesContext"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../Contexts/BillingContext"
 
@@ -58,7 +58,7 @@ interface ICurrentProduct {
   className?: string
 }
 
-const CurrentProduct = ({ className }: ICurrentProduct ) => {
+const CurrentProduct = ({ className }: ICurrentProduct) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
   const { currentSubscription } = useBilling()
@@ -106,7 +106,7 @@ const CurrentProduct = ({ className }: ICurrentProduct ) => {
               fullsize
               variant="primary"
             >
-            <Trans>Change Plan</Trans>
+              <Trans>Change Plan</Trans>
             </Button>
           </Link>
         </div>
