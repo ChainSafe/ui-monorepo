@@ -80,12 +80,12 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
           type='inherit'
         />
         : <TransformWrapper
-            options={{
-              limitToBounds: true,
-              limitToWrapper: true,
-              minScale: 0.2
-            }}
-          >
+          options={{
+            limitToBounds: true,
+            limitToWrapper: true,
+            minScale: 0.2
+          }}
+        >
           {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
