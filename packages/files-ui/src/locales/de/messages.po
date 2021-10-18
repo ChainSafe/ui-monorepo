@@ -146,7 +146,7 @@ msgid "Create"
 msgstr "Erstellen"
 
 msgid "Create Folder"
-msgstr "Ordner erstellen"
+msgstr ""
 
 msgid "Create Shared Folder"
 msgstr ""
@@ -446,7 +446,7 @@ msgid "Number of copies (Replication Factor)"
 msgstr "Anzahl der Kopien (Replikationsfaktor)"
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr "Eine Sekunde, die Dateien werden vorbereitet …"
@@ -713,6 +713,9 @@ msgid "There was an error authenticating"
 msgstr "Es gab einen Fehler bei der Authentifizierung"
 
 msgid "There was an error connecting your wallet"
+msgstr ""
+
+msgid "There was an error creating the folder {0}"
 msgstr ""
 
 msgid "There was an error deleting your data"
