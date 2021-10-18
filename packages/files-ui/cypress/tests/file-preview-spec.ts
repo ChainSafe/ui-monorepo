@@ -72,7 +72,6 @@ describe("File Preview", () => {
         homePage.fileItemName().dblclick()
         previewModal.unsupportedFileLabel().should("exist")
         previewModal.downloadUnsupportedFileButton().should("be.visible")
-
         // ensure the download request contains the correct file
         cy.get("@downloadRequest").its("request.body").should("contain", {
           path: "/file.zip"

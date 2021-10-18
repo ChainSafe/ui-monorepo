@@ -46,9 +46,6 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
 
-msgid "An error occurred while downloading the file"
-msgstr "An error occurred while downloading the file"
-
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
@@ -151,6 +148,9 @@ msgstr "Copy over"
 msgid "Copy to"
 msgstr "Copy to"
 
+msgid "Copying files"
+msgstr "Copying files"
+
 msgid "Create"
 msgstr "Create"
 
@@ -243,9 +243,6 @@ msgstr "Drop to upload files"
 
 msgid "Email is required"
 msgstr "Email is required"
-
-msgid "Encrypting & uploading"
-msgstr "Encrypting & uploading"
 
 msgid "Enter backup secret phrase:"
 msgstr "Enter backup secret phrase:"
@@ -361,8 +358,8 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
 
-msgid "Keep original file"
-msgstr "Keep original file"
+msgid "Keep original files"
+msgstr "Keep original files"
 
 msgid "Language"
 msgstr "Language"
@@ -438,6 +435,12 @@ msgstr "Nice to see you again!"
 
 msgid "No file to download."
 msgstr "No file to download."
+
+msgid "No files to copy"
+msgstr "No files to copy"
+
+msgid "No files to share"
+msgstr "No files to share"
 
 msgid "No files to show"
 msgstr "No files to show"
@@ -634,6 +637,9 @@ msgstr "Share"
 msgid "Share file"
 msgstr "Share file"
 
+msgid "Share selected"
+msgstr "Share selected"
+
 msgid "Shared"
 msgstr "Shared"
 
@@ -646,14 +652,11 @@ msgstr "Shared folders"
 msgid "Shared with"
 msgstr "Shared with"
 
-msgid "Sharing cancelled"
-msgstr "Sharing cancelled"
+msgid "Sharing files"
+msgstr "Sharing files"
 
 msgid "Sharing link"
 msgstr "Sharing link"
-
-msgid "Sharing your file (Downloading)"
-msgstr "Sharing your file (Downloading)"
 
 msgid "Sign Out"
 msgstr "Sign Out"
@@ -762,9 +765,6 @@ msgstr "This website uses cookies"
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-
-msgid "Transfer complete"
-msgstr "Transfer complete"
 
 msgid "Try again"
 msgstr "Try again"
@@ -894,3 +894,21 @@ msgstr "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting an
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+
+msgid "{0} cancelled"
+msgstr "{0} cancelled"
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr "{0} cancelled - {successCount} files {1} successfully"
+
+msgid "{0} complete"
+msgstr "{0} complete"
+
+msgid "{0} failed"
+msgstr "{0} failed"
+
+msgid "{0} {fileProgress} - {1}"
+msgstr "{0} {fileProgress} - {1}"
+
+msgid "{successCount} files transferred successfully, {0} failed"
+msgstr "{successCount} files transferred successfully, {0} failed"
