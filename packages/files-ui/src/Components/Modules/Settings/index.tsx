@@ -165,7 +165,7 @@ const Settings: React.FC = () => {
         <div className={classes.tabsContainer}>
           <Tabs
             activeKey={path}
-            onTabSelect={onSelectTab as (key: string) => void}
+            onTabSelect={onSelectTab}
             injectedClass={{
               root: classes.injectedTabRoot,
               tabBar: classes.injectedTabBar,
