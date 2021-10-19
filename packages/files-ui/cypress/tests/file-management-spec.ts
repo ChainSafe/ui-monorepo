@@ -11,6 +11,7 @@ import { moveItemModal } from "../support/page-objects/modals/moveItemModal"
 import { recoverItemModal } from "../support/page-objects/modals/recoverItemModal"
 import { deleteSuccessToast } from "../support/page-objects/toasts/deleteSuccessToast"
 import { moveSuccessToast } from "../support/page-objects/toasts/moveSuccessToast"
+import { recoverSuccessToast } from "../support/page-objects/toasts/recoverSuccessToast"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 
 describe("File management", () => {
@@ -89,12 +90,16 @@ describe("File management", () => {
 
         // ensure the home root now has the folder and file
         navigationMenu.homeNavButton().click()
-        homePage.fileItemRow().should("have.length", 2)
+        homePage.fileItemRow()
+          .should("be.visible")
+          .should("have.length", 2)
         homePage.fileItemName().should("contain.text", folderName)
         homePage.fileItemName().should("contain.text", $fileName)
 
-        // ensure folder already in the root cannot be moved to Home
-        homePage.fileItemName().contains(`${$fileName}`).click()
+        // ensure file already in the root cannot be moved to Home
+        homePage.fileItemName().contains(`${$fileName}`)
+          .should("be.visible")
+          .click()
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
         moveItemModal.errorLabel().should("be.visible")
@@ -112,8 +117,10 @@ describe("File management", () => {
       // select a parent folder and initiate move action
       homePage.fileItemName().contains("Parent").click()
       homePage.moveSelectedButton().click()
+      moveItemModal.body().should("be.visible")
 
       // ensure folder already in the root cannot be moved to Home
+      moveItemModal.folderList().should("be.visible")
       moveItemModal.folderList().contains("Home").click()
       moveItemModal.body().should("be.visible")
       moveItemModal.errorLabel().should("be.visible")
@@ -259,6 +266,8 @@ describe("File management", () => {
       recoverItemModal.folderList().contains("Home").click()
       recoverItemModal.recoverButton().safeClick()
       binPage.fileItemRow().should("not.exist")
+      recoverSuccessToast.body().should("be.visible")
+      recoverSuccessToast.closeButton().click()
 
       // ensure recovered file is correct
       navigationMenu.homeNavButton().click()
