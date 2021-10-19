@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-07-29 09:32+0000\n"
+"PO-Revision-Date: 2021-09-30 12:40+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/nb_NO/>\n"
 "Language: no\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7.2-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -41,9 +41,6 @@ msgid "Add more files"
 msgstr "Legg til flere filer"
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
-msgstr ""
-
-msgid "An error occurred while downloading the file"
 msgstr ""
 
 msgid "An error occurred:"
@@ -142,11 +139,14 @@ msgstr ""
 msgid "Copy to"
 msgstr ""
 
+msgid "Copying files"
+msgstr ""
+
 msgid "Create"
 msgstr "Opprett"
 
 msgid "Create Folder"
-msgstr "Opprett mappe"
+msgstr ""
 
 msgid "Create Shared Folder"
 msgstr ""
@@ -165,6 +165,18 @@ msgstr ""
 
 msgid "Dark Theme"
 msgstr "Mørk drakt"
+
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data moved to bin successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
 
 msgid "Date uploaded"
 msgstr "Dato opplastet"
@@ -220,9 +232,6 @@ msgstr "Dra for å laste opp filer"
 msgid "Email is required"
 msgstr "E-post kreves"
 
-msgid "Encrypting & uploading"
-msgstr ""
-
 msgid "Enter backup secret phrase:"
 msgstr ""
 
@@ -250,9 +259,6 @@ msgid ""
 "sure you have activated your wallet."
 msgstr ""
 
-msgid "File"
-msgstr "Fil"
-
 msgid "File Info"
 msgstr "Filinfo"
 
@@ -273,9 +279,6 @@ msgstr ""
 
 msgid "First name"
 msgstr "Fornavn"
-
-msgid "Folder"
-msgstr "Mappe"
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -340,7 +343,7 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
-msgid "Keep original file"
+msgid "Keep original files"
 msgstr ""
 
 msgid "Language"
@@ -418,6 +421,12 @@ msgstr ""
 msgid "No file to download."
 msgstr ""
 
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
+
 msgid "No files to show"
 msgstr "Ingen filer å vise"
 
@@ -437,7 +446,7 @@ msgid "Number of copies (Replication Factor)"
 msgstr ""
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr ""
@@ -613,6 +622,9 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Delt"
 
@@ -625,10 +637,7 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing cancelled"
-msgstr ""
-
-msgid "Sharing your file (Downloading)"
+msgid "Sharing files"
 msgstr ""
 
 msgid "Sign Out"
@@ -706,7 +715,10 @@ msgstr ""
 msgid "There was an error connecting your wallet"
 msgstr ""
 
-msgid "There was an error deleting this"
+msgid "There was an error creating the folder {0}"
+msgstr ""
+
+msgid "There was an error deleting your data"
 msgstr ""
 
 msgid "There was an error getting search results"
@@ -715,10 +727,10 @@ msgstr ""
 msgid "There was an error getting the preview."
 msgstr ""
 
-msgid "There was an error moving this"
+msgid "There was an error moving your data"
 msgstr ""
 
-msgid "There was an error recovering this"
+msgid "There was an error restoring your data"
 msgstr ""
 
 msgid "There was an error when setting username."
@@ -734,9 +746,6 @@ msgid "This website uses cookies"
 msgstr ""
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-msgstr ""
-
-msgid "Transfer complete"
 msgstr ""
 
 msgid "Try again"
@@ -838,26 +847,11 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "deleted successfully"
-msgstr "slettet"
-
-msgid "file"
-msgstr "fil"
-
-msgid "folder"
-msgstr "mappe"
-
 msgid "me"
 msgstr ""
 
-msgid "moved successfully"
-msgstr "flyttet"
-
 msgid "on"
 msgstr ""
-
-msgid "recovered successfully"
-msgstr "gjenopprettet"
 
 msgid "unknown"
 msgstr ""
@@ -869,4 +863,22 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} cancelled"
+msgstr ""
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr ""
+
+msgid "{0} complete"
+msgstr ""
+
+msgid "{0} failed"
+msgstr ""
+
+msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
 msgstr ""

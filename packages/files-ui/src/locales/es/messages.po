@@ -1,18 +1,18 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-06 20:51+0200\n"
-"Mime-Version: 1.0\n"
+"PO-Revision-Date: 2021-09-30 12:40+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
-"Language: es\n"
-"Project-Id-Version: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.9-dev\n"
+"Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
@@ -42,9 +42,6 @@ msgid "Add more files"
 msgstr "Agrega mas archivos"
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
-msgstr ""
-
-msgid "An error occurred while downloading the file"
 msgstr ""
 
 msgid "An error occurred:"
@@ -143,11 +140,14 @@ msgstr ""
 msgid "Copy to"
 msgstr ""
 
+msgid "Copying files"
+msgstr ""
+
 msgid "Create"
 msgstr "Crear"
 
 msgid "Create Folder"
-msgstr "Crear Carpeta"
+msgstr ""
 
 msgid "Create Shared Folder"
 msgstr ""
@@ -166,6 +166,18 @@ msgstr ""
 
 msgid "Dark Theme"
 msgstr "Tema oscuro"
+
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data moved to bin successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
 
 msgid "Date uploaded"
 msgstr "Fecha de subida"
@@ -221,9 +233,6 @@ msgstr "Suelta para subir archivos"
 msgid "Email is required"
 msgstr ""
 
-msgid "Encrypting & uploading"
-msgstr ""
-
 msgid "Enter backup secret phrase:"
 msgstr ""
 
@@ -254,9 +263,6 @@ msgstr ""
 "Si está utilizando una billetera de contrato, haga\n"
 "seguro que has activado tu billetera."
 
-msgid "File"
-msgstr "Archivo"
-
 msgid "File Info"
 msgstr "Información del archivo"
 
@@ -277,9 +283,6 @@ msgstr ""
 
 msgid "First name"
 msgstr "Primer Nombre"
-
-msgid "Folder"
-msgstr "Archivo"
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -344,7 +347,7 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
-msgid "Keep original file"
+msgid "Keep original files"
 msgstr ""
 
 msgid "Language"
@@ -422,6 +425,12 @@ msgstr "Encantado de verte de nuevo!"
 msgid "No file to download."
 msgstr ""
 
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
+
 msgid "No files to show"
 msgstr "No hay archivos para mostrar"
 
@@ -441,7 +450,7 @@ msgid "Number of copies (Replication Factor)"
 msgstr "Número de copias (factor de replicación)"
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr ""
@@ -617,6 +626,9 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr ""
 
@@ -629,10 +641,7 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing cancelled"
-msgstr ""
-
-msgid "Sharing your file (Downloading)"
+msgid "Sharing files"
 msgstr ""
 
 msgid "Sign Out"
@@ -710,8 +719,11 @@ msgstr "Hubo un error de autenticación."
 msgid "There was an error connecting your wallet"
 msgstr "Hubo un error al conectar su billetera"
 
-msgid "There was an error deleting this"
-msgstr "Hubo un error al eliminar esto."
+msgid "There was an error creating the folder {0}"
+msgstr ""
+
+msgid "There was an error deleting your data"
+msgstr ""
 
 msgid "There was an error getting search results"
 msgstr "Se produjo un error al obtener los resultados de la búsqueda."
@@ -719,11 +731,11 @@ msgstr "Se produjo un error al obtener los resultados de la búsqueda."
 msgid "There was an error getting the preview."
 msgstr "Hubo un error al obtener la vista previa."
 
-msgid "There was an error moving this"
+msgid "There was an error moving your data"
 msgstr ""
 
-msgid "There was an error recovering this"
-msgstr "Hubo un error al recuperar esto."
+msgid "There was an error restoring your data"
+msgstr ""
 
 msgid "There was an error when setting username."
 msgstr ""
@@ -738,9 +750,6 @@ msgid "This website uses cookies"
 msgstr ""
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-msgstr ""
-
-msgid "Transfer complete"
 msgstr ""
 
 msgid "Try again"
@@ -842,26 +851,11 @@ msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de se
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "deleted successfully"
-msgstr "borrado exitosamente"
-
-msgid "file"
-msgstr "archivo"
-
-msgid "folder"
-msgstr "carpeta"
-
 msgid "me"
-msgstr ""
-
-msgid "moved successfully"
 msgstr ""
 
 msgid "on"
 msgstr "en"
-
-msgid "recovered successfully"
-msgstr "recuperado con éxito"
 
 msgid "unknown"
 msgstr ""
@@ -873,4 +867,22 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} cancelled"
+msgstr ""
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr ""
+
+msgid "{0} complete"
+msgstr ""
+
+msgid "{0} failed"
+msgstr ""
+
+msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
 msgstr ""

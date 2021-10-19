@@ -1,3 +1,5 @@
+import { FileSystemItem } from "../Contexts/FilesContext"
+
 // trims a string at both ends for a character
 export function trimChar(str: string, char: string) {
   char = char.charAt(0)
@@ -108,4 +110,21 @@ export const getUrlSafePathWithFile = (path: string, fileName: string) => {
   }
 
   return `${urlSafePath}/${encodeURIComponent(fileName)}`
+}
+
+export const getAbsolutePathsFromCids = (cids: string[], currentPath: string, pathContents: FileSystemItem[]) => {
+  return cids.map((cid: string) => {
+    const item = pathContents.find((i) => i.cid === cid)
+    if (!item) {
+      return undefined
+    }
+    return getPathWithFile(currentPath, item.name)
+  }).filter((item): item is string => !!item)
+}
+
+export const pathEndingWithSlash = (path: string) => {
+  const lastChar = path.substr(-1)
+  return lastChar === "/"
+    ? path
+    : `${path}/`
 }
