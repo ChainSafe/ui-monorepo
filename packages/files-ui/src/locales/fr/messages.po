@@ -147,7 +147,7 @@ msgid "Create"
 msgstr "Créer"
 
 msgid "Create Folder"
-msgstr "Créer un dossier"
+msgstr ""
 
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
@@ -285,7 +285,7 @@ msgid "First name"
 msgstr "Prénom"
 
 msgid "Folder name is already in use"
-msgstr "Le nom du dossier est déjà utilisé"
+msgstr ""
 
 msgid "Folder uploads are not supported currently"
 msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
@@ -450,7 +450,7 @@ msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr "Un instant, nous préparons les fichiers…"
@@ -718,6 +718,9 @@ msgstr "Une erreur s’est produite lors de l’authentification"
 
 msgid "There was an error connecting your wallet"
 msgstr "Une erreur s’est produite lors de la connexion de votre wallet"
+
+msgid "There was an error creating the folder {0}"
+msgstr ""
 
 msgid "There was an error deleting your data"
 msgstr "Une erreur s'est produite lors de la suppression de vos données"

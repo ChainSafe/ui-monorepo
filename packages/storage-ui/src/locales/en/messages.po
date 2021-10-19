@@ -178,9 +178,6 @@ msgstr ""
 msgid "File"
 msgstr "File"
 
-msgid "File/Folder already exists"
-msgstr "File/Folder already exists"
-
 msgid "Folder"
 msgstr "Folder"
 
@@ -360,6 +357,9 @@ msgstr "There was an error authenticating"
 
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
+
+msgid "There was an error creating the folder {0}"
+msgstr "There was an error creating the folder {0}"
 
 msgid "There was an error deleting this item"
 msgstr "There was an error deleting this item"
