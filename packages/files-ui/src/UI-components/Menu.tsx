@@ -6,23 +6,23 @@ import { useCallback } from "react"
 import { CSFTheme } from "../Themes/types"
 
 interface Option {
-    contents: ReactNode
-    onClick?: () => void
-    disabled?: boolean
+  contents: ReactNode
+  onClick?: () => void
+  disabled?: boolean
 }
 
 interface CustomClasses {
-    iconContainer?: string
-    menuWrapper?: string
-    focusVisible?: string
-    root?: string
+  iconContainer?: string
+  menuWrapper?: string
+  focusVisible?: string
+  root?: string
 }
 
 interface Props {
-    icon?: ReactNode
-    options: Option[]
-    style?: CustomClasses
-    testId?: string
+  icon?: ReactNode
+  options: Option[]
+  style?: CustomClasses
+  testId?: string
 }
 
 const useStyles = makeStyles(({ constants }: CSFTheme) => {

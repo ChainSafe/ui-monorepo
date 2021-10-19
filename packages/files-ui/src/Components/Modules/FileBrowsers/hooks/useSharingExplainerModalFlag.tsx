@@ -1,28 +1,28 @@
-import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { useCallback } from "react"
 import { useEffect, useState } from "react"
+import { useUser } from "../../../../Contexts/UserContext"
 
 export const DISMISSED_SHARING_EXPLAINER_KEY = "csf.dismissedSharingExplainer"
 
 export const useSharingExplainerModalFlag = () => {
-  const { localStorageGet, localStorageSet } = useLocalStorage()
+  const { localStore, setLocalStore } = useUser()
   const [hasSeenSharingExplainerModal, setHasSeenSharingExplainerModal] = useState(false)
-  const dismissedFlag = localStorageGet(DISMISSED_SHARING_EXPLAINER_KEY)
+  const dismissedFlag = localStore ? localStore[DISMISSED_SHARING_EXPLAINER_KEY] : null
 
   useEffect(() => {
     if (dismissedFlag === "false"){
       setHasSeenSharingExplainerModal(true)
     } else if (dismissedFlag === null) {
       // the dismiss flag was never set
-      localStorageSet(DISMISSED_SHARING_EXPLAINER_KEY, "false")
+      setLocalStore({ [DISMISSED_SHARING_EXPLAINER_KEY]: "false" }, "update")
       setHasSeenSharingExplainerModal(true)
     }
-  }, [dismissedFlag, localStorageSet])
+  }, [dismissedFlag, setLocalStore])
 
   const hideModal = useCallback(() => {
-    localStorageSet(DISMISSED_SHARING_EXPLAINER_KEY, "true")
+    setLocalStore({ [DISMISSED_SHARING_EXPLAINER_KEY]: "true" }, "update")
     setHasSeenSharingExplainerModal(false)
-  }, [localStorageSet])
+  }, [setLocalStore])
 
   return { hasSeenSharingExplainerModal, hideModal }
 }

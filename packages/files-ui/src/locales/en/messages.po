@@ -16,6 +16,9 @@ msgstr ""
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
+msgid "A better sharing experience is coming soon."
+msgstr "A better sharing experience is coming soon."
+
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
@@ -67,6 +70,9 @@ msgstr "Backup secret phrase"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
 
+#~ msgid "Basic - Free"
+#~ msgstr "Basic - Free"
+
 msgid "Billed Monthly"
 msgstr "Billed Monthly"
 
@@ -96,12 +102,6 @@ msgstr "CID (Content Identifier)"
 
 msgid "Cancel"
 msgstr "Cancel"
-
-#~ msgid "Card added successfully"
-#~ msgstr "Card added successfully"
-
-#~ msgid "Card details could not be validated"
-#~ msgstr "Card details could not be validated"
 
 msgid "Card inputs invalid"
 msgstr "Card inputs invalid"
@@ -196,6 +196,18 @@ msgstr "Credit card on file"
 msgid "Dark Theme"
 msgstr "Dark Theme"
 
+msgid "Data deleted successfully"
+msgstr "Data deleted successfully"
+
+msgid "Data moved successfully"
+msgstr "Data moved successfully"
+
+msgid "Data moved to bin successfully"
+msgstr "Data moved to bin successfully"
+
+msgid "Data restored successfully"
+msgstr "Data restored successfully"
+
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
@@ -268,6 +280,18 @@ msgstr "Enter password:"
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
 
+#~ msgid "Error while creating new shared folder"
+#~ msgstr "Error while creating new shared folder"
+
+#~ msgid "Error while downloading {0}"
+#~ msgstr "Error while downloading {0}"
+
+#~ msgid "Error while uploading {0}"
+#~ msgstr "Error while uploading {0}"
+
+#~ msgid "Essentials - Free"
+#~ msgstr "Essentials - Free"
+
 msgid "Failed to add payment method"
 msgstr "Failed to add payment method"
 
@@ -285,9 +309,6 @@ msgstr ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
-
-msgid "File"
-msgstr "File"
 
 msgid "File Info"
 msgstr "File Info"
@@ -310,14 +331,11 @@ msgstr "Files sharing key"
 msgid "First name"
 msgstr "First name"
 
-msgid "Folder"
-msgstr "Folder"
-
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
-#~ msgid "Folder uploads are not supported currently"
-#~ msgstr "Folder uploads are not supported currently"
+msgid "Folder uploads are not supported currently"
+msgstr "Folder uploads are not supported currently"
 
 msgid "Folders"
 msgstr "Folders"
@@ -327,6 +345,9 @@ msgstr "For security reasons, each time you sign in we’ll ask you for one of t
 
 msgid "Forget this browser"
 msgstr "Forget this browser"
+
+msgid "Free plan"
+msgstr "Free plan"
 
 msgid "General"
 msgstr "General"
@@ -354,9 +375,6 @@ msgstr "Go back"
 
 msgid "Go to Payments"
 msgstr "Go to Payments"
-
-msgid "Got an issue?"
-msgstr "Got an issue?"
 
 msgid "Got it"
 msgstr "Got it"
@@ -421,6 +439,9 @@ msgstr "Loading..."
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+
 msgid "Manage Access"
 msgstr "Manage Access"
 
@@ -442,12 +463,6 @@ msgstr "My Files"
 msgid "Name"
 msgstr "Name"
 
-#~ msgid "Name on card"
-#~ msgstr "Name on card"
-
-#~ msgid "Name on card is required"
-#~ msgstr "Name on card is required"
-
 msgid "Name too long"
 msgstr "Name too long"
 
@@ -466,8 +481,8 @@ msgstr "No Card"
 msgid "No file to download."
 msgstr "No file to download."
 
-msgid "No files to show"
-msgstr "No files to show"
+#~ msgid "No files to show"
+#~ msgstr "No files to show"
 
 msgid "No folders"
 msgstr "No folders"
@@ -492,6 +507,9 @@ msgstr "One sec, getting files ready…"
 
 msgid "Only you can see this."
 msgstr "Only you can see this."
+
+msgid "Oops! You need to pay for this month to upload more content."
+msgstr "Oops! You need to pay for this month to upload more content."
 
 msgid "Operating system:"
 msgstr "Operating system:"
@@ -526,6 +544,9 @@ msgstr "Passwords must match"
 msgid "Payment and Subscriptions"
 msgstr "Payment and Subscriptions"
 
+msgid "Plan"
+msgstr "Plan"
+
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
 
@@ -540,6 +561,9 @@ msgstr "Please provide a password"
 
 msgid "Please select a file to upload"
 msgstr "Please select a file to upload"
+
+msgid "Premium plan"
+msgstr "Premium plan"
 
 msgid "Preview"
 msgstr "Preview"
@@ -594,6 +618,9 @@ msgstr "Report"
 
 msgid "Report a File"
 msgstr "Report a File"
+
+msgid "Report a bug"
+msgstr "Report a bug"
 
 msgid "Requested from"
 msgstr "Requested from"
@@ -691,6 +718,9 @@ msgstr "Sign in"
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
 
+msgid "Sign me up!"
+msgstr "Sign me up!"
+
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
 
@@ -709,14 +739,17 @@ msgstr "Something went wrong with email login! Please try again."
 msgid "Something went wrong!"
 msgstr "Something went wrong!"
 
-#~ msgid "Something went wrong, please try again"
-#~ msgstr "Something went wrong, please try again"
-
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
 
+msgid "Standard plan"
+msgstr "Standard plan"
+
 msgid "Start Upload"
 msgstr "Start Upload"
+
+msgid "Start a team"
+msgstr "Start a team"
 
 msgid "Storage Plan"
 msgstr "Storage Plan"
@@ -726,6 +759,9 @@ msgstr "Stored by miner"
 
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
+
+msgid "Teams"
+msgstr "Teams"
 
 msgid "Technical"
 msgstr "Technical"
@@ -754,8 +790,8 @@ msgstr "There was an error authenticating"
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
 
-msgid "There was an error deleting this"
-msgstr "There was an error deleting this"
+msgid "There was an error deleting your data"
+msgstr "There was an error deleting your data"
 
 msgid "There was an error getting search results"
 msgstr "There was an error getting search results"
@@ -763,14 +799,17 @@ msgstr "There was an error getting search results"
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
-msgid "There was an error moving this"
-msgstr "There was an error moving this"
+msgid "There was an error moving your data"
+msgstr "There was an error moving your data"
 
-msgid "There was an error recovering this"
-msgstr "There was an error recovering this"
+msgid "There was an error restoring your data"
+msgstr "There was an error restoring your data"
 
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
+
+msgid "This is the free product."
+msgstr "This is the free product."
 
 msgid "This username is already taken"
 msgstr "This username is already taken"
@@ -796,6 +835,9 @@ msgstr "Try another method"
 msgid "Try for 7 days"
 msgstr "Try for 7 days"
 
+msgid "Unable to upload"
+msgstr "Unable to upload"
+
 msgid "Update"
 msgstr "Update"
 
@@ -813,6 +855,9 @@ msgstr "Upload"
 
 msgid "Uploads cancelled"
 msgstr "Uploads cancelled"
+
+msgid "Uploads disabled"
+msgstr "Uploads disabled"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"
@@ -898,29 +943,17 @@ msgstr "You've got a payment due. Until you've settled up, we've placed your acc
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 
+msgid "Your plan"
+msgstr "Your plan"
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
-
-msgid "deleted successfully"
-msgstr "deleted successfully"
-
-msgid "file"
-msgstr "file"
-
-msgid "folder"
-msgstr "folder"
 
 msgid "me"
 msgstr "me"
 
-msgid "moved successfully"
-msgstr "moved successfully"
-
 msgid "on"
 msgstr "on"
-
-msgid "recovered successfully"
-msgstr "recovered successfully"
 
 msgid "unknown"
 msgstr "unknown"

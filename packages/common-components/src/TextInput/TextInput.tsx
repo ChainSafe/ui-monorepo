@@ -72,6 +72,7 @@ const useStyles = makeStyles(
         "&.disabled": {
           "& input": {
             color: palette.additional["gray"][6],
+            "-webkit-text-fill-color": palette.additional["gray"][6],
             backgroundColor: palette.additional["gray"][3],
             ...overrides?.TextInput?.input?.disabled
           },

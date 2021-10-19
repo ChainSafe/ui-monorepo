@@ -7,7 +7,6 @@ import { Typography } from "../Typography"
 const useStyles = makeStyles(
   ({ constants, typography, animation, palette, overrides }: ITheme) =>
     createStyles({
-      // JSS in CSS goes here
       root: {
         ...typography.button,
         borderRadius: `${constants.generalUnit / 4}px`,
@@ -109,6 +108,29 @@ const useStyles = makeStyles(
           ...overrides?.Button?.variants?.secondary?.active
         },
         ...overrides?.Button?.variants?.secondary?.root
+      },
+      tertiary: {
+        backgroundColor: palette.additional["gray"][3],
+        color: palette.common.black.main,
+        "& svg": {
+          fill: palette.common.white.main
+        },
+        "&:hover": {
+          backgroundColor: palette.primary.main,
+          color: palette.common.white.main,
+          ...overrides?.Button?.variants?.tertiary?.hover
+        },
+        "&:focus": {
+          backgroundColor: palette.primary.main,
+          color: palette.common.white.main,
+          ...overrides?.Button?.variants?.tertiary?.focus
+        },
+        "&:active": {
+          backgroundColor: palette.primary.main,
+          color: palette.common.white.main,
+          ...overrides?.Button?.variants?.tertiary?.active
+        },
+        ...overrides?.Button?.variants?.tertiary?.root
       },
       outline: {
         color: palette.additional["gray"][8],
@@ -271,7 +293,7 @@ interface IButtonProps extends Omit<ReactButton, "size"> {
   className?: string
   children?: ReactNode | ReactNode[]
   fullsize?: boolean
-  variant?: "link" | "primary" | "secondary" | "outline" | "dashed" | "danger"
+  variant?: "link" | "primary" | "secondary" |"tertiary" | "outline" | "dashed" | "danger"
   iconButton?: boolean
   size?: "large" | "medium" | "small"
   type?: "button" | "submit" | "reset"

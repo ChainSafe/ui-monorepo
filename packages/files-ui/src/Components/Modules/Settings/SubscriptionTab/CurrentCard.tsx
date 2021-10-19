@@ -8,7 +8,8 @@ import AddCardModal from "./AddCardModal"
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
     container: {
-      margin: `${constants.generalUnit * 3}px ${constants.generalUnit * 4}px`
+      padding: constants.generalUnit,
+      margin: `${constants.generalUnit * 1.5}px 0`
     },
     noCard: {
       margin: `${constants.generalUnit * 2}px 0`

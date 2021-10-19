@@ -90,28 +90,28 @@ const ThresholdKeyContext = React.createContext<TThresholdKeyContext | undefined
 const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
 const getProviderSpecificParams = (loginType: LOGIN_TYPE):
-  {typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
+{typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
   switch (loginType) {
-  case "google": {
-    return {
-      typeOfLogin: loginType,
-      clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
-      verifier: "chainsafe-uuid-testnet"
-    }
-  }
-  case "github":{
-    return {
-      typeOfLogin: loginType,
-      clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
-      verifier: "chainsafe-uuid-testnet",
-      jwtParams: {
-        domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+    case "google": {
+      return {
+        typeOfLogin: loginType,
+        clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
+        verifier: "chainsafe-uuid-testnet"
       }
     }
-  }
-  default:{
-    throw new Error(`${loginType} is unsupported`)
-  }
+    case "github":{
+      return {
+        typeOfLogin: loginType,
+        clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
+        verifier: "chainsafe-uuid-testnet",
+        jwtParams: {
+          domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+        }
+      }
+    }
+    default:{
+      throw new Error(`${loginType} is unsupported`)
+    }
   }
 }
 
@@ -246,7 +246,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         } else {
           setPrivateKey(privKeyString)
         }
-      } catch (error) {
+      } catch (error: any) {
         // Under certain circumstances (approval of login on another device) the metadata
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
         // identified through the nonce. Manually refreshing the metadata cache solves this problem
@@ -382,16 +382,16 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
     if (userInfo && loginType) {
       switch (loginType) {
-      case "jwt":
-        setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
-        break
-      case "google":
-      case "github":
-        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)
-        break
-      default:
-        setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
-        break
+        case "jwt":
+          setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
+          break
+        case "google":
+        case "github":
+          setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+          break
+        default:
+          setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
+          break
       }
     }
   }, [userInfo, address])
@@ -781,7 +781,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const newKeyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(newKeyDetails)
       return
-    } catch (error) {
+    } catch (error: any) {
       if (error.message.includes("nonce")) {
         await TKeySdk.updateMetadata()
         await TKeySdk.syncShareMetadata()

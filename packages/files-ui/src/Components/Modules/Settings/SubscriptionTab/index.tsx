@@ -1,16 +1,19 @@
 import React from "react"
-import CurrentProduct from "./CurrentProduct"
 import CurrentCard from "./CurrentCard"
 import { Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
+import CurrentProduct from "./CurrentProduct"
 
-const useStyles = makeStyles(({ constants }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
-    heading: {
-      marginBottom: constants.generalUnit * 2
+    root: {
+      [breakpoints.down("sm")]: {
+        paddingLeft: constants.generalUnit,
+        paddingRight: constants.generalUnit
+      }
     }
   })
 )
@@ -22,11 +25,10 @@ const PlanView: React.FC = () => {
 
   return (
     <Elements stripe={stripePromise}>
-      <div>
+      <div className={classes.root}>
         <Typography
           variant="h3"
           component="h3"
-          className={classes.heading}
         >
           <Trans>Payment and Subscriptions</Trans>
         </Typography>

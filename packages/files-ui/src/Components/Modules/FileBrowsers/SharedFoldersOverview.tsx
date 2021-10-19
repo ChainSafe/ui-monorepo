@@ -168,7 +168,6 @@ const SharedFolderOverview = () => {
   const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
-
   return (
     <>
       <article

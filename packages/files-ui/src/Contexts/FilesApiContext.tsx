@@ -66,7 +66,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
   const [accountRestricted, setAccountRestricted] = useState(false)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
-    { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
+  { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
   >(undefined)
 
   // returning user

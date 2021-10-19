@@ -9,12 +9,12 @@ export function useDoubleClick(
   const onClick = useCallback((e?: React.MouseEvent) => {
     if (e) {
       switch (e.detail) {
-      case 1:
-        actionSingleClick && actionSingleClick(e)
-        break
-      case 2:
-        actionDoubleClick && actionDoubleClick(e)
-        break
+        case 1:
+          actionSingleClick && actionSingleClick(e)
+          break
+        case 2:
+          actionDoubleClick && actionDoubleClick(e)
+          break
       }
     }
   }, [actionSingleClick, actionDoubleClick])

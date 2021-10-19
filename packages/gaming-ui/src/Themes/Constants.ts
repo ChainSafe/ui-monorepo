@@ -156,6 +156,6 @@ export interface CsGColors extends IConstants {
     }
   }
   surveyBanner: {
-   color: string
+    color: string
   }
 }

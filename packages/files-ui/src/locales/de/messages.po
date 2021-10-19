@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-09-22 21:38+0000\n"
+"PO-Revision-Date: 2021-09-29 19:36+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
@@ -15,6 +15,9 @@ msgstr ""
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "Es wird ein Sicherungsgeheimsatz generiert und für Ihr Konto verwendet.<0/>Wir speichern ihn nicht und <1>er kann nur einmal angezeigt werden</1>. Speichern Sie ihn an einem sicheren Ort!"
+
+msgid "A better sharing experience is coming soon."
+msgstr "Ein besseres Teilen-Erlebnis ist in Vorbereitung."
 
 msgid "A file with the same name already exists"
 msgstr "Es existiert bereits eine Datei mit demselben Namen"
@@ -38,7 +41,7 @@ msgid "Add at least one more authentication method to protect your account. You�
 msgstr "Fügen Sie mindestens eine weitere Authentifizierungsmethode hinzu, um Ihr Konto zu schützen. Sie bräuchten nur zwei, um sich von jedem Gerät aus bei Files anzumelden."
 
 msgid "Add by sharing address, username or wallet address"
-msgstr ""
+msgstr "Durch Freigabe der Adresse, des Benutzernamens oder der Brieftaschenadresse hinzufügen"
 
 msgid "Add card"
 msgstr ""
@@ -66,6 +69,9 @@ msgstr "Sicherungsgeheimsatz"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Der Sicherungsgeheimsatz stimmt nicht mit dem Benutzerkonto überein, bitte überprüfen Sie dies und versuchen Sie es erneut."
+
+#~ msgid "Basic - Free"
+#~ msgstr ""
 
 msgid "Billed Monthly"
 msgstr ""
@@ -96,12 +102,6 @@ msgstr "IID (Inhaltsidentifikator)"
 
 msgid "Cancel"
 msgstr "Abbrechen"
-
-#~ msgid "Card added successfully"
-#~ msgstr ""
-
-#~ msgid "Card details could not be validated"
-#~ msgstr ""
 
 msgid "Card inputs invalid"
 msgstr ""
@@ -196,6 +196,18 @@ msgstr ""
 msgid "Dark Theme"
 msgstr "Dunkles Farbschema"
 
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data moved to bin successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Hochgeladen am"
 
@@ -268,6 +280,18 @@ msgstr "Geben Sie das Passwort ein:"
 msgid "Enter the verification code:"
 msgstr "Geben Sie den Verifizierungscode ein:"
 
+#~ msgid "Error while creating new shared folder"
+#~ msgstr ""
+
+#~ msgid "Error while downloading {0}"
+#~ msgstr ""
+
+#~ msgid "Error while uploading {0}"
+#~ msgstr "Error while uploading {0}"
+
+#~ msgid "Essentials - Free"
+#~ msgstr "Essentials - Kostenlos"
+
 msgid "Failed to add payment method"
 msgstr ""
 
@@ -282,9 +306,6 @@ msgid ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 msgstr ""
-
-msgid "File"
-msgstr "Datei"
 
 msgid "File Info"
 msgstr "Dateiinfos"
@@ -307,14 +328,11 @@ msgstr "Dateifreigabeschlüssel"
 msgid "First name"
 msgstr "Vorname"
 
-msgid "Folder"
-msgstr "Ordner"
-
 msgid "Folder name is already in use"
 msgstr ""
 
-#~ msgid "Folder uploads are not supported currently"
-#~ msgstr ""
+msgid "Folder uploads are not supported currently"
+msgstr ""
 
 msgid "Folders"
 msgstr "Ordner"
@@ -324,6 +342,9 @@ msgstr "Aus Sicherheitsgründen werden wir Sie bei jeder Anmeldung nach einer de
 
 msgid "Forget this browser"
 msgstr "Diesen Browser vergessen"
+
+msgid "Free plan"
+msgstr ""
 
 msgid "General"
 msgstr "Allgemein"
@@ -350,9 +371,6 @@ msgid "Go back"
 msgstr "Zurück"
 
 msgid "Go to Payments"
-msgstr ""
-
-msgid "Got an issue?"
 msgstr ""
 
 msgid "Got it"
@@ -418,6 +436,9 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+
 msgid "Manage Access"
 msgstr ""
 
@@ -439,12 +460,6 @@ msgstr "Meine Dateien"
 msgid "Name"
 msgstr "Name"
 
-#~ msgid "Name on card"
-#~ msgstr ""
-
-#~ msgid "Name on card is required"
-#~ msgstr ""
-
 msgid "Name too long"
 msgstr "Name zu lang"
 
@@ -463,8 +478,8 @@ msgstr ""
 msgid "No file to download."
 msgstr ""
 
-msgid "No files to show"
-msgstr "Keine Dateien zum Anzeigen"
+#~ msgid "No files to show"
+#~ msgstr "Keine Dateien zum Anzeigen"
 
 msgid "No folders"
 msgstr "Keine Ordner"
@@ -489,6 +504,9 @@ msgstr "Eine Sekunde, die Dateien werden vorbereitet …"
 
 msgid "Only you can see this."
 msgstr "Nur Sie können dies sehen."
+
+msgid "Oops! You need to pay for this month to upload more content."
+msgstr ""
 
 msgid "Operating system:"
 msgstr "Betriebssystem:"
@@ -523,6 +541,9 @@ msgstr "Passwörter müssen übereinstimmen"
 msgid "Payment and Subscriptions"
 msgstr ""
 
+msgid "Plan"
+msgstr ""
+
 msgid "Please enter a file name"
 msgstr "Bitte geben Sie einen Dateinamen ein"
 
@@ -537,6 +558,9 @@ msgstr "Bitte geben Sie ein Passwort an"
 
 msgid "Please select a file to upload"
 msgstr "Bitte wählen Sie eine Datei zum Hochladen"
+
+msgid "Premium plan"
+msgstr ""
 
 msgid "Preview"
 msgstr "Vorschau"
@@ -581,16 +605,19 @@ msgid "Rename"
 msgstr "Umbenennen"
 
 msgid "Rename file"
-msgstr ""
+msgstr "Datei umbenennen"
 
 msgid "Rename folder"
-msgstr ""
+msgstr "Ordner umbenennen"
 
 msgid "Report"
-msgstr ""
+msgstr "Melden"
 
 msgid "Report a File"
-msgstr ""
+msgstr "Datei melden"
+
+msgid "Report a bug"
+msgstr "Fehler melden"
 
 msgid "Requested from"
 msgstr "Angefordert von"
@@ -688,6 +715,9 @@ msgstr "Anmelden"
 msgid "Sign in with a different account"
 msgstr "Mit einem anderen Konto anmelden"
 
+msgid "Sign me up!"
+msgstr ""
+
 msgid "Sign-in methods"
 msgstr "Anmeldemethoden"
 
@@ -706,14 +736,17 @@ msgstr ""
 msgid "Something went wrong!"
 msgstr "Etwas ist schief gelaufen!"
 
-#~ msgid "Something went wrong, please try again"
-#~ msgstr ""
-
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"
 
+msgid "Standard plan"
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Hochladen starten"
+
+msgid "Start a team"
+msgstr ""
 
 msgid "Storage Plan"
 msgstr "Speicherplan"
@@ -722,6 +755,9 @@ msgid "Stored by miner"
 msgstr ""
 
 msgid "Subscription Plan"
+msgstr ""
+
+msgid "Teams"
 msgstr ""
 
 msgid "Technical"
@@ -751,8 +787,8 @@ msgstr "Es gab einen Fehler bei der Authentifizierung"
 msgid "There was an error connecting your wallet"
 msgstr ""
 
-msgid "There was an error deleting this"
-msgstr "Es gab einen Fehler beim Löschen dieses"
+msgid "There was an error deleting your data"
+msgstr ""
 
 msgid "There was an error getting search results"
 msgstr "Es gab einen Fehler beim Abrufen der Suchergebnisse"
@@ -760,13 +796,16 @@ msgstr "Es gab einen Fehler beim Abrufen der Suchergebnisse"
 msgid "There was an error getting the preview."
 msgstr "Es gab einen Fehler beim Abrufen der Vorschau."
 
-msgid "There was an error moving this"
-msgstr "Es gab einen Fehler beim Verschieben dieses"
+msgid "There was an error moving your data"
+msgstr ""
 
-msgid "There was an error recovering this"
-msgstr "Es gab einen Fehler bei der Wiederherstellung dieses"
+msgid "There was an error restoring your data"
+msgstr ""
 
 msgid "There was an error when setting username."
+msgstr ""
+
+msgid "This is the free product."
 msgstr ""
 
 msgid "This username is already taken"
@@ -793,6 +832,9 @@ msgstr "Eine andere Methode versuchen"
 msgid "Try for 7 days"
 msgstr ""
 
+msgid "Unable to upload"
+msgstr ""
+
 msgid "Update"
 msgstr "Aktualisieren"
 
@@ -809,6 +851,9 @@ msgid "Upload"
 msgstr "Hochladen"
 
 msgid "Uploads cancelled"
+msgstr ""
+
+msgid "Uploads disabled"
 msgstr ""
 
 msgid "Use a different login method"
@@ -895,29 +940,17 @@ msgstr ""
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
+msgid "Your plan"
+msgstr ""
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
-
-msgid "deleted successfully"
-msgstr "erfolgreich gelöscht"
-
-msgid "file"
-msgstr "Datei"
-
-msgid "folder"
-msgstr "Ordner"
 
 msgid "me"
 msgstr "ich"
 
-msgid "moved successfully"
-msgstr "erfolgreich verschoben"
-
 msgid "on"
 msgstr "am"
-
-msgid "recovered successfully"
-msgstr "erfolgreich wiederhergestellt"
 
 msgid "unknown"
 msgstr "unbekannt"

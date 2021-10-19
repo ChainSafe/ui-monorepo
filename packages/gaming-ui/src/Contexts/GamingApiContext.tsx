@@ -15,28 +15,28 @@ const isReturningUserStorageKey = "csg.isReturningUser"
 const TORUS_USERINFO_KEY = "csg.userInfo"
 
 const getProviderSpecificParams = (loginType: LOGIN_TYPE):
-  {typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
+{typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
   switch (loginType) {
-  case "google": {
-    return {
-      typeOfLogin: loginType,
-      clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
-      verifier: "chainsafe-uuid-testnet"
-    }
-  }
-  case "github":{
-    return {
-      typeOfLogin: loginType,
-      clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
-      verifier: "chainsafe-uuid-testnet",
-      jwtParams: {
-        domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+    case "google": {
+      return {
+        typeOfLogin: loginType,
+        clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
+        verifier: "chainsafe-uuid-testnet"
       }
     }
-  }
-  default:{
-    throw new Error(`${loginType} is unsupported`)
-  }
+    case "github":{
+      return {
+        typeOfLogin: loginType,
+        clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
+        verifier: "chainsafe-uuid-testnet",
+        jwtParams: {
+          domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+        }
+      }
+    }
+    default:{
+      throw new Error(`${loginType} is unsupported`)
+    }
   }
 }
 
@@ -102,7 +102,7 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
-    { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
+  { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
   >(undefined)
 
   // returning user
@@ -134,18 +134,18 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
 
     if (userInfo && loginType) {
       switch (loginType) {
-      case "jwt":
-        setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
-        break
-      case "google":
-        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
-        break
-      case "github":
-        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
-        break
-      default:
-        setLoggedinAs(`${centerEllipsis(`${userInfo.publicAddress}`, 4)}`)
-        break
+        case "jwt":
+          setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
+          break
+        case "google":
+          setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
+          break
+        case "github":
+          setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
+          break
+        default:
+          setLoggedinAs(`${centerEllipsis(`${userInfo.publicAddress}`, 4)}`)
+          break
       }
     }
   }, [userInfo, address])
