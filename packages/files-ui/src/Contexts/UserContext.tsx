@@ -3,6 +3,8 @@ import { useCallback, useEffect } from "react"
 import { useFilesApi } from "./FilesApiContext"
 import { useState } from "react"
 import { t } from "@lingui/macro"
+import { DISMISSED_SHARING_EXPLAINER_KEY } from "../Components/Modules/FileBrowsers/hooks/useSharingExplainerModalFlag"
+import { DISMISSED_SURVEY_KEY } from "../Components/SurveyBanner"
 
 type UserContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -43,7 +45,6 @@ const UserContext = React.createContext<IUserContext | undefined>(undefined)
 
 const UserProvider = ({ children }: UserContextProps) => {
   const { filesApiClient, isLoggedIn } = useFilesApi()
-
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
   const [localStore, _setLocalStore] = useState<ILocalStore | undefined>()
 
@@ -86,7 +87,19 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
 
     filesApiClient.getUserLocalStore()
-      .then(_setLocalStore)
+      .then((apiStore) => {
+        let initStore = apiStore
+
+        if (apiStore[DISMISSED_SHARING_EXPLAINER_KEY] === undefined) {
+          initStore = { ...initStore, [DISMISSED_SHARING_EXPLAINER_KEY]: "false" }
+        }
+
+        if (apiStore[DISMISSED_SURVEY_KEY] === undefined) {
+          initStore = { ...initStore, [DISMISSED_SURVEY_KEY]: "false" }
+        }
+
+        _setLocalStore(initStore)
+      })
       .catch((e) => {
         console.error(e)
         _setLocalStore({})
