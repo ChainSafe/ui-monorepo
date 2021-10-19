@@ -718,6 +718,9 @@ msgstr "There was an error authenticating"
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
 
+msgid "There was an error creating the folder {0}"
+msgstr "There was an error creating the folder {0}"
+
 msgid "There was an error deleting your data"
 msgstr "There was an error deleting your data"
 
