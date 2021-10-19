@@ -62,7 +62,7 @@ const SurveyBanner = ({ onHide }: Props) => {
     setLocalStore({ [DISMISSED_SURVEY_KEY]: "true" }, "update")
   }, [setLocalStore, onHide])
 
-  const onOpen = useCallback(() => {
+  const onOpenLink = useCallback(() => {
     onClose()
     window.open(ROUTE_LINKS.UserSurvey, "_blank")
   }, [onClose])
@@ -77,7 +77,7 @@ const SurveyBanner = ({ onHide }: Props) => {
         </Trans>
         <span
           className={classes.link}
-          onClick={onOpen}
+          onClick={onOpenLink}
         >
           <Trans>Schedule a 15 min call</Trans>
         </span>

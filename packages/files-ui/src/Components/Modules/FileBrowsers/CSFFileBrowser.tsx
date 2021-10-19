@@ -34,6 +34,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const { pathname } = useLocation()
   const currentPath = useMemo(() => extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive("")), [pathname])
   const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
+  const { profile, localStore } = useUser()
+  const [showSurvey, setShowSurvey] = useState(false)
 
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
@@ -50,10 +52,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       }).finally(() => showLoading && setLoadingCurrentPath(false))
   }, [bucket, filesApiClient, currentPath])
 
-  const { profile, localStore, setLocalStore } = useUser()
-
-  const showSurvey = localStore && localStore[DISMISSED_SURVEY_KEY] === "false"
-
   const olderThanOneWeek = useMemo(
     () => profile?.createdAt
       ? dayjs(Date.now()).diff(profile.createdAt, "day") > 7
@@ -62,11 +60,14 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   )
 
   useEffect(() => {
-    const dismissedFlag = localStore && localStore[DISMISSED_SURVEY_KEY]
-    if (dismissedFlag === undefined || dismissedFlag === null) {
-      setLocalStore({ [DISMISSED_SURVEY_KEY]: "false" }, "update")
+    if (!localStore) {
+      return
     }
-  }, [localStore, setLocalStore])
+
+    if (localStore[DISMISSED_SURVEY_KEY] === "false"){
+      setShowSurvey(true)
+    }
+  }, [localStore])
 
   useEffect(() => {
     refreshContents(true)
