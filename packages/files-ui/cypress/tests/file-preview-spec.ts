@@ -11,6 +11,7 @@ describe("File Preview", () => {
       // add files
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
       homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 2)
 
       // store their file names as cypress aliases for later comparison
       homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
