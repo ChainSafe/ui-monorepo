@@ -146,7 +146,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
         return
       }
       await filesApiClient.updateDefaultCard({
-        payment_method_id: paymentMethod.id
+        id: paymentMethod.id
       })
       refreshDefaultCard()
       onClose()
