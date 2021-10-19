@@ -347,7 +347,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
   const [hasClickedShare, setClickedShare] = useState(false)
   const showExplainerBeforeShare = useMemo(() =>
-    hasSeenSharingExplainerModal && hasClickedShare
+    !hasSeenSharingExplainerModal && hasClickedShare
   , [hasClickedShare, hasSeenSharingExplainerModal]
   )
   const items: FileSystemItemType[] = useMemo(() => {
@@ -615,9 +615,10 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsDeleteModalOpen(true)
   }, [])
 
-  const handleOpenShareDialog = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const handleOpenShareDialog = useCallback((e?: React.MouseEvent) => {
+    e?.preventDefault()
+    e?.stopPropagation()
+    setClickedShare(true)
     setIsShareModalOpen(true)
   }, [])
 
@@ -648,13 +649,9 @@ const FilesList = ({ isShared = false }: Props) => {
   [classes.menuIcon])
 
   const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
-    if(hasSeenSharingExplainerModal) {
-      setClickedShare(true)
-    }
-
     setSelectedItems([fileSystemItem])
-    setIsShareModalOpen(true)
-  }, [hasSeenSharingExplainerModal])
+    handleOpenShareDialog()
+  }, [handleOpenShareDialog])
 
   return (
     <article
