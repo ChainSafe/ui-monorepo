@@ -82,6 +82,20 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
   }, [filesApiClient])
 
+  const initLocalStore = useCallback((apiStore: ILocalStore | undefined) => {
+    let initStore = apiStore || {}
+
+    if (apiStore?.[DISMISSED_SHARING_EXPLAINER_KEY] === undefined) {
+      initStore = { ...initStore, [DISMISSED_SHARING_EXPLAINER_KEY]: "false" }
+    }
+
+    if (apiStore?.[DISMISSED_SURVEY_KEY] === undefined) {
+      initStore = { ...initStore, [DISMISSED_SURVEY_KEY]: "false" }
+    }
+
+    _setLocalStore(initStore)
+  }, [])
+
   useEffect(() => {
     if (!isLoggedIn) {
       return
@@ -89,23 +103,13 @@ const UserProvider = ({ children }: UserContextProps) => {
 
     filesApiClient.getUserLocalStore()
       .then((apiStore) => {
-        let initStore = apiStore
-
-        if (apiStore[DISMISSED_SHARING_EXPLAINER_KEY] === undefined) {
-          initStore = { ...initStore, [DISMISSED_SHARING_EXPLAINER_KEY]: "false" }
-        }
-
-        if (apiStore[DISMISSED_SURVEY_KEY] === undefined) {
-          initStore = { ...initStore, [DISMISSED_SURVEY_KEY]: "false" }
-        }
-
-        _setLocalStore(initStore)
+        initLocalStore(apiStore)
       })
       .catch((e) => {
         console.error(e)
-        _setLocalStore({})
+        initLocalStore({})
       })
-  }, [isLoggedIn, filesApiClient])
+  }, [isLoggedIn, filesApiClient, initLocalStore])
 
   useEffect(() => {
     if (!isLoggedIn) {
