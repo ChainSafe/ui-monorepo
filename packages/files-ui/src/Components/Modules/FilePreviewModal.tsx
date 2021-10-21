@@ -214,15 +214,15 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     } else {
       bucketId = bucket.id
     }
-    
-    if (!!previewRendererKey) {
+
+    if (previewRendererKey) {
       setFileContent(undefined)
       getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
-      .then((content) => {
-        setFileContent(content)
-      })
-      .catch(console.error)
-    } 
+        .then((content) => {
+          setFileContent(content)
+        })
+        .catch(console.error)
+    }
   }, [file, filePath, getFile, bucket, buckets, previewRendererKey])
 
 
@@ -239,7 +239,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     }
   })
 
-  useHotkeys("Left,ArrowLeft", () => {    
+  useHotkeys("Left,ArrowLeft", () => {
     previousFile && previousFile()
   })
 
@@ -394,8 +394,8 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
               !error &&
               compatibleFilesMatcher.match(content_type) &&
               fileContent &&
-              PreviewComponent && 
-              <PreviewComponent 
+              PreviewComponent &&
+              <PreviewComponent
                 contents={fileContent}
                 contentType={content_type} />
             }

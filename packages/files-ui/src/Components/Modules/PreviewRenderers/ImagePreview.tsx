@@ -48,7 +48,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
   const [imageUrl, setImageUrl] = useState<string | undefined>()
   const [loading, setLoading] = useState(false)
   useEffect(() => {
-    console.log('creating new link')
+    console.log("creating new link")
     if (contentType !== "image/heic") {
       setImageUrl(URL.createObjectURL(contents))
     } else {
@@ -61,11 +61,11 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
         }))
         .catch(console.error)
         .then(c => setImageUrl(URL.createObjectURL(new Blob([c]))))
-        .then(() => console.log('created new link'))
+        .then(() => console.log("created new link"))
         .finally(() => setLoading(false))
     }
   }, [contents, contentType])
-  
+
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
 
