@@ -35,7 +35,7 @@ describe("Survey Banner", () => {
       })
     })
 
-    it("User should not see survey banner a previously dismissed", () => {
+    it("User should not see the survey banner if previously dismissed", () => {
       cy.intercept("GET", "https://stage.imploy.site/api/v1/user/store", {
         body: [{ "csf.dismissedSurveyBannerV3": "true" }]
       })
