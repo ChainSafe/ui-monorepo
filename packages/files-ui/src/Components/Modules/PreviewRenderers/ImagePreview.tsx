@@ -64,7 +64,8 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
         .then(() => console.log('created new link'))
         .finally(() => setLoading(false))
     }
-  }, [])
+  }, [contents, contentType])
+  
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
 
@@ -114,11 +115,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
                     src={imageUrl}
                     alt=""
                     className={classes.root}
-                    onLoad={() => {
-                      console.log('revoking')  
-                      imageUrl && URL.revokeObjectURL(imageUrl)
-                    }}
-                  />
+                    onLoad={() => imageUrl && URL.revokeObjectURL(imageUrl)} />
                 </TransformComponent>
               </>
             )

@@ -214,17 +214,23 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     } else {
       bucketId = bucket.id
     }
-    !!previewRendererKey && getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
-      .then(setFileContent)
+    
+    if (!!previewRendererKey) {
+      setFileContent(undefined)
+      getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
+      .then((content) => {
+        setFileContent(content)
+      })
       .catch(console.error)
+    } 
   }, [file, filePath, getFile, bucket, buckets, previewRendererKey])
 
 
 
   const PreviewComponent =
-    content_type &&
-    fileContent &&
-    previewRendererKey &&
+    !!content_type &&
+    !!fileContent &&
+    !!previewRendererKey &&
     SUPPORTED_FILE_TYPES[previewRendererKey]
 
   useHotkeys("Esc,Escape", () => {
@@ -388,8 +394,11 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
               !error &&
               compatibleFilesMatcher.match(content_type) &&
               fileContent &&
-              PreviewComponent && <PreviewComponent contents={fileContent}
-              contentType={content_type} />}
+              PreviewComponent && 
+              <PreviewComponent 
+                contents={fileContent}
+                contentType={content_type} />
+            }
           </div>
         </Grid>
         {desktop && (
