@@ -9,7 +9,6 @@ import BinPage from "./Pages/BinPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
-import PlansPage from "./Pages/PlansPage"
 
 export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
@@ -92,13 +91,6 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Settings}
         isAuthorized={isAuthorized}
         component={SettingsPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Plans}
-        isAuthorized={isAuthorized}
-        component={PlansPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

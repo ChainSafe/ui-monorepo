@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useFilesApi } from "./FilesApiContext"
 import { ReactNode, useEffect, useState } from "react"
-import { Card, CurrentSubscription } from "@chainsafe/files-api-client"
+import { Card, CurrentSubscription, Product } from "@chainsafe/files-api-client"
 import { useCallback } from "react"
 import { t } from "@lingui/macro"
 
@@ -14,6 +14,7 @@ interface IBillingContext {
   refreshDefaultCard: () => void
   currentSubscription: CurrentSubscription | undefined
   fetchCurrentSubscription: () => void
+  getAvailablePlans: () => void
 }
 
 const ProductMapping: {[key: string]: {
@@ -78,13 +79,28 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     }
   }, [isLoggedIn, fetchCurrentSubscription, currentSubscription])
 
+  const getAvailablePlans = useCallback(() => {
+    filesApiClient.getAllProducts()
+      .then((products) => {
+        return products.map(product => {
+          product.name = ProductMapping[product.id].name
+          product.description = ProductMapping[product.id].description
+          return product
+        })
+      })
+      .catch((error: any) => {
+        console.error(error)
+      })
+  }, [])
+
   return (
     <BillingContext.Provider
       value={{
         currentSubscription,
         fetchCurrentSubscription,
         refreshDefaultCard,
-        defaultCard
+        defaultCard,
+        getAvailablePlans
       }}
     >
       {children}

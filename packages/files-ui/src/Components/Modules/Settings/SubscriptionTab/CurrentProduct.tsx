@@ -1,18 +1,17 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Button,
   formatBytes,
-  Link,
   Loading,
   ProgressBar,
   Typography
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
-import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { useFiles } from "../../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../Contexts/BillingContext"
+import ChangeProductModal from "../Products/ChangeProductModal"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
@@ -62,6 +61,7 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
   const { currentSubscription } = useBilling()
+  const [changeProductActive, setChangeProductActive] = useState(false)
 
   return (<section className={clsx(classes.root, className)}>
     <Typography
@@ -98,18 +98,18 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
           />
         </div>
         <div className={classes.buttons}>
-          <Link
-            className={classes.link}
-            to={ROUTE_LINKS.Plans}
+          <Button
+            fullsize
+            variant="primary"
+            onClick={() => setChangeProductActive(true)}
           >
-            <Button
-              fullsize
-              variant="primary"
-            >
-              <Trans>Change Plan</Trans>
-            </Button>
-          </Link>
+            <Trans>Change Plan</Trans>
+          </Button>
         </div>
+        <ChangeProductModal
+          active={changeProductActive}
+          close={() => setChangeProductActive(false)}
+        />
       </>
     }
 
