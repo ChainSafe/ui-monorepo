@@ -5,8 +5,14 @@ describe("Survey Banner", () => {
   context("desktop", () => {
 
     it("User can view and dismiss the survey banner", () => {
+      // intercept and stub the account creation date to be > 7 days
+      cy.intercept("GET", "https://stage.imploy.site/api/v1/user/profile", (req) => {
+        req.on("response", (res) => {
+          res.body.created_at = "2021-05-20T21:26:36.598924Z"
+        })
+      })
 
-      // intercept store GET and stub value to ensure banner display
+      // intercept and stub the response to ensure the banner is displayed
       cy.intercept("GET", "https://stage.imploy.site/api/v1/user/store", {
         body: [{ "csf.dismissedSurveyBannerV3": "false" }]
       })
@@ -14,21 +20,21 @@ describe("Survey Banner", () => {
       cy.web3Login()
       homePage.surveyBanner().should("be.visible")
 
-      // set up spy for POST response
+      // set up a spy for the POST response
       cy.intercept("POST", "https://stage.imploy.site/api/v1/user/store").as("storePost").then(() => {
 
         // dismiss the survey banner
         homePage.closeBannerButton().click()
         homePage.surveyBanner().should("not.exist")
 
-        // intercept POST and ensure the key was updated when banner is dismissed
+        // intercept POST to ensure the key was updated after the banner is dismissed
         cy.wait("@storePost").its("request.body").should("contain", {
           "csf.dismissedSurveyBannerV3": "true"
         })
       })
     })
 
-    it("User who has previously dismissed the survey banner should not see it", () => {
+    it("User should not see survey banner a previously dismissed", () => {
       cy.intercept("GET", "https://stage.imploy.site/api/v1/user/store", {
         body: [{ "csf.dismissedSurveyBannerV3": "true" }]
       })
@@ -37,7 +43,7 @@ describe("Survey Banner", () => {
       homePage.surveyBanner().should("not.exist")
     })
 
-    it("User should see survey when api response is empty and account is greater than 7 days", () => {
+    it("User should see banner if account age is greater than 7 days and api response is empty", () => {
       cy.intercept("GET", "https://stage.imploy.site/api/v1/user/store", {
         body: [{}]
       })
@@ -46,13 +52,20 @@ describe("Survey Banner", () => {
       homePage.surveyBanner().should("be.visible")
     })
 
-    it("User should not see survey when api response is empty and account is less than 7 days", () => {
+    it("User should not see banner if account age is less than 7 days and api response is empty", () => {
+      // intercept and stub the account creation date to make it less than 7 days
+      cy.intercept("GET", "https://stage.imploy.site/api/v1/user/profile", (req) => {
+        req.on("response", (res) => {
+          res.body.created_at = res.body.updated_at
+        })
+      })
+
       cy.intercept("GET", "https://stage.imploy.site/api/v1/user/store", {
         body: [{}]
       })
 
       cy.web3Login()
-      homePage.surveyBanner().should("not.be.visible")
+      homePage.surveyBanner().should("not.exist")
     })
   })
 })
