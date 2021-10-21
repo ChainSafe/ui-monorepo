@@ -233,16 +233,12 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     }
   })
 
-  useHotkeys("Left,ArrowLeft", () => {
-    if (file && previousFile) {
-      previousFile()
-    }
+  useHotkeys("Left,ArrowLeft", () => {    
+    previousFile && previousFile()
   })
 
   useHotkeys("Right,ArrowRight", () => {
-    if (file && nextFile) {
-      nextFile()
-    }
+    nextFile && nextFile()
   })
 
   const handleDownload = useCallback(() => {
