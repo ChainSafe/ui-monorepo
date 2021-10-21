@@ -1,3 +1,4 @@
+import { profileCreatedDate } from "../fixtures/filesTestData"
 import { homePage } from "../support/page-objects/homePage"
 
 describe("Survey Banner", () => {
@@ -8,7 +9,7 @@ describe("Survey Banner", () => {
       // intercept and stub the account creation date to be > 7 days
       cy.intercept("GET", "https://stage.imploy.site/api/v1/user/profile", (req) => {
         req.on("response", (res) => {
-          res.body.created_at = "2021-05-20T21:26:36.598924Z"
+          res.body.created_at = profileCreatedDate 
         })
       })
 
