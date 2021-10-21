@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch"
 import heicConvert from "heic-convert"
