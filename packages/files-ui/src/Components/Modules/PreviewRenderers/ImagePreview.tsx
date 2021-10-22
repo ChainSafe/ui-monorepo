@@ -60,7 +60,6 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
         }))
         .catch(console.error)
         .then(c => setImageUrl(URL.createObjectURL(new Blob([c]))))
-        .then(() => console.log("created new link"))
         .finally(() => setLoading(false))
     }
   }, [contents, contentType])
