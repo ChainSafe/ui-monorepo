@@ -48,7 +48,6 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
   const [imageUrl, setImageUrl] = useState<string | undefined>()
   const [loading, setLoading] = useState(false)
   useEffect(() => {
-    console.log("creating new link")
     if (contentType !== "image/heic") {
       setImageUrl(URL.createObjectURL(contents))
     } else {
