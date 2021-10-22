@@ -14,7 +14,7 @@ interface IBillingContext {
   refreshDefaultCard: () => void
   currentSubscription: CurrentSubscription | undefined
   fetchCurrentSubscription: () => void
-  getAvailablePlans: () => void
+  getAvailablePlans: () => Promise<Product[]>
 }
 
 const ProductMapping: {[key: string]: {
@@ -80,7 +80,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   }, [isLoggedIn, fetchCurrentSubscription, currentSubscription])
 
   const getAvailablePlans = useCallback(() => {
-    filesApiClient.getAllProducts()
+    return filesApiClient.getAllProducts()
       .then((products) => {
         return products.map(product => {
           product.name = ProductMapping[product.id].name
@@ -90,8 +90,9 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       })
       .catch((error: any) => {
         console.error(error)
+        return []
       })
-  }, [])
+  }, [filesApiClient])
 
   return (
     <BillingContext.Provider

@@ -25,6 +25,7 @@ import { IToastsOverride } from "./Toasts"
 import { ITypographyOverride } from "./Typography"
 import { ITagsInputOverride } from "./TagsInput"
 import { IToggleHiddenText } from "./ToggleHiddenText"
+import { IToggleSwitch } from "./ToggleSwitch"
 
 export interface IComponentOverrides {
   Avatar?: IAvatarOverride
@@ -52,6 +53,7 @@ export interface IComponentOverrides {
   TextInput?: ITextInputOverride
   Toasts?: IToastsOverride
   ToggleHiddenText?: IToggleHiddenText
+  ToggleSwitch?: IToggleSwitch
   Typography?: ITypographyOverride
   TagsInput?: ITagsInputOverride
 }

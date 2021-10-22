@@ -1,14 +1,19 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Button, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../../../Themes/types"
+import { useBilling } from "../../../../../Contexts/BillingContext"
+import { Product, ProductPriceRecurringInterval } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ constants, palette, typography }: CSFTheme) =>
   createStyles({
     root:  {
       margin: `${constants.generalUnit * 3}px 0px`
+    },
+    panel: {
+
     },
     buttons: {
       display: "flex",
@@ -36,21 +41,61 @@ interface ISelectPlan {
 
 const SelectPlan = ({ close, className, next }: ISelectPlan) => {
   const classes = useStyles()
+  const { getAvailablePlans } = useBilling()
 
   const [newPlan, setNewPlan] = useState<string | undefined>(undefined)
+  const [plans, setPlans] = useState<Product[] | undefined>()
+  const [interval, setInterval] = useState<ProductPriceRecurringInterval>("month")
+
+  useEffect(() => {
+    if(!plans) {
+      getAvailablePlans()
+        .then((plans) => setPlans(plans))
+    }
+  })
+  console.log("Plans ", plans)
 
   return (
     <article className={clsx(classes.root, className)}>
-      <Typography
-        component="p"
-        variant="h4"
-      >
-        <Trans>
-          Switch Plans
-        </Trans>
-      </Typography>
+      <header>
+        <Typography
+          component="p"
+          variant="h4"
+        >
+          <Trans>
+            Switch Plans
+          </Trans>
+        </Typography>
+        <div></div>
+      </header>
       <section>
-
+        {
+          plans && plans.map((plan) => <div
+            className={classes.panel}
+            key={`plan-${plan.id}`}>
+            <div>
+              <Typography>
+                {
+                  plan.name
+                }
+              </Typography>
+              <Typography>
+                {
+                  plan.description
+                }
+              </Typography>
+            </div>
+            <div>
+              {
+                plan.prices.filter(plan => plan.recurring.interval === interval).map(price => <div key="">
+                  {
+                    price.currency
+                  }
+                </div>)
+              }
+            </div>
+          </div>)
+        }
       </section>
       <section className={classes.bottomSection}>
         <a
