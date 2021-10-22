@@ -68,7 +68,10 @@ const SurveyBanner = ({ onHide }: Props) => {
   }, [onClose])
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      data-cy="banner-survey"
+    >
       <Typography
         variant="body1"
         className={classes.banner}>
@@ -85,6 +88,7 @@ const SurveyBanner = ({ onHide }: Props) => {
       <div className={classes.spacer}/>
       <div
         className={classes.crossIconButton}
+        data-cy="button-close-banner"
         onClick={onClose}
       >
         <CrossIcon
