@@ -52,8 +52,8 @@ msgstr "Add more files"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 
-msgid "An error occurred while downloading the file"
-msgstr "An error occurred while downloading the file"
+#~ msgid "An error occurred while downloading the file"
+#~ msgstr "An error occurred while downloading the file"
 
 msgid "An error occurred:"
 msgstr "An error occurred:"
@@ -73,6 +73,9 @@ msgstr "Backup secret phrase does not match user account, please double-check an
 #~ msgid "Basic - Free"
 #~ msgstr "Basic - Free"
 
+msgid "Billed Annually"
+msgstr "Billed Annually"
+
 msgid "Billed Monthly"
 msgstr "Billed Monthly"
 
@@ -88,8 +91,8 @@ msgstr "Browser:"
 msgid "Bucket id"
 msgstr "Bucket id"
 
-msgid "Buy more storage"
-msgstr "Buy more storage"
+#~ msgid "Buy more storage"
+#~ msgstr "Buy more storage"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -108,6 +111,9 @@ msgstr "Card inputs invalid"
 
 msgid "Change Password"
 msgstr "Change Password"
+
+msgid "Change Plan"
+msgstr "Change Plan"
 
 msgid "Change password"
 msgstr "Change password"
@@ -169,6 +175,9 @@ msgstr "Copy over"
 msgid "Copy to"
 msgstr "Copy to"
 
+msgid "Copying files"
+msgstr "Copying files"
+
 msgid "Create"
 msgstr "Create"
 
@@ -192,6 +201,9 @@ msgstr "Create your public username in <0>Settings</0>!"
 
 msgid "Credit card on file"
 msgstr "Credit card on file"
+
+msgid "Current"
+msgstr "Current"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -259,14 +271,14 @@ msgstr "Downloads failed"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-msgid "Early Adopter: Free up to {0}"
-msgstr "Early Adopter: Free up to {0}"
+#~ msgid "Early Adopter: Free up to {0}"
+#~ msgstr "Early Adopter: Free up to {0}"
 
 msgid "Email is required"
 msgstr "Email is required"
 
-msgid "Encrypting & uploading"
-msgstr "Encrypting & uploading"
+#~ msgid "Encrypting & uploading"
+#~ msgstr "Encrypting & uploading"
 
 msgid "Enter backup secret phrase:"
 msgstr "Enter backup secret phrase:"
@@ -346,6 +358,9 @@ msgstr "For security reasons, each time you sign in we’ll ask you for one of t
 msgid "Forget this browser"
 msgstr "Forget this browser"
 
+msgid "Free"
+msgstr "Free"
+
 msgid "Free plan"
 msgstr "Free plan"
 
@@ -400,8 +415,11 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
 
-msgid "Keep original file"
-msgstr "Keep original file"
+#~ msgid "Keep original file"
+#~ msgstr "Keep original file"
+
+msgid "Keep original files"
+msgstr "Keep original files"
 
 msgid "Language"
 msgstr "Language"
@@ -439,8 +457,8 @@ msgstr "Loading..."
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Manage Access"
 msgstr "Manage Access"
@@ -481,8 +499,14 @@ msgstr "No Card"
 msgid "No file to download."
 msgstr "No file to download."
 
-#~ msgid "No files to show"
-#~ msgstr "No files to show"
+msgid "No files to copy"
+msgstr "No files to copy"
+
+msgid "No files to share"
+msgstr "No files to share"
+
+msgid "No files to show"
+msgstr "No files to show"
 
 msgid "No folders"
 msgstr "No folders"
@@ -495,6 +519,9 @@ msgstr "No thanks"
 
 msgid "No user found for this query."
 msgstr "No user found for this query."
+
+msgid "Not sure what to pick? Learn more about our plans"
+msgstr "Not sure what to pick? Learn more about our plans"
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
@@ -544,8 +571,8 @@ msgstr "Passwords must match"
 msgid "Payment and Subscriptions"
 msgstr "Payment and Subscriptions"
 
-msgid "Plan"
-msgstr "Plan"
+#~ msgid "Plan"
+#~ msgstr "Plan"
 
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
@@ -667,6 +694,9 @@ msgstr "Select a wallet"
 msgid "Select an existing shared folder or your home"
 msgstr "Select an existing shared folder or your home"
 
+msgid "Select this plan"
+msgstr "Select this plan"
+
 msgid "Send another email"
 msgstr "Send another email"
 
@@ -691,6 +721,9 @@ msgstr "Share"
 msgid "Share file"
 msgstr "Share file"
 
+msgid "Share selected"
+msgstr "Share selected"
+
 msgid "Shared"
 msgstr "Shared"
 
@@ -703,11 +736,14 @@ msgstr "Shared folders"
 msgid "Shared with"
 msgstr "Shared with"
 
-msgid "Sharing cancelled"
-msgstr "Sharing cancelled"
+#~ msgid "Sharing cancelled"
+#~ msgstr "Sharing cancelled"
 
-msgid "Sharing your file (Downloading)"
-msgstr "Sharing your file (Downloading)"
+msgid "Sharing files"
+msgstr "Sharing files"
+
+#~ msgid "Sharing your file (Downloading)"
+#~ msgstr "Sharing your file (Downloading)"
 
 msgid "Sign Out"
 msgstr "Sign Out"
@@ -751,14 +787,17 @@ msgstr "Start Upload"
 msgid "Start a team"
 msgstr "Start a team"
 
-msgid "Storage Plan"
-msgstr "Storage Plan"
+#~ msgid "Storage Plan"
+#~ msgstr "Storage Plan"
 
 msgid "Stored by miner"
 msgstr "Stored by miner"
 
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
+
+msgid "Switch Plans"
+msgstr "Switch Plans"
 
 msgid "Teams"
 msgstr "Teams"
@@ -823,8 +862,8 @@ msgstr "This website uses cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 
-msgid "Transfer complete"
-msgstr "Transfer complete"
+#~ msgid "Transfer complete"
+#~ msgstr "Transfer complete"
 
 msgid "Try again"
 msgstr "Try again"
@@ -940,8 +979,8 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 
-msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+#~ msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+#~ msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 
 msgid "Your plan"
 msgstr "Your plan"
@@ -955,6 +994,18 @@ msgstr "me"
 msgid "on"
 msgstr "on"
 
+msgid "per day"
+msgstr "per day"
+
+msgid "per month"
+msgstr "per month"
+
+msgid "per week"
+msgstr "per week"
+
+msgid "per year"
+msgstr "per year"
+
 msgid "unknown"
 msgstr "unknown"
 
@@ -967,5 +1018,26 @@ msgstr "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting an
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
-msgid "{0} of {1} used ({2}%)"
-msgstr "{0} of {1} used ({2}%)"
+msgid "{0} cancelled"
+msgstr "{0} cancelled"
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr "{0} cancelled - {successCount} files {1} successfully"
+
+msgid "{0} complete"
+msgstr "{0} complete"
+
+msgid "{0} failed"
+msgstr "{0} failed"
+
+msgid "{0} of {1} used"
+msgstr "{0} of {1} used"
+
+#~ msgid "{0} of {1} used ({2}%)"
+#~ msgstr "{0} of {1} used ({2}%)"
+
+msgid "{0} {fileProgress} - {1}"
+msgstr "{0} {fileProgress} - {1}"
+
+msgid "{successCount} files transferred successfully, {0} failed"
+msgstr "{successCount} files transferred successfully, {0} failed"
