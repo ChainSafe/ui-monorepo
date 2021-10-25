@@ -19,6 +19,7 @@ import { CSFTheme } from "../../Themes/types"
 import { useUser } from "../../Contexts/UserContext"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
 import TeamModal from "../Elements/TeamModal"
+import NotificationsDropdown from "../Elements/NotificationsDropdown"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
@@ -155,6 +156,13 @@ const useStyles = makeStyles(
             marginLeft: constants.generalUnit * 2
           }
         }
+      },
+      headerSection: {
+        display: "flex",
+        alignItems: "center"
+      },
+      searchBox: {
+        flex: 1
       }
     })
   }
@@ -211,8 +219,8 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
         !shouldInitializeAccount && (
         <>
           {desktop ? (
-            <>
-              <section>
+            <section className={classes.headerSection}>
+              <section className={classes.searchBox}>
                 <SearchModule
                   className={classes.searchModule}
                   searchActive={searchActive}
@@ -238,6 +246,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 >
                   <Trans>Start a team</Trans>
                 </Button>
+              </section>
+              <section>
+                <NotificationsDropdown notifications={[]} />
               </section>
               <section className={classes.accountControls}>
                 <MenuDropdown
@@ -266,7 +277,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   ]}
                 />
               </section>
-            </>
+            </section>
           ) : (
             <>
               {!searchActive && (

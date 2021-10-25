@@ -177,7 +177,9 @@ interface IMenuDropdownProps {
     title?: string
     titleText?: string
   }
+  hideIndicator?: boolean
   testId?: string
+  children?: React.ReactNode
 }
 
 const MenuDropdown = ({
@@ -189,7 +191,9 @@ const MenuDropdown = ({
   animation = "flip",
   title,
   classNames,
-  testId
+  testId,
+  children,
+  hideIndicator
 }: IMenuDropdownProps) => {
   const Icon = indicator
   const classes = useStyles()
@@ -201,6 +205,7 @@ const MenuDropdown = ({
       setOpen(false)
     }
   })
+
   return (
     <div
       ref={ref}
@@ -222,11 +227,13 @@ const MenuDropdown = ({
             {title}
           </Typography>
         )}
-        <Icon
+        {children && children}
+        {!hideIndicator && <Icon
           className={clsx(classes.icon, animation, classNames?.icon, {
             ["open"]: open
           })}
         />
+        }
       </section>
       <Paper
         shadow="shadow2"
