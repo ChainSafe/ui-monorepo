@@ -27,9 +27,11 @@ import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 import { useGetFile } from "./FileBrowsers/hooks/useGetFile"
 import { useMemo } from "react"
 import Menu from "../../UI-components/Menu"
+import { getPathWithFile } from "../../Utils/pathUtils"
 
 export interface IPreviewRendererProps {
   contents: Blob
+  contentType?: string
 }
 
 const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
@@ -196,6 +198,13 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     delta: 20
   })
 
+  const previewRendererKey = useMemo(() => content_type &&
+    Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
+      const matcher = new MimeMatcher(type)
+
+      return matcher.match(content_type)
+    }), [content_type])
+
   useEffect(() => {
     let bucketId
     // Handle preview in Search where a Bucket is not available, but can be assumed to be a `CSF` bucket
@@ -205,24 +214,24 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     } else {
       bucketId = bucket.id
     }
-    getFile({ file, filePath, bucketId })
-      .then(setFileContent)
-      .catch(console.error)
-  }, [file, filePath, getFile, bucket, buckets])
 
-  const validRendererMimeType =
-    content_type &&
-    Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
-      const matcher = new MimeMatcher(type)
+    if (previewRendererKey) {
+      setFileContent(undefined)
+      getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
+        .then((content) => {
+          setFileContent(content)
+        })
+        .catch(console.error)
+    }
+  }, [file, filePath, getFile, bucket, buckets, previewRendererKey])
 
-      return matcher.match(content_type)
-    })
+
 
   const PreviewComponent =
-    content_type &&
-    fileContent &&
-    validRendererMimeType &&
-    SUPPORTED_FILE_TYPES[validRendererMimeType]
+    !!content_type &&
+    !!fileContent &&
+    !!previewRendererKey &&
+    SUPPORTED_FILE_TYPES[previewRendererKey]
 
   useHotkeys("Esc,Escape", () => {
     if (file) {
@@ -231,15 +240,11 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
   })
 
   useHotkeys("Left,ArrowLeft", () => {
-    if (file && previousFile) {
-      previousFile()
-    }
+    previousFile && previousFile()
   })
 
   useHotkeys("Right,ArrowRight", () => {
-    if (file && nextFile) {
-      nextFile()
-    }
+    nextFile && nextFile()
   })
 
   const handleDownload = useCallback(() => {
@@ -389,7 +394,11 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
               !error &&
               compatibleFilesMatcher.match(content_type) &&
               fileContent &&
-              PreviewComponent && <PreviewComponent contents={fileContent} />}
+              PreviewComponent &&
+              <PreviewComponent
+                contents={fileContent}
+                contentType={content_type} />
+            }
           </div>
         </Grid>
         {desktop && (

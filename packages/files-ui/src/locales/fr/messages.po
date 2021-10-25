@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-10-09 17:23+0000\n"
+"PO-Revision-Date: 2021-10-20 00:49+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -736,6 +736,9 @@ msgstr "Une erreur s’est produite lors de l’authentification"
 
 msgid "There was an error connecting your wallet"
 msgstr "Une erreur s’est produite lors de la connexion de votre wallet"
+
+msgid "There was an error creating the folder {0}"
+msgstr "Il y a eu une erreur lors de la création du dossier {0}"
 
 msgid "There was an error deleting your data"
 msgstr "Une erreur s'est produite lors de la suppression de vos données"

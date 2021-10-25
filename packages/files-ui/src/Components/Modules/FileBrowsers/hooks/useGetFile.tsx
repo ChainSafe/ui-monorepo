@@ -40,7 +40,6 @@ export const useGetFile = () => {
     setError("")
 
     try {
-
       const content = await getFileContent(
         id,
         {
@@ -69,8 +68,6 @@ export const useGetFile = () => {
         setError(t`There was an error getting the preview.`)
       }
     }
-
-
   }, [bucket, getFileContent])
 
   return { getFile, isDownloading, error, downloadProgress }
