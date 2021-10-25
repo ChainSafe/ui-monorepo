@@ -332,9 +332,9 @@ export const darkTheme = createTheme<CsfColors>({
       ...UI_CONSTANTS,
       ...({
         menu:{
-          backgroundColor: "var(--gray1)",
+          backgroundColor: "var(--gray2)",
           color: "var(--gray8)",
-          backgroundOptionHover: "var(--gray2)"
+          backgroundOptionHover: "var(--gray3)"
         },
         landing: {
           background: "var(--gray2)",
