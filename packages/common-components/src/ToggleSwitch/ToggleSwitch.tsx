@@ -19,7 +19,7 @@ const useStyles = makeStyles(
   ({ animation, breakpoints, constants, overrides, palette }: ITheme) =>
     createStyles({
       root : {
-        padding: `${constants.generalUnit}px`,
+        padding: `${constants.generalUnit}px 0`,
         display: "flex",
         flexDirection: "row",
         justifyContent: "flex-start",

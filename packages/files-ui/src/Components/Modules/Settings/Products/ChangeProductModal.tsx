@@ -4,10 +4,14 @@ import { CSFTheme } from "../../../../Themes/types"
 import clsx from "clsx"
 import { Modal } from "@chainsafe/common-components"
 import SelectPlan from "./ChangeProductViews/SelectPlan"
+import { useBilling } from "../../../../Contexts/BillingContext"
 
-const useStyles = makeStyles(({ constants, palette, typography }: CSFTheme) =>
+const useStyles = makeStyles(({ constants }: CSFTheme) =>
   createStyles({
     root:  {
+    },
+    inner: {
+      borderRadius: `${constants.generalUnit / 2}px`
     },
     slide: {
       borderRadius: constants.generalUnit / 2,
@@ -25,7 +29,7 @@ interface IChangeProductModal {
 const ChangeProductModal = ({ active, className, close }: IChangeProductModal) => {
   const classes = useStyles()
 
-  const [newPlan, setNewPlan] = useState<string | undefined>()
+  const { changeSubscription } = useBilling()
 
   const [slide, setSlide] = useState<"select" | "confirm">("select")
 
@@ -39,15 +43,20 @@ const ChangeProductModal = ({ active, className, close }: IChangeProductModal) =
     <Modal
       closePosition="none"
       active={active}
+      maxWidth="md"
       className={classes.root}
+      injectedClass={{
+        inner: classes.inner
+      }}
+      testId="change-product"
     >
       {
         slide === "select" && <SelectPlan
           className={clsx(classes.slide, className)}
           close={close}
-          next={(id: string) => {
-            setNewPlan(id)
-            setSlide("confirm")
+          next={(productId: string, priceId: string) => {
+            // setSlide("confirm")
+            changeSubscription(productId, priceId)
           }}
         />
       }
