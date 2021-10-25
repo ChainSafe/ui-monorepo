@@ -56,7 +56,7 @@ const ChangeProductModal = ({ active, className, close }: IChangeProductModal) =
           close={close}
           next={(productId: string, priceId: string) => {
             // setSlide("confirm")
-            changeSubscription(productId, priceId)
+            changeSubscription(productId, priceId).then(() => close())
           }}
         />
       }
