@@ -69,7 +69,7 @@ describe("File Preview", () => {
       homePage.uploadFile("../fixtures/uploadedFiles/file.zip")
 
       // setup an api intercepter for download requests
-      cy.intercept("POST", "https://stage.imploy.site/api/v1/bucket/*/download").as("downloadRequest").then(() => {
+      cy.intercept("POST", "**/bucket/*/download").as("downloadRequest").then(() => {
         homePage.fileItemName().dblclick()
         previewModal.unsupportedFileLabel().should("exist")
         previewModal.downloadUnsupportedFileButton().should("be.visible")
