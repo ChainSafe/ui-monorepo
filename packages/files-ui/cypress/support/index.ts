@@ -28,5 +28,19 @@ Cypress.on("uncaught:exception", (err) => {
   }
 })
 
+// Hide fetch/XHR requests
+// interim solution until cypress adds configuration support
+// source https://gist.github.com/simenbrekken/3d2248f9e50c1143bf9dbe02e67f5399
+const app = window.top
+
+if(app != null && !app.document.head.querySelector("[data-hide-command-log-request]")) {
+  const style = app.document.createElement("style")
+  style.innerHTML =
+    ".command-name-request, .command-name-xhr { display: none }"
+  style.setAttribute("data-hide-command-log-request", "")
+
+  app.document.head.appendChild(style)
+}
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

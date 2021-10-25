@@ -155,7 +155,7 @@ msgid "Create"
 msgstr "Opprett"
 
 msgid "Create Folder"
-msgstr "Opprett mappe"
+msgstr ""
 
 msgid "Create Shared Folder"
 msgstr ""
@@ -458,7 +458,7 @@ msgid "Number of copies (Replication Factor)"
 msgstr ""
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr ""
@@ -731,6 +731,9 @@ msgid "There was an error authenticating"
 msgstr ""
 
 msgid "There was an error connecting your wallet"
+msgstr ""
+
+msgid "There was an error creating the folder {0}"
 msgstr ""
 
 msgid "There was an error deleting your data"

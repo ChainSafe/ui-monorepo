@@ -11,6 +11,7 @@ describe("File Preview", () => {
       // add files
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
       homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 2)
 
       // store their file names as cypress aliases for later comparison
       homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
@@ -72,13 +73,22 @@ describe("File Preview", () => {
         homePage.fileItemName().dblclick()
         previewModal.unsupportedFileLabel().should("exist")
         previewModal.downloadUnsupportedFileButton().should("be.visible")
+        // ensure that the file download does not start until the download button is clicked
+        cy.get("@downloadRequest").then(($request) => {
+          // retrieving the alias (spy) should yield null because posts should not have been made yet
+          expect($request).to.be.null
+        })
+
+        // begin the file download 
+        previewModal.downloadUnsupportedFileButton().click()
+
         // ensure the download request contains the correct file
-        cy.get("@downloadRequest").its("request.body").should("contain", {
+        cy.wait("@downloadRequest").its("request.body").should("contain", {
           path: "/file.zip"
         })
       })
 
-      // return to the home and ensure preview menu option is not shown for unsupported file
+      // return to home, ensure the preview menu option is not shown for an unsupported file
       previewModal.closeButton().click()
       homePage.fileItemKebabButton().click()
       homePage.previewMenuOption().should("not.exist")

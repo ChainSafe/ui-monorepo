@@ -156,7 +156,7 @@ msgid "Create"
 msgstr "Crear"
 
 msgid "Create Folder"
-msgstr "Crear Carpeta"
+msgstr ""
 
 msgid "Create Shared Folder"
 msgstr ""
@@ -462,7 +462,7 @@ msgid "Number of copies (Replication Factor)"
 msgstr "Número de copias (factor de replicación)"
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr ""
@@ -736,6 +736,9 @@ msgstr "Hubo un error de autenticación."
 
 msgid "There was an error connecting your wallet"
 msgstr "Hubo un error al conectar su billetera"
+
+msgid "There was an error creating the folder {0}"
+msgstr ""
 
 msgid "There was an error deleting your data"
 msgstr ""

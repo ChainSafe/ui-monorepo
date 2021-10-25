@@ -102,12 +102,8 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
       })
       refreshContents && refreshContents()
       helpers.resetForm()
-    } catch (errors: any) {
-      if (errors[0].message.includes("conflict with existing")) {
-        helpers.setFieldError("files", "File/Folder exists")
-      } else {
-        helpers.setFieldError("files", errors[0].message)
-      }
+    } catch (error: any) {
+      console.error(error)
     }
     helpers.setSubmitting(false)
   }, [close, currentPath, uploadFiles, refreshContents, bucket])
