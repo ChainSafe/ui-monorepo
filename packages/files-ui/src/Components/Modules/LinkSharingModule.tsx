@@ -95,8 +95,8 @@ const LinkSharingModule = () => {
 
     filesApiClient.verifyNonce({ jwt, encryption_key: encryptedEncryptionKey })
       .catch((e:any) => {
-        console.error(error)
-        setError(e.message)
+        console.error(e)
+        setError(e.error.message)
       })
       .finally(() => {
         refreshBuckets()
