@@ -53,8 +53,8 @@ msgstr "Ajouter d’autres fichiers"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
-msgid "An error occurred while downloading the file"
-msgstr "Une erreur s'est produite lors du téléchargement du fichier"
+msgid "Amount"
+msgstr ""
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
@@ -70,9 +70,6 @@ msgstr "Phrase secrète de sauvegarde"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et réessayer."
-
-#~ msgid "Basic - Free"
-#~ msgstr ""
 
 msgid "Billed Monthly"
 msgstr ""
@@ -92,9 +89,6 @@ msgstr "Explorateur :"
 msgid "Bucket id"
 msgstr "Identifiant du seau"
 
-msgid "Buy more storage"
-msgstr ""
-
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "En connectant votre portefeuille, vous acceptez nos <0>conditions de service</0> et notre <1>politique de confidentialité</1>"
 
@@ -112,6 +106,9 @@ msgstr ""
 
 msgid "Change Password"
 msgstr "Changer le mot de passe"
+
+msgid "Change Plan"
+msgstr ""
 
 msgid "Change password"
 msgstr "Changer le mot de passe"
@@ -173,6 +170,9 @@ msgstr "Copier"
 msgid "Copy to"
 msgstr "Copier vers"
 
+msgid "Copying files"
+msgstr ""
+
 msgid "Create"
 msgstr "Créer"
 
@@ -194,7 +194,7 @@ msgstr "Créer un dossier"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
-msgid "Credit card on file"
+msgid "Credit card saved"
 msgstr ""
 
 msgid "Dark Theme"
@@ -210,6 +210,9 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Date uploaded"
@@ -263,14 +266,8 @@ msgstr "Les téléchargements ont échoué"
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
-msgid "Early Adopter: Free up to {0}"
-msgstr ""
-
 msgid "Email is required"
 msgstr "Un courriel est requis"
-
-msgid "Encrypting & uploading"
-msgstr "Chiffrement et téléversement"
 
 msgid "Enter backup secret phrase:"
 msgstr "Phrase secrète de sauvegarde :"
@@ -283,18 +280,6 @@ msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
 msgstr "Entrez le code de vérification :"
-
-#~ msgid "Error while creating new shared folder"
-#~ msgstr "Erreur lors de la création d’un nouveau dossier partagé"
-
-#~ msgid "Error while downloading {0}"
-#~ msgstr "Erreur lors du téléchargement de {0}"
-
-#~ msgid "Error while uploading {0}"
-#~ msgstr "Erreur lors du téléversement de {0}
-
-#~ msgid "Essentials - Free"
-#~ msgstr "Essentials - Gratuit"
 
 msgid "Failed to add payment method"
 msgstr ""
@@ -404,8 +389,8 @@ msgstr "Infos"
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
-msgid "Keep original file"
-msgstr "Conserver le fichier original"
+msgid "Keep original files"
+msgstr ""
 
 msgid "Language"
 msgstr "Langue"
@@ -443,11 +428,11 @@ msgstr "Chargement…"
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-
 msgid "Manage Access"
 msgstr "Gérer l’accès"
+
+msgid "Method"
+msgstr ""
 
 msgid "Move"
 msgstr "Déplacer"
@@ -485,8 +470,14 @@ msgstr ""
 msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
 
-#~ msgid "No files to show"
-#~ msgstr "Aucun fichier à afficher"
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
+
+msgid "No files to show"
+msgstr "Aucun fichier à afficher"
 
 msgid "No folders"
 msgstr "Aucun dossier"
@@ -548,9 +539,6 @@ msgstr "Les mots de passes de correspondent pas"
 msgid "Payment and Subscriptions"
 msgstr ""
 
-msgid "Plan"
-msgstr ""
-
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"
 
@@ -588,6 +576,9 @@ msgid "Profile updated"
 msgstr "Profile mis à jour"
 
 msgid "Purchase with card"
+msgstr ""
+
+msgid "Receipt"
 msgstr ""
 
 msgid "Recover"
@@ -695,6 +686,9 @@ msgstr "Partager"
 msgid "Share file"
 msgstr "Partager le fichier"
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Partagé"
 
@@ -707,11 +701,8 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-msgid "Sharing cancelled"
-msgstr "Partage annulé"
-
-msgid "Sharing your file (Downloading)"
-msgstr "Partager votre fichier (Téléchargement)"
+msgid "Sharing files"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -754,9 +745,6 @@ msgstr "Démarrer le téléversement"
 
 msgid "Start a team"
 msgstr "Créer une équipe"
-
-msgid "Storage Plan"
-msgstr "Plan de stockage"
 
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
@@ -827,9 +815,6 @@ msgstr "Ce site web utilise des cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre les interactions à des fins d'analyse. Vous avez le droit de refuser notre utilisation des cookies. Pour que nous puissions vous offrir une expérience utilisateur personnalisable, veuillez cliquer sur le bouton Accepter ci-dessous.<0>En savoir plus</0>"
 
-msgid "Transfer complete"
-msgstr "Transfert terminé"
-
 msgid "Try again"
 msgstr "Essayer de nouveau"
 
@@ -899,7 +884,7 @@ msgstr "Code de vérification envoyé !"
 msgid "View folder"
 msgstr "Voir le dossier"
 
-msgid "View invoces"
+msgid "View invoices"
 msgstr ""
 
 msgid "Wallet address"
@@ -947,9 +932,6 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
-msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-msgstr ""
-
 msgid "Your plan"
 msgstr ""
 
@@ -974,5 +956,23 @@ msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {C
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
 
-msgid "{0} of {1} used ({2}%)"
+msgid "{0} cancelled"
+msgstr ""
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr ""
+
+msgid "{0} complete"
+msgstr ""
+
+msgid "{0} failed"
+msgstr ""
+
+msgid "{0} of {1} used"
+msgstr ""
+
+msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
 msgstr ""
