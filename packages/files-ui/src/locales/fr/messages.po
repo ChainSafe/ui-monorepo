@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-10-09 17:23+0000\n"
+"PO-Revision-Date: 2021-10-20 00:49+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -44,6 +44,9 @@ msgstr "Ajouter d’autres fichiers"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
@@ -58,6 +61,9 @@ msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et r
 
 msgid "Bin"
 msgstr "Corbeille"
+
+msgid "Browse {0}"
+msgstr ""
 
 msgid "Browser:"
 msgstr "Explorateur :"
@@ -134,6 +140,9 @@ msgstr "Copier le fichier"
 msgid "Copy info"
 msgstr "Copier les infos"
 
+msgid "Copy link"
+msgstr ""
+
 msgid "Copy over"
 msgstr "Copier"
 
@@ -147,7 +156,7 @@ msgid "Create"
 msgstr "Créer"
 
 msgid "Create Folder"
-msgstr ""
+msgstr "Créer un dossier"
 
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
@@ -160,6 +169,9 @@ msgstr "Créer un nouveau dossier partagé"
 
 msgid "Create folder"
 msgstr "Créer un dossier"
+
+msgid "Create new link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
@@ -285,7 +297,7 @@ msgid "First name"
 msgstr "Prénom"
 
 msgid "Folder name is already in use"
-msgstr ""
+msgstr "Le nom du dossier est déjà utilisé"
 
 msgid "Folder uploads are not supported currently"
 msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
@@ -450,7 +462,7 @@ msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
 
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgid "One sec, getting files ready…"
 msgstr "Un instant, nous préparons les fichiers…"
@@ -642,7 +654,10 @@ msgid "Shared with"
 msgstr "Partagé avec"
 
 msgid "Sharing files"
-msgstr "Partage des fichiers"
+msgstr ""
+
+msgid "Sharing link"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -652,6 +667,9 @@ msgstr "Se connecter"
 
 msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
+
+msgid "Sign in/up to access the shared folder"
+msgstr ""
 
 msgid "Sign me up!"
 msgstr "S'inscrire !"
@@ -720,7 +738,7 @@ msgid "There was an error connecting your wallet"
 msgstr "Une erreur s’est produite lors de la connexion de votre wallet"
 
 msgid "There was an error creating the folder {0}"
-msgstr ""
+msgstr "Il y a eu une erreur lors de la création du dossier {0}"
 
 msgid "There was an error deleting your data"
 msgstr "Une erreur s'est produite lors de la suppression de vos données"
@@ -845,11 +863,17 @@ msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
+
+msgid "edit rights"
+msgstr ""
 
 msgid "me"
 msgstr "moi"
@@ -857,8 +881,14 @@ msgstr "moi"
 msgid "on"
 msgstr "le"
 
+msgid "read rights"
+msgstr ""
+
 msgid "unknown"
 msgstr "inconnu"
+
+msgid "with"
+msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargement de {2} fichiers}}"
