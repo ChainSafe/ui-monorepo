@@ -52,8 +52,8 @@ msgstr "Legg til flere filer"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
-msgid "An error occurred while downloading the file"
-msgstr ""
+#~ msgid "An error occurred while downloading the file"
+#~ msgstr ""
 
 msgid "An error occurred:"
 msgstr ""
@@ -73,6 +73,9 @@ msgstr ""
 #~ msgid "Basic - Free"
 #~ msgstr ""
 
+msgid "Billed Annually"
+msgstr ""
+
 msgid "Billed Monthly"
 msgstr ""
 
@@ -88,8 +91,8 @@ msgstr ""
 msgid "Bucket id"
 msgstr ""
 
-msgid "Buy more storage"
-msgstr ""
+#~ msgid "Buy more storage"
+#~ msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr ""
@@ -108,6 +111,9 @@ msgstr ""
 
 msgid "Change Password"
 msgstr "Endre passord"
+
+msgid "Change Plan"
+msgstr ""
 
 msgid "Change password"
 msgstr "Endre passord"
@@ -169,6 +175,9 @@ msgstr ""
 msgid "Copy to"
 msgstr ""
 
+msgid "Copying files"
+msgstr ""
+
 msgid "Create"
 msgstr "Opprett"
 
@@ -191,6 +200,9 @@ msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
 msgid "Credit card on file"
+msgstr ""
+
+msgid "Current"
 msgstr ""
 
 msgid "Dark Theme"
@@ -259,14 +271,14 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
-msgid "Early Adopter: Free up to {0}"
-msgstr ""
+#~ msgid "Early Adopter: Free up to {0}"
+#~ msgstr ""
 
 msgid "Email is required"
 msgstr "E-post kreves"
 
-msgid "Encrypting & uploading"
-msgstr ""
+#~ msgid "Encrypting & uploading"
+#~ msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -286,7 +298,7 @@ msgstr "Skriv inn bekreftelseskoden:"
 #~ msgid "Error while downloading {0}"
 #~ msgstr ""
 
-#~ msgid "Error while uploading {0}
+#~ msgid "Error while uploading {0}"
 #~ msgstr ""
 
 #~ msgid "Essentials - Free"
@@ -343,6 +355,9 @@ msgstr ""
 msgid "Forget this browser"
 msgstr ""
 
+msgid "Free"
+msgstr ""
+
 msgid "Free plan"
 msgstr ""
 
@@ -397,7 +412,10 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
-msgid "Keep original file"
+#~ msgid "Keep original file"
+#~ msgstr ""
+
+msgid "Keep original files"
 msgstr ""
 
 msgid "Language"
@@ -436,8 +454,8 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr ""
+#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgstr ""
 
 msgid "Manage Access"
 msgstr ""
@@ -478,8 +496,14 @@ msgstr ""
 msgid "No file to download."
 msgstr ""
 
-#~ msgid "No files to show"
-#~ msgstr "Ingen filer å vise"
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
+
+msgid "No files to show"
+msgstr "Ingen filer å vise"
 
 msgid "No folders"
 msgstr "Ingen mapper"
@@ -491,6 +515,9 @@ msgid "No thanks"
 msgstr "Nei takk"
 
 msgid "No user found for this query."
+msgstr ""
+
+msgid "Not sure what to pick? Learn more about our plans"
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
@@ -541,8 +568,8 @@ msgstr "Passordene må samsvare"
 msgid "Payment and Subscriptions"
 msgstr ""
 
-msgid "Plan"
-msgstr ""
+#~ msgid "Plan"
+#~ msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Skriv inn et filnavn"
@@ -664,6 +691,9 @@ msgstr ""
 msgid "Select an existing shared folder or your home"
 msgstr ""
 
+msgid "Select this plan"
+msgstr ""
+
 msgid "Send another email"
 msgstr "Send en ny e-post"
 
@@ -688,6 +718,9 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Delt"
 
@@ -700,11 +733,14 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing cancelled"
+#~ msgid "Sharing cancelled"
+#~ msgstr ""
+
+msgid "Sharing files"
 msgstr ""
 
-msgid "Sharing your file (Downloading)"
-msgstr ""
+#~ msgid "Sharing your file (Downloading)"
+#~ msgstr ""
 
 msgid "Sign Out"
 msgstr "Logg ut"
@@ -748,13 +784,16 @@ msgstr ""
 msgid "Start a team"
 msgstr ""
 
-msgid "Storage Plan"
-msgstr ""
+#~ msgid "Storage Plan"
+#~ msgstr ""
 
 msgid "Stored by miner"
 msgstr ""
 
 msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plans"
 msgstr ""
 
 msgid "Teams"
@@ -820,8 +859,8 @@ msgstr ""
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
-msgid "Transfer complete"
-msgstr ""
+#~ msgid "Transfer complete"
+#~ msgstr ""
 
 msgid "Try again"
 msgstr "Prøv igjen"
@@ -937,8 +976,8 @@ msgstr ""
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
-msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-msgstr ""
+#~ msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+#~ msgstr ""
 
 msgid "Your plan"
 msgstr ""
@@ -950,6 +989,18 @@ msgid "me"
 msgstr ""
 
 msgid "on"
+msgstr ""
+
+msgid "per day"
+msgstr ""
+
+msgid "per month"
+msgstr ""
+
+msgid "per week"
+msgstr ""
+
+msgid "per year"
 msgstr ""
 
 msgid "unknown"
@@ -964,5 +1015,26 @@ msgstr ""
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
 
-msgid "{0} of {1} used ({2}%)"
+msgid "{0} cancelled"
+msgstr ""
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr ""
+
+msgid "{0} complete"
+msgstr ""
+
+msgid "{0} failed"
+msgstr ""
+
+msgid "{0} of {1} used"
+msgstr ""
+
+#~ msgid "{0} of {1} used ({2}%)"
+#~ msgstr ""
+
+msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
 msgstr ""
