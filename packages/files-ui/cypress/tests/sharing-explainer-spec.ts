@@ -33,7 +33,7 @@ describe("Sharing Explainer", () => {
 
     it("User should not see sharing explainer if previously dismissed", () => {
       cy.intercept("GET", "**/user/store", {
-        body: [{ "csf.dismissedSharingExplainer": "true" }]
+        body: { "csf.dismissedSharingExplainer": "true" }
       })
 
       cy.web3Login()
