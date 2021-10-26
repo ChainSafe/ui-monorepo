@@ -4,21 +4,15 @@ import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 
-const useStyles = makeStyles(({ constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
     container: {
-      margin: `${constants.generalUnit * 3}px ${constants.generalUnit * 4}px`
+      padding: constants.generalUnit,
+      margin: `${constants.generalUnit * 1.5}px 0`
     },
-    noCard: {
+    link: {
+      display: "inline-block",
       margin: `${constants.generalUnit * 2}px 0`
-    },
-    cardDetailsContainer: {
-      display: "flex",
-      margin: `${constants.generalUnit * 2}px 0`
-    },
-    creditCardIcon: {
-      marginRight: constants.generalUnit,
-      fill: palette.additional["gray"][9]
     }
   })
 )
@@ -34,7 +28,17 @@ const BillingHistory = () => {
       >
         <Trans>Billing history</Trans>
       </Typography>
-      <Link to={ROUTE_LINKS.BillingHistory}><Trans>View invoces</Trans></Link>
+      <Typography
+        variant="h5"
+        component="h5"
+      >
+        <Link
+          className={classes.link}
+          to={ROUTE_LINKS.BillingHistory}
+        >
+          <Trans>View invoices</Trans>
+        </Link>
+      </Typography>
     </div>
   )
 }

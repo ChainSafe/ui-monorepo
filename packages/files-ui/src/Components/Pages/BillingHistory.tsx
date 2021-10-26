@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
-import { InvoiceResponse, InvoicesResponse } from "@chainsafe/files-api-client"
-import { Table, TableHead, TableHeadCell, TableBody, TableRow, TableCell } from "@chainsafe/common-components"
+import { InvoiceResponse } from "@chainsafe/files-api-client"
+import { Table, TableHead, TableHeadCell, TableBody, TableRow, TableCell, Typography, Loading } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 
 const useStyles = makeStyles(
-  ({ constants }: CSFTheme) =>
+  ({ constants, breakpoints }: CSFTheme) =>
     createStyles({
-      root: {
-        //
+      heading: {
+        marginBottom: constants.generalUnit * 4,
+        [breakpoints.down("md")]: {
+          marginBottom: constants.generalUnit * 2
+        }
+      },
+      loader: {
+        marginTop: constants.generalUnit
       }
     })
 )
@@ -20,39 +26,41 @@ const BillingHistory = () => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const [invoices, setInvoices] = useState<InvoiceResponse[]>([])
+  const [subscriptionId, setSubscriptionId] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    filesApiClient.getCurrentSubscription()
+      .then((subscription) => {
+        setSubscriptionId(subscription.id)
+      })
+      .catch((e) => {
+        console.error(e)
+        setIsLoading(false)
+      })
+  }, [filesApiClient])
 
   useEffect(() => {
 
-    filesApiClient.getAllInvoices("d9c0cc3e-1129-11ec-82a8-0242ac130003")
+    if(!subscriptionId) return
+    filesApiClient.getAllInvoices(subscriptionId)
       .then(({ invoices }) => {
-        console.log("invoices", invoices)
         setInvoices(invoices)
       })
       .catch(console.error)
-    // const mock: InvoicesResponse = {
-    //   "last_id": "ae38b0e4-d5c9-48b7-a169-d9ebb4ce1be6",
-    //   "page_size": 1,
-    //   "invoices": [
-    //     {
-    //       "uuid": "ae38b0e4-d5c9-48b7-a169-d9ebb4ce1be6",
-    //       "user_id": "eeb18b74-96ca-4162-a124-61c9088b7c00",
-    //       "subscription_id": "vsghvs",
-    //       "amount": 20,
-    //       "currency": "USD",
-    //       "payment_method": "crypto",
-    //       "status": "paid",
-    //       "paid_on": 1393812184 as unknown as Date
-    //     }
-    //   ]
-    // }
+      .finally(() => setIsLoading(false))
 
-    // setInvoices(mock.invoices)
-
-  }, [filesApiClient])
+  }, [filesApiClient, subscriptionId])
 
   return (
-    <div className={classes.root}>
-      Billing history
+    <div>
+      <Typography
+        className={classes.heading}
+        variant="h1"
+        component="p"
+      >
+        <Trans>Billing history</Trans>
+      </Typography>
       <Table
         fullWidth={true}
         dense={true}
@@ -60,7 +68,6 @@ const BillingHistory = () => {
         <TableHead>
           <TableRow
             type="grid"
-            // className={classes.tableRow}
           >
             <TableHeadCell align="left"><Trans>Date</Trans></TableHeadCell>
             <TableHeadCell align="left"><Trans>Amount</Trans></TableHeadCell>
@@ -69,15 +76,22 @@ const BillingHistory = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {invoices.map(({ paid_on, amount, payment_method, subscription_id, currency }, index) =>
+          {isLoading &&
+            <Loading
+              className={classes.loader}
+              type="inherit"
+              size={32}
+            />
+          }
+          {invoices.map(({ paid_on, amount, payment_method, currency, uuid }, index) =>
             <TableRow
               type="grid"
               key={index}
             >
               <TableCell align="left">{paid_on ? dayjs.unix(paid_on as unknown as number).format("DD MMM YYYY") : "unknown"}</TableCell>
-              <TableCell align="left">{amount}{currency}</TableCell>
+              <TableCell align="left">{amount} {currency}</TableCell>
               <TableCell align="left">{payment_method}</TableCell>
-              <TableCell align="left">{subscription_id}</TableCell>
+              <TableCell align="left">{uuid}</TableCell>
             </TableRow>)}
         </TableBody>
       </Table>
