@@ -1,35 +1,46 @@
 import * as React from "react"
 import { useFilesApi } from "./FilesApiContext"
-import axios, { AxiosResponse } from "axios"
-import { useEffect, useState } from "react"
-import { Card } from "@chainsafe/files-api-client"
+import { ReactNode, useEffect, useState } from "react"
+import { Card, CurrentSubscription } from "@chainsafe/files-api-client"
 import { useCallback } from "react"
-import qs from "qs"
+import { t } from "@lingui/macro"
 
 type BillingContextProps = {
-  children: React.ReactNode | React.ReactNode[]
+  children: ReactNode | ReactNode[]
 }
 
 interface IBillingContext {
   defaultCard: Card | undefined
-  addCard(cardToken: string): Promise<void>
-  getCardTokenFromStripe(
-    cardInputs: {
-      cardNumber: string
-      cardExpiry: string
-      cardCvc: string
-    }
-  ): Promise<AxiosResponse<{ id: string}>>
+  refreshDefaultCard: () => void
+  currentSubscription: CurrentSubscription | undefined
+  fetchCurrentSubscription: () => void
+}
+
+const ProductMapping: {[key: string]: {
+  name: string
+  description: string
+}} = {
+  prod_JwRu6Ph25b1f2O: {
+    name: t`Free plan`,
+    description: t`This is the free product.`
+  },
+  prod_JwS49Qfnr6vD3K: {
+    name: t`Standard plan`,
+    description: t`Standard plan`
+  },
+  prod_JwSGHB8qFx7rRM: {
+    name: t`Premium plan`,
+    description: t`Premium plan`
+  }
 }
 
 const BillingContext = React.createContext<IBillingContext | undefined>(
   undefined
 )
 
-const STRIPE_API = "https://api.stripe.com/v1/tokens"
-
 const BillingProvider = ({ children }: BillingContextProps) => {
   const { filesApiClient, isLoggedIn } = useFilesApi()
+  const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
 
   const refreshDefaultCard = useCallback(() => {
@@ -45,41 +56,35 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     if (isLoggedIn) {
       refreshDefaultCard()
     }
-  }, [refreshDefaultCard, isLoggedIn])
+  }, [refreshDefaultCard, isLoggedIn, filesApiClient])
 
-  const getCardTokenFromStripe = useCallback((
-    cardInputs: {
-      cardNumber: string
-      cardExpiry: string
-      cardCvc: string
-    }
-  ): Promise<AxiosResponse<{ id: string}>> => {
-    return axios({
-      method: "post",
-      url: STRIPE_API,
-      headers: {
-        "Authorization": `Bearer ${process.env.REACT_APP_STRIPE_PK}`,
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      data : qs.stringify({
-        "card[number]": cardInputs.cardNumber,
-        "card[exp_month]": cardInputs.cardExpiry.split("/")[0].trim(),
-        "card[exp_year]": cardInputs.cardExpiry.split("/")[1].trim(),
-        "card[cvc]": cardInputs.cardCvc
+  const fetchCurrentSubscription = useCallback(() => {
+    filesApiClient.getCurrentSubscription()
+      .then((subscription) => {
+        subscription.product.name = ProductMapping[subscription.product.id].name
+        subscription.product.description = ProductMapping[subscription.product.id].description
+        setCurrentSubscription(subscription)
       })
-    })
-  }, [])
+      .catch((error: any) => {
+        console.error(error)
+      })
+  }, [filesApiClient])
 
-  const addCard = useCallback((cardToken: string) => {
-    return filesApiClient.addCard({ token: cardToken }).then(refreshDefaultCard)
-  }, [filesApiClient, refreshDefaultCard])
+  useEffect(() => {
+    if (isLoggedIn && !currentSubscription) {
+      fetchCurrentSubscription()
+    } else if (!isLoggedIn) {
+      setCurrentSubscription(undefined)
+    }
+  }, [isLoggedIn, fetchCurrentSubscription, currentSubscription])
 
   return (
     <BillingContext.Provider
       value={{
-        defaultCard,
-        addCard,
-        getCardTokenFromStripe
+        currentSubscription,
+        fetchCurrentSubscription,
+        refreshDefaultCard,
+        defaultCard
       }}
     >
       {children}

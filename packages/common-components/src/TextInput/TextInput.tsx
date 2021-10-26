@@ -72,6 +72,7 @@ const useStyles = makeStyles(
         "&.disabled": {
           "& input": {
             color: palette.additional["gray"][6],
+            "-webkit-text-fill-color": palette.additional["gray"][6],
             backgroundColor: palette.additional["gray"][3],
             ...overrides?.TextInput?.input?.disabled
           },
@@ -381,10 +382,7 @@ const useStyles = makeStyles(
 export type InputState = "normal" | "warning" | "success" | "error"
 
 export interface ITextInputProps
-  extends Omit<
-    React.HTMLProps<HTMLInputElement>,
-    "onChange" | "label" | "size" | "value"
-  > {
+  extends Omit<React.HTMLProps<HTMLInputElement>, "onChange" | "label" | "size" | "value"> {
   className?: string
   label?: string
   labelClassName?: string

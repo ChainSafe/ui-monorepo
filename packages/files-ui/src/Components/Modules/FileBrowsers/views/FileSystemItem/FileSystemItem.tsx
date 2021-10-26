@@ -122,7 +122,7 @@ interface IFileSystemItemProps {
   browserView: BrowserView
   reportFile?: (path: string) => void
   showFileInfo?: (path: string) => void
-  share?: (path: string, fileIndex: number) => void
+  handleShare?: (file: FileSystemItemType) => void
   showPreview?: (fileIndex: number) => void
 }
 
@@ -145,13 +145,13 @@ const FileSystemItem = ({
   resetSelectedFiles,
   reportFile,
   showFileInfo,
-  share,
+  handleShare,
   showPreview
 }: IFileSystemItemProps) => {
   const { bucket, downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { downloadMultipleFiles } = useFiles()
   const { cid, name, isFolder, content_type } = file
-
+  const inSharedFolder = useMemo(() => bucket?.type === "share", [bucket])
   const formik = useFormik({
     initialValues: {
       name
@@ -240,11 +240,14 @@ const FileSystemItem = ({
         <>
           <ShareAltSvg className={classes.menuIcon} />
           <span data-cy="menu-share">
-            <Trans>Share</Trans>
+            {inSharedFolder
+              ? t`Copy to`
+              : t`Share`
+            }
           </span>
         </>
       ),
-      onClick: () => share && share(filePath, files?.indexOf(file))
+      onClick: () => handleShare && handleShare(file)
     },
     info: {
       contents: (
@@ -313,14 +316,14 @@ const FileSystemItem = ({
     currentPath,
     downloadFile,
     moveFile,
-    share,
+    handleShare,
     filePath,
-    files,
     showFileInfo,
     recoverFile,
     onFilePreview,
     viewFolder,
-    reportFile
+    reportFile,
+    inSharedFolder
   ])
 
   const menuItems: IMenuItem[] = itemOperations.map(

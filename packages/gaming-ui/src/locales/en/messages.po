@@ -13,32 +13,17 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-msgid "API Keys"
-msgstr "API Keys"
-
 msgid "Add API Key"
 msgstr "Add API Key"
-
-msgid "Api Keys"
-msgstr "Api Keys"
-
-msgid "Back to plan settings"
-msgstr "Back to plan settings"
-
-msgid "Billed Monthly"
-msgstr "Billed Monthly"
-
-msgid "Billed Yearly"
-msgstr "Billed Yearly"
-
-msgid "Billing"
-msgstr "Billing"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 
 msgid "Check your inbox! We've sent another email."
 msgstr "Check your inbox! We've sent another email."
+
+msgid "Close"
+msgstr "Close"
 
 msgid "Connect Wallet to Gaming"
 msgstr "Connect Wallet to Gaming"
@@ -64,11 +49,17 @@ msgstr "Continue with Google"
 msgid "Continue with Web3 Wallet"
 msgstr "Continue with Web3 Wallet"
 
-msgid "Created At"
-msgstr "Created At"
+msgid "Copied!"
+msgstr "Copied!"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+msgid "Created on:"
+msgstr "Created on:"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Delete key"
+msgstr "Delete key"
 
 msgid "Didn't receive the email ?"
 msgstr "Didn't receive the email ?"
@@ -94,9 +85,6 @@ msgstr ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 
-msgid "Gaming Plan"
-msgstr "Gaming Plan"
-
 msgid "Get Started"
 msgstr "Get Started"
 
@@ -106,20 +94,26 @@ msgstr "Go back"
 msgid "Hold on, we are logging you in…"
 msgstr "Hold on, we are logging you in…"
 
-msgid "Id"
-msgstr "Id"
+msgid "Id:"
+msgstr "Id:"
+
+msgid "Key ID"
+msgstr "Key ID"
 
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
+
+msgid "Make sure to save the secret, as it can only be displayed once."
+msgstr "Make sure to save the secret, as it can only be displayed once."
+
+msgid "New Key"
+msgstr "New Key"
 
 msgid "Please enter a valid email"
 msgstr "Please enter a valid email"
 
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
-
-msgid "Purchase with card"
-msgstr "Purchase with card"
 
 msgid "Secret"
 msgstr "Secret"
@@ -148,11 +142,8 @@ msgstr "Something went wrong!"
 msgid "Something went wrong! Please try again."
 msgstr "Something went wrong! Please try again."
 
-msgid "Status"
-msgstr "Status"
-
-msgid "Subscription Plan"
-msgstr "Subscription Plan"
+msgid "Status:"
+msgstr "Status:"
 
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
@@ -171,15 +162,6 @@ msgstr "There was an error connecting your wallet"
 
 msgid "Try again"
 msgstr "Try again"
-
-msgid "Try for 7 days"
-msgstr "Try for 7 days"
-
-msgid "Upgrade Plan"
-msgstr "Upgrade Plan"
-
-msgid "Upgrade your plan"
-msgstr "Upgrade your plan"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"

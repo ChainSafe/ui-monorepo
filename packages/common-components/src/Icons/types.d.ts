@@ -4,7 +4,7 @@ type fontSizeProp = "inherit" | "small" | "medium" | "large"
 declare module "*.svg" {
   import React = require("react")
   export const ReactComponent: React.FunctionComponent<React.SVGProps<
-    SVGSVGElement
+  SVGSVGElement
   >>
   const src: string
   export default src

@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { useToaster, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
+import { useToasts, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
 import {
   getArrayOfPaths,
   getURISafePathFromArray,
   getPathWithFile,
   extractSharedFileBrowserPathFromURL,
-  getUrlSafePathWithFile
+  getUrlSafePathWithFile,
+  getAbsolutePathsFromCids,
+  pathEndingWithSlash
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "./types"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -18,11 +20,12 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useUser } from "../../../Contexts/UserContext"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
+import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 
 const SharedFileBrowser = () => {
-  const { downloadFile, uploadFiles, buckets, refreshBuckets, getStorageSummary } = useFiles()
-  const { filesApiClient } = useFilesApi()
-  const { addToastMessage } = useToaster()
+  const { downloadFile, uploadFiles, buckets, getStorageSummary, refreshBuckets } = useFiles()
+  const { filesApiClient, accountRestricted } = useFilesApi()
+  const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
@@ -94,48 +97,29 @@ const SharedFileBrowser = () => {
     refreshContents(true)
   }, [bucket, refreshContents])
 
-  const deleteFile = useCallback(async (cid: string) => {
-    const itemToDelete = pathContents.find((i) => i.cid === cid)
-
-    if (!itemToDelete || !bucket) {
-      console.error("Bucket not set or no item found to delete")
-      return
-    }
-
-    try {
-      await filesApiClient.removeBucketObject(
-        bucket.id,
-        { paths: [getPathWithFile(currentPath, itemToDelete.name)] }
-      )
-
-      refreshContents(false)
-      refreshBuckets(false)
-      const message = `${
-        itemToDelete.isFolder ? t`Folder` : t`File`
-      } ${t`deleted successfully`}`
-      addToastMessage({
-        message: message,
-        appearance: "success"
-      })
-      return Promise.resolve()
-    } catch (error) {
-      const message = `${t`There was an error deleting this`} ${
-        itemToDelete.isFolder ? t`folder` : t`file`
-      }`
-      addToastMessage({
-        message: message,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
-
   const deleteItems = useCallback(async (cids: string[]) => {
-    await Promise.all(
-      cids.map((cid: string) =>
-        deleteFile(cid)
-      ))
-  }, [deleteFile])
+    if (!bucket) return
+
+    const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+
+    filesApiClient.removeBucketObject(bucket.id, { paths: pathsToDelete })
+      .then(() => {
+        addToast({
+          title: t`Data deleted successfully`,
+          type: "success",
+          testId: "deletion-success"
+        })
+      }).catch((error) => {
+        console.error("Error deleting:", error)
+        addToast({
+          title: t`There was an error deleting your data`,
+          type: "error"
+        })
+      }).finally(() => {
+        refreshContents()
+        refreshBuckets()
+      })
+  }, [addToast, bucket, currentPath, filesApiClient, pathContents, refreshBuckets, refreshContents])
 
   // Rename
   const renameItem = useCallback(async (cid: string, newName: string) => {
@@ -150,16 +134,25 @@ const SharedFileBrowser = () => {
 
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
-    await Promise.all(
-      cids.map(async (cid: string) => {
-        const itemToMove = pathContents.find(i => i.cid === cid)
-        if (!bucket || !itemToMove) return
-        await filesApiClient.moveBucketObjects(bucket.id, {
-          paths: [getPathWithFile(currentPath, itemToMove.name)],
-          new_path: getPathWithFile(newPath, itemToMove.name)
-        })
-      })).finally(refreshContents)
-  }, [refreshContents, filesApiClient, bucket, currentPath, pathContents])
+
+    const pathsToMove = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+
+    filesApiClient.moveBucketObjects(bucket.id, {
+      paths: pathsToMove,
+      new_path: pathEndingWithSlash(newPath)
+    }).then(() => {
+      addToast({
+        title: t`Data moved successfully`,
+        type: "success"
+      })
+    }).catch((error) => {
+      console.error("Error recovering:", error)
+      addToast({
+        title: t`There was an error restoring your data`,
+        type: "error"
+      })
+    }).finally(refreshContents)
+  }, [refreshContents, filesApiClient, bucket, currentPath, pathContents, addToast])
 
   const handleDownload = useCallback(async (cid: string) => {
     const itemToDownload = pathContents.find(item => item.cid === cid)
@@ -179,6 +172,14 @@ const SharedFileBrowser = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
+    if (accountRestricted) {
+      addToast({
+        type:"error",
+        title: t`Unable to upload`,
+        subtitle: t`Oops! You need to pay for this month to upload more content.`
+      })
+      return
+    }
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
       if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
@@ -186,55 +187,56 @@ const SharedFileBrowser = () => {
       }
     }
     if (hasFolder) {
-      addToastMessage({
-        message: "Folder uploads are not supported currently",
-        appearance: "error"
+      addToast({
+        title: t`Folder uploads are not supported currently`,
+        type: "error"
       })
-    } else {
-      uploadFiles(bucket, files, path)
-        .then(() => refreshContents())
-        .catch(console.error)
     }
-  }, [addToastMessage, uploadFiles, bucket, refreshContents])
+    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
+    const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
+    paths.forEach(p => {
+      uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
+    })
+  }, [uploadFiles, bucket, accountRestricted, addToast])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
-    [CONTENT_TYPES.File]: ["download", "delete", "move"]
+    [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],
+    [CONTENT_TYPES.File]: ["download", "delete", "move", "share"]
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => {
     switch (access) {
-    case "owner":
-      return {
-        [CONTENT_TYPES.Audio]: ["preview"],
-        [CONTENT_TYPES.MP4]: ["preview"],
-        [CONTENT_TYPES.Image]: ["preview"],
-        [CONTENT_TYPES.Pdf]: ["preview"],
-        [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
-        [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
-      }
-    case "writer":
-      return {
-        [CONTENT_TYPES.Audio]: ["preview"],
-        [CONTENT_TYPES.MP4]: ["preview"],
-        [CONTENT_TYPES.Image]: ["preview"],
-        [CONTENT_TYPES.Pdf]: ["preview"],
-        [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report"],
-        [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
-      }
-    // case "reader":
-    default:
-      return {
-        [CONTENT_TYPES.Audio]: ["preview"],
-        [CONTENT_TYPES.MP4]: ["preview"],
-        [CONTENT_TYPES.Image]: ["preview"],
-        [CONTENT_TYPES.Pdf]: ["preview"],
-        [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "report"],
-        [CONTENT_TYPES.Directory]: []
-      }
+      case "owner":
+        return {
+          [CONTENT_TYPES.Audio]: ["preview"],
+          [CONTENT_TYPES.MP4]: ["preview"],
+          [CONTENT_TYPES.Image]: ["preview"],
+          [CONTENT_TYPES.Pdf]: ["preview"],
+          [CONTENT_TYPES.Text]: ["preview"],
+          [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete", "share"]
+        }
+      case "writer":
+        return {
+          [CONTENT_TYPES.Audio]: ["preview"],
+          [CONTENT_TYPES.MP4]: ["preview"],
+          [CONTENT_TYPES.Image]: ["preview"],
+          [CONTENT_TYPES.Pdf]: ["preview"],
+          [CONTENT_TYPES.Text]: ["preview"],
+          [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report", "share"],
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete", "share"]
+        }
+        // case "reader":
+      default:
+        return {
+          [CONTENT_TYPES.Audio]: ["preview"],
+          [CONTENT_TYPES.MP4]: ["preview"],
+          [CONTENT_TYPES.Image]: ["preview"],
+          [CONTENT_TYPES.Pdf]: ["preview"],
+          [CONTENT_TYPES.Text]: ["preview"],
+          [CONTENT_TYPES.File]: ["download", "info", "report", "share"],
+          [CONTENT_TYPES.Directory]: []
+        }
     }
   }, [access])
 

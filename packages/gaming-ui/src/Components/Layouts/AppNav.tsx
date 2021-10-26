@@ -9,11 +9,7 @@ import {
   Link,
   Typography,
   PowerDownSvg,
-  // ProgressBar,
-  // formatBytes,
-  ChainsafeLogo,
-  SettingSvg,
-  SubscriptionSvg
+  ChainsafeLogo
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../GamingRoutes"
 import { Trans } from "@lingui/macro"
@@ -230,7 +226,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.APIKeys}
+                to={ROUTE_LINKS.Dashboard}
               >
                 <ChainsafeLogo />
                 <Typography variant="body1">
@@ -241,53 +237,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           )}
           <div className={classes.linksArea}>
             <nav className={classes.navMenu}>
-              <Link
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.APIKeys}
-              >
-                <SettingSvg />
-                <Typography
-                  data-cy="apikeys-nav"
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>API Keys</Trans>
-                </Typography>
-              </Link>
-              <Link
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Billing}
-              >
-                <SubscriptionSvg />
-                <Typography
-                  data-cy="billing-nav"
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Billing</Trans>
-                </Typography>
-              </Link>
             </nav>
           </div>
           <section>
-            {desktop && (
-              <div>
-                {/* <Typography
-                  variant="body2"
-                  className={classes.spaceUsedMargin}
-                  component="p"
-                >{`${formatBytes(spaceUsed, 2)} of ${formatBytes(
-                    FREE_PLAN_LIMIT, 2
-                  )} used`}</Typography>
-                <ProgressBar
-                  className={classes.spaceUsedMargin}
-                  progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
-                  size="small"
-                /> */}
-              </div>
-            )}
             {!desktop && (
               <div
                 className={classes.navItem}

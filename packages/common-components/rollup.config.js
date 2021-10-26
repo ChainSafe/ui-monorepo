@@ -20,7 +20,7 @@ export default {
   plugins: [
     peerDepsExternal(),
     image(),
-    resolve(),
+    resolve({ browser: true }),
     commonjs(),
     typescript(),
     postcss({

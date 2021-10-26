@@ -25,6 +25,8 @@ import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
 import { SharedFolderModalMode } from "./types"
 import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
+import { usePageTrack } from "../../../Contexts/PosthogContext"
+import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -37,7 +39,10 @@ const useStyles = makeStyles(
         position: "relative",
         [breakpoints.down("md")]: {
           marginLeft: constants.generalUnit * 2,
-          marginRight: constants.generalUnit * 2
+          marginRight: constants.generalUnit * 2,
+          "&.bottomBanner": {
+            paddingBottom: constants.bottomBannerMobileHeight
+          }
         },
         [breakpoints.up("md")]: {
           border: "1px solid transparent",
@@ -46,6 +51,10 @@ const useStyles = makeStyles(
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.additional["geekblue"][4]
+          },
+          "&.bottomBanner": {
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + Number(constants.bottomBannerHeight)}px)`,
+            paddingBottom: constants.bottomBannerHeight
           }
         }
       },
@@ -107,7 +116,7 @@ type SortingType = "name" | "size" | "date_uploaded"
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
-  const { filesApiClient } = useFilesApi()
+  const { filesApiClient, accountRestricted } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
   const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
@@ -120,6 +129,8 @@ const SharedFolderOverview = () => {
   const [isDeletingSharedFolder, setIsDeletingSharedFolder] = useState(false)
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share" && b.status !== "deleting"), [buckets])
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
+
+  usePageTrack()
 
   const handleSortToggle = (targetColumn: SortingType) => {
     if (column !== targetColumn) {
@@ -157,11 +168,12 @@ const SharedFolderOverview = () => {
   const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
-
   return (
     <>
       <article
-        className={classes.root}
+        className={clsx(classes.root, {
+          bottomBanner: accountRestricted
+        })}
       >
         <header className={classes.header}>
           <Typography
@@ -178,6 +190,7 @@ const SharedFolderOverview = () => {
                 setBucketToEdit(undefined)
                 setCreateOrEditSharedFolderMode("create")
               }}
+              disabled={accountRestricted}
             >
               <PlusIcon />
               <Trans>Create a Shared Folder</Trans>
@@ -292,6 +305,9 @@ const SharedFolderOverview = () => {
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         testId="shared-folder-deletion"
       />
+      {accountRestricted &&
+        <RestrictedModeBanner />
+      }
     </>
   )
 }

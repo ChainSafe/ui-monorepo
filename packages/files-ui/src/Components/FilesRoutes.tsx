@@ -26,8 +26,7 @@ export const ROUTE_LINKS = {
   SettingsDefault: `${SETTINGS_BASE}`,
   SettingsPath: (settingsPath: SettingsPath) => `${SETTINGS_BASE}/${settingsPath}`,
   BillingHistory: "/billing-history",
-  PurchasePlan: "/purchase",
-  UserSurvey: "https://shrl.ink/Efyc",
+  UserSurvey: "https://calendly.com/colinschwarz/chainsafe-files-chat",
   Plans: "/plans",
   SharedFolders: "/shared-overview",
   SharedFolderBrowserRoot: "/shared",
@@ -37,7 +36,8 @@ export const ROUTE_LINKS = {
     const adjustedRawCurrentPath = !rawCurrentPath ? "/" : rawCurrentPath
     return `/shared/${bucketId}${adjustedRawCurrentPath}`
   },
-  DiscordInvite: "https://discord.gg/zAEY37fNb2"
+  DiscordInvite: "https://discord.gg/zAEY37fNb2",
+  TeamSignup: "https://shrl.ink/cgQy"
 }
 
 export const SETTINGS_PATHS = ["profile", "security", "plan"] as const

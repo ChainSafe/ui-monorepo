@@ -18,8 +18,14 @@ export type Profile = {
   username?: string
 }
 
+interface ILocalStore {
+  [key: string]: any
+}
+
 interface IUserContext {
   profile: Profile | undefined
+  localStore: ILocalStore | undefined
+  setLocalStore: (newData: ILocalStore, method?: "update" | "overwrite") => void
   refreshProfile(): Promise<void>
   updateProfile: (
     firstName: string,
@@ -34,10 +40,26 @@ interface IUserContext {
 
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
 
+
 const UserProvider = ({ children }: UserContextProps) => {
   const { filesApiClient, isLoggedIn } = useFilesApi()
 
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
+  const [localStore, _setLocalStore] = useState<ILocalStore | undefined>()
+
+  const setLocalStore = useCallback((newData: ILocalStore, method: "update" | "overwrite" = "update") => {
+    switch (method) {
+      case "update":
+        _setLocalStore({
+          ...localStore,
+          ...newData
+        })
+        break
+      case "overwrite":
+        _setLocalStore(newData)
+        break
+    }
+  }, [localStore])
 
   const refreshProfile = useCallback(async () => {
     try {
@@ -58,6 +80,31 @@ const UserProvider = ({ children }: UserContextProps) => {
       return Promise.reject("There was an error getting profile.")
     }
   }, [filesApiClient])
+
+  useEffect(() => {
+    const manageAsync = async () => {
+      if (!localStore) {
+        // Fetch
+        try {
+          const fetched = await filesApiClient.getUserLocalStore()
+          if (!fetched) {
+            _setLocalStore({})
+          } else {
+            _setLocalStore(fetched)
+          }
+        } catch(error) {
+          console.error(error)
+          _setLocalStore({})
+        }
+      } else {
+        // Store 
+        await filesApiClient.updateUserLocalStore(localStore)
+      }
+    }
+    if (isLoggedIn) {
+      manageAsync()
+    }
+  }, [isLoggedIn, localStore, filesApiClient])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -85,9 +132,9 @@ const UserProvider = ({ children }: UserContextProps) => {
         publicAddress: profileData.public_address
       })
       return Promise.resolve()
-    } catch (error) {
+    } catch (error: any) {
       return Promise.reject(
-        error && error.length
+        Array.isArray(error) && error[0]
           ? error[0].message
           : "There was an error updating profile."
       )
@@ -112,9 +159,9 @@ const UserProvider = ({ children }: UserContextProps) => {
         username
       })
       return Promise.resolve()
-    } catch (error) {
+    } catch (error: any) {
       return Promise.reject(
-        error && error.length
+        Array.isArray(error) && error[0]
           ? error[0].message
           : t`There was an error when setting username.`
       )
@@ -132,7 +179,10 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
   }
 
-  const removeUser = useCallback(() => setProfile(undefined), [])
+  const removeUser = useCallback(() => {
+    setProfile(undefined)
+    _setLocalStore(undefined)
+  }, [])
 
   const getProfileTitle = () => {
     if (profile?.publicAddress) {
@@ -149,6 +199,8 @@ const UserProvider = ({ children }: UserContextProps) => {
   return (
     <UserContext.Provider
       value={{
+        localStore,
+        setLocalStore,
         profile,
         updateProfile,
         refreshProfile,

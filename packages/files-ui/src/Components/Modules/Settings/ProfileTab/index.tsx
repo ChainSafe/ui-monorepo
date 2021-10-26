@@ -5,10 +5,11 @@ import {
   Grid,
   Button,
   Typography,
-  useToaster,
+  useToasts,
   RadioInput,
   TextInput,
-  CheckIcon
+  CheckIcon,
+  Divider
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -41,11 +42,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       [breakpoints.down("md")]: {
         borderBottom: "none"
       }
-    },
-    header: {
-      fontSize: 28,
-      lineHeight: "32px",
-      marginBottom: constants.generalUnit * 5
     },
     boxContainer: {
       marginBottom: constants.generalUnit * 4
@@ -131,7 +127,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       borderRadius: 4,
       paddingLeft: 20,
       paddingTop: 14,
-      margin: 6,
+      margin: "6px 0",
       [breakpoints.down("sm")]: {
         width: "100%"
       },
@@ -187,7 +183,7 @@ const profileValidation = yup.object().shape({
 
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
-  const { addToastMessage } = useToaster()
+  const { addToast } = useToasts()
   const { profile, updateProfile, addUsername, lookupOnUsername } = useUser()
   const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
@@ -214,10 +210,10 @@ const ProfileView = () => {
     try {
       setUpdatingProfile(true)
       await updateProfile(firstName, lastName)
-      addToastMessage({ message: t`Profile updated` })
+      addToast({ title: t`Profile updated`, type: "success" })
       setUpdatingProfile(false)
     } catch (error) {
-      addToastMessage({ message: error, appearance: "error" })
+      error instanceof Error && addToast({ title: error.message, type: "error" })
       setUpdatingProfile(false)
     }
   }
@@ -305,7 +301,7 @@ const ProfileView = () => {
     setUsernameData({ ...usernameData, loading: true })
     addUsername(username)
       .then(() => {
-        addToastMessage({ message: t`Username set successfully` })
+        addToast({ title: t`Username set successfully`, type: "success" })
       })
       .catch((error) => {
         setUsernameData({
@@ -330,10 +326,10 @@ const ProfileView = () => {
               <Typography
                 variant="h3"
                 component="h3"
-                className={classes.header}
               >
                 <Trans>Profile settings</Trans>
               </Typography>
+              <Divider />
               {profile?.publicAddress &&
                 <div
                   className={classes.boxContainer}

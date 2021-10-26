@@ -36,7 +36,7 @@ import FileSystemItem from "../FileSystemItem/FileSystemItem"
 import UploadProgressModals from "../UploadProgressModals"
 import DownloadProgressModals from "../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal/CreateFolderModal"
-import UploadFileModule from "../UploadFileModal/UploadFileModal"
+import UploadFileModal from "../UploadFileModal/UploadFileModal"
 import MoveFileModal from "../MoveFileModal/MoveFileModal"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { CSSTheme } from "../../../Themes/types"
@@ -323,27 +323,27 @@ const FilesList = () => {
     let temp = []
 
     switch (column) {
-    default: {
+      default: {
       // case "name": {
-      temp = sourceFiles.sort((a, b) => {
-        return a.name.localeCompare(b.name, selectedLocale, {
-          sensitivity: "base"
+        temp = sourceFiles.sort((a, b) => {
+          return a.name.localeCompare(b.name, selectedLocale, {
+            sensitivity: "base"
+          })
         })
-      })
-      break
-    }
-    case "size": {
-      temp = sourceFiles
-        .sort((a, b) => (a.size < b.size ? -1 : 1))
-        .sort(sortFoldersFirst)
-      break
-    }
-    case "date_uploaded": {
-      temp = sourceFiles
-        .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
-        .sort(sortFoldersFirst)
-      break
-    }
+        break
+      }
+      case "size": {
+        temp = sourceFiles
+          .sort((a, b) => (a.size < b.size ? -1 : 1))
+          .sort(sortFoldersFirst)
+        break
+      }
+      case "date_uploaded": {
+        temp = sourceFiles
+          .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
+          .sort(sortFoldersFirst)
+        break
+      }
     }
     return direction === "descend"
       ? temp.reverse().sort(sortFoldersFirst)
@@ -990,7 +990,7 @@ const FilesList = () => {
               modalOpen={createFolderModalOpen}
               close={() => setCreateFolderModalOpen(false)}
             />
-            <UploadFileModule
+            <UploadFileModal
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
             />

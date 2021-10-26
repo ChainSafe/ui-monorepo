@@ -1,6 +1,7 @@
 import { basePage } from "./basePage"
 import { fileBrowser } from "./fileBrowser"
 import { fileUploadModal } from "./modals/fileUploadModal"
+import { uploadCompleteToast } from "./toasts/uploadCompleteToast"
 
 export const homePage = {
   ...basePage,
@@ -11,7 +12,7 @@ export const homePage = {
   uploadButton: () => cy.get("[data-cy=button-upload-file]"),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
-  uploadStatusToast: () => cy.get("[data-cy=upload-status-toast-message]", { timeout: 10000 }),
+  selectAllCheckbox: () => cy.get("[data-testId=checkbox-select-all]"),
   fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
@@ -34,7 +35,8 @@ export const homePage = {
 
     // ensure upload is complete before proceeding
     fileUploadModal.body().should("not.exist")
-    this.uploadStatusToast().should("not.exist")
+    uploadCompleteToast.body().should("be.visible")
+    uploadCompleteToast.closeButton().click()
   }
 
 }

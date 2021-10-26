@@ -1,4 +1,3 @@
-import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { Button, Link, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
@@ -10,6 +9,7 @@ import step1Image from "../Media/sharingExplainer/step1.png"
 import step2Image from "../Media/sharingExplainer/step2.png"
 import step3Image from "../Media/sharingExplainer/step3.png"
 import { DISMISSED_SHARING_EXPLAINER_KEY } from "./Modules/FileBrowsers/hooks/useSharingExplainerModalFlag"
+import { useUser } from "../Contexts/UserContext"
 
 const useStyles = makeStyles(
   ({ palette, constants }: CSFTheme) => {
@@ -68,61 +68,61 @@ const useStyles = makeStyles(
   })
 
 interface Props {
-    showModal: boolean
-    onHide: () => void
+  showModal: boolean
+  onHide: () => void
 }
 
 const STEP_NUMBER = 3
 
 const SharingExplainerModal = ({ showModal, onHide }: Props) => {
   const classes = useStyles()
-  const { localStorageSet } = useLocalStorage()
+  const { setLocalStore } = useUser()
   const [step, setStep] = useState(1)
   const Slides = useCallback(() => {
     switch (step) {
-    default:
-      return <>
-        <div className={classes.title}>
-          <Trans>You can now create shared folders to share a file.</Trans></div>
-        <div className={classes.imageContainer}>
-          <img
-            className={classes.image}
-            src={step1Image}
-            alt={"share explainer step 1"}
-          />
-        </div>
-      </>
+      default:
+        return <>
+          <div className={classes.title}>
+            <Trans>You can now create shared folders to share a file.</Trans></div>
+          <div className={classes.imageContainer}>
+            <img
+              className={classes.image}
+              src={step1Image}
+              alt={"share explainer step 1"}
+            />
+          </div>
+        </>
 
-    case 2:
-      return <>
-        <div className={classes.title}
-        ><Trans>Add viewers and editors by username, sharing id or Ethereum address.</Trans></div>
-        <div className={classes.imageContainer}>
-          <img
-            className={classes.image}
-            src={step2Image}
-            alt={"share explainer step 2"}
-          />
-        </div>
-      </>
+      case 2:
+        return <>
+          <div className={classes.title}
+          ><Trans>Add viewers and editors by username, sharing id or Ethereum address.</Trans></div>
+          <div className={classes.imageContainer}>
+            <img
+              className={classes.image}
+              src={step2Image}
+              alt={"share explainer step 2"}
+            />
+          </div>
+        </>
 
-    case 3:
-      return <>
-        <div className={classes.title}>
-          <Trans>Create your public username in <Link
-            className={classes.buttonLink}
-            to={`${SETTINGS_BASE}/profile`}
-          >Settings</Link>!
-          </Trans>
-        </div>
-        <div className={classes.imageContainer}>
-          <img
-            className={classes.image}
-            src={step3Image}
-            alt={"share explainer step 3"}
-          />
-        </div>
-      </>
+      case 3:
+        return <>
+          <div className={classes.title}>
+            <Trans>Create your public username in <Link
+              className={classes.buttonLink}
+              to={`${SETTINGS_BASE}/profile`}
+            >Settings</Link>!
+            </Trans>
+          </div>
+          <div className={classes.imageContainer}>
+            <img
+              className={classes.image}
+              src={step3Image}
+              alt={"share explainer step 3"}
+            />
+          </div>
+        </>
     }
   }, [classes.buttonLink, classes.image, classes.imageContainer, classes.title, step])
 
@@ -132,18 +132,18 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
       return
     } else {
       switch (next) {
-      case 3:
-        localStorageSet(DISMISSED_SHARING_EXPLAINER_KEY, "true")
-        setStep(3)
-        break
-      case STEP_NUMBER + 1:
-        onHide()
-        break
-      default:
-        break
+        case 3:
+          setLocalStore({ [DISMISSED_SHARING_EXPLAINER_KEY]:  "true" }, "update")
+          setStep(3)
+          break
+        case STEP_NUMBER + 1:
+          onHide()
+          break
+        default:
+          break
       }
     }
-  }, [localStorageSet, onHide])
+  }, [setLocalStore, onHide])
 
   return (
     <CustomModal
