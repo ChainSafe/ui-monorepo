@@ -2,12 +2,13 @@ import { basePage } from "./basePage"
 
 export const navigationMenu = {
   ...basePage,
-  homeNavButton: () => cy.get("[data-cy=home-nav]"),
-  binNavButton: () => cy.get("[data-cy=bin-nav]"),
-  settingsNavButton: () => cy.get("[data-cy=settings-nav]"),
+  homeNavButton: () => cy.get("[data-cy=link-home]"),
+  binNavButton: () => cy.get("[data-cy=link-bin]"),
+  settingsNavButton: () => cy.get("[data-cy=link-settings]"),
+  sharedNavButton: () => cy.get("[data-cy=link-shared]"),
   spaceUsedLabel: () => cy.get("[data-cy=label-space-used]", { timeout: 10000 }),
   spaceUsedProgressBar: () => cy.get("[data-cy=progress-bar-space-used]"),
-  sendFeedbackNavButton: () => cy.get("[data-cy=send-feedback-nav]"),
+  sendFeedbackNavButton: () => cy.get("[data-cy=button-send-feedback]"),
   // mobile view only
   signOutButton: () => cy.get("[data-cy=signout-nav]")
 }
