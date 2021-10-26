@@ -5,10 +5,12 @@ describe("Sharing Explainer", () => {
 
   context("desktop", () => {
 
+    const sharingKey = "csf.dismissedSharingExplainer"
+
     it("User can view and dismiss the sharing explainer", () => {
       // intercept and stub the response to ensure the explainer is displayed
       cy.intercept("GET", "**/user/store", {
-        body: [{ "csf.dismissedSharingExplainer": "false" }]
+        body: { [sharingKey]: "false" }
       })
 
       cy.web3Login()
@@ -26,14 +28,14 @@ describe("Sharing Explainer", () => {
 
         // intercept POST to ensure the key was updated after the explainer is dismissed
         cy.wait("@storePost").its("request.body").should("contain", {
-          "csf.dismissedSharingExplainer": "true"
+          [sharingKey]: "true"
         })
       })
     })
 
     it("User should not see sharing explainer if previously dismissed", () => {
       cy.intercept("GET", "**/user/store", {
-        body: { "csf.dismissedSharingExplainer": "true" }
+        body: { [sharingKey]: "true" }
       })
 
       cy.web3Login()
@@ -44,7 +46,7 @@ describe("Sharing Explainer", () => {
 
     it("User should see the sharing explainer if api response is empty", () => {
       cy.intercept("GET", "**/user/store", {
-        body: [{}]
+        body: {}
       })
 
       cy.web3Login()
