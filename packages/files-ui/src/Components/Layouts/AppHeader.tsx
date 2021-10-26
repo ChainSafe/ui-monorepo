@@ -222,7 +222,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               <section className={classes.buttonsSection}>
                 <Button
                   data-posthog="Report-a-bug"
-                  data-cy="button-send-feedback"
+                  data-cy="button-report-bug"
                   variant="tertiary"
                   size="small"
                   onClick={onReportBugClick}

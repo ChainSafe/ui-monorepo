@@ -8,7 +8,7 @@ export const navigationMenu = {
   sharedNavButton: () => cy.get("[data-cy=link-shared]"),
   spaceUsedLabel: () => cy.get("[data-cy=label-space-used]", { timeout: 10000 }),
   spaceUsedProgressBar: () => cy.get("[data-cy=progress-bar-space-used]"),
-  sendFeedbackNavButton: () => cy.get("[data-cy=button-send-feedback]"),
+  reportABugButton: () => cy.get("[data-cy=button-report-bug]"),
   // mobile view only
   signOutButton: () => cy.get("[data-cy=signout-nav]")
 }
