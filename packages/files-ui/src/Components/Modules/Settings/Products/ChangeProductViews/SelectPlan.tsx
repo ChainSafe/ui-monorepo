@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { Button, Loading, ToggleSwitch, Typography } from "@chainsafe/common-components"
+import { Button, ExternalSvg, Loading, ToggleSwitch, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../../../Themes/types"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -38,10 +38,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       border: `3px solid ${palette.additional.gray[4]}`,
       borderRadius: constants.generalUnit,
       marginBottom: constants.generalUnit,
-      "&.disabled": {
-        cursor: "initial",
-        opacity: 0.4
-      },
       "&.active": {
         opacity: "1 !important",
         backgroundColor: constants.changeProduct.currentBackground,
@@ -79,6 +75,17 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
     },
     panelBottom: {
       height: "40%"
+    },
+    link: {
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      "& svg": {
+        marginLeft: constants.generalUnit,
+        stroke: palette.additional.gray[10],
+        width: constants.generalUnit * 2,
+        height: constants.generalUnit * 2
+      }
     },
     buttons: {
       display: "flex",
@@ -168,18 +175,9 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
         {
           plans && plans.map((plan) => <div
             className={clsx(classes.panel, {
-              "active": selectedPlan === plan.id,
-              "disabled": !(plan.prices
-                .filter(price => price.recurring.interval === interval)
-                .find(price => price.is_update_allowed)?.is_update_allowed)
+              "active": selectedPlan === plan.id
             })}
-            onClick={() => {
-              if(plan.prices
-                .filter(price => price.recurring.interval === interval)
-                .find(price => price.is_update_allowed)?.is_update_allowed) {
-                setSelectedPlan(plan.id)
-              }
-            } }
+            onClick={() => setSelectedPlan(plan.id) }
             key={`plan-${plan.id}`}>
             <div className={classes.panelTop}>
               <header>
@@ -228,12 +226,18 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
       </section>
       <section className={classes.bottomSection}>
         <a
+          className={classes.link}
           href="#"
           target="_blank"
         >
-          <Trans>
-            Not sure what to pick? Learn more about our plans
-          </Trans>
+          <Typography
+            component="span"
+            variant="h5">
+            <Trans>
+              Not sure what to pick? Learn more about our plans
+            </Trans>
+          </Typography>
+          <ExternalSvg />
         </a>
         <div className={classes.buttons}>
           <Button
