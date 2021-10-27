@@ -41,7 +41,6 @@ const BillingHistory = () => {
   }, [filesApiClient])
 
   useEffect(() => {
-
     if(!subscriptionId) return
     filesApiClient.getAllInvoices(subscriptionId)
       .then(({ invoices }) => {
@@ -49,7 +48,6 @@ const BillingHistory = () => {
       })
       .catch(console.error)
       .finally(() => setIsLoading(false))
-
   }, [filesApiClient, subscriptionId])
 
   return (
