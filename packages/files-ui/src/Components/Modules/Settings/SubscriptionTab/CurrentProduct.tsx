@@ -106,10 +106,11 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
             <Trans>Change Plan</Trans>
           </Button>
         </div>
-        <ChangeProductModal
-          active={isChangeProductModalVisible}
-          close={() => setChangeProductModalVisible(false)}
-        />
+        {
+          isChangeProductModalVisible && (<ChangeProductModal
+            close={() => setChangeProductModalVisible(false)}
+          />)
+        }
       </>
     }
 

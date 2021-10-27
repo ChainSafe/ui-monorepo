@@ -21,12 +21,11 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
 )
 
 interface IChangeProductModal {
-  active: boolean
   className?: string
   close: () => void
 }
 
-const ChangeProductModal = ({ active, className, close }: IChangeProductModal) => {
+const ChangeProductModal = ({ className, close }: IChangeProductModal) => {
   const classes = useStyles()
 
   const { changeSubscription } = useBilling()
@@ -34,15 +33,15 @@ const ChangeProductModal = ({ active, className, close }: IChangeProductModal) =
   const [slide, setSlide] = useState<"select" | "confirm">("select")
 
   useEffect(() => {
-    if (!active && slide !== "select") {
+    if (slide !== "select") {
       setSlide("select")
     }
-  }, [active, slide])
+  }, [slide])
 
   return (
     <Modal
       closePosition="none"
-      active={active}
+      active={true}
       maxWidth="md"
       className={classes.root}
       injectedClass={{
