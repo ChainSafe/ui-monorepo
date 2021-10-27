@@ -321,7 +321,6 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
             }
           </Typography>
         </div>
-
         <div className={classes.modalFlexItem}>
           {isUsingCurrentBucket
             ? (
@@ -464,3 +463,4 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
 }
 
 export default ShareModal
+

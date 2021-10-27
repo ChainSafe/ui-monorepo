@@ -43,6 +43,9 @@ msgstr "Add more files"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 
+msgid "Adding you to the shared folder..."
+msgstr "Adding you to the shared folder..."
+
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
@@ -57,6 +60,9 @@ msgstr "Backup secret phrase does not match user account, please double-check an
 
 msgid "Bin"
 msgstr "Bin"
+
+msgid "Browse {0}"
+msgstr "Browse {0}"
 
 msgid "Browser:"
 msgstr "Browser:"
@@ -133,6 +139,9 @@ msgstr "Copy file"
 msgid "Copy info"
 msgstr "Copy info"
 
+msgid "Copy link"
+msgstr "Copy link"
+
 msgid "Copy over"
 msgstr "Copy over"
 
@@ -159,6 +168,9 @@ msgstr "Create a new shared folder"
 
 msgid "Create folder"
 msgstr "Create folder"
+
+msgid "Create new link"
+msgstr "Create new link"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
@@ -643,6 +655,9 @@ msgstr "Shared with"
 msgid "Sharing files"
 msgstr "Sharing files"
 
+msgid "Sharing link"
+msgstr "Sharing link"
+
 msgid "Sign Out"
 msgstr "Sign Out"
 
@@ -651,6 +666,9 @@ msgstr "Sign in"
 
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
+
+msgid "Sign in/up to access the shared folder"
+msgstr "Sign in/up to access the shared folder"
 
 msgid "Sign me up!"
 msgstr "Sign me up!"
@@ -844,11 +862,17 @@ msgstr "You can't move folders to this path"
 msgid "You haven't set a username yet."
 msgstr "You haven't set a username yet."
 
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr "You were added to the shared folder ({0}): {1}"
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
+
+msgid "edit rights"
+msgstr "edit rights"
 
 msgid "me"
 msgstr "me"
@@ -856,8 +880,14 @@ msgstr "me"
 msgid "on"
 msgstr "on"
 
+msgid "read rights"
+msgstr "read rights"
+
 msgid "unknown"
 msgstr "unknown"
+
+msgid "with"
+msgstr "with"
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"

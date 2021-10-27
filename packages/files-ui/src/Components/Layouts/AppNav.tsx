@@ -270,7 +270,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
             </Typography>
             <nav className={classes.navMenu}>
               <Link
-                data-cy="home-nav"
+                data-cy="link-home"
                 onClick={() => {
                   handleOnClick()
                 }}
@@ -286,6 +286,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 </Typography>
               </Link>
               <Link
+                data-cy="link-shared"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.SharedFolders}
@@ -299,7 +300,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 </Typography>
               </Link>
               <Link
-                data-cy="bin-nav"
+                data-cy="link-bin"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.Bin("/")}
@@ -318,7 +319,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
             </Typography>
             <nav className={classes.navMenu}>
               <Link
-                data-cy="settings-nav"
+                data-cy="link-settings"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.SettingsDefault}

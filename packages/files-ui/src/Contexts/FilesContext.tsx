@@ -838,7 +838,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             : successCount
               ? t`${successCount} files transferred successfully, ${totalFileNumber - successCount} failed`
               : t`${inSharedBucket ? "Copying" : "Sharing"} failed`,
-          type: "success",
+          type: successCount ? "success" : "error",
           progress:  undefined,
           isClosable: true
         }, true)
