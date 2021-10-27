@@ -706,8 +706,8 @@ msgstr "Storage Plan"
 msgid "Stored by miner"
 msgstr "Stored by miner"
 
-msgid "System maintenance is scheduled to start at {0}. The system will be unavailable during the maintenance window."
-msgstr "System maintenance is scheduled to start at {0}. The system will be unavailable during the maintenance window."
+msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
+msgstr "System maintenance is scheduled to start at {0}. The system will be unavailable."
 
 msgid "Teams"
 msgstr "Teams"
