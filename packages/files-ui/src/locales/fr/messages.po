@@ -758,6 +758,9 @@ msgstr "Une erreur s'est produite lors de la restauration de vos données"
 msgid "There was an error when setting username."
 msgstr "Une erreur s'est produite lors de la définition du nom d'utilisateur."
 
+msgid "This link is not valid any more."
+msgstr ""
+
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
 
@@ -820,6 +823,9 @@ msgstr "Code de vérification incorrect !"
 
 msgid "Verification code sent!"
 msgstr "Code de vérification envoyé !"
+
+msgid "Verifying the link..."
+msgstr ""
 
 msgid "View folder"
 msgstr "Voir le dossier"
