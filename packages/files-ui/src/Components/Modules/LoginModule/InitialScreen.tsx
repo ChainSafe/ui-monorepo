@@ -23,6 +23,7 @@ import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./PasswordlessEmail"
 import { Form, FormikProvider, useFormik } from "formik"
 import { emailValidation } from "../../../Utils/validationSchema"
+import dayjs from "dayjs"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSFTheme) =>
@@ -153,6 +154,14 @@ const useStyles = makeStyles(
       },
       secondaryLoginText: {
         paddingTop: constants.generalUnit * 2
+      },
+      maintenanceActiveMessage: {
+        color: palette.error.main,
+      },
+      maintenanceMessage: {
+        display: 'block',
+        textAlign: 'justify',
+        width: 240,
       }
     })
 )
@@ -171,6 +180,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [error, setError] = useState<string | undefined>()
   const [errorEmail, setErrorEmail] = useState("")
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
+  const maintenanceWindowTimestamp = process.env.REACT_APP_MAINTENANCE_TIMESTAMP
   const [isConnecting, setIsConnecting] = useState(false)
   const { filesApiClient } = useFilesApi()
   const [email, setEmail] = useState("")
@@ -389,8 +399,19 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           ? <>
             <section className={classes.buttonSection}>
               {maintenanceMode && (
-                <Typography>
-                  <Trans>The system is undergoing maintenance, thank you for being patient.</Trans>
+                <Typography className={clsx(classes.maintenanceMessage, classes.maintenanceActiveMessage)}>
+                  <Trans>We are performing routine maintenance of the system. Service status updates will be posted on the{" "}
+                    <a href={ROUTE_LINKS.DiscordInvite}
+                      target="_blank"
+                      rel='noreferrer noopener'>Files Support Channel</a>
+                  </Trans>
+                </Typography>
+              )}
+              {!maintenanceMode && maintenanceWindowTimestamp && dayjs.unix(Number(maintenanceWindowTimestamp)).isAfter(dayjs()) && (
+                <Typography className={classes.maintenanceMessage}>
+                  <Trans>
+                    System maintenance is scheduled to start at {dayjs.unix(Number(maintenanceWindowTimestamp)).format('YYYY-MM-DD HH:mm')}. The system will be unavailable during the maintenance window.
+                  </Trans>
                 </Typography>
               )}
               <FormikProvider value={formik}>
