@@ -155,14 +155,14 @@ const useStyles = makeStyles(
       secondaryLoginText: {
         paddingTop: constants.generalUnit * 2
       },
-      maintenanceActiveMessage: {
-        color: palette.error.main
-      },
       maintenanceMessage: {
         display: "block",
         textAlign: "justify",
         width: 240
-      }
+      },
+      maintenanceActiveMessage: {
+        color: palette.error.main
+      },
     })
 )
 
@@ -474,7 +474,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   <Trans>We are performing routine maintenance of the system. Service status updates will be posted on the{" "}
                     <a href={ROUTE_LINKS.DiscordInvite}
                       target="_blank"
-                      rel='noreferrer noopener'>Files Support Channel</a>
+                      rel='noreferrer noopener'>Files Support Channel</a>{" "}
+                      on Discord
                   </Trans>
                 </Typography>
               )}

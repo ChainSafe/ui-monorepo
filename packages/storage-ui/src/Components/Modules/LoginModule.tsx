@@ -20,6 +20,7 @@ import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./LoginModule/PasswordlessEmail"
 import { Form, FormikProvider, useFormik } from "formik"
 import { emailValidation } from "../../Utils/validationSchema"
+import dayjs from "dayjs"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSSTheme) =>
@@ -150,7 +151,15 @@ const useStyles = makeStyles(
       },
       secondaryLoginText: {
         paddingTop: constants.generalUnit * 2
-      }
+      },
+      maintenanceMessage: {
+        display: "block",
+        textAlign: "justify",
+        width: 240
+      },
+      maintenanceActiveMessage: {
+        color: palette.error.main
+      },
     })
 )
 
@@ -170,7 +179,10 @@ const LoginModule = ({ className }: IInitialScreen) => {
   const { storageApiClient } = useStorageApi()
   const [email, setEmail] = useState("")
   const [errorEmail, setErrorEmail] = useState("")
-
+  const maintenanceWindowTimestamp = (process.env.REACT_APP_MAINTENANCE_TIMESTAMP &&
+    process.env.REACT_APP_MAINTENANCE_TIMESTAMP !== "")
+    ? Number(process.env.REACT_APP_MAINTENANCE_TIMESTAMP)
+    : undefined
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
@@ -384,11 +396,6 @@ const LoginModule = ({ className }: IInitialScreen) => {
         loginMode !== "web3" && loginMode !== "email"
           ? <>
             <section className={classes.buttonSection}>
-              {maintenanceMode && (
-                <Typography>
-                  <Trans>The system is undergoing maintenance, thank you for being patient.</Trans>
-                </Typography>
-              )}
               <FormikProvider value={formik}>
                 <Form>
                   <FormikTextInput
@@ -457,6 +464,25 @@ const LoginModule = ({ className }: IInitialScreen) => {
                 <GoogleLogoIcon className="icon"/>
                 <Trans>Continue with Google</Trans>
               </Button>
+              {maintenanceMode && (
+                <Typography className={clsx(classes.maintenanceMessage, classes.maintenanceActiveMessage)}>
+                  <Trans>We are performing routine maintenance of the system. Service status updates will be posted on the{" "}
+                    <a href={ROUTE_LINKS.DiscordInvite}
+                      target="_blank"
+                      rel='noreferrer noopener'>Files Support Channel</a>{" "}
+                      on Discord
+                  </Trans>
+                </Typography>
+              )}
+              {!maintenanceMode && maintenanceWindowTimestamp && dayjs.unix(maintenanceWindowTimestamp).isAfter(dayjs()) && (
+                <Typography className={classes.maintenanceMessage}>
+                  <Trans>
+                    System maintenance is scheduled to start at{" "}
+                    {dayjs.unix(maintenanceWindowTimestamp).format("YYYY-MM-DD HH:mm")}.{" "}
+                    The system will be unavailable during the maintenance window.
+                  </Trans>
+                </Typography>
+              )}
             </section>
             <footer className={classes.footer}>
               <a
