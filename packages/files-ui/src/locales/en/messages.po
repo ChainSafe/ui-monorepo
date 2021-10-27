@@ -757,6 +757,9 @@ msgstr "There was an error restoring your data"
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
 
+msgid "This link is not valid any more."
+msgstr "This link is not valid any more."
+
 msgid "This username is already taken"
 msgstr "This username is already taken"
 
@@ -819,6 +822,9 @@ msgstr "Verification code not correct!"
 
 msgid "Verification code sent!"
 msgstr "Verification code sent!"
+
+msgid "Verifying the link..."
+msgstr "Verifying the link..."
 
 msgid "View folder"
 msgstr "View folder"
