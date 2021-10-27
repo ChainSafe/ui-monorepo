@@ -222,7 +222,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               <section className={classes.buttonsSection}>
                 <Button
                   data-posthog="Report-a-bug"
-                  data-cy="send-feedback-nav"
+                  data-cy="button-report-bug"
                   variant="tertiary"
                   size="small"
                   onClick={onReportBugClick}
@@ -231,7 +231,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 </Button>
                 <Button
                   data-posthog="Start-a-team"
-                  data-cy="start-team-nav"
+                  data-cy="button-start-team"
                   variant="tertiary"
                   size="small"
                   onClick={onStartATeamClick}
