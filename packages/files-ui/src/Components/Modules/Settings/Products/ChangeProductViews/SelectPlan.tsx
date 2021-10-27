@@ -122,6 +122,7 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
     if(!plans) {
       getAvailablePlans()
         .then((plans) => setPlans(plans))
+        .catch(console.error)
     }
   })
 
@@ -187,10 +188,9 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
               <header>
                 <Typography
                   component="p"
-                  variant="h5">
-                  {
-                    plan.name
-                  }
+                  variant="h5"
+                >
+                  {plan.name}
                 </Typography>
                 {
                   plan.id  === currentSubscription?.product.id && <Typography
