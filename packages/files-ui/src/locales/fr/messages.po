@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-10-20 00:49+0000\n"
+"PO-Revision-Date: 2021-10-27 02:40+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
+"chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -45,7 +46,7 @@ msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
 msgid "Adding you to the shared folder..."
-msgstr ""
+msgstr "Je vous ajoute au dossier partagé…"
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
@@ -63,7 +64,7 @@ msgid "Bin"
 msgstr "Corbeille"
 
 msgid "Browse {0}"
-msgstr ""
+msgstr "Parcourir {0}"
 
 msgid "Browser:"
 msgstr "Explorateur :"
@@ -141,7 +142,7 @@ msgid "Copy info"
 msgstr "Copier les infos"
 
 msgid "Copy link"
-msgstr ""
+msgstr "Copier le lien"
 
 msgid "Copy over"
 msgstr "Copier"
@@ -171,7 +172,7 @@ msgid "Create folder"
 msgstr "Créer un dossier"
 
 msgid "Create new link"
-msgstr ""
+msgstr "Créer un nouveau lien"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
@@ -654,10 +655,10 @@ msgid "Shared with"
 msgstr "Partagé avec"
 
 msgid "Sharing files"
-msgstr ""
+msgstr "Partage des fichiers"
 
 msgid "Sharing link"
-msgstr ""
+msgstr "Lien de partage"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -669,7 +670,7 @@ msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
 
 msgid "Sign in/up to access the shared folder"
-msgstr ""
+msgstr "Se connecter/s'inscrire pour accéder au dossier partagé"
 
 msgid "Sign me up!"
 msgstr "S'inscrire !"
@@ -864,7 +865,7 @@ msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
 msgid "You were added to the shared folder ({0}): {1}"
-msgstr ""
+msgstr "Vous avez été ajouté(e) au dossier partagé ({0}) : {1}"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
@@ -873,7 +874,7 @@ msgid "Your recovery key can be used to restore your account in place of your ba
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
 
 msgid "edit rights"
-msgstr ""
+msgstr "droits de modification"
 
 msgid "me"
 msgstr "moi"
@@ -882,13 +883,13 @@ msgid "on"
 msgstr "le"
 
 msgid "read rights"
-msgstr ""
+msgstr "droits de lecture"
 
 msgid "unknown"
 msgstr "inconnu"
 
 msgid "with"
-msgstr ""
+msgstr "avec"
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargement de {2} fichiers}}"
