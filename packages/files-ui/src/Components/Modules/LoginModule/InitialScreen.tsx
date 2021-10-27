@@ -156,12 +156,12 @@ const useStyles = makeStyles(
         paddingTop: constants.generalUnit * 2
       },
       maintenanceActiveMessage: {
-        color: palette.error.main,
+        color: palette.error.main
       },
       maintenanceMessage: {
-        display: 'block',
-        textAlign: 'justify',
-        width: 240,
+        display: "block",
+        textAlign: "justify",
+        width: 240
       }
     })
 )
@@ -180,7 +180,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [error, setError] = useState<string | undefined>()
   const [errorEmail, setErrorEmail] = useState("")
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
-  const maintenanceWindowTimestamp = process.env.REACT_APP_MAINTENANCE_TIMESTAMP
+  const maintenanceWindowTimestamp = (process.env.REACT_APP_MAINTENANCE_TIMESTAMP &&
+    process.env.REACT_APP_MAINTENANCE_TIMESTAMP !== "")
+    ? Number(process.env.REACT_APP_MAINTENANCE_TIMESTAMP)
+    : undefined
   const [isConnecting, setIsConnecting] = useState(false)
   const { filesApiClient } = useFilesApi()
   const [email, setEmail] = useState("")
@@ -398,22 +401,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
         loginMode !== "web3" && loginMode !== "email"
           ? <>
             <section className={classes.buttonSection}>
-              {maintenanceMode && (
-                <Typography className={clsx(classes.maintenanceMessage, classes.maintenanceActiveMessage)}>
-                  <Trans>We are performing routine maintenance of the system. Service status updates will be posted on the{" "}
-                    <a href={ROUTE_LINKS.DiscordInvite}
-                      target="_blank"
-                      rel='noreferrer noopener'>Files Support Channel</a>
-                  </Trans>
-                </Typography>
-              )}
-              {!maintenanceMode && maintenanceWindowTimestamp && dayjs.unix(Number(maintenanceWindowTimestamp)).isAfter(dayjs()) && (
-                <Typography className={classes.maintenanceMessage}>
-                  <Trans>
-                    System maintenance is scheduled to start at {dayjs.unix(Number(maintenanceWindowTimestamp)).format('YYYY-MM-DD HH:mm')}. The system will be unavailable during the maintenance window.
-                  </Trans>
-                </Typography>
-              )}
               <FormikProvider value={formik}>
                 <Form>
                   <FormikTextInput
@@ -482,6 +469,24 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <GoogleLogoIcon className="icon"/>
                 <Trans>Continue with Google</Trans>
               </Button>
+              {maintenanceMode && (
+                <Typography className={clsx(classes.maintenanceMessage, classes.maintenanceActiveMessage)}>
+                  <Trans>We are performing routine maintenance of the system. Service status updates will be posted on the{" "}
+                    <a href={ROUTE_LINKS.DiscordInvite}
+                      target="_blank"
+                      rel='noreferrer noopener'>Files Support Channel</a>
+                  </Trans>
+                </Typography>
+              )}
+              {!maintenanceMode && maintenanceWindowTimestamp && dayjs.unix(maintenanceWindowTimestamp).isAfter(dayjs()) && (
+                <Typography className={classes.maintenanceMessage}>
+                  <Trans>
+                    System maintenance is scheduled to start at{" "}
+                    {dayjs.unix(maintenanceWindowTimestamp).format("YYYY-MM-DD HH:mm")}.{" "}
+                    The system will be unavailable during the maintenance window.
+                  </Trans>
+                </Typography>
+              )}
             </section>
             <footer className={classes.footer}>
               <a
