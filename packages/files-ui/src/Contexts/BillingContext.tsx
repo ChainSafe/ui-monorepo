@@ -101,9 +101,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       price_id: newPriceId
     })
       .then(() => true)
-      .catch((error: any) => {
-        console.error(error)
-      })
+      .catch(console.error)
   }, [filesApiClient, currentSubscription])
 
   return (
