@@ -18,6 +18,9 @@ const useStyles = makeStyles(
       },
       loader: {
         marginTop: constants.generalUnit
+      },
+      centered: {
+        textAlign: "center"
       }
     })
 )
@@ -61,40 +64,56 @@ const BillingHistory = () => {
       >
         <Trans>Billing history</Trans>
       </Typography>
-      <Table
-        fullWidth={true}
-        dense={true}
-      >
-        <TableHead>
-          <TableRow
-            type="grid"
+      {isLoading && (
+        <div className={classes.centered}>
+          <Loading
+            className={classes.loader}
+            type="inherit"
+            size={32}
+          />
+        </div>
+      )}
+      {!invoices.length && !isLoading && (
+        <div className={classes.centered}>
+          <Typography
+            className={classes.heading}
+            variant="h4"
+            component="p"
           >
-            <TableHeadCell align="left"><Trans>Date</Trans></TableHeadCell>
-            <TableHeadCell align="left"><Trans>Amount</Trans></TableHeadCell>
-            <TableHeadCell align="left"><Trans>Method</Trans></TableHeadCell>
-            <TableHeadCell align="left"><Trans>Receipt</Trans></TableHeadCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {isLoading &&
-            <Loading
-              className={classes.loader}
-              type="inherit"
-              size={32}
-            />
-          }
-          {invoices.map(({ paid_on, amount, payment_method, currency, uuid }, index) =>
+            <Trans>No invoice found</Trans>
+          </Typography>
+        </div>
+      )}
+      {!!invoices.length && (
+        <Table
+          fullWidth={true}
+          dense={true}
+        >
+          <TableHead>
             <TableRow
               type="grid"
-              key={index}
             >
-              <TableCell align="left">{paid_on ? dayjs.unix(paid_on as unknown as number).format("DD MMM YYYY") : "unknown"}</TableCell>
-              <TableCell align="left">{amount} {currency}</TableCell>
-              <TableCell align="left">{payment_method}</TableCell>
-              <TableCell align="left">{uuid}</TableCell>
-            </TableRow>)}
-        </TableBody>
-      </Table>
+              <TableHeadCell align="left"><Trans>Date</Trans></TableHeadCell>
+              <TableHeadCell align="left"><Trans>Amount</Trans></TableHeadCell>
+              <TableHeadCell align="left"><Trans>Method</Trans></TableHeadCell>
+              <TableHeadCell align="left"><Trans>Receipt</Trans></TableHeadCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {invoices.map(({ paid_on, amount, payment_method, currency, uuid }, index) =>
+              <TableRow
+                type="grid"
+                key={index}
+              >
+                <TableCell align="left">{dayjs(paid_on).format("ddd D MMMM h:mm a")}</TableCell>
+                <TableCell align="left">{amount} {currency}</TableCell>
+                <TableCell align="left">{payment_method}</TableCell>
+                <TableCell align="left">{uuid}</TableCell>
+              </TableRow>)}
+          </TableBody>
+        </Table>
+      )}
+
     </div>
   )
 }
