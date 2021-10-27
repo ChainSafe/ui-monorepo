@@ -180,10 +180,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [error, setError] = useState<string | undefined>()
   const [errorEmail, setErrorEmail] = useState("")
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
-  const maintenanceWindowTimestamp = (process.env.REACT_APP_MAINTENANCE_TIMESTAMP &&
-    process.env.REACT_APP_MAINTENANCE_TIMESTAMP !== "")
-    ? Number(process.env.REACT_APP_MAINTENANCE_TIMESTAMP)
-    : undefined
+  const maintenanceWindowTimestamp = Number(process.env.REACT_APP_MAINTENANCE_TIMESTAMP)
   const [isConnecting, setIsConnecting] = useState(false)
   const { filesApiClient } = useFilesApi()
   const [email, setEmail] = useState("")
@@ -479,7 +476,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   </Trans>
                 </Typography>
               )}
-              {!maintenanceMode && maintenanceWindowTimestamp && dayjs.unix(maintenanceWindowTimestamp).isAfter(dayjs()) && (
+              {!maintenanceMode && !!maintenanceWindowTimestamp && dayjs.unix(maintenanceWindowTimestamp).isAfter(dayjs()) && (
                 <Typography className={classes.maintenanceMessage}>
                   <Trans>
                     System maintenance is scheduled to start at{" "}

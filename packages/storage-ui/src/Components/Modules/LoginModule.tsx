@@ -179,10 +179,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
   const { storageApiClient } = useStorageApi()
   const [email, setEmail] = useState("")
   const [errorEmail, setErrorEmail] = useState("")
-  const maintenanceWindowTimestamp = (process.env.REACT_APP_MAINTENANCE_TIMESTAMP &&
-    process.env.REACT_APP_MAINTENANCE_TIMESTAMP !== "")
-    ? Number(process.env.REACT_APP_MAINTENANCE_TIMESTAMP)
-    : undefined
+  const maintenanceWindowTimestamp = Number(process.env.REACT_APP_MAINTENANCE_TIMESTAMP)
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
@@ -474,7 +471,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
                   </Trans>
                 </Typography>
               )}
-              {!maintenanceMode && maintenanceWindowTimestamp && dayjs.unix(maintenanceWindowTimestamp).isAfter(dayjs()) && (
+              {!maintenanceMode && !!maintenanceWindowTimestamp && dayjs.unix(maintenanceWindowTimestamp).isAfter(dayjs()) && (
                 <Typography className={classes.maintenanceMessage}>
                   <Trans>
                     System maintenance is scheduled to start at{" "}
