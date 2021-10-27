@@ -481,7 +481,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   <Trans>
                     System maintenance is scheduled to start at{" "}
                     {dayjs.unix(maintenanceWindowTimestamp).format("YYYY-MM-DD HH:mm")}.{" "}
-                    The system will be unavailable during the maintenance window.
+                    The system will be unavailable.
                   </Trans>
                 </Typography>
               )}
