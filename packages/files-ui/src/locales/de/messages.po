@@ -703,6 +703,9 @@ msgstr "Speicherplan"
 msgid "Stored by miner"
 msgstr ""
 
+msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
+msgstr ""
+
 msgid "Teams"
 msgstr ""
 
@@ -717,9 +720,6 @@ msgstr ""
 
 msgid "The files are already in this folder"
 msgstr ""
-
-msgid "The system is undergoing maintenance, thank you for being patient."
-msgstr "Das System wird gerade gewartet, wir danken Ihnen für Ihre Geduld."
 
 msgid "The username is too long"
 msgstr ""
@@ -830,6 +830,9 @@ msgid "Wallet address"
 msgstr ""
 
 msgid "Want to help shape this product?"
+msgstr ""
+
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
