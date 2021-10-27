@@ -1,8 +1,9 @@
 import { profileCreatedDate } from "../fixtures/filesTestData"
 import { homePage } from "../support/page-objects/homePage"
-import { DISMISSED_SURVEY_KEY } from "../../../../packages/files-ui/src/Components/SurveyBanner"
 
 describe("Survey Banner", () => {
+
+  const dismissedSurveyKey = "csf.dismissedSurveyBannerV3"
 
   context("desktop", () => {
 
@@ -16,7 +17,7 @@ describe("Survey Banner", () => {
 
       // intercept and stub the response to ensure the banner is displayed
       cy.intercept("GET", "**/user/store", {
-        body: [{ [`${DISMISSED_SURVEY_KEY}`]: "false" }]
+        body: { [dismissedSurveyKey]: "false" }
       })
 
       cy.web3Login()
@@ -31,14 +32,14 @@ describe("Survey Banner", () => {
 
         // intercept POST to ensure the key was updated after the banner is dismissed
         cy.wait("@storePost").its("request.body").should("contain", {
-          [`${DISMISSED_SURVEY_KEY}`]: "true"
+          [dismissedSurveyKey]: "true"
         })
       })
     })
 
     it("User should not see the survey banner if previously dismissed", () => {
       cy.intercept("GET", "**/user/store", {
-        body: [{ [`${DISMISSED_SURVEY_KEY}`]: "true" }]
+        body: { [dismissedSurveyKey]: "true" }
       })
 
       cy.web3Login()
@@ -47,7 +48,7 @@ describe("Survey Banner", () => {
 
     it("User should see banner if account age is greater than 7 days and api response is empty", () => {
       cy.intercept("GET", "**/user/store", {
-        body: [{}]
+        body: {}
       })
 
       cy.web3Login()
@@ -63,7 +64,7 @@ describe("Survey Banner", () => {
       })
 
       cy.intercept("GET", "**/user/store", {
-        body: [{}]
+        body: {}
       })
 
       cy.web3Login()
