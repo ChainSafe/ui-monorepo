@@ -183,7 +183,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [email, setEmail] = useState("")
   const { state } = useLocation<{from?: string}>()
   const isSharing = useMemo(() => state?.from?.includes(LINK_SHARING_BASE), [state])
-  const [isInvalidNonce, setIsInvalidNonce] = useState(false)
+  const [isValidNonce, setIsValidNonce] = useState(true)
 
   useEffect(() => {
     if (!isSharing) return
@@ -201,7 +201,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
 
     filesApiClient.isNonceValid(nonce)
       .then((res) => {
-        res.is_valid === false && setIsInvalidNonce(true)
+        setIsValidNonce(res.is_valid)
       })
       .catch(console.error)
   }, [filesApiClient, isSharing, state])
@@ -401,7 +401,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
 
   return (
     <div className={clsx(classes.root, className)}>
-      {!isInvalidNonce && loginMode !== "email" && ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
+      {isValidNonce && loginMode !== "email" && ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
         <Typography
           variant="h6"
           component="h1"
@@ -413,7 +413,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           }
         </Typography>
       )}
-      {!error && !isInvalidNonce && (
+      {!error && isValidNonce && (
         loginMode !== "web3" && loginMode !== "email"
           ? <>
             <section className={classes.buttonSection}>
@@ -541,7 +541,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           </section>
         </>
       )}
-      {isInvalidNonce && status !== "logging in" && (
+      {!isValidNonce && status !== "logging in" && (
         <section className={classes.connectingWallet}>
           <ExclamationCircleIcon
             className={classes.exclamationIcon}
