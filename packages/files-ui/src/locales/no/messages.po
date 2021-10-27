@@ -49,9 +49,6 @@ msgstr ""
 msgid "An error occurred:"
 msgstr ""
 
-#~ msgid "Application maintenance window scheduled for {0} UTC."
-#~ msgstr ""
-
 msgid "Approve"
 msgstr "Godkjenn"
 
@@ -724,9 +721,6 @@ msgstr ""
 msgid "The files are already in this folder"
 msgstr ""
 
-#~ msgid "The system is undergoing maintenance, thank you for being patient."
-#~ msgstr ""
-
 msgid "The username is too long"
 msgstr ""
 
@@ -832,7 +826,7 @@ msgstr ""
 msgid "Want to help shape this product?"
 msgstr ""
 
-msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0>"
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
