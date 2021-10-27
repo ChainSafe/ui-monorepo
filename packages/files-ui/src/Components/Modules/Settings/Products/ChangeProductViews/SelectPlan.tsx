@@ -216,7 +216,7 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
                     variant="h5"
                     key={`${plan.id}-${price.id}`}>
                     {
-                      price.unit_amount === 0 ? t`Free` : <>{ price.unit_amount }&nbsp;{ price.currency }&nbsp;{ translatedPrice }</>
+                      price.unit_amount === 0 ? t`Free` : `${price.unit_amount} ${price.currency} ${translatedPrice}`
                     }
                   </Typography>)
               }
