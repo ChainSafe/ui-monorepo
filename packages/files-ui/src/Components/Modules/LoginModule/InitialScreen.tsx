@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import {
   Button,
   GithubLogoIcon,
@@ -8,7 +8,8 @@ import {
   Typography,
   FormikTextInput,
   EthereumLogoIcon,
-  useLocation
+  useLocation,
+  useHistory
 } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -23,6 +24,9 @@ import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./PasswordlessEmail"
 import { Form, FormikProvider, useFormik } from "formik"
 import { emailValidation } from "../../../Utils/validationSchema"
+import { getJWT } from "../../../Utils/pathUtils"
+import jwtDecode from "jwt-decode"
+import { DecodedNounceJwt } from "../LinkSharingModule"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSFTheme) =>
@@ -165,6 +169,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const { selectWallet, resetAndSelectWallet } = useFilesApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
+  const { redirect } = useHistory()
   const { login, status, resetStatus } = useThresholdKey()
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | "email" | LOGIN_TYPE | undefined>()
@@ -176,6 +181,28 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [email, setEmail] = useState("")
   const { state } = useLocation<{from?: string}>()
   const isSharing = useMemo(() => state?.from?.includes(LINK_SHARING_BASE), [state])
+
+  useEffect(() => {
+    if (!isSharing) return
+
+    const jwt = getJWT(state?.from)
+    let nonce = ""
+
+    try {
+      nonce = (jwt && jwtDecode<DecodedNounceJwt>(jwt).nonce_id) || ""
+    }catch (e) {
+      console.error(e)
+    }
+
+    if (!nonce) return
+
+    filesApiClient.isNonceValid(nonce)
+      .then((res) => {
+        console.log("res", res)
+        res.is_valid === false && redirect(ROUTE_LINKS.InvalidSharingLink)
+      })
+      .catch(console.error)
+  }, [filesApiClient, isSharing, redirect, state])
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)

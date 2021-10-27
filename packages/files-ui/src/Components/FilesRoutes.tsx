@@ -29,6 +29,7 @@ export const ROUTE_LINKS = {
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase",
   UserSurvey: "https://calendly.com/colinschwarz/chainsafe-files-chat",
+  InvalidSharingLink: "/invalid-link",
   SharedFolders: "/shared-overview",
   SharedFolderBrowserRoot: "/shared",
   SharingLink: (permission: NonceResponsePermission, jwt: string, bucketEncryptionKey: string) =>
@@ -110,6 +111,12 @@ const FilesRoutes = () => {
         exact
         path={ROUTE_LINKS.PurchasePlan}
         isAuthorized={isAuthorized}
+        component={PurchasePlanPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.InvalidSharingLink}
         component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
       />

@@ -104,7 +104,10 @@ export const isSubFolder = (fold1: string, fold2: string) => {
 }
 
 // get the jwt from /link-sharing/permision/jwt 
-export const getJWT = (pathname: string) => {
+export const getJWT = (pathname?: string) => {
+
+  if(!pathname) return
+
   const arrayOfPaths =  getArrayOfPaths(pathname)
 
   if(arrayOfPaths.length !== 3){

@@ -56,9 +56,10 @@ const useStyles = makeStyles(
     })
 )
 
-interface DecodedJwt {
+export interface DecodedNounceJwt {
   bucket_id?: string
   permission?: NonceResponsePermission
+  nonce_id?: string
 }
 const LinkSharingModule = () => {
   const { pathname, hash } = useLocation()
@@ -73,7 +74,7 @@ const LinkSharingModule = () => {
   const classes = useStyles()
   const { bucket_id: bucketId, permission } = useMemo(() => {
     try {
-      return (jwt && jwtDecode<DecodedJwt>(jwt)) || {}
+      return (jwt && jwtDecode<DecodedNounceJwt>(jwt)) || {}
     }catch (e) {
       console.error(e)
       return {}
