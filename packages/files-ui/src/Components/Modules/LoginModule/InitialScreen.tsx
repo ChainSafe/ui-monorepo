@@ -162,7 +162,7 @@ const useStyles = makeStyles(
       },
       maintenanceActiveMessage: {
         color: palette.error.main
-      },
+      }
     })
 )
 
