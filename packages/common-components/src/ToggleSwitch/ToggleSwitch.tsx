@@ -1,7 +1,7 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import React, { ReactNode, useCallback, useMemo, useState } from "react"
-import { Typography } from ".."
+import { Typography } from "../Typography"
 
 interface IStyleProps {
   size: number
