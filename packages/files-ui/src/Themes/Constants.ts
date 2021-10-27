@@ -179,5 +179,8 @@ export interface CsfColors extends IConstants {
   changeProduct: {
     currentBackground: string
     selectedColor: string
+    currentTag: {
+      text: string
+    }
   }
 }

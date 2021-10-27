@@ -177,7 +177,10 @@ export const lightTheme = createTheme<CsfColors>({
         },
         changeProduct: {
           currentBackground: "#ECEFFF",
-          selectedColor: "var(--csf-primary)"
+          selectedColor: "var(--csf-primary)",
+          currentTag: {
+            text: "var(--gray1)"
+          }
         }
       } as CsfColors)
     },

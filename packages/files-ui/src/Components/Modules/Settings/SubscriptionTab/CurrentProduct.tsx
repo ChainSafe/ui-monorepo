@@ -61,7 +61,7 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
   const { currentSubscription } = useBilling()
-  const [changeProductActive, setChangeProductActive] = useState(false)
+  const [isChangeProductModalVisible, setChangeProductModalVisible] = useState(false)
 
   return (<section className={clsx(classes.root, className)}>
     <Typography
@@ -101,14 +101,14 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
           <Button
             fullsize
             variant="primary"
-            onClick={() => setChangeProductActive(true)}
+            onClick={() => setChangeProductModalVisible(true)}
           >
             <Trans>Change Plan</Trans>
           </Button>
         </div>
         <ChangeProductModal
-          active={changeProductActive}
-          close={() => setChangeProductActive(false)}
+          active={isChangeProductModalVisible}
+          close={() => setChangeProductModalVisible(false)}
         />
       </>
     }

@@ -490,7 +490,10 @@ export const darkTheme = createTheme<CsfColors>({
         },
         changeProduct: {
           currentBackground: "initial",
-          selectedColor: "var(--csf-primary)"
+          selectedColor: "var(--csf-primary)",
+          currentTag: {
+            text: "var(--gray10)"
+          }
         }
       } as CsfColors)
     },

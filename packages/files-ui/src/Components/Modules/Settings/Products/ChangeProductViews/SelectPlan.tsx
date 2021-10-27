@@ -67,7 +67,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       height: 20,
       "&.current": {
         backgroundColor: palette.primary.main,
-        color: palette.additional.gray[10]
+        color: constants.changeProduct.currentTag.text
       },
       "&.popular": {
         backgroundColor: palette.additional.gold[5]
@@ -124,6 +124,10 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
         .then((plans) => setPlans(plans))
     }
   })
+
+  const selectedPrice = useMemo(() => {
+    return plans?.find(plan => plan.id === selectedPlan)?.prices.find(price => price.recurring.interval === interval)?.id
+  }, [selectedPlan, plans, interval])
 
   const translatedPrice = useMemo(() => {
     switch (interval) {
@@ -227,8 +231,9 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
       <section className={classes.bottomSection}>
         <a
           className={classes.link}
-          href="#"
+          href="http://chainsafe.io"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <Typography
             component="span"
@@ -249,10 +254,10 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
             </Trans>
           </Button>
           <Button
-            disabled={!selectedPlan || selectedPlan === currentSubscription?.product.id}
+            disabled={!selectedPlan || !selectedPrice || selectedPlan === currentSubscription?.product.id}
             onClick={() => next(
               selectedPlan as string,
-              plans?.find(plan => plan.id === selectedPlan)?.prices.find(price => price.recurring.interval === interval)?.id as string)}
+              selectedPrice as string)}
             variant="primary"
           >
             <Trans>
