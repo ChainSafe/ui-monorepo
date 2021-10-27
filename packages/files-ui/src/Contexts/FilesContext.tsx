@@ -831,14 +831,14 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             return previousProgress + item.size
           }
         }, Promise.resolve(0))
-        
+
         updateToast(toastId, {
           title: successCount === totalFileNumber
             ? t`${inSharedBucket ? "Copying" : "Sharing"} complete`
             : successCount
               ? t`${successCount} files transferred successfully, ${totalFileNumber - successCount} failed`
               : t`${inSharedBucket ? "Copying" : "Sharing"} failed`,
-          type: successCount ? "success" : 'error',
+          type: successCount ? "success" : "error",
           progress:  undefined,
           isClosable: true
         }, true)
