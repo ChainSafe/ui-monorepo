@@ -53,9 +53,9 @@ const ChangeProductModal = ({ className, close }: IChangeProductModal) => {
         slide === "select" && <SelectPlan
           className={clsx(classes.slide, className)}
           close={close}
-          next={(productId: string, priceId: string) => {
+          next={(newpriceId: string) => {
             // setSlide("confirm")
-            changeSubscription(productId, priceId)
+            changeSubscription(newpriceId)
               .then(() => close())
               .catch(console.error)
           }}

@@ -13,7 +13,7 @@ interface IBillingContext {
   defaultCard: Card | undefined
   refreshDefaultCard: () => void
   currentSubscription: CurrentSubscription | undefined
-  changeSubscription: (productId: string, priceId: string) => Promise<boolean | void>
+  changeSubscription: (newPriceId: string) => Promise<boolean | void>
   fetchCurrentSubscription: () => void
   getAvailablePlans: () => Promise<Product[]>
 }
@@ -95,15 +95,16 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       })
   }, [filesApiClient])
 
-  const changeSubscription = useCallback((productId: string, priceId: string) => {
-    return filesApiClient.updateSubscription(productId, {
-      price_id: priceId
+  const changeSubscription = useCallback((newPriceId: string) => {
+    if (!currentSubscription?.id) return Promise.resolve()
+    return filesApiClient.updateSubscription(currentSubscription.id, {
+      price_id: newPriceId
     })
       .then(() => true)
       .catch((error: any) => {
         console.error(error)
       })
-  }, [filesApiClient])
+  }, [filesApiClient, currentSubscription])
 
   return (
     <BillingContext.Provider

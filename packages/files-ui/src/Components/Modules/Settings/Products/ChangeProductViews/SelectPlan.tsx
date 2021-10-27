@@ -108,7 +108,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
 interface ISelectPlan {
   className?: string
   close: () => void
-  next: (productId: string, priceId: string) => void
+  next: (newPriceId: string) => void
 }
 
 const SelectPlan = ({ close, className, next }: ISelectPlan) => {
@@ -256,7 +256,6 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
           <Button
             disabled={!selectedPlan || !selectedPrice || selectedPlan === currentSubscription?.product.id}
             onClick={() => next(
-              selectedPlan as string,
               selectedPrice as string)}
             variant="primary"
           >
