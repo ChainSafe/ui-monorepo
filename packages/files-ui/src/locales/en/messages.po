@@ -49,9 +49,6 @@ msgstr "Adding you to the shared folder..."
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
-#~ msgid "Application maintenance window scheduled for {0} UTC."
-#~ msgstr "Application maintenance window scheduled for {0} UTC."
-
 msgid "Approve"
 msgstr "Approve"
 
@@ -727,9 +724,6 @@ msgstr "The authentication popup was closed"
 msgid "The files are already in this folder"
 msgstr "The files are already in this folder"
 
-#~ msgid "The system is undergoing maintenance, thank you for being patient."
-#~ msgstr "The system is undergoing maintenance, thank you for being patient."
-
 msgid "The username is too long"
 msgstr "The username is too long"
 
@@ -835,8 +829,8 @@ msgstr "Wallet address"
 msgid "Want to help shape this product?"
 msgstr "Want to help shape this product?"
 
-msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0>"
-msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0>"
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
+msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "We can't encrypt files larger than 2GB. Some items will not be uploaded"
