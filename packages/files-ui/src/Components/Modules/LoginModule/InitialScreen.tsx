@@ -9,7 +9,7 @@ import {
   FormikTextInput,
   EthereumLogoIcon,
   useLocation,
-  useHistory
+  ExclamationCircleIcon
 } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -157,6 +157,9 @@ const useStyles = makeStyles(
       },
       secondaryLoginText: {
         paddingTop: constants.generalUnit * 2
+      },
+      exclamationIcon: {
+        fontSize: 48
       }
     })
 )
@@ -169,7 +172,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const { selectWallet, resetAndSelectWallet } = useFilesApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
-  const { redirect } = useHistory()
   const { login, status, resetStatus } = useThresholdKey()
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | "email" | LOGIN_TYPE | undefined>()
@@ -181,6 +183,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [email, setEmail] = useState("")
   const { state } = useLocation<{from?: string}>()
   const isSharing = useMemo(() => state?.from?.includes(LINK_SHARING_BASE), [state])
+  const [isInvalidNonce, setIsInvalidNonce] = useState(false)
 
   useEffect(() => {
     if (!isSharing) return
@@ -198,11 +201,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
 
     filesApiClient.isNonceValid(nonce)
       .then((res) => {
-        console.log("res", res)
-        res.is_valid === false && redirect(ROUTE_LINKS.InvalidSharingLink)
+        res.is_valid === false && setIsInvalidNonce(true)
       })
       .catch(console.error)
-  }, [filesApiClient, isSharing, redirect, state])
+  }, [filesApiClient, isSharing, state])
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
@@ -399,19 +401,19 @@ const InitialScreen = ({ className }: IInitialScreen) => {
 
   return (
     <div className={clsx(classes.root, className)}>
-      {loginMode !== "email" && ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
+      {!isInvalidNonce && loginMode !== "email" && ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
         <Typography
           variant="h6"
           component="h1"
           className={classes.headerText}
         >
-          {isSharing
+          {isSharing && status !== "logging in"
             ? <Trans>Sign in/up to access the shared folder</Trans>
             : <Trans>Get Started</Trans>
           }
         </Typography>
       )}
-      {!error && (
+      {!error && !isInvalidNonce && (
         loginMode !== "web3" && loginMode !== "email"
           ? <>
             <section className={classes.buttonSection}>
@@ -538,6 +540,17 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             </Button>
           </section>
         </>
+      )}
+      {isInvalidNonce && status !== "logging in" && (
+        <section className={classes.connectingWallet}>
+          <ExclamationCircleIcon
+            className={classes.exclamationIcon}
+            size={48}
+          />
+          <Typography variant='h2'>
+            <Trans>This link is not valid any more.</Trans>
+          </Typography>
+        </section>
       )}
     </div>
   )

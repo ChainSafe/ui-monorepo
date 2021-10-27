@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Button, CheckCircleIcon, Loading, Typography, useHistory, useLocation } from "@chainsafe/common-components"
+import { Button, CheckCircleIcon, ExclamationCircleIcon, Loading, Typography, useHistory, useLocation } from "@chainsafe/common-components"
 import { getBucketDecryptionFromHash, getJWT } from "../../Utils/pathUtils"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
@@ -61,6 +61,7 @@ export interface DecodedNounceJwt {
   permission?: NonceResponsePermission
   nonce_id?: string
 }
+
 const LinkSharingModule = () => {
   const { pathname, hash } = useLocation()
   const { redirect } = useHistory()
@@ -72,7 +73,7 @@ const LinkSharingModule = () => {
   const [encryptedEncryptionKey, setEncryptedEncryptionKey] = useState("")
   const [error, setError] = useState("")
   const classes = useStyles()
-  const { bucket_id: bucketId, permission } = useMemo(() => {
+  const { bucket_id: bucketId, permission, nonce_id } = useMemo(() => {
     try {
       return (jwt && jwtDecode<DecodedNounceJwt>(jwt)) || {}
     }catch (e) {
@@ -81,6 +82,17 @@ const LinkSharingModule = () => {
     }
   }, [jwt])
   const newBucket = useMemo(() => buckets.find((b) => b.id === bucketId), [bucketId, buckets])
+  const [isValidNonce, setIsValidNonce] = useState<boolean | undefined>()
+
+  useEffect(() => {
+    if(!nonce_id) return
+
+    filesApiClient.isNonceValid(nonce_id)
+      .then((res) => {
+        setIsValidNonce(res.is_valid)
+      })
+      .catch(console.error)
+  }, [filesApiClient, nonce_id])
 
   useEffect(() => {
     if(!publicKey || !bucketDecryptionKey) return
@@ -92,7 +104,7 @@ const LinkSharingModule = () => {
   }, [bucketDecryptionKey, encryptForPublicKey, publicKey])
 
   useEffect(() => {
-    if(!jwt || !encryptedEncryptionKey || !!newBucket) return
+    if(!jwt || !encryptedEncryptionKey || !!newBucket || !isValidNonce) return
 
     filesApiClient.verifyNonce({ jwt, encryption_key: encryptedEncryptionKey })
       .catch((e:any) => {
@@ -102,7 +114,7 @@ const LinkSharingModule = () => {
       .finally(() => {
         refreshBuckets()
       })
-  }, [encryptedEncryptionKey, error, filesApiClient, jwt, newBucket, refreshBuckets])
+  }, [encryptedEncryptionKey, error, filesApiClient, isValidNonce, jwt, newBucket, refreshBuckets])
 
   const onBrowseBucket = useCallback(() => {
     newBucket && redirect(ROUTE_LINKS.SharedFolderExplorer(newBucket.id, "/"))
@@ -112,6 +124,17 @@ const LinkSharingModule = () => {
     <div className={classes.root}>
       <div className={classes.box}>
         <div className={classes.messageWrapper}>
+          {!error && isValidNonce === false && (
+            <>
+              <ExclamationCircleIcon
+                size={48}
+                className={classes.icon}
+              />
+              <Typography variant={"h4"} >
+                <Trans>This link is not valid any more.</Trans>
+              </Typography>
+            </>
+          )}
           {!error && !newBucket && (
             <>
               <Loading
@@ -120,7 +143,11 @@ const LinkSharingModule = () => {
                 className={classes.icon}
               />
               <Typography variant={"h4"} >
-                <Trans>Adding you to the shared folder...</Trans>
+                {isValidNonce === undefined
+                  ? <Trans>Verifying the link...</Trans>
+                  : <Trans>Adding you to the shared folder...</Trans>
+                }
+
               </Typography>
             </>
           )}
