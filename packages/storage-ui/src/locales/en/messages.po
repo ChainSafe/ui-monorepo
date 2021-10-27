@@ -337,6 +337,9 @@ msgstr "Start Upload"
 msgid "Status"
 msgstr "Status"
 
+msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
+msgstr "System maintenance is scheduled to start at {0}. The system will be unavailable."
+
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
 
@@ -348,9 +351,6 @@ msgstr "The files are already in this folder"
 
 msgid "The name cannot contain '/' character"
 msgstr "The name cannot contain '/' character"
-
-msgid "The system is undergoing maintenance, thank you for being patient."
-msgstr "The system is undergoing maintenance, thank you for being patient."
 
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
@@ -405,6 +405,9 @@ msgstr "Verification code sent!"
 
 msgid "View folder"
 msgstr "View folder"
+
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
+msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 
 msgid "Web3: {0}"
 msgstr "Web3: {0}"
