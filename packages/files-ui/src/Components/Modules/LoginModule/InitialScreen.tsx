@@ -26,7 +26,7 @@ import { Form, FormikProvider, useFormik } from "formik"
 import { emailValidation } from "../../../Utils/validationSchema"
 import { getJWT } from "../../../Utils/pathUtils"
 import jwtDecode from "jwt-decode"
-import { DecodedNounceJwt } from "../LinkSharingModule"
+import { DecodedNonceJwt } from "../LinkSharingModule"
 import dayjs from "dayjs"
 
 const useStyles = makeStyles(
@@ -160,7 +160,11 @@ const useStyles = makeStyles(
         paddingTop: constants.generalUnit * 2
       },
       exclamationIcon: {
-        fontSize: 48
+        fontSize: 48,
+        "& svg": {
+          marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7]
+        }
       },
       maintenanceMessage: {
         display: "block",
@@ -202,7 +206,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     let nonce = ""
 
     try {
-      nonce = (jwt && jwtDecode<DecodedNounceJwt>(jwt).nonce_id) || ""
+      nonce = (jwt && jwtDecode<DecodedNonceJwt>(jwt).nonce_id) || ""
     }catch (e) {
       console.error(e)
     }
