@@ -335,6 +335,9 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
+msgid "Go to login"
+msgstr ""
+
 msgid "Got it"
 msgstr "Compris"
 
