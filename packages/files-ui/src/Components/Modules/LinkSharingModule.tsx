@@ -135,7 +135,7 @@ const LinkSharingModule = () => {
               </Typography>
             </>
           )}
-          {!error && !newBucket && (
+          {!error && !newBucket && isValidNonce !== false && (
             <>
               <Loading
                 type="inherit"
