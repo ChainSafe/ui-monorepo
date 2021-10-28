@@ -181,6 +181,7 @@ const SharedFolderOverview = () => {
                 setBucketToEdit(undefined)
                 setCreateOrEditSharedFolderMode("create")
               }}
+              data-cy="button-create-a-shared-folder"
             >
               <PlusIcon />
               <Trans>Create a Shared Folder</Trans>

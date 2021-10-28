@@ -200,6 +200,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
       active={isModalOpen}
       closePosition="none"
       maxWidth="sm"
+      testId="create-or-edit-shared-folder"
     >
       <div className={classes.root}>
         <div className={classes.iconBacking}>
@@ -224,6 +225,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               onChange={onNameChange}
               autoFocus
               state={nameError ? "error" : "normal"}
+              data-cy="input-shared-folder-name"
             />
             {nameError && (
               <Typography
@@ -236,7 +238,10 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             )}
           </div>
         }
-        <div className={classes.modalFlexItem}>
+        <div
+          className={classes.modalFlexItem}
+          data-cy="input-view-permission"
+        >
           <TagsInput
             onChange={(values) => {
               setHasPermissionsChanged(true)
@@ -256,9 +261,13 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             }}
             loadingMessage={t`Loading`}
             noOptionsMessage={t`No user found for this query.`}
+            data-cy="tag-view-permission-user"
           />
         </div>
-        <div className={classes.modalFlexItem}>
+        <div
+          className={classes.modalFlexItem}
+          data-cy="input-edit-permission"
+        >
           <TagsInput
             onChange={(values) => {
               setHasPermissionsChanged(true)
@@ -278,6 +287,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             }}
             loadingMessage={t`Loading`}
             noOptionsMessage={t`No user found for this query.`}
+            data-cy="tag-edit-permission-user"
           />
         </div>
         {mode === "edit" && !!bucketToEdit && (
@@ -318,6 +328,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               className={classes.cancelButton}
               variant={desktop ? "outline" : "gray"}
               type="button"
+              data-cy="button-cancel-create-shared-folder"
             >
               <Trans>Cancel</Trans>
             </CustomButton>
@@ -329,6 +340,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               loading={isCreatingSharedFolder || isEditingSharedFolder}
               onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
               disabled={mode === "create" ? (!!usersError || !!nameError) : !hasPermissionsChanged || !!usersError}
+              data-cy={mode === "create" ? "button-create-shared-folder" : "button-update-shared-folder"}
             >
               {mode === "create"
                 ? <Trans>Create</Trans>
