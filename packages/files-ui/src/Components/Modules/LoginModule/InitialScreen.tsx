@@ -197,7 +197,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [email, setEmail] = useState("")
   const { state } = useLocation<{from?: string}>()
   const isSharing = useMemo(() => state?.from?.includes(LINK_SHARING_BASE), [state])
-  const [isValidNonce, setIsValidNonce] = useState(true)
+  const [isValidNonce, setIsValidNonce] = useState<boolean | undefined>()
 
   useEffect(() => {
     if (!isSharing) return
@@ -208,6 +208,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     try {
       nonce = (jwt && jwtDecode<DecodedNonceJwt>(jwt).nonce_id) || ""
     }catch (e) {
+      setError(t`The link you typed in looks malformed. Please verify it.`)
       console.error(e)
     }
 
@@ -243,7 +244,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setErrorEmail("")
     setLoginMode(undefined)
     resetStatus()
-    setIsValidNonce(true)
+    setIsValidNonce(undefined)
   }
 
   const handleLogin = async (loginType: IdentityProvider) => {
@@ -416,7 +417,9 @@ const InitialScreen = ({ className }: IInitialScreen) => {
 
   return (
     <div className={clsx(classes.root, className)}>
-      {isValidNonce && loginMode !== "email" && ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
+      {isValidNonce !== false &&
+      loginMode !== "email" &&
+      ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
         <Typography
           variant="h6"
           component="h1"
@@ -428,7 +431,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           }
         </Typography>
       )}
-      {!error && isValidNonce && (
+      {!error && isValidNonce !== false && (
         loginMode !== "web3" && loginMode !== "email"
           ? <>
             <section className={classes.buttonSection}>
@@ -553,24 +556,22 @@ const InitialScreen = ({ className }: IInitialScreen) => {
               : <WalletSelection />
       )}
       {!!error && (
-        <>
-          <section className={classes.connectingWallet}>
-            <Typography variant='h2'>
-              <Trans>Connection failed</Trans>
-            </Typography>
-            <Typography variant='h5'>
-              {error}
-            </Typography>
-            <Button
-              variant="primary"
-              onClick={resetLogin}
-            >
-              <Trans>Try again</Trans>
-            </Button>
-          </section>
-        </>
+        <section className={classes.connectingWallet}>
+          <Typography variant='h2'>
+            <Trans>Connection failed</Trans>
+          </Typography>
+          <Typography variant='h5'>
+            {error}
+          </Typography>
+          <Button
+            variant="primary"
+            onClick={resetLogin}
+          >
+            <Trans>Try again</Trans>
+          </Button>
+        </section>
       )}
-      {!isValidNonce && status !== "logging in" && (
+      {isValidNonce === false && status !== "logging in" && (
         <section className={classes.connectingWallet}>
           <ExclamationCircleIcon
             className={classes.exclamationIcon}
