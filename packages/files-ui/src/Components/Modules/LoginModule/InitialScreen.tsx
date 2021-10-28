@@ -9,7 +9,8 @@ import {
   FormikTextInput,
   EthereumLogoIcon,
   useLocation,
-  ExclamationCircleIcon
+  ExclamationCircleIcon,
+  useHistory
 } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -198,6 +199,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const { state } = useLocation<{from?: string}>()
   const isSharing = useMemo(() => state?.from?.includes(LINK_SHARING_BASE), [state])
   const [isValidNonce, setIsValidNonce] = useState<boolean | undefined>()
+  const { redirect } = useHistory()
 
   useEffect(() => {
     if (!isSharing) return
@@ -582,7 +584,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           </Typography>
           <Button
             variant="primary"
-            onClick={resetLogin}
+            onClick={() => {
+              resetLogin()
+              redirect("/")
+            }}
           >
             <Trans>Go to login</Trans>
           </Button>
