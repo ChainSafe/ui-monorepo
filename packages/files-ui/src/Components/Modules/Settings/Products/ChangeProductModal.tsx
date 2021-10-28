@@ -29,7 +29,6 @@ const ChangeProductModal = ({ className, close }: IChangeProductModal) => {
   const classes = useStyles()
 
   const { changeSubscription } = useBilling()
-
   const [slide, setSlide] = useState<"select" | "confirm">("select")
 
   useEffect(() => {
