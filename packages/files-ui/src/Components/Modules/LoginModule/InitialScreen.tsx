@@ -243,6 +243,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setErrorEmail("")
     setLoginMode(undefined)
     resetStatus()
+    setIsValidNonce(true)
   }
 
   const handleLogin = async (loginType: IdentityProvider) => {
@@ -578,6 +579,12 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           <Typography variant='h2'>
             <Trans>This link is not valid any more.</Trans>
           </Typography>
+          <Button
+            variant="primary"
+            onClick={resetLogin}
+          >
+            <Trans>Go to login</Trans>
+          </Button>
         </section>
       )}
     </div>
