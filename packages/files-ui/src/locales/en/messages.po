@@ -727,6 +727,9 @@ msgstr "The authentication popup was closed"
 msgid "The files are already in this folder"
 msgstr "The files are already in this folder"
 
+msgid "The link you typed in looks malformed. Please verify it."
+msgstr "The link you typed in looks malformed. Please verify it."
+
 msgid "The username is too long"
 msgstr "The username is too long"
 
@@ -759,6 +762,9 @@ msgstr "There was an error restoring your data"
 
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
+
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
+msgstr "This link is marlformed. Please verify that you copy/pasted it correctly."
 
 msgid "This link is not valid any more."
 msgstr "This link is not valid any more."

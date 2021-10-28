@@ -724,6 +724,9 @@ msgstr ""
 msgid "The files are already in this folder"
 msgstr ""
 
+msgid "The link you typed in looks malformed. Please verify it."
+msgstr ""
+
 msgid "The username is too long"
 msgstr ""
 
@@ -755,6 +758,9 @@ msgid "There was an error restoring your data"
 msgstr ""
 
 msgid "There was an error when setting username."
+msgstr ""
+
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
 msgid "This link is not valid any more."
