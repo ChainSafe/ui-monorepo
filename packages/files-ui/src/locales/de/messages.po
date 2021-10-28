@@ -331,6 +331,9 @@ msgstr ""
 msgid "Go back"
 msgstr "Zurück"
 
+msgid "Go to login"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 

@@ -334,6 +334,9 @@ msgstr "Give view-only permission to:"
 msgid "Go back"
 msgstr "Go back"
 
+msgid "Go to login"
+msgstr "Go to login"
+
 msgid "Got it"
 msgstr "Got it"
 
