@@ -174,16 +174,13 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
         </div>
       </header>
       <section className={classes.panels}>
-        {
-          !plans && <Loading className={classes.loader} />
-        }
-        {
-          plans && plans.map((plan) => <div
-            className={clsx(classes.panel, {
-              "active": selectedPlan === plan.id
-            })}
+        {!plans && <Loading className={classes.loader} />}
+        {plans && plans.map((plan) => (
+          <div
+            className={clsx(classes.panel, { "active": selectedPlan === plan.id })}
             onClick={() => setSelectedPlan(plan.id) }
-            key={`plan-${plan.id}`}>
+            key={`plan-${plan.id}`}
+          >
             <div className={classes.panelTop}>
               <header>
                 <Typography
@@ -192,16 +189,17 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
                 >
                   {plan.name}
                 </Typography>
-                {
-                  plan.id  === currentSubscription?.product.id && <Typography
+                {plan.id  === currentSubscription?.product.id && (
+                  <Typography
                     component="p"
                     variant="body2"
-                    className={clsx(classes.tag, "current")}>
+                    className={clsx(classes.tag, "current")}
+                  >
                     <Trans>
                       Current
                     </Trans>
                   </Typography>
-                }
+                )}
               </header>
               <Typography
                 component="p"
@@ -212,20 +210,20 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
               </Typography>
             </div>
             <div className={classes.panelBottom}>
-              {
-                plan.prices
-                  .filter(price => price.recurring.interval === interval)
-                  .map(price => <Typography
+              {plan.prices
+                .filter(price => price.recurring.interval === interval)
+                .map(price => (
+                  <Typography
                     disabled={price.is_update_allowed}
                     variant="h5"
-                    key={`${plan.id}-${price.id}`}>
-                    {
-                      price.unit_amount === 0 ? t`Free` : `${price.unit_amount} ${price.currency} ${translatedPrice}`
-                    }
-                  </Typography>)
-              }
+                    key={`${plan.id}-${price.id}`}
+                  >
+                    {price.unit_amount === 0 ? t`Free` : `${price.unit_amount} ${price.currency} ${translatedPrice}`}
+                  </Typography>
+                ))}
             </div>
-          </div>)
+          </div>
+        ))
         }
       </section>
       <section className={classes.bottomSection}>
@@ -237,7 +235,8 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
         >
           <Typography
             component="span"
-            variant="h5">
+            variant="h5"
+          >
             <Trans>
               Not sure what to pick? Learn more about our plans
             </Trans>
@@ -255,8 +254,7 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
           </Button>
           <Button
             disabled={!selectedPlan || !selectedPrice || selectedPlan === currentSubscription?.product.id}
-            onClick={() => next(
-              selectedPrice as string)}
+            onClick={() => next(selectedPrice as string)}
             variant="primary"
           >
             <Trans>
