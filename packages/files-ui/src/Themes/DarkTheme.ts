@@ -379,7 +379,8 @@ export const darkTheme = createTheme<CsfColors>({
           itemColor: "var(--gray9)",
           itemColorHover: "var(--gray9)",
           itemIconColor: "var(--gray9)",
-          itemIconColorHover: "var(--gray9)"
+          itemIconColorHover: "var(--gray9)",
+          profileButtonShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
         },
         createFolder: {
           backgroundColor: "var(--gray2)",

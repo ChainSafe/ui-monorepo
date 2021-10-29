@@ -162,33 +162,40 @@ const useStyles = makeStyles(
         }
       },
       menuItem: {
-        width: 100,
+        width: "100%",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        color: constants.header.menuItemTextColor,
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit
+          marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7],
+          stroke: palette.additional["gray"][7]
         }
       },
       spaceUsedMargin: {
         marginBottom: constants.generalUnit
       },
-      betaCaption: {
-        marginBottom: constants.generalUnit * 0.5
-      },
-      supportButton: {
-        margin: "auto"
-      },
       profileButton: {
-        // border: `1px solid ${palette.additional["gray"][6]}`,
         borderRadius: 4,
         display: "flex",
         alignItems: "center",
         padding: constants.generalUnit,
         background: palette.additional["gray"][1],
-        boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
+        boxShadow: constants.nav.profileButtonShadow
+      },
+      options: {
+        backgroundColor: constants.header.optionsBackground,
+        color: constants.header.optionsTextColor,
+        border: `1px solid ${constants.header.optionsBorder}`,
+        minWidth: 145
+      },
+      icon: {
+        "& svg": {
+          fill: constants.header.iconColor
+        }
       }
     })
   }
@@ -244,6 +251,11 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 anchor="bottom-center"
                 testId="sign-out"
                 hideIndicator={true}
+                classNames={{
+                  icon: classes.icon,
+                  options: classes.options
+                }}
+                className={classes.menuItem}
                 menuItems={[
                   {
                     onClick: () => signOut(),
