@@ -46,17 +46,10 @@ const useStyles = makeStyles(
         }
       },
       buttonSection: {
-        [breakpoints.up("md")]: {
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)"
-        },
-        [breakpoints.down("md")]: {
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly"
-        }
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        marginBottom: constants.generalUnit * 2
       },
       connectingWallet: {
         textAlign: "center",
