@@ -18,8 +18,8 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       left: "13px",
       borderRadius: constants.generalUnit,
       padding: `${constants.generalUnit * 0.25}px ${constants.generalUnit * 0.5}px`,
-      fontSize: "12px",
-      lineHeight: "12px"
+      fontSize: "11px",
+      lineHeight: "11px"
     },
     notificationBody: {
       margin: `0 ${constants.generalUnit * 1.5}px`,
@@ -48,7 +48,6 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
 interface INotificationsDropdownProps {
   notifications: {
     title: string
-    subtitle?: string
     createdAt: Date
     onClick?: () => void
   }[]
