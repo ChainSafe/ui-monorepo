@@ -227,7 +227,7 @@ const MenuDropdown = ({
             {title}
           </Typography>
         )}
-        {children && children}
+        {children}
         {!hideIndicator && <Icon
           className={clsx(classes.icon, animation, classNames?.icon, {
             ["open"]: open
