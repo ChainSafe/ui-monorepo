@@ -710,7 +710,7 @@ msgstr "Sauvegardé par le mineur"
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr ""
-"La maintenance du système est prévue pour démarrer à {0}. Le système sera "
+"Une maintenance du système est prévue pour démarrer à {0}. Le système sera "
 "indisponible."
 
 msgid "Teams"
@@ -836,8 +836,7 @@ msgstr "Vous voulez participer à l'élaboration de ce produit ?"
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr ""
 "Nous effectuons une maintenance de routine du système. Les mises à jour de "
-"l'état du service seront postées sur le <0>Canal de prise en charge des "
-"fichiers</0> sur Discord"
+"l'état du service seront postées sur le canal <0>Files Support<0> sur Discord"
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "Nous ne pouvons pas chiffrer les fichiers de plus de 2 Go. Certains éléments ne pourront pas être téléversés"
