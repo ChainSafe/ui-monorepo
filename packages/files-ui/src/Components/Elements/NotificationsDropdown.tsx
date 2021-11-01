@@ -8,7 +8,10 @@ dayjs.extend(relativeTime)
 const useStyles = makeStyles(({ palette, constants }: ITheme) =>
   createStyles({
     notificationsButton: {
-      position: "relative"
+      position: "relative",
+      "span": {
+        transition: "none"
+      }
     },
     badge: {
       position: "absolute",
@@ -50,6 +53,9 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
     },
     notificationTime: {
       color: palette.additional["blue"][6]
+    },
+    icon: {
+      transition: "none"
     }
   })
 )
@@ -102,7 +108,7 @@ const NotificationsDropdown: React.FC<INotificationsDropdownProps> = ({ notifica
     >
       <Button variant="tertiary">
         <div className={classes.notificationsButton}>
-          <BellIcon />
+          <BellIcon className={classes.icon} />
           {!!notifications.length && <div className={classes.badge}>
             {notifications.length}
           </div>
