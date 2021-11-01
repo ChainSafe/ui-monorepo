@@ -261,6 +261,18 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                     {
                       title: "This is a title. Add as many lines as you can",
                       createdAt: new Date()
+                    },
+                    {
+                      title: "This is a title. Add as many lines as you can",
+                      createdAt: new Date()
+                    },
+                    {
+                      title: "This is a title. Add as many lines as you can",
+                      createdAt: new Date()
+                    },
+                    {
+                      title: "This is a title. Add as many lines as you can",
+                      createdAt: new Date()
                     }
                   ]}
                 />

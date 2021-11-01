@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, BellIcon, MenuDropdown, Typography } from "@chainsafe/common-components"
+import { Button, BellIcon, MenuDropdown, Typography, ScrollbarWrapper } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
@@ -45,6 +45,9 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       paddingRight: constants.generalUnit * 1.5,
       width: 180
     },
+    scrollContent: {
+      minWidth: 300
+    },
     notificationTime: {
       color: palette.additional["blue"][6]
     }
@@ -65,28 +68,34 @@ const NotificationsDropdown: React.FC<INotificationsDropdownProps> = ({ notifica
   return (
     <MenuDropdown
       dropdown={
-        <div>
-          {notifications.map((n, i) => (
-            <div key={i}
-              className={classes.notificationBody}
-              onClick={n.onClick}
-            >
-              <Typography variant="body2"
-                className={classes.notificationTitle}
-                component="p"
+        <ScrollbarWrapper
+          autoHide={true}
+          maxHeight={300}
+          className={classes.scrollContent}
+        >
+          <div>
+            {notifications.map((n, i) => (
+              <div key={i}
+                className={classes.notificationBody}
+                onClick={n.onClick}
               >
-                {n.title}
-              </Typography>
-              <Typography
-                variant="body2"
-                className={classes.notificationTime}
-                component="p"
-              >
-                {dayjs(n.createdAt).fromNow()}
-              </Typography>
-            </div>
-          ))}
-        </div>
+                <Typography variant="body2"
+                  className={classes.notificationTitle}
+                  component="p"
+                >
+                  {n.title}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  className={classes.notificationTime}
+                  component="p"
+                >
+                  {dayjs(n.createdAt).fromNow()}
+                </Typography>
+              </div>
+            ))}
+          </div>
+        </ScrollbarWrapper>
       }
       hideIndicator={true}
       anchor="bottom-right"
