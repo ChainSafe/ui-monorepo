@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, BellIcon, MenuDropdown, Typography } from "@chainsafe/common-components"
+import { Button, BellIcon, MenuDropdown, Typography, Paper } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
@@ -12,7 +12,7 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
     },
     badge: {
       position: "absolute",
-      background: palette.additional["red"][6],
+      background: palette.additional["volcano"][6],
       color: palette.additional["gray"][1],
       top: "-2px",
       left: "13px",
@@ -20,14 +20,22 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       padding: `${constants.generalUnit * 0.25}px ${constants.generalUnit * 0.5}px`,
       fontSize: "11px",
       lineHeight: "11px",
-      height: "0.8rem",
+      height: "0.9rem",
       minWidth: "1rem"
     },
     notificationBody: {
       margin: `0 ${constants.generalUnit * 1.5}px`,
       padding: constants.generalUnit,
       display: "flex",
-      alignItems: "center"
+      alignItems: "center",
+      cursor: "pointer",
+      backgroundColor: "initial",
+      "&:hover": {
+        backgroundColor: palette.additional["gray"][3]
+      },
+      "svg": {
+        fill: palette.additional["gray"][9]
+      }
     },
     notificationItem: {
       padding: 0,
@@ -42,7 +50,7 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       width: 180
     },
     notificationTime: {
-      color: palette.primary.main
+      color: palette.additional["blue"][6]
     }
   })
 )
@@ -60,31 +68,36 @@ const NotificationsDropdown: React.FC<INotificationsDropdownProps> = ({ notifica
 
   return (
     <MenuDropdown
-      menuItems={notifications.map((n) => ({
-        contents: <div className={classes.notificationBody}>
-          <Typography variant="body2"
-            className={classes.notificationTitle}
-            component="p"
-          >
-            {n.title}
-          </Typography>
-          <Typography
-            variant="body2"
-            className={classes.notificationTime}
-            component="p"
-          >
-            {dayjs(n.createdAt).fromNow()}
-          </Typography>
-        </div>,
-        onClick: n.onClick
-      }))}
+      dropdown={
+        <div>
+          {notifications.map((n, i) => (
+            <div key={i}
+              className={classes.notificationBody}
+              onClick={n.onClick}>
+              <Typography variant="body2"
+                className={classes.notificationTitle}
+                component="p"
+              >
+                {n.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                className={classes.notificationTime}
+                component="p"
+              >
+                {dayjs(n.createdAt).fromNow()}
+              </Typography>
+            </div>
+          ))}
+        </div>
+      }
       hideIndicator={true}
       anchor="bottom-right"
       classNames={{
         item: classes.notificationItem
       }}
     >
-      <Button variant="outline">
+      <Button variant="tertiary">
         <div className={classes.notificationsButton}>
           <BellIcon />
           {!!notifications.length && <div className={classes.badge}>

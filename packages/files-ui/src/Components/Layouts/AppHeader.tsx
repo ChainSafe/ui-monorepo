@@ -249,7 +249,20 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               </section>
               <section>
                 <NotificationsDropdown
-                  notifications={[]}
+                  notifications={[
+                    {
+                      title: "This is a title. Add as many lines as you can",
+                      createdAt: new Date()
+                    },
+                    {
+                      title: "This is a title. Add as many lines as you can",
+                      createdAt: new Date()
+                    },
+                    {
+                      title: "This is a title. Add as many lines as you can",
+                      createdAt: new Date()
+                    }
+                  ]}
                 />
               </section>
               <section className={classes.accountControls}>
