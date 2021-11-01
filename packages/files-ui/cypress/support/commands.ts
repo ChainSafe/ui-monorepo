@@ -45,6 +45,7 @@ export interface Web3LoginOptions {
   saveBrowser?: boolean
   useLocalAndSessionStorage?: boolean
   clearCSFBucket?: boolean
+  clearShareBucket?: boolean
   clearTrashBucket?: boolean
 }
 
@@ -54,6 +55,7 @@ Cypress.Commands.add(
     saveBrowser = false,
     url = localHost,
     clearCSFBucket = false,
+    clearShareBucket = false,
     clearTrashBucket = false
   }: Web3LoginOptions = {}) => {
 
@@ -96,11 +98,15 @@ Cypress.Commands.add(
       apiTestHelper.clearBucket("csf")
     }
 
+    if (clearShareBucket) {
+      apiTestHelper.clearBucket("share")
+    }
+
     if (clearTrashBucket) {
       apiTestHelper.clearBucket("trash")
     }
 
-    if(clearTrashBucket || clearCSFBucket){
+    if(clearTrashBucket || clearCSFBucket || clearShareBucket){
       navigationMenu.binNavButton().click()
       navigationMenu.homeNavButton().click()
     }
@@ -146,7 +152,7 @@ declare global {
        * https://github.com/cypress-io/cypress/issues/7306
        * 
        */
-       safeClick: () => Chainable
+      safeClick: () => Chainable
 
     }
   }
