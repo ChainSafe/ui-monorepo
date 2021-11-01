@@ -8,8 +8,9 @@ export const sharedPage = {
   createSharedFolderButton: () => cy.get("[data-cy=button-create-a-shared-folder]"),
 
   // kebab menu elements
-  renameMenuOption: () => cy.get("[data-cy=menu-rename]"),
-  manageAccessMenuOption: () => cy.get("[data-cy=menu-manage-access]"),
   deleteMenuOption: () => cy.get("[data-cy=menu-delete]"),
-  leaveMenuOption: () => cy.get("[data-cy=menu-leave]")
+  leaveMenuOption: () => cy.get("[data-cy=menu-leave]"),
+  manageAccessMenuOption: () => cy.get("[data-cy=menu-manage-access]"),
+  renameMenuOption: () => cy.get("[data-cy=menu-rename]"),
+  uploadButton: () => cy.get("[data-cy=button-upload-file]")
 }
