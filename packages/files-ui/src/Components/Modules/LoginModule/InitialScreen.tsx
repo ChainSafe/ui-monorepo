@@ -36,7 +36,6 @@ const useStyles = makeStyles(
         borderRadius: 6,
         [breakpoints.up("md")]:{
           minHeight: "64vh",
-          justifyContent: "space-between",
           width: 440
         },
         [breakpoints.down("md")]: {
@@ -46,17 +45,11 @@ const useStyles = makeStyles(
         }
       },
       buttonSection: {
-        [breakpoints.up("md")]: {
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)"
-        },
-        [breakpoints.down("md")]: {
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly"
-        }
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: constants.generalUnit * 2,
+        alignItems: "center",
+        flex: 1
       },
       connectingWallet: {
         textAlign: "center",
@@ -162,6 +155,11 @@ const useStyles = makeStyles(
       },
       maintenanceActiveMessage: {
         color: palette.error.main
+      },
+      connectWalletRoot: {
+        display: "flex",
+        flexDirection: "column",
+        flex: 1
       }
     })
 )
@@ -276,7 +274,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     }
 
     return (
-      <div>
+      <div className={classes.connectWalletRoot}>
         <section className={classes.buttonSection}>
           <Button
             data-cy="sign-in-with-web3-button"
