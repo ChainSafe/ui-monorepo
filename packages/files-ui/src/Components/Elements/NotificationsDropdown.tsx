@@ -19,7 +19,9 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       borderRadius: constants.generalUnit,
       padding: `${constants.generalUnit * 0.25}px ${constants.generalUnit * 0.5}px`,
       fontSize: "11px",
-      lineHeight: "11px"
+      lineHeight: "11px",
+      height: "0.8rem",
+      minWidth: "1rem"
     },
     notificationBody: {
       margin: `0 ${constants.generalUnit * 1.5}px`,
