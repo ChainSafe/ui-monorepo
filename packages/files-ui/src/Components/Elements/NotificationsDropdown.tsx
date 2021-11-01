@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, BellIcon, MenuDropdown, Typography, Paper } from "@chainsafe/common-components"
+import { Button, BellIcon, MenuDropdown, Typography } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
@@ -24,8 +24,7 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       minWidth: "1rem"
     },
     notificationBody: {
-      margin: `0 ${constants.generalUnit * 1.5}px`,
-      padding: constants.generalUnit,
+      padding: `${constants.generalUnit}px ${constants.generalUnit * 1.5}px`,
       display: "flex",
       alignItems: "center",
       cursor: "pointer",
@@ -35,10 +34,7 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       },
       "svg": {
         fill: palette.additional["gray"][9]
-      }
-    },
-    notificationItem: {
-      padding: 0,
+      },
       borderBottom: `1px solid ${palette.additional["gray"][5]}`,
       ":last-child": {
         border: "none"
@@ -73,7 +69,8 @@ const NotificationsDropdown: React.FC<INotificationsDropdownProps> = ({ notifica
           {notifications.map((n, i) => (
             <div key={i}
               className={classes.notificationBody}
-              onClick={n.onClick}>
+              onClick={n.onClick}
+            >
               <Typography variant="body2"
                 className={classes.notificationTitle}
                 component="p"
@@ -93,9 +90,6 @@ const NotificationsDropdown: React.FC<INotificationsDropdownProps> = ({ notifica
       }
       hideIndicator={true}
       anchor="bottom-right"
-      classNames={{
-        item: classes.notificationItem
-      }}
     >
       <Button variant="tertiary">
         <div className={classes.notificationsButton}>
