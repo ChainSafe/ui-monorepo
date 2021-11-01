@@ -37,7 +37,7 @@ describe("File management", () => {
     it("can add files and cancel modal", () => {
       cy.web3Login()
 
-      // upload a file and see it in the file list
+      // attach a file and see it in the file list
       homePage.uploadButton().click()
       fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
       fileUploadModal.fileList().should("have.length", 1)
