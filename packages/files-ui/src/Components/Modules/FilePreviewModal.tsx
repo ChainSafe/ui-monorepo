@@ -11,7 +11,8 @@ import {
   DownloadSvg,
   MoreIcon,
   CloseCircleIcon,
-  ProgressBar
+  ProgressBar,
+  Menu
 } from "@chainsafe/common-components"
 import ImagePreview from "./PreviewRenderers/ImagePreview"
 import { useSwipeable } from "react-swipeable"
@@ -26,7 +27,6 @@ import { CSFTheme } from "../../Themes/types"
 import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 import { useGetFile } from "./FileBrowsers/hooks/useGetFile"
 import { useMemo } from "react"
-import Menu from "../../UI-components/Menu"
 import { getPathWithFile } from "../../Utils/pathUtils"
 
 export interface IPreviewRendererProps {
