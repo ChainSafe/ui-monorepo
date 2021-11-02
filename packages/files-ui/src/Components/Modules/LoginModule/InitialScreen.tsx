@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import {
   Button,
   GithubLogoIcon,
@@ -8,7 +8,9 @@ import {
   Typography,
   FormikTextInput,
   EthereumLogoIcon,
-  useLocation
+  useLocation,
+  ExclamationCircleIcon,
+  useHistory
 } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -23,6 +25,9 @@ import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./PasswordlessEmail"
 import { Form, FormikProvider, useFormik } from "formik"
 import { emailValidation } from "../../../Utils/validationSchema"
+import { getJWT } from "../../../Utils/pathUtils"
+import jwtDecode from "jwt-decode"
+import { DecodedNonceJwt } from "../LinkSharingModule"
 import dayjs from "dayjs"
 
 const useStyles = makeStyles(
@@ -148,6 +153,13 @@ const useStyles = makeStyles(
       secondaryLoginText: {
         paddingTop: constants.generalUnit * 2
       },
+      exclamationIcon: {
+        fontSize: 48,
+        "& svg": {
+          marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7]
+        }
+      },
       maintenanceMessage: {
         display: "block",
         textAlign: "justify",
@@ -184,6 +196,30 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [email, setEmail] = useState("")
   const { state } = useLocation<{from?: string}>()
   const isSharing = useMemo(() => state?.from?.includes(LINK_SHARING_BASE), [state])
+  const [isValidNonce, setIsValidNonce] = useState<boolean | undefined>()
+  const { redirect } = useHistory()
+
+  useEffect(() => {
+    if (!isSharing) return
+
+    const jwt = getJWT(state?.from)
+    let nonce = ""
+
+    try {
+      nonce = (jwt && jwtDecode<DecodedNonceJwt>(jwt).nonce_id) || ""
+    }catch (e) {
+      setError(t`The link you typed in looks malformed. Please verify it.`)
+      console.error(e)
+    }
+
+    if (!nonce) return
+
+    filesApiClient.isNonceValid(nonce)
+      .then((res) => {
+        setIsValidNonce(res.is_valid)
+      })
+      .catch(console.error)
+  }, [filesApiClient, isSharing, state])
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
@@ -208,6 +244,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setErrorEmail("")
     setLoginMode(undefined)
     resetStatus()
+    setIsValidNonce(undefined)
   }
 
   const handleLogin = async (loginType: IdentityProvider) => {
@@ -380,19 +417,21 @@ const InitialScreen = ({ className }: IInitialScreen) => {
 
   return (
     <div className={clsx(classes.root, className)}>
-      {loginMode !== "email" && ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
+      {isValidNonce !== false &&
+      loginMode !== "email" &&
+      ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
         <Typography
           variant="h6"
           component="h1"
           className={classes.headerText}
         >
-          {isSharing
+          {isSharing && status !== "logging in"
             ? <Trans>Sign in/up to access the shared folder</Trans>
             : <Trans>Get Started</Trans>
           }
         </Typography>
       )}
-      {!error && (
+      {!error && isValidNonce !== false && (
         loginMode !== "web3" && loginMode !== "email"
           ? <>
             <section className={classes.buttonSection}>
@@ -517,22 +556,40 @@ const InitialScreen = ({ className }: IInitialScreen) => {
               : <WalletSelection />
       )}
       {!!error && (
-        <>
-          <section className={classes.connectingWallet}>
-            <Typography variant='h2'>
-              <Trans>Connection failed</Trans>
-            </Typography>
-            <Typography variant='h5'>
-              {error}
-            </Typography>
-            <Button
-              variant="primary"
-              onClick={resetLogin}
-            >
-              <Trans>Try again</Trans>
-            </Button>
-          </section>
-        </>
+        <section className={classes.connectingWallet}>
+          <Typography variant='h2'>
+            <Trans>Connection failed</Trans>
+          </Typography>
+          <Typography variant='h5'>
+            {error}
+          </Typography>
+          <Button
+            variant="primary"
+            onClick={resetLogin}
+          >
+            <Trans>Try again</Trans>
+          </Button>
+        </section>
+      )}
+      {isValidNonce === false && status !== "logging in" && (
+        <section className={classes.connectingWallet}>
+          <ExclamationCircleIcon
+            className={classes.exclamationIcon}
+            size={48}
+          />
+          <Typography variant='h2'>
+            <Trans>This link is not valid any more.</Trans>
+          </Typography>
+          <Button
+            variant="primary"
+            onClick={() => {
+              resetLogin()
+              redirect("/")
+            }}
+          >
+            <Trans>Go to login</Trans>
+          </Button>
+        </section>
       )}
     </div>
   )
