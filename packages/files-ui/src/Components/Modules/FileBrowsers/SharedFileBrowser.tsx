@@ -270,7 +270,8 @@ const SharedFileBrowser = () => {
     )
   }
 
-  if (isBucketLoaded && !bucket) {
+  // The bucket is loaded, and it is still undefined
+  if (!bucket) {
     return (
       <div className={classes.messageWrapper}>
         <ExclamationCircleIcon
