@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Button, CheckCircleIcon, Loading, Typography, useHistory, useLocation } from "@chainsafe/common-components"
+import { Button, CheckCircleIcon, ExclamationCircleIcon, Loading, Typography, useHistory, useLocation } from "@chainsafe/common-components"
 import { getBucketDecryptionFromHash, getJWT } from "../../Utils/pathUtils"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useFiles } from "../../Contexts/FilesContext"
 import jwtDecode from "jwt-decode"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
@@ -37,12 +37,11 @@ const useStyles = makeStyles(
         alignItems: "center",
         fontSize: constants.generalUnit * 6,
         "& svg": {
-          marginRight: constants.generalUnit,
           fill: palette.additional["gray"][7]
         }
       },
-      error: {
-        color: palette.error.main
+      errorMessage: {
+        textAlign: "center"
       },
       messageWrapper: {
         display: "flex",
@@ -56,10 +55,12 @@ const useStyles = makeStyles(
     })
 )
 
-interface DecodedJwt {
+export interface DecodedNonceJwt {
   bucket_id?: string
   permission?: NonceResponsePermission
+  nonce_id?: string
 }
+
 const LinkSharingModule = () => {
   const { pathname, hash } = useLocation()
   const { redirect } = useHistory()
@@ -71,15 +72,27 @@ const LinkSharingModule = () => {
   const [encryptedEncryptionKey, setEncryptedEncryptionKey] = useState("")
   const [error, setError] = useState("")
   const classes = useStyles()
-  const { bucket_id: bucketId, permission } = useMemo(() => {
+  const { bucket_id: bucketId, permission, nonce_id } = useMemo(() => {
     try {
-      return (jwt && jwtDecode<DecodedJwt>(jwt)) || {}
+      return (jwt && jwtDecode<DecodedNonceJwt>(jwt)) || {}
     }catch (e) {
       console.error(e)
+      setError(t`This link is marlformed. Please verify that you copy/pasted it correctly.`)
       return {}
     }
   }, [jwt])
   const newBucket = useMemo(() => buckets.find((b) => b.id === bucketId), [bucketId, buckets])
+  const [isValidNonce, setIsValidNonce] = useState<boolean | undefined>()
+
+  useEffect(() => {
+    if(!nonce_id) return
+
+    filesApiClient.isNonceValid(nonce_id)
+      .then((res) => {
+        setIsValidNonce(res.is_valid)
+      })
+      .catch(console.error)
+  }, [filesApiClient, nonce_id])
 
   useEffect(() => {
     if(!publicKey || !bucketDecryptionKey) return
@@ -91,7 +104,7 @@ const LinkSharingModule = () => {
   }, [bucketDecryptionKey, encryptForPublicKey, publicKey])
 
   useEffect(() => {
-    if(!jwt || !encryptedEncryptionKey || !!newBucket) return
+    if(!jwt || !encryptedEncryptionKey || !!newBucket || !isValidNonce) return
 
     filesApiClient.verifyNonce({ jwt, encryption_key: encryptedEncryptionKey })
       .catch((e:any) => {
@@ -101,7 +114,7 @@ const LinkSharingModule = () => {
       .finally(() => {
         refreshBuckets()
       })
-  }, [encryptedEncryptionKey, error, filesApiClient, jwt, newBucket, refreshBuckets])
+  }, [encryptedEncryptionKey, error, filesApiClient, isValidNonce, jwt, newBucket, refreshBuckets])
 
   const onBrowseBucket = useCallback(() => {
     newBucket && redirect(ROUTE_LINKS.SharedFolderExplorer(newBucket.id, "/"))
@@ -111,25 +124,29 @@ const LinkSharingModule = () => {
     <div className={classes.root}>
       <div className={classes.box}>
         <div className={classes.messageWrapper}>
-          {!error && !newBucket && (
+          {!error && !newBucket && isValidNonce !== false && (
             <>
               <Loading
                 type="inherit"
                 size={48}
                 className={classes.icon}
               />
-              <Typography variant={"h4"} >
-                <Trans>Adding you to the shared folder...</Trans>
+              <Typography variant="h4">
+                {isValidNonce === undefined
+                  ? <Trans>Verifying the link...</Trans>
+                  : <Trans>Adding you to the shared folder...</Trans>
+                }
+
               </Typography>
             </>
           )}
-          {!error && newBucket && permission && (
+          {!error && newBucket && permission && isValidNonce && (
             <>
               <CheckCircleIcon
                 size={48}
                 className={classes.icon}
               />
-              <Typography variant={"h4"} >
+              <Typography variant="h4">
                 <Trans>
                   You were added to the shared folder ({translatedPermission(permission)}): {newBucket.name}
                 </Trans>
@@ -142,15 +159,24 @@ const LinkSharingModule = () => {
               </Button>
             </>
           )}
+          {(!!error || isValidNonce === false) && (
+            <>
+              <ExclamationCircleIcon
+                size={48}
+                className={classes.icon}
+              />
+              <Typography
+                variant="h4"
+                className={classes.errorMessage}
+              >
+                { isValidNonce === false
+                  ? <Trans>This link is not valid any more.</Trans>
+                  : error
+                }
+              </Typography>
+            </>
+          )}
         </div>
-        {!!error && (
-          <Typography
-            variant="body2"
-            className={classes.error}
-          >
-            {error}
-          </Typography>
-        )}
       </div>
     </div>
   )
