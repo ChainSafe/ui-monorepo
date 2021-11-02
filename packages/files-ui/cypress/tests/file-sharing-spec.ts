@@ -1,36 +1,48 @@
 import { createEditSharedFolderModal } from "../support/page-objects/modals/createSharedFolderModal"
-import { sharedPage } from "../support/page-objects/sharedPage"
+import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
+import { sharingExplainerKey, sharedFolderName } from "../fixtures/filesTestData"
+import { sharedPage } from "../support/page-objects/sharedPage"
+import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 
 describe("File Sharing", () => {
 
   context("desktop", () => {
 
-    it("can create a shared folder and upload to it", () => {
-      cy.web3Login({ clearCSFBucket: true })
+    it("can create, add, delete a shared folder", () => {
+      // intercept and stub the response to ensure the explainer is not displayed
+      cy.intercept("GET", "**/user/store", {
+        body: { [sharingExplainerKey]: "true" }
+      })
 
+      cy.web3Login({ clearShareBucket: true })
+
+      // create shared folder
       navigationMenu.sharedNavButton().click()
 
       sharedPage.createSharedFolderButton().click()
       createEditSharedFolderModal.body().should("be.visible")
 
-      createEditSharedFolderModal.folderNameInput().type("SharingTest")
+      createEditSharedFolderModal.folderNameInput().type(sharedFolderName)
       createEditSharedFolderModal.editPermissionInput().type("walletboy").type("{enter}")
       createEditSharedFolderModal.createButton().safeClick()
       createEditSharedFolderModal.body().should("not.exist")
 
+      // upload to a shared folder
+      sharedPage.fileItemName().contains(sharedFolderName)
+        .should("be.visible")
+        .dblclick()
+      sharedPage.uploadButton().click()
+      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
+      fileUploadModal.fileList().should("have.length", 1)
+      fileUploadModal.uploadButton().safeClick()
+      fileUploadModal.body().should("not.exist")
+      uploadCompleteToast.body().should("be.visible")
+      uploadCompleteToast.closeButton().click()
+      sharedPage.fileItemRow().should("have.length", 1)
 
-      //   // create a folder and see it in the file list
-      //   homePage.newFolderButton().click()
-      //   createFolderModal.folderNameInput().type(folderName)
-      //   createFolderModal.createButton().safeClick()
-      //   createFolderModal.body().should("not.exist")
-      //   homePage.fileItemName().contains(folderName)
+      // delete a shared folder
 
-    //   // cancel and ensure that the create folder modal is dismissed
-    //   homePage.newFolderButton().click()
-    //   createFolderModal.cancelButton().click()
-    //   createFolderModal.body().should("not.exist")
     })
   })
 })
