@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import {
   Typography,
   Table,
@@ -123,6 +123,10 @@ const SharedFolderOverview = () => {
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
 
   usePageTrack()
+
+  useEffect(() => {
+    refreshBuckets(true)
+  }, [refreshBuckets])
 
   const handleSortToggle = (targetColumn: SortingType) => {
     if (column !== targetColumn) {

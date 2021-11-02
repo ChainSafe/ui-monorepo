@@ -15,7 +15,7 @@ describe("File Sharing", () => {
         body: { [sharingExplainerKey]: "true" }
       })
 
-      cy.web3Login({ clearShareBucket: true })
+      cy.web3Login({ deleteShareBucket: true })
 
       // create shared folder
       navigationMenu.sharedNavButton().click()
