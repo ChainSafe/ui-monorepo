@@ -62,13 +62,16 @@ const SurveyBanner = ({ onHide }: Props) => {
     setLocalStore({ [DISMISSED_SURVEY_KEY]: "true" }, "update")
   }, [setLocalStore, onHide])
 
-  const onOpen = useCallback(() => {
+  const onOpenLink = useCallback(() => {
     onClose()
     window.open(ROUTE_LINKS.UserSurvey, "_blank")
   }, [onClose])
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      data-cy="banner-survey"
+    >
       <Typography
         variant="body1"
         className={classes.banner}>
@@ -77,7 +80,7 @@ const SurveyBanner = ({ onHide }: Props) => {
         </Trans>
         <span
           className={classes.link}
-          onClick={onOpen}
+          onClick={onOpenLink}
         >
           <Trans>Schedule a 15 min call</Trans>
         </span>
@@ -85,6 +88,7 @@ const SurveyBanner = ({ onHide }: Props) => {
       <div className={classes.spacer}/>
       <div
         className={classes.crossIconButton}
+        data-cy="button-close-banner"
         onClick={onClose}
       >
         <CrossIcon

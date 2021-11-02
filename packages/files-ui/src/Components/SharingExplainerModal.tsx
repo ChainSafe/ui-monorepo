@@ -132,9 +132,9 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
       return
     } else {
       switch (next) {
-        case 3:
+        case STEP_NUMBER:
           setLocalStore({ [DISMISSED_SHARING_EXPLAINER_KEY]:  "true" }, "update")
-          setStep(3)
+          setStep(STEP_NUMBER)
           break
         case STEP_NUMBER + 1:
           onHide()
@@ -153,6 +153,7 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
       maxWidth="sm"
       onClose={onHide}
       mobileStickyBottom={false}
+      testId="sharing-explainer"
     >
       <div className={classes.root}>
         <Typography
@@ -164,6 +165,7 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
           <Button
             className={classes.nextButton}
             onClick={() => onNextStep(step + 1)}
+            data-cy={step === STEP_NUMBER ? "button-got-it" : "button-next"}
           >
             {step === STEP_NUMBER ? t`Got it` : t`Next`}
           </Button>

@@ -10,8 +10,12 @@ import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
 import PlansPage from "./Pages/PlansPage"
+import { NonceResponsePermission } from "@chainsafe/files-api-client"
+import LinkSharingLanding from "./Pages/LinkSharingLanding"
 
 export const SETTINGS_BASE = "/settings"
+export const LINK_SHARING_BASE = "/link-sharing"
+
 export const ROUTE_LINKS = {
   Landing: "/",
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
@@ -28,6 +32,8 @@ export const ROUTE_LINKS = {
   Plans: "/plans",
   SharedFolders: "/shared-overview",
   SharedFolderBrowserRoot: "/shared",
+  SharingLink: (permission: NonceResponsePermission, jwt: string, bucketEncryptionKey: string) =>
+    `${LINK_SHARING_BASE}/${permissionPath(permission)}/${encodeURIComponent(jwt)}#${encodeURIComponent(bucketEncryptionKey)}`,
   SharedFolderExplorer: (bucketId: string, rawCurrentPath: string) => {
     // bucketId should not have a / at the end
     // rawCurrentPath can be empty, or /
@@ -38,7 +44,8 @@ export const ROUTE_LINKS = {
   TeamSignup: "https://shrl.ink/cgQy"
 }
 
-export const SETTINGS_PATHS = ["profile", "security", "plan"] as const
+export const permissionPath = (permission: NonceResponsePermission) => permission === "read" ? "read" : "edit"
+export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
@@ -49,6 +56,12 @@ const FilesRoutes = () => {
     [isLoggedIn, isNewDevice, publicKey, secured, shouldInitializeAccount])
   return (
     <Switch>
+      <ConditionalRoute
+        path={LINK_SHARING_BASE}
+        isAuthorized={isAuthorized}
+        component={LinkSharingLanding}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.SharedFolders}
@@ -102,7 +115,7 @@ const FilesRoutes = () => {
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
-        path='/'
+        path={ROUTE_LINKS.Landing}
         isAuthorized={!isAuthorized}
         component={LoginPage}
         redirectPath={ROUTE_LINKS.Drive("/")}

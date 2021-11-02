@@ -6,22 +6,20 @@ export const DISMISSED_SHARING_EXPLAINER_KEY = "csf.dismissedSharingExplainer"
 
 export const useSharingExplainerModalFlag = () => {
   const { localStore, setLocalStore } = useUser()
-  const [hasSeenSharingExplainerModal, setHasSeenSharingExplainerModal] = useState(false)
-  const dismissedFlag = localStore ? localStore[DISMISSED_SHARING_EXPLAINER_KEY] : null
+  const [hasSeenSharingExplainerModal, setHasSeenSharingExplainerModal] = useState(true)
 
   useEffect(() => {
-    if (dismissedFlag === "false"){
-      setHasSeenSharingExplainerModal(true)
-    } else if (dismissedFlag === null) {
-      // the dismiss flag was never set
-      setLocalStore({ [DISMISSED_SHARING_EXPLAINER_KEY]: "false" }, "update")
-      setHasSeenSharingExplainerModal(true)
+    if (!localStore) {
+      return
     }
-  }, [dismissedFlag, setLocalStore])
+    if (localStore[DISMISSED_SHARING_EXPLAINER_KEY] === "false"){
+      setHasSeenSharingExplainerModal(false)
+    }
+  }, [localStore, setLocalStore])
 
   const hideModal = useCallback(() => {
     setLocalStore({ [DISMISSED_SHARING_EXPLAINER_KEY]: "true" }, "update")
-    setHasSeenSharingExplainerModal(false)
+    setHasSeenSharingExplainerModal(true)
   }, [setLocalStore])
 
   return { hasSeenSharingExplainerModal, hideModal }
