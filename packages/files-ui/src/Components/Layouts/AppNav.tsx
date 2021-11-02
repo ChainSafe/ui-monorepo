@@ -13,7 +13,6 @@ import {
   DeleteSvg,
   UserShareSvg,
   MenuDropdown,
-  ChainsafeFilesLogo
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
@@ -21,6 +20,8 @@ import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 import { useUser } from "../../Contexts/UserContext"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
+import { Hashicon } from '@emeraldpay/hashicon-react';
+
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
@@ -196,7 +197,12 @@ const useStyles = makeStyles(
         "& svg": {
           fill: constants.header.iconColor
         }
-      }
+      },
+      hashIconContainer: {
+        marginRight: constants.generalUnit,
+        display: "flex",
+        alignItems: "center"
+      } 
     })
   }
 )
@@ -212,7 +218,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   const { storageSummary } = useFiles()
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
-  const { removeUser, getProfileTitle } = useUser()
+  const { removeUser, getProfileTitle, profile } = useUser()
 
   const signOut = useCallback(() => {
     logout()
@@ -248,7 +254,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
           {desktop && (
             <section>
               <MenuDropdown
-                anchor="bottom-center"
+                anchor="bottom-left"
                 testId="sign-out"
                 hideIndicator={true}
                 classNames={{
@@ -275,9 +281,11 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 {!!profileTitle &&
                   <div className={classes.profileButton}>
-                    <ChainsafeFilesLogo className={classes.logo} />
+                    <div className={classes.hashIconContainer}>
+                      <Hashicon value={profile?.userId || ""} size={20} />
+                    </div>
                     <Typography
-                      variant="body2"
+                      variant="body1"
                       component="p"
                     >
                       {profileTitle}
