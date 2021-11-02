@@ -23,6 +23,7 @@ import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./PasswordlessEmail"
 import { Form, FormikProvider, useFormik } from "formik"
 import { emailValidation } from "../../../Utils/validationSchema"
+import dayjs from "dayjs"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSFTheme) =>
@@ -35,7 +36,6 @@ const useStyles = makeStyles(
         borderRadius: 6,
         [breakpoints.up("md")]:{
           minHeight: "64vh",
-          justifyContent: "space-between",
           width: 440
         },
         [breakpoints.down("md")]: {
@@ -45,17 +45,11 @@ const useStyles = makeStyles(
         }
       },
       buttonSection: {
-        [breakpoints.up("md")]: {
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)"
-        },
-        [breakpoints.down("md")]: {
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly"
-        }
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: constants.generalUnit * 2,
+        alignItems: "center",
+        flex: 1
       },
       connectingWallet: {
         textAlign: "center",
@@ -153,6 +147,19 @@ const useStyles = makeStyles(
       },
       secondaryLoginText: {
         paddingTop: constants.generalUnit * 2
+      },
+      maintenanceMessage: {
+        display: "block",
+        textAlign: "justify",
+        width: 240
+      },
+      maintenanceActiveMessage: {
+        color: palette.error.main
+      },
+      connectWalletRoot: {
+        display: "flex",
+        flexDirection: "column",
+        flex: 1
       }
     })
 )
@@ -171,6 +178,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [error, setError] = useState<string | undefined>()
   const [errorEmail, setErrorEmail] = useState("")
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
+  const maintenanceWindowTimestamp = Number(process.env.REACT_APP_MAINTENANCE_TIMESTAMP)
   const [isConnecting, setIsConnecting] = useState(false)
   const { filesApiClient } = useFilesApi()
   const [email, setEmail] = useState("")
@@ -266,7 +274,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     }
 
     return (
-      <div>
+      <div className={classes.connectWalletRoot}>
         <section className={classes.buttonSection}>
           <Button
             data-cy="sign-in-with-web3-button"
@@ -388,11 +396,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
         loginMode !== "web3" && loginMode !== "email"
           ? <>
             <section className={classes.buttonSection}>
-              {maintenanceMode && (
-                <Typography>
-                  <Trans>The system is undergoing maintenance, thank you for being patient.</Trans>
-                </Typography>
-              )}
               <FormikProvider value={formik}>
                 <Form>
                   <FormikTextInput
@@ -461,6 +464,25 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <GoogleLogoIcon className="icon"/>
                 <Trans>Continue with Google</Trans>
               </Button>
+              {maintenanceMode && (
+                <Typography className={clsx(classes.maintenanceMessage, classes.maintenanceActiveMessage)}>
+                  <Trans>We are performing routine maintenance of the system. Service status updates will be posted on the{" "}
+                    <a href={ROUTE_LINKS.DiscordInvite}
+                      target="_blank"
+                      rel='noreferrer noopener'>Files Support Channel</a>{" "}
+                      on Discord
+                  </Trans>
+                </Typography>
+              )}
+              {!maintenanceMode && !!maintenanceWindowTimestamp && dayjs.unix(maintenanceWindowTimestamp).isAfter(dayjs()) && (
+                <Typography className={classes.maintenanceMessage}>
+                  <Trans>
+                    System maintenance is scheduled to start at{" "}
+                    {dayjs.unix(maintenanceWindowTimestamp).format("YYYY-MM-DD HH:mm")}.{" "}
+                    The system will be unavailable.
+                  </Trans>
+                </Typography>
+              )}
             </section>
             <footer className={classes.footer}>
               <a

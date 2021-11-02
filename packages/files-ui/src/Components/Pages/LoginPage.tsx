@@ -72,6 +72,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         justifyContent: "center",
         marginTop: "2rem",
+        marginBottom: "1rem",
         fontWeight: typography.fontWeight.regular,
         [breakpoints.up("md")]:{
           ...typography.h2
@@ -99,12 +100,6 @@ const useStyles = makeStyles(
       inner: {
         display: "flex",
         flexDirection: "column",
-        flex: "1 1 0",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: zIndex?.layer1,
         backgroundColor: constants.loginModule.background,
         border: `1px solid ${constants.landing.border}`,
         boxShadow: constants.landing.boxShadow,
@@ -113,6 +108,10 @@ const useStyles = makeStyles(
           justifyContent: "center",
           width: "100%"
         }
+      },
+      loginContainer: {
+        display: "flex",
+        justifyContent: "center"
       },
       logo: {
         height: 60,
@@ -191,7 +190,9 @@ const LoginPage = () => {
           </Trans>
         </Typography>
       </a>
-      <Content className={classes.inner} />
+      <div className={classes.loginContainer}>
+        <Content className={classes.inner} />
+      </div>
     </div>
   )
 }

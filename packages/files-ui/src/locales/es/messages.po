@@ -707,6 +707,9 @@ msgstr "Plan de almacenamiento"
 msgid "Stored by miner"
 msgstr "Almacenado por el minero"
 
+msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
+msgstr ""
+
 msgid "Teams"
 msgstr ""
 
@@ -721,9 +724,6 @@ msgstr "Se cerró la ventana emergente de autenticación"
 
 msgid "The files are already in this folder"
 msgstr ""
-
-msgid "The system is undergoing maintenance, thank you for being patient."
-msgstr "El sistema está en mantenimiento, gracias por su paciencia."
 
 msgid "The username is too long"
 msgstr ""
@@ -828,6 +828,9 @@ msgid "Wallet address"
 msgstr "Utilice un navegador guardado"
 
 msgid "Want to help shape this product?"
+msgstr ""
+
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
