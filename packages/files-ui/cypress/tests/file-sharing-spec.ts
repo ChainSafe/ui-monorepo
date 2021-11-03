@@ -2,7 +2,7 @@ import { createEditSharedFolderModal } from "../support/page-objects/modals/crea
 import { deleteSharedFolderModal } from "../support/page-objects/modals/deleteSharedFolderModal"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
-import { sharingExplainerKey, sharedFolderName, sharedFolderEditedName } from "../fixtures/filesTestData"
+import { sharingExplainerKey, sharedFolderName, sharedFolderEditedName, validUsername } from "../fixtures/filesTestData"
 import { sharedPage } from "../support/page-objects/sharedPage"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 
@@ -23,7 +23,7 @@ describe("File Sharing", () => {
       sharedPage.createSharedFolderButton().click()
       createEditSharedFolderModal.body().should("be.visible")
       createEditSharedFolderModal.folderNameInput().type(sharedFolderName)
-      createEditSharedFolderModal.editPermissionInput().type("walletboy").type("{enter}")
+      createEditSharedFolderModal.editPermissionInput().type(validUsername).type("{enter}")
       createEditSharedFolderModal.createButton().safeClick()
       createEditSharedFolderModal.body().should("not.exist")
       sharedPage.sharedFolderItemRow().should("have.length", 1)
