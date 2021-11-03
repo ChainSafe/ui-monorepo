@@ -12,7 +12,7 @@ import {
   formatBytes,
   DeleteSvg,
   UserShareSvg,
-  MenuDropdown,
+  MenuDropdown
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
@@ -20,7 +20,7 @@ import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 import { useUser } from "../../Contexts/UserContext"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
-import { Hashicon } from '@emeraldpay/hashicon-react';
+import { Hashicon } from "@emeraldpay/hashicon-react"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
@@ -202,7 +202,7 @@ const useStyles = makeStyles(
         marginRight: constants.generalUnit,
         display: "flex",
         alignItems: "center"
-      } 
+      }
     })
   }
 )
@@ -282,7 +282,8 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 {!!profileTitle &&
                   <div className={classes.profileButton}>
                     <div className={classes.hashIconContainer}>
-                      <Hashicon value={profile?.userId || ""} size={20} />
+                      <Hashicon value={profile?.userId || ""}
+                        size={20} />
                     </div>
                     <Typography
                       variant="body1"
