@@ -66,6 +66,8 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains(folderName).click()
         moveItemModal.moveButton().safeClick()
+        moveSuccessToast.body().should("be.visible")
+        moveSuccessToast.closeButton().click()
 
         // ensure there is only the folder in the Home directory 
         homePage.fileItemRow().should("have.length", 1)
