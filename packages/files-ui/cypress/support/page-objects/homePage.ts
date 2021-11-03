@@ -15,8 +15,7 @@ export const homePage = {
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
   selectAllCheckbox: () => cy.get("[data-testId=checkbox-select-all]"),
-  fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
-  fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
+  fileRenameInput: () => cy.get("[data-cy=input-rename-file-or-folder]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
 
   // kebab menu elements
