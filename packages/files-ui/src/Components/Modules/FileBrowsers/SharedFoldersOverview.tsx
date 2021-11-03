@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import {
   Typography,
   Table,
@@ -124,6 +124,10 @@ const SharedFolderOverview = () => {
 
   usePageTrack()
 
+  useEffect(() => {
+    refreshBuckets(true)
+  }, [refreshBuckets])
+
   const handleSortToggle = (targetColumn: SortingType) => {
     if (column !== targetColumn) {
       setColumn(targetColumn)
@@ -181,6 +185,7 @@ const SharedFolderOverview = () => {
                 setBucketToEdit(undefined)
                 setCreateOrEditSharedFolderMode("create")
               }}
+              data-cy="button-create-a-shared-folder"
             >
               <PlusIcon />
               <Trans>Create a Shared Folder</Trans>
