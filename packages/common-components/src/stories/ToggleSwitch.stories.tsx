@@ -1,12 +1,14 @@
 import { action } from "@storybook/addon-actions"
-import { boolean, select } from "@storybook/addon-knobs"
+import { boolean, select, withKnobs } from "@storybook/addon-knobs"
 import React, { useState } from "react"
 import { ToggleSwitch } from ".."
 import { SizeOption } from "./types"
 
 export default {
   title: "ToggleSwitch",
-  component: ToggleSwitch
+  component: ToggleSwitch,
+  excludeStories: /.*Data$/,
+  decorators: [withKnobs]
 }
 
 const sizeOptions: SizeOption[] = ["large", "medium", "small"]
