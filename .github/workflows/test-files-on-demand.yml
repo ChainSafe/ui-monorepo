@@ -55,7 +55,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2.0.2
         env:
           SLACK_TITLE: Files UI Test Suite On-Demand Result
-          SLACK_WEBHOOK: ${{ secrets.SLACK_API_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_UI_WEBHOOK }}
           SLACK_MESSAGE: ${{ job.status }}
           SLACK_COLOR: ${{ job.status }}
           SLACK_ICON: packages/common-components/src/Logos/ChainSafe-Files-logo.png
