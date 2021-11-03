@@ -874,6 +874,9 @@ msgstr "Sie können nun geteilte Ordner erstellen, um eine Datei zu teilen."
 msgid "You can't move folders to this path"
 msgstr "Sie können keine Ordner in diesen Pfad verschieben"
 
+msgid "You do not have access to this shared folder."
+msgstr ""
+
 msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 

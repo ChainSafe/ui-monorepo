@@ -877,6 +877,9 @@ msgstr "You can now create shared folders to share a file."
 msgid "You can't move folders to this path"
 msgstr "You can't move folders to this path"
 
+msgid "You do not have access to this shared folder."
+msgstr "You do not have access to this shared folder."
+
 msgid "You haven't set a username yet."
 msgstr "You haven't set a username yet."
 
