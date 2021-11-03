@@ -254,7 +254,7 @@ const SelectPlan = ({ close, className, next }: ISelectPlan) => {
           </Button>
           <Button
             disabled={!selectedPlan || !selectedPrice || selectedPlan === currentSubscription?.product.id}
-            onClick={() => next(selectedPrice as string)}
+            onClick={() => selectedPrice && next(selectedPrice)}
             variant="primary"
           >
             <Trans>
