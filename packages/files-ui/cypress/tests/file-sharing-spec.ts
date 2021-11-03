@@ -18,12 +18,10 @@ describe("File Sharing", () => {
 
       cy.web3Login({ deleteShareBucket: true })
 
-      // create shared folder
+      // create a shared folder
       navigationMenu.sharedNavButton().click()
-
       sharedPage.createSharedFolderButton().click()
       createEditSharedFolderModal.body().should("be.visible")
-
       createEditSharedFolderModal.folderNameInput().type(sharedFolderName)
       createEditSharedFolderModal.editPermissionInput().type("walletboy").type("{enter}")
       createEditSharedFolderModal.createButton().safeClick()
