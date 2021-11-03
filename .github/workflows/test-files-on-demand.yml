@@ -1,0 +1,61 @@
+name: Cypress tests - Files (On Demand)
+on: [workflow_dispatch]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node14.17.0-chrome91-ff89
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        id: yarn-build-cache
+        with:
+          path: |
+            **/node_modules
+            ~/.cache/Cypress
+            **/build
+          key: ${{ runner.os }}-node_modules-files-build-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-build-
+
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        env:
+          REACT_APP_API_URL: ${{ secrets.GH_REACT_APP_API_URL }}
+          REACT_APP_BLOCKNATIVE_ID: ${{ secrets.GH_REACT_APP_BLOCKNATIVE_ID }}
+          REACT_APP_FILES_VERIFIER_NAME: ${{ secrets.GH_REACT_APP_FILES_VERIFIER_NAME }}
+          REACT_APP_FILES_UUID_VERIFIER_NAME: 'chainsafe-uuid-testnet'
+          REACT_APP_TEST: 'true'
+          DEBUG: '@cypress/github-action'
+        with:
+          start: yarn start:files-ui
+          # wait for 10min for the server to be ready
+          wait-on: 'npx wait-on --timeout 600000 http://localhost:3000'
+          # custom test command to run
+          command: yarn test:ci:files-ui
+      # store the screenshots if the tests fail
+      - name: Store screenshots 
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: packages/files-ui/cypress/screenshots
+      # store the videos if the tests fail
+      # - name: Store videos 
+      #   uses: actions/upload-artifact@v1
+      #   if: failure()
+      #   with:
+      #     name: cypress-videos
+      #     path: packages/files-ui/cypress/videos
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2.0.2
+        env:
+          SLACK_TITLE: Files UI Test Suite On-Demand Result
+          SLACK_WEBHOOK: ${{ secrets.SLACK_API_WEBHOOK }}
+          SLACK_MESSAGE: ${{ job.status }}
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: packages/common-components/src/Logos/ChainSafe-Files-logo.png
