@@ -1,7 +1,8 @@
 import { createEditSharedFolderModal } from "../support/page-objects/modals/createSharedFolderModal"
+import { deleteSharedFolderModal } from "../support/page-objects/modals/deleteSharedFolderModal"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
-import { sharingExplainerKey, sharedFolderName } from "../fixtures/filesTestData"
+import { sharingExplainerKey, sharedFolderName, sharedFolderEditedName } from "../fixtures/filesTestData"
 import { sharedPage } from "../support/page-objects/sharedPage"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 
@@ -27,9 +28,10 @@ describe("File Sharing", () => {
       createEditSharedFolderModal.editPermissionInput().type("walletboy").type("{enter}")
       createEditSharedFolderModal.createButton().safeClick()
       createEditSharedFolderModal.body().should("not.exist")
+      sharedPage.sharedFolderItemRow().should("have.length", 1)
 
       // upload to a shared folder
-      sharedPage.fileItemName().contains(sharedFolderName)
+      sharedPage.sharedFolderItemName().contains(sharedFolderName)
         .should("be.visible")
         .dblclick()
       sharedPage.uploadButton().click()
@@ -41,8 +43,23 @@ describe("File Sharing", () => {
       uploadCompleteToast.closeButton().click()
       sharedPage.fileItemRow().should("have.length", 1)
 
-      // delete a shared folder
+      // edit name of a shared folder
+      navigationMenu.sharedNavButton().click()
+      sharedPage.sharedFolderItemRow().should("have.length", 1)
+      sharedPage.fileItemKebabButton().click()
+      sharedPage.renameMenuOption().click()
+      sharedPage.shareRenameInput()
+        .type("{selectall}{del}")
+        .type(`${sharedFolderEditedName}{enter}`)
+      sharedPage.sharedFolderItemName().contains(sharedFolderEditedName)
 
+      // delete a shared folder
+      sharedPage.fileItemKebabButton().click()
+      sharedPage.deleteMenuOption().click()
+      deleteSharedFolderModal.body().should("be.visible")
+      deleteSharedFolderModal.confirmButton().safeClick()
+      deleteSharedFolderModal.body().should("not.exist")
+      sharedPage.sharedFolderItemRow().should("not.exist")
     })
   })
 })

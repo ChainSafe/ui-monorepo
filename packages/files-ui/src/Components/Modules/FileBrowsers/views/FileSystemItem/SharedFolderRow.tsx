@@ -257,6 +257,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
               >
                 <FormikTextInput
                   className={classes.renameInput}
+                  data-cy='input-rename-share'
                   name="name"
                   inputVariant="minimal"
                   onKeyDown={(event) => {
