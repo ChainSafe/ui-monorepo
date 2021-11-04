@@ -169,7 +169,7 @@ const useStyles = makeStyles(
           "& svg": {
             fill: constants.nav.itemIconColorHover
           }
-        },
+        }
       },
       navItemText: {
         [breakpoints.down("md")]: {
