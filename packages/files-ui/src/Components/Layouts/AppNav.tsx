@@ -25,8 +25,8 @@ const useStyles = makeStyles(
     return createStyles({
       root: {
         width: 0,
-        overflowX: 'hidden',
-        overflowY: 'auto',
+        overflowX: "hidden",
+        overflowY: "auto",
         transitionDuration: `${animation.translate}ms`,
         display: "flex",
         flexDirection: "column",
