@@ -54,8 +54,11 @@ jobs:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2.0.2
         env:
-          SLACK_TITLE: Files UI Test Suite On-Demand Result
-          SLACK_WEBHOOK: ${{ secrets.SLACK_UI_WEBHOOK }}
+          SLACK_USERNAME: Files UI Test Suite On-Demand
+          SLACK_TITLE: 'Result:'
           SLACK_MESSAGE: ${{ job.status }}
           SLACK_COLOR: ${{ job.status }}
-          SLACK_ICON: packages/common-components/src/Logos/ChainSafe-Files-logo.png
+          SLACK_ICON_EMOJI: ':files:'
+          MSG_MINIMAL: actions url
+          SLACK_WEBHOOK: ${{ secrets.SLACK_UI_WEBHOOK }}
+          SLACK_FOOTER: '<https://github.com/ChainSafe/ui-monorepo/actions/workflows/test-files-on-demand.yml|view workflow in github>'
