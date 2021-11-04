@@ -59,7 +59,7 @@ const isTouchEvent = (event: any) => {
 
 const preventDefault = (event: any) => {
   if (!isTouchEvent(event)) return
-
+  console.log(event.touches.length)
   if (event.touches.length < 2 && event.preventDefault) {
     event.preventDefault()
   }
