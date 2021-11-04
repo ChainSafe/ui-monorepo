@@ -66,6 +66,7 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains(folderName).click()
         moveItemModal.moveButton().safeClick()
+        homePage.awaitBucketRefresh()
         moveSuccessToast.body().should("be.visible")
         moveSuccessToast.closeButton().click()
 
@@ -87,6 +88,7 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
         moveItemModal.moveButton().safeClick()
+        homePage.awaitBucketRefresh()
         moveSuccessToast.body().should("be.visible")
         moveSuccessToast.closeButton().click()
 
