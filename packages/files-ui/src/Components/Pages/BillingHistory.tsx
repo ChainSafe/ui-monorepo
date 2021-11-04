@@ -21,6 +21,11 @@ const useStyles = makeStyles(
       },
       centered: {
         textAlign: "center"
+      },
+      root: {
+        [breakpoints.down("md")]: {
+          padding: `0 ${constants.generalUnit}px`
+        }
       }
     })
 )
@@ -54,7 +59,7 @@ const BillingHistory = () => {
   }, [filesApiClient, subscriptionId])
 
   return (
-    <div>
+    <div className={classes.root}>
       <Typography
         className={classes.heading}
         variant="h1"
