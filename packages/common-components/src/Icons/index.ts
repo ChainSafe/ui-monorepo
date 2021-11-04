@@ -31,6 +31,7 @@ export { default as EthereumLogoIcon, EthereumLogoSvg } from "./icons/EthereumLo
 export { default as ExclamationCircleIcon, ExclamationCircleSvg } from "./icons/ExclamationCircle.icon"
 export { default as ExclamationCircleInverseIcon, ExclamationCircleInverseSvg } from "./icons/ExclamationCircleInverse.icon"
 export { default as ExportIcon, ExportSvg } from "./icons/Export.icon"
+export { default as ExternalIcon, ExternalSvg } from "./icons/External.icon"
 export { default as EyeClosedIcon, EyeClosedSvg } from "./icons/EyeClosed.icon"
 export { default as EyeIcon, EyeSvg } from "./icons/Eye.icon"
 export { default as EyeOpenIcon, EyeOpenSvg } from "./icons/EyeOpen.icon"

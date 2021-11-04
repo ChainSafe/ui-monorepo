@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useFilesApi } from "./FilesApiContext"
 import { ReactNode, useEffect, useState } from "react"
-import { Card, CurrentSubscription } from "@chainsafe/files-api-client"
+import { Card, CurrentSubscription, Product } from "@chainsafe/files-api-client"
 import { useCallback } from "react"
 import { t } from "@lingui/macro"
 
@@ -13,7 +13,9 @@ interface IBillingContext {
   defaultCard: Card | undefined
   refreshDefaultCard: () => void
   currentSubscription: CurrentSubscription | undefined
+  changeSubscription: (newPriceId: string) => Promise<boolean | void>
   fetchCurrentSubscription: () => void
+  getAvailablePlans: () => Promise<Product[]>
 }
 
 const ProductMapping: {[key: string]: {
@@ -78,13 +80,39 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     }
   }, [isLoggedIn, fetchCurrentSubscription, currentSubscription])
 
+  const getAvailablePlans = useCallback(() => {
+    return filesApiClient.getAllProducts()
+      .then((products) => {
+        return products.map(product => {
+          product.name = ProductMapping[product.id].name
+          product.description = ProductMapping[product.id].description
+          return product
+        })
+      })
+      .catch((error: any) => {
+        console.error(error)
+        return []
+      })
+  }, [filesApiClient])
+
+  const changeSubscription = useCallback((newPriceId: string) => {
+    if (!currentSubscription?.id) return Promise.resolve()
+    return filesApiClient.updateSubscription(currentSubscription.id, {
+      price_id: newPriceId
+    })
+      .then(() => true)
+      .catch(console.error)
+  }, [filesApiClient, currentSubscription])
+
   return (
     <BillingContext.Provider
       value={{
         currentSubscription,
         fetchCurrentSubscription,
+        changeSubscription,
         refreshDefaultCard,
-        defaultCard
+        defaultCard,
+        getAvailablePlans
       }}
     >
       {children}

@@ -487,6 +487,13 @@ export const darkTheme = createTheme<CsfColors>({
         },
         cookieBanner: {
           backgroundColor: "var(--gray9)"
+        },
+        changeProduct: {
+          currentBackground: "initial",
+          selectedColor: "var(--csf-primary)",
+          currentTag: {
+            text: "var(--gray10)"
+          }
         }
       } as CsfColors)
     },

@@ -74,6 +74,9 @@ msgstr ""
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
 
+msgid "Billed Annually"
+msgstr ""
+
 msgid "Billed Monthly"
 msgstr ""
 
@@ -207,6 +210,9 @@ msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
 msgid "Credit card saved"
+msgstr ""
+
+msgid "Current"
 msgstr ""
 
 msgid "Dark Theme"
@@ -346,6 +352,9 @@ msgstr "Por motivos de seguridad, cada vez que inicie sesión le pediremos uno d
 
 msgid "Forget this browser"
 msgstr "Olvida este navegador"
+
+msgid "Free"
+msgstr ""
 
 msgid "Free plan"
 msgstr ""
@@ -507,6 +516,9 @@ msgid "No thanks"
 msgstr "No gracias"
 
 msgid "No user found for this query."
+msgstr ""
+
+msgid "Not sure what to pick? Learn more about our plans"
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
@@ -680,6 +692,9 @@ msgstr "Seleccione una billetera"
 msgid "Select an existing shared folder or your home"
 msgstr ""
 
+msgid "Select this plan"
+msgstr ""
+
 msgid "Send another email"
 msgstr ""
 
@@ -774,6 +789,9 @@ msgid "Stored by miner"
 msgstr "Almacenado por el minero"
 
 msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plans"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -991,6 +1009,18 @@ msgstr ""
 
 msgid "on"
 msgstr "en"
+
+msgid "per day"
+msgstr ""
+
+msgid "per month"
+msgstr ""
+
+msgid "per week"
+msgstr ""
+
+msgid "per year"
+msgstr ""
 
 msgid "read rights"
 msgstr ""

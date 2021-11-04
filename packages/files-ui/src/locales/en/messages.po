@@ -73,6 +73,9 @@ msgstr "Backup secret phrase"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
 
+msgid "Billed Annually"
+msgstr "Billed Annually"
+
 msgid "Billed Monthly"
 msgstr "Billed Monthly"
 
@@ -207,6 +210,9 @@ msgstr "Create your public username in <0>Settings</0>!"
 
 msgid "Credit card saved"
 msgstr "Credit card saved"
+
+msgid "Current"
+msgstr "Current"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -345,6 +351,9 @@ msgstr "For security reasons, each time you sign in we’ll ask you for one of t
 
 msgid "Forget this browser"
 msgstr "Forget this browser"
+
+msgid "Free"
+msgstr "Free"
 
 msgid "Free plan"
 msgstr "Free plan"
@@ -507,6 +516,9 @@ msgstr "No thanks"
 
 msgid "No user found for this query."
 msgstr "No user found for this query."
+
+msgid "Not sure what to pick? Learn more about our plans"
+msgstr "Not sure what to pick? Learn more about our plans"
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
@@ -679,6 +691,9 @@ msgstr "Select a wallet"
 msgid "Select an existing shared folder or your home"
 msgstr "Select an existing shared folder or your home"
 
+msgid "Select this plan"
+msgstr "Select this plan"
+
 msgid "Send another email"
 msgstr "Send another email"
 
@@ -774,6 +789,9 @@ msgstr "Stored by miner"
 
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
+
+msgid "Switch Plans"
+msgstr "Switch Plans"
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -990,6 +1008,18 @@ msgstr "me"
 
 msgid "on"
 msgstr "on"
+
+msgid "per day"
+msgstr "per day"
+
+msgid "per month"
+msgstr "per month"
+
+msgid "per week"
+msgstr "per week"
+
+msgid "per year"
+msgstr "per year"
 
 msgid "read rights"
 msgstr "read rights"
