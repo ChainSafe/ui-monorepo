@@ -164,9 +164,8 @@ const FileSystemTableItem = React.forwardRef(
       return desktop ? {
         onClick: (e: any) => !editing && onFolderOrFileClicks(e)
       } : {
-        onMouseUp: (e: any) => !editing && !dragMutex && onFolderOrFileClicks(e),
-        onDragStart: () => setDragMutex(true),
-        onDragEnd: () => setDragMutex(false)
+        onMouseUp: (e: any) => !editing && (dragMutex ? setDragMutex(false) : onFolderOrFileClicks(e)),
+        onDragStart: () => setDragMutex(true)
       }
     }, [desktop, editing, onFolderOrFileClicks, dragMutex])
 
