@@ -109,6 +109,7 @@ const LinkSharingModule = () => {
     filesApiClient.verifyNonce({ jwt, encryption_key: encryptedEncryptionKey })
       .catch((e:any) => {
         console.error(e)
+        // TODO: 1695 detect error 
         setError(e.error.message)
       })
       .finally(() => {
