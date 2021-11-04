@@ -168,7 +168,7 @@ interface IMenuDropdownProps {
   | "bottom-left"
   | "bottom-center"
   | "bottom-right"
-  menuItems: IMenuItem[]
+  menuItems?: IMenuItem[]
   title?: string
   classNames?: {
     icon?: string
@@ -177,7 +177,10 @@ interface IMenuDropdownProps {
     title?: string
     titleText?: string
   }
+  hideIndicator?: boolean
   testId?: string
+  children?: React.ReactNode
+  dropdown?: React.ReactNode
 }
 
 const MenuDropdown = ({
@@ -189,7 +192,10 @@ const MenuDropdown = ({
   animation = "flip",
   title,
   classNames,
-  testId
+  testId,
+  children,
+  hideIndicator,
+  dropdown
 }: IMenuDropdownProps) => {
   const Icon = indicator
   const classes = useStyles()
@@ -201,6 +207,7 @@ const MenuDropdown = ({
       setOpen(false)
     }
   })
+
   return (
     <div
       ref={ref}
@@ -222,11 +229,13 @@ const MenuDropdown = ({
             {title}
           </Typography>
         )}
-        <Icon
+        {children}
+        {!hideIndicator && <Icon
           className={clsx(classes.icon, animation, classNames?.icon, {
             ["open"]: open
           })}
         />
+        }
       </section>
       <Paper
         shadow="shadow2"
@@ -234,7 +243,7 @@ const MenuDropdown = ({
           ["open"]: open
         })}
       >
-        {menuItems.map((item: IMenuItem, index: number) => (
+        {menuItems && menuItems.map((item: IMenuItem, index: number) => (
           <div
             data-testid={`dropdown-item-${testId}`}
             key={`menu-${index}`}
@@ -247,6 +256,7 @@ const MenuDropdown = ({
             {item.contents}
           </div>
         ))}
+        {dropdown}
       </Paper>
     </div>
   )

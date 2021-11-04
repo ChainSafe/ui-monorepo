@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch"
+import heicConvert from "heic-convert"
+
 import {
   makeStyles,
   ITheme,
@@ -11,7 +13,8 @@ import {
   Button,
   ZoomInIcon,
   ZoomOutIcon,
-  FullscreenIcon
+  FullscreenIcon,
+  Loading
 } from "@chainsafe/common-components"
 
 const useStyles = makeStyles(
@@ -41,67 +44,82 @@ const useStyles = makeStyles(
     })
 )
 
-const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
+const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }) => {
   const [imageUrl, setImageUrl] = useState<string | undefined>()
-
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
-    setImageUrl(URL.createObjectURL(contents))
-
-    return () => {
-      imageUrl && URL.revokeObjectURL(imageUrl)
+    if (contentType !== "image/heic") {
+      setImageUrl(URL.createObjectURL(contents))
+    } else {
+      setLoading(true)
+      contents.arrayBuffer()
+        .then(b => heicConvert({
+          buffer: Buffer.from(b),
+          format: "JPEG",
+          quality: 0.5
+        }))
+        .catch(console.error)
+        .then(c => setImageUrl(URL.createObjectURL(new Blob([c]))))
+        .finally(() => setLoading(false))
     }
-    // eslint-disable-next-line
-  }, [contents])
+  }, [contents, contentType])
+
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
 
   return (
     <div className={classes.root}>
-      <TransformWrapper
-        options={{
-          limitToBounds: true,
-          limitToWrapper: true,
-          minScale: 0.2
-        }}
-      >
-        {
+      {loading
+        ? <Loading
+          size={50}
+          type='inherit'
+        />
+        : <TransformWrapper
+          options={{
+            limitToBounds: true,
+            limitToWrapper: true,
+            minScale: 0.2
+          }}
+        >
+          {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          ({ zoomIn, zoomOut, resetTransform }) => (
-            <>
-              {desktop && (
-                <div className={classes.controlsContainer}>
-                  <Button
-                    onClick={zoomIn}
-                    data-cy="button-zoom-in"
-                  >
-                    <ZoomInIcon />
-                  </Button>
-                  <Button
-                    onClick={zoomOut}
-                    data-cy="button-zoom-out"
-                  >
-                    <ZoomOutIcon />
-                  </Button>
-                  <Button
-                    onClick={resetTransform}
-                    data-cy="button-full-screen"
-                  >
-                    <FullscreenIcon />
-                  </Button>
-                </div>
-              )}
-              <TransformComponent>
-                <img
-                  src={imageUrl}
-                  alt=""
-                  className={classes.root}
-                />
-              </TransformComponent>
-            </>
-          )
-        }
-      </TransformWrapper>
+            ({ zoomIn, zoomOut, resetTransform }) => (
+              <>
+                {desktop && (
+                  <div className={classes.controlsContainer}>
+                    <Button
+                      onClick={zoomIn}
+                      data-cy="button-zoom-in"
+                    >
+                      <ZoomInIcon />
+                    </Button>
+                    <Button
+                      onClick={zoomOut}
+                      data-cy="button-zoom-out"
+                    >
+                      <ZoomOutIcon />
+                    </Button>
+                    <Button
+                      onClick={resetTransform}
+                      data-cy="button-full-screen"
+                    >
+                      <FullscreenIcon />
+                    </Button>
+                  </div>
+                )}
+                <TransformComponent>
+                  <img
+                    src={imageUrl}
+                    alt=""
+                    className={classes.root}
+                    onLoad={() => imageUrl && URL.revokeObjectURL(imageUrl)} />
+                </TransformComponent>
+              </>
+            )
+          }
+        </TransformWrapper>
+      }
     </div>
   )
 }

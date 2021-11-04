@@ -1,7 +1,7 @@
 const guessContentType = (fileName: string) => {
   const { length, [length - 1]: ext } = fileName.split(".")
 
-  switch (ext) {
+  switch (ext.toLowerCase()) {
     case "pdf":
       return "application/pdf"
     case "jpg":
@@ -9,7 +9,8 @@ const guessContentType = (fileName: string) => {
     case "png":
     case "gif":
     case "bmp":
-      return `image/${ext}`
+    case "heic":
+      return `image/${ext.toLowerCase()}`
     case "mp3":
     case "m4a":
       return `audio/${ext}`

@@ -222,8 +222,7 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
         label: buck.name || t`Home`,
         value: buck.id
       }))
-  }
-  , [bucket, buckets, profile, accountRestricted])
+  }, [bucket, buckets, profile, accountRestricted])
 
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
 
@@ -325,7 +324,6 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
             }
           </Typography>
         </div>
-
         <div className={classes.modalFlexItem}>
           {isUsingCurrentBucket
             ? (

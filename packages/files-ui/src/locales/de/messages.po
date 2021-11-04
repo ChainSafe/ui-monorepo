@@ -52,6 +52,9 @@ msgstr "Weitere Dateien hinzufügen"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
 msgid "Amount"
 msgstr ""
 
@@ -81,6 +84,9 @@ msgstr ""
 
 msgid "Bin"
 msgstr "Papierkorb"
+
+msgid "Browse {0}"
+msgstr ""
 
 msgid "Browser:"
 msgstr "Browser:"
@@ -163,6 +169,9 @@ msgstr ""
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy link"
+msgstr ""
+
 msgid "Copy over"
 msgstr ""
 
@@ -176,7 +185,7 @@ msgid "Create"
 msgstr "Erstellen"
 
 msgid "Create Folder"
-msgstr "Ordner erstellen"
+msgstr ""
 
 msgid "Create Shared Folder"
 msgstr ""
@@ -189,6 +198,9 @@ msgstr ""
 
 msgid "Create folder"
 msgstr "Ordner erstellen"
+
+msgid "Create new link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
@@ -361,6 +373,9 @@ msgstr "Zurück"
 msgid "Go to Payments"
 msgstr ""
 
+msgid "Go to login"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 
@@ -478,6 +493,9 @@ msgstr "Keine Dateien zum Anzeigen"
 msgid "No folders"
 msgstr "Keine Ordner"
 
+msgid "No invoice found"
+msgstr ""
+
 msgid "No search results for"
 msgstr "Keine Suchergebnisse für"
 
@@ -491,7 +509,7 @@ msgid "Number of copies (Replication Factor)"
 msgstr "Anzahl der Kopien (Replikationsfaktor)"
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr "Eine Sekunde, die Dateien werden vorbereitet …"
@@ -700,6 +718,9 @@ msgstr ""
 msgid "Sharing files"
 msgstr ""
 
+msgid "Sharing link"
+msgstr ""
+
 msgid "Sign Out"
 msgstr "Abmelden"
 
@@ -708,6 +729,9 @@ msgstr "Anmelden"
 
 msgid "Sign in with a different account"
 msgstr "Mit einem anderen Konto anmelden"
+
+msgid "Sign in/up to access the shared folder"
+msgstr ""
 
 msgid "Sign me up!"
 msgstr ""
@@ -748,6 +772,9 @@ msgstr ""
 msgid "Subscription Plan"
 msgstr ""
 
+msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
+msgstr ""
+
 msgid "Teams"
 msgstr ""
 
@@ -763,8 +790,8 @@ msgstr ""
 msgid "The files are already in this folder"
 msgstr ""
 
-msgid "The system is undergoing maintenance, thank you for being patient."
-msgstr "Das System wird gerade gewartet, wir danken Ihnen für Ihre Geduld."
+msgid "The link you typed in looks malformed. Please verify it."
+msgstr ""
 
 msgid "The username is too long"
 msgstr ""
@@ -776,6 +803,9 @@ msgid "There was an error authenticating"
 msgstr "Es gab einen Fehler bei der Authentifizierung"
 
 msgid "There was an error connecting your wallet"
+msgstr ""
+
+msgid "There was an error creating the folder {0}"
 msgstr ""
 
 msgid "There was an error deleting your data"
@@ -797,6 +827,12 @@ msgid "There was an error when setting username."
 msgstr ""
 
 msgid "This is the free product."
+msgstr ""
+
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
+msgstr ""
+
+msgid "This link is not valid any more."
 msgstr ""
 
 msgid "This username is already taken"
@@ -877,6 +913,9 @@ msgstr "Verifizierungscode nicht korrekt!"
 msgid "Verification code sent!"
 msgstr "Verifizierungscode gesendet!"
 
+msgid "Verifying the link..."
+msgstr ""
+
 msgid "View folder"
 msgstr "Ordner anzeigen"
 
@@ -887,6 +926,9 @@ msgid "Wallet address"
 msgstr ""
 
 msgid "Want to help shape this product?"
+msgstr ""
+
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
@@ -922,6 +964,9 @@ msgstr "Sie können keine Ordner in diesen Pfad verschieben"
 msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
@@ -934,14 +979,23 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
 
+msgid "edit rights"
+msgstr ""
+
 msgid "me"
 msgstr "ich"
 
 msgid "on"
 msgstr "am"
 
+msgid "read rights"
+msgstr ""
+
 msgid "unknown"
 msgstr "unbekannt"
+
+msgid "with"
+msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {{1} Datei wird heruntergeladen} other {{2} Dateien werden heruntergeladen}}"
