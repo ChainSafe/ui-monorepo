@@ -55,6 +55,9 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
 
+msgid "Amount"
+msgstr "Amount"
+
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
@@ -70,14 +73,14 @@ msgstr "Backup secret phrase"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
 
-#~ msgid "Basic - Free"
-#~ msgstr "Basic - Free"
-
 msgid "Billed Monthly"
 msgstr "Billed Monthly"
 
 msgid "Billed Yearly"
 msgstr "Billed Yearly"
+
+msgid "Billing history"
+msgstr "Billing history"
 
 msgid "Bin"
 msgstr "Bin"
@@ -90,9 +93,6 @@ msgstr "Browser:"
 
 msgid "Bucket id"
 msgstr "Bucket id"
-
-#~ msgid "Buy more storage"
-#~ msgstr "Buy more storage"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -205,8 +205,8 @@ msgstr "Create new link"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
 
-msgid "Credit card on file"
-msgstr "Credit card on file"
+msgid "Credit card saved"
+msgstr "Credit card saved"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -222,6 +222,9 @@ msgstr "Data moved to bin successfully"
 
 msgid "Data restored successfully"
 msgstr "Data restored successfully"
+
+msgid "Date"
+msgstr "Date"
 
 msgid "Date uploaded"
 msgstr "Date uploaded"
@@ -274,9 +277,6 @@ msgstr "Downloads failed"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-#~ msgid "Early Adopter: Free up to {0}"
-#~ msgstr "Early Adopter: Free up to {0}"
-
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -291,18 +291,6 @@ msgstr "Enter password:"
 
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
-
-#~ msgid "Error while creating new shared folder"
-#~ msgstr "Error while creating new shared folder"
-
-#~ msgid "Error while downloading {0}"
-#~ msgstr "Error while downloading {0}"
-
-#~ msgid "Error while uploading {0}"
-#~ msgstr "Error while uploading {0}"
-
-#~ msgid "Essentials - Free"
-#~ msgstr "Essentials - Free"
 
 msgid "Failed to add payment method"
 msgstr "Failed to add payment method"
@@ -454,11 +442,11 @@ msgstr "Loading..."
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
-#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-#~ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-
 msgid "Manage Access"
 msgstr "Manage Access"
+
+msgid "Method"
+msgstr "Method"
 
 msgid "Move"
 msgstr "Move"
@@ -507,6 +495,9 @@ msgstr "No files to show"
 
 msgid "No folders"
 msgstr "No folders"
+
+msgid "No invoice found"
+msgstr "No invoice found"
 
 msgid "No search results for"
 msgstr "No search results for"
@@ -565,9 +556,6 @@ msgstr "Passwords must match"
 msgid "Payment and Subscriptions"
 msgstr "Payment and Subscriptions"
 
-#~ msgid "Plan"
-#~ msgstr "Plan"
-
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
 
@@ -606,6 +594,9 @@ msgstr "Profile updated"
 
 msgid "Purchase with card"
 msgstr "Purchase with card"
+
+msgid "Receipt"
+msgstr "Receipt"
 
 msgid "Recover"
 msgstr "Recover"
@@ -778,9 +769,6 @@ msgstr "Start Upload"
 msgid "Start a team"
 msgstr "Start a team"
 
-#~ msgid "Storage Plan"
-#~ msgstr "Storage Plan"
-
 msgid "Stored by miner"
 msgstr "Stored by miner"
 
@@ -862,9 +850,6 @@ msgstr "This website uses cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 
-#~ msgid "Transfer complete"
-#~ msgstr "Transfer complete"
-
 msgid "Try again"
 msgstr "Try again"
 
@@ -937,6 +922,9 @@ msgstr "Verifying the link..."
 msgid "View folder"
 msgstr "View folder"
 
+msgid "View invoices"
+msgstr "View invoices"
+
 msgid "Wallet address"
 msgstr "Wallet address"
 
@@ -988,9 +976,6 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 
-#~ msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-#~ msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-
 msgid "Your plan"
 msgstr "Your plan"
 
@@ -1038,9 +1023,6 @@ msgstr "{0} failed"
 
 msgid "{0} of {1} used"
 msgstr "{0} of {1} used"
-
-#~ msgid "{0} of {1} used ({2}%)"
-#~ msgstr "{0} of {1} used ({2}%)"
 
 msgid "{0} {fileProgress} - {1}"
 msgstr "{0} {fileProgress} - {1}"

@@ -55,8 +55,8 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
-#~ msgid "An error occurred while downloading the file"
-#~ msgstr "Beim Herunterladen der Datei ist ein Fehler aufgetreten"
+msgid "Amount"
+msgstr ""
 
 msgid "An error occurred:"
 msgstr "Es ist ein Fehler aufgetreten:"
@@ -73,13 +73,13 @@ msgstr "Sicherungsgeheimsatz"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Der Sicherungsgeheimsatz stimmt nicht mit dem Benutzerkonto überein, bitte überprüfen Sie dies und versuchen Sie es erneut."
 
-#~ msgid "Basic - Free"
-#~ msgstr ""
-
 msgid "Billed Monthly"
 msgstr ""
 
 msgid "Billed Yearly"
+msgstr ""
+
+msgid "Billing history"
 msgstr ""
 
 msgid "Bin"
@@ -93,9 +93,6 @@ msgstr "Browser:"
 
 msgid "Bucket id"
 msgstr ""
-
-#~ msgid "Buy more storage"
-#~ msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr ""
@@ -208,7 +205,7 @@ msgstr ""
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
-msgid "Credit card on file"
+msgid "Credit card saved"
 msgstr ""
 
 msgid "Dark Theme"
@@ -224,6 +221,9 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Date uploaded"
@@ -277,9 +277,6 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
-#~ msgid "Early Adopter: Free up to {0}"
-#~ msgstr ""
-
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
 
@@ -294,18 +291,6 @@ msgstr "Geben Sie das Passwort ein:"
 
 msgid "Enter the verification code:"
 msgstr "Geben Sie den Verifizierungscode ein:"
-
-#~ msgid "Error while creating new shared folder"
-#~ msgstr ""
-
-#~ msgid "Error while downloading {0}"
-#~ msgstr ""
-
-#~ msgid "Error while uploading {0}"
-#~ msgstr "Error while uploading {0}"
-
-#~ msgid "Essentials - Free"
-#~ msgstr "Essentials - Kostenlos"
 
 msgid "Failed to add payment method"
 msgstr ""
@@ -454,10 +439,10 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
-#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-#~ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-
 msgid "Manage Access"
+msgstr ""
+
+msgid "Method"
 msgstr ""
 
 msgid "Move"
@@ -507,6 +492,9 @@ msgstr "Keine Dateien zum Anzeigen"
 
 msgid "No folders"
 msgstr "Keine Ordner"
+
+msgid "No invoice found"
+msgstr ""
 
 msgid "No search results for"
 msgstr "Keine Suchergebnisse für"
@@ -565,9 +553,6 @@ msgstr "Passwörter müssen übereinstimmen"
 msgid "Payment and Subscriptions"
 msgstr ""
 
-#~ msgid "Plan"
-#~ msgstr ""
-
 msgid "Please enter a file name"
 msgstr "Bitte geben Sie einen Dateinamen ein"
 
@@ -605,6 +590,9 @@ msgid "Profile updated"
 msgstr "Profil aktualisiert"
 
 msgid "Purchase with card"
+msgstr ""
+
+msgid "Receipt"
 msgstr ""
 
 msgid "Recover"
@@ -778,9 +766,6 @@ msgstr "Hochladen starten"
 msgid "Start a team"
 msgstr ""
 
-#~ msgid "Storage Plan"
-#~ msgstr "Speicherplan"
-
 msgid "Stored by miner"
 msgstr ""
 
@@ -934,6 +919,9 @@ msgstr ""
 msgid "View folder"
 msgstr "Ordner anzeigen"
 
+msgid "View invoices"
+msgstr ""
+
 msgid "Wallet address"
 msgstr ""
 
@@ -984,9 +972,6 @@ msgstr ""
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
-
-#~ msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-#~ msgstr ""
 
 msgid "Your plan"
 msgstr ""

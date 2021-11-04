@@ -3,6 +3,7 @@ import CurrentCard from "./CurrentCard"
 import { Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
+import BillingHistory from "./BillingHistory"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import CurrentProduct from "./CurrentProduct"
@@ -35,6 +36,7 @@ const PlanView: React.FC = () => {
         <Divider />
         <CurrentProduct />
         <CurrentCard />
+        <BillingHistory />
       </div>
     </Elements>
   )

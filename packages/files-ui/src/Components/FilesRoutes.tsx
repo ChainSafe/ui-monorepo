@@ -10,6 +10,7 @@ import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
 import PlansPage from "./Pages/PlansPage"
+import BillingHistory from "./Pages/BillingHistory"
 import { NonceResponsePermission } from "@chainsafe/files-api-client"
 import LinkSharingLanding from "./Pages/LinkSharingLanding"
 
@@ -28,6 +29,7 @@ export const ROUTE_LINKS = {
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   SettingsPath: (settingsPath: SettingsPath) => `${SETTINGS_BASE}/${settingsPath}`,
+  BillingHistory: "/billing-history",
   UserSurvey: "https://calendly.com/colinschwarz/chainsafe-files-chat",
   Plans: "/plans",
   SharedFolders: "/shared-overview",
@@ -60,6 +62,13 @@ const FilesRoutes = () => {
         path={LINK_SHARING_BASE}
         isAuthorized={isAuthorized}
         component={LinkSharingLanding}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.BillingHistory}
+        isAuthorized={isAuthorized}
+        component={BillingHistory}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

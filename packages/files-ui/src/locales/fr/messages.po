@@ -56,8 +56,8 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
 
-#~ msgid "An error occurred while downloading the file"
-#~ msgstr "Une erreur s'est produite lors du téléchargement du fichier"
+msgid "Amount"
+msgstr ""
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
@@ -74,13 +74,13 @@ msgstr "Phrase secrète de sauvegarde"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et réessayer."
 
-#~ msgid "Basic - Free"
-#~ msgstr ""
-
 msgid "Billed Monthly"
 msgstr ""
 
 msgid "Billed Yearly"
+msgstr ""
+
+msgid "Billing history"
 msgstr ""
 
 msgid "Bin"
@@ -94,9 +94,6 @@ msgstr "Explorateur :"
 
 msgid "Bucket id"
 msgstr "Identifiant du seau"
-
-#~ msgid "Buy more storage"
-#~ msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "En connectant votre portefeuille, vous acceptez nos <0>conditions de service</0> et notre <1>politique de confidentialité</1>"
@@ -209,7 +206,7 @@ msgstr "Créer un nouveau lien"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
-msgid "Credit card on file"
+msgid "Credit card saved"
 msgstr ""
 
 msgid "Dark Theme"
@@ -226,6 +223,9 @@ msgstr "Les données ont été déplacées vers la poubelle avec succès"
 
 msgid "Data restored successfully"
 msgstr "Données restaurées avec succès"
+
+msgid "Date"
+msgstr ""
 
 msgid "Date uploaded"
 msgstr "Téléversé le"
@@ -278,9 +278,6 @@ msgstr "Les téléchargements ont échoué"
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
-#~ msgid "Early Adopter: Free up to {0}"
-#~ msgstr ""
-
 msgid "Email is required"
 msgstr "Un courriel est requis"
 
@@ -295,18 +292,6 @@ msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
 msgstr "Entrez le code de vérification :"
-
-#~ msgid "Error while creating new shared folder"
-#~ msgstr "Erreur lors de la création d’un nouveau dossier partagé"
-
-#~ msgid "Error while downloading {0}"
-#~ msgstr "Erreur lors du téléchargement de {0}"
-
-#~ msgid "Error while uploading {0}"
-#~ msgstr "Erreur lors du téléversement de {0}"
-
-#~ msgid "Essentials - Free"
-#~ msgstr "Essentials - Gratuit"
 
 msgid "Failed to add payment method"
 msgstr ""
@@ -458,11 +443,11 @@ msgstr "Chargement…"
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
 
-#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-#~ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-
 msgid "Manage Access"
 msgstr "Gérer l’accès"
+
+msgid "Method"
+msgstr ""
 
 msgid "Move"
 msgstr "Déplacer"
@@ -511,6 +496,9 @@ msgstr ""
 
 msgid "No folders"
 msgstr "Aucun dossier"
+
+msgid "No invoice found"
+msgstr ""
 
 msgid "No search results for"
 msgstr "Aucun fichier à afficher"
@@ -569,9 +557,6 @@ msgstr "Les mots de passes de correspondent pas"
 msgid "Payment and Subscriptions"
 msgstr ""
 
-#~ msgid "Plan"
-#~ msgstr ""
-
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"
 
@@ -609,6 +594,9 @@ msgid "Profile updated"
 msgstr "Profile mis à jour"
 
 msgid "Purchase with card"
+msgstr ""
+
+msgid "Receipt"
 msgstr ""
 
 msgid "Recover"
@@ -731,17 +719,11 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-#~ msgid "Sharing cancelled"
-#~ msgstr "Partage annulé"
-
 msgid "Sharing files"
 msgstr "Partage des fichiers"
 
 msgid "Sharing link"
 msgstr "Lien de partage"
-
-#~ msgid "Sharing your file (Downloading)"
-#~ msgstr "Partager votre fichier (Téléchargement)"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -787,9 +769,6 @@ msgstr "Démarrer le téléversement"
 
 msgid "Start a team"
 msgstr "Créer une équipe"
-
-#~ msgid "Storage Plan"
-#~ msgstr "Plan de stockage"
 
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
@@ -872,9 +851,6 @@ msgstr "Ce site web utilise des cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre les interactions à des fins d'analyse. Vous avez le droit de refuser notre utilisation des cookies. Pour que nous puissions vous offrir une expérience utilisateur personnalisable, veuillez cliquer sur le bouton Accepter ci-dessous.<0>En savoir plus</0>"
 
-#~ msgid "Transfer complete"
-#~ msgstr "Transfert terminé"
-
 msgid "Try again"
 msgstr "Essayer de nouveau"
 
@@ -947,6 +923,9 @@ msgstr ""
 msgid "View folder"
 msgstr "Voir le dossier"
 
+msgid "View invoices"
+msgstr ""
+
 msgid "Wallet address"
 msgstr "Addresse du wallet"
 
@@ -998,9 +977,6 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
-#~ msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-#~ msgstr ""
-
 msgid "Your plan"
 msgstr ""
 
@@ -1048,9 +1024,6 @@ msgstr "échec de {0}"
 
 msgid "{0} of {1} used"
 msgstr ""
-
-#~ msgid "{0} of {1} used ({2}%)"
-#~ msgstr ""
 
 msgid "{0} {fileProgress} - {1}"
 msgstr "{0} {fileProgress} – {1}"
