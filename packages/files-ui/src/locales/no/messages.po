@@ -52,7 +52,10 @@ msgstr "Legg til flere filer"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
-msgid "An error occurred while downloading the file"
+msgid "Adding you to the shared folder..."
+msgstr ""
+
+msgid "Amount"
 msgstr ""
 
 msgid "An error occurred:"
@@ -70,25 +73,25 @@ msgstr ""
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
 
-#~ msgid "Basic - Free"
-#~ msgstr ""
-
 msgid "Billed Monthly"
 msgstr ""
 
 msgid "Billed Yearly"
 msgstr ""
 
+msgid "Billing history"
+msgstr ""
+
 msgid "Bin"
+msgstr ""
+
+msgid "Browse {0}"
 msgstr ""
 
 msgid "Browser:"
 msgstr ""
 
 msgid "Bucket id"
-msgstr ""
-
-msgid "Buy more storage"
 msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -108,6 +111,9 @@ msgstr ""
 
 msgid "Change Password"
 msgstr "Endre passord"
+
+msgid "Change Plan"
+msgstr ""
 
 msgid "Change password"
 msgstr "Endre passord"
@@ -163,17 +169,23 @@ msgstr ""
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy link"
+msgstr ""
+
 msgid "Copy over"
 msgstr ""
 
 msgid "Copy to"
 msgstr ""
 
+msgid "Copying files"
+msgstr ""
+
 msgid "Create"
 msgstr "Opprett"
 
 msgid "Create Folder"
-msgstr "Opprett mappe"
+msgstr ""
 
 msgid "Create Shared Folder"
 msgstr ""
@@ -187,10 +199,13 @@ msgstr ""
 msgid "Create folder"
 msgstr "Opprett mappe"
 
+msgid "Create new link"
+msgstr ""
+
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
-msgid "Credit card on file"
+msgid "Credit card saved"
 msgstr ""
 
 msgid "Dark Theme"
@@ -206,6 +221,9 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Date uploaded"
@@ -259,14 +277,8 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
-msgid "Early Adopter: Free up to {0}"
-msgstr ""
-
 msgid "Email is required"
 msgstr "E-post kreves"
-
-msgid "Encrypting & uploading"
-msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -279,18 +291,6 @@ msgstr "Skriv inn passord:"
 
 msgid "Enter the verification code:"
 msgstr "Skriv inn bekreftelseskoden:"
-
-#~ msgid "Error while creating new shared folder"
-#~ msgstr ""
-
-#~ msgid "Error while downloading {0}"
-#~ msgstr ""
-
-#~ msgid "Error while uploading {0}
-#~ msgstr ""
-
-#~ msgid "Essentials - Free"
-#~ msgstr ""
 
 msgid "Failed to add payment method"
 msgstr ""
@@ -373,6 +373,9 @@ msgstr "Tilbake"
 msgid "Go to Payments"
 msgstr ""
 
+msgid "Go to login"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 
@@ -397,7 +400,7 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
-msgid "Keep original file"
+msgid "Keep original files"
 msgstr ""
 
 msgid "Language"
@@ -436,10 +439,10 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgid "Manage Access"
 msgstr ""
 
-msgid "Manage Access"
+msgid "Method"
 msgstr ""
 
 msgid "Move"
@@ -478,11 +481,20 @@ msgstr ""
 msgid "No file to download."
 msgstr ""
 
-#~ msgid "No files to show"
-#~ msgstr "Ingen filer å vise"
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
+
+msgid "No files to show"
+msgstr "Ingen filer å vise"
 
 msgid "No folders"
 msgstr "Ingen mapper"
+
+msgid "No invoice found"
+msgstr ""
 
 msgid "No search results for"
 msgstr ""
@@ -497,7 +509,7 @@ msgid "Number of copies (Replication Factor)"
 msgstr ""
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr ""
@@ -541,9 +553,6 @@ msgstr "Passordene må samsvare"
 msgid "Payment and Subscriptions"
 msgstr ""
 
-msgid "Plan"
-msgstr ""
-
 msgid "Please enter a file name"
 msgstr "Skriv inn et filnavn"
 
@@ -581,6 +590,9 @@ msgid "Profile updated"
 msgstr "Profil oppdatert"
 
 msgid "Purchase with card"
+msgstr ""
+
+msgid "Receipt"
 msgstr ""
 
 msgid "Recover"
@@ -688,6 +700,9 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Delt"
 
@@ -700,10 +715,10 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing cancelled"
+msgid "Sharing files"
 msgstr ""
 
-msgid "Sharing your file (Downloading)"
+msgid "Sharing link"
 msgstr ""
 
 msgid "Sign Out"
@@ -714,6 +729,9 @@ msgstr "Logg inn"
 
 msgid "Sign in with a different account"
 msgstr "Logg inn med en annen konto"
+
+msgid "Sign in/up to access the shared folder"
+msgstr ""
 
 msgid "Sign me up!"
 msgstr ""
@@ -748,13 +766,13 @@ msgstr ""
 msgid "Start a team"
 msgstr ""
 
-msgid "Storage Plan"
-msgstr ""
-
 msgid "Stored by miner"
 msgstr ""
 
 msgid "Subscription Plan"
+msgstr ""
+
+msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr ""
 
 msgid "Teams"
@@ -772,7 +790,7 @@ msgstr ""
 msgid "The files are already in this folder"
 msgstr ""
 
-msgid "The system is undergoing maintenance, thank you for being patient."
+msgid "The link you typed in looks malformed. Please verify it."
 msgstr ""
 
 msgid "The username is too long"
@@ -785,6 +803,9 @@ msgid "There was an error authenticating"
 msgstr ""
 
 msgid "There was an error connecting your wallet"
+msgstr ""
+
+msgid "There was an error creating the folder {0}"
 msgstr ""
 
 msgid "There was an error deleting your data"
@@ -808,6 +829,12 @@ msgstr ""
 msgid "This is the free product."
 msgstr ""
 
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
+msgstr ""
+
+msgid "This link is not valid any more."
+msgstr ""
+
 msgid "This username is already taken"
 msgstr ""
 
@@ -818,9 +845,6 @@ msgid "This website uses cookies"
 msgstr ""
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-msgstr ""
-
-msgid "Transfer complete"
 msgstr ""
 
 msgid "Try again"
@@ -889,13 +913,22 @@ msgstr ""
 msgid "Verification code sent!"
 msgstr ""
 
+msgid "Verifying the link..."
+msgstr ""
+
 msgid "View folder"
 msgstr "Vis mappe"
+
+msgid "View invoices"
+msgstr ""
 
 msgid "Wallet address"
 msgstr ""
 
 msgid "Want to help shape this product?"
+msgstr ""
+
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
@@ -931,13 +964,13 @@ msgstr ""
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
-msgstr ""
-
-msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
 msgid "Your plan"
@@ -946,13 +979,22 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
+msgid "edit rights"
+msgstr ""
+
 msgid "me"
 msgstr ""
 
 msgid "on"
 msgstr ""
 
+msgid "read rights"
+msgstr ""
+
 msgid "unknown"
+msgstr ""
+
+msgid "with"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
@@ -964,5 +1006,23 @@ msgstr ""
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
 
-msgid "{0} of {1} used ({2}%)"
+msgid "{0} cancelled"
+msgstr ""
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr ""
+
+msgid "{0} complete"
+msgstr ""
+
+msgid "{0} failed"
+msgstr ""
+
+msgid "{0} of {1} used"
+msgstr ""
+
+msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
 msgstr ""

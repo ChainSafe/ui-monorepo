@@ -1,12 +1,10 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback } from "react"
 import ProfileTab from "./ProfileTab"
 import {
   Tabs,
   TabPane as TabPaneOrigin,
   Typography,
   Divider,
-  Breadcrumb,
-  Crumb,
   useParams,
   useHistory,
   ITabPaneProps,
@@ -138,19 +136,9 @@ const Settings: React.FC = () => {
     (key: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(key))
     , [redirect])
 
-  const crumbs: Crumb[] = useMemo(() => [
-    {
-      text: t`Settings`
-    }
-  ], [])
-
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Breadcrumb
-          crumbs={crumbs}
-          homeOnClick={() => redirect(ROUTE_LINKS.Drive(""))}
-        />
         <Typography
           variant="h1"
           component="p"

@@ -38,7 +38,7 @@ const CurrentCard: React.FC = () => {
             variant="h4"
             component="h4"
           >
-            <Trans>Credit card on file</Trans>
+            <Trans>Credit card saved</Trans>
           </Typography>
         </div>
         {defaultCard

@@ -8,6 +8,8 @@ export const homePage = {
   ...fileBrowser,
 
   // home page specific file browser elements
+  closeBannerButton: () => cy.get("[data-cy=button-close-banner"),
+  surveyBanner: () => cy.get("[data-cy=banner-survey]"),
   newFolderButton: () => cy.get("[data-cy=button-new-folder]"),
   uploadButton: () => cy.get("[data-cy=button-upload-file]"),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),

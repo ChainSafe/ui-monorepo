@@ -32,7 +32,6 @@ import { BrowserView, FileOperation, MoveModalMode } from "../types"
 import { FileSystemItem as FileSystemItemType, useFiles } from "../../../../Contexts/FilesContext"
 import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
-
 import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../UploadFileModal"
 import MoveFileModal from "../MoveFileModal"
@@ -41,7 +40,6 @@ import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
 import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
-import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
@@ -55,6 +53,7 @@ import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import clsx from "clsx"
 import EmptySvg from "../../../../Media/Empty.svg"
+import { getPathWithFile } from "../../../../Utils/pathUtils"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -358,7 +357,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
   const [hasClickedShare, setClickedShare] = useState(false)
   const showExplainerBeforeShare = useMemo(() =>
-    hasSeenSharingExplainerModal && hasClickedShare
+    !hasSeenSharingExplainerModal && hasClickedShare
   , [hasClickedShare, hasSeenSharingExplainerModal]
   )
   const items: FileSystemItemType[] = useMemo(() => {
@@ -626,9 +625,10 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsDeleteModalOpen(true)
   }, [])
 
-  const handleOpenShareDialog = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const handleOpenShareDialog = useCallback((e?: React.MouseEvent) => {
+    e?.preventDefault()
+    e?.stopPropagation()
+    setClickedShare(true)
     setIsShareModalOpen(true)
   }, [])
 
@@ -661,14 +661,9 @@ const FilesList = ({ isShared = false }: Props) => {
   [classes.menuIcon, accountRestricted])
 
   const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
-    if(hasSeenSharingExplainerModal) {
-      setClickedShare(true)
-    }
-
     setSelectedItems([fileSystemItem])
-    setIsShareModalOpen(true)
-  }, [hasSeenSharingExplainerModal])
-
+    handleOpenShareDialog()
+  }, [handleOpenShareDialog])
 
   return (
     <>
