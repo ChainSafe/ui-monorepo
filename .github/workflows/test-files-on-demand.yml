@@ -52,7 +52,7 @@ jobs:
       #     path: packages/files-ui/cypress/videos
 
       - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2.0.2
+        uses: rtCamp/action-slack-notify@v2.2.0
         env:
           SLACK_USERNAME: Files UI Test Suite On-Demand
           SLACK_TITLE: 'Result:'
