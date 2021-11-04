@@ -170,9 +170,6 @@ const useStyles = makeStyles(
             fill: constants.nav.itemIconColorHover
           }
         },
-        [breakpoints.down("md")]: {
-          minWidth: Number(constants.mobileNavWidth)
-        }
       },
       navItemText: {
         [breakpoints.down("md")]: {
