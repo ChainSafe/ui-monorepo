@@ -25,18 +25,18 @@ const useStyles = makeStyles(({ overrides }: ITheme) =>
   })
 )
 
-export interface ITableCellProps {
+export interface ITableCellProps extends Omit<React.HTMLProps<HTMLTableCellElement>, "align" | "className" | "children"> {
   className?: string
   children?: ReactNode | ReactNode[]
   align?: AlignOption
   onClick?: (e?: React.MouseEvent) => void
 }
+
 const TableCell = React.forwardRef(
   (
     {
       children,
       className,
-      onClick,
       align = "center",
       ...rest
     }: ITableCellProps,
@@ -46,7 +46,6 @@ const TableCell = React.forwardRef(
 
     return (
       <td
-        onClick={onClick}
         className={clsx(
           className,
           classes.root,

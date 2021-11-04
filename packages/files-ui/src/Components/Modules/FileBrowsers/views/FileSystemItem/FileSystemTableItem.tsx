@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react"
+import React, { useCallback, useMemo, useRef } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -159,6 +159,14 @@ const FileSystemTableItem = React.forwardRef(
 
     useOnClickOutside(formRef, stopEditing)
 
+    const clickEvent = useMemo(() => {
+      return desktop ? {
+        onClick: (e: any) => !editing && onFolderOrFileClicks(e)
+      } : {
+        onMouseUp: (e: any) => !editing && onFolderOrFileClicks(e)
+      }
+    }, [desktop, editing, onFolderOrFileClicks])
+
     return (
       <TableRow
         data-cy="file-item-row"
@@ -180,7 +188,7 @@ const FileSystemTableItem = React.forwardRef(
         )}
         <TableCell
           className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
-          onClick={(e) => onFolderOrFileClicks(e)}
+          {...clickEvent}
           {...longPressEvents}
         >
           {icon}
@@ -190,7 +198,7 @@ const FileSystemTableItem = React.forwardRef(
           ref={preview}
           align="left"
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
-          onClick={(e) => !editing && onFolderOrFileClicks(e)}
+          {...clickEvent}
           {...longPressEvents}
         >
           {editing === cid && desktop
