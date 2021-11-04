@@ -93,7 +93,8 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     ).then(() => {
       addToast({
         title: t`Data restored successfully`,
-        type: "success"
+        type: "success",
+        testId: "recover-success"
       })
     }).catch((error) => {
       console.error("Error recovering:", error)

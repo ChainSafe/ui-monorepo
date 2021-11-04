@@ -248,13 +248,12 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
 
       return Promise.resolve()
-    } catch (error) {
-      console.error(error)
+    } catch (error: any) {
       // setting error
       let errorMessage = t`Something went wrong. We couldn't upload your file`
 
       // we will need a method to parse server errors
-      if (Array.isArray(error) && error[0].message.includes("conflict")) {
+      if (error?.error?.code === 409) {
         errorMessage = t`A file with the same name already exists`
       }
       dispatchUploadsInProgress({

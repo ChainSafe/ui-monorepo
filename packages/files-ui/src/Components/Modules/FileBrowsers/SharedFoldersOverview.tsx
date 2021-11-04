@@ -278,7 +278,7 @@ const SharedFolderOverview = () => {
         )}
       </article>
       <SharingExplainerModal
-        showModal={hasSeenSharingExplainerModal}
+        showModal={!hasSeenSharingExplainerModal}
         onHide={hideModal}
       />
       <CreateOrEditSharedFolderModal

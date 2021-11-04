@@ -25,7 +25,7 @@ const useStyles = makeStyles(
     return createStyles({
       root: {
         width: 0,
-        overflow: "hidden",
+        overflow: "auto",
         transitionDuration: `${animation.translate}ms`,
         display: "flex",
         flexDirection: "column",
@@ -114,14 +114,11 @@ const useStyles = makeStyles(
       linksArea: {
         display: "flex",
         flexDirection: "column",
-        flex: "1 1 0",
+        flex: 1,
         justifyContent: "center",
         transitionDuration: `${animation.translate}ms`,
         "& > span": {
           marginBottom: constants.generalUnit * 2
-        },
-        [breakpoints.up("md")]: {
-          height: 0
         },
         [breakpoints.down("md")]: {
           transitionDuration: `${animation.translate}ms`,
@@ -273,7 +270,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
             </Typography>
             <nav className={classes.navMenu}>
               <Link
-                data-cy="home-nav"
+                data-cy="link-home"
                 onClick={() => {
                   handleOnClick()
                 }}
@@ -289,6 +286,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 </Typography>
               </Link>
               <Link
+                data-cy="link-shared"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.SharedFolders}
@@ -302,7 +300,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 </Typography>
               </Link>
               <Link
-                data-cy="bin-nav"
+                data-cy="link-bin"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.Bin("/")}
@@ -321,7 +319,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
             </Typography>
             <nav className={classes.navMenu}>
               <Link
-                data-cy="settings-nav"
+                data-cy="link-settings"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.SettingsDefault}

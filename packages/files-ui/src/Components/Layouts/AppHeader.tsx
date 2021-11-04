@@ -9,7 +9,8 @@ import {
   MenuDropdown,
   PowerDownSvg,
   useHistory,
-  Button
+  Button,
+  SearchIcon
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -19,6 +20,7 @@ import { CSFTheme } from "../../Themes/types"
 import { useUser } from "../../Contexts/UserContext"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
 import TeamModal from "../Elements/TeamModal"
+import NotificationsDropdown from "../Elements/NotificationsDropdown"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
@@ -47,9 +49,7 @@ const useStyles = makeStyles(
             opacity: 1,
             height: "auto",
             visibility: "visible",
-            padding: `${constants.headerTopPadding}px ${
-              constants.contentPadding
-            }px ${0}px ${constants.contentPadding}px`,
+            padding: `${constants.headerTopPadding}px ${constants.contentPadding}px ${0}px ${constants.contentPadding}px`,
             zIndex: zIndex?.layer1
           }
         },
@@ -72,6 +72,14 @@ const useStyles = makeStyles(
         position: "absolute",
         "& span": {
           backgroundColor: constants.header.hamburger
+        }
+      },
+      searchIcon: {
+        position: "absolute",
+        right: "10px",
+        cursor: "pointer",
+        "& > svg": {
+          fill: constants.header.hamburger
         }
       },
       logo: {
@@ -111,8 +119,7 @@ const useStyles = makeStyles(
           height: constants.mobileHeaderHeight,
           position: "absolute",
           width: "100%",
-          zIndex: zIndex?.background,
-          "&.active": {}
+          zIndex: zIndex?.background
         }
       },
       options: {
@@ -155,6 +162,13 @@ const useStyles = makeStyles(
             marginLeft: constants.generalUnit * 2
           }
         }
+      },
+      headerSection: {
+        display: "flex",
+        alignItems: "center"
+      },
+      searchBox: {
+        flex: 1
       }
     })
   }
@@ -211,8 +225,8 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
         !shouldInitializeAccount && (
         <>
           {desktop ? (
-            <>
-              <section>
+            <section className={classes.headerSection}>
+              <section className={classes.searchBox}>
                 <SearchModule
                   className={classes.searchModule}
                   searchActive={searchActive}
@@ -222,7 +236,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               <section className={classes.buttonsSection}>
                 <Button
                   data-posthog="Report-a-bug"
-                  data-cy="send-feedback-nav"
+                  data-cy="button-report-bug"
                   variant="tertiary"
                   size="small"
                   onClick={onReportBugClick}
@@ -231,13 +245,18 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 </Button>
                 <Button
                   data-posthog="Start-a-team"
-                  data-cy="start-team-nav"
+                  data-cy="button-start-team"
                   variant="tertiary"
                   size="small"
                   onClick={onStartATeamClick}
                 >
                   <Trans>Start a team</Trans>
                 </Button>
+              </section>
+              <section>
+                <NotificationsDropdown
+                  notifications={[]}
+                />
               </section>
               <section className={classes.accountControls}>
                 <MenuDropdown
@@ -266,7 +285,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   ]}
                 />
               </section>
-            </>
+            </section>
           ) : (
             <>
               {!searchActive && (
@@ -274,7 +293,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   <HamburgerMenu
                     onClick={() => setNavOpen(!navOpen)}
                     variant={navOpen ? "active" : "default"}
-                    className={clsx(classes.hamburgerMenu)}
+                    className={classes.hamburgerMenu}
                     testId="hamburger-menu"
                   />
                   <Link
@@ -291,13 +310,19 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                     &nbsp;
                     <Typography variant="caption">beta</Typography>
                   </Link>
+                  <SearchIcon
+                    className={classes.searchIcon}
+                    onClick={() => setSearchActive(true)}
+                  />
                 </>
               )}
-              <SearchModule
-                className={clsx(classes.searchModule, searchActive && "active")}
-                searchActive={searchActive}
-                setSearchActive={setSearchActive}
-              />
+              {searchActive && (
+                <SearchModule
+                  className={clsx(classes.searchModule)}
+                  searchActive={searchActive}
+                  setSearchActive={setSearchActive}
+                />
+              )}
             </>
           )}
         </>

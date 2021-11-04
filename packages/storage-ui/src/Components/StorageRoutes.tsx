@@ -21,7 +21,8 @@ export const ROUTE_LINKS = {
   Terms: "https://storage.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
   BucketRoot: "/bucket",
-  Bucket: (id: string, bucketPath: string) => `/bucket/${id}${bucketPath}`
+  Bucket: (id: string, bucketPath: string) => `/bucket/${id}${bucketPath}`,
+  DiscordInvite: "https://discord.gg/YYFqgHp4Tu"
 }
 
 const StorageRoutes = () => {

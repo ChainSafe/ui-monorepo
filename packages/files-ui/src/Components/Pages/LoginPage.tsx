@@ -12,7 +12,6 @@ import BottomDarkSVG from "../../Media/landing/layers/dark/Bottom.dark.svg"
 import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
-// import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
@@ -73,6 +72,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         justifyContent: "center",
         marginTop: "2rem",
+        marginBottom: "1rem",
         fontWeight: typography.fontWeight.regular,
         [breakpoints.up("md")]:{
           ...typography.h2
@@ -100,12 +100,6 @@ const useStyles = makeStyles(
       inner: {
         display: "flex",
         flexDirection: "column",
-        flex: "1 1 0",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: zIndex?.layer1,
         backgroundColor: constants.loginModule.background,
         border: `1px solid ${constants.landing.border}`,
         boxShadow: constants.landing.boxShadow,
@@ -114,6 +108,10 @@ const useStyles = makeStyles(
           justifyContent: "center",
           width: "100%"
         }
+      },
+      loginContainer: {
+        display: "flex",
+        justifyContent: "center"
       },
       logo: {
         height: 60,
@@ -167,8 +165,6 @@ const LoginPage = () => {
         <ChainsafeFilesLogo className={classes.filesLogo} />
         ChainSafe Files
       </Typography>
-      <>
-      </>
       {
         themeKey === "dark"
           ? <>
@@ -194,7 +190,9 @@ const LoginPage = () => {
           </Trans>
         </Typography>
       </a>
-      <Content className={classes.inner} />
+      <div className={classes.loginContainer}>
+        <Content className={classes.inner} />
+      </div>
     </div>
   )
 }
