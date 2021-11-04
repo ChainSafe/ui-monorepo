@@ -191,7 +191,6 @@ const FileSystemTableItem = React.forwardRef(
         <TableCell
           className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
           {...clickEvent}
-          onDra
           {...longPressEvents}
         >
           {icon}
