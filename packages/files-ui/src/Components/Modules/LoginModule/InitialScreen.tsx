@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import {
   Button,
   GithubLogoIcon,
@@ -7,7 +7,10 @@ import {
   Loading,
   Typography,
   FormikTextInput,
-  EthereumLogoIcon
+  EthereumLogoIcon,
+  useLocation,
+  ExclamationCircleIcon,
+  useHistory
 } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -16,12 +19,16 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
-import { ROUTE_LINKS } from "../../FilesRoutes"
+import { LINK_SHARING_BASE, ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./PasswordlessEmail"
 import { Form, FormikProvider, useFormik } from "formik"
 import { emailValidation } from "../../../Utils/validationSchema"
+import { getJWT } from "../../../Utils/pathUtils"
+import jwtDecode from "jwt-decode"
+import { DecodedNonceJwt } from "../LinkSharingModule"
+import dayjs from "dayjs"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSFTheme) =>
@@ -34,7 +41,6 @@ const useStyles = makeStyles(
         borderRadius: 6,
         [breakpoints.up("md")]:{
           minHeight: "64vh",
-          justifyContent: "space-between",
           width: 440
         },
         [breakpoints.down("md")]: {
@@ -44,17 +50,11 @@ const useStyles = makeStyles(
         }
       },
       buttonSection: {
-        [breakpoints.up("md")]: {
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)"
-        },
-        [breakpoints.down("md")]: {
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly"
-        }
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: constants.generalUnit * 2,
+        alignItems: "center",
+        flex: 1
       },
       connectingWallet: {
         textAlign: "center",
@@ -91,14 +91,14 @@ const useStyles = makeStyles(
         maxWidth: 240
       },
       headerText: {
+        textAlign: "center",
         [breakpoints.up("md")]: {
           paddingTop: constants.generalUnit * 4,
           paddingBottom: constants.generalUnit * 8
         },
         [breakpoints.down("md")]: {
           paddingTop: constants.generalUnit * 3,
-          paddingBottom: constants.generalUnit * 3,
-          textAlign: "center"
+          paddingBottom: constants.generalUnit * 3
         }
       },
       footer: {
@@ -152,6 +152,26 @@ const useStyles = makeStyles(
       },
       secondaryLoginText: {
         paddingTop: constants.generalUnit * 2
+      },
+      exclamationIcon: {
+        fontSize: 48,
+        "& svg": {
+          marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7]
+        }
+      },
+      maintenanceMessage: {
+        display: "block",
+        textAlign: "justify",
+        width: 240
+      },
+      maintenanceActiveMessage: {
+        color: palette.error.main
+      },
+      connectWalletRoot: {
+        display: "flex",
+        flexDirection: "column",
+        flex: 1
       }
     })
 )
@@ -170,9 +190,36 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const [error, setError] = useState<string | undefined>()
   const [errorEmail, setErrorEmail] = useState("")
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
+  const maintenanceWindowTimestamp = Number(process.env.REACT_APP_MAINTENANCE_TIMESTAMP)
   const [isConnecting, setIsConnecting] = useState(false)
   const { filesApiClient } = useFilesApi()
   const [email, setEmail] = useState("")
+  const { state } = useLocation<{from?: string}>()
+  const isSharing = useMemo(() => state?.from?.includes(LINK_SHARING_BASE), [state])
+  const [isValidNonce, setIsValidNonce] = useState<boolean | undefined>()
+  const { redirect } = useHistory()
+
+  useEffect(() => {
+    if (!isSharing) return
+
+    const jwt = getJWT(state?.from)
+    let nonce = ""
+
+    try {
+      nonce = (jwt && jwtDecode<DecodedNonceJwt>(jwt).nonce_id) || ""
+    }catch (e) {
+      setError(t`The link you typed in looks malformed. Please verify it.`)
+      console.error(e)
+    }
+
+    if (!nonce) return
+
+    filesApiClient.isNonceValid(nonce)
+      .then((res) => {
+        setIsValidNonce(res.is_valid)
+      })
+      .catch(console.error)
+  }, [filesApiClient, isSharing, state])
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
@@ -197,6 +244,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setErrorEmail("")
     setLoginMode(undefined)
     resetStatus()
+    setIsValidNonce(undefined)
   }
 
   const handleLogin = async (loginType: IdentityProvider) => {
@@ -205,27 +253,23 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setLoginMode(loginType)
     try {
       await login(loginType)
-    } catch (error) {
+    } catch (error: any) {
       let errorMessage = t`There was an error authenticating`
-      console.log(error)
 
-      if (Array.isArray(error) && error[0]) {
-        if (
-          error[0].type === "signature" &&
-          error[0].message === "Invalid signature"
-        ) {
-          errorMessage = t`Failed to validate signature.
+      // Invalid signature, or contract wallet not deployed
+      if (error?.error?.code === 403 && error?.error?.message?.includes("Invalid signature")) {
+        errorMessage = t`Failed to validate signature.
             If you are using a contract wallet, please make 
             sure you have activated your wallet.`
-        }
       }
 
-      // WalletConnect be sassy
-      if ((error instanceof Error && error.message === "Just nope") || ((error as any).code === 4001)) {
+      // User rejected the signature request (WalletConnect be sassy)
+      if (error?.message === "Just nope" || error?.code === 4001) {
         errorMessage = t`Failed to get signature`
       }
 
-      if (error instanceof Error && error?.message === "user closed popup") {
+      // DirectAuth popup was closed
+      if (error?.message === "user closed popup") {
         errorMessage = t`The authentication popup was closed`
       }
 
@@ -267,7 +311,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     }
 
     return (
-      <div>
+      <div className={classes.connectWalletRoot}>
         <section className={classes.buttonSection}>
           <Button
             data-cy="sign-in-with-web3-button"
@@ -373,24 +417,24 @@ const InitialScreen = ({ className }: IInitialScreen) => {
 
   return (
     <div className={clsx(classes.root, className)}>
-      {loginMode !== "email" && ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
+      {isValidNonce !== false &&
+      loginMode !== "email" &&
+      ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
         <Typography
           variant="h6"
           component="h1"
           className={classes.headerText}
         >
-          <Trans>Get Started</Trans>
+          {isSharing && status !== "logging in"
+            ? <Trans>Sign in/up to access the shared folder</Trans>
+            : <Trans>Get Started</Trans>
+          }
         </Typography>
       )}
-      {!error && (
+      {!error && isValidNonce !== false && (
         loginMode !== "web3" && loginMode !== "email"
           ? <>
             <section className={classes.buttonSection}>
-              {maintenanceMode && (
-                <Typography>
-                  <Trans>The system is undergoing maintenance, thank you for being patient.</Trans>
-                </Typography>
-              )}
               <FormikProvider value={formik}>
                 <Form>
                   <FormikTextInput
@@ -459,6 +503,25 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <GoogleLogoIcon className="icon"/>
                 <Trans>Continue with Google</Trans>
               </Button>
+              {maintenanceMode && (
+                <Typography className={clsx(classes.maintenanceMessage, classes.maintenanceActiveMessage)}>
+                  <Trans>We are performing routine maintenance of the system. Service status updates will be posted on the{" "}
+                    <a href={ROUTE_LINKS.DiscordInvite}
+                      target="_blank"
+                      rel='noreferrer noopener'>Files Support Channel</a>{" "}
+                      on Discord
+                  </Trans>
+                </Typography>
+              )}
+              {!maintenanceMode && !!maintenanceWindowTimestamp && dayjs.unix(maintenanceWindowTimestamp).isAfter(dayjs()) && (
+                <Typography className={classes.maintenanceMessage}>
+                  <Trans>
+                    System maintenance is scheduled to start at{" "}
+                    {dayjs.unix(maintenanceWindowTimestamp).format("YYYY-MM-DD HH:mm")}.{" "}
+                    The system will be unavailable.
+                  </Trans>
+                </Typography>
+              )}
             </section>
             <footer className={classes.footer}>
               <a
@@ -493,22 +556,40 @@ const InitialScreen = ({ className }: IInitialScreen) => {
               : <WalletSelection />
       )}
       {!!error && (
-        <>
-          <section className={classes.connectingWallet}>
-            <Typography variant='h2'>
-              <Trans>Connection failed</Trans>
-            </Typography>
-            <Typography variant='h5'>
-              {error}
-            </Typography>
-            <Button
-              variant="primary"
-              onClick={resetLogin}
-            >
-              <Trans>Try again</Trans>
-            </Button>
-          </section>
-        </>
+        <section className={classes.connectingWallet}>
+          <Typography variant='h2'>
+            <Trans>Connection failed</Trans>
+          </Typography>
+          <Typography variant='h5'>
+            {error}
+          </Typography>
+          <Button
+            variant="primary"
+            onClick={resetLogin}
+          >
+            <Trans>Try again</Trans>
+          </Button>
+        </section>
+      )}
+      {isValidNonce === false && status !== "logging in" && (
+        <section className={classes.connectingWallet}>
+          <ExclamationCircleIcon
+            className={classes.exclamationIcon}
+            size={48}
+          />
+          <Typography variant='h2'>
+            <Trans>This link is not valid any more.</Trans>
+          </Typography>
+          <Button
+            variant="primary"
+            onClick={() => {
+              resetLogin()
+              redirect("/")
+            }}
+          >
+            <Trans>Go to login</Trans>
+          </Button>
+        </section>
       )}
     </div>
   )

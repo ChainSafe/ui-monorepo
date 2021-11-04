@@ -99,12 +99,12 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
         setCreatingFolder(false)
         helpers.resetForm()
         onCancel()
-      } catch (errors: any) {
+      } catch (error: any) {
         setCreatingFolder(false)
-        if (errors[0].message.includes("Entry with such name can")) {
+        if (error?.error?.code === 409) {
           helpers.setFieldError("name", t`Folder name is already in use`)
         } else {
-          helpers.setFieldError("name", errors[0].message)
+          helpers.setFieldError("name", t`There was an error creating the folder ${error?.message}`)
         }
         helpers.setSubmitting(false)
       }

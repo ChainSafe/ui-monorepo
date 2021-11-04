@@ -103,6 +103,32 @@ export const isSubFolder = (fold1: string, fold2: string) => {
   return result
 }
 
+// get the jwt from /link-sharing/permision/jwt 
+export const getJWT = (pathname?: string) => {
+
+  if(!pathname) return
+
+  const arrayOfPaths =  getArrayOfPaths(pathname)
+
+  if(arrayOfPaths.length !== 3){
+    console.error("JWT extraction error, unexpected path", pathname)
+    return
+  }
+
+  return decodeURIComponent(arrayOfPaths[2])
+}
+
+// return the hash from #hash
+export const getBucketDecryptionFromHash = (hash: string) => {
+
+  if(!hash.startsWith("#")){
+    console.error("Bucket encryption key extraction error, unexpected hash", hash)
+    return
+  }
+
+  return decodeURIComponent(hash.substr(1))
+}
+
 export const getUrlSafePathWithFile = (path: string, fileName: string) => {
   let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(path))
   if (urlSafePath === "/") {
