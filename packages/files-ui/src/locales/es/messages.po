@@ -335,6 +335,9 @@ msgstr ""
 msgid "Go back"
 msgstr "Regresar"
 
+msgid "Go to login"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 
@@ -725,6 +728,9 @@ msgstr "Se cerró la ventana emergente de autenticación"
 msgid "The files are already in this folder"
 msgstr ""
 
+msgid "The link you typed in looks malformed. Please verify it."
+msgstr ""
+
 msgid "The username is too long"
 msgstr ""
 
@@ -756,6 +762,12 @@ msgid "There was an error restoring your data"
 msgstr ""
 
 msgid "There was an error when setting username."
+msgstr ""
+
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
+msgstr ""
+
+msgid "This link is not valid any more."
 msgstr ""
 
 msgid "This username is already taken"
@@ -821,6 +833,9 @@ msgstr ""
 msgid "Verification code sent!"
 msgstr ""
 
+msgid "Verifying the link..."
+msgstr ""
+
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
 
@@ -861,6 +876,9 @@ msgid "You can now create shared folders to share a file."
 msgstr ""
 
 msgid "You can't move folders to this path"
+msgstr ""
+
+msgid "You do not have access to this shared folder."
 msgstr ""
 
 msgid "You haven't set a username yet."

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-10-27 02:40+0000\n"
+"PO-Revision-Date: 2021-10-30 12:33+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -334,6 +334,9 @@ msgstr "Donner l’accès en lecture seule à :"
 
 msgid "Go back"
 msgstr "Retour"
+
+msgid "Go to login"
+msgstr "Aller à la connexion"
 
 msgid "Got it"
 msgstr "Compris"
@@ -708,7 +711,7 @@ msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
-msgstr ""
+msgstr "Une maintenance du système est prévue pour démarrer à {0}. Le système sera indisponible."
 
 msgid "Teams"
 msgstr "Équipes"
@@ -724,6 +727,9 @@ msgstr "Le popup d’authentification a été fermé"
 
 msgid "The files are already in this folder"
 msgstr "Les fichiers sont déjà dans ce dossier"
+
+msgid "The link you typed in looks malformed. Please verify it."
+msgstr "Le lien que vous avez tapé semble malformé. Veuillez le vérifier."
 
 msgid "The username is too long"
 msgstr "Le nom d'utilisateur est trop long"
@@ -757,6 +763,12 @@ msgstr "Une erreur s'est produite lors de la restauration de vos données"
 
 msgid "There was an error when setting username."
 msgstr "Une erreur s'est produite lors de la définition du nom d'utilisateur."
+
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
+msgstr "Ce lien est marlformé. Veuillez vérifier que vous l'avez copié/collé correctement."
+
+msgid "This link is not valid any more."
+msgstr "Ce lien n'est plus valide."
 
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
@@ -821,6 +833,9 @@ msgstr "Code de vérification incorrect !"
 msgid "Verification code sent!"
 msgstr "Code de vérification envoyé !"
 
+msgid "Verifying the link..."
+msgstr "Vérification du lien…"
+
 msgid "View folder"
 msgstr "Voir le dossier"
 
@@ -831,7 +846,7 @@ msgid "Want to help shape this product?"
 msgstr "Vous voulez participer à l'élaboration de ce produit ?"
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
-msgstr ""
+msgstr "Nous effectuons une maintenance de routine du système. Les mises à jour de l'état du service seront postées sur le canal <0>Files Support<0> sur Discord"
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "Nous ne pouvons pas chiffrer les fichiers de plus de 2 Go. Certains éléments ne pourront pas être téléversés"
@@ -862,6 +877,9 @@ msgstr "Vous pouvez maintenant créer des dossiers partagés pour partager un fi
 
 msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
+
+msgid "You do not have access to this shared folder."
+msgstr ""
 
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."

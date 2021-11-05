@@ -1,16 +1,15 @@
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { sharingExplainerModal } from "../support/page-objects/modals/sharingExplainerModal"
+import { sharingExplainerKey } from "../fixtures/filesTestData"
 
 describe("Sharing Explainer", () => {
 
   context("desktop", () => {
 
-    const sharingKey = "csf.dismissedSharingExplainer"
-
     it("User can view and dismiss the sharing explainer", () => {
       // intercept and stub the response to ensure the explainer is displayed
       cy.intercept("GET", "**/user/store", {
-        body: { [sharingKey]: "false" }
+        body: { [sharingExplainerKey]: "false" }
       })
 
       cy.web3Login()
@@ -28,14 +27,14 @@ describe("Sharing Explainer", () => {
 
         // intercept POST to ensure the key was updated after the explainer is dismissed
         cy.wait("@storePost").its("request.body").should("contain", {
-          [sharingKey]: "true"
+          [sharingExplainerKey]: "true"
         })
       })
     })
 
     it("User should not see sharing explainer if previously dismissed", () => {
       cy.intercept("GET", "**/user/store", {
-        body: { [sharingKey]: "true" }
+        body: { [sharingExplainerKey]: "true" }
       })
 
       cy.web3Login()

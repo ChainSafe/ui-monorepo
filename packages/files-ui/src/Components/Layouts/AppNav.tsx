@@ -25,7 +25,8 @@ const useStyles = makeStyles(
     return createStyles({
       root: {
         width: 0,
-        overflow: "hidden",
+        overflowX: "hidden",
+        overflowY: "auto",
         transitionDuration: `${animation.translate}ms`,
         display: "flex",
         flexDirection: "column",
@@ -114,14 +115,11 @@ const useStyles = makeStyles(
       linksArea: {
         display: "flex",
         flexDirection: "column",
-        flex: "1 1 0",
+        flex: 1,
         justifyContent: "center",
         transitionDuration: `${animation.translate}ms`,
         "& > span": {
           marginBottom: constants.generalUnit * 2
-        },
-        [breakpoints.up("md")]: {
-          height: 0
         },
         [breakpoints.down("md")]: {
           transitionDuration: `${animation.translate}ms`,
@@ -171,9 +169,6 @@ const useStyles = makeStyles(
           "& svg": {
             fill: constants.nav.itemIconColorHover
           }
-        },
-        [breakpoints.down("md")]: {
-          minWidth: Number(constants.mobileNavWidth)
         }
       },
       navItemText: {
