@@ -177,4 +177,11 @@ export interface CsfColors extends IConstants {
   cookieBanner: {
     backgroundColor: string
   }
+  changeProduct: {
+    currentBackground: string
+    selectedColor: string
+    currentTag: {
+      text: string
+    }
+  }
 }

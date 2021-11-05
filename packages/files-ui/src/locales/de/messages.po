@@ -73,6 +73,9 @@ msgstr "Sicherungsgeheimsatz"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Der Sicherungsgeheimsatz stimmt nicht mit dem Benutzerkonto überein, bitte überprüfen Sie dies und versuchen Sie es erneut."
 
+msgid "Billed Annually"
+msgstr ""
+
 msgid "Billed Monthly"
 msgstr ""
 
@@ -206,6 +209,9 @@ msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
 msgid "Credit card saved"
+msgstr ""
+
+msgid "Current"
 msgstr ""
 
 msgid "Dark Theme"
@@ -342,6 +348,9 @@ msgstr "Aus Sicherheitsgründen werden wir Sie bei jeder Anmeldung nach einer de
 
 msgid "Forget this browser"
 msgstr "Diesen Browser vergessen"
+
+msgid "Free"
+msgstr ""
 
 msgid "Free plan"
 msgstr ""
@@ -503,6 +512,9 @@ msgid "No thanks"
 msgstr "Nein danke"
 
 msgid "No user found for this query."
+msgstr ""
+
+msgid "Not sure what to pick? Learn more about our plans"
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
@@ -676,6 +688,9 @@ msgstr ""
 msgid "Select an existing shared folder or your home"
 msgstr ""
 
+msgid "Select this plan"
+msgstr ""
+
 msgid "Send another email"
 msgstr "Andere E-Mail senden"
 
@@ -770,6 +785,9 @@ msgid "Stored by miner"
 msgstr ""
 
 msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plans"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -987,6 +1005,18 @@ msgstr "ich"
 
 msgid "on"
 msgstr "am"
+
+msgid "per day"
+msgstr ""
+
+msgid "per month"
+msgstr ""
+
+msgid "per week"
+msgstr ""
+
+msgid "per year"
+msgstr ""
 
 msgid "read rights"
 msgstr ""

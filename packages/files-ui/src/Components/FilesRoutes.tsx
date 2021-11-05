@@ -9,7 +9,6 @@ import BinPage from "./Pages/BinPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
-import PlansPage from "./Pages/PlansPage"
 import BillingHistory from "./Pages/BillingHistory"
 import { NonceResponsePermission } from "@chainsafe/files-api-client"
 import LinkSharingLanding from "./Pages/LinkSharingLanding"
@@ -114,13 +113,6 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Settings}
         isAuthorized={isAuthorized}
         component={SettingsPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Plans}
-        isAuthorized={isAuthorized}
-        component={PlansPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
