@@ -12,7 +12,8 @@ import {
   ProgressBar,
   formatBytes,
   DeleteSvg,
-  UserShareSvg
+  UserShareSvg,
+  ScrollbarWrapper
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
@@ -23,6 +24,9 @@ import { useFilesApi } from "../../Contexts/FilesApiContext"
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
+      scrollRoot: {
+        zIndex: zIndex?.layer1
+      },
       root: {
         width: 0,
         overflowX: "hidden",
@@ -122,6 +126,7 @@ const useStyles = makeStyles(
           marginBottom: constants.generalUnit * 2
         },
         [breakpoints.down("md")]: {
+          marginTop: constants.generalUnit * 2,
           transitionDuration: `${animation.translate}ms`,
           color: palette.additional["gray"][3],
           "&.active": {}
@@ -222,163 +227,165 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   }, [desktop, navOpen, setNavOpen])
 
   return (
-    <section
-      className={clsx(classes.root, {
-        active: desktop
-          ? isLoggedIn &&
+    <ScrollbarWrapper className={classes.scrollRoot}>
+      <section
+        className={clsx(classes.root, {
+          active: desktop
+            ? isLoggedIn &&
             secured &&
             !!publicKey &&
             !isNewDevice &&
             !shouldInitializeAccount
-          : navOpen
-      })}
-    >
-      {isLoggedIn &&
+            : navOpen
+        })}
+      >
+        {isLoggedIn &&
         secured &&
         !!publicKey &&
         !isNewDevice &&
         !shouldInitializeAccount && (
-        <>
-          {desktop && (
-            <div>
-              <Link
-                className={classes.logo}
-                to={ROUTE_LINKS.Drive("/")}
-              >
-                <ChainsafeFilesLogo />
-                <Typography variant="h5">
-                  Files
-                </Typography>
-                &nbsp;
-                <Typography
-                  variant="caption"
-                  className={classes.betaCaption}
-                >
-                  beta
-                </Typography>
-              </Link>
-            </div>
-          )}
-          <div className={classes.linksArea}>
-            <Typography className={classes.navHead}>
-              <Trans>Folders</Trans>
-            </Typography>
-            <nav className={classes.navMenu}>
-              <Link
-                data-cy="link-home"
-                onClick={() => {
-                  handleOnClick()
-                }}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Drive("/")}
-              >
-                <DatabaseSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Home</Trans>
-                </Typography>
-              </Link>
-              <Link
-                data-cy="link-shared"
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.SharedFolders}
-              >
-                <UserShareSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Shared</Trans>
-                </Typography>
-              </Link>
-              <Link
-                data-cy="link-bin"
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Bin("/")}
-              >
-                <DeleteSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Bin</Trans>
-                </Typography>
-              </Link>
-            </nav>
-            <Typography className={classes.navHead}>
-              {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
-            </Typography>
-            <nav className={classes.navMenu}>
-              <Link
-                data-cy="link-settings"
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.SettingsDefault}
-              >
-                <SettingSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Settings</Trans>
-                </Typography>
-              </Link>
-            </nav>
-          </div>
-          <section>
+          <>
             {desktop && (
-              <div data-cy="label-space-used">
-                {storageSummary && (
-                  <>
-                    <Typography
-                      variant="body2"
-                      className={classes.spaceUsedMargin}
-                      component="p"
-                    >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
-                        storageSummary.total_storage, 2
-                      )} used`}</Typography>
-                    <ProgressBar
-                      data-cy="progress-bar-space-used"
-                      className={classes.spaceUsedMargin}
-                      progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
-                      size="small"
-                    />
-                  </>
-                )
-                }
+              <div>
+                <Link
+                  className={classes.logo}
+                  to={ROUTE_LINKS.Drive("/")}
+                >
+                  <ChainsafeFilesLogo />
+                  <Typography variant="h5">
+                  Files
+                  </Typography>
+                &nbsp;
+                  <Typography
+                    variant="caption"
+                    className={classes.betaCaption}
+                  >
+                  beta
+                  </Typography>
+                </Link>
               </div>
             )}
+            <div className={classes.linksArea}>
+              <Typography className={classes.navHead}>
+                <Trans>Folders</Trans>
+              </Typography>
+              <nav className={classes.navMenu}>
+                <Link
+                  data-cy="link-home"
+                  onClick={() => {
+                    handleOnClick()
+                  }}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.Drive("/")}
+                >
+                  <DatabaseSvg />
+                  <Typography
+                    variant="h5"
+                    className={classes.navItemText}
+                  >
+                    <Trans>Home</Trans>
+                  </Typography>
+                </Link>
+                <Link
+                  data-cy="link-shared"
+                  onClick={handleOnClick}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.SharedFolders}
+                >
+                  <UserShareSvg />
+                  <Typography
+                    variant="h5"
+                    className={classes.navItemText}
+                  >
+                    <Trans>Shared</Trans>
+                  </Typography>
+                </Link>
+                <Link
+                  data-cy="link-bin"
+                  onClick={handleOnClick}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.Bin("/")}
+                >
+                  <DeleteSvg />
+                  <Typography
+                    variant="h5"
+                    className={classes.navItemText}
+                  >
+                    <Trans>Bin</Trans>
+                  </Typography>
+                </Link>
+              </nav>
+              <Typography className={classes.navHead}>
+                {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
+              </Typography>
+              <nav className={classes.navMenu}>
+                <Link
+                  data-cy="link-settings"
+                  onClick={handleOnClick}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.SettingsDefault}
+                >
+                  <SettingSvg />
+                  <Typography
+                    variant="h5"
+                    className={classes.navItemText}
+                  >
+                    <Trans>Settings</Trans>
+                  </Typography>
+                </Link>
+              </nav>
+            </div>
+            <section>
+              {desktop && (
+                <div data-cy="label-space-used">
+                  {storageSummary && (
+                    <>
+                      <Typography
+                        variant="body2"
+                        className={classes.spaceUsedMargin}
+                        component="p"
+                      >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+                          storageSummary.total_storage, 2
+                        )} used`}</Typography>
+                      <ProgressBar
+                        data-cy="progress-bar-space-used"
+                        className={classes.spaceUsedMargin}
+                        progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
+                        size="small"
+                      />
+                    </>
+                  )
+                  }
+                </div>
+              )}
+              {!desktop && (
+                <div
+                  data-cy="signout-nav"
+                  className={classes.navItem}
+                  onClick={() => {
+                    handleOnClick()
+                    signOut()
+                  }}
+                >
+                  <PowerDownSvg />
+                  <Typography>
+                    <Trans>Sign Out</Trans>
+                  </Typography>
+                </div>
+              )}
+            </section>
             {!desktop && (
               <div
-                data-cy="signout-nav"
-                className={classes.navItem}
-                onClick={() => {
-                  handleOnClick()
-                  signOut()
-                }}
-              >
-                <PowerDownSvg />
-                <Typography>
-                  <Trans>Sign Out</Trans>
-                </Typography>
-              </div>
+                onClick={() => setNavOpen(false)}
+                className={clsx(classes.blocker, {
+                  active: navOpen
+                })}
+              ></div>
             )}
-          </section>
-          {!desktop && (
-            <div
-              onClick={() => setNavOpen(false)}
-              className={clsx(classes.blocker, {
-                active: navOpen
-              })}
-            ></div>
-          )}
-        </>
-      )}
-    </section>
+          </>
+        )}
+      </section>
+    </ScrollbarWrapper>
   )
 }
 
