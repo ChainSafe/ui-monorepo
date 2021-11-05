@@ -165,7 +165,6 @@ const useStyles = makeStyles(
         flexDirection: "row",
         alignItems: "center",
         color: constants.header.menuItemTextColor,
-        marginTop:  constants.generalUnit * 2,
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
@@ -202,7 +201,7 @@ const useStyles = makeStyles(
         alignItems: "center"
       },
       menuTitle: {
-        padding: 0
+        padding: `${constants.generalUnit * 1.5}px 0`
       }
     })
   }
