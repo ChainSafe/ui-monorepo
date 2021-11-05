@@ -165,6 +165,7 @@ const useStyles = makeStyles(
         flexDirection: "row",
         alignItems: "center",
         color: constants.header.menuItemTextColor,
+        marginTop:  constants.generalUnit * 2,
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
@@ -199,6 +200,9 @@ const useStyles = makeStyles(
         marginRight: constants.generalUnit,
         display: "flex",
         alignItems: "center"
+      },
+      menuTitle: {
+        padding: 0
       }
     })
   }
@@ -256,7 +260,8 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 hideIndicator={true}
                 classNames={{
                   icon: classes.icon,
-                  options: classes.options
+                  options: classes.options,
+                  title: classes.menuTitle
                 }}
                 className={classes.menuItem}
                 menuItems={[
