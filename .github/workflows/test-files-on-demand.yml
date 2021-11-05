@@ -59,4 +59,4 @@ jobs:
           SLACK_COLOR: ${{ job.status }}
           MSG_MINIMAL: actions url
           SLACK_WEBHOOK: ${{ secrets.SLACK_UI_WEBHOOK }}
-          SLACK_FOOTER: 'Test run id ${{ github.run_id }} was executed on branch: ${{ github.ref }}'
+          SLACK_FOOTER: 'Test run ${{ github.run_number }} was executed on branch: ${{ github.ref }}'
