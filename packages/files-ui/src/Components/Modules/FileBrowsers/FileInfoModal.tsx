@@ -83,7 +83,13 @@ const useStyles = makeStyles(
         padding: `${constants.generalUnit * 1}px 0`
       },
       subSubtitle: {
-        color: palette.additional["gray"][8]
+        color: palette.additional["gray"][8],
+        [breakpoints.down("sm")]: {
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          maxWidth: 300
+        }
       },
       technicalContainer: {
         paddingTop: constants.generalUnit,
