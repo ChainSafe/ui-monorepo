@@ -662,10 +662,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       return Promise.resolve()
     } catch (error: any) {
       console.error(error)
-      let errorMessage = `${t`An error occurred: `} ${typeof(error) === "string"
-        ? error : error.message
-          ? error.message : error.error.message
-            ? error.error.message : ""}`
+      let errorMessage = `${t`An error occurred: `} ${error || error.message || error.error.message || ""}
       if (axios.isCancel(error)) {
         errorMessage = t`Downloads cancelled`
       }
