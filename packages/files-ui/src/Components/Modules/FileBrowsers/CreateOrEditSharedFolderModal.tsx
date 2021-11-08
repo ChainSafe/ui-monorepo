@@ -25,7 +25,10 @@ const useStyles = makeStyles(
         alignItems: "center"
       },
       modalRoot: {
-        zIndex: zIndex?.blocker
+        zIndex: zIndex?.blocker,
+        [breakpoints.down("md")]: {
+          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+        }
       },
       modalInner: {
         backgroundColor: constants.modalDefault.backgroundColor,
@@ -201,6 +204,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
       closePosition="none"
       maxWidth="sm"
       testId="create-or-edit-shared-folder"
+      subModal={<div>Second section!</div>}
     >
       <div className={classes.root}>
         <div className={classes.iconBacking}>
