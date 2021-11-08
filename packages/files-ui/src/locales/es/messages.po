@@ -20,9 +20,6 @@ msgstr ""
 msgid "A better sharing experience is coming soon."
 msgstr ""
 
-msgid "A file with the same name already exists"
-msgstr "Ya existe un archivo con el mismo nombre"
-
 msgid "Accept"
 msgstr ""
 
@@ -45,9 +42,6 @@ msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
 msgid "Adding you to the shared folder..."
-msgstr ""
-
-msgid "An error occurred:"
 msgstr ""
 
 msgid "Approve"
@@ -149,9 +143,6 @@ msgstr ""
 msgid "Copy to"
 msgstr ""
 
-msgid "Copying files"
-msgstr ""
-
 msgid "Create"
 msgstr "Crear"
 
@@ -218,26 +209,11 @@ msgstr "Configuración de pantalla"
 msgid "Download"
 msgstr "Descargar"
 
-msgid "Download Complete"
-msgstr ""
-
 msgid "Download as zip"
 msgstr ""
 
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
-
-msgid "Downloading file - {0}"
-msgstr ""
-
-msgid "Downloading {fileProgress} - {0}"
-msgstr ""
-
-msgid "Downloads cancelled"
-msgstr ""
-
-msgid "Downloads failed"
-msgstr ""
 
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
@@ -436,15 +412,6 @@ msgstr "Próximo"
 
 msgid "Nice to see you again!"
 msgstr "Encantado de verte de nuevo!"
-
-msgid "No file to download."
-msgstr ""
-
-msgid "No files to copy"
-msgstr ""
-
-msgid "No files to share"
-msgstr ""
 
 msgid "No files to show"
 msgstr "No hay archivos para mostrar"
@@ -656,9 +623,6 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing files"
-msgstr ""
-
 msgid "Sharing link"
 msgstr ""
 
@@ -694,9 +658,6 @@ msgstr ""
 
 msgid "Something went wrong!"
 msgstr ""
-
-msgid "Something went wrong. We couldn't upload your file"
-msgstr "Algo salió mal. No pudimos subir tu archivo"
 
 msgid "Start Upload"
 msgstr "Iniciar la subida"
@@ -797,9 +758,6 @@ msgstr ""
 msgid "Upload"
 msgstr "Subir"
 
-msgid "Uploads cancelled"
-msgstr ""
-
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
 
@@ -846,9 +804,6 @@ msgid "Want to help shape this product?"
 msgstr ""
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
-msgstr ""
-
-msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr ""
 
 msgid "Web3: {0}"
@@ -911,29 +866,5 @@ msgstr ""
 msgid "with"
 msgstr ""
 
-msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
-msgstr ""
-
-msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
-msgstr ""
-
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
-msgstr ""
-
-msgid "{0} cancelled"
-msgstr ""
-
-msgid "{0} cancelled - {successCount} files {1} successfully"
-msgstr ""
-
-msgid "{0} complete"
-msgstr ""
-
-msgid "{0} failed"
-msgstr ""
-
-msgid "{0} {fileProgress} - {1}"
-msgstr ""
-
-msgid "{successCount} files transferred successfully, {0} failed"
 msgstr ""

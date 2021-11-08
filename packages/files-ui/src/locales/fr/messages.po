@@ -20,9 +20,6 @@ msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce co
 msgid "A better sharing experience is coming soon."
 msgstr "Une meilleure expérience de partage sera bientôt disponible."
 
-msgid "A file with the same name already exists"
-msgstr "Un fichier avec ce nom existe déjà"
-
 msgid "Accept"
 msgstr "Accepter"
 
@@ -46,9 +43,6 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 
 msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
-
-msgid "An error occurred:"
-msgstr "Une erreur s'est produite :"
 
 msgid "Approve"
 msgstr "Accepter"
@@ -149,9 +143,6 @@ msgstr "Copier"
 msgid "Copy to"
 msgstr "Copier vers"
 
-msgid "Copying files"
-msgstr "Copie de fichiers"
-
 msgid "Create"
 msgstr "Créer"
 
@@ -218,26 +209,11 @@ msgstr "Paramètres d’affichage"
 msgid "Download"
 msgstr "Télécharger"
 
-msgid "Download Complete"
-msgstr "Téléchargement terminé"
-
 msgid "Download as zip"
 msgstr "Télécharger au format zip"
 
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
-
-msgid "Downloading file - {0}"
-msgstr "Téléchargement du fichier - {0}"
-
-msgid "Downloading {fileProgress} - {0}"
-msgstr "Téléchargement de {fileProgress} - {0}"
-
-msgid "Downloads cancelled"
-msgstr "Téléchargements annulés"
-
-msgid "Downloads failed"
-msgstr "Les téléchargements ont échoué"
 
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
@@ -436,15 +412,6 @@ msgstr "Suivant"
 
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
-
-msgid "No file to download."
-msgstr "Aucun fichier à télécharger."
-
-msgid "No files to copy"
-msgstr "Aucun fichier à copier"
-
-msgid "No files to share"
-msgstr "Aucun fichier à partager"
 
 msgid "No files to show"
 msgstr "Aucun fichier à afficher"
@@ -656,9 +623,6 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-msgid "Sharing files"
-msgstr "Partage des fichiers"
-
 msgid "Sharing link"
 msgstr "Lien de partage"
 
@@ -694,9 +658,6 @@ msgstr "Un problème est survenu lors de la connexion avec courriel ! Veuillez 
 
 msgid "Something went wrong!"
 msgstr "Quelque chose a mal tourné !"
-
-msgid "Something went wrong. We couldn't upload your file"
-msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
 
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
@@ -797,9 +758,6 @@ msgstr "Mettre à jour le dossier partagé"
 msgid "Upload"
 msgstr "Téléverser"
 
-msgid "Uploads cancelled"
-msgstr "Téléversements annulés"
-
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
 
@@ -847,9 +805,6 @@ msgstr "Vous voulez participer à l'élaboration de ce produit ?"
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr "Nous effectuons une maintenance de routine du système. Les mises à jour de l'état du service seront postées sur le canal <0>Files Support<0> sur Discord"
-
-msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
-msgstr "Nous ne pouvons pas chiffrer les fichiers de plus de 2 Go. Certains éléments ne pourront pas être téléversés"
 
 msgid "Web3: {0}"
 msgstr "Web3 : {0}"
@@ -911,29 +866,5 @@ msgstr "inconnu"
 msgid "with"
 msgstr "avec"
 
-msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
-msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargement de {2} fichiers}}"
-
-msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
-msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {Chiffrement et téléversements {2} fichiers}}"
-
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
-
-msgid "{0} cancelled"
-msgstr "{0} annulé(s)"
-
-msgid "{0} cancelled - {successCount} files {1} successfully"
-msgstr "{0} annulé – {successCount} fichiers {1} avec succès"
-
-msgid "{0} complete"
-msgstr "{0} terminé"
-
-msgid "{0} failed"
-msgstr "échec de {0}"
-
-msgid "{0} {fileProgress} - {1}"
-msgstr "{0} {fileProgress} – {1}"
-
-msgid "{successCount} files transferred successfully, {0} failed"
-msgstr "{successCount} fichiers transférés avec succès, {0} échec(s)"
