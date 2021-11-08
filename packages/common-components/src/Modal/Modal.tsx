@@ -144,7 +144,8 @@ interface IModalProps {
   subModal?: ReactNode | ReactNode[]
 }
 
-interface IModalBaseProps extends IModalProps {
+interface IModalBaseProps {
+  children?: ReactNode | ReactNode[]
   injectedClassInner?: string
 }
 
@@ -179,15 +180,15 @@ const Modal = ({
   const classes = useStyles()
   const ref = useRef(null)
 
-  useOnClickOutside(ref, () => onClickOutside && onClickOutside())
-
   const handleClose = () => {
     onClose && onClose()
   }
+
+  useOnClickOutside(ref, () => onClickOutside && onClickOutside())
+
   if (!active) return null
 
   return (
-
     <article
       className={clsx(classes.root, className, "active")}
       onClick={onModalBodyClick}
@@ -213,21 +214,11 @@ const Modal = ({
             <CloseSvg />
           </div>
         )}
-        <ModalBase
-          onClose={onClose}
-          closePosition={"right"}
-          maxWidth={maxWidth}
-          onModalBodyClick={onModalBodyClick}
-          testId={testId}
-        >
+        <ModalBase>
           {children}
         </ModalBase>
         {subModal && (
-          <ModalBase
-            injectedClassInner={clsx(injectedClass?.subModalInner, "subModal")}
-            maxWidth={maxWidth}
-            closePosition={"none"}
-          >
+          <ModalBase injectedClassInner={clsx(injectedClass?.subModalInner, "subModal")}>
             {subModal}
           </ModalBase>
         )}
