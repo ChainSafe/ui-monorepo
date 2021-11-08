@@ -10,7 +10,7 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 import { t } from "@lingui/macro"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
-import {parseFileContentResponse} from "../../../Utils/Helpers"
+import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
   const { pathname } = useLocation()
@@ -27,7 +27,8 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
     try {
       if (!searchString || !bucket) return []
 
-      const results = (await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })).map(se => ({...se, content: parseFileContentResponse(se.content)}))
+      const results = (await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString }))
+        .map(se => ({ ...se, content: parseFileContentResponse(se.content) }))
       return results
     } catch (err) {
       addToast({
