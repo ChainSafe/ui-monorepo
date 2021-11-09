@@ -154,9 +154,6 @@ msgstr "Copying files"
 msgid "Create"
 msgstr "Create"
 
-msgid "Create Folder"
-msgstr "Create Folder"
-
 msgid "Create Shared Folder"
 msgstr "Create Shared Folder"
 
@@ -165,9 +162,6 @@ msgstr "Create a Shared Folder"
 
 msgid "Create a new shared folder"
 msgstr "Create a new shared folder"
-
-msgid "Create folder"
-msgstr "Create folder"
 
 msgid "Create new link"
 msgstr "Create new link"
