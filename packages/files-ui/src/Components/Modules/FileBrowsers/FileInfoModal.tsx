@@ -79,13 +79,17 @@ const useStyles = makeStyles(
         }px`
       },
       infoBox: {
-        paddingLeft: constants.generalUnit
+        paddingLeft: constants.generalUnit,
+        maxWidth: "100%"
       },
       subInfoBox: {
         padding: `${constants.generalUnit * 1}px 0`
       },
       subSubtitle: {
-        color: palette.additional["gray"][8]
+        color: palette.additional["gray"][8],
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis"
       },
       technicalContainer: {
         paddingTop: constants.generalUnit,
