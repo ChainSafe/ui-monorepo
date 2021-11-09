@@ -214,7 +214,7 @@ const Modal = ({
             <CloseSvg />
           </div>
         )}
-        <ModalBase>
+        <ModalBase injectedClassInner={injectedClass?.inner}>
           {children}
         </ModalBase>
         {subModal && (
