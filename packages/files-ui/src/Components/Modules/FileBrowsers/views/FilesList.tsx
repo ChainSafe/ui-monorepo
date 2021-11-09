@@ -637,7 +637,7 @@ const FilesList = ({ isShared = false }: Props) => {
         <>
           <PlusCircleSvg className={classes.menuIcon} />
           <span>
-            <Trans>Create folder</Trans>
+            <Trans>New folder</Trans>
           </span>
         </>
       ),
