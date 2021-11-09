@@ -52,10 +52,11 @@ jobs:
       #     path: packages/files-ui/cypress/videos
 
       - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2.0.2
+        uses: rtCamp/action-slack-notify@v2.2.0
         env:
-          SLACK_TITLE: Files UI Test Suite On-Demand Result
-          SLACK_WEBHOOK: ${{ secrets.SLACK_UI_WEBHOOK }}
+          SLACK_TITLE: 'Files UI Test Suite On-Demand Result:'
           SLACK_MESSAGE: ${{ job.status }}
           SLACK_COLOR: ${{ job.status }}
-          SLACK_ICON: packages/common-components/src/Logos/ChainSafe-Files-logo.png
+          MSG_MINIMAL: actions url
+          SLACK_WEBHOOK: ${{ secrets.SLACK_UI_WEBHOOK }}
+          SLACK_FOOTER: 'Test run ${{ github.run_number }} was executed on branch: ${{ github.ref }}'
