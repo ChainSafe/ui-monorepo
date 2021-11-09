@@ -17,6 +17,7 @@ const useStyles = makeStyles(
       root: {
         display: "flex",
         maxWidth: "100%",
+        position: "relative",
         "&:not(:first-child)": {
           marginTop: constants.generalUnit * 2
         }
@@ -71,7 +72,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         justifyContent: "center",
         left: "50%",
-        top: 0,
+        top: -15,
         position: "absolute",
         transform: "translate(-50%, -50%)",
         zIndex: zIndex?.layer1,

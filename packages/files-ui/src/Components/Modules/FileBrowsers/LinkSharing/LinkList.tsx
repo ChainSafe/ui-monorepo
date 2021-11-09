@@ -78,7 +78,6 @@ const useStyles = makeStyles(
         borderRadius: "4px",
         display: "flex",
         padding: constants.generalUnit * 2,
-        position: "relative",
         flexDirection: "column"
       },
       creationWrapper: {
