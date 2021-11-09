@@ -19,6 +19,7 @@ export const useLongPress = (
 
   const start = useCallback(
     (event: any) => {
+      console.log(event.touches)
       if (event.target) {
         event.target.addEventListener("touchend", preventDefault, {
           passive: false
@@ -59,7 +60,6 @@ const isTouchEvent = (event: any) => {
 
 const preventDefault = (event: any) => {
   if (!isTouchEvent(event)) return
-  console.log(event.touches.length)
   if (event.touches.length < 2 && event.preventDefault) {
     event.preventDefault()
   }
