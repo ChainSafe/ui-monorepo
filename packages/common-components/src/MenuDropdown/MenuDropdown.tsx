@@ -1,9 +1,10 @@
-import React, { ReactNode, useRef, useState } from "react"
+import React, { ReactNode, useCallback, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, ITheme, useOnClickOutside } from "@chainsafe/common-theme"
 import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalDownIcon, SvgIcon } from "../Icons"
 import { Paper } from "../Paper"
+import { useOnScroll } from "../Scroll/useOnScroll.hook"
 
 const useStyles = makeStyles(
   ({ constants, animation, typography, palette, overrides }: ITheme) =>
@@ -168,6 +169,7 @@ interface IMenuDropdownProps {
   | "bottom-left"
   | "bottom-center"
   | "bottom-right"
+  dynamicAnchor?: boolean
   menuItems: IMenuItem[]
   title?: string
   classNames?: {
@@ -185,6 +187,7 @@ const MenuDropdown = ({
   menuItems,
   autoclose = true,
   anchor = "bottom-center",
+  dynamicAnchor = false,
   indicator = DirectionalDownIcon,
   animation = "flip",
   title,
@@ -201,6 +204,32 @@ const MenuDropdown = ({
       setOpen(false)
     }
   })
+
+  const [anchor_, setAnchor] = useState<string>(anchor)
+
+  const managePosition = useCallback(() => {
+    // TODO: Debounce
+    const { offsetTop } = ref.current as unknown as HTMLDivElement
+
+    if (offsetTop < window.pageYOffset + (window.innerHeight / 2)) {
+      setAnchor(`top-${anchor_.split("-")[1]}`)
+    } else {
+      setAnchor(`bottom-${anchor_.split("-")[1]}`)
+    }
+  }, [ref, anchor_])
+
+  const scrollActions = useMemo(() => {
+    if (dynamicAnchor) {
+      return {
+        onScroll: managePosition
+      }
+    } else {
+      return {}
+    }
+  }, [dynamicAnchor, managePosition])
+
+  useOnScroll(scrollActions)
+
   return (
     <div
       ref={ref}
