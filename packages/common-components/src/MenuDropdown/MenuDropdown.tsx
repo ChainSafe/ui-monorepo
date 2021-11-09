@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useMemo, useRef, useState } from "react"
+import React, { ReactNode, useCallback, useRef, useState } from "react"
 import { makeStyles, createStyles, ITheme, useOnClickOutside } from "@chainsafe/common-theme"
 import { Typography } from "../Typography"
 import clsx from "clsx"
@@ -84,34 +84,64 @@ const useStyles = makeStyles(
         zIndex: 1000,
         padding: 0,
         "&.top-left": {
-          top: 0,
+          "&.up": {
+            bottom: 0
+          },
+          "&.down": {
+            top: 0
+          },
           left: 0,
           ...overrides?.MenuDropdown?.options?.position?.topLeft
         },
         "&.top-center": {
-          top: 0,
+          "&.up": {
+            bottom: 0
+          },
+          "&.down": {
+            top: 0
+          },
           left: "50%",
           transform: "translateX(-50%)",
           ...overrides?.MenuDropdown?.options?.position?.topCenter
         },
         "&.top-right": {
-          top: 0,
+          "&.up": {
+            bottom: 0
+          },
+          "&.down": {
+            top: 0
+          },
           right: 0,
           ...overrides?.MenuDropdown?.options?.position?.topRight
         },
         "&.bottom-left": {
-          top: "100%",
+          "&.up": {
+            bottom: "100%"
+          },
+          "&.down": {
+            top: "100%"
+          },
           left: 0,
           ...overrides?.MenuDropdown?.options?.position?.bottomLeft
         },
         "&.bottom-center": {
-          top: "100%",
+          "&.up": {
+            bottom: "100%"
+          },
+          "&.down": {
+            top: "100%"
+          },
           left: "50%",
           transform: "translateX(-50%)",
           ...overrides?.MenuDropdown?.options?.position?.bottomCenter
         },
         "&.bottom-right": {
-          top: "100%",
+          "&.up": {
+            bottom: "100%"
+          },
+          "&.down": {
+            top: "100%"
+          },
           right: 0,
           ...overrides?.MenuDropdown?.options?.position?.bottomRight
         },
@@ -187,7 +217,6 @@ const MenuDropdown = ({
   menuItems,
   autoclose = true,
   anchor = "bottom-center",
-  dynamicAnchor = false,
   indicator = DirectionalDownIcon,
   animation = "flip",
   title,
@@ -205,30 +234,23 @@ const MenuDropdown = ({
     }
   })
 
-  const [anchor_, setAnchor] = useState<string>(anchor)
+  const [dropDirection, setDropDirection] = useState<"up" | "down">("down")
 
   const managePosition = useCallback(() => {
     // TODO: Debounce
     const { offsetTop } = ref.current as unknown as HTMLDivElement
 
     if (offsetTop < window.pageYOffset + (window.innerHeight / 2)) {
-      setAnchor(`top-${anchor_.split("-")[1]}`)
+      setDropDirection("down")
     } else {
-      setAnchor(`bottom-${anchor_.split("-")[1]}`)
+      setDropDirection("up")
     }
-  }, [ref, anchor_])
+  }, [ref])
 
-  const scrollActions = useMemo(() => {
-    if (dynamicAnchor) {
-      return {
-        onScroll: managePosition
-      }
-    } else {
-      return {}
-    }
-  }, [dynamicAnchor, managePosition])
 
-  useOnScroll(scrollActions)
+  useOnScroll({
+    onScroll: managePosition
+  })
 
   return (
     <div
@@ -259,7 +281,7 @@ const MenuDropdown = ({
       </section>
       <Paper
         shadow="shadow2"
-        className={clsx(classes.options, classNames?.options, anchor, {
+        className={clsx(classes.options, classNames?.options, anchor, dropDirection, {
           ["open"]: open
         })}
       >
