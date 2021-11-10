@@ -19,7 +19,7 @@ import {
   ZoomInSvg,
   InfoCircleSvg
 } from "@chainsafe/common-components"
-import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher, useLongPress } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
@@ -36,6 +36,7 @@ import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import { useLongPress } from 'use-long-press';
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -389,6 +390,7 @@ const FileSystemItem = ({
 
   const onSingleClick = useCallback(
     (e) => {
+      console.log("here")
       if (desktop) {
         // on desktop 
         if (e && (e.ctrlKey || e.metaKey)) {
@@ -431,12 +433,12 @@ const FileSystemItem = ({
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
-  const longPressEvents = useLongPress(() => handleSelectItem(file), onSingleClick)
+  const longPressEvents = useLongPress(() => handleSelectItem(file))
 
   const onFolderOrFileClicks = (e?: React.MouseEvent) => {
     e?.persist()
     if (!desktop) {
-      return null
+      onSingleClick(e)
     } else {
       click(e)
     }

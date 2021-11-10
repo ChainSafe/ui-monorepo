@@ -1,6 +1,6 @@
 import { useOnClickOutside } from "./useOnClickOutside"
 import { useMediaQuery } from "./useMediaQuery"
 import { useDoubleClick } from "./useDoubleClick"
-import { useLongPress, LongPressEvents } from "./useLongPress"
+import { useLongPress, LongPressResult } from "./useLongPress"
 
-export { useOnClickOutside, useMediaQuery, useDoubleClick, useLongPress, LongPressEvents }
+export { useOnClickOutside, useMediaQuery, useDoubleClick, useLongPress, LongPressResult }
