@@ -36,7 +36,6 @@ import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
-// import { useLongPress } from 'use-long-press';
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
