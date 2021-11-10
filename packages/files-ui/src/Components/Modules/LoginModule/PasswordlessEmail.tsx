@@ -97,11 +97,13 @@ const PasswordlessEmail = ({ resetLogin, email }: IPasswordlessEmail) => {
 
   const onSubmitNonce = useCallback((values) => {
     if (!email) return
+
     setIsSubmitNonceLoading(true)
     setError(undefined)
+
     filesApiClient.postIdentityEmailToken({
       email: email,
-      nonce: values.nonce
+      nonce: values.nonce.trim()
     }).then(async (data) => {
       await login("email", { token: data.token || "", email })
       setIsSubmitNonceLoading(false)
