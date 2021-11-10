@@ -50,7 +50,6 @@ export const useLongPress = (
       }
       shouldAllowClick.current = true
       startPosition.current = getCurrentPosition(event)
-      console.log("start", event)
       timeout.current = setTimeout(() => {
         onLongPress && onLongPress(event)
         shouldAllowClick.current = false
@@ -62,7 +61,6 @@ export const useLongPress = (
   const clear = useCallback(
     (shouldTriggerClick = true) => {
       timeout.current && clearTimeout(timeout.current)
-      console.log("clear", shouldTriggerClick, shouldAllowClick.current)
       shouldTriggerClick && shouldAllowClick.current && onClick && onClick()
       shouldAllowClick.current = false
       if (target.current) {
