@@ -146,7 +146,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
                   variant="h5"
                   component="h5"
                 >
-                  <Trans>Create Folder</Trans>
+                  <Trans>New folder</Trans>
                 </Typography>
               </Grid>
             )}
