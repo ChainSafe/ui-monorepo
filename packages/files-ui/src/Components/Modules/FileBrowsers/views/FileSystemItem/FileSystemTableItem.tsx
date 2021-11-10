@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react"
-import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressResult } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
@@ -117,7 +117,7 @@ interface IFileSystemTableItemProps {
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
   menuItems: IMenuItem[]
-  longPressEvents?: LongPressResult<any>
+  longPressEvents?: LongPressEvents
 }
 
 const FileSystemTableItem = React.forwardRef(

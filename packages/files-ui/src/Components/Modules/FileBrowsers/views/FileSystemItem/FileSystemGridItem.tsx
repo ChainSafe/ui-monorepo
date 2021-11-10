@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react"
-import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressResult } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
@@ -127,7 +127,7 @@ interface IFileSystemTableItemProps {
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
-  longPressEvents?: LongPressResult<any>
+  longPressEvents?: LongPressEvents
 }
 
 const FileSystemGridItem = React.forwardRef(

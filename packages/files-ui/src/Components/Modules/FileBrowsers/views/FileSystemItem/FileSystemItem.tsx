@@ -432,11 +432,7 @@ const FileSystemItem = ({
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
-  const longPressEvents = useLongPress(() => handleSelectItem(file), {
-    cancelOnMovement: true,
-    captureEvent: true,
-    onSingleClick,
-  })
+  const longPressEvents = useLongPress(() => handleSelectItem(file), onSingleClick)
 
   const onFolderOrFileClicks = (e?: React.MouseEvent) => {
     e?.persist()
