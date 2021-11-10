@@ -3,11 +3,15 @@ import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-th
 import UserBubble from "./UserBubble"
 import { BucketKeyPermission, RichUserInfo } from "../../Contexts/FilesContext"
 import { getUserDisplayName } from "../../Utils/getUserDisplayName"
+import { CSFTheme } from "../../Themes/types"
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles(({ constants }: CSFTheme) => {
   return createStyles({
     root: {
       display: "flex"
+    },
+    bubble: {
+      marginRight: constants.generalUnit
     }
   })
 })
@@ -55,6 +59,7 @@ const SharedUsers = ({ bucket }: Props) => {
     <div className={classes.root}>
       <UserBubble
         tooltip={userLabels[0]}
+        className={userLabels.length > 1 ? classes.bubble : undefined}
       />
       {userLabels.length > 2 && (
         <UserBubble
