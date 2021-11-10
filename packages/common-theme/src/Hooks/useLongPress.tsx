@@ -10,6 +10,8 @@ export interface LongPressEvents {
   onMouseMove: (e: React.MouseEvent) => void
 }
 
+const MOVE_THRESHOLD = 5
+
 type Coordinates = {
   x: number
   y: number
@@ -74,13 +76,12 @@ export const useLongPress = (
       if (startPosition.current) {
         const currentPosition = getCurrentPosition(event)
         if (currentPosition) {
-          const moveThreshold = 5
           const movedDistance = {
             x: Math.abs(currentPosition.x - startPosition.current.x),
             y: Math.abs(currentPosition.y - startPosition.current.y)
           }
 
-          if (movedDistance.x > moveThreshold || movedDistance.y > moveThreshold) {
+          if (movedDistance.x > MOVE_THRESHOLD || movedDistance.y > MOVE_THRESHOLD) {
             clear(false)
           }
         }
