@@ -19,9 +19,6 @@ const useStyles = makeStyles(({ zIndex, animation, constants, palette }: CSFThem
       justifyContent: "center",
       "& svg": {
         fill: palette.common.white.main
-      },
-      "&:first-child": {
-        marginRight: constants.generalUnit
       }
     },
     text : {
@@ -66,9 +63,10 @@ const useStyles = makeStyles(({ zIndex, animation, constants, palette }: CSFThem
 interface Props {
   text?: string
   tooltip: string | string[]
+  className?: string
 }
 
-const UserBubble = ({ text, tooltip }: Props) => {
+const UserBubble = ({ text, tooltip, className }: Props) => {
   const classes = useStyles()
   const [showTooltip, setShowTooltip] = useState(false)
 
@@ -80,7 +78,7 @@ const UserBubble = ({ text, tooltip }: Props) => {
     <div
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
-      className={classes.bubble}
+      className={clsx(classes.bubble, className)}
       onClick={toggleTooltip}
     >
       <div className={clsx(classes.tooltip, { "active": showTooltip })}>
