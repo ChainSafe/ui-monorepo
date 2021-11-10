@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from "react"
+import React, { ReactNode, useEffect, useRef } from "react"
 import { ITheme, useOnClickOutside, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { CloseSvg } from "../Icons/icons/Close.icon"
@@ -179,6 +179,16 @@ const Modal = ({
 }: IModalProps) => {
   const classes = useStyles()
   const ref = useRef(null)
+
+  useEffect(() => {
+    if(!active) return
+
+    document.body.style.overflow = "hidden"
+
+    return () => {
+      document.body.style.overflow = "auto"
+    }
+  }, [active])
 
   const handleClose = () => {
     onClose && onClose()
