@@ -12,7 +12,7 @@ import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { translatedPermission } from "./LinkList"
 
 const useStyles = makeStyles(
-  ({ constants, breakpoints, palette, zIndex, animation }: CSFTheme) => {
+  ({ constants, palette, zIndex, animation, typography }: CSFTheme) => {
     return createStyles({
       root: {
         display: "flex",
@@ -35,7 +35,8 @@ const useStyles = makeStyles(
         marginRight: constants.generalUnit * 3,
         flex: 1,
         whiteSpace: "nowrap",
-        textAlign: "right"
+        textAlign: "right",
+        fontWeight: typography.fontWeight.regular
       },
       copyButton: {
         display: "flex",
@@ -58,11 +59,7 @@ const useStyles = makeStyles(
       },
       copyIcon: {
         fontSize: "18px",
-        fill: constants.profile.icon,
-        [breakpoints.down("md")]: {
-          fontSize: "18px",
-          fill: palette.additional["gray"][9]
-        }
+        fill: palette.additional["gray"][8]
       },
       copiedFlag: {
         display: "flex",
@@ -163,6 +160,7 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
 
 
   const onCopyInfo = useCallback(() => {
+    // this doesn't work on Mobile
     // navigator.clipboard.writeText(link)
     //   .then(() => {
     //     setCopied(true)
