@@ -7,13 +7,10 @@ import { Button, IButtonProps } from "../Button"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
-    // JSS in CSS goes here
     root: {},
     inner: {
       padding: constants.generalUnit * 2,
       borderRadius: 2,
-      transform: "translate(-50%, 0)",
-      top: constants.generalUnit * 2,
       [breakpoints.down("sm")]: {
         maxWidth: `calc(100% - ${constants.generalUnit * 3}px) !important`
       }

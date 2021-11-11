@@ -49,7 +49,9 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
       }
     },
     modalRoot: {
-      [breakpoints.down("md")]: {}
+      [breakpoints.down("md")]: {
+        paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+      }
     },
     modalInner: {
       [breakpoints.down("md")]: {

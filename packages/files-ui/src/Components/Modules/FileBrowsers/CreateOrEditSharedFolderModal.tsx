@@ -25,7 +25,10 @@ const useStyles = makeStyles(
         alignItems: "center"
       },
       modalRoot: {
-        zIndex: zIndex?.blocker
+        zIndex: zIndex?.blocker,
+        [breakpoints.down("md")]: {
+          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+        }
       },
       modalInner: {
         backgroundColor: constants.modalDefault.backgroundColor,
