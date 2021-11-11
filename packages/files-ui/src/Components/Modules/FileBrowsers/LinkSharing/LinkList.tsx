@@ -2,7 +2,7 @@ import { Button, Loading, MenuDropdown, Typography } from "@chainsafe/common-com
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-client"
 import { t, Trans } from "@lingui/macro"
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { CSFTheme } from "../../../../Themes/types"
 import SharingLink from "./SharingLink"
@@ -107,6 +107,12 @@ interface Props {
   bucketEncryptionKey: string
 }
 
+interface LinkMenuItems {
+  id: NonceResponsePermission
+  onClick: () => void
+  contents: ReactNode
+}
+
 const readRights = t`view`
 const editRights = t`edit`
 export const translatedPermission = (permission: NonceResponsePermission) => permission === "read" ? readRights : editRights
@@ -116,10 +122,10 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
   const { filesApiClient } = useFilesApi()
   const [nonces, setNonces] = useState<NonceResponse[]>([])
   const [isLoadingNonces, setIsLoadingNonces] = useState(false)
-  const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission>("read")
   const [isLoadingCreation, setIsLoadingCreation] = useState(false)
   const hasAReadNonce = useMemo(() => !!nonces.find(n => n.permission === "read"), [nonces])
-  const menuItems = useMemo(() => [
+  const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission | undefined>(undefined)
+  const menuItems: LinkMenuItems[] = useMemo(() => [
     {
       id: "read",
       onClick: () => setNewLinkPermission("read"),
@@ -146,6 +152,18 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
     }
   ], [classes.menuItem])
 
+  const displayedItems = useMemo(() => nonces.length === 0
+    ? menuItems
+    : hasAReadNonce
+      ? menuItems.filter(i => i.id === "write")
+      : menuItems.filter(i => i.id === "read")
+  , [hasAReadNonce, menuItems, nonces.length]
+  )
+
+  useEffect(() => {
+    setNewLinkPermission(displayedItems[0].id)
+  }, [displayedItems])
+
   const refreshNonces = useCallback(() => {
     setIsLoadingNonces(true)
     filesApiClient.getAllNonces()
@@ -162,6 +180,11 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
   }, [filesApiClient, refreshNonces])
 
   const onCreateNonce = useCallback(() => {
+
+    if (!newLinkPermission) {
+      console.error("Permission not set")
+      return
+    }
 
     setIsLoadingCreation(true)
 
@@ -228,7 +251,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                   <Trans>Anyone with the link can: </Trans>
                 </Typography>
                 <MenuDropdown
-                  title={translatedPermission(newLinkPermission)}
+                  title={(newLinkPermission && translatedPermission(newLinkPermission)) || ""}
                   anchor="bottom-right"
                   className={classes.permissionDropdown}
                   classNames={{
@@ -237,13 +260,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                     title: classes.dropdownTitle
                   }}
                   testId="permission"
-                  menuItems={
-                    nonces.length === 0
-                      ? menuItems
-                      : hasAReadNonce
-                        ? menuItems.filter(i => i.id === "write")
-                        : menuItems.filter(i => i.id === "read")
-                  }
+                  menuItems={displayedItems}
                 />
               </div>
               <Button
