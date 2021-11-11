@@ -1,4 +1,3 @@
-import { LookupUserRequest } from "@chainsafe/files-api-client"
 import { t } from "@lingui/macro"
 import { useCallback, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
@@ -25,9 +24,8 @@ export const useLookupSharedFolderUser = () => {
         ))
 
     if (foundIntersectingUsers.length) {
-      setUsersError(t`User ${
-        centerEllipsis(foundIntersectingUsers[0].label)
-      } is both a reader and writer`)
+      setUsersError(t`User ${centerEllipsis(foundIntersectingUsers[0].label)
+        } is both a reader and writer`)
     } else {
       setUsersError("")
     }
@@ -36,7 +34,11 @@ export const useLookupSharedFolderUser = () => {
   const handleLookupUser = useCallback(async (inputVal: string, permission: SharedFolderUserPermission) => {
     if (inputVal === "") return []
 
-    const lookupBody: LookupUserRequest = {}
+    const lookupBody = {
+      public_address: undefined as string | undefined,
+      identity_public_key: undefined as string | undefined,
+      username: undefined as string | undefined
+    }
     const ethAddressRegex = new RegExp("^0(x|X)[a-fA-F0-9]{40}$") // Eth Address Starting with 0x and 40 HEX chars
     const pubKeyRegex = new RegExp("^0(x|X)[a-fA-F0-9]{66}$") // Compressed public key, 66 chars long
 
@@ -49,7 +51,7 @@ export const useLookupSharedFolderUser = () => {
     }
 
     try {
-      const result = await filesApiClient.lookupUser(lookupBody)
+      const result = await filesApiClient.lookupUser(...Object.values(lookupBody))
       if (!result) return []
 
       const usersList = permission === "read" ? sharedFolderReaders : sharedFolderWriters

@@ -181,7 +181,7 @@ const UserProvider = ({ children }: UserContextProps) => {
   const lookupOnUsername = async (username: string) => {
     if (!profile) return false
     try {
-      const alreadyExists = await filesApiClient.lookupUser({ username })
+      const alreadyExists = await filesApiClient.lookupUser(username)
       return !!alreadyExists
     } catch (error) {
       console.error(error)
