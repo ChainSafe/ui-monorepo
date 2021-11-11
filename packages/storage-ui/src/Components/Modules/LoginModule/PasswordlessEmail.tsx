@@ -93,13 +93,15 @@ const PasswordlessEmail = ({ resetLogin, email }: IPasswordlessEmail) => {
   const [hasEmailResent, setHasEmailResent] = useState(false)
   const [error, setError] = useState<string | undefined>()
 
-  const onSubmitNonce = useCallback((values) => {
+  const onSubmitNonce = useCallback(({ nonce }: {nonce: string}) => {
     if (!email) return
+
     setIsSubmitNonceLoading(true)
     setError(undefined)
+
     storageApiClient.postIdentityEmailToken({
-      email: email,
-      nonce: values.nonce
+      email,
+      nonce: nonce.trim()
     }).then(async (data) => {
       await login("email", { token: data || "", email })
     }).catch ((e) => {
