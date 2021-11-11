@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from "react"
+import React, { ReactNode, useEffect, useRef } from "react"
 import { ITheme, useOnClickOutside, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { CloseSvg } from "../Icons/icons/Close.icon"
@@ -43,6 +43,7 @@ const useStyles = makeStyles(
         "&.active": {
           visibility: "visible",
           opacity: 1,
+          zIndex: 2500,
           "& > *": {
             opacity: 1,
             visibility: "visible"
@@ -51,17 +52,48 @@ const useStyles = makeStyles(
         },
         ...overrides?.Modal?.root
       },
-      inner: {
+      modalSection: {
         ...constants.modal.inner,
-        flexGrow: 1,
+        backgroundColor: palette.common?.white.main,
+        zIndex: 1,
+        "&.subModal": {
+          marginTop: "0.5rem"
+        }
+      },
+      closeIcon: {
+        ...constants.icon,
+        width: 15,
+        height: 15,
+        display: "block",
+        top: 0,
+        cursor: "pointer",
+        position: "absolute",
+        zIndex: 2,
+        "& svg": {
+          stroke: palette.common?.black.main
+        },
+        "&.right": {
+          transform: "translate(-50%, 50%)",
+          right: 0,
+          ...overrides?.Modal?.closeIcon?.right
+        },
+        "&.left": {
+          left: 0,
+          transform: "translate(50%, -50%)",
+          ...overrides?.Modal?.closeIcon?.left
+        },
+        "&.none": {
+          display: "none"
+        },
+        ...overrides?.Modal?.closeIcon?.root
+      },
+      wrapper : {
+        position: "relative",
         flexDirection: "column",
         display: "flex",
-        backgroundColor: palette.common?.white.main,
-        top: "50%",
-        left: "50%",
-        position: "absolute",
-        borderRadius: `${constants.generalUnit / 2}`,
-        transform: "translate(-50%, -50%)",
+        margin: "auto",
+        maxHeight: "100%",
+        overflow: "auto",
         "&.xs": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("xs"),
@@ -88,32 +120,6 @@ const useStyles = makeStyles(
           ...overrides?.Modal?.inner?.size?.xl
         },
         ...overrides?.Modal?.inner?.root
-      },
-      closeIcon: {
-        ...constants.icon,
-        width: 15,
-        height: 15,
-        display: "block",
-        top: 0,
-        cursor: "pointer",
-        position: "absolute",
-        "& svg": {
-          stroke: palette.common?.black.main
-        },
-        "&.right": {
-          transform: "translate(-50%, 50%)",
-          right: 0,
-          ...overrides?.Modal?.closeIcon?.right
-        },
-        "&.left": {
-          left: 0,
-          transform: "translate(50%, -50%)",
-          ...overrides?.Modal?.closeIcon?.left
-        },
-        "&.none": {
-          display: "none"
-        },
-        ...overrides?.Modal?.closeIcon?.root
       }
     })
 )
@@ -121,11 +127,12 @@ const useStyles = makeStyles(
 interface IModalClasses {
   inner?: string
   closeIcon?: string
+  subModalInner?: string
 }
 
 interface IModalProps {
   className?: string
-  active: boolean
+  active?: boolean
   injectedClass?: IModalClasses
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
@@ -134,6 +141,27 @@ interface IModalProps {
   onClickOutside?: (e?: React.MouseEvent) => void
   testId?: string
   onClose?: () => void
+  subModal?: ReactNode | ReactNode[]
+}
+
+interface IModalBaseProps {
+  children?: ReactNode | ReactNode[]
+  injectedClassInner?: string
+}
+
+const ModalBase = ({ children, injectedClassInner }: IModalBaseProps) => {
+  const classes = useStyles()
+
+  return (
+    <section
+      className={clsx(
+        classes.modalSection,
+        injectedClassInner
+      )}
+    >
+      {children}
+    </section>
+  )
 }
 
 const Modal = ({
@@ -146,11 +174,21 @@ const Modal = ({
   onModalBodyClick,
   testId,
   onClose,
-  onClickOutside
+  onClickOutside,
+  subModal
 }: IModalProps) => {
   const classes = useStyles()
-
   const ref = useRef(null)
+
+  useEffect(() => {
+    if(!active) return
+
+    document.body.style.overflow = "hidden"
+
+    return () => {
+      document.body.style.overflow = "auto"
+    }
+  }, [active])
 
   const handleClose = () => {
     onClose && onClose()
@@ -164,10 +202,10 @@ const Modal = ({
     <article
       className={clsx(classes.root, className, "active")}
       onClick={onModalBodyClick}
+      ref={ref}
     >
       <section
         data-testid={`modal-container-${testId}`}
-        ref={ref}
         style={
           maxWidth && typeof maxWidth == "number"
             ? {
@@ -176,11 +214,7 @@ const Modal = ({
             }
             : {}
         }
-        className={clsx(
-          classes.inner,
-          injectedClass?.inner,
-          typeof maxWidth != "number" ? maxWidth : ""
-        )}
+        className={clsx(classes.wrapper, typeof maxWidth != "number" ? maxWidth : "")}
       >
         {closePosition !== "none" && (
           <div
@@ -190,7 +224,14 @@ const Modal = ({
             <CloseSvg />
           </div>
         )}
-        {children}
+        <ModalBase injectedClassInner={injectedClass?.inner}>
+          {children}
+        </ModalBase>
+        {subModal && (
+          <ModalBase injectedClassInner={clsx(injectedClass?.subModalInner, "subModal")}>
+            {subModal}
+          </ModalBase>
+        )}
       </section>
     </article>
   )
