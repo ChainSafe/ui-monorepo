@@ -121,7 +121,7 @@ interface ICreateOrEditSharedFolderModalProps {
 
 const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdit }: ICreateOrEditSharedFolderModalProps) => {
   const classes = useStyles()
-  const { desktop } = useThemeSwitcher()
+  const { desktop, tablet, mobile } = useThemeSwitcher()
   const { handleCreateSharedFolder, handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, onNewUsers, handleLookupUser, usersError, resetUsers } = useLookupSharedFolderUser()
@@ -257,6 +257,12 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 ...provided,
                 minHeight: 90,
                 alignContent: "start"
+              }),
+              valueContainer: (provided) => mobile && !tablet ? ({
+                ...provided,
+                paddingBottom: 24
+              }) : ({
+                ...provided
               })
             }}
             loadingMessage={t`Loading`}
@@ -283,6 +289,12 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 ...provided,
                 minHeight: 90,
                 alignContent: "start"
+              }),
+              valueContainer: (provided) => mobile && !tablet ? ({
+                ...provided,
+                paddingBottom: 24
+              }) : ({
+                ...provided
               })
             }}
             loadingMessage={t`Loading`}

@@ -10,6 +10,8 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 
 type ThemeSwitcherContext = {
   desktop: boolean
+  tablet: boolean
+  mobile: boolean
   themeKey: string
   availableThemes: string[]
   setTheme(themeName: string): void
@@ -26,6 +28,8 @@ type ThemeSwitcherProps = {
 const ThemeSwitcher = ({ children, themes, storageKey = "cs.themeKey" }: ThemeSwitcherProps) => {
   const breakpoints = createBreakpoints({})
   const desktop = useMediaQuery(breakpoints.up("md"))
+  const tablet = useMediaQuery(breakpoints.up("sm"))
+  const mobile = useMediaQuery(breakpoints.up("xs"))
   const { canUseLocalStorage, localStorageGet, localStorageSet } = useLocalStorage()
 
   // TODO: check min 1 theme
@@ -60,6 +64,8 @@ const ThemeSwitcher = ({ children, themes, storageKey = "cs.themeKey" }: ThemeSw
     <ThemeSwitcherContext.Provider
       value={{
         desktop: desktop,
+        tablet: tablet,
+        mobile: mobile,
         themeKey: current,
         availableThemes: Object.keys(themes),
         setTheme: setCurrent
