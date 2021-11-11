@@ -167,7 +167,10 @@ msgstr ""
 msgid "Create a new shared folder"
 msgstr ""
 
-msgid "Create new link"
+msgid "Create a sharing link"
+msgstr ""
+
+msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -887,7 +890,7 @@ msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de se
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "edit"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"
@@ -899,7 +902,7 @@ msgstr "en"
 msgid "unknown"
 msgstr ""
 
-msgid "view"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"

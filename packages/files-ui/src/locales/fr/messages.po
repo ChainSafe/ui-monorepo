@@ -167,8 +167,11 @@ msgstr "Créer un dossier partagé"
 msgid "Create a new shared folder"
 msgstr "Créer un nouveau dossier partagé"
 
-msgid "Create new link"
-msgstr "Créer un nouveau lien"
+msgid "Create a sharing link"
+msgstr ""
+
+msgid "Create link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
@@ -887,7 +890,7 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
 
-msgid "edit"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"
@@ -899,7 +902,7 @@ msgstr "le"
 msgid "unknown"
 msgstr "inconnu"
 
-msgid "view"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"

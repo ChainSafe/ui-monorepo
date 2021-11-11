@@ -166,7 +166,10 @@ msgstr ""
 msgid "Create a new shared folder"
 msgstr ""
 
-msgid "Create new link"
+msgid "Create a sharing link"
+msgstr ""
+
+msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -883,7 +886,7 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
 
-msgid "edit"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"
@@ -895,7 +898,7 @@ msgstr "am"
 msgid "unknown"
 msgstr "unbekannt"
 
-msgid "view"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
