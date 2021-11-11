@@ -24,7 +24,7 @@ const useStyles = makeStyles(
       },
       linkWrapper: {
         whiteSpace: "nowrap",
-        marginRight: constants.generalUnit * 2,
+        marginRight: constants.generalUnit * 3,
         display: "flex",
         alignItems: "center",
         overflow: "hidden"
@@ -32,12 +32,10 @@ const useStyles = makeStyles(
       permissionWrapper: {
         display: "flex",
         alignItems: "center",
-        marginRight: constants.generalUnit * 2,
+        marginRight: constants.generalUnit * 3,
         flex: 1,
         whiteSpace: "nowrap",
-        padding: `0 ${constants.generalUnit}px`,
-        backgroundColor: palette.additional["gray"][5],
-        borderRadius: "10px"
+        textAlign: "right"
       },
       copyButton: {
         display: "flex",
@@ -59,7 +57,7 @@ const useStyles = makeStyles(
         fill: constants.fileSystemItemRow.menuIcon
       },
       copyIcon: {
-        fontSize: "24px",
+        fontSize: "18px",
         fill: constants.profile.icon,
         [breakpoints.down("md")]: {
           fontSize: "18px",
@@ -99,15 +97,14 @@ const useStyles = makeStyles(
         width: 14,
         height: 14,
         padding: 0,
-        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         fontSize: "unset",
         "& svg": {
           fill: constants.fileSystemItemRow.dropdownIcon,
-          top: "50%",
-          left: 0,
           width: 14,
-          height: 14,
-          position: "absolute"
+          height: 14
         }
       },
       focusVisible: {
@@ -117,6 +114,11 @@ const useStyles = makeStyles(
         zIndex: "2500 !important" as any
       },
       loader: {
+        display: "flex",
+        alignItems: "center",
+        margin: "auto"
+      },
+      menuWrapper: {
         display: "flex",
         alignItems: "center",
         margin: "auto"
@@ -251,22 +253,24 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
       >
         <CopyIcon className={classes.copyIcon} />
       </div>
-      <Menu
-        testId='linkDropdown'
-        icon={<MoreIcon className={classes.dropdownIcon} />}
-        options={[{
-          contents: (
-            <>
-              <DeleteSvg className={classes.menuIcon} />
-              <span data-cy="menu-delete">
-                <Trans>Delete</Trans>
-              </span>
-            </>
-          ),
-          onClick: onDeleteNonce
-        }]}
-        style={{ focusVisible: classes.focusVisible, root: classes.menuRoot }}
-      />
+      <div className={classes.menuWrapper}>
+        <Menu
+          testId='linkDropdown'
+          icon={<MoreIcon className={classes.dropdownIcon} />}
+          options={[{
+            contents: (
+              <>
+                <DeleteSvg className={classes.menuIcon} />
+                <span data-cy="menu-delete">
+                  <Trans>Delete</Trans>
+                </span>
+              </>
+            ),
+            onClick: onDeleteNonce
+          }]}
+          style={{ focusVisible: classes.focusVisible, root: classes.menuRoot }}
+        />
+      </div>
     </div>
   )
 }

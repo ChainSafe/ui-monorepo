@@ -113,8 +113,8 @@ interface LinkMenuItems {
   contents: ReactNode
 }
 
-const readRights = t`view`
-const editRights = t`edit`
+const readRights = t`view-only`
+const editRights = t`can-edit`
 export const translatedPermission = (permission: NonceResponsePermission) => permission === "read" ? readRights : editRights
 
 const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
