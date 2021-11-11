@@ -34,7 +34,6 @@ const DefaultThemeConfig: IThemeConfig = {
     modal: {
       inner: {
         minWidth: 30,
-        minHeight: 30,
         maxWidth: defaultBreakpoints.keys["md"]
       },
       backgroundFade: 0.4

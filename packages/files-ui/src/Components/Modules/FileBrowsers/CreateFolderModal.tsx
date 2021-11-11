@@ -30,7 +30,9 @@ const useStyles = makeStyles(
       },
       modalRoot: {
         zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {}
+        [breakpoints.down("md")]: {
+          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+        }
       },
       modalInner: {
         backgroundColor: constants.createFolder.backgroundColor,
