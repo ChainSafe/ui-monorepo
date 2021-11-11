@@ -8,7 +8,8 @@ import {
   useToasts,
   RadioInput,
   TextInput,
-  CheckIcon
+  CheckIcon,
+  CheckboxInput
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -93,9 +94,8 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     },
     button: {
       width: 200,
-      margin: `0px ${constants.generalUnit * 0.5}px ${
-        constants.generalUnit * 4
-      }px`
+      margin: `0px ${constants.generalUnit * 0.5}px ${constants.generalUnit * 4
+        }px`
     },
     icon: {
       fontSize: "20px",
@@ -188,14 +188,14 @@ const profileValidation = yup.object().shape({
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
   const { addToast } = useToasts()
-  const { profile, updateProfile, addUsername, lookupOnUsername } = useUser()
+  const { profile, updateProfile, addUsername, lookupOnUsername, toggleLookupConsent } = useUser()
   const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
   const [showUsernameForm, setShowUsernameForm] = useState(false)
   const [username, setUsername] = useState("")
   const [usernameData, setUsernameData] = useState({ error: "", loading: false })
   const formik = useFormik({
-    initialValues:{
+    initialValues: {
       firstName: profile?.firstName || "",
       lastName: profile?.lastName || ""
       // email: profile?.email || ""
@@ -408,12 +408,6 @@ const ProfileView = () => {
                   >
                     <Trans>Username</Trans>
                   </Typography>
-                  <Typography
-                    component="p"
-                    className={classes.subLabel}
-                  >
-                    <Trans>This username is public</Trans>
-                  </Typography>
                   <div className={classes.usernameForm}>
                     <TextInput
                       disabled={true}
@@ -484,6 +478,7 @@ const ProfileView = () => {
                   }
                 </div>
               }
+              <CheckboxInput label='Allow lookup by username or wallet address' value={profile?.lookupConsent || false} onChange={toggleLookupConsent} />
               <FormikProvider value={formik}>
                 <Form>
                   <div className={classes.inputBoxContainer}>
@@ -640,7 +635,7 @@ const ProfileView = () => {
           >
             <Trans>Language</Trans>
           </Typography>
-          <LanguageSelection/>
+          <LanguageSelection />
         </div>
       </Grid>
     </Grid>

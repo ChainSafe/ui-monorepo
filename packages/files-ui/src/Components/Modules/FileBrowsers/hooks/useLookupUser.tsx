@@ -51,7 +51,7 @@ export const useLookupSharedFolderUser = () => {
     }
 
     try {
-      const result = await filesApiClient.lookupUser(...Object.values(lookupBody))
+      const result = await filesApiClient.lookupUser(lookupBody.username, lookupBody.public_address, lookupBody.identity_public_key)
       if (!result) return []
 
       const usersList = permission === "read" ? sharedFolderReaders : sharedFolderWriters
