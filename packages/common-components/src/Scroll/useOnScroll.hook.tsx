@@ -14,7 +14,7 @@ export function useOnScroll({
   const [scrollTop, setScrollTop] = useState(0)
   useEffect(() => {
     function onScrollFunc(e: Event) {
-      const currentPosition = document.documentElement.scrollTop // or use document.documentElement.scrollTop;
+      const currentPosition = document.documentElement.scrollTop
       if (onScroll && scrollTop != currentPosition) {
         onScroll(e)
       }
