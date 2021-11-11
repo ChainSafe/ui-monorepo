@@ -24,9 +24,6 @@ const useStyles = makeStyles(
         textAlign: "center",
         marginBottom: constants.generalUnit * 3
       },
-      modalInner: {
-        maxWidth: "400px !important"
-      },
       buttonLink: {
         outline: "none",
         textDecoration: "underline",
@@ -147,7 +144,6 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
 
   return (
     <CustomModal
-      injectedClass={{ inner: classes.modalInner }}
       active={showModal}
       closePosition="right"
       maxWidth="sm"
