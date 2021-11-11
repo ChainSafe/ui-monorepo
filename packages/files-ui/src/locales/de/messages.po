@@ -157,9 +157,6 @@ msgstr ""
 msgid "Create"
 msgstr "Erstellen"
 
-msgid "Create Folder"
-msgstr ""
-
 msgid "Create Shared Folder"
 msgstr ""
 
@@ -169,13 +166,7 @@ msgstr ""
 msgid "Create a new shared folder"
 msgstr ""
 
-msgid "Create a sharing link"
-msgstr ""
-
-msgid "Create folder"
-msgstr "Ordner erstellen"
-
-msgid "Create link"
+msgid "Create new link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"

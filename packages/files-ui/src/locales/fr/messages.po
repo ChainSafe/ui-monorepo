@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-10-30 12:33+0000\n"
+"PO-Revision-Date: 2021-11-08 03:51+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -158,9 +158,6 @@ msgstr "Copie de fichiers"
 msgid "Create"
 msgstr "Créer"
 
-msgid "Create Folder"
-msgstr "Créer un dossier"
-
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
@@ -170,14 +167,8 @@ msgstr "Créer un dossier partagé"
 msgid "Create a new shared folder"
 msgstr "Créer un nouveau dossier partagé"
 
-msgid "Create a sharing link"
-msgstr ""
-
-msgid "Create folder"
-msgstr "Créer un dossier"
-
-msgid "Create link"
-msgstr ""
+msgid "Create new link"
+msgstr "Créer un nouveau lien"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
@@ -882,7 +873,7 @@ msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 
 msgid "You do not have access to this shared folder."
-msgstr ""
+msgstr "Vous n'avez pas accès à ce dossier partagé."
 
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
