@@ -166,6 +166,12 @@ msgstr "Create a Shared Folder"
 msgid "Create a sharing link"
 msgstr "Create a sharing link"
 
+msgid "Create folder & Copy over"
+msgstr "Create folder & Copy over"
+
+msgid "Create folder & Move over"
+msgstr "Create folder & Move over"
+
 msgid "Create link"
 msgstr "Create link"
 
@@ -391,9 +397,6 @@ msgstr "Loading preview"
 msgid "Loading your shared folders…"
 msgstr "Loading your shared folders…"
 
-msgid "Loading..."
-msgstr "Loading..."
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
@@ -402,6 +405,9 @@ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elemen
 
 msgid "Manage Access"
 msgstr "Manage Access"
+
+msgid "Manage Shared Folder"
+msgstr "Manage Shared Folder"
 
 msgid "Move"
 msgstr "Move"
@@ -652,6 +658,9 @@ msgstr "Shared"
 msgid "Shared Folder Name"
 msgstr "Shared Folder Name"
 
+msgid "Shared folder name"
+msgstr "Shared folder name"
+
 msgid "Shared folders"
 msgstr "Shared folders"
 
@@ -789,9 +798,6 @@ msgstr "Try another method"
 
 msgid "Update"
 msgstr "Update"
-
-msgid "Update Shared Folder"
-msgstr "Update Shared Folder"
 
 msgid "Upload"
 msgstr "Upload"
