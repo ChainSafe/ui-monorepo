@@ -59,13 +59,13 @@ export const useGetFile = () => {
       setIsDownloading(false)
       return content
 
-    } catch (error) {      
+    } catch (error) {
       // If no error is thrown, this was due to a cancellation by the user.
       if (error) {
         console.error(error)
         setError(t`There was an error getting the preview.`)
+        setIsDownloading(false)
       }
-      setIsDownloading(false)
     }
   }, [bucket, getFileContent])
 
