@@ -167,6 +167,12 @@ msgstr "Créer un dossier partagé"
 msgid "Create a sharing link"
 msgstr ""
 
+msgid "Create folder & Copy over"
+msgstr ""
+
+msgid "Create folder & Move over"
+msgstr ""
+
 msgid "Create link"
 msgstr ""
 
@@ -392,9 +398,6 @@ msgstr "Chargement de l’aperçu"
 msgid "Loading your shared folders…"
 msgstr "Chargement de vos dossiers partagés…"
 
-msgid "Loading..."
-msgstr "Chargement…"
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
 
@@ -403,6 +406,9 @@ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elemen
 
 msgid "Manage Access"
 msgstr "Gérer l’accès"
+
+msgid "Manage Shared Folder"
+msgstr ""
 
 msgid "Move"
 msgstr "Déplacer"
@@ -653,6 +659,9 @@ msgstr "Partagé"
 msgid "Shared Folder Name"
 msgstr "Nom du dossier partagé"
 
+msgid "Shared folder name"
+msgstr ""
+
 msgid "Shared folders"
 msgstr "Dossiers partagés"
 
@@ -790,9 +799,6 @@ msgstr "Essayer une autre méthode"
 
 msgid "Update"
 msgstr "Mettre à jour"
-
-msgid "Update Shared Folder"
-msgstr "Mettre à jour le dossier partagé"
 
 msgid "Upload"
 msgstr "Téléverser"
