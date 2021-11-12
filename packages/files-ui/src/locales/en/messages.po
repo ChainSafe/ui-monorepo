@@ -475,6 +475,12 @@ msgstr "Only you can see this."
 msgid "Operating system:"
 msgstr "Operating system:"
 
+msgid "Or Create a new shared folder"
+msgstr "Or Create a new shared folder"
+
+msgid "Or Use an existing shared folder"
+msgstr "Or Use an existing shared folder"
+
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
 
@@ -801,9 +807,6 @@ msgstr "Use a different login method"
 
 msgid "Use a saved browser"
 msgstr "Use a saved browser"
-
-msgid "Use an existing shared folder"
-msgstr "Use an existing shared folder"
 
 msgid "User {0} is both a reader and writer"
 msgstr "User {0} is both a reader and writer"

@@ -472,6 +472,12 @@ msgstr "Kun du kan se dette."
 msgid "Operating system:"
 msgstr "Operativsystem:"
 
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
+
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
 
@@ -797,9 +803,6 @@ msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
 
 msgid "Use a saved browser"
-msgstr ""
-
-msgid "Use an existing shared folder"
 msgstr ""
 
 msgid "User {0} is both a reader and writer"

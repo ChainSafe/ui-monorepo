@@ -476,6 +476,12 @@ msgstr ""
 msgid "Operating system:"
 msgstr "Sistema operativo:"
 
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
+
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "O confirme iniciando sesión en sus Archivos en cualquier navegador que haya usado antes."
 
@@ -802,9 +808,6 @@ msgstr "Utilice un método de inicio de sesión diferente"
 
 msgid "Use a saved browser"
 msgstr "Utilice un navegador guardado"
-
-msgid "Use an existing shared folder"
-msgstr ""
 
 msgid "User {0} is both a reader and writer"
 msgstr ""
