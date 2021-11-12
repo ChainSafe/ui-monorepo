@@ -164,9 +164,6 @@ msgstr "Créer un dossier partagé"
 msgid "Create a Shared Folder"
 msgstr "Créer un dossier partagé"
 
-msgid "Create a new shared folder"
-msgstr "Créer un nouveau dossier partagé"
-
 msgid "Create a sharing link"
 msgstr ""
 
