@@ -25,7 +25,7 @@ export const useLookupSharedFolderUser = () => {
 
     if (foundIntersectingUsers.length) {
       setUsersError(t`User ${centerEllipsis(foundIntersectingUsers[0].label)
-        } is both a reader and writer`)
+      } is both a reader and writer`)
     } else {
       setUsersError("")
     }
