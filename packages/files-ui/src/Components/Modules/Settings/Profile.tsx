@@ -479,7 +479,7 @@ const ProfileView = () => {
                     }
                   </>
                 }
-                <CheckboxInput label='Allow lookup by username or wallet address' value={profile?.lookupConsent || false} onChange={toggleLookupConsent} />
+                <CheckboxInput label={t`Allow lookup by username or wallet address`} value={profile?.lookupConsent || false} onChange={toggleLookupConsent} />
               </div>
               <FormikProvider value={formik}>
                 <Form>
