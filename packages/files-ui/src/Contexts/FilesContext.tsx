@@ -857,7 +857,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         if (axios.isCancel(error)) {
           errorMessage = successCount
             ? t`${inSharedBucket ? "Copying" : "Sharing"
-              } cancelled - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
+            } cancelled - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
             : t`${inSharedBucket ? "Copying" : "Sharing"} cancelled`
         }
         updateToast(toastId, {
