@@ -47,6 +47,9 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
 
+msgid "Allow lookup by username or wallet address"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
@@ -766,9 +769,6 @@ msgstr "Ce lien n'est plus valide."
 
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
-
-msgid "This username is public"
-msgstr "Ce nom d’utilisateur est public"
 
 msgid "This website uses cookies"
 msgstr "Ce site web utilise des cookies"

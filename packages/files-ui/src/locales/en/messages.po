@@ -46,6 +46,9 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
 
+msgid "Allow lookup by username or wallet address"
+msgstr "Allow lookup by username or wallet address"
+
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
@@ -765,9 +768,6 @@ msgstr "This link is not valid any more."
 
 msgid "This username is already taken"
 msgstr "This username is already taken"
-
-msgid "This username is public"
-msgstr "This username is public"
 
 msgid "This website uses cookies"
 msgstr "This website uses cookies"
