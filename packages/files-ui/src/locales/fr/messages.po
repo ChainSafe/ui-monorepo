@@ -161,9 +161,6 @@ msgstr "Créer un dossier partagé"
 msgid "Create a Shared Folder"
 msgstr "Créer un dossier partagé"
 
-msgid "Create a new shared folder"
-msgstr "Créer un nouveau dossier partagé"
-
 msgid "Create new link"
 msgstr "Créer un nouveau lien"
 
@@ -469,6 +466,12 @@ msgstr "Vous seul(e) pouvez voir ceci."
 
 msgid "Operating system:"
 msgstr "Système d’exploitation :"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Ou accepte la requête de connexion depuis n’importe quel appareil ou navigateur utilisé auparavant."
@@ -799,9 +802,6 @@ msgstr "Utilisez une méthode de connexion différente"
 
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
-
-msgid "Use an existing shared folder"
-msgstr "Utiliser un dossier partagé existant"
 
 msgid "User {0} is both a reader and writer"
 msgstr "L'utilisateur {0} est dans les auteurs et lecteurs"
