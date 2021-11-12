@@ -369,27 +369,27 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
             {!isDownloading &&
               !error &&
               !compatibleFilesMatcher.match(content_type) && (
-                <div className={classes.previewContent}>
-                  <CloseCircleIcon
-                    fontSize={desktop ? "extraLarge" : "medium"}
-                  />
-                  <Typography
-                    component="p"
-                    variant="h1"
-                    data-cy="label-unsupported-file-message"
-                  >
-                    <Trans>File format not supported.</Trans>
-                  </Typography>
-                  <Button
-                    className={classes.downloadButton}
-                    variant="outline"
-                    onClick={handleDownload}
-                    data-cy="button-download-unsupported-file"
-                  >
-                    <Trans>Download</Trans>
-                  </Button>
-                </div>
-              )}
+              <div className={classes.previewContent}>
+                <CloseCircleIcon
+                  fontSize={desktop ? "extraLarge" : "medium"}
+                />
+                <Typography
+                  component="p"
+                  variant="h1"
+                  data-cy="label-unsupported-file-message"
+                >
+                  <Trans>File format not supported.</Trans>
+                </Typography>
+                <Button
+                  className={classes.downloadButton}
+                  variant="outline"
+                  onClick={handleDownload}
+                  data-cy="button-download-unsupported-file"
+                >
+                  <Trans>Download</Trans>
+                </Button>
+              </div>
+            )}
             {!isDownloading &&
               !error &&
               compatibleFilesMatcher.match(content_type) &&
