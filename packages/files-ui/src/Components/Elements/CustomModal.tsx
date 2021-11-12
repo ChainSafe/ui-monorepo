@@ -13,7 +13,8 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
     },
     inner: {
       backgroundColor: constants.modalDefault.backgroundColor,
-      color: constants.modalDefault.color
+      color: constants.modalDefault.color,
+      maxWidth: 400
     },
     mobileStickyBottom: {
       [breakpoints.down("md")]: {

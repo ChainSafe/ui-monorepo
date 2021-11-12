@@ -8,7 +8,6 @@ const useStyles = makeStyles(
   ({ animation, constants, palette, overrides }: ITheme) =>
     createStyles({
       root: {
-        margin: 5,
         display: "block",
         ...overrides?.SelectInput?.root
       },

@@ -19,17 +19,21 @@ const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       modalRoot: {
-        zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {}
+        zIndex: zIndex?.blocker
       },
       modalInner: {
         backgroundColor: constants.fileInfoModal.background,
-        color: constants.fileInfoModal.color
+        color: constants.fileInfoModal.color,
+        width: 500
       },
       root: {
-        padding: constants.generalUnit * 4,
+        padding: constants.generalUnit * 3,
         flexDirection: "column",
+        display: "flex"
+      },
+      topIconContainer: {
         display: "flex",
+        flexDirection: "column",
         alignItems: "center"
       },
       closeButton: {
@@ -86,29 +90,28 @@ const useStyles = makeStyles(
       },
       buttonsContainer: {
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
         marginTop: constants.generalUnit * 2
       },
       mainButton: {
-        width: "100%"
+        width: 200,
+        marginBottom: constants.generalUnit * 0.5
       },
-      sideBySideButton: {
-        minWidth: constants.generalUnit * 12,
-        "&:first-child": {
-          marginRight: constants.generalUnit * 2
-        }
+      cancelButton: {
+        maxWidth: 100
       },
       heading: {
         color: constants.modalDefault.color,
         fontWeight: typography.fontWeight.semibold,
-        marginBottom: 10
+        marginBottom: constants.generalUnit * 3
       },
       iconBacking: {
         backgroundColor: constants.modalDefault.iconBackingColor,
         width: 48,
         height: 48,
         borderRadius: 24,
-        marginBottom: 16,
+        marginBottom: 8,
         "& > svg": {
           width: 16,
           height: 16,
@@ -126,7 +129,6 @@ const useStyles = makeStyles(
       },
       modalFlexItem: {
         width: "100%",
-        margin: 5,
         marginBottom: constants.generalUnit * 2
       },
       loadingContainer: {
@@ -147,7 +149,7 @@ const useStyles = makeStyles(
         outline: "none",
         textDecoration: "underline",
         cursor: "pointer",
-        textAlign: "center",
+        textAlign: "left",
         marginBottom: constants.generalUnit * 2
       },
       error: {
@@ -189,7 +191,7 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError, resetUsers } = useLookupSharedFolderUser()
-  const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
+  const [isUsingExistingBucket, setIsUsingExistingBucket] = useState(true)
   const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
   const { buckets, transferFileBetweenBuckets } = useFiles()
@@ -232,7 +234,7 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
   // if the user has no shared bucket, we default to new folder creation
   useEffect(() => {
     if (hasNoSharedBucket) {
-      setIsUsingCurrentBucket(false)
+      setIsUsingExistingBucket(false)
     }
   }, [hasNoSharedBucket])
 
@@ -258,13 +260,13 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
       return
     }
 
-    if(!destinationBucket && isUsingCurrentBucket){
+    if(!destinationBucket && isUsingExistingBucket){
       return
     }
 
     let bucketToUpload: BucketKeyPermission | undefined = destinationBucket
 
-    if (!isUsingCurrentBucket) {
+    if (!isUsingExistingBucket) {
       try {
         const newBucket = await handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
 
@@ -289,7 +291,7 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
     bucket,
     destinationBucket,
     handleCreateSharedFolder,
-    isUsingCurrentBucket,
+    isUsingExistingBucket,
     sharedFolderName,
     sharedFolderReaders,
     sharedFolderWriters,
@@ -310,19 +312,21 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
       mobileStickyBottom={false}
     >
       <div className={classes.root}>
-        <div className={classes.iconBacking}>
-          <ShareAltSvg />
-        </div>
-        <div className={classes.heading}>
-          <Typography className={classes.inputLabel}>
-            {inSharedBucket
-              ? t`Copy file`
-              : t`Share file`
-            }
-          </Typography>
+        <div className={classes.topIconContainer}>
+          <div className={classes.iconBacking}>
+            <ShareAltSvg />
+          </div>
+          <div className={classes.heading}>
+            <Typography className={classes.inputLabel}>
+              {inSharedBucket
+                ? t`Copy file`
+                : t`Share file`
+              }
+            </Typography>
+          </div>
         </div>
         <div className={classes.modalFlexItem}>
-          {isUsingCurrentBucket
+          {isUsingExistingBucket
             ? (
               <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
                 <SelectInput
@@ -406,21 +410,21 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
               </>
             )}
         </div>
+        {!hasNoSharedBucket && (
+          <div
+            className={classes.buttonLink}
+            onClick={() => setIsUsingExistingBucket(!isUsingExistingBucket)}
+          >
+            <Typography>
+              {
+                isUsingExistingBucket
+                  ? <Trans>Or Create a new shared folder</Trans>
+                  : <Trans>Or Use an existing shared folder</Trans>
+              }
+            </Typography>
+          </div>
+        )}
         <div className={classes.buttonsArea}>
-          {!hasNoSharedBucket && (
-            <div
-              className={classes.buttonLink}
-              onClick={() => setIsUsingCurrentBucket(!isUsingCurrentBucket)}
-            >
-              <Typography>
-                {
-                  isUsingCurrentBucket
-                    ? <Trans>Create a new shared folder</Trans>
-                    : <Trans>Use an existing shared folder</Trans>
-                }
-              </Typography>
-            </div>
-          )}
           {!isReader && (
             <div className={classes.checkboxContainer}>
               <CheckboxInput
@@ -432,20 +436,12 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
           )}
           <div className={classes.buttonsContainer}>
             <Button
-              size="large"
-              variant="outline"
-              onClick={close}
-              className={classes.sideBySideButton}
-            >
-              <Trans>Cancel</Trans>
-            </Button>
-            <Button
               type="submit"
               size="large"
               variant="primary"
               onClick={handleShare}
-              className={classes.sideBySideButton}
-              disabled={isUsingCurrentBucket
+              className={classes.mainButton}
+              disabled={isUsingExistingBucket
                 ? !destinationBucket?.id
                 : !sharedFolderName || !!usersError || !!nameError
               }
@@ -454,6 +450,14 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
                 ? <Trans>Copy over</Trans>
                 : <Trans>Move over</Trans>
               }
+            </Button>
+            <Button
+              size="large"
+              variant="text"
+              onClick={close}
+              className={classes.cancelButton}
+            >
+              <Trans>Cancel</Trans>
             </Button>
           </div>
         </div>
