@@ -159,7 +159,7 @@ const UserProvider = ({ children }: UserContextProps) => {
     if (!profile) return Promise.reject("Profile not initialized")
 
     try {
-      await filesApiClient.updateUser({
+      const result = await filesApiClient.updateUser({
         first_name: profile.firstName || "",
         last_name: profile.lastName || "",
         email: profile.email || "",
@@ -168,7 +168,7 @@ const UserProvider = ({ children }: UserContextProps) => {
 
       setProfile({
         ...profile,
-        username
+        username: result.username
       })
       return Promise.resolve()
     } catch (error: any) {
@@ -184,7 +184,7 @@ const UserProvider = ({ children }: UserContextProps) => {
   const toggleLookupConsent = async () => {
     if (!profile) return Promise.reject("Profile not initialized")
     try {
-      await filesApiClient.updateUser({
+      const result = await filesApiClient.updateUser({
         first_name: profile.firstName || "",
         last_name: profile.lastName || "",
         email: profile.email || "",
@@ -194,8 +194,7 @@ const UserProvider = ({ children }: UserContextProps) => {
 
       setProfile({
         ...profile,
-        lookupConsent: !profile.lookupConsent
-
+        lookupConsent: result.user_lookup_consent || false
       })
       return Promise.resolve()
     } catch (error: any) {

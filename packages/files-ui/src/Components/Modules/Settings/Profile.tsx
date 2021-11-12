@@ -165,7 +165,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     },
     usernameForm: {
       display: "flex",
-      marginBottom: constants.generalUnit * 4,
+      marginBottom: constants.generalUnit,
       "& svg": {
         fill: palette.success.main
       }
@@ -400,85 +400,87 @@ const ProfileView = () => {
                   </div>
                 </div>
               }
-              {profile?.username
-                ? <div className={classes.inputBoxContainer}>
-                  <Typography
-                    component="p"
-                    className={classes.label}
-                  >
-                    <Trans>Username</Trans>
-                  </Typography>
-                  <div className={classes.usernameForm}>
-                    <TextInput
-                      disabled={true}
-                      value={profile.username}
-                      className={classes.usernameInput}
-                    />
-                  </div>
-                </div>
-                : <div className={classes.inputBoxContainer}>
-                  <Typography
-                    component="p"
-                    className={classes.label}
-                  >
-                    <Trans>Username</Trans>
-                  </Typography>
-                  {showUsernameForm
-                    ? <div>
-                      <Typography
-                        component="p"
-                        className={classes.subLabel}
-                      >
-                        <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
-                      </Typography>
-                      <form
-                        onSubmit={onSubmitUsername}
-                        className={classes.usernameForm}
-                      >
-                        <TextInput
-                          placeholder={t`Username`}
-                          name="username"
-                          size="medium"
-                          value={username}
-                          className={classes.usernameInput}
-                          RightIcon={username && !usernameData.error ? CheckIcon : undefined}
-                          onChange={onUsernameChange}
-                          captionMessage={usernameData.error}
-                          state={usernameData.error ? "error" : "normal"}
-                          data-cy="profile-username-input"
-                        />
-                        <div>
-                          <Button
-                            type="submit"
-                            disabled={usernameData.loading || !!usernameData.error || !username}
-                            loading={usernameData.loading}
-                          >
-                            {usernameData.loading ? t`Setting Username` : t`Set Username`}
-                          </Button>
-                        </div>
-                      </form>
+              <div className={classes.inputBoxContainer}>
+                {profile?.username
+                  ? <>
+                    <Typography
+                      component="p"
+                      className={classes.label}
+                    >
+                      <Trans>Username</Trans>
+                    </Typography>
+                    <div className={classes.usernameForm}>
+                      <TextInput
+                        disabled={true}
+                        value={profile.username}
+                        className={classes.usernameInput}
+                      />
                     </div>
-                    : <div>
-                      <Typography
-                        component="p"
-                        className={classes.subLabel}
-                      >
-                        <span>
-                          <Trans>You haven&apos;t set a username yet.</Trans>
-                        </span>
-                        {" "}
-                        <span
-                          className={classes.buttonLink}
-                          onClick={() => setShowUsernameForm(true)}
+                  </>
+                  : <>
+                    <Typography
+                      component="p"
+                      className={classes.label}
+                    >
+                      <Trans>Username</Trans>
+                    </Typography>
+                    {showUsernameForm
+                      ? <div>
+                        <Typography
+                          component="p"
+                          className={classes.subLabel}
                         >
-                          <Trans>Add a username</Trans>
-                        </span>
-                      </Typography>
-                    </div>
-                  }
-                </div>
-              }
-              <CheckboxInput label='Allow lookup by username or wallet address' value={profile?.lookupConsent || false} onChange={toggleLookupConsent} />
+                          <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
+                        </Typography>
+                        <form
+                          onSubmit={onSubmitUsername}
+                          className={classes.usernameForm}
+                        >
+                          <TextInput
+                            placeholder={t`Username`}
+                            name="username"
+                            size="medium"
+                            value={username}
+                            className={classes.usernameInput}
+                            RightIcon={username && !usernameData.error ? CheckIcon : undefined}
+                            onChange={onUsernameChange}
+                            captionMessage={usernameData.error}
+                            state={usernameData.error ? "error" : "normal"}
+                            data-cy="profile-username-input"
+                          />
+                          <div>
+                            <Button
+                              type="submit"
+                              disabled={usernameData.loading || !!usernameData.error || !username}
+                              loading={usernameData.loading}
+                            >
+                              {usernameData.loading ? t`Setting Username` : t`Set Username`}
+                            </Button>
+                          </div>
+                        </form>
+                      </div>
+                      : <div>
+                        <Typography
+                          component="p"
+                          className={classes.subLabel}
+                        >
+                          <span>
+                            <Trans>You haven&apos;t set a username yet.</Trans>
+                          </span>
+                          {" "}
+                          <span
+                            className={classes.buttonLink}
+                            onClick={() => setShowUsernameForm(true)}
+                          >
+                            <Trans>Add a username</Trans>
+                          </span>
+                        </Typography>
+                      </div>
+                    }
+                  </>
+                }
+                <CheckboxInput label='Allow lookup by username or wallet address' value={profile?.lookupConsent || false} onChange={toggleLookupConsent} />
+              </div>
               <FormikProvider value={formik}>
                 <Form>
                   <div className={classes.inputBoxContainer}>
