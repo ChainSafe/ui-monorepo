@@ -1,7 +1,6 @@
 import { Button, ShareAltSvg, TagsInput, Typography, Grid, TextInput } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { useState, useCallback } from "react"
-import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
 import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 import CustomButton from "../../Elements/CustomButton"
@@ -12,7 +11,6 @@ import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
-import LinkList from "./LinkSharing/LinkList"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -110,19 +108,21 @@ const useStyles = makeStyles(
       sharingLink: {
         padding: constants.generalUnit * 2,
         margin: 0
+      },
+      subModal: {
+        width: "100%"
       }
     })
   }
 )
 
-interface ICreateOrEditSharedFolderModalProps {
+interface ICreateOrManageSharedFolderProps {
   mode?: SharedFolderModalMode
-  isModalOpen: boolean
   onClose: () => void
   bucketToEdit?: BucketKeyPermission
 }
 
-const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdit }: ICreateOrEditSharedFolderModalProps) => {
+const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrManageSharedFolderProps) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
   const { handleCreateSharedFolder, handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
@@ -195,36 +195,20 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
   }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
 
   return (
-    <CustomModal
-      className={classes.modalRoot}
-      injectedClass={{
-        inner: classes.modalInner
-      }}
-      active={isModalOpen}
-      closePosition="none"
-      maxWidth="sm"
-      testId="create-or-edit-shared-folder"
-      subModal={mode === "edit" && !!bucketToEdit && (
-        <LinkList
-          bucketEncryptionKey={bucketToEdit.encryptionKey}
-          bucketId={bucketToEdit.id}
-        />
-      )}
-    >
-      <div className={classes.root}>
-        <div className={classes.iconBacking}>
-          <ShareAltSvg />
-        </div>
-        <div className={classes.heading}>
-          <Typography className={classes.inputLabel}>
-            {mode === "create"
-              ? <Trans>Create Shared Folder</Trans>
-              : <Trans>Update Shared Folder</Trans>
-            }
+    <div className={classes.root}>
+      <div className={classes.iconBacking}>
+        <ShareAltSvg />
+      </div>
+      <div className={classes.heading}>
+        <Typography className={classes.inputLabel}>
+          {mode === "create"
+            ? <Trans>Create Shared Folder</Trans>
+            : <Trans>Manage Shared Folder</Trans>
+          }
 
-          </Typography>
-        </div>
-        {mode === "create" &&
+        </Typography>
+      </div>
+      {mode === "create" &&
           <div className={classes.modalFlexItem}>
             <TextInput
               className={classes.shareFolderNameInput}
@@ -246,110 +230,109 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               </Typography>
             )}
           </div>
-        }
-        <div
-          className={classes.modalFlexItem}
-          data-cy="input-view-permission"
-        >
-          <TagsInput
-            onChange={(values) => {
-              setHasPermissionsChanged(true)
-              onNewUsers(values, "read")
-            }}
-            label={t`Give view-only permission to:`}
-            labelClassName={classes.inputLabel}
-            value={sharedFolderReaders}
-            fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
-            placeholder={t`Add by sharing address, username or wallet address`}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                minHeight: 90,
-                alignContent: "start"
-              })
-            }}
-            loadingMessage={t`Loading`}
-            noOptionsMessage={t`No user found for this query.`}
-            data-cy="tag-view-permission-user"
-          />
-        </div>
-        <div
-          className={classes.modalFlexItem}
-          data-cy="input-edit-permission"
-        >
-          <TagsInput
-            onChange={(values) => {
-              setHasPermissionsChanged(true)
-              onNewUsers(values, "write")
-            }}
-            label={t`Give edit permission to:`}
-            labelClassName={classes.inputLabel}
-            value={sharedFolderWriters}
-            fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
-            placeholder={t`Add by sharing address, username or wallet address`}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                minHeight: 90,
-                alignContent: "start"
-              })
-            }}
-            loadingMessage={t`Loading`}
-            noOptionsMessage={t`No user found for this query.`}
-            data-cy="tag-edit-permission-user"
-          />
-        </div>
+      }
+      <div
+        className={classes.modalFlexItem}
+        data-cy="input-view-permission"
+      >
+        <TagsInput
+          onChange={(values) => {
+            setHasPermissionsChanged(true)
+            onNewUsers(values, "read")
+          }}
+          label={t`Give view-only permission to:`}
+          labelClassName={classes.inputLabel}
+          value={sharedFolderReaders}
+          fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
+          placeholder={t`Add by sharing address, username or wallet address`}
+          styles={{
+            control: (provided) => ({
+              ...provided,
+              minHeight: 90,
+              alignContent: "start"
+            })
+          }}
+          loadingMessage={t`Loading`}
+          noOptionsMessage={t`No user found for this query.`}
+          data-cy="tag-view-permission-user"
+        />
+      </div>
+      <div
+        className={classes.modalFlexItem}
+        data-cy="input-edit-permission"
+      >
+        <TagsInput
+          onChange={(values) => {
+            setHasPermissionsChanged(true)
+            onNewUsers(values, "write")
+          }}
+          label={t`Give edit permission to:`}
+          labelClassName={classes.inputLabel}
+          value={sharedFolderWriters}
+          fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
+          placeholder={t`Add by sharing address, username or wallet address`}
+          styles={{
+            control: (provided) => ({
+              ...provided,
+              minHeight: 90,
+              alignContent: "start"
+            })
+          }}
+          loadingMessage={t`Loading`}
+          noOptionsMessage={t`No user found for this query.`}
+          data-cy="tag-edit-permission-user"
+        />
+      </div>
+      <Grid
+        item
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        className={classes.footer}
+      >
+        {!!usersError && (
+          <Typography
+            component="p"
+            variant="body1"
+            className={classes.errorText}
+          >
+            {usersError}
+          </Typography>
+        )}
         <Grid
           item
           flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-          className={classes.footer}
+          justifyContent="flex-end"
         >
-          {!!usersError && (
-            <Typography
-              component="p"
-              variant="body1"
-              className={classes.errorText}
-            >
-              {usersError}
-            </Typography>
-          )}
-          <Grid
-            item
-            flexDirection="row"
-            justifyContent="flex-end"
+          <CustomButton
+            onClick={handleClose}
+            size="medium"
+            className={classes.cancelButton}
+            variant={desktop ? "outline" : "gray"}
+            type="button"
+            data-cy="button-cancel-create-shared-folder"
           >
-            <CustomButton
-              onClick={handleClose}
-              size="medium"
-              className={classes.cancelButton}
-              variant={desktop ? "outline" : "gray"}
-              type="button"
-              data-cy="button-cancel-create-shared-folder"
-            >
-              <Trans>Cancel</Trans>
-            </CustomButton>
-            <Button
-              variant="primary"
-              size={desktop ? "medium" : "large"}
-              type="submit"
-              className={classes.okButton}
-              loading={isCreatingSharedFolder || isEditingSharedFolder}
-              onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
-              disabled={mode === "create" ? (!!usersError || !!nameError) : !hasPermissionsChanged || !!usersError}
-              data-cy={mode === "create" ? "button-create-shared-folder" : "button-update-shared-folder"}
-            >
-              {mode === "create"
-                ? <Trans>Create</Trans>
-                : <Trans>Update</Trans>
-              }
-            </Button>
-          </Grid>
+            <Trans>Cancel</Trans>
+          </CustomButton>
+          <Button
+            variant="primary"
+            size={desktop ? "medium" : "large"}
+            type="submit"
+            className={classes.okButton}
+            loading={isCreatingSharedFolder || isEditingSharedFolder}
+            onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
+            disabled={mode === "create" ? (!!usersError || !!nameError) : !hasPermissionsChanged || !!usersError}
+            data-cy={mode === "create" ? "button-create-shared-folder" : "button-update-shared-folder"}
+          >
+            {mode === "create"
+              ? <Trans>Create</Trans>
+              : <Trans>Update</Trans>
+            }
+          </Button>
         </Grid>
-      </div>
-    </CustomModal>
+      </Grid>
+    </div>
   )
 }
 
-export default CreateOrEditSharedFolderModal
+export default CreateOrManageSharedFolder

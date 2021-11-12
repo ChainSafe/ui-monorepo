@@ -2,11 +2,10 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
-import { Button, CheckboxInput, SelectInput, ShareAltSvg, TagsInput, TextInput, Typography } from "@chainsafe/common-components"
+import { Button, CheckboxInput, SelectInput, ShareAltSvg, TextInput, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useCallback } from "react"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
-import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { useMemo } from "react"
 import { BucketKeyPermission, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { useUser } from "../../../Contexts/UserContext"
@@ -124,12 +123,17 @@ const useStyles = makeStyles(
         }
       },
       inputLabel: {
-        fontSize: 16,
-        fontWeight: 600
+        fontSize: 14,
+        fontWeight: 600,
+        marginBottom: constants.generalUnit
       },
       modalFlexItem: {
         width: "100%",
         marginBottom: constants.generalUnit * 2
+      },
+      newFolderInput: {
+        margin: 0,
+        width: "100%"
       },
       loadingContainer: {
         width: "100%",
@@ -171,7 +175,7 @@ const useStyles = makeStyles(
         marginBottom: 0
       },
       errorText: {
-        marginLeft: constants.generalUnit * 2,
+        marginTop: constants.generalUnit * 1,
         color: palette.error.main
       },
       titleWrapper: {
@@ -190,7 +194,6 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
   const classes = useStyles()
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError, resetUsers } = useLookupSharedFolderUser()
   const [isUsingExistingBucket, setIsUsingExistingBucket] = useState(true)
   const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
@@ -226,10 +229,9 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
 
   useEffect(() => {
-    resetUsers()
     setSharedFolderName("")
     setNameError("")
-  }, [resetUsers])
+  }, [])
 
   // if the user has no shared bucket, we default to new folder creation
   useEffect(() => {
@@ -268,7 +270,7 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
 
     if (!isUsingExistingBucket) {
       try {
-        const newBucket = await handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
+        const newBucket = await handleCreateSharedFolder(sharedFolderName, [], [])
 
         if(!newBucket){
           return
@@ -293,8 +295,6 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
     handleCreateSharedFolder,
     isUsingExistingBucket,
     sharedFolderName,
-    sharedFolderReaders,
-    sharedFolderWriters,
     keepOriginalFile,
     close,
     transferFileBetweenBuckets,
@@ -339,75 +339,97 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
               </div>
             )
             : (
-              <>
-                <div className={clsx(classes.modalFlexItem, classes.titleWrapper)}>
-                  <TextInput
-                    className={classes.shareFolderNameInput}
-                    labelClassName={classes.inputLabel}
-                    label={t`Shared Folder Name`}
-                    value={sharedFolderName}
-                    autoFocus
-                    onChange={onNameChange}
-                    state={nameError ? "error" : "normal"}
-                  />
-                  {nameError && (
-                    <Typography
-                      component="p"
-                      variant="body1"
-                      className={classes.errorText}
-                    >
-                      {nameError}
-                    </Typography>
-                  )}
-                </div>
-                <div className={classes.modalFlexItem}>
-                  <TagsInput
-                    onChange={(values) => onNewUsers(values, "read")}
-                    label={t`Give view-only permission to:`}
-                    labelClassName={classes.inputLabel}
-                    value={sharedFolderReaders}
-                    fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
-                    placeholder={t`Add by sharing address, username or wallet address`}
-                    styles={{
-                      control: (provided) => ({
-                        ...provided,
-                        minHeight: 90,
-                        alignContent: "start"
-                      })
-                    }}
-                    loadingMessage={t`Loading`}
-                    noOptionsMessage={t`No user found for this query.`}
-                  />
-                </div>
-                <div className={classes.modalFlexItem}>
-                  <TagsInput
-                    onChange={(values) => onNewUsers(values, "write")}
-                    label={t`Give edit permission to:`}
-                    labelClassName={classes.inputLabel}
-                    value={sharedFolderWriters}
-                    fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
-                    placeholder={t`Add by sharing address, username or wallet address`}
-                    styles={{
-                      control: (provided) => ({
-                        ...provided,
-                        minHeight: 90,
-                        alignContent: "start"
-                      })
-                    }}
-                    loadingMessage={t`Loading...`}
-                    noOptionsMessage={t`No user found for this query.`}
-                  />
-                </div>
-                {!!usersError && (
+              // <>
+              //   <div className={clsx(classes.modalFlexItem, classes.titleWrapper)}>
+              //     <TextInput
+              //       className={classes.shareFolderNameInput}
+              //       labelClassName={classes.inputLabel}
+              //       label={t`Shared Folder Name`}
+              //       value={sharedFolderName}
+              //       autoFocus
+              //       onChange={onNameChange}
+              //       state={nameError ? "error" : "normal"}
+              //     />
+              //     {nameError && (
+              //       <Typography
+              //         component="p"
+              //         variant="body1"
+              //         className={classes.errorText}
+              //       >
+              //         {nameError}
+              //       </Typography>
+              //     )}
+              //   </div>
+              //   <div className={classes.modalFlexItem}>
+              //     <TagsInput
+              //       onChange={(values) => onNewUsers(values, "read")}
+              //       label={t`Give view-only permission to:`}
+              //       labelClassName={classes.inputLabel}
+              //       value={sharedFolderReaders}
+              //       fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
+              //       placeholder={t`Add by sharing address, username or wallet address`}
+              //       styles={{
+              //         control: (provided) => ({
+              //           ...provided,
+              //           minHeight: 90,
+              //           alignContent: "start"
+              //         })
+              //       }}
+              //       loadingMessage={t`Loading`}
+              //       noOptionsMessage={t`No user found for this query.`}
+              //     />
+              //   </div>
+              //   <div className={classes.modalFlexItem}>
+              //     <TagsInput
+              //       onChange={(values) => onNewUsers(values, "write")}
+              //       label={t`Give edit permission to:`}
+              //       labelClassName={classes.inputLabel}
+              //       value={sharedFolderWriters}
+              //       fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
+              //       placeholder={t`Add by sharing address, username or wallet address`}
+              //       styles={{
+              //         control: (provided) => ({
+              //           ...provided,
+              //           minHeight: 90,
+              //           alignContent: "start"
+              //         })
+              //       }}
+              //       loadingMessage={t`Loading...`}
+              //       noOptionsMessage={t`No user found for this query.`}
+              //     />
+              //   </div>
+              //   {!!usersError && (
+              //     <Typography
+              //       component="p"
+              //       variant="body1"
+              //       className={classes.errorText}
+              //     >
+              //       {usersError}
+              //     </Typography>
+              //   )}
+              // </>
+              <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
+                <TextInput
+                  label={t`Shared folder name`}
+                  placeholder={t`Shared folder name`}
+                  className={classes.newFolderInput}
+                  labelClassName={classes.inputLabel}
+                  size="large"
+                  value={sharedFolderName}
+                  autoFocus
+                  onChange={onNameChange}
+                  state={nameError ? "error" : "normal"}
+                />
+                {!!nameError && (
                   <Typography
                     component="p"
                     variant="body1"
                     className={classes.errorText}
                   >
-                    {usersError}
+                    {nameError}
                   </Typography>
                 )}
-              </>
+              </div>
             )}
         </div>
         {!hasNoSharedBucket && (
@@ -443,12 +465,15 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
               className={classes.mainButton}
               disabled={isUsingExistingBucket
                 ? !destinationBucket?.id
-                : !sharedFolderName || !!usersError || !!nameError
+                : !sharedFolderName  || !!nameError
               }
             >
-              {keepOriginalFile
+              {isUsingExistingBucket ? keepOriginalFile
                 ? <Trans>Copy over</Trans>
                 : <Trans>Move over</Trans>
+                : keepOriginalFile
+                  ? <Trans>Create folder &amp; Copy over</Trans>
+                  : <Trans>Create folder &amp; Move over</Trans>
               }
             </Button>
             <Button
