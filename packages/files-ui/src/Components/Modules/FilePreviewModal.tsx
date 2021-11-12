@@ -162,7 +162,7 @@ const useStyles = makeStyles(
           position: "absolute"
         }
       },
-      focusVisible:{
+      focusVisible: {
         backgroundColor: "transparent !important"
       },
       menuWrapper: {
@@ -185,7 +185,7 @@ interface Props {
 const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath }: Props) => {
   const classes = useStyles()
   const { downloadFile } = useFiles()
-  const [fileContent, setFileContent] = useState<Blob |undefined>()
+  const [fileContent, setFileContent] = useState<Blob | undefined>()
   const { bucket } = useFileBrowser()
   const { buckets } = useFiles()
   const { desktop } = useThemeSwitcher()
@@ -217,6 +217,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
 
     setFileContent(undefined)
     if (previewRendererKey) {
+      debugger
       getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
         .then((content) => {
           setFileContent(content)
@@ -296,7 +297,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         </Typography>
         <Menu
           testId='preview-kebab'
-          icon={<MoreIcon className={classes.dropdownIcon}/>}
+          icon={<MoreIcon className={classes.dropdownIcon} />}
           options={menuItems}
           style={{
             focusVisible: classes.focusVisible,
@@ -369,27 +370,27 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
             {!isDownloading &&
               !error &&
               !compatibleFilesMatcher.match(content_type) && (
-              <div className={classes.previewContent}>
-                <CloseCircleIcon
-                  fontSize={desktop ? "extraLarge" : "medium"}
-                />
-                <Typography
-                  component="p"
-                  variant="h1"
-                  data-cy="label-unsupported-file-message"
-                >
-                  <Trans>File format not supported.</Trans>
-                </Typography>
-                <Button
-                  className={classes.downloadButton}
-                  variant="outline"
-                  onClick={handleDownload}
-                  data-cy="button-download-unsupported-file"
-                >
-                  <Trans>Download</Trans>
-                </Button>
-              </div>
-            )}
+                <div className={classes.previewContent}>
+                  <CloseCircleIcon
+                    fontSize={desktop ? "extraLarge" : "medium"}
+                  />
+                  <Typography
+                    component="p"
+                    variant="h1"
+                    data-cy="label-unsupported-file-message"
+                  >
+                    <Trans>File format not supported.</Trans>
+                  </Typography>
+                  <Button
+                    className={classes.downloadButton}
+                    variant="outline"
+                    onClick={handleDownload}
+                    data-cy="button-download-unsupported-file"
+                  >
+                    <Trans>Download</Trans>
+                  </Button>
+                </div>
+              )}
             {!isDownloading &&
               !error &&
               compatibleFilesMatcher.match(content_type) &&
