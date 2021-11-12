@@ -28,6 +28,9 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
+msgid "Active links"
+msgstr ""
+
 msgid "Add a username"
 msgstr "Legg til et brukernavn"
 
@@ -47,6 +50,9 @@ msgid "Adding you to the shared folder..."
 msgstr ""
 
 msgid "An error occurred:"
+msgstr ""
+
+msgid "Anyone with the link can:"
 msgstr ""
 
 msgid "Approve"
@@ -139,9 +145,6 @@ msgstr ""
 msgid "Copy info"
 msgstr ""
 
-msgid "Copy link"
-msgstr ""
-
 msgid "Copy over"
 msgstr ""
 
@@ -163,7 +166,10 @@ msgstr ""
 msgid "Create a new shared folder"
 msgstr ""
 
-msgid "Create new link"
+msgid "Create a sharing link"
+msgstr ""
+
+msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -649,9 +655,6 @@ msgstr ""
 msgid "Sharing files"
 msgstr ""
 
-msgid "Sharing link"
-msgstr ""
-
 msgid "Sign Out"
 msgstr "Logg ut"
 
@@ -883,7 +886,7 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "edit rights"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"
@@ -892,13 +895,10 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-msgid "read rights"
-msgstr ""
-
 msgid "unknown"
 msgstr ""
 
-msgid "with"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
