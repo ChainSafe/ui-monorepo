@@ -17,17 +17,21 @@ import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
 import LinkList from "./LinkSharing/LinkList"
 import { usePosthogContext } from "../../../Contexts/PosthogContext"
 
+interface StyleProps {
+  width: number
+}
+
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker
       },
-      modalInner: {
+      modalInner: ({ width }: StyleProps) => ({
         backgroundColor: constants.fileInfoModal.background,
         color: constants.fileInfoModal.color,
-        width: 500
-      },
+        width
+      }),
       root: {
         padding: constants.generalUnit * 3,
         flexDirection: "column",
@@ -184,9 +188,9 @@ const useStyles = makeStyles(
       titleWrapper: {
         padding: "0 5px"
       },
-      subModal: {
-        width: "100%"
-      }
+      subModal: ({ width }: StyleProps) => ({
+        width
+      })
     })
   }
 )
@@ -197,7 +201,6 @@ interface IShareFileProps {
 }
 
 const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
-  const classes = useStyles()
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const [isUsingExistingBucket, setIsUsingExistingBucket] = useState(true)
@@ -210,6 +213,10 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
   const { profile } = useUser()
   const [nameError, setNameError] = useState("")
   const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
+
+  const classes = useStyles({
+    width: bucketToUpload ? 600 : 500
+  })
 
   const isReader = useMemo(() => {
     if (!bucket) return false
