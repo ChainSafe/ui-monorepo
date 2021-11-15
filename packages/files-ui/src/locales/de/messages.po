@@ -430,6 +430,9 @@ msgstr "Name zu lang"
 msgid "New folder"
 msgstr "Neuer Ordner"
 
+msgid "New shared folder name"
+msgstr ""
+
 msgid "Next"
 msgstr "Nächste"
 

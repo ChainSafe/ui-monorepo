@@ -434,6 +434,9 @@ msgstr "Le nom est trop long"
 msgid "New folder"
 msgstr "Nouveau dossier"
 
+msgid "New shared folder name"
+msgstr ""
+
 msgid "Next"
 msgstr "Suivant"
 

@@ -434,6 +434,9 @@ msgstr ""
 msgid "New folder"
 msgstr "Nuevo Folder"
 
+msgid "New shared folder name"
+msgstr ""
+
 msgid "Next"
 msgstr "Próximo"
 
