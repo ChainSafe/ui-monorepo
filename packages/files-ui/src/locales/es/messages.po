@@ -50,6 +50,9 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
+msgid "Allow lookup by sharing key, wallet address or username"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr ""
 
@@ -768,9 +771,6 @@ msgid "This link is not valid any more."
 msgstr ""
 
 msgid "This username is already taken"
-msgstr ""
-
-msgid "This username is public"
 msgstr ""
 
 msgid "This website uses cookies"
