@@ -31,6 +31,7 @@ export interface ITableCellProps {
   align?: AlignOption
   onClick?: (e?: React.MouseEvent) => void
 }
+
 const TableCell = React.forwardRef(
   (
     {
