@@ -30,7 +30,10 @@ const useStyles = makeStyles(
       modalInner: ({ width }: StyleProps) => ({
         backgroundColor: constants.fileInfoModal.background,
         color: constants.fileInfoModal.color,
-        width
+        width,
+        [breakpoints.down("sm")]: {
+          width: "100%"
+        }
       }),
       root: {
         padding: constants.generalUnit * 3,
@@ -189,7 +192,10 @@ const useStyles = makeStyles(
         padding: "0 5px"
       },
       subModal: ({ width }: StyleProps) => ({
-        width
+        width,
+        [breakpoints.down("sm")]: {
+          width: "100%"
+        }
       })
     })
   }
