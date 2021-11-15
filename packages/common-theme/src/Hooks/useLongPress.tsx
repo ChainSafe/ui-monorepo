@@ -86,8 +86,7 @@ export const useLongPress = (
           }
         }
       }
-
-    }, [onLongPress, delay]
+    }, [clear]
   )
 
   return {
