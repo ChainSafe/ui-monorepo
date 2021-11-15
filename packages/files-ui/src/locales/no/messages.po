@@ -430,6 +430,9 @@ msgstr "Navnet er for langt"
 msgid "New folder"
 msgstr "Ny mappe"
 
+msgid "New shared folder name"
+msgstr ""
+
 msgid "Next"
 msgstr "Neste"
 

@@ -433,6 +433,9 @@ msgstr "Name too long"
 msgid "New folder"
 msgstr "New folder"
 
+msgid "New shared folder name"
+msgstr "New shared folder name"
+
 msgid "Next"
 msgstr "Next"
 
