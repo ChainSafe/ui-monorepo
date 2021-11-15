@@ -37,8 +37,32 @@ const useStyles = makeStyles(
         position: "fixed",
         left: 0,
         opacity: 0,
+        "&:before": {
+          content: "''",
+          display: "block",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          height: "100%",
+          width: "100%",
+          zIndex: 9999,
+          opacity: 0,
+          visibility: "visible",
+          transitionDuration: `${animation.translate}ms`
+        },
         "&.active": {
-          opacity: 1
+          opacity: 1,
+          "&:before": {
+            content: "''",
+            display: "block",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            height: "100%",
+            width: "100%",
+            zIndex: -1,
+            visibility: "hidden"
+          }
         },
         [breakpoints.up("md")]: {
           padding: `${constants.topPadding}px ${
