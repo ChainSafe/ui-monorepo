@@ -95,7 +95,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     button: {
       width: 200,
       margin: `0px ${constants.generalUnit * 0.5}px ${constants.generalUnit * 4
-        }px`
+      }px`
     },
     icon: {
       fontSize: "20px",
