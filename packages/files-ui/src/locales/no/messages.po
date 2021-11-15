@@ -46,7 +46,7 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
-msgid "Allow lookup by username or wallet address"
+msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
 msgid "An error occurred:"
