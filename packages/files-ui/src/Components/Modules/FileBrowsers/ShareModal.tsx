@@ -15,6 +15,7 @@ import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
 import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
 import LinkList from "./LinkSharing/LinkList"
+import { usePosthogContext } from "../../../Contexts/PosthogContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -315,6 +316,8 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
     fileSystemItems
   ])
 
+  const { captureEvent } = usePosthogContext()
+
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -369,7 +372,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
               : (
                 <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
                   <TextInput
-                    label={t`Shared folder name`}
+                    label={t`New shared folder name`}
                     placeholder={t`Shared folder name`}
                     className={classes.newFolderInput}
                     labelClassName={classes.inputLabel}
@@ -410,7 +413,10 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
               <div className={classes.checkboxContainer}>
                 <CheckboxInput
                   value={keepOriginalFile}
-                  onChange={() => setKeepOriginalFile(!keepOriginalFile)}
+                  onChange={() => {
+                    captureEvent("copy or move files on share")
+                    setKeepOriginalFile(!keepOriginalFile)}
+                  }
                   label={t`Keep original files`}
                 />
               </div>

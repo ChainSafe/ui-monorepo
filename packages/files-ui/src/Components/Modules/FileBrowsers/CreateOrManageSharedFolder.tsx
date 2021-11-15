@@ -16,7 +16,7 @@ const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
     return createStyles({
       root: {
-        padding: constants.generalUnit * 4,
+        padding: constants.generalUnit * 2,
         flexDirection: "column",
         display: "flex",
         alignItems: "center"
@@ -64,7 +64,8 @@ const useStyles = makeStyles(
         width: 48,
         height: 48,
         borderRadius: 24,
-        marginBottom: 16,
+        marginBottom: constants.generalUnit * 2,
+        marginTop: constants.generalUnit,
         "& > svg": {
           width: 16,
           height: 16,
@@ -99,7 +100,7 @@ const useStyles = makeStyles(
       },
       footer: {
         width: "100%",
-        padding: `${constants.generalUnit * 2}px ${constants.generalUnit}px`
+        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px ${constants.generalUnit}px 0`
       },
       errorText: {
         marginLeft: constants.generalUnit * 1.5,
