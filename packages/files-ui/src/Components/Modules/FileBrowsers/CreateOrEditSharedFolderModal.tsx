@@ -13,7 +13,6 @@ import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 import LinkList from "./LinkSharing/LinkList"
-import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -109,7 +108,8 @@ const useStyles = makeStyles(
         color: palette.error.main
       },
       sharingLink: {
-        padding: constants.generalUnit * 1.25
+        padding: constants.generalUnit * 2,
+        margin: 0
       }
     })
   }
@@ -204,6 +204,12 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
       closePosition="none"
       maxWidth="sm"
       testId="create-or-edit-shared-folder"
+      subModal={mode === "edit" && !!bucketToEdit && (
+        <LinkList
+          bucketEncryptionKey={bucketToEdit.encryptionKey}
+          bucketId={bucketToEdit.id}
+        />
+      )}
     >
       <div className={classes.root}>
         <div className={classes.iconBacking}>
@@ -305,17 +311,6 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             data-cy="tag-edit-permission-user"
           />
         </div>
-        {mode === "edit" && !!bucketToEdit && (
-          <div className={clsx(classes.modalFlexItem, classes.sharingLink)}>
-            <Typography className={classes.inputLabel}>
-              <Trans>Sharing link</Trans>
-            </Typography>
-            <LinkList
-              bucketEncryptionKey={bucketToEdit.encryptionKey}
-              bucketId={bucketToEdit.id}
-            />
-          </div>
-        )}
         <Grid
           item
           flexDirection="row"
