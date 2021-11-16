@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-10-30 12:33+0000\n"
+"PO-Revision-Date: 2021-11-08 03:51+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -46,6 +46,9 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 
 msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
+
+msgid "Allow lookup by sharing key, wallet address or username"
+msgstr ""
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
@@ -155,9 +158,6 @@ msgstr "Copie de fichiers"
 msgid "Create"
 msgstr "Créer"
 
-msgid "Create Folder"
-msgstr "Créer un dossier"
-
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
@@ -166,9 +166,6 @@ msgstr "Créer un dossier partagé"
 
 msgid "Create a new shared folder"
 msgstr "Créer un nouveau dossier partagé"
-
-msgid "Create folder"
-msgstr "Créer un dossier"
 
 msgid "Create new link"
 msgstr "Créer un nouveau lien"
@@ -773,9 +770,6 @@ msgstr "Ce lien n'est plus valide."
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
 
-msgid "This username is public"
-msgstr "Ce nom d’utilisateur est public"
-
 msgid "This website uses cookies"
 msgstr "Ce site web utilise des cookies"
 
@@ -879,7 +873,7 @@ msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 
 msgid "You do not have access to this shared folder."
-msgstr ""
+msgstr "Vous n'avez pas accès à ce dossier partagé."
 
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."

@@ -27,12 +27,11 @@ import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
 import { usePageTrack } from "../../../Contexts/PosthogContext"
 
-export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
+export const desktopSharedGridSettings = "50px 3fr 90px 140px 140px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette }: CSFTheme) => {
-
     return createStyles({
       root: {
         position: "relative",
@@ -99,6 +98,9 @@ const useStyles = makeStyles(
       },
       confirmDeletionDialog: {
         top: "50%"
+      },
+      buttonWrap: {
+        whiteSpace: "nowrap"
       }
     })
   }
@@ -188,7 +190,9 @@ const SharedFolderOverview = () => {
               data-cy="button-create-a-shared-folder"
             >
               <PlusIcon />
-              <Trans>Create a Shared Folder</Trans>
+              <span className={classes.buttonWrap}>
+                <Trans>Create a Shared Folder</Trans>
+              </span>
             </Button>
           </div>
         </header>

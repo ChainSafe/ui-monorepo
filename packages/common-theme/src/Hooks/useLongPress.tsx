@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef } from "react"
 
 export interface LongPressEvents {
   onMouseDown: (e: React.MouseEvent) => void
@@ -6,6 +6,30 @@ export interface LongPressEvents {
   onMouseUp: (e: React.MouseEvent) => void
   onMouseLeave: (e: React.MouseEvent) => void
   onTouchEnd: (e: React.TouchEvent) => void
+  onTouchMove: (e: React.TouchEvent) => void
+  onMouseMove: (e: React.MouseEvent) => void
+}
+
+const MOVE_THRESHOLD = 5
+
+type Coordinates = {
+  x: number
+  y: number
+} | null;
+
+function getCurrentPosition(event: any): Coordinates {
+  if (isTouchEvent(event)) {
+    return {
+      x: event.touches[0].pageX,
+      y: event.touches[0].pageY
+    }
+  }
+  else {
+    return {
+      x: event.pageX,
+      y: event.pageY
+    }
+  }
 }
 
 export const useLongPress = (
@@ -13,9 +37,10 @@ export const useLongPress = (
   onClick: ((e?: React.MouseEvent) => void) | null,
   delay = 300
 ): LongPressEvents => {
-  const [longPressTriggered, setLongPressTriggered] = useState(false)
+  const shouldAllowClick = useRef(true)
   const timeout: any = useRef()
   const target: any = useRef()
+  const startPosition = useRef<Coordinates>(null)
 
   const start = useCallback(
     (event: any) => {
@@ -25,9 +50,11 @@ export const useLongPress = (
         })
         target.current = event.target
       }
+      shouldAllowClick.current = true
+      startPosition.current = getCurrentPosition(event)
       timeout.current = setTimeout(() => {
         onLongPress && onLongPress(event)
-        setLongPressTriggered(true)
+        shouldAllowClick.current = false
       }, delay)
 
     }, [onLongPress, delay]
@@ -36,31 +63,55 @@ export const useLongPress = (
   const clear = useCallback(
     (shouldTriggerClick = true) => {
       timeout.current && clearTimeout(timeout.current)
-      shouldTriggerClick && !longPressTriggered && onClick && onClick()
-      setLongPressTriggered(false)
+      shouldTriggerClick && shouldAllowClick.current && onClick && onClick()
+      shouldAllowClick.current = false
       if (target.current) {
         target.current.removeEventListener("touchend", preventDefault)
       }
-    }, [onClick, longPressTriggered]
+    }, [onClick]
+  )
+
+  const move = useCallback(
+    (event: any) => {
+      if (startPosition.current) {
+        const currentPosition = getCurrentPosition(event)
+        if (currentPosition) {
+          const movedDistance = {
+            x: Math.abs(currentPosition.x - startPosition.current.x),
+            y: Math.abs(currentPosition.y - startPosition.current.y)
+          }
+
+          if (movedDistance.x > MOVE_THRESHOLD || movedDistance.y > MOVE_THRESHOLD) {
+            clear(false)
+          }
+        }
+      }
+    }, [clear]
   )
 
   return {
+    // start
     onMouseDown: (e: React.MouseEvent) => start(e),
     onTouchStart: (e: React.TouchEvent) => start(e),
-    onMouseUp: (e: React.MouseEvent) => clear(e),
+    // end
+    onMouseUp: () => clear(true),
+    onTouchEnd: () => clear(true),
+    // leave
     onMouseLeave: () => clear(false),
-    onTouchEnd: (e: React.TouchEvent) => clear(e)
+    // move
+    onTouchMove: (e: React.TouchEvent) => move(e),
+    onMouseMove: (e: React.MouseEvent) => move(e)
   }
 }
 
 const isTouchEvent = (event: any) => {
-  return "touches" in event
+  return event && "touches" in event
 }
 
 const preventDefault = (event: any) => {
   if (!isTouchEvent(event)) return
 
-  if (event.touches.length < 2 && event.preventDefault) {
+  if (event.touches.length < 2 && event.preventDefault && event.cancelable) {
     event.preventDefault()
   }
 }

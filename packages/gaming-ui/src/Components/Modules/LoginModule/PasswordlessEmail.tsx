@@ -125,13 +125,15 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
       }).finally (() => setIsSubmitEmailLoading(false))
   }, [gamingApiClient])
 
-  const onSubmitNonce = useCallback((values: {nonce: string}) => {
+  const onSubmitNonce = useCallback(({ nonce }: {nonce: string}) => {
     if (!email) return
+
     setIsSubmitNonceLoading(true)
     setError(undefined)
+
     gamingApiClient.postIdentityEmailToken({
-      email: email,
-      nonce: values.nonce
+      email,
+      nonce: nonce.trim()
     }).then(async (data) => {
       await login("email", { token: data || "", email })
     }).catch ((e) => {

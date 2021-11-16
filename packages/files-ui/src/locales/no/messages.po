@@ -46,6 +46,9 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
+msgid "Allow lookup by sharing key, wallet address or username"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr ""
 
@@ -154,9 +157,6 @@ msgstr ""
 msgid "Create"
 msgstr "Opprett"
 
-msgid "Create Folder"
-msgstr ""
-
 msgid "Create Shared Folder"
 msgstr ""
 
@@ -165,9 +165,6 @@ msgstr ""
 
 msgid "Create a new shared folder"
 msgstr ""
-
-msgid "Create folder"
-msgstr "Opprett mappe"
 
 msgid "Create new link"
 msgstr ""
@@ -768,9 +765,6 @@ msgstr ""
 
 msgid "This username is already taken"
 msgstr ""
-
-msgid "This username is public"
-msgstr "Dette brukernavnet er offentlig"
 
 msgid "This website uses cookies"
 msgstr ""

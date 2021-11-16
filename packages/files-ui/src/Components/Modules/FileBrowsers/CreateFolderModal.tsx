@@ -30,7 +30,9 @@ const useStyles = makeStyles(
       },
       modalRoot: {
         zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {}
+        [breakpoints.down("md")]: {
+          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+        }
       },
       modalInner: {
         backgroundColor: constants.createFolder.backgroundColor,
@@ -144,7 +146,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
                   variant="h5"
                   component="h5"
                 >
-                  <Trans>Create Folder</Trans>
+                  <Trans>New folder</Trans>
                 </Typography>
               </Grid>
             )}

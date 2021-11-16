@@ -27,7 +27,9 @@ const useStyles = makeStyles(
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {}
+        [breakpoints.down("md")]: {
+          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+        }
       },
       modalInner: {
         backgroundColor: constants.fileInfoModal.background,
@@ -77,13 +79,17 @@ const useStyles = makeStyles(
         }px`
       },
       infoBox: {
-        paddingLeft: constants.generalUnit
+        paddingLeft: constants.generalUnit,
+        maxWidth: "100%"
       },
       subInfoBox: {
         padding: `${constants.generalUnit * 1}px 0`
       },
       subSubtitle: {
-        color: palette.additional["gray"][8]
+        color: palette.additional["gray"][8],
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis"
       },
       technicalContainer: {
         paddingTop: constants.generalUnit,
