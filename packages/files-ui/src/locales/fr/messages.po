@@ -37,7 +37,7 @@ msgid "Account"
 msgstr "Compte"
 
 msgid "Active links"
-msgstr ""
+msgstr "Liens actifs"
 
 msgid "Add a username"
 msgstr "Ajouter un nom d’utilisateur"
@@ -74,7 +74,7 @@ msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
 msgid "Anyone with the link can:"
-msgstr ""
+msgstr "Toute personne ayant le lien peut le faire :"
 
 msgid "Approve"
 msgstr "Accepter"
@@ -198,7 +198,7 @@ msgid "Create a Shared Folder"
 msgstr "Créer un dossier partagé"
 
 msgid "Create a sharing link"
-msgstr ""
+msgstr "Créer un lien de partage"
 
 msgid "Create folder & Copy over"
 msgstr ""
@@ -207,7 +207,7 @@ msgid "Create folder & Move over"
 msgstr ""
 
 msgid "Create link"
-msgstr ""
+msgstr "Créer un lien"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
@@ -1007,7 +1007,7 @@ msgstr ""
 "la place de votre phrase de sauvegarde secrète."
 
 msgid "can-edit"
-msgstr ""
+msgstr "peut-modifier"
 
 msgid "me"
 msgstr "moi"
@@ -1019,7 +1019,7 @@ msgid "unknown"
 msgstr "inconnu"
 
 msgid "view-only"
-msgstr ""
+msgstr "affichage seul"
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr ""
