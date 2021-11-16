@@ -241,11 +241,11 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
 
   useHotkeys("Left,ArrowLeft", () => {
     previousFile && previousFile()
-  })
+  }, [previousFile])
 
   useHotkeys("Right,ArrowRight", () => {
     nextFile && nextFile()
-  })
+  }, [nextFile])
 
   const handleDownload = useCallback(() => {
     if (!name || !cid || !bucket) return
