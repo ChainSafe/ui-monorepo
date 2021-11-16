@@ -799,6 +799,9 @@ msgstr "Prøv annen metode"
 msgid "Update"
 msgstr "Oppdater"
 
+msgid "Update Shared Folder"
+msgstr ""
+
 msgid "Upload"
 msgstr "Last opp"
 

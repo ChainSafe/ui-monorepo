@@ -803,6 +803,9 @@ msgstr "Essayer une autre méthode"
 msgid "Update"
 msgstr "Mettre à jour"
 
+msgid "Update Shared Folder"
+msgstr ""
+
 msgid "Upload"
 msgstr "Téléverser"
 
