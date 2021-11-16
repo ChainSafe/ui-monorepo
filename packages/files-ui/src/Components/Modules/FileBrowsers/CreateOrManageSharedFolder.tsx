@@ -13,29 +13,15 @@ import { nameValidator } from "../../../Utils/validationSchema"
 import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
+  ({ breakpoints, constants, typography, palette }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 2,
         flexDirection: "column",
         display: "flex",
-        alignItems: "center"
-      },
-      modalRoot: {
-        zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {
-          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
-        }
-      },
-      modalInner: {
-        backgroundColor: constants.modalDefault.backgroundColor,
-        color: constants.modalDefault.color,
-        [breakpoints.down("md")]: {
-          bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-          maxWidth: `${breakpoints.width("md")}px !important`
+        alignItems: "center",
+        [breakpoints.down("sm")]: {
+          padding: constants.generalUnit
         }
       },
       okButton: {
@@ -81,15 +67,6 @@ const useStyles = makeStyles(
         width: "100%",
         margin: 5
       },
-      buttons: {
-        justifyContent: "flex-end",
-        display: "flex",
-        paddingRight: 5,
-        marginTop: 10
-      },
-      shareNameInput: {
-        display: "block"
-      },
       inputLabel: {
         fontSize: 16,
         fontWeight: 600
@@ -105,13 +82,6 @@ const useStyles = makeStyles(
       errorText: {
         marginLeft: constants.generalUnit * 1.5,
         color: palette.error.main
-      },
-      sharingLink: {
-        padding: constants.generalUnit * 2,
-        margin: 0
-      },
-      subModal: {
-        width: "100%"
       }
     })
   }

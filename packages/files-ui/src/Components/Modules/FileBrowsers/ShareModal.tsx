@@ -24,6 +24,11 @@ interface StyleProps {
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
+      root: {
+        padding: constants.generalUnit * 3,
+        flexDirection: "column",
+        display: "flex"
+      },
       modalRoot: {
         zIndex: zIndex?.blocker
       },
@@ -35,57 +40,10 @@ const useStyles = makeStyles(
           width: "100%"
         }
       }),
-      root: {
-        padding: constants.generalUnit * 3,
-        flexDirection: "column",
-        display: "flex"
-      },
       topIconContainer: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
-      },
-      closeButton: {
-        flex: 1,
-        marginLeft: constants.generalUnit * 2,
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: constants?.mobileButtonHeight,
-          margin: 0
-        }
-      },
-      title: {
-        fontWeight: typography.fontWeight.semibold,
-        textAlign: "left",
-        [breakpoints.down("md")]: {
-          textAlign: "center"
-        }
-      },
-      infoHeading: {
-        fontWeight: typography.fontWeight.semibold,
-        textAlign: "left"
-      },
-      infoContainer: {
-        borderTop: constants.fileInfoModal.infoContainerBorderTop,
-        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 3}px`
-      },
-      infoBox: {
-        paddingLeft: constants.generalUnit
-      },
-      subInfoBox: {
-        padding: `${constants.generalUnit * 1}px 0`
-      },
-      subSubtitle: {
-        color: palette.additional["gray"][8]
-      },
-      paddedContainer: {
-        padding: `${constants.generalUnit * 2}px ${
-          constants.generalUnit * 4
-        }px`,
-        borderBottom: `1px solid ${palette.additional["gray"][3]}`
       },
       buttonsArea: {
         display: "flex",
@@ -145,19 +103,6 @@ const useStyles = makeStyles(
         margin: 0,
         width: "100%"
       },
-      loadingContainer: {
-        width: "100%",
-        paddingBottom: constants.generalUnit * 6,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        "& svg": {
-          marginBottom: constants.generalUnit * 2
-        }
-      },
-      shareFolderNameInput: {
-        display: "block"
-      },
       buttonLink: {
         color: palette.additional["gray"][10],
         outline: "none",
@@ -170,26 +115,12 @@ const useStyles = makeStyles(
         color: palette.error.main,
         textAlign: "center"
       },
-      checkIcon: {
-        marginRight: constants.generalUnit * 2
-      },
-      successBox: {
-        textAlign: "center",
-        marginBottom: constants.generalUnit * 4
-      },
-      successText: {
-        display: "flex",
-        marginBottom: constants.generalUnit * 2
-      },
       inputWrapper: {
         marginBottom: 0
       },
       errorText: {
         marginTop: constants.generalUnit * 1,
         color: palette.error.main
-      },
-      titleWrapper: {
-        padding: "0 5px"
       },
       subModal: ({ width }: StyleProps) => ({
         width,
