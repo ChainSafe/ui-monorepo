@@ -28,6 +28,9 @@ msgstr "Accept"
 msgid "Account"
 msgstr "Account"
 
+msgid "Active links"
+msgstr "Active links"
+
 msgid "Add a username"
 msgstr "Add a username"
 
@@ -51,6 +54,9 @@ msgstr "Allow lookup by sharing key, wallet address or username"
 
 msgid "An error occurred:"
 msgstr "An error occurred:"
+
+msgid "Anyone with the link can:"
+msgstr "Anyone with the link can:"
 
 msgid "Approve"
 msgstr "Approve"
@@ -142,9 +148,6 @@ msgstr "Copy file"
 msgid "Copy info"
 msgstr "Copy info"
 
-msgid "Copy link"
-msgstr "Copy link"
-
 msgid "Copy over"
 msgstr "Copy over"
 
@@ -166,8 +169,11 @@ msgstr "Create a Shared Folder"
 msgid "Create a new shared folder"
 msgstr "Create a new shared folder"
 
-msgid "Create new link"
-msgstr "Create new link"
+msgid "Create a sharing link"
+msgstr "Create a sharing link"
+
+msgid "Create link"
+msgstr "Create link"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
@@ -655,9 +661,6 @@ msgstr "Shared with"
 msgid "Sharing files"
 msgstr "Sharing files"
 
-msgid "Sharing link"
-msgstr "Sharing link"
-
 msgid "Sign Out"
 msgstr "Sign Out"
 
@@ -886,8 +889,8 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
-msgid "edit rights"
-msgstr "edit rights"
+msgid "can-edit"
+msgstr "can-edit"
 
 msgid "me"
 msgstr "me"
@@ -895,14 +898,11 @@ msgstr "me"
 msgid "on"
 msgstr "on"
 
-msgid "read rights"
-msgstr "read rights"
-
 msgid "unknown"
 msgstr "unknown"
 
-msgid "with"
-msgstr "with"
+msgid "view-only"
+msgstr "view-only"
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
