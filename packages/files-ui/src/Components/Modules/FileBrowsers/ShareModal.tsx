@@ -168,6 +168,8 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
 
     return buckets
       .filter(buck => buck.type === "share" || buck.type === "csf")
+      // keep only alive buckets
+      .filter(buck => buck.status !== "deleting")
       // filter out the current bucket
       .filter(buck => buck.id !== bucket?.id)
       // all buckets where the user is reader or writer
