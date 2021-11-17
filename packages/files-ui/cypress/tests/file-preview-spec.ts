@@ -51,6 +51,80 @@ describe("File Preview", () => {
       homePage.appHeaderLabel().should("exist")
     })
 
+    it("can navigate through preview using keyboard hotkeys", () => {
+      cy.web3Login({ clearCSFBucket: true })
+
+      // add files
+      homePage.uploadFile("../fixtures/uploadedFiles/chainsafe.png")
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 3)
+
+      // store the 3 file names as cypress aliases for later comparison
+      homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
+      homePage.fileItemName().eq(1).invoke("text").as("fileNameB")
+      homePage.fileItemName().eq(2).invoke("text").as("fileNameC")
+
+      // navigate to the preview modal for the first file
+      homePage.fileItemKebabButton().first().click()
+      homePage.previewMenuOption().eq(0).click()
+      previewModal.body().should("exist")
+
+      // ensure the correct file is being previewed
+      cy.get("@fileNameA").then(($fileNameA) => {
+        previewModal.fileNameLabel().should("contain.text", $fileNameA)
+        previewModal.contentContainer()
+          .should("be.visible")
+          .should("not.have.text", "Loading preview")
+        previewModal.unsupportedFileLabel().should("not.exist")
+      })
+
+      // browse to the 2nd file via the right arrow key
+      cy.get("body").type("{rightarrow}")
+      cy.get("@fileNameB").then(($fileNameB) => {
+        previewModal.fileNameLabel().should("contain.text", $fileNameB)
+        previewModal.contentContainer()
+          .should("be.visible")
+          .should("not.have.text", "Loading preview")
+        previewModal.unsupportedFileLabel().should("not.exist")
+      })
+
+      // browse to the 3rd file via the right arrow key
+      cy.get("body").type("{rightarrow}")
+      cy.get("@fileNameC").then(($fileNameC) => {
+        previewModal.fileNameLabel().should("contain.text", $fileNameC)
+        previewModal.contentContainer()
+          .should("be.visible")
+          .should("not.have.text", "Loading preview")
+        previewModal.unsupportedFileLabel().should("not.exist")
+      })
+
+      // return to the 2nd file via the left arrow key
+      cy.get("body").type("{leftarrow}")
+      cy.get("@fileNameB").then(($fileNameB) => {
+        previewModal.fileNameLabel().should("contain.text", $fileNameB)
+        previewModal.contentContainer()
+          .should("be.visible")
+          .should("not.have.text", "Loading preview")
+        previewModal.unsupportedFileLabel().should("not.exist")
+      })
+
+      // return to the 1st file via the left arrow key
+      cy.get("body").type("{leftarrow}")
+      cy.get("@fileNameA").then(($fileNameA) => {
+        previewModal.fileNameLabel().should("contain.text", $fileNameA)
+        previewModal.contentContainer()
+          .should("be.visible")
+          .should("not.have.text", "Loading preview")
+        previewModal.unsupportedFileLabel().should("not.exist")
+      })
+
+      // exit preview via the escape key
+      cy.get("body").type("{esc}")
+      previewModal.body().should("not.exist")
+      homePage.appHeaderLabel().should("exist")
+    })
+
     it("can see option to download file from the preview screen", () => {
       cy.web3Login({ clearCSFBucket: true })
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
