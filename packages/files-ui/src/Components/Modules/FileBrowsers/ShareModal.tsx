@@ -394,7 +394,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
                 onClick={onClose}
                 className={classes.cancelButton}
               >
-                <Trans>Cancel</Trans>
+                <Trans>Close</Trans>
               </Button>
             </div>
           </div>
