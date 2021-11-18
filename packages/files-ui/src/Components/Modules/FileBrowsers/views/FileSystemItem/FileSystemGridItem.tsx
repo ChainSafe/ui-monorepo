@@ -5,7 +5,8 @@ import clsx from "clsx"
 import {
   FormikTextInput,
   IMenuItem,
-  MoreIcon
+  MoreIcon,
+  Typography
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
@@ -64,9 +65,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     desktopRename: {
       display: "flex",
       flexDirection: "row",
+      alignItems: "center",
       "& svg": {
         width: 20,
         height: 20
+      },
+      "& > span": {
+        fontSize: 16,
+        lineHeight: "20px",
+        marginLeft: constants.generalUnit / 2
       }
     },
     dropdownIcon: {
@@ -156,6 +163,12 @@ const FileSystemGridItem = React.forwardRef(
       fileName,
       extension
     } = useMemo(() => {
+      if (isFolder) {
+        return {
+          fileName : name,
+          extension: ""
+        }
+      }
       const split = name.split(".")
       const extension = `.${split[split.length - 1]}`
 
@@ -163,7 +176,7 @@ const FileSystemGridItem = React.forwardRef(
         fileName : name.replace(extension, ""),
         extension: split[split.length - 1]
       }
-    }, [name])
+    }, [name, isFolder])
 
     const formik = useFormik({
       initialValues: {
@@ -258,6 +271,13 @@ const FileSystemGridItem = React.forwardRef(
                     }
                     autoFocus={editing === cid}
                   />
+                  {
+                    !isFolder && (
+                      <Typography component="span">
+                        { `.${extension}` }
+                      </Typography>
+                    )
+                  }
                 </Form>
               </FormikProvider>
             )

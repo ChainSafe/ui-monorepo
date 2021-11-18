@@ -67,9 +67,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     desktopRename: {
       display: "flex",
       flexDirection: "row",
+      alignItems: "center",
       "& svg": {
         width: 20,
         height: 20
+      },
+      "& > span": {
+        fontSize: 16,
+        lineHeight: "20px",
+        marginLeft: constants.generalUnit / 2
       }
     },
     filename: {
@@ -146,6 +152,12 @@ const FileSystemTableItem = React.forwardRef(
       fileName,
       extension
     } = useMemo(() => {
+      if (isFolder) {
+        return {
+          fileName : name,
+          extension: ""
+        }
+      }
       const split = name.split(".")
       const extension = `.${split[split.length - 1]}`
 
@@ -153,7 +165,7 @@ const FileSystemTableItem = React.forwardRef(
         fileName : name.replace(extension, ""),
         extension: split[split.length - 1]
       }
-    }, [name])
+    }, [name, isFolder])
 
     const formik = useFormik({
       initialValues: { name: fileName },
@@ -235,6 +247,13 @@ const FileSystemTableItem = React.forwardRef(
                     }
                     autoFocus={editing === cid}
                   />
+                  {
+                    !isFolder && (
+                      <Typography component="span">
+                        { `.${extension}` }
+                      </Typography>
+                    )
+                  }
                 </Form>
               </FormikProvider>
             )
