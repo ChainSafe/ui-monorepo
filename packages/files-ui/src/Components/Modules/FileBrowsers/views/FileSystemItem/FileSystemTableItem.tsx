@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react"
+import React, { useCallback, useMemo, useRef } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -141,13 +141,31 @@ const FileSystemTableItem = React.forwardRef(
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
     const formRef = useRef(null)
+
+    const {
+      fileName,
+      extension
+    } = useMemo(() => {
+      const split = name.split(".")
+      const extension = `.${split[split.length - 1]}`
+
+      return {
+        fileName : name.replace(extension, ""),
+        extension: split[split.length - 1]
+      }
+    }, [name])
+
     const formik = useFormik({
-      initialValues: { name },
+      initialValues: { name: fileName },
       validationSchema: nameValidator,
       onSubmit: (values: { name: string }) => {
-        const newName = values.name.trim()
+        const newName = `${values.name.trim()}.${extension}`
 
-        newName && handleRename && handleRename(file.cid, newName)
+        if (newName !== name) {
+          newName && handleRename && handleRename(file.cid, newName)
+        } else {
+          stopEditing()
+        }
       },
       enableReinitialize: true
     })
