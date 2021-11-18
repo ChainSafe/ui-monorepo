@@ -44,9 +44,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
       [breakpoints.up("md")]: {
         margin: 0
       },
-      [breakpoints.down("md")]: {
-        margin: `${constants.generalUnit * 4.2}px 0`
-      }
+      
     },
     modalRoot: {
       [breakpoints.down("md")]: {
@@ -64,17 +62,33 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
         maxWidth: `${breakpoints.width("md")}px !important`
       }
     },
+    renameModal: {
+      padding: constants.generalUnit * 4
+    },
     renameHeader: {
       textAlign: "center"
+    },
+    renameInputWrapper: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "flex-end",
+      [breakpoints.down("md")]: {
+        margin: `${constants.generalUnit * 4.2}px 0`
+      },
+      "& > span": {
+        display: "block",
+        fontSize: 16,
+        lineHeight: "20px",
+        marginLeft: constants.generalUnit / 2,
+        marginBottom: (constants.generalUnit * 2.50),
+        transform: "translateY(50%)"
+      }
     },
     renameFooter: {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-end"
-    },
-    renameModal: {
-      padding: constants.generalUnit * 4
     },
     okButton: {
       marginLeft: constants.generalUnit
@@ -154,18 +168,47 @@ const FileSystemItem = ({
   const { downloadMultipleFiles } = useFiles()
   const { cid, name, isFolder, content_type } = file
   const inSharedFolder = useMemo(() => bucket?.type === "share", [bucket])
+
+  const {
+    fileName,
+    extension
+  } = useMemo(() => {
+    if (isFolder) {
+      return {
+        fileName : name,
+        extension: ""
+      }
+    }
+    const split = name.split(".")
+    const extension = `.${split[split.length - 1]}`
+
+    return {
+      fileName : name.replace(extension, ""),
+      extension: split[split.length - 1]
+    }
+  }, [name, isFolder])
+
   const formik = useFormik({
     initialValues: {
-      name
+      name: fileName
     },
     validationSchema: nameValidator,
     onSubmit: (values: { name: string }) => {
-      const newName = values.name.trim()
+      const newName = `${values.name.trim()}.${extension}`
 
-      newName && handleRename && handleRename(file.cid, newName)
+      if (newName !== name) {
+        newName && handleRename && handleRename(file.cid, newName)
+      } else {
+        stopEditing()
+      }
     },
     enableReinitialize: true
   })
+
+  const stopEditing = useCallback(() => {
+    setEditing(undefined)
+    formik.resetForm()
+  }, [formik, setEditing])
 
   let Icon
   if (isFolder) {
@@ -482,7 +525,7 @@ const FileSystemItem = ({
               }}
               closePosition="none"
               active={editing === cid}
-              onClose={() => setEditing("")}
+              onClose={() => stopEditing()}
             >
               <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>
@@ -496,13 +539,22 @@ const FileSystemItem = ({
                         : <Trans>Rename file</Trans>
                     }
                   </Typography>
-                  <FormikTextInput
-                    label="Name"
-                    className={classes.renameInput}
-                    name="name"
-                    placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
-                    autoFocus={editing === cid}
-                  />
+                  <div className={classes.renameInputWrapper}>
+                    <FormikTextInput
+                      label="Name"
+                      className={classes.renameInput}
+                      name="name"
+                      placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
+                      autoFocus={editing === cid}
+                    />
+                    {
+                      !isFolder && (
+                        <Typography component="span">
+                          { `.${extension}` }
+                        </Typography>
+                      )
+                    }
+                  </div>
                   <footer className={classes.renameFooter}>
                     <Button
                       onClick={() => setEditing("")}
