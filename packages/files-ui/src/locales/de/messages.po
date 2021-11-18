@@ -166,10 +166,13 @@ msgstr ""
 msgid "Create a Shared Folder"
 msgstr ""
 
-msgid "Create a new shared folder"
+msgid "Create a sharing link"
 msgstr ""
 
-msgid "Create a sharing link"
+msgid "Create folder & Copy over"
+msgstr ""
+
+msgid "Create folder & Move over"
 msgstr ""
 
 msgid "Create link"
@@ -394,9 +397,6 @@ msgstr "Vorschau wird geladen"
 msgid "Loading your shared folders…"
 msgstr ""
 
-msgid "Loading..."
-msgstr ""
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
@@ -404,6 +404,9 @@ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc element
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Manage Access"
+msgstr ""
+
+msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Move"
@@ -429,6 +432,9 @@ msgstr "Name zu lang"
 
 msgid "New folder"
 msgstr "Neuer Ordner"
+
+msgid "New shared folder name"
+msgstr ""
 
 msgid "Next"
 msgstr "Nächste"
@@ -474,6 +480,12 @@ msgstr "Nur Sie können dies sehen."
 
 msgid "Operating system:"
 msgstr "Betriebssystem:"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
@@ -649,6 +661,9 @@ msgstr "Geteilt"
 msgid "Shared Folder Name"
 msgstr ""
 
+msgid "Shared folder name"
+msgstr ""
+
 msgid "Shared folders"
 msgstr ""
 
@@ -798,9 +813,6 @@ msgstr "Eine andere Anmeldemethode verwenden"
 
 msgid "Use a saved browser"
 msgstr "Einen gespeicherten Browser verwenden"
-
-msgid "Use an existing shared folder"
-msgstr ""
 
 msgid "User {0} is both a reader and writer"
 msgstr ""

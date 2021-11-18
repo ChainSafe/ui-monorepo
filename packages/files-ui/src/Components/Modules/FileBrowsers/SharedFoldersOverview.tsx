@@ -17,7 +17,7 @@ import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import CreateOrEditSharedFolderModal from "./CreateOrEditSharedFolderModal"
+import CreateOrManageSharedFolderModal from "./CreateOrManageSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
@@ -281,7 +281,7 @@ const SharedFolderOverview = () => {
         showModal={!hasSeenSharingExplainerModal}
         onHide={hideModal}
       />
-      <CreateOrEditSharedFolderModal
+      <CreateOrManageSharedFolderModal
         mode={createOrEditSharedFolderMode}
         isModalOpen={!!createOrEditSharedFolderMode}
         onClose={() => {
