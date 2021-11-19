@@ -13,6 +13,8 @@ const Loading: React.FC<ILoadingProps> = ({
   className
 }) => {
   const theme: ITheme = useTheme()
+
+  const uniqueKey = `${Math.random()}-${Math.random()}`
   return (
     <svg
       width={size}
@@ -22,7 +24,7 @@ const Loading: React.FC<ILoadingProps> = ({
     >
       <defs>
         <linearGradient
-          id="gradient"
+          id={`gradient-${uniqueKey}`}
           x1="0%"
           y1="0%"
           x2="0%"
@@ -35,7 +37,7 @@ const Loading: React.FC<ILoadingProps> = ({
                 ? theme.palette.primary.main
                 : type === "dark"
                   ? theme.palette.common.black.main
-                  : theme.palette.additional["gray"][5]
+                  : theme.palette.additional["gray"][10]
             }
           />
           <stop
@@ -50,7 +52,7 @@ const Loading: React.FC<ILoadingProps> = ({
         cx="50"
         cy="50"
         r="47"
-        stroke="url(#gradient)"
+        stroke={`url(#gradient-${uniqueKey})`}
         strokeWidth="6"
         fill="none"
         transform="rotate(90 50 50)"
