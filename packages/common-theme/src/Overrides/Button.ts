@@ -42,6 +42,18 @@ export interface IButtonOverride {
       focus?: Record<string, any>
       active?: Record<string, any>
     }
+    link?: {
+      root?: Record<string, any>
+      hover?: Record<string, any>
+      focus?: Record<string, any>
+      active?: Record<string, any>
+    }
+    text?: {
+      root?: Record<string, any>
+      hover?: Record<string, any>
+      focus?: Record<string, any>
+      active?: Record<string, any>
+    }
   }
   state?: {
     danger?: {
