@@ -182,6 +182,13 @@ const FileSystemItem = ({
     const split = name.split(".")
     const extension = `.${split[split.length - 1]}`
 
+    if (split.length === 1) {
+      return {
+        fileName : name,
+        extension: ""
+      }
+    }
+
     return {
       fileName : name.replace(extension, ""),
       extension: split[split.length - 1]
@@ -548,7 +555,7 @@ const FileSystemItem = ({
                       autoFocus={editing === cid}
                     />
                     {
-                      !isFolder && (
+                      !isFolder && extension !== ""  && (
                         <Typography component="span">
                           { `.${extension}` }
                         </Typography>
