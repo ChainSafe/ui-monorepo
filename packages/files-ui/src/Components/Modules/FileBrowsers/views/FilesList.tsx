@@ -1115,7 +1115,7 @@ const FilesList = ({ isShared = false }: Props) => {
       }
       { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
         <ShareModal
-          close={() => {
+          onClose={() => {
             setIsShareModalOpen(false)
             setFilePath(undefined)
           }}

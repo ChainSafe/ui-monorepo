@@ -167,10 +167,13 @@ msgstr "Créer un dossier partagé"
 msgid "Create a Shared Folder"
 msgstr "Créer un dossier partagé"
 
-msgid "Create a new shared folder"
-msgstr "Créer un nouveau dossier partagé"
-
 msgid "Create a sharing link"
+msgstr ""
+
+msgid "Create folder & Copy over"
+msgstr ""
+
+msgid "Create folder & Move over"
 msgstr ""
 
 msgid "Create link"
@@ -398,9 +401,6 @@ msgstr "Chargement de l’aperçu"
 msgid "Loading your shared folders…"
 msgstr "Chargement de vos dossiers partagés…"
 
-msgid "Loading..."
-msgstr "Chargement…"
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
 
@@ -409,6 +409,9 @@ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elemen
 
 msgid "Manage Access"
 msgstr "Gérer l’accès"
+
+msgid "Manage Shared Folder"
+msgstr ""
 
 msgid "Move"
 msgstr "Déplacer"
@@ -433,6 +436,9 @@ msgstr "Le nom est trop long"
 
 msgid "New folder"
 msgstr "Nouveau dossier"
+
+msgid "New shared folder name"
+msgstr ""
 
 msgid "Next"
 msgstr "Suivant"
@@ -478,6 +484,12 @@ msgstr "Vous seul(e) pouvez voir ceci."
 
 msgid "Operating system:"
 msgstr "Système d’exploitation :"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Ou accepte la requête de connexion depuis n’importe quel appareil ou navigateur utilisé auparavant."
@@ -653,6 +665,9 @@ msgstr "Partagé"
 msgid "Shared Folder Name"
 msgstr "Nom du dossier partagé"
 
+msgid "Shared folder name"
+msgstr ""
+
 msgid "Shared folders"
 msgstr "Dossiers partagés"
 
@@ -789,7 +804,7 @@ msgid "Update"
 msgstr "Mettre à jour"
 
 msgid "Update Shared Folder"
-msgstr "Mettre à jour le dossier partagé"
+msgstr ""
 
 msgid "Upload"
 msgstr "Téléverser"
@@ -802,9 +817,6 @@ msgstr "Utilisez une méthode de connexion différente"
 
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
-
-msgid "Use an existing shared folder"
-msgstr "Utiliser un dossier partagé existant"
 
 msgid "User {0} is both a reader and writer"
 msgstr "L'utilisateur {0} est dans les auteurs et lecteurs"

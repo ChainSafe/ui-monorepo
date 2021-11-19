@@ -166,11 +166,14 @@ msgstr "Create Shared Folder"
 msgid "Create a Shared Folder"
 msgstr "Create a Shared Folder"
 
-msgid "Create a new shared folder"
-msgstr "Create a new shared folder"
-
 msgid "Create a sharing link"
 msgstr "Create a sharing link"
+
+msgid "Create folder & Copy over"
+msgstr "Create folder & Copy over"
+
+msgid "Create folder & Move over"
+msgstr "Create folder & Move over"
 
 msgid "Create link"
 msgstr "Create link"
@@ -397,9 +400,6 @@ msgstr "Loading preview"
 msgid "Loading your shared folders…"
 msgstr "Loading your shared folders…"
 
-msgid "Loading..."
-msgstr "Loading..."
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
@@ -408,6 +408,9 @@ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elemen
 
 msgid "Manage Access"
 msgstr "Manage Access"
+
+msgid "Manage Shared Folder"
+msgstr "Manage Shared Folder"
 
 msgid "Move"
 msgstr "Move"
@@ -432,6 +435,9 @@ msgstr "Name too long"
 
 msgid "New folder"
 msgstr "New folder"
+
+msgid "New shared folder name"
+msgstr "New shared folder name"
 
 msgid "Next"
 msgstr "Next"
@@ -477,6 +483,12 @@ msgstr "Only you can see this."
 
 msgid "Operating system:"
 msgstr "Operating system:"
+
+msgid "Or Create a new shared folder"
+msgstr "Or Create a new shared folder"
+
+msgid "Or Use an existing shared folder"
+msgstr "Or Use an existing shared folder"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
@@ -652,6 +664,9 @@ msgstr "Shared"
 msgid "Shared Folder Name"
 msgstr "Shared Folder Name"
 
+msgid "Shared folder name"
+msgstr "Shared folder name"
+
 msgid "Shared folders"
 msgstr "Shared folders"
 
@@ -801,9 +816,6 @@ msgstr "Use a different login method"
 
 msgid "Use a saved browser"
 msgstr "Use a saved browser"
-
-msgid "Use an existing shared folder"
-msgstr "Use an existing shared folder"
 
 msgid "User {0} is both a reader and writer"
 msgstr "User {0} is both a reader and writer"
