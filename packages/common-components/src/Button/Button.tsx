@@ -361,7 +361,7 @@ const Button: React.FC<IButtonProps> = ({
       {loading && (
         <>
           <Loading
-            type="inherit"
+            type="initial"
             size={16}
           />
         </>

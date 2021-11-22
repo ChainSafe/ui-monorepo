@@ -232,7 +232,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
           <div className={classes.loadingContainer}>
             <Loading
               size={32}
-              type="inherit"
+              type="initial"
             />
           </div>
         </Grid>

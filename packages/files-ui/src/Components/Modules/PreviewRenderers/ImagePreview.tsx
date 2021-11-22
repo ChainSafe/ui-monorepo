@@ -70,9 +70,9 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
   return (
     <div className={classes.root}>
       {loading
-        ?  <Loading
+        ? <Loading
           size={50}
-          type="inherit"
+          type="initial"
         />
         : <TransformWrapper
           options={{

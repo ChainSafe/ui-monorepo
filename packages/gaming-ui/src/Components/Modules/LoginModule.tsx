@@ -254,7 +254,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
           <Loading
             className={classes.loader}
             size={50}
-            type='inherit'
+            type="initial"
           />
         </>}
       </section>

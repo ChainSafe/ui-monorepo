@@ -226,7 +226,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
           className={classes.loader}
         >
           <Loading
-            type="inherit"
+            type="initial"
             size={24}
           />
         </Typography>

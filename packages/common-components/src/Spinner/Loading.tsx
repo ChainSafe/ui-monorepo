@@ -1,8 +1,8 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { ITheme, useTheme } from "@chainsafe/common-theme"
 
 export interface ILoadingProps {
-  type?: "inherit" | "primary" | "dark" | "light"
+  type?: "initial" | "primary" | "dark" | "light"
   size?: number
   className?: string
 }
@@ -15,6 +15,40 @@ const Loading: React.FC<ILoadingProps> = ({
   const theme: ITheme = useTheme()
 
   const uniqueKey = `${Math.random()}-${Math.random()}`
+
+  const {
+    start,
+    end
+  } = useMemo(() => {
+    switch (type) {
+      case "primary":
+        return {
+          start: theme.palette.primary.main,
+          end: "transparent"
+        }
+      case "light":
+        return {
+          start: theme.palette.additional["gray"][1],
+          end: theme.palette.common.white.main
+        }
+      case "dark":
+        return {
+          start: theme.palette.common.black.main,
+          end: "transparent"
+        }
+      case "initial":
+        return {
+          start: "#FFFFFF",
+          end: "transparent"
+        }
+      default:
+        return {
+          start: "#FFFFFF",
+          end: "transparent"
+        }
+    }
+  }, [type, theme.palette])
+
   return (
     <svg
       width={size}
@@ -32,19 +66,11 @@ const Loading: React.FC<ILoadingProps> = ({
         >
           <stop
             offset="0%"
-            stopColor={
-              type === "primary"
-                ? theme.palette.primary.main
-                : type === "dark"
-                  ? theme.palette.common.black.main
-                  : theme.palette.additional["gray"][10]
-            }
+            stopColor={start}
           />
           <stop
             offset="100%"
-            stopColor={
-              type === "light" ? theme.palette.common.white.main : "transparent"
-            }
+            stopColor={end}
           />
         </linearGradient>
       </defs>
