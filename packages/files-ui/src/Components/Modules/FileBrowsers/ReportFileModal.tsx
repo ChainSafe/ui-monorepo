@@ -11,8 +11,7 @@ import {
   Button,
   Grid,
   Loading,
-  Typography,
-  CopyIcon
+  Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
@@ -195,7 +194,6 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const [encryptedDecryptionKeyMap, setEncryptedDecryptionKeyMap] = useState<KeyMap[]>([])
   const { encryptForPublicKey } = useThresholdKey()
   const [copied, setCopied] = useState(false)
-  const [copiedDecryptionKey, setCopiedDecryptionKey] = useState(false)
   const { filesApiClient } = useFilesApi()
 
   useEffect(() => {
@@ -244,17 +242,6 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
       })
       .catch(console.error)
   }, [debouncedSwitchCopied, encryptedDecryptionKeyMap, filePath, id])
-
-  const debouncedSwitchCopiedDecryptionKey = debounce(() => setCopiedDecryptionKey(false), 3000)
-
-  const onCopyDecryptionKey = useCallback(() => {
-    navigator.clipboard.writeText(JSON.stringify(encryptedDecryptionKeyMap))
-      .then(() => {
-        setCopiedDecryptionKey(true)
-        debouncedSwitchCopiedDecryptionKey()
-      })
-      .catch(console.error)
-  }, [encryptedDecryptionKeyMap, debouncedSwitchCopiedDecryptionKey])
 
   return (
     <CustomModal
@@ -361,15 +348,9 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
                     >
                       <Trans>Decryption key</Trans>
                     </Typography>
-                    {copiedDecryptionKey && (
-                      <Typography>
-                        <Trans>Copied!</Trans>
-                      </Typography>
-                    )}
                   </div>
                   <div
                     className={classes.keysWrapper}
-                    onClick={onCopyDecryptionKey}
                   >
                     <Typography
                       className={clsx(classes.decryptionKey, classes.subSubtitle)}
@@ -378,7 +359,6 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
                     >
                       {JSON.stringify(encryptedDecryptionKeyMap)}
                     </Typography>
-                    <CopyIcon className={classes.copyIcon} />
                   </div>
                 </div>
               </div>
