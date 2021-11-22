@@ -353,7 +353,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
             <div className={clsx(classes.copiedFlag, { "active": copied })}>
               <span>
                 <Trans>
-                      Copied!
+                  Copied!
                 </Trans>
               </span>
             </div>
