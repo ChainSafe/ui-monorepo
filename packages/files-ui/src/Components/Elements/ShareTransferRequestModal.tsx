@@ -19,8 +19,8 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
     modalInner: {
       padding: constants.generalUnit * 4,
       textAlign: "center",
-      display: 'flex',
-      flexDirection: 'column',
+      display: "flex",
+      flexDirection: "column",
       "& img" : {
         width: "min-content",
         margin: "auto",
