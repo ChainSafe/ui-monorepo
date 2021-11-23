@@ -139,9 +139,6 @@ msgstr "Fortsett med Web3-lommebok"
 msgid "Copied!"
 msgstr "Kopiert!"
 
-msgid "Copy CID"
-msgstr "Kopier CID"
-
 msgid "Copy file"
 msgstr ""
 

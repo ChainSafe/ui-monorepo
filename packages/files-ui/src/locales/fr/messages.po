@@ -140,9 +140,6 @@ msgstr "Continuer avec un wallet Web3"
 msgid "Copied!"
 msgstr "Copié !"
 
-msgid "Copy CID"
-msgstr "Copier le CID"
-
 msgid "Copy file"
 msgstr "Copier le fichier"
 
