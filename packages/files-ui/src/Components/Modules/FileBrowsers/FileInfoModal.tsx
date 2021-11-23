@@ -9,7 +9,6 @@ import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
 import { FileFullInfo } from "../../../Contexts/FilesContext"
 import {
-  Button,
   CopyIcon,
   formatBytes,
   Grid,
@@ -45,7 +44,6 @@ const useStyles = makeStyles(
       },
       closeButton: {
         flex: 1,
-        marginLeft: constants.generalUnit * 2,
         [breakpoints.down("md")]: {
           position: "fixed",
           bottom: 0,
@@ -56,13 +54,6 @@ const useStyles = makeStyles(
         }
       },
       title: {
-        fontWeight: typography.fontWeight.semibold,
-        textAlign: "left",
-        [breakpoints.down("md")]: {
-          textAlign: "center"
-        }
-      },
-      heading: {
         fontWeight: typography.fontWeight.semibold,
         textAlign: "left",
         [breakpoints.down("md")]: {
@@ -90,7 +81,8 @@ const useStyles = makeStyles(
         color: palette.additional["gray"][8],
         whiteSpace: "nowrap",
         overflow: "hidden",
-        textOverflow: "ellipsis"
+        textOverflow: "ellipsis",
+        marginRight: constants.generalUnit * 2
       },
       technicalContainer: {
         paddingTop: constants.generalUnit,
@@ -115,7 +107,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         justifyContent: "center",
         left: "50%",
-        bottom: "calc(100% + 5px)",
+        bottom: "calc(100% + 8px)",
         position: "absolute",
         transform: "translate(-50%, 0%)",
         zIndex: zIndex?.layer1,
@@ -144,25 +136,20 @@ const useStyles = makeStyles(
           visibility: "visible"
         }
       },
-      copyButton: {
-        width: "100%"
-      },
       copyContainer: {
-        position: "relative",
-        flexBasis: "75%",
-        color: palette.additional["gray"][9],
-        [breakpoints.down("md")]: {
-          flexBasis: "100%",
-          margin: `${constants.generalUnit * 2}px`
-        }
+        position: "relative"
       },
       copyIcon: {
         fontSize: "16px",
-        fill: "initial",
+        fill: palette.additional["gray"][9],
         [breakpoints.down("md")]: {
           fontSize: "18px",
           fill: palette.additional["gray"][9]
         }
+      },
+      copyRow: {
+        display: "flex",
+        cursor: "pointer"
       }
     })
   }
@@ -381,7 +368,9 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       <Trans>CID (Content Identifier)</Trans>
                     </Typography>
                   </Grid>
-                  <div onClick={onCopyCID}>
+                  <div onClick={onCopyCID}
+                    className={classes.copyRow}
+                  >
                     <Typography
                       className={classes.subSubtitle}
                       variant="body2"
@@ -389,7 +378,16 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                     >
                       {fullFileInfo.content?.cid}
                     </Typography>
-                    <CopyIcon className={classes.copyIcon} />
+                    <div className={classes.copyContainer}>
+                      <CopyIcon className={classes.copyIcon} />
+                      <div className={clsx(classes.copiedFlag, { "active": copiedCID })}>
+                        <span>
+                          <Trans>
+                            Copied!
+                          </Trans>
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className={classes.subInfoBox}>
@@ -404,7 +402,9 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       <Trans>Decryption key</Trans>
                     </Typography>
                   </Grid>
-                  <div onClick={onCopyKey}>
+                  <div onClick={onCopyKey}
+                    className={classes.copyRow}
+                  >
                     <Typography
                       className={classes.subSubtitle}
                       variant="body2"
@@ -414,7 +414,16 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                         <span>{bucket?.encryptionKey}</span>
                       </ToggleHiddenText>
                     </Typography>
-                    <CopyIcon className={classes.copyIcon} />
+                    <div className={classes.copyContainer}>
+                      <CopyIcon className={classes.copyIcon} />
+                      <div className={clsx(classes.copiedFlag, { "active": copiedKey })}>
+                        <span>
+                          <Trans>
+                            Copied!
+                          </Trans>
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -425,24 +434,6 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
             flexDirection="row"
             className={classes.buttonsContainer}
           >
-            <div className={classes.copyContainer}>
-              <Button
-                type="submit"
-                size="large"
-                variant="primary"
-                className={classes.copyButton}
-                onClick={onCopyCID}
-              >
-                <Trans>Copy CID</Trans>
-              </Button>
-              <div className={clsx(classes.copiedFlag, { "active": copiedCID })}>
-                <span>
-                  <Trans>
-                    Copied!
-                  </Trans>
-                </span>
-              </div>
-            </div>
             <CustomButton
               onClick={() => close()}
               size="large"
