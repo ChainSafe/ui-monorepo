@@ -10,6 +10,7 @@ import { Trans } from "@lingui/macro"
 import { FileFullInfo } from "../../../Contexts/FilesContext"
 import {
   Button,
+  CopyIcon,
   formatBytes,
   Grid,
   Loading,
@@ -154,6 +155,14 @@ const useStyles = makeStyles(
           flexBasis: "100%",
           margin: `${constants.generalUnit * 2}px`
         }
+      },
+      copyIcon: {
+        fontSize: "16px",
+        fill: "initial",
+        [breakpoints.down("md")]: {
+          fontSize: "18px",
+          fill: palette.additional["gray"][9]
+        }
       }
     })
   }
@@ -186,15 +195,27 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
   }
   , [bucket, filePath, filesApiClient])
 
-  const [copied, setCopied] = useState(false)
-  const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
+  const [copiedCID, setCopiedCID] = useState(false)
+  const [copiedKey, setCopiedKey] = useState(false)
+  const debouncedSwitchCopiedCID = debounce(() => setCopiedCID(false), 3000)
+  const debouncedSwitchCopiedKey = debounce(() => setCopiedKey(false), 3000)
 
   const onCopyCID = () => {
     if (fullFileInfo?.content?.cid) {
-      navigator.clipboard.writeText(fullFileInfo?.content?.cid)
+      navigator.clipboard.writeText(fullFileInfo.content.cid)
         .then(() => {
-          setCopied(true)
-          debouncedSwitchCopied()
+          setCopiedCID(true)
+          debouncedSwitchCopiedCID()
+        }).catch(console.error)
+    }
+  }
+
+  const onCopyKey = () => {
+    if (bucket?.encryptionKey) {
+      navigator.clipboard.writeText(bucket.encryptionKey)
+        .then(() => {
+          setCopiedKey(true)
+          debouncedSwitchCopiedKey()
         }).catch(console.error)
     }
   }
@@ -360,13 +381,16 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       <Trans>CID (Content Identifier)</Trans>
                     </Typography>
                   </Grid>
-                  <Typography
-                    className={classes.subSubtitle}
-                    variant="body2"
-                    component="p"
-                  >
-                    {fullFileInfo.content?.cid}
-                  </Typography>
+                  <div onClick={onCopyCID}>
+                    <Typography
+                      className={classes.subSubtitle}
+                      variant="body2"
+                      component="p"
+                    >
+                      {fullFileInfo.content?.cid}
+                    </Typography>
+                    <CopyIcon className={classes.copyIcon} />
+                  </div>
                 </div>
                 <div className={classes.subInfoBox}>
                   <Grid
@@ -380,15 +404,18 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       <Trans>Decryption key</Trans>
                     </Typography>
                   </Grid>
-                  <Typography
-                    className={classes.subSubtitle}
-                    variant="body2"
-                    component="p"
-                  >
-                    <ToggleHiddenText hiddenLength={14}>
-                      <span>{bucket?.encryptionKey}</span>
-                    </ToggleHiddenText>
-                  </Typography>
+                  <div onClick={onCopyKey}>
+                    <Typography
+                      className={classes.subSubtitle}
+                      variant="body2"
+                      component="p"
+                    >
+                      <ToggleHiddenText hiddenLength={14}>
+                        <span>{bucket?.encryptionKey}</span>
+                      </ToggleHiddenText>
+                    </Typography>
+                    <CopyIcon className={classes.copyIcon} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -408,10 +435,10 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
               >
                 <Trans>Copy CID</Trans>
               </Button>
-              <div className={clsx(classes.copiedFlag, { "active": copied })}>
+              <div className={clsx(classes.copiedFlag, { "active": copiedCID })}>
                 <span>
                   <Trans>
-                      Copied!
+                    Copied!
                   </Trans>
                 </span>
               </div>
