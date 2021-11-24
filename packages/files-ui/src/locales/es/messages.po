@@ -140,9 +140,6 @@ msgstr "Continuar con Monedero Web3 "
 msgid "Copied!"
 msgstr "Copiado!"
 
-msgid "Copy CID"
-msgstr "Copiar CID"
-
 msgid "Copy file"
 msgstr ""
 
