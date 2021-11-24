@@ -201,7 +201,7 @@ const FileSystemItem = ({
     },
     validationSchema: nameValidator,
     onSubmit: (values: { name: string }) => {
-      const newName = `${values.name.trim()}.${extension}`
+      const newName = extension != "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
       if (newName !== name) {
         newName && handleRename && handleRename(file.cid, newName)
