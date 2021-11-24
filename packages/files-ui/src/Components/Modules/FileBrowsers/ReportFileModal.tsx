@@ -67,10 +67,12 @@ const useStyles = makeStyles(
         }px`
       },
       infoBox: {
-        paddingLeft: constants.generalUnit
+        paddingLeft: constants.generalUnit,
+        maxWidth: "100%"
       },
       subInfoBox: {
-        padding: `${constants.generalUnit * 1}px 0`
+        padding: `${constants.generalUnit * 1}px 0`,
+        maxWidth: "100%"
       },
       subSubtitle: {
         color: palette.additional["gray"][8]
@@ -137,14 +139,37 @@ const useStyles = makeStyles(
       },
       decryptionKey: {
         width: "100%",
-        wordBreak: "break-all"
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        marginRight: constants.generalUnit * 2
       },
       infoText: {
         marginBottom: constants.generalUnit * 2
       },
       keysWrapper: {
-        maxHeight: constants.generalUnit * 10,
-        overflow: "scroll"
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        maxWidth: "100%",
+        display: "flex",
+        cursor: "pointer"
+      },
+      copyIcon: {
+        fontSize: "16px",
+        fill: palette.additional["gray"][9],
+        marginRight: constants.generalUnit,
+        [breakpoints.down("md")]: {
+          fontSize: "18px",
+          fill: palette.additional["gray"][9]
+        }
+      },
+      decryptionKeyTitle: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: constants.generalUnit * 0.5
+      },
+      titleMargin: {
+        marginBottom: constants.generalUnit * 0.5
       }
     })
   }
@@ -164,7 +189,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const classes = useStyles()
   const { bucket } = useFileBrowser()
   const { encryptionKey, id } = bucket || {}
-  const [isLoadingAdminKey, setIsloadingAdminKey] = useState(true)
+  const [isLoadingAdminKey, setIsLoadingAdminKey] = useState(true)
   const [adminPubKeys, setAdminPubkeys] = useState<string[]>([])
   const [encryptedDecryptionKeyMap, setEncryptedDecryptionKeyMap] = useState<KeyMap[]>([])
   const { encryptForPublicKey } = useThresholdKey()
@@ -199,7 +224,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
         setEncryptedDecryptionKeyMap(map)
       })
       .catch(console.error)
-      .finally(() => setIsloadingAdminKey(false))
+      .finally(() => setIsLoadingAdminKey(false))
 
   }, [adminPubKeys, encryptForPublicKey, encryptionKey])
 
@@ -287,12 +312,13 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
                   <Typography
                     variant="body1"
                     component="p"
+                    className={classes.titleMargin}
                   >
                     <Trans>Bucket id</Trans>
                   </Typography>
                   <Typography
                     className={classes.subSubtitle}
-                    variant="body2"
+                    variant="body1"
                     component="p"
                   >
                     {id}
@@ -302,28 +328,33 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
                   <Typography
                     variant="body1"
                     component="p"
+                    className={classes.titleMargin}
                   >
                     <Trans>File path</Trans>
                   </Typography>
                   <Typography
                     className={classes.subSubtitle}
-                    variant="body2"
+                    variant="body1"
                     component="p"
                   >
                     {filePath}
                   </Typography>
                 </div>
                 <div className={classes.subInfoBox}>
-                  <Typography
-                    variant="body1"
-                    component="p"
+                  <div className={classes.decryptionKeyTitle}>
+                    <Typography
+                      variant="body1"
+                      component="p"
+                    >
+                      <Trans>Decryption key</Trans>
+                    </Typography>
+                  </div>
+                  <div
+                    className={classes.keysWrapper}
                   >
-                    <Trans>Decryption key</Trans>
-                  </Typography>
-                  <div className={classes.keysWrapper}>
                     <Typography
                       className={clsx(classes.decryptionKey, classes.subSubtitle)}
-                      variant="body2"
+                      variant="body1"
                       component="p"
                     >
                       {JSON.stringify(encryptedDecryptionKeyMap)}
@@ -353,7 +384,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
             <div className={clsx(classes.copiedFlag, { "active": copied })}>
               <span>
                 <Trans>
-                      Copied!
+                  Copied!
                 </Trans>
               </span>
             </div>

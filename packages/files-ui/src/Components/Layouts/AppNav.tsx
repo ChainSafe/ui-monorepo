@@ -80,12 +80,12 @@ const useStyles = makeStyles(
           top: `${constants.mobileHeaderHeight}px`,
           backgroundColor: constants.nav.mobileBackgroundColor,
           zIndex: zIndex?.layer1,
-          padding: `0 ${constants.generalUnit * 4}px`,
           maxWidth: "100vw",
           visibility: "hidden",
           "&.active": {
             visibility: "visible",
-            width: `${constants.mobileNavWidth}px`
+            width: `${constants.mobileNavWidth}px`,
+            padding: `0 ${constants.generalUnit * 4}px`
           }
         }
       },
@@ -178,7 +178,7 @@ const useStyles = makeStyles(
           }
         },
         "& svg": {
-          "& path" : {
+          "& path": {
             fill: constants.nav.headingColor
           },
           transitionDuration: `${animation.transform}ms`,
@@ -264,10 +264,10 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
         })}
       >
         {isLoggedIn &&
-        secured &&
-        !!publicKey &&
-        !isNewDevice &&
-        !shouldInitializeAccount && (
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount && (
           <>
             {desktop && (
               <div>
@@ -277,14 +277,14 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 >
                   <ChainsafeFilesLogo />
                   <Typography variant="h5">
-                  Files
+                    Files
                   </Typography>
-                &nbsp;
+                  &nbsp;
                   <Typography
                     variant="caption"
                     className={classes.betaCaption}
                   >
-                  beta
+                    beta
                   </Typography>
                 </Link>
               </div>
