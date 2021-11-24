@@ -26,6 +26,6 @@ export const sharedPage = {
     createEditSharedFolderModal.folderNameInput().type(sharedFolderName)
     createEditSharedFolderModal.createButton().safeClick()
     createEditSharedFolderModal.body().should("not.exist")
-    sharedPage.sharedFolderItemRow().should("exist")
+    sharedPage.sharedFolderItemRow().should("be.visible")
   }
 }

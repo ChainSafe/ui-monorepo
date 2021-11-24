@@ -261,7 +261,7 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
             contents: (
               <>
                 <DeleteSvg className={classes.menuIcon} />
-                <span data-cy="menu-delete">
+                <span data-cy="menu-delete-active-link">
                   <Trans>Delete</Trans>
                 </span>
               </>
