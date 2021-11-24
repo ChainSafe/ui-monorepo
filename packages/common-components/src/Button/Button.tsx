@@ -93,7 +93,7 @@ const useStyles = makeStyles(
           fill: palette.common.white.main
         },
         "&:hover": {
-          backgroundColor: palette.primary.main,
+          backgroundColor: palette.primary.hover,
           color: palette.common.white.main,
           ...overrides?.Button?.variants?.secondary?.hover
         },
