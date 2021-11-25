@@ -217,7 +217,6 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
 
     setFileContent(undefined)
     if (previewRendererKey) {
-      debugger
       getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
         .then((content) => {
           setFileContent(content)
