@@ -12,7 +12,8 @@ import {
   formatBytes,
   DeleteSvg,
   UserShareSvg,
-  MenuDropdown
+  MenuDropdown,
+  ScrollbarWrapper
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
@@ -25,17 +26,45 @@ import { Hashicon } from "@emeraldpay/hashicon-react"
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
+      scrollRoot: {
+        zIndex: zIndex?.layer1
+      },
       root: {
         width: 0,
-        overflow: "auto",
+        overflowX: "hidden",
+        overflowY: "auto",
         transitionDuration: `${animation.translate}ms`,
         display: "flex",
         flexDirection: "column",
         position: "fixed",
         left: 0,
         opacity: 0,
+        "&:before": {
+          content: "''",
+          display: "block",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          height: "100%",
+          width: "100%",
+          zIndex: 9999,
+          opacity: 0,
+          visibility: "visible",
+          transitionDuration: `${animation.translate}ms`
+        },
         "&.active": {
-          opacity: 1
+          opacity: 1,
+          "&:before": {
+            content: "''",
+            display: "block",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            height: "100%",
+            width: "100%",
+            zIndex: -1,
+            visibility: "hidden"
+          }
         },
         [breakpoints.up("md")]: {
           padding: `${constants.topPadding}px ${
@@ -53,12 +82,12 @@ const useStyles = makeStyles(
           top: `${constants.mobileHeaderHeight}px`,
           backgroundColor: constants.nav.mobileBackgroundColor,
           zIndex: zIndex?.layer1,
-          padding: `0 ${constants.generalUnit * 4}px`,
           maxWidth: "100vw",
           visibility: "hidden",
           "&.active": {
             visibility: "visible",
-            width: `${constants.mobileNavWidth}px`
+            width: `${constants.mobileNavWidth}px`,
+            padding: `0 ${constants.generalUnit * 4}px`
           }
         }
       },
@@ -102,6 +131,7 @@ const useStyles = makeStyles(
           marginBottom: constants.generalUnit * 2
         },
         [breakpoints.down("md")]: {
+          marginTop: constants.generalUnit * 2,
           transitionDuration: `${animation.translate}ms`,
           color: palette.additional["gray"][3],
           "&.active": {}
@@ -129,7 +159,7 @@ const useStyles = makeStyles(
           }
         },
         "& svg": {
-          "& path" : {
+          "& path": {
             fill: constants.nav.headingColor
           },
           transitionDuration: `${animation.transform}ms`,
@@ -149,9 +179,6 @@ const useStyles = makeStyles(
           "& svg": {
             fill: constants.nav.itemIconColorHover
           }
-        },
-        [breakpoints.down("md")]: {
-          minWidth: Number(constants.mobileNavWidth)
         }
       },
       navItemText: {
@@ -234,53 +261,54 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   const profileTitle = getProfileTitle()
 
   return (
-    <section
-      className={clsx(classes.root, {
-        active: desktop
-          ? isLoggedIn &&
+    <ScrollbarWrapper className={classes.scrollRoot}>
+      <section
+        className={clsx(classes.root, {
+          active: desktop
+            ? isLoggedIn &&
             secured &&
             !!publicKey &&
             !isNewDevice &&
             !shouldInitializeAccount
-          : navOpen
-      })}
-    >
-      {isLoggedIn &&
+            : navOpen
+        })}
+      >
+        {isLoggedIn &&
         secured &&
         !!publicKey &&
         !isNewDevice &&
         !shouldInitializeAccount && (
-        <>
-          {desktop && (
-            <section>
-              <MenuDropdown
-                anchor="bottom-left"
-                testId="sign-out"
-                hideIndicator={true}
-                classNames={{
-                  icon: classes.icon,
-                  options: classes.options,
-                  title: classes.menuTitle
-                }}
-                className={classes.menuItem}
-                menuItems={[
-                  {
-                    onClick: () => signOut(),
-                    contents: (
-                      <div
-                        data-cy="menu-sign-out"
-                        className={classes.menuItem}
-                      >
-                        <PowerDownSvg />
-                        <Typography>
-                          <Trans>Sign Out</Trans>
-                        </Typography>
-                      </div>
-                    )
-                  }
-                ]}
-              >
-                {!!profileTitle &&
+          <>
+            {desktop && (
+              <section>
+                <MenuDropdown
+                  anchor="bottom-left"
+                  testId="sign-out"
+                  hideIndicator={true}
+                  classNames={{
+                    icon: classes.icon,
+                    options: classes.options,
+                    title: classes.menuTitle
+                  }}
+                  className={classes.menuItem}
+                  menuItems={[
+                    {
+                      onClick: () => signOut(),
+                      contents: (
+                        <div
+                          data-cy="menu-sign-out"
+                          className={classes.menuItem}
+                        >
+                          <PowerDownSvg />
+                          <Typography>
+                            <Trans>Sign Out</Trans>
+                          </Typography>
+                        </div>
+                      )
+                    }
+                  ]}
+                >
+                  {!!profileTitle &&
                   <div className={classes.profileButton}>
                     <div className={classes.hashIconContainer}>
                       <Hashicon value={profile?.userId || ""}
@@ -293,130 +321,116 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                       {profileTitle}
                     </Typography>
                   </div>
-                }
-              </MenuDropdown>
+                  }
+                </MenuDropdown>
+              </section>
+            )}
+            <div className={classes.linksArea}>
+              <Typography className={classes.navHead}>
+                <Trans>Folders</Trans>
+              </Typography>
+              <nav className={classes.navMenu}>
+                <Link
+                  data-cy="link-home"
+                  onClick={() => {
+                    handleOnClick()
+                  }}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.Drive("/")}
+                >
+                  <DatabaseSvg />
+                  <Typography
+                    variant="h5"
+                    className={classes.navItemText}
+                  >
+                    <Trans>Home</Trans>
+                  </Typography>
+                </Link>
+                <Link
+                  data-cy="link-shared"
+                  onClick={handleOnClick}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.SharedFolders}
+                >
+                  <UserShareSvg />
+                  <Typography
+                    variant="h5"
+                    className={classes.navItemText}
+                  >
+                    <Trans>Shared</Trans>
+                  </Typography>
+                </Link>
+                <Link
+                  data-cy="link-bin"
+                  onClick={handleOnClick}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.Bin("/")}
+                >
+                  <DeleteSvg />
+                  <Typography
+                    variant="h5"
+                    className={classes.navItemText}
+                  >
+                    <Trans>Bin</Trans>
+                  </Typography>
+                </Link>
+              </nav>
+              <Typography className={classes.navHead}>
+                {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
+              </Typography>
+              <nav className={classes.navMenu}>
+                <Link
+                  data-cy="link-settings"
+                  onClick={handleOnClick}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.SettingsDefault}
+                >
+                  <SettingSvg />
+                  <Typography
+                    variant="h5"
+                    className={classes.navItemText}
+                  >
+                    <Trans>Settings</Trans>
+                  </Typography>
+                </Link>
+              </nav>
+            </div>
+            <section>
+              {desktop && (
+                <div data-cy="label-space-used">
+                  {storageSummary && (
+                    <>
+                      <Typography
+                        variant="body2"
+                        className={classes.spaceUsedMargin}
+                        component="p"
+                      >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+                          storageSummary.total_storage, 2
+                        )} used`}</Typography>
+                      <ProgressBar
+                        data-cy="progress-bar-space-used"
+                        className={classes.spaceUsedMargin}
+                        progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
+                        size="small"
+                      />
+                    </>
+                  )
+                  }
+                </div>
+              )}
+              {!desktop && (
+                <div
+                  onClick={() => setNavOpen(false)}
+                  className={clsx(classes.blocker, {
+                    active: navOpen
+                  })}
+                ></div>
+              )}
             </section>
-          )}
-          <div className={classes.linksArea}>
-            <Typography className={classes.navHead}>
-              <Trans>Folders</Trans>
-            </Typography>
-            <nav className={classes.navMenu}>
-              <Link
-                data-cy="link-home"
-                onClick={() => {
-                  handleOnClick()
-                }}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Drive("/")}
-              >
-                <DatabaseSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Home</Trans>
-                </Typography>
-              </Link>
-              <Link
-                data-cy="link-shared"
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.SharedFolders}
-              >
-                <UserShareSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Shared</Trans>
-                </Typography>
-              </Link>
-              <Link
-                data-cy="link-bin"
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Bin("/")}
-              >
-                <DeleteSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Bin</Trans>
-                </Typography>
-              </Link>
-            </nav>
-            <Typography className={classes.navHead}>
-              {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
-            </Typography>
-            <nav className={classes.navMenu}>
-              <Link
-                data-cy="link-settings"
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.SettingsDefault}
-              >
-                <SettingSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Settings</Trans>
-                </Typography>
-              </Link>
-            </nav>
-          </div>
-          <section>
-            {desktop && (
-              <div data-cy="label-space-used">
-                {storageSummary && (
-                  <>
-                    <Typography
-                      variant="body2"
-                      className={classes.spaceUsedMargin}
-                      component="p"
-                    >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
-                        storageSummary.total_storage, 2
-                      )} used`}</Typography>
-                    <ProgressBar
-                      data-cy="progress-bar-space-used"
-                      className={classes.spaceUsedMargin}
-                      progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
-                      size="small"
-                    />
-                  </>
-                )
-                }
-              </div>
-            )}
-            {!desktop && (
-              <div
-                data-cy="signout-nav"
-                className={classes.navItem}
-                onClick={() => {
-                  handleOnClick()
-                  signOut()
-                }}
-              >
-                <PowerDownSvg />
-                <Typography>
-                  <Trans>Sign Out</Trans>
-                </Typography>
-              </div>
-            )}
-          </section>
-          {!desktop && (
-            <div
-              onClick={() => setNavOpen(false)}
-              className={clsx(classes.blocker, {
-                active: navOpen
-              })}
-            ></div>
-          )}
-        </>
-      )}
-    </section>
+          </>
+        )}
+      </section>
+    </ScrollbarWrapper>
   )
 }
 

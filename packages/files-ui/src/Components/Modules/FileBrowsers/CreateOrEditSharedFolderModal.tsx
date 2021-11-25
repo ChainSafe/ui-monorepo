@@ -13,7 +13,6 @@ import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 import LinkList from "./LinkSharing/LinkList"
-import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -25,7 +24,10 @@ const useStyles = makeStyles(
         alignItems: "center"
       },
       modalRoot: {
-        zIndex: zIndex?.blocker
+        zIndex: zIndex?.blocker,
+        [breakpoints.down("md")]: {
+          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+        }
       },
       modalInner: {
         backgroundColor: constants.modalDefault.backgroundColor,
@@ -106,7 +108,8 @@ const useStyles = makeStyles(
         color: palette.error.main
       },
       sharingLink: {
-        padding: constants.generalUnit * 1.25
+        padding: constants.generalUnit * 2,
+        margin: 0
       }
     })
   }
@@ -121,7 +124,7 @@ interface ICreateOrEditSharedFolderModalProps {
 
 const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdit }: ICreateOrEditSharedFolderModalProps) => {
   const classes = useStyles()
-  const { desktop } = useThemeSwitcher()
+  const { desktop, tablet, mobile } = useThemeSwitcher()
   const { handleCreateSharedFolder, handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, onNewUsers, handleLookupUser, usersError, resetUsers } = useLookupSharedFolderUser()
@@ -200,6 +203,13 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
       active={isModalOpen}
       closePosition="none"
       maxWidth="sm"
+      testId="create-or-edit-shared-folder"
+      subModal={mode === "edit" && !!bucketToEdit && (
+        <LinkList
+          bucketEncryptionKey={bucketToEdit.encryptionKey}
+          bucketId={bucketToEdit.id}
+        />
+      )}
     >
       <div className={classes.root}>
         <div className={classes.iconBacking}>
@@ -224,6 +234,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               onChange={onNameChange}
               autoFocus
               state={nameError ? "error" : "normal"}
+              data-cy="input-shared-folder-name"
             />
             {nameError && (
               <Typography
@@ -236,7 +247,10 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             )}
           </div>
         }
-        <div className={classes.modalFlexItem}>
+        <div
+          className={classes.modalFlexItem}
+          data-cy="input-view-permission"
+        >
           <TagsInput
             onChange={(values) => {
               setHasPermissionsChanged(true)
@@ -252,13 +266,23 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 ...provided,
                 minHeight: 90,
                 alignContent: "start"
+              }),
+              valueContainer: (provided) => mobile && !tablet ? ({
+                ...provided,
+                paddingBottom: 24
+              }) : ({
+                ...provided
               })
             }}
             loadingMessage={t`Loading`}
             noOptionsMessage={t`No user found for this query.`}
+            data-cy="tag-view-permission-user"
           />
         </div>
-        <div className={classes.modalFlexItem}>
+        <div
+          className={classes.modalFlexItem}
+          data-cy="input-edit-permission"
+        >
           <TagsInput
             onChange={(values) => {
               setHasPermissionsChanged(true)
@@ -274,23 +298,19 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 ...provided,
                 minHeight: 90,
                 alignContent: "start"
+              }),
+              valueContainer: (provided) => mobile && !tablet ? ({
+                ...provided,
+                paddingBottom: 24
+              }) : ({
+                ...provided
               })
             }}
             loadingMessage={t`Loading`}
             noOptionsMessage={t`No user found for this query.`}
+            data-cy="tag-edit-permission-user"
           />
         </div>
-        {mode === "edit" && !!bucketToEdit && (
-          <div className={clsx(classes.modalFlexItem, classes.sharingLink)}>
-            <Typography className={classes.inputLabel}>
-              <Trans>Sharing link</Trans>
-            </Typography>
-            <LinkList
-              bucketEncryptionKey={bucketToEdit.encryptionKey}
-              bucketId={bucketToEdit.id}
-            />
-          </div>
-        )}
         <Grid
           item
           flexDirection="row"
@@ -318,6 +338,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               className={classes.cancelButton}
               variant={desktop ? "outline" : "gray"}
               type="button"
+              data-cy="button-cancel-create-shared-folder"
             >
               <Trans>Cancel</Trans>
             </CustomButton>
@@ -329,6 +350,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               loading={isCreatingSharedFolder || isEditingSharedFolder}
               onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
               disabled={mode === "create" ? (!!usersError || !!nameError) : !hasPermissionsChanged || !!usersError}
+              data-cy={mode === "create" ? "button-create-shared-folder" : "button-update-shared-folder"}
             >
               {mode === "create"
                 ? <Trans>Create</Trans>

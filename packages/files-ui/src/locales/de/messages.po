@@ -58,6 +58,18 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
+msgid "Adding you to the shared folder..."
+msgstr ""
+
+msgid "Allow lookup by sharing key, wallet address or username"
+msgstr ""
+
+msgid "An error occurred:"
+msgstr "Es ist ein Fehler aufgetreten:"
+
+msgid "Anyone with the link can:"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr "Es ist ein Fehler aufgetreten:"
 
@@ -163,8 +175,8 @@ msgstr "Weiter mit Web3 Wallet"
 msgid "Copied!"
 msgstr "Kopiert!"
 
-msgid "Copy CID"
-msgstr "IID kopieren"
+msgid "Copy file"
+msgstr ""
 
 msgid "Copy file"
 msgstr ""
@@ -196,11 +208,20 @@ msgstr ""
 msgid "Create a Shared Folder"
 msgstr ""
 
-msgid "Create a new shared folder"
+msgid "Create a sharing link"
 msgstr ""
 
-msgid "Create folder"
-msgstr "Ordner erstellen"
+msgid "Create folder & Copy over"
+msgstr ""
+
+msgid "Create folder & Move over"
+msgstr ""
+
+msgid "Create link"
+msgstr ""
+
+msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
 
 msgid "Create new link"
 msgstr ""
@@ -454,6 +475,9 @@ msgstr ""
 msgid "Method"
 msgstr ""
 
+msgid "Manage Shared Folder"
+msgstr ""
+
 msgid "Move"
 msgstr "Verschieben"
 
@@ -477,6 +501,9 @@ msgstr "Name zu lang"
 
 msgid "New folder"
 msgstr "Neuer Ordner"
+
+msgid "New shared folder name"
+msgstr ""
 
 msgid "Next"
 msgstr "Nächste"
@@ -534,6 +561,12 @@ msgstr ""
 
 msgid "Operating system:"
 msgstr "Betriebssystem:"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
@@ -724,6 +757,9 @@ msgstr "Geteilt"
 msgid "Shared Folder Name"
 msgstr ""
 
+msgid "Shared folder name"
+msgstr ""
+
 msgid "Shared folders"
 msgstr ""
 
@@ -856,8 +892,8 @@ msgstr ""
 msgid "This username is already taken"
 msgstr ""
 
-msgid "This username is public"
-msgstr "Dieser Benutzername ist öffentlich"
+msgid "This website uses cookies"
+msgstr ""
 
 msgid "This website uses cookies"
 msgstr ""
@@ -903,9 +939,6 @@ msgstr "Eine andere Anmeldemethode verwenden"
 
 msgid "Use a saved browser"
 msgstr "Einen gespeicherten Browser verwenden"
-
-msgid "Use an existing shared folder"
-msgstr ""
 
 msgid "User {0} is both a reader and writer"
 msgstr ""
@@ -979,6 +1012,9 @@ msgstr "Sie können nun geteilte Ordner erstellen, um eine Datei zu teilen."
 msgid "You can't move folders to this path"
 msgstr "Sie können keine Ordner in diesen Pfad verschieben"
 
+msgid "You do not have access to this shared folder."
+msgstr ""
+
 msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 
@@ -997,7 +1033,7 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
 
-msgid "edit rights"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"

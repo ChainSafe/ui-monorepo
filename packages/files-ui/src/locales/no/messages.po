@@ -28,10 +28,7 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
-msgid "Add Card"
-msgstr ""
-
-msgid "Add a credit card"
+msgid "Active links"
 msgstr ""
 
 msgid "Add a username"
@@ -55,17 +52,17 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
-msgid "Amount"
+msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
 msgid "An error occurred:"
 msgstr ""
 
+msgid "Anyone with the link can:"
+msgstr ""
+
 msgid "Approve"
 msgstr "Godkjenn"
-
-msgid "Back to plan settings"
-msgstr ""
 
 msgid "Backup secret phrase"
 msgstr ""
@@ -163,8 +160,8 @@ msgstr "Fortsett med Web3-lommebok"
 msgid "Copied!"
 msgstr "Kopiert!"
 
-msgid "Copy CID"
-msgstr "Kopier CID"
+msgid "Copy file"
+msgstr ""
 
 msgid "Copy file"
 msgstr ""
@@ -187,20 +184,26 @@ msgstr ""
 msgid "Create"
 msgstr "Opprett"
 
-msgid "Create Folder"
-msgstr ""
-
 msgid "Create Shared Folder"
 msgstr ""
 
 msgid "Create a Shared Folder"
 msgstr ""
 
-msgid "Create a new shared folder"
+msgid "Create a sharing link"
 msgstr ""
 
-msgid "Create folder"
-msgstr "Opprett mappe"
+msgid "Create folder & Copy over"
+msgstr ""
+
+msgid "Create folder & Move over"
+msgstr ""
+
+msgid "Create link"
+msgstr ""
+
+msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
 
 msgid "Create new link"
 msgstr ""
@@ -227,9 +230,6 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
-msgstr ""
-
-msgid "Date"
 msgstr ""
 
 msgid "Date uploaded"
@@ -379,9 +379,6 @@ msgstr ""
 msgid "Go back"
 msgstr "Tilbake"
 
-msgid "Go to Payments"
-msgstr ""
-
 msgid "Go to login"
 msgstr ""
 
@@ -451,7 +448,7 @@ msgstr ""
 msgid "Manage Access"
 msgstr ""
 
-msgid "Method"
+msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Move"
@@ -477,6 +474,9 @@ msgstr "Navnet er for langt"
 
 msgid "New folder"
 msgstr "Ny mappe"
+
+msgid "New shared folder name"
+msgstr ""
 
 msgid "Next"
 msgstr "Neste"
@@ -514,9 +514,6 @@ msgstr "Nei takk"
 msgid "No user found for this query."
 msgstr ""
 
-msgid "Not sure what to pick? Learn more about our plans"
-msgstr ""
-
 msgid "Number of copies (Replication Factor)"
 msgstr ""
 
@@ -534,6 +531,12 @@ msgstr ""
 
 msgid "Operating system:"
 msgstr "Operativsystem:"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
@@ -688,9 +691,6 @@ msgstr ""
 msgid "Select an existing shared folder or your home"
 msgstr ""
 
-msgid "Select this plan"
-msgstr ""
-
 msgid "Send another email"
 msgstr "Send en ny e-post"
 
@@ -724,6 +724,9 @@ msgstr "Delt"
 msgid "Shared Folder Name"
 msgstr ""
 
+msgid "Shared folder name"
+msgstr ""
+
 msgid "Shared folders"
 msgstr ""
 
@@ -731,9 +734,6 @@ msgid "Shared with"
 msgstr ""
 
 msgid "Sharing files"
-msgstr ""
-
-msgid "Sharing link"
 msgstr ""
 
 msgid "Sign Out"
@@ -781,13 +781,10 @@ msgstr ""
 msgid "Start a team"
 msgstr ""
 
+msgid "Storage Plan"
+msgstr ""
+
 msgid "Stored by miner"
-msgstr ""
-
-msgid "Subscription Plan"
-msgstr ""
-
-msgid "Switch Plans"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -844,9 +841,6 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
-msgid "This is the free product."
-msgstr ""
-
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
@@ -855,9 +849,6 @@ msgstr ""
 
 msgid "This username is already taken"
 msgstr ""
-
-msgid "This username is public"
-msgstr "Dette brukernavnet er offentlig"
 
 msgid "This website uses cookies"
 msgstr ""
@@ -895,16 +886,10 @@ msgstr "Last opp"
 msgid "Uploads cancelled"
 msgstr ""
 
-msgid "Uploads disabled"
-msgstr ""
-
 msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
 
 msgid "Use a saved browser"
-msgstr ""
-
-msgid "Use an existing shared folder"
 msgstr ""
 
 msgid "User {0} is both a reader and writer"
@@ -979,6 +964,9 @@ msgstr ""
 msgid "You can't move folders to this path"
 msgstr ""
 
+msgid "You do not have access to this shared folder."
+msgstr ""
+
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
@@ -991,13 +979,7 @@ msgstr ""
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
-msgid "Your plan"
-msgstr ""
-
-msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr ""
-
-msgid "edit rights"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"
@@ -1006,25 +988,10 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-msgid "per day"
-msgstr ""
-
-msgid "per month"
-msgstr ""
-
-msgid "per week"
-msgstr ""
-
-msgid "per year"
-msgstr ""
-
-msgid "read rights"
-msgstr ""
-
 msgid "unknown"
 msgstr ""
 
-msgid "with"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
@@ -1046,9 +1013,6 @@ msgid "{0} complete"
 msgstr ""
 
 msgid "{0} failed"
-msgstr ""
-
-msgid "{0} of {1} used"
 msgstr ""
 
 msgid "{0} {fileProgress} - {1}"

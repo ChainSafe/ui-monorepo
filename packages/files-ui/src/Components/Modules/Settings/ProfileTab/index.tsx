@@ -9,7 +9,8 @@ import {
   RadioInput,
   TextInput,
   CheckIcon,
-  Divider
+  Divider,
+  CheckboxInput
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -89,8 +90,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     },
     button: {
       width: 200,
-      margin: `0px ${constants.generalUnit * 0.5}px ${
-        constants.generalUnit * 4
+      margin: `0px ${constants.generalUnit * 0.5}px ${constants.generalUnit * 4
       }px`
     },
     icon: {
@@ -161,7 +161,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     },
     usernameForm: {
       display: "flex",
-      marginBottom: constants.generalUnit * 4,
+      marginBottom: constants.generalUnit,
       "& svg": {
         fill: palette.success.main
       }
@@ -184,14 +184,14 @@ const profileValidation = yup.object().shape({
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
   const { addToast } = useToasts()
-  const { profile, updateProfile, addUsername, lookupOnUsername } = useUser()
+  const { profile, updateProfile, addUsername, lookupOnUsername, toggleLookupConsent } = useUser()
   const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
   const [showUsernameForm, setShowUsernameForm] = useState(false)
   const [username, setUsername] = useState("")
   const [usernameData, setUsernameData] = useState({ error: "", loading: false })
   const formik = useFormik({
-    initialValues:{
+    initialValues: {
       firstName: profile?.firstName || "",
       lastName: profile?.lastName || ""
       // email: profile?.email || ""
@@ -396,90 +396,89 @@ const ProfileView = () => {
                   </div>
                 </div>
               }
-              {profile?.username
-                ? <div className={classes.inputBoxContainer}>
-                  <Typography
-                    component="p"
-                    className={classes.label}
-                  >
-                    <Trans>Username</Trans>
-                  </Typography>
-                  <Typography
-                    component="p"
-                    className={classes.subLabel}
-                  >
-                    <Trans>This username is public</Trans>
-                  </Typography>
-                  <div className={classes.usernameForm}>
-                    <TextInput
-                      disabled={true}
-                      value={profile.username}
-                      className={classes.usernameInput}
-                    />
-                  </div>
-                </div>
-                : <div className={classes.inputBoxContainer}>
-                  <Typography
-                    component="p"
-                    className={classes.label}
-                  >
-                    <Trans>Username</Trans>
-                  </Typography>
-                  {showUsernameForm
-                    ? <div>
-                      <Typography
-                        component="p"
-                        className={classes.subLabel}
-                      >
-                        <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
-                      </Typography>
-                      <form
-                        onSubmit={onSubmitUsername}
-                        className={classes.usernameForm}
-                      >
-                        <TextInput
-                          placeholder={t`Username`}
-                          name="username"
-                          size="medium"
-                          value={username}
-                          className={classes.usernameInput}
-                          RightIcon={username && !usernameData.error ? CheckIcon : undefined}
-                          onChange={onUsernameChange}
-                          captionMessage={usernameData.error}
-                          state={usernameData.error ? "error" : "normal"}
-                          data-cy="profile-username-input"
-                        />
-                        <div>
-                          <Button
-                            type="submit"
-                            disabled={usernameData.loading || !!usernameData.error || !username}
-                            loading={usernameData.loading}
-                          >
-                            {usernameData.loading ? t`Setting Username` : t`Set Username`}
-                          </Button>
-                        </div>
-                      </form>
+              <div className={classes.inputBoxContainer}>
+                {profile?.username
+                  ? <>
+                    <Typography
+                      component="p"
+                      className={classes.label}
+                    >
+                      <Trans>Username</Trans>
+                    </Typography>
+                    <div className={classes.usernameForm}>
+                      <TextInput
+                        disabled={true}
+                        value={profile.username}
+                        className={classes.usernameInput}
+                      />
                     </div>
-                    : <div>
-                      <Typography
-                        component="p"
-                        className={classes.subLabel}
-                      >
-                        <span>
-                          <Trans>You haven&apos;t set a username yet.</Trans>
-                        </span>
-                        {" "}
-                        <span
-                          className={classes.buttonLink}
-                          onClick={() => setShowUsernameForm(true)}
+                  </>
+                  : <>
+                    <Typography
+                      component="p"
+                      className={classes.label}
+                    >
+                      <Trans>Username</Trans>
+                    </Typography>
+                    {showUsernameForm
+                      ? <div>
+                        <Typography
+                          component="p"
+                          className={classes.subLabel}
                         >
-                          <Trans>Add a username</Trans>
-                        </span>
-                      </Typography>
-                    </div>
-                  }
-                </div>
-              }
+                          <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
+                        </Typography>
+                        <form
+                          onSubmit={onSubmitUsername}
+                          className={classes.usernameForm}
+                        >
+                          <TextInput
+                            placeholder={t`Username`}
+                            name="username"
+                            size="medium"
+                            value={username}
+                            className={classes.usernameInput}
+                            RightIcon={username && !usernameData.error ? CheckIcon : undefined}
+                            onChange={onUsernameChange}
+                            captionMessage={usernameData.error}
+                            state={usernameData.error ? "error" : "normal"}
+                            data-cy="profile-username-input"
+                          />
+                          <div>
+                            <Button
+                              type="submit"
+                              disabled={usernameData.loading || !!usernameData.error || !username}
+                              loading={usernameData.loading}
+                            >
+                              {usernameData.loading ? t`Setting Username` : t`Set Username`}
+                            </Button>
+                          </div>
+                        </form>
+                      </div>
+                      : <div>
+                        <Typography
+                          component="p"
+                          className={classes.subLabel}
+                        >
+                          <span>
+                            <Trans>You haven&apos;t set a username yet.</Trans>
+                          </span>
+                          {" "}
+                          <span
+                            className={classes.buttonLink}
+                            onClick={() => setShowUsernameForm(true)}
+                          >
+                            <Trans>Add a username</Trans>
+                          </span>
+                        </Typography>
+                      </div>
+                    }
+                  </>
+                }
+                <CheckboxInput label={t`Allow lookup by sharing key, wallet address or username`}
+                  value={profile?.lookupConsent || false}
+                  onChange={toggleLookupConsent} />
+              </div>
               <FormikProvider value={formik}>
                 <Form>
                   <div className={classes.inputBoxContainer}>
@@ -636,7 +635,7 @@ const ProfileView = () => {
           >
             <Trans>Language</Trans>
           </Typography>
-          <LanguageSelection/>
+          <LanguageSelection />
         </div>
       </Grid>
     </Grid>

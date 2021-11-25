@@ -162,7 +162,7 @@ const useStyles = makeStyles(
           position: "absolute"
         }
       },
-      focusVisible:{
+      focusVisible: {
         backgroundColor: "transparent !important"
       },
       menuWrapper: {
@@ -185,7 +185,7 @@ interface Props {
 const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath }: Props) => {
   const classes = useStyles()
   const { downloadFile } = useFiles()
-  const [fileContent, setFileContent] = useState<Blob |undefined>()
+  const [fileContent, setFileContent] = useState<Blob | undefined>()
   const { bucket } = useFileBrowser()
   const { buckets } = useFiles()
   const { desktop } = useThemeSwitcher()
@@ -215,8 +215,9 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
       bucketId = bucket.id
     }
 
+    setFileContent(undefined)
     if (previewRendererKey) {
-      setFileContent(undefined)
+      debugger
       getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
         .then((content) => {
           setFileContent(content)
@@ -241,11 +242,11 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
 
   useHotkeys("Left,ArrowLeft", () => {
     previousFile && previousFile()
-  })
+  }, [previousFile])
 
   useHotkeys("Right,ArrowRight", () => {
     nextFile && nextFile()
-  })
+  }, [nextFile])
 
   const handleDownload = useCallback(() => {
     if (!name || !cid || !bucket) return
@@ -296,7 +297,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         </Typography>
         <Menu
           testId='preview-kebab'
-          icon={<MoreIcon className={classes.dropdownIcon}/>}
+          icon={<MoreIcon className={classes.dropdownIcon} />}
           options={menuItems}
           style={{
             focusVisible: classes.focusVisible,

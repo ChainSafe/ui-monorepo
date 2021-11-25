@@ -169,7 +169,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       contents: (
         <>
           <CloseCirceSvg className={classes.menuIcon} />
-          <span data-cy="menu-delete">
+          <span data-cy="menu-leave">
             <Trans>Leave</Trans>
           </span>
         </>
@@ -257,6 +257,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
               >
                 <FormikTextInput
                   className={classes.renameInput}
+                  data-cy='input-rename-share'
                   name="name"
                   inputVariant="minimal"
                   onKeyDown={(event) => {

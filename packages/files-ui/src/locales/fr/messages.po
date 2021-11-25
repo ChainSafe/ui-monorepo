@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-10-30 12:33+0000\n"
+"PO-Revision-Date: 2021-11-21 00:53+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -29,11 +29,8 @@ msgstr "Accepter"
 msgid "Account"
 msgstr "Compte"
 
-msgid "Add Card"
-msgstr ""
-
-msgid "Add a credit card"
-msgstr ""
+msgid "Active links"
+msgstr "Liens actifs"
 
 msgid "Add a username"
 msgstr "Ajouter un nom d’utilisateur"
@@ -56,17 +53,17 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
 
-msgid "Amount"
-msgstr ""
+msgid "Allow lookup by sharing key, wallet address or username"
+msgstr "Permettre la recherche par clé de partage, adresse du portefeuille ou nom d'utilisateur"
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
+msgid "Anyone with the link can:"
+msgstr "Toute personne ayant le lien peut le faire :"
+
 msgid "Approve"
 msgstr "Accepter"
-
-msgid "Back to plan settings"
-msgstr ""
 
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
@@ -164,8 +161,8 @@ msgstr "Continuer avec un wallet Web3"
 msgid "Copied!"
 msgstr "Copié !"
 
-msgid "Copy CID"
-msgstr "Copier le CID"
+msgid "Copy file"
+msgstr "Copier le fichier"
 
 msgid "Copy file"
 msgstr "Copier le fichier"
@@ -188,20 +185,26 @@ msgstr "Copie de fichiers"
 msgid "Create"
 msgstr "Créer"
 
-msgid "Create Folder"
-msgstr "Créer un dossier"
-
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
 msgid "Create a Shared Folder"
 msgstr "Créer un dossier partagé"
 
-msgid "Create a new shared folder"
-msgstr "Créer un nouveau dossier partagé"
+msgid "Create a sharing link"
+msgstr "Créer un lien de partage"
 
-msgid "Create folder"
-msgstr "Créer un dossier"
+msgid "Create folder & Copy over"
+msgstr "Créer un dossier et le copier"
+
+msgid "Create folder & Move over"
+msgstr "Créer un dossier et le déplacer"
+
+msgid "Create link"
+msgstr "Créer un lien"
+
+msgid "Create your public username in <0>Settings</0>!"
+msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
 msgid "Create new link"
 msgstr "Créer un nouveau lien"
@@ -229,9 +232,6 @@ msgstr "Les données ont été déplacées vers la poubelle avec succès"
 
 msgid "Data restored successfully"
 msgstr "Données restaurées avec succès"
-
-msgid "Date"
-msgstr ""
 
 msgid "Date uploaded"
 msgstr "Téléversé le"
@@ -383,11 +383,8 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
-msgid "Go to Payments"
-msgstr ""
-
 msgid "Go to login"
-msgstr ""
+msgstr "Aller à la connexion"
 
 msgid "Got it"
 msgstr "Compris"
@@ -455,8 +452,8 @@ msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. 
 msgid "Manage Access"
 msgstr "Gérer l’accès"
 
-msgid "Method"
-msgstr ""
+msgid "Manage Shared Folder"
+msgstr "Gérer le dossier partagé"
 
 msgid "Move"
 msgstr "Déplacer"
@@ -482,6 +479,9 @@ msgstr "Le nom est trop long"
 msgid "New folder"
 msgstr "Nouveau dossier"
 
+msgid "New shared folder name"
+msgstr "Nouveau nom de dossier partagé"
+
 msgid "Next"
 msgstr "Suivant"
 
@@ -495,10 +495,10 @@ msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
 
 msgid "No files to copy"
-msgstr ""
+msgstr "Aucun fichier à copier"
 
 msgid "No files to share"
-msgstr ""
+msgstr "Aucun fichier à partager"
 
 msgid "No files to show"
 msgstr ""
@@ -518,9 +518,6 @@ msgstr "Non merci"
 msgid "No user found for this query."
 msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
 
-msgid "Not sure what to pick? Learn more about our plans"
-msgstr ""
-
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
 
@@ -538,6 +535,12 @@ msgstr ""
 
 msgid "Operating system:"
 msgstr "Système d’exploitation :"
+
+msgid "Or Create a new shared folder"
+msgstr "Ou créer un nouveau dossier partagé"
+
+msgid "Or Use an existing shared folder"
+msgstr "Ou utiliser un dossier partagé existant"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Ou accepte la requête de connexion depuis n’importe quel appareil ou navigateur utilisé auparavant."
@@ -692,9 +695,6 @@ msgstr "Sélectionner un wallet"
 msgid "Select an existing shared folder or your home"
 msgstr "Sélectionnez un dossier partagé existant ou votre page d'accueil"
 
-msgid "Select this plan"
-msgstr ""
-
 msgid "Send another email"
 msgstr "Envoyer un nouveau courriel"
 
@@ -728,6 +728,9 @@ msgstr "Partagé"
 msgid "Shared Folder Name"
 msgstr "Nom du dossier partagé"
 
+msgid "Shared folder name"
+msgstr "Nom du dossier partagé"
+
 msgid "Shared folders"
 msgstr "Dossiers partagés"
 
@@ -736,9 +739,6 @@ msgstr "Partagé avec"
 
 msgid "Sharing files"
 msgstr "Partage des fichiers"
-
-msgid "Sharing link"
-msgstr "Lien de partage"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -785,14 +785,11 @@ msgstr "Démarrer le téléversement"
 msgid "Start a team"
 msgstr "Créer une équipe"
 
+msgid "Storage Plan"
+msgstr "Plan de stockage"
+
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
-
-msgid "Subscription Plan"
-msgstr ""
-
-msgid "Switch Plans"
-msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr "Une maintenance du système est prévue pour démarrer à {0}. Le système sera indisponible."
@@ -813,7 +810,7 @@ msgid "The files are already in this folder"
 msgstr "Les fichiers sont déjà dans ce dossier"
 
 msgid "The link you typed in looks malformed. Please verify it."
-msgstr ""
+msgstr "Le lien que vous avez tapé semble malformé. Veuillez le vérifier."
 
 msgid "The username is too long"
 msgstr "Le nom d'utilisateur est trop long"
@@ -840,7 +837,7 @@ msgid "There was an error getting the preview."
 msgstr "Une erreur s’est produite lors de la génération de l’aperçu."
 
 msgid "There was an error moving your data"
-msgstr ""
+msgstr "Une erreur s'est produite lors du transfert de vos données"
 
 msgid "There was an error restoring your data"
 msgstr "Une erreur s'est produite lors de la restauration de vos données"
@@ -848,20 +845,14 @@ msgstr "Une erreur s'est produite lors de la restauration de vos données"
 msgid "There was an error when setting username."
 msgstr "Une erreur s'est produite lors de la définition du nom d'utilisateur."
 
-msgid "This is the free product."
-msgstr "Une erreur s'est produite lors du transfert de vos données"
-
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
-msgstr ""
+msgstr "Ce lien est marlformé. Veuillez vérifier que vous l'avez copié/collé correctement."
 
 msgid "This link is not valid any more."
-msgstr ""
+msgstr "Ce lien n'est plus valide."
 
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
-
-msgid "This username is public"
-msgstr "Ce nom d’utilisateur est public"
 
 msgid "This website uses cookies"
 msgstr "Ce site web utilise des cookies"
@@ -899,17 +890,11 @@ msgstr "Téléverser"
 msgid "Uploads cancelled"
 msgstr "Téléversements annulés"
 
-msgid "Uploads disabled"
-msgstr ""
-
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
 
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
-
-msgid "Use an existing shared folder"
-msgstr "Utiliser un dossier partagé existant"
 
 msgid "User {0} is both a reader and writer"
 msgstr "L'utilisateur {0} est dans les auteurs et lecteurs"
@@ -936,7 +921,7 @@ msgid "Verification code sent!"
 msgstr "Code de vérification envoyé !"
 
 msgid "Verifying the link..."
-msgstr ""
+msgstr "Vérification du lien…"
 
 msgid "View folder"
 msgstr "Voir le dossier"
@@ -983,6 +968,9 @@ msgstr "Vous pouvez maintenant créer des dossiers partagés pour partager un fi
 msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 
+msgid "You do not have access to this shared folder."
+msgstr "Vous n'avez pas accès à ce dossier partagé."
+
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
@@ -995,14 +983,8 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
-msgid "Your plan"
-msgstr ""
-
-msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
-
-msgid "edit rights"
-msgstr "droits de modification"
+msgid "can-edit"
+msgstr "peut-modifier"
 
 msgid "me"
 msgstr "moi"
@@ -1010,26 +992,11 @@ msgstr "moi"
 msgid "on"
 msgstr "le"
 
-msgid "per day"
-msgstr ""
-
-msgid "per month"
-msgstr ""
-
-msgid "per week"
-msgstr ""
-
-msgid "per year"
-msgstr ""
-
-msgid "read rights"
-msgstr "droits de lecture"
-
 msgid "unknown"
 msgstr "inconnu"
 
-msgid "with"
-msgstr "avec"
+msgid "view-only"
+msgstr "affichage seul"
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargement de {2} fichiers}}"
@@ -1051,9 +1018,6 @@ msgstr "{0} terminé"
 
 msgid "{0} failed"
 msgstr "échec de {0}"
-
-msgid "{0} of {1} used"
-msgstr ""
 
 msgid "{0} {fileProgress} - {1}"
 msgstr "{0} {fileProgress} – {1}"
