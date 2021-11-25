@@ -363,7 +363,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                     component="p"
                     variant="h5"
                   >
-                    <Trans>Rename folder</Trans>
+                    <Trans>Rename shared folder</Trans>
                   </Typography>
                   <FormikTextInput
                     label="Name"
