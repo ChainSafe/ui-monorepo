@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react"
+import React, { useCallback, useMemo, useRef } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -67,9 +67,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     desktopRename: {
       display: "flex",
       flexDirection: "row",
+      alignItems: "center",
       "& svg": {
         width: 20,
         height: 20
+      },
+      "& > span": {
+        fontSize: 16,
+        lineHeight: "20px",
+        marginLeft: constants.generalUnit / 2
       }
     },
     filename: {
@@ -141,13 +147,44 @@ const FileSystemTableItem = React.forwardRef(
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
     const formRef = useRef(null)
+
+    const {
+      fileName,
+      extension
+    } = useMemo(() => {
+      if (isFolder) {
+        return {
+          fileName : name,
+          extension: ""
+        }
+      }
+      const split = name.split(".")
+      const extension = `.${split[split.length - 1]}`
+
+      if (split.length === 1) {
+        return {
+          fileName : name,
+          extension: ""
+        }
+      }
+
+      return {
+        fileName: name.slice(0, name.length - extension.length),
+        extension: split[split.length - 1]
+      }
+    }, [name, isFolder])
+
     const formik = useFormik({
-      initialValues: { name },
+      initialValues: { name: fileName },
       validationSchema: nameValidator,
       onSubmit: (values: { name: string }) => {
-        const newName = values.name.trim()
+        const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
-        newName && handleRename && handleRename(file.cid, newName)
+        if (newName !== name) {
+          newName && handleRename && handleRename(file.cid, newName)
+        } else {
+          stopEditing()
+        }
       },
       enableReinitialize: true
     })
@@ -217,6 +254,13 @@ const FileSystemTableItem = React.forwardRef(
                     }
                     autoFocus={editing === cid}
                   />
+                  {
+                    !isFolder && extension !== "" && (
+                      <Typography component="span">
+                        { `.${extension}` }
+                      </Typography>
+                    )
+                  }
                 </Form>
               </FormikProvider>
             )
