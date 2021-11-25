@@ -18,7 +18,9 @@ describe("Link Sharing", () => {
       // create a shared folder
       navigationMenu.sharedNavButton().click()
       sharedPage.createSharedFolder()
-      sharedPage.fileItemKebabButton().click()
+      sharedPage.fileItemKebabButton()
+        .should("be.visible")
+        .click()
       sharedPage.manageAccessMenuOption().click()
       createEditSharedFolderModal.body().should("be.visible")
 
@@ -32,9 +34,12 @@ describe("Link Sharing", () => {
 
       // ensure "view-only" and "can-edit" options are present
       createEditSharedFolderModal.permissionTypeDropdown().click()
-      createEditSharedFolderModal.createLinkButton().scrollIntoView()
-      createEditSharedFolderModal.viewOnlyOption().should("be.visible")
-      createEditSharedFolderModal.canEditOption().should("be.visible")
+      createEditSharedFolderModal.viewOnlyOption()
+        .scrollIntoView()
+        .should("be.visible")
+      createEditSharedFolderModal.canEditOption()
+        .scrollIntoView()
+        .should("be.visible")
 
       // create a "view-only" link
       createEditSharedFolderModal.viewOnlyOption().click()
@@ -46,7 +51,9 @@ describe("Link Sharing", () => {
       // ensure only the can-edit option is present if a "view-only" link exists
       createEditSharedFolderModal.permissionTypeDropdown().click()
       createEditSharedFolderModal.viewOnlyOption().should("not.exist")
-      createEditSharedFolderModal.canEditOption().should("be.visible")
+      createEditSharedFolderModal.canEditOption()
+        .scrollIntoView()
+        .should("be.visible")
 
       // create a "can-edit" link
       createEditSharedFolderModal.canEditOption().click()
