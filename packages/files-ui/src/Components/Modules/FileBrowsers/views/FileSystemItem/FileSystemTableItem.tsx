@@ -169,7 +169,7 @@ const FileSystemTableItem = React.forwardRef(
       }
 
       return {
-        fileName: name.slice(0, name.length - extension.length - 1),
+      fileName: name.slice(0, name.length - extension.length),
         extension: split[split.length - 1]
       }
     }, [name, isFolder])
