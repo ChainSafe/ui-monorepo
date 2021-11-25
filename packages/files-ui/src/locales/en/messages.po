@@ -649,6 +649,9 @@ msgstr "Rename file"
 msgid "Rename folder"
 msgstr "Rename folder"
 
+msgid "Rename shared folder"
+msgstr "Rename shared folder"
+
 msgid "Report"
 msgstr "Report"
 

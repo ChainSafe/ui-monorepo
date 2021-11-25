@@ -650,6 +650,9 @@ msgstr "Renommer le fichier"
 msgid "Rename folder"
 msgstr "Renommer le dossier"
 
+msgid "Rename shared folder"
+msgstr ""
+
 msgid "Report"
 msgstr "Signaler"
 

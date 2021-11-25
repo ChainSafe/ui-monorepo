@@ -646,6 +646,9 @@ msgstr "Datei umbenennen"
 msgid "Rename folder"
 msgstr "Ordner umbenennen"
 
+msgid "Rename shared folder"
+msgstr ""
+
 msgid "Report"
 msgstr "Melden"
 
