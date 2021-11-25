@@ -32,7 +32,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         borderRadius: 6,
         [breakpoints.up("md")]:{
-          minHeight: "64vh",
+          minHeight: "72vh",
           justifyContent: "space-between",
           width: 440
         },
