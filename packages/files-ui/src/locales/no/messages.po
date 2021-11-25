@@ -571,6 +571,9 @@ msgstr ""
 msgid "Rename folder"
 msgstr ""
 
+msgid "Rename shared folder"
+msgstr ""
+
 msgid "Report"
 msgstr ""
 
