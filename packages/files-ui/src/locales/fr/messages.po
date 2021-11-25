@@ -32,6 +32,12 @@ msgstr "Compte"
 msgid "Active links"
 msgstr "Liens actifs"
 
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
+
 msgid "Add a username"
 msgstr "Ajouter un nom d’utilisateur"
 
@@ -56,6 +62,9 @@ msgstr "Je vous ajoute au dossier partagé…"
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr "Permettre la recherche par clé de partage, adresse du portefeuille ou nom d'utilisateur"
 
+msgid "Amount"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
@@ -64,6 +73,9 @@ msgstr "Toute personne ayant le lien peut le faire :"
 
 msgid "Approve"
 msgstr "Accepter"
+
+msgid "Back to plan settings"
+msgstr ""
 
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
@@ -164,14 +176,8 @@ msgstr "Copié !"
 msgid "Copy file"
 msgstr "Copier le fichier"
 
-msgid "Copy file"
-msgstr "Copier le fichier"
-
 msgid "Copy info"
 msgstr "Copier les infos"
-
-msgid "Copy link"
-msgstr "Copier le lien"
 
 msgid "Copy over"
 msgstr "Copier"
@@ -206,12 +212,6 @@ msgstr "Créer un lien"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
-msgid "Create new link"
-msgstr "Créer un nouveau lien"
-
-msgid "Create your public username in <0>Settings</0>!"
-msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
-
 msgid "Credit card saved"
 msgstr ""
 
@@ -232,6 +232,9 @@ msgstr "Les données ont été déplacées vers la poubelle avec succès"
 
 msgid "Data restored successfully"
 msgstr "Données restaurées avec succès"
+
+msgid "Date"
+msgstr ""
 
 msgid "Date uploaded"
 msgstr "Téléversé le"
@@ -383,6 +386,9 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
+msgid "Go to Payments"
+msgstr ""
+
 msgid "Go to login"
 msgstr "Aller à la connexion"
 
@@ -443,9 +449,6 @@ msgstr "Chargement de l’aperçu"
 msgid "Loading your shared folders…"
 msgstr "Chargement de vos dossiers partagés…"
 
-msgid "Loading..."
-msgstr "Chargement…"
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
 
@@ -454,6 +457,9 @@ msgstr "Gérer l’accès"
 
 msgid "Manage Shared Folder"
 msgstr "Gérer le dossier partagé"
+
+msgid "Method"
+msgstr ""
 
 msgid "Move"
 msgstr "Déplacer"
@@ -517,6 +523,9 @@ msgstr "Non merci"
 
 msgid "No user found for this query."
 msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
+
+msgid "Not sure what to pick? Learn more about our plans"
+msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
@@ -695,6 +704,9 @@ msgstr "Sélectionner un wallet"
 msgid "Select an existing shared folder or your home"
 msgstr "Sélectionnez un dossier partagé existant ou votre page d'accueil"
 
+msgid "Select this plan"
+msgstr ""
+
 msgid "Send another email"
 msgstr "Envoyer un nouveau courriel"
 
@@ -785,11 +797,14 @@ msgstr "Démarrer le téléversement"
 msgid "Start a team"
 msgstr "Créer une équipe"
 
-msgid "Storage Plan"
-msgstr "Plan de stockage"
-
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
+
+msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plans"
+msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr "Une maintenance du système est prévue pour démarrer à {0}. Le système sera indisponible."
@@ -845,6 +860,9 @@ msgstr "Une erreur s'est produite lors de la restauration de vos données"
 msgid "There was an error when setting username."
 msgstr "Une erreur s'est produite lors de la définition du nom d'utilisateur."
 
+msgid "This is the free product."
+msgstr ""
+
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr "Ce lien est marlformé. Veuillez vérifier que vous l'avez copié/collé correctement."
 
@@ -889,6 +907,9 @@ msgstr "Téléverser"
 
 msgid "Uploads cancelled"
 msgstr "Téléversements annulés"
+
+msgid "Uploads disabled"
+msgstr ""
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
@@ -968,9 +989,6 @@ msgstr "Vous pouvez maintenant créer des dossiers partagés pour partager un fi
 msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 
-msgid "You do not have access to this shared folder."
-msgstr "Vous n'avez pas accès à ce dossier partagé."
-
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
@@ -983,6 +1001,12 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
+msgid "Your plan"
+msgstr ""
+
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
+
 msgid "can-edit"
 msgstr "peut-modifier"
 
@@ -991,6 +1015,18 @@ msgstr "moi"
 
 msgid "on"
 msgstr "le"
+
+msgid "per day"
+msgstr ""
+
+msgid "per month"
+msgstr ""
+
+msgid "per week"
+msgstr ""
+
+msgid "per year"
+msgstr ""
 
 msgid "unknown"
 msgstr "inconnu"
@@ -1018,6 +1054,9 @@ msgstr "{0} terminé"
 
 msgid "{0} failed"
 msgstr "échec de {0}"
+
+msgid "{0} of {1} used"
+msgstr ""
 
 msgid "{0} {fileProgress} - {1}"
 msgstr "{0} {fileProgress} – {1}"

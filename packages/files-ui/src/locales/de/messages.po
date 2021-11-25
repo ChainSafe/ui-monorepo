@@ -28,6 +28,9 @@ msgstr "Akzeptieren"
 msgid "Account"
 msgstr "Konto"
 
+msgid "Active links"
+msgstr ""
+
 msgid "Add Card"
 msgstr ""
 
@@ -55,13 +58,10 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
-msgid "Amount"
-msgstr ""
-
-msgid "Adding you to the shared folder..."
-msgstr ""
-
 msgid "Allow lookup by sharing key, wallet address or username"
+msgstr ""
+
+msgid "Amount"
 msgstr ""
 
 msgid "An error occurred:"
@@ -69,9 +69,6 @@ msgstr "Es ist ein Fehler aufgetreten:"
 
 msgid "Anyone with the link can:"
 msgstr ""
-
-msgid "An error occurred:"
-msgstr "Es ist ein Fehler aufgetreten:"
 
 msgid "Approve"
 msgstr "Genehmigen"
@@ -178,13 +175,7 @@ msgstr "Kopiert!"
 msgid "Copy file"
 msgstr ""
 
-msgid "Copy file"
-msgstr ""
-
 msgid "Copy info"
-msgstr ""
-
-msgid "Copy link"
 msgstr ""
 
 msgid "Copy over"
@@ -198,9 +189,6 @@ msgstr ""
 
 msgid "Create"
 msgstr "Erstellen"
-
-msgid "Create Folder"
-msgstr ""
 
 msgid "Create Shared Folder"
 msgstr ""
@@ -218,12 +206,6 @@ msgid "Create folder & Move over"
 msgstr ""
 
 msgid "Create link"
-msgstr ""
-
-msgid "Create your public username in <0>Settings</0>!"
-msgstr ""
-
-msgid "Create new link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -463,19 +445,16 @@ msgstr "Vorschau wird geladen"
 msgid "Loading your shared folders…"
 msgstr ""
 
-msgid "Loading..."
-msgstr ""
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
 msgid "Manage Access"
 msgstr ""
 
-msgid "Method"
+msgid "Manage Shared Folder"
 msgstr ""
 
-msgid "Manage Shared Folder"
+msgid "Method"
 msgstr ""
 
 msgid "Move"
@@ -769,9 +748,6 @@ msgstr ""
 msgid "Sharing files"
 msgstr ""
 
-msgid "Sharing link"
-msgstr ""
-
 msgid "Sign Out"
 msgstr "Abmelden"
 
@@ -895,9 +871,6 @@ msgstr ""
 msgid "This website uses cookies"
 msgstr ""
 
-msgid "This website uses cookies"
-msgstr ""
-
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
@@ -1012,9 +985,6 @@ msgstr "Sie können nun geteilte Ordner erstellen, um eine Datei zu teilen."
 msgid "You can't move folders to this path"
 msgstr "Sie können keine Ordner in diesen Pfad verschieben"
 
-msgid "You do not have access to this shared folder."
-msgstr ""
-
 msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 
@@ -1054,13 +1024,10 @@ msgstr ""
 msgid "per year"
 msgstr ""
 
-msgid "read rights"
-msgstr ""
-
 msgid "unknown"
 msgstr "unbekannt"
 
-msgid "with"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
