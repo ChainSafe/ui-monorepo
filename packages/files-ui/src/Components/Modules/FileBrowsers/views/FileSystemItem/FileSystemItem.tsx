@@ -190,7 +190,7 @@ const FileSystemItem = ({
     }
 
     return {
-      fileName : name.replace(extension, ""),
+      fileName: name.slice(0, name.length - extension.length - 1),
       extension: split[split.length - 1]
     }
   }, [name, isFolder])
