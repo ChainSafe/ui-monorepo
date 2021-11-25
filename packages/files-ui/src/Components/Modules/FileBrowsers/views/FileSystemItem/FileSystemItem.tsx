@@ -43,8 +43,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
       width: "100%",
       [breakpoints.up("md")]: {
         margin: 0
-      },
-      
+      }
     },
     modalRoot: {
       [breakpoints.down("md")]: {
@@ -201,7 +200,7 @@ const FileSystemItem = ({
     },
     validationSchema: nameValidator,
     onSubmit: (values: { name: string }) => {
-      const newName = extension != "" ? `${values.name.trim()}.${extension}` : values.name.trim()
+      const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
       if (newName !== name) {
         newName && handleRename && handleRename(file.cid, newName)

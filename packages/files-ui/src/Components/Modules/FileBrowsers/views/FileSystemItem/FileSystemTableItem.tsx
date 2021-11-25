@@ -169,7 +169,7 @@ const FileSystemTableItem = React.forwardRef(
       }
 
       return {
-      fileName: name.slice(0, name.length - extension.length),
+        fileName: name.slice(0, name.length - extension.length),
         extension: split[split.length - 1]
       }
     }, [name, isFolder])
@@ -178,7 +178,7 @@ const FileSystemTableItem = React.forwardRef(
       initialValues: { name: fileName },
       validationSchema: nameValidator,
       onSubmit: (values: { name: string }) => {
-        const newName = extension != "" ? `${values.name.trim()}.${extension}` : values.name.trim()
+        const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
         if (newName !== name) {
           newName && handleRename && handleRename(file.cid, newName)
