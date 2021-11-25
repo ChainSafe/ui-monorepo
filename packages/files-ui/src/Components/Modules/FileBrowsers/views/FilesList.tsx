@@ -609,8 +609,8 @@ const FilesList = ({ isShared = false }: Props) => {
   }, [setIsSurveyBannerVisible])
 
   const handleViewFolder = useCallback((cid: string) => {
-    viewFolder && viewFolder(cid)
-  }, [viewFolder])
+    !loadingCurrentPath && viewFolder && viewFolder(cid)
+  }, [viewFolder, loadingCurrentPath])
 
   const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
