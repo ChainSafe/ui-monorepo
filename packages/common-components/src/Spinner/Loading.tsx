@@ -28,8 +28,8 @@ const Loading: React.FC<ILoadingProps> = ({
         }
       case "light":
         return {
-          start: theme.palette.additional["gray"][1],
-          end: theme.palette.common.white.main
+          start: theme.palette.common.white.main,
+          end: "transparent"
         }
       case "dark":
         return {
