@@ -2,6 +2,10 @@ import { createEditSharedFolderModal } from "../support/page-objects/modals/crea
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { sharingExplainerKey } from "../fixtures/filesTestData"
 import { sharedPage } from "../support/page-objects/sharedPage"
+import { viewOnlyShareLink, canEditShareLink, invalidShareLink, malformedTokenShareLink } from "../fixtures/linkData"
+import { linkSharingConfirmation } from "../support/page-objects/linkSharingConfirmation"
+import { fileBrowser } from "../support/page-objects/fileBrowser"
+import { folderContentsPage } from "../support/page-objects/sharedFolderContentsPage"
 
 describe("Link Sharing", () => {
 
@@ -72,6 +76,82 @@ describe("Link Sharing", () => {
         .scrollIntoView()
         .click()
       createEditSharedFolderModal.activeShareLink().should("have.length", 1)
+    })
+
+    it.only("can join a share from link with view only access", () => {
+      cy.intercept("GET", "**/user/store", {
+        body: { [sharingExplainerKey]: "true" }
+      })
+
+      cy.web3Login({ deleteShareBucket: true })
+
+      cy.visit(viewOnlyShareLink)
+
+      //todo: SEE IF THERES AN API CALL I CAN WAIT FOR
+
+      linkSharingConfirmation.labelLinkAddConfirmation().should("be.visible")
+      linkSharingConfirmation.labelLinkError().should("not.exist")
+
+      // can browse the shared folder
+      linkSharingConfirmation.browseButton().click()
+      folderContentsPage.appHeaderLabel().should("be.visible")
+
+      // ensure file options correspond to view-only access rights
+      folderContentsPage.awaitBucketRefresh()
+      folderContentsPage.fileItemKebabButton()
+        .first()
+        .should("be.visible")
+        .click()
+      folderContentsPage.previewMenuOption().should("be.visible")
+      folderContentsPage.downloadMenuOption().should("be.visible")
+      folderContentsPage.infoMenuOption().should("be.visible")
+      folderContentsPage.reportMenuOption().should("be.visible")
+      folderContentsPage.copyToMenuOption().should("be.visible")
+      folderContentsPage.renameMenuOption().should("not.exist")
+      folderContentsPage.moveMenuOption().should("not.exist")
+      folderContentsPage.deleteMenuOption().should("not.exist")
+
+      // ensure shared folder is now shown on main share page
+      navigationMenu.sharedNavButton().click()
+      sharedPage.sharedFolderItemRow().should("have.length", 1)
+    })
+
+    it.only("can join a share from link with edit access", () => {
+      cy.intercept("GET", "**/user/store", {
+        body: { [sharingExplainerKey]: "true" }
+      })
+
+      cy.web3Login({ deleteShareBucket: true })
+
+      cy.visit(canEditShareLink)
+
+      //todo: SEE IF THERES AN API CALL I CAN WAIT FOR
+
+      linkSharingConfirmation.labelLinkAddConfirmation().should("be.visible")
+      linkSharingConfirmation.labelLinkError().should("not.exist")
+
+      // can browse the shared folder
+      linkSharingConfirmation.browseButton().click()
+      folderContentsPage.appHeaderLabel().should("be.visible")
+
+      // ensure file options correspond to can-edit access rights
+      folderContentsPage.awaitBucketRefresh()
+      folderContentsPage.fileItemKebabButton()
+        .first()
+        .should("be.visible")
+        .click()
+      folderContentsPage.previewMenuOption().should("be.visible")
+      folderContentsPage.downloadMenuOption().should("be.visible")
+      folderContentsPage.infoMenuOption().should("be.visible")
+      folderContentsPage.reportMenuOption().should("be.visible")
+      folderContentsPage.copyToMenuOption().should("be.visible")
+      folderContentsPage.renameMenuOption().should("be.visible")
+      folderContentsPage.moveMenuOption().should("be.visible")
+      folderContentsPage.deleteMenuOption().should("be.visible")
+
+      // ensure shared folder is now shown on main share page
+      navigationMenu.sharedNavButton().click()
+      sharedPage.sharedFolderItemRow().should("have.length", 1)
     })
   })
 })
