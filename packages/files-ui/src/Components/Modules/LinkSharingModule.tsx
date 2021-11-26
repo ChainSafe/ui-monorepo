@@ -132,11 +132,12 @@ const LinkSharingModule = () => {
                 className={classes.icon}
               />
               <Typography variant="h4">
-                {isValidNonce === undefined
-                  ? <Trans>Verifying the link...</Trans>
-                  : <Trans>Adding you to the shared folder...</Trans>
-                }
-
+                <span data-cy="label-link-verfication">
+                  {isValidNonce === undefined
+                    ? <Trans>Verifying the link...</Trans>
+                    : <Trans>Adding you to the shared folder...</Trans>
+                  }
+                </span>
               </Typography>
             </>
           )}
@@ -147,13 +148,16 @@ const LinkSharingModule = () => {
                 className={classes.icon}
               />
               <Typography variant="h4">
-                <Trans>
+                <span data-cy="label-added-to-share-confirmation">
+                  <Trans>
                   You were added to the shared folder ({translatedPermission(permission)}): {newBucket.name}
-                </Trans>
+                  </Trans>
+                </span>
               </Typography>
               <Button
                 className={classes.browseButton}
                 onClick={onBrowseBucket}
+                data-cy="button-browse-share-folder"
               >
                 <Trans>Browse {newBucket.name}</Trans>
               </Button>
@@ -169,10 +173,12 @@ const LinkSharingModule = () => {
                 variant="h4"
                 className={classes.errorMessage}
               >
-                { isValidNonce === false
-                  ? <Trans>This link is not valid any more.</Trans>
-                  : error
-                }
+                <span data-cy="label-link-error">
+                  { isValidNonce === false
+                    ? <Trans>This link is not valid any more.</Trans>
+                    : error
+                  }
+                </span>
               </Typography>
             </>
           )}
