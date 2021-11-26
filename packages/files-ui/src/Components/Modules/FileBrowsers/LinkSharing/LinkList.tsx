@@ -215,6 +215,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                 refreshNonces={refreshNonces}
                 bucketEncryptionKey={bucketEncryptionKey}
                 nonce={nonce}
+                data-cy="link-share-folder"
               />
             )}
           </div>
@@ -269,6 +270,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                 variant="secondary"
                 disabled={isLoadingCreation}
                 loading={isLoadingCreation}
+                data-cy="button-create-link"
               >
                 <Trans>Create link</Trans>
               </Button>
