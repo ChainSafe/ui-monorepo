@@ -19,13 +19,9 @@ import "./commands"
 // the following gets rid of the exception "ResizeObserver loop limit exceeded"
 // which someone on the internet says we can safely ignore
 // source https://stackoverflow.com/questions/49384120/resizeobserver-loop-limit-exceeded
-Cypress.on("uncaught:exception", (err) => {
+Cypress.on("uncaught:exception", () => {
   /* returning false here prevents Cypress from failing the test */
-  if (err.message.includes("ResizeObserver loop limit exceeded")) {
-    // returning false here prevents Cypress from
-    // failing the test
-    return false
-  }
+  return false
 })
 
 // Hide fetch/XHR requests

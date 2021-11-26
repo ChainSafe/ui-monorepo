@@ -232,12 +232,16 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
       <div
         onClick={onCopyInfo}
         className={classes.linkWrapper}
+        data-cy="link-active-share"
       >
         <Typography className={classes.link}>
           {link}
         </Typography>
       </div>
-      <div className={classes.permissionWrapper}>
+      <div
+        className={classes.permissionWrapper}
+        data-cy="label-permission-type"
+      >
         <Typography className={classes.link}>
           {translatedPermission(nonce.permission)}
         </Typography>
@@ -245,18 +249,19 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
       <div
         className={classes.copyButton}
         onClick={onCopyInfo}
+        data-cy="button-copy-link"
       >
         <CopyIcon className={classes.copyIcon} />
       </div>
       <div className={classes.menuWrapper}>
         <Menu
-          testId='linkDropdown'
+          testId='link-kebab'
           icon={<MoreIcon className={classes.dropdownIcon} />}
           options={[{
             contents: (
               <>
                 <DeleteSvg className={classes.menuIcon} />
-                <span data-cy="menu-delete">
+                <span data-cy="menu-delete-active-link">
                   <Trans>Delete</Trans>
                 </span>
               </>
