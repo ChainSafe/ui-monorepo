@@ -23,8 +23,8 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
         left: 0,
         width: "100% !important",
         transform: "unset",
-        borderRadiusLeftTop: `${constants.generalUnit * 1.5}px`,
-        borderRadiusRightTop: `${constants.generalUnit * 1.5}px`,
+        borderRadiusLeftTop: 0,
+        borderRadiusRightTop: 0,
         borderRadiusLeftBottom: 0,
         borderRadiusRightBottom: 0
       }
