@@ -11,7 +11,7 @@ import {
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
-import { decryptFile, encryptFile  } from "../Utils/encryption"
+import { decryptFile, encryptFile } from "../Utils/encryption"
 import { ToastParams, useToasts } from "@chainsafe/common-components"
 import axios, { CancelToken } from "axios"
 import { plural, t } from "@lingui/macro"
@@ -159,7 +159,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
     let encryptionKey = ""
 
-    switch(bucket.type) {
+    switch (bucket.type) {
       case "csf":
       case "trash": {
         encryptionKey = personalEncryptionKey
@@ -168,7 +168,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       case "share": {
         encryptionKey = await getKeyForSharedBucket(bucket)
         break
-      }}
+      }
+    }
 
     return encryptionKey
   }, [getKeyForSharedBucket, personalEncryptionKey, userId])
@@ -493,7 +494,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     itemsToDownload: FileSystemItem[],
     currentPath: string,
     bucketId: string
-  ): Promise<FileSystemItemPath[]>  => {
+  ): Promise<FileSystemItemPath[]> => {
     return await itemsToDownload.reduce(
       async (acc: Promise<FileSystemItemPath[]>, item: FileSystemItem): Promise<FileSystemItemPath[]> => {
         if (item.isFolder) {
@@ -566,7 +567,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               }
             })
 
-            if(file) {
+            if (file) {
               const fileArrayBuffer = await file.arrayBuffer()
               const fullPath = getPathWithFile(item.path, item.name)
               const relativeFilePath = getRelativePath(fullPath, currentPath)
@@ -662,7 +663,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       return Promise.resolve()
     } catch (error: any) {
       console.error(error)
-      let errorMessage = `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.error.message ? error.error.message : ""}`
+      let errorMessage = `${t`An error occurred: `} ${typeof (error) === "string"
+        ? error
+        : error?.error?.message || ""}`
       if (axios.isCancel(error)) {
         errorMessage = t`Downloads cancelled`
       }
@@ -678,7 +681,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [getFileContent, addToast, updateToast])
 
-  const createSharedFolder = useCallback(async (name: string, writerUsers?: SharedFolderUser[], readerUsers?: SharedFolderUser[]) =>  {
+  const createSharedFolder = useCallback(async (name: string, writerUsers?: SharedFolderUser[], readerUsers?: SharedFolderUser[]) => {
     if (!publicKey) return
 
     const bucketEncryptionKey = Buffer.from(
@@ -804,7 +807,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               }
             })
 
-            if(file) {
+            if (file) {
               await encryptAndUploadFiles(
                 destinationBucket,
                 [new File([file], item.name, { type: item.content_type })],
@@ -839,7 +842,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               ? t`${successCount} files transferred successfully, ${totalFileNumber - successCount} failed`
               : t`${inSharedBucket ? "Copying" : "Sharing"} failed`,
           type: successCount ? "success" : "error",
-          progress:  undefined,
+          progress: undefined,
           isClosable: true
         }, true)
         setTransfersInProgress(false)
@@ -853,15 +856,14 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           : t`${inSharedBucket ? "Copying" : "Sharing"} failed`
         if (axios.isCancel(error)) {
           errorMessage = successCount
-            ? t`${
-              inSharedBucket ? "Copying" : "Sharing"
+            ? t`${inSharedBucket ? "Copying" : "Sharing"
             } cancelled - ${successCount} files ${inSharedBucket ? "copied" : "shared"} successfully`
             : t`${inSharedBucket ? "Copying" : "Sharing"} cancelled`
         }
         updateToast(toastId, {
           title: errorMessage,
           type: "error",
-          progress:  undefined,
+          progress: undefined,
           isClosable: true
         }, true)
       }

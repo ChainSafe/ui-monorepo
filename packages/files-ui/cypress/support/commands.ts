@@ -46,6 +46,7 @@ export interface Web3LoginOptions {
   useLocalAndSessionStorage?: boolean
   clearCSFBucket?: boolean
   clearTrashBucket?: boolean
+  deleteShareBucket?: boolean
 }
 
 Cypress.Commands.add(
@@ -54,7 +55,8 @@ Cypress.Commands.add(
     saveBrowser = false,
     url = localHost,
     clearCSFBucket = false,
-    clearTrashBucket = false
+    clearTrashBucket = false,
+    deleteShareBucket = false
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -96,11 +98,15 @@ Cypress.Commands.add(
       apiTestHelper.clearBucket("csf")
     }
 
+    if (deleteShareBucket) {
+      apiTestHelper.deleteSharedFolders()
+    }
+
     if (clearTrashBucket) {
       apiTestHelper.clearBucket("trash")
     }
 
-    if(clearTrashBucket || clearCSFBucket){
+    if(clearTrashBucket || clearCSFBucket || deleteShareBucket){
       navigationMenu.binNavButton().click()
       navigationMenu.homeNavButton().click()
     }
@@ -130,6 +136,7 @@ declare global {
        * @param {Boolean} options.saveBrowser - (default: false) - save the browser to localstorage.
        * @param {Boolean} options.clearCSFBucket - (default: false) - whether any file in the csf bucket should be deleted.
        * @param {Boolean} options.clearTrashBucket - (default: false) - whether any file in the trash bucket should be deleted.
+       * @param {Boolean} options.deleteShareBucket - (default: false) - whether any shared bucket should be deleted.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => Chainable
@@ -146,7 +153,7 @@ declare global {
        * https://github.com/cypress-io/cypress/issues/7306
        * 
        */
-       safeClick: () => Chainable
+      safeClick: () => Chainable
 
     }
   }

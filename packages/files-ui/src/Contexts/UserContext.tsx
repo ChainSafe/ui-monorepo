@@ -19,6 +19,7 @@ export type Profile = {
   email?: string
   createdAt?: Date
   username?: string
+  lookupConsent: boolean
 }
 
 interface ILocalStore {
@@ -39,6 +40,7 @@ interface IUserContext {
   addUsername: (username: string) => Promise<void>
   removeUser(): void
   getProfileTitle(): string
+  toggleLookupConsent(): Promise<void>
 }
 
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
@@ -71,7 +73,8 @@ const UserProvider = ({ children }: UserContextProps) => {
         email: profileApiData.email,
         publicAddress: profileApiData.public_address?.toLowerCase(),
         createdAt: profileApiData.created_at,
-        username: profileApiData.username
+        username: profileApiData.username,
+        lookupConsent: profileApiData.user_lookup_consent || false
       }
       setProfile(profileState)
       return Promise.resolve()
@@ -140,10 +143,11 @@ const UserProvider = ({ children }: UserContextProps) => {
       })
       return Promise.resolve()
     } catch (error: any) {
+      console.error(error)
       return Promise.reject(
-        Array.isArray(error) && error[0]
-          ? error[0].message
-          : "There was an error updating profile."
+        Array.isArray(error.error.details)
+          ? error.error.details.map((e: Details) => e.message).join(",")
+          : t`There was an error when setting username.`
       )
     }
   }
@@ -154,7 +158,7 @@ const UserProvider = ({ children }: UserContextProps) => {
     if (!profile) return Promise.reject("Profile not initialized")
 
     try {
-      await filesApiClient.updateUser({
+      const result = await filesApiClient.updateUser({
         first_name: profile.firstName || "",
         last_name: profile.lastName || "",
         email: profile.email || "",
@@ -163,7 +167,33 @@ const UserProvider = ({ children }: UserContextProps) => {
 
       setProfile({
         ...profile,
-        username
+        username: result.username
+      })
+      return Promise.resolve()
+    } catch (error: any) {
+      console.error(error)
+      return Promise.reject(
+        Array.isArray(error.error.details)
+          ? error.error.details.map((e: Details) => e.message).join(",")
+          : t`There was an error when setting username.`
+      )
+    }
+  }
+
+  const toggleLookupConsent = async () => {
+    if (!profile) return Promise.reject("Profile not initialized")
+    try {
+      const result = await filesApiClient.updateUser({
+        first_name: profile.firstName || "",
+        last_name: profile.lastName || "",
+        email: profile.email || "",
+        username: profile.username,
+        lookup_consent_flag: !profile.lookupConsent
+      })
+
+      setProfile({
+        ...profile,
+        lookupConsent: result.user_lookup_consent || false
       })
       return Promise.resolve()
     } catch (error: any) {
@@ -179,7 +209,7 @@ const UserProvider = ({ children }: UserContextProps) => {
   const lookupOnUsername = async (username: string) => {
     if (!profile) return false
     try {
-      const alreadyExists = await filesApiClient.lookupUser({ username })
+      const alreadyExists = await filesApiClient.lookupUser(username)
       return !!alreadyExists
     } catch (error) {
       console.error(error)
@@ -215,7 +245,8 @@ const UserProvider = ({ children }: UserContextProps) => {
         removeUser,
         addUsername,
         lookupOnUsername,
-        getProfileTitle
+        getProfileTitle,
+        toggleLookupConsent
       }}
     >
       {children}

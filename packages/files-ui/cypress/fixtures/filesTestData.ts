@@ -1,3 +1,9 @@
 export const folderName = "Group"
 export const folderPath = `/${folderName}`
 export const profileCreatedDate = "2021-05-20T21:26:36.598924Z"
+export const sharingExplainerKey = "csf.dismissedSharingExplainer"
+export const sharedFolderName = "Share"
+export const sharedFolderEditedName = "Edited"
+export const validEthAddress = "0x2eab9cfa0b5e8e82a73da026254d50567f52d3ce"
+export const validUsername = "filesUserB"
+export const validShareKey = "0x03b53864fc991432dd2a729ee1f876e79d20788efcbe978a4a00db3f9fb24590db"

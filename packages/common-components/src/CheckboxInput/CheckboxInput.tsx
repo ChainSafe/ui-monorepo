@@ -10,6 +10,7 @@ const useStyles = makeStyles(
       root: {
         cursor: "pointer",
         display: "flex",
+        alignItems: "center",
         ...overrides?.CheckboxInput?.root
       },
       checkbox: {

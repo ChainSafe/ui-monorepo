@@ -28,6 +28,9 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
+msgid "Active links"
+msgstr ""
+
 msgid "Add Card"
 msgstr ""
 
@@ -55,10 +58,16 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
+msgid "Allow lookup by sharing key, wallet address or username"
+msgstr ""
+
 msgid "Amount"
 msgstr ""
 
 msgid "An error occurred:"
+msgstr ""
+
+msgid "Anyone with the link can:"
 msgstr ""
 
 msgid "Approve"
@@ -163,16 +172,10 @@ msgstr "Fortsett med Web3-lommebok"
 msgid "Copied!"
 msgstr "Kopiert!"
 
-msgid "Copy CID"
-msgstr "Kopier CID"
-
 msgid "Copy file"
 msgstr ""
 
 msgid "Copy info"
-msgstr ""
-
-msgid "Copy link"
 msgstr ""
 
 msgid "Copy over"
@@ -187,22 +190,22 @@ msgstr ""
 msgid "Create"
 msgstr "Opprett"
 
-msgid "Create Folder"
-msgstr ""
-
 msgid "Create Shared Folder"
 msgstr ""
 
 msgid "Create a Shared Folder"
 msgstr ""
 
-msgid "Create a new shared folder"
+msgid "Create a sharing link"
 msgstr ""
 
-msgid "Create folder"
-msgstr "Opprett mappe"
+msgid "Create folder & Copy over"
+msgstr ""
 
-msgid "Create new link"
+msgid "Create folder & Move over"
+msgstr ""
+
+msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -442,13 +445,13 @@ msgstr ""
 msgid "Loading your shared folders…"
 msgstr ""
 
-msgid "Loading..."
-msgstr ""
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
 msgid "Manage Access"
+msgstr ""
+
+msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Method"
@@ -477,6 +480,9 @@ msgstr "Navnet er for langt"
 
 msgid "New folder"
 msgstr "Ny mappe"
+
+msgid "New shared folder name"
+msgstr ""
 
 msgid "Next"
 msgstr "Neste"
@@ -534,6 +540,12 @@ msgstr ""
 
 msgid "Operating system:"
 msgstr "Operativsystem:"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
@@ -634,6 +646,9 @@ msgstr ""
 msgid "Rename folder"
 msgstr ""
 
+msgid "Rename shared folder"
+msgstr ""
+
 msgid "Report"
 msgstr ""
 
@@ -724,6 +739,9 @@ msgstr "Delt"
 msgid "Shared Folder Name"
 msgstr ""
 
+msgid "Shared folder name"
+msgstr ""
+
 msgid "Shared folders"
 msgstr ""
 
@@ -731,9 +749,6 @@ msgid "Shared with"
 msgstr ""
 
 msgid "Sharing files"
-msgstr ""
-
-msgid "Sharing link"
 msgstr ""
 
 msgid "Sign Out"
@@ -856,9 +871,6 @@ msgstr ""
 msgid "This username is already taken"
 msgstr ""
 
-msgid "This username is public"
-msgstr "Dette brukernavnet er offentlig"
-
 msgid "This website uses cookies"
 msgstr ""
 
@@ -902,9 +914,6 @@ msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
 
 msgid "Use a saved browser"
-msgstr ""
-
-msgid "Use an existing shared folder"
 msgstr ""
 
 msgid "User {0} is both a reader and writer"
@@ -997,7 +1006,7 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "edit rights"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"
@@ -1018,13 +1027,10 @@ msgstr ""
 msgid "per year"
 msgstr ""
 
-msgid "read rights"
-msgstr ""
-
 msgid "unknown"
 msgstr ""
 
-msgid "with"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"

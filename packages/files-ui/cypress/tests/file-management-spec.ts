@@ -37,7 +37,7 @@ describe("File management", () => {
     it("can add files and cancel modal", () => {
       cy.web3Login()
 
-      // upload a file and see it in the file list
+      // attach a file and see it in the file list
       homePage.uploadButton().click()
       fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
       fileUploadModal.fileList().should("have.length", 1)
@@ -66,6 +66,9 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains(folderName).click()
         moveItemModal.moveButton().safeClick()
+        homePage.awaitBucketRefresh()
+        moveSuccessToast.body().should("be.visible")
+        moveSuccessToast.closeButton().click()
 
         // ensure there is only the folder in the Home directory 
         homePage.fileItemRow().should("have.length", 1)
@@ -85,6 +88,7 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
         moveItemModal.moveButton().safeClick()
+        homePage.awaitBucketRefresh()
         moveSuccessToast.body().should("be.visible")
         moveSuccessToast.closeButton().click()
 

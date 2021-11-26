@@ -28,6 +28,9 @@ msgstr "Akzeptieren"
 msgid "Account"
 msgstr "Konto"
 
+msgid "Active links"
+msgstr ""
+
 msgid "Add Card"
 msgstr ""
 
@@ -55,11 +58,17 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
+msgid "Allow lookup by sharing key, wallet address or username"
+msgstr ""
+
 msgid "Amount"
 msgstr ""
 
 msgid "An error occurred:"
 msgstr "Es ist ein Fehler aufgetreten:"
+
+msgid "Anyone with the link can:"
+msgstr ""
 
 msgid "Approve"
 msgstr "Genehmigen"
@@ -163,16 +172,10 @@ msgstr "Weiter mit Web3 Wallet"
 msgid "Copied!"
 msgstr "Kopiert!"
 
-msgid "Copy CID"
-msgstr "IID kopieren"
-
 msgid "Copy file"
 msgstr ""
 
 msgid "Copy info"
-msgstr ""
-
-msgid "Copy link"
 msgstr ""
 
 msgid "Copy over"
@@ -187,22 +190,22 @@ msgstr ""
 msgid "Create"
 msgstr "Erstellen"
 
-msgid "Create Folder"
-msgstr ""
-
 msgid "Create Shared Folder"
 msgstr ""
 
 msgid "Create a Shared Folder"
 msgstr ""
 
-msgid "Create a new shared folder"
+msgid "Create a sharing link"
 msgstr ""
 
-msgid "Create folder"
-msgstr "Ordner erstellen"
+msgid "Create folder & Copy over"
+msgstr ""
 
-msgid "Create new link"
+msgid "Create folder & Move over"
+msgstr ""
+
+msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -442,13 +445,13 @@ msgstr "Vorschau wird geladen"
 msgid "Loading your shared folders…"
 msgstr ""
 
-msgid "Loading..."
-msgstr ""
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
 msgid "Manage Access"
+msgstr ""
+
+msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Method"
@@ -477,6 +480,9 @@ msgstr "Name zu lang"
 
 msgid "New folder"
 msgstr "Neuer Ordner"
+
+msgid "New shared folder name"
+msgstr ""
 
 msgid "Next"
 msgstr "Nächste"
@@ -534,6 +540,12 @@ msgstr ""
 
 msgid "Operating system:"
 msgstr "Betriebssystem:"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
@@ -634,6 +646,9 @@ msgstr "Datei umbenennen"
 msgid "Rename folder"
 msgstr "Ordner umbenennen"
 
+msgid "Rename shared folder"
+msgstr ""
+
 msgid "Report"
 msgstr "Melden"
 
@@ -724,6 +739,9 @@ msgstr "Geteilt"
 msgid "Shared Folder Name"
 msgstr ""
 
+msgid "Shared folder name"
+msgstr ""
+
 msgid "Shared folders"
 msgstr ""
 
@@ -731,9 +749,6 @@ msgid "Shared with"
 msgstr ""
 
 msgid "Sharing files"
-msgstr ""
-
-msgid "Sharing link"
 msgstr ""
 
 msgid "Sign Out"
@@ -856,9 +871,6 @@ msgstr ""
 msgid "This username is already taken"
 msgstr ""
 
-msgid "This username is public"
-msgstr "Dieser Benutzername ist öffentlich"
-
 msgid "This website uses cookies"
 msgstr ""
 
@@ -903,9 +915,6 @@ msgstr "Eine andere Anmeldemethode verwenden"
 
 msgid "Use a saved browser"
 msgstr "Einen gespeicherten Browser verwenden"
-
-msgid "Use an existing shared folder"
-msgstr ""
 
 msgid "User {0} is both a reader and writer"
 msgstr ""
@@ -997,7 +1006,7 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
 
-msgid "edit rights"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"
@@ -1018,13 +1027,10 @@ msgstr ""
 msgid "per year"
 msgstr ""
 
-msgid "read rights"
-msgstr ""
-
 msgid "unknown"
 msgstr "unbekannt"
 
-msgid "with"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"

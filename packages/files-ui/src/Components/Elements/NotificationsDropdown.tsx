@@ -73,6 +73,7 @@ const NotificationsDropdown: React.FC<INotificationsDropdownProps> = ({ notifica
 
   return (
     <MenuDropdown
+      menuItems={[]}
       dropdown={
         <ScrollbarWrapper
           autoHide={true}

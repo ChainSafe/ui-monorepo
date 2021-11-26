@@ -7,7 +7,6 @@ export const DISMISSED_SHARING_EXPLAINER_KEY = "csf.dismissedSharingExplainer"
 export const useSharingExplainerModalFlag = () => {
   const { localStore, setLocalStore } = useUser()
   const [hasSeenSharingExplainerModal, setHasSeenSharingExplainerModal] = useState(true)
-
   useEffect(() => {
     if (!localStore) {
       return
