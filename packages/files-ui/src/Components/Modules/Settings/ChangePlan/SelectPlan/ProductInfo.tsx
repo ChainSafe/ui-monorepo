@@ -1,7 +1,7 @@
 import React from "react"
 import { Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../../Themes/types"
+import { CSFTheme } from "../../../../../Themes/types"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
 import { Product } from "@chainsafe/files-api-client"

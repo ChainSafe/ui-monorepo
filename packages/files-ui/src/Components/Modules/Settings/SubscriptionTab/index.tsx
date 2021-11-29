@@ -6,7 +6,7 @@ import { Trans } from "@lingui/macro"
 import BillingHistory from "./BillingHistory"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
-import CurrentProduct from "./CurrentProduct"
+import CurrentProduct from "./CurrentPlan"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({

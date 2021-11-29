@@ -11,7 +11,7 @@ import { useFiles } from "../../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../Contexts/BillingContext"
-import ChangeProductModal from "../Products/ChangeProductModal"
+import ChangeProductModal from "../ChangePlan/ChangePlanModal"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
@@ -78,7 +78,8 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
         >
           {currentSubscription?.product.name}
         </Typography>
-        : <Loading />
+        : <Loading size={36}
+          type="inherit" />
     }
     {storageSummary &&
       <>

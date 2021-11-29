@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import clsx from "clsx"
 import { Modal } from "@chainsafe/common-components"
-import SelectPlan from "./ChangeProductViews/SelectPlan"
+import SelectPlan from "./SelectPlan"
 import { useBilling } from "../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ constants }: CSFTheme) =>
