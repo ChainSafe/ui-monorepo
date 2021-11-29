@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Button, ExternalSvg, Loading, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
-import { CSFTheme } from "../../../../../Themes/types"
-import { useBilling } from "../../../../../Contexts/BillingContext"
+import { CSFTheme } from "../../../../Themes/types"
+import { useBilling } from "../../../../Contexts/BillingContext"
 import { Product } from "@chainsafe/files-api-client"
 
-const useStyles = makeStyles(({  constants, palette, typography }: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: CSFTheme) =>
   createStyles({
     root:  {
       margin: `${constants.generalUnit * 2}px 0px`
@@ -25,25 +25,30 @@ const useStyles = makeStyles(({  constants, palette, typography }: CSFTheme) =>
     },
     panels: {
       display: "grid",
-      gridColumnGap: constants.generalUnit,
+      gridColumnGap: constants.generalUnit * 1.5,
+      gridRowGap: constants.generalUnit * 1.5,
       gridTemplateColumns: "1fr 1fr 1fr",
-      margin: `${constants.generalUnit * 4}px 0`
+      margin: `${constants.generalUnit * 4}px 0`,
+      [breakpoints.down("sm")]: {
+        gridTemplateColumns: "1fr 1fr"
+      }
     },
     planBox: {
       border: `2px solid ${palette.additional["gray"][5]}`,
       padding: constants.generalUnit * 3,
       display: "flex",
       flexDirection: "column",
-      alignItems: "center"
+      alignItems: "center",
+      borderRadius: 5
     },
     priceSpace: {
       height: 22
     },
     tag: {
       display: "block",
-      padding: `${constants.generalUnit * 0.25}px ${constants.generalUnit}px`,
+      padding: `0 ${constants.generalUnit}px`,
       borderRadius: `${constants.generalUnit * 2}px`,
-      height: 24,
+      height: 20,
       backgroundColor: palette.primary.main,
       color: constants.changeProduct.currentTag.text,
       margin: `${constants.generalUnit * 0.5}px 0`
@@ -93,22 +98,14 @@ const useStyles = makeStyles(({  constants, palette, typography }: CSFTheme) =>
 
 interface ISelectPlan {
   className?: string
-  close: () => void
-  next: (newPriceId: string) => void
+  plans?: Product[]
+  onClose: () => void
+  onSelectPlan: (plan: Product) => void
 }
 
-const SelectPlan = ({ close, className }: ISelectPlan) => {
+const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) => {
   const classes = useStyles()
-  const { getAvailablePlans, currentSubscription } = useBilling()
-  const [plans, setPlans] = useState<Product[] | undefined>()
-
-  useEffect(() => {
-    if(!plans) {
-      getAvailablePlans()
-        .then((plans) => setPlans(plans))
-        .catch(console.error)
-    }
-  })
+  const {  currentSubscription } = useBilling()
 
   return (
     <article className={clsx(classes.root, className)}>
@@ -176,7 +173,8 @@ const SelectPlan = ({ close, className }: ISelectPlan) => {
                 <Trans>
                   Current plan
                 </Trans>
-              </Typography> : <Button variant="primary">
+              </Typography> : <Button variant="primary"
+                onClick={() => onSelectPlan(plan)}>
                 <Trans>Select plan</Trans>
               </Button>
             }
@@ -203,7 +201,7 @@ const SelectPlan = ({ close, className }: ISelectPlan) => {
         </a>
         <div className={classes.buttons}>
           <Button
-            onClick={() => close()}
+            onClick={() => onClose()}
             variant="secondary"
           >
             <Trans>

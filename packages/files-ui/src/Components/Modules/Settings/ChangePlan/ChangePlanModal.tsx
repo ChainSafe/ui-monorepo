@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
-import clsx from "clsx"
 import { Modal } from "@chainsafe/common-components"
 import SelectPlan from "./SelectPlan"
+import PlanDetails from "./Subscribe"
 import { useBilling } from "../../../../Contexts/BillingContext"
+import { Product } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ constants }: CSFTheme) =>
   createStyles({
-    root:  {
-    },
     inner: {
       borderRadius: `${constants.generalUnit / 2}px`
     },
@@ -21,43 +20,44 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
 )
 
 interface IChangeProductModal {
-  className?: string
-  close: () => void
+  onClose: () => void
 }
 
-const ChangeProductModal = ({ className, close }: IChangeProductModal) => {
+const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const classes = useStyles()
-  const { changeSubscription } = useBilling()
-  const [slide, setSlide] = useState<"select" | "confirm">("select")
+  const { getAvailablePlans } = useBilling()
+  const [selectedPlan, setSelectedPlan] = useState<Product | undefined>()
+  const [slide, setSlide] = useState<"select" | "subscribe">("select")
+  const [plans, setPlans] = useState<Product[] | undefined>()
 
   useEffect(() => {
-    if (slide !== "select") {
-      setSlide("select")
+    if(!plans) {
+      getAvailablePlans()
+        .then((plans) => setPlans(plans))
+        .catch(console.error)
     }
-  }, [slide])
+  })
 
   return (
     <Modal
       closePosition="none"
       active={true}
       maxWidth="md"
-      className={classes.root}
       injectedClass={{
         inner: classes.inner
       }}
       testId="change-product"
     >
       {
-        slide === "select" && <SelectPlan
-          className={clsx(classes.slide, className)}
-          close={close}
-          next={(newpriceId: string) => {
-            // setSlide("confirm")
-            changeSubscription(newpriceId)
-              .then(() => close())
-              .catch(console.error)
+        slide === "select" ? <SelectPlan
+          className={classes.slide}
+          onClose={onClose}
+          onSelectPlan={(plan: Product) => {
+            setSelectedPlan(plan)
+            setSlide("subscribe")
           }}
-        />
+          plans={plans}
+        /> : slide === "subscribe" && selectedPlan ? <PlanDetails plan={selectedPlan} /> : null
       }
     </Modal>
   )

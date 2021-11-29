@@ -109,7 +109,7 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
         </div>
         {
           isChangeProductModalVisible && (<ChangeProductModal
-            close={() => setChangeProductModalVisible(false)}
+            onClose={() => setChangeProductModalVisible(false)}
           />)
         }
       </>

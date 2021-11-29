@@ -13,6 +13,7 @@ export type Crumb = {
 export type BreadcrumbProps = {
   crumbs?: Crumb[]
   homeOnClick?: () => void
+  hideHome?: boolean
   className?: string
   showDropDown?: boolean
 }
@@ -94,6 +95,7 @@ const useStyles = makeStyles(
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   crumbs = [],
   homeOnClick,
+  hideHome,
   className,
   showDropDown
 }: BreadcrumbProps) => {
@@ -169,10 +171,11 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
   return (
     <div className={clsx(classes.root, className)}>
-      <HomeIcon
+      {!hideHome && <HomeIcon
         className={clsx(classes.home, homeOnClick && "clickable")}
         onClick={() => (homeOnClick ? homeOnClick() : null)}
       />
+      }
       {generateCrumbs()}
     </div>
   )
