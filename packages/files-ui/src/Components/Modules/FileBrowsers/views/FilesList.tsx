@@ -21,7 +21,8 @@ import {
   GridIcon,
   TableIcon,
   UploadSvg,
-  PlusCircleSvg
+  PlusCircleSvg,
+  MoreIcon,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -412,6 +413,14 @@ const FilesList = ({ isShared = false }: Props) => {
       } else {
         setDirection("ascend")
       }
+    }
+  }
+
+  const toggleSortDirection = () => {
+    if (direction === "ascend") {
+      setDirection("descend")
+    } else {
+      setDirection("ascend")
     }
   }
 
@@ -882,7 +891,7 @@ const FilesList = ({ isShared = false }: Props) => {
               className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
               testId="home"
             >
-              {desktop && (
+              {desktop ? (
                 <TableHead>
                   <TableRow type="grid"
                     className={classes.tableRow}>
@@ -926,6 +935,58 @@ const FilesList = ({ isShared = false }: Props) => {
                       <Trans>Size</Trans>
                     </TableHeadCell>
                     <TableHeadCell>{/* Menu */}</TableHeadCell>
+                  </TableRow>
+                </TableHead>
+              ) : (
+                <TableHead>
+                  <TableRow type="grid"
+                    className={classes.tableRow}>
+                    <TableHeadCell>
+                      {/* Checkbox */}
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons
+                      align='left'
+                      onSortChange={toggleSortDirection}
+                      sortDirection={direction}
+                    >
+                      {column === "name" ? "Name" : column === "date_uploaded" ? "Date uploaded" : "Size"}
+                    </TableHeadCell>
+                    <TableHeadCell align='right'>
+                      <Menu
+                        testId='fileDropdown'
+                        icon={<MoreIcon className={classes.dropdownIcon} />}
+                        options={[{
+                          contents: (
+                            <>
+                              <span data-cy="sort-menu-name">
+                                <Trans>Name</Trans>
+                              </span>
+                            </>
+                          ),
+                          onClick: () => setColumn("name")
+                        }, {
+                          contents: (
+                            <>
+                              <span data-cy="sort-menu-date-uploaded">
+                                <Trans>Date Uploaded</Trans>
+                              </span>
+                            </>
+                          ),
+                          onClick: () => setColumn("date_uploaded")
+                        }, {
+                          contents: (
+                            <>
+                              <span data-cy="sort-menu-size">
+                                <Trans>Size</Trans>
+                              </span>
+                            </>
+                          ),
+                          onClick: () => setColumn("size")
+                        }]}
+                        style={{ focusVisible: classes.focusVisible }}
+                      />
+                    </TableHeadCell>
                   </TableRow>
                 </TableHead>
               )}
