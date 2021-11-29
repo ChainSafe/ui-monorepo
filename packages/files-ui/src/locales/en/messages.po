@@ -193,6 +193,9 @@ msgstr "Data moved to bin successfully"
 msgid "Data restored successfully"
 msgstr "Data restored successfully"
 
+msgid "Date Uploaded"
+msgstr "Date Uploaded"
+
 msgid "Date uploaded"
 msgstr "Date uploaded"
 

@@ -193,6 +193,9 @@ msgstr ""
 msgid "Data restored successfully"
 msgstr ""
 
+msgid "Date Uploaded"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Hochgeladen am"
 
