@@ -20,7 +20,6 @@
     "bnc-onboard": "1.32.0",
     "cids": "^1.1.6",
     "clsx": "^1.1.1",
-    "cypress": "^9.1.0",
     "dayjs": "^1.9.7",
     "eth-crypto": "^1.8.0",
     "ethers": "^5.4.3",
@@ -65,7 +64,7 @@
     "@types/yup": "^0.29.9",
     "@types/zxcvbn": "^4.4.0",
     "babel-plugin-macros": "^2.8.0",
-    "cypress": "^9.0",
+    "cypress": "^9.1.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-pipe": "^2.0.0"
   },
