@@ -22,7 +22,7 @@ import {
   TableIcon,
   UploadSvg,
   PlusCircleSvg,
-  MoreIcon,
+  MoreIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
