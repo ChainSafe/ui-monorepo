@@ -1,18 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
-import { Breadcrumb, Button, Divider, Typography } from "@chainsafe/common-components"
+import { Breadcrumb, Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
-import dayjs from "dayjs"
 
-const useStyles = makeStyles(({ constants }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     root:  {
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     heading: {
       marginTop: constants.generalUnit * 3,
-      marginBottom: constants.generalUnit
+      marginBottom: constants.generalUnit * 2
+    },
+    subHeading: {
+      marginBottom: constants.generalUnit * 2,
+      color: palette.additional["gray"][8]
     },
     boldText: {
       fontWeight: "bold"
@@ -22,12 +25,7 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
     },
     rowBox: {
       display: "flex",
-      padding: `${constants.generalUnit * 0.5}px 0px`
-    },
-    middleRowBox: {
-      display: "flex",
-      alignItems: "center",
-      padding: `${constants.generalUnit * 0.5}px 0px`
+      justifyContent: "space-between"
     },
     pushRightBox: {
       display: "flex",
@@ -47,12 +45,24 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
     bottomSection: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "flex-end",
+      justifyContent: "space-between",
       alignItems: "center",
-      margin: `${constants.generalUnit * 3}px 0px`
+      marginTop: constants.generalUnit * 4,
+      marginBottom: constants.generalUnit * 3
     },
     divider: {
       margin: `${constants.generalUnit}px 0`
+    },
+    radioLabel: {
+      fontSize: 14
+    },
+    textButton: {
+      color: palette.primary.main,
+      cursor: "pointer"
+    },
+    linkButton: {
+      textDecoration: "underline",
+      cursor: "pointer"
     }
   })
 )
@@ -65,7 +75,10 @@ interface IPaymentMethodProps {
 
 const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails }: IPaymentMethodProps) => {
   const classes = useStyles()
+  const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
+  const [view, setView] = useState<"selectPaymentMethod" | "addCard">("selectPaymentMethod")
 
+  console.log(view)
 
   return (
     <article className={classes.root}>
@@ -87,20 +100,51 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails }: IPaymentMetho
       >
         <Trans>Select payment method</Trans>
       </Typography>
+      <Typography variant="body1"
+        component="p"
+        className={classes.subHeading}
+      >
+        {view === "addCard" && <Trans>Select payment method</Trans>}
+      </Typography>
       <Divider className={classes.divider} />
+
       <div className={classes.rowBox}>
-        <Typography component="p"
-          variant="body1"
-          className={classes.boldText}>
-          <Trans>Billing start time</Trans>
+        <RadioInput
+          label="Credit card"
+          value="creditCard"
+          onChange={() => setPaymentMethod("creditCard")}
+          checked={paymentMethod === "creditCard"}
+          labelClassName={classes.radioLabel}
+        />
+        <Typography variant="body1"
+          component="p"
+          className={classes.textButton}
+          onClick={() => setView("addCard")}
+        >
+          <Trans>Add credit card</Trans>
         </Typography>
-        <div className={classes.pushRightBox}>
-          <Typography variant="body1"
-            component="p">{dayjs().format("DD MMM YYYY")}</Typography>
-        </div>
       </div>
       <Divider className={classes.divider} />
+      <RadioInput
+        label="USDC, BTC, or ETH (Annual only)"
+        value="orange"
+        onChange={() => setPaymentMethod("crypto")}
+        checked={paymentMethod === "crypto"}
+        labelClassName={classes.radioLabel}
+        disabled={true}
+      />
+      <Divider className={classes.divider} />
       <section className={classes.bottomSection}>
+        {view === "addCard" ? <div>
+          <Typography variant="body1"
+            component="p"
+            onClick={() => setView("selectPaymentMethod")}
+            className={classes.linkButton}
+          >
+            <Trans>Go  back</Trans>
+          </Typography>
+        </div> : <div />
+        }
         <div className={classes.buttons}>
           <Button
             onClick={() => onClose()}
@@ -112,10 +156,11 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails }: IPaymentMetho
           </Button>
           <Button
             variant="primary"
+            disabled={!paymentMethod}
             // onClick={handleSelectPlan}
           >
             <Trans>
-              Subscribe
+              Select payment method
             </Trans>
           </Button>
         </div>
