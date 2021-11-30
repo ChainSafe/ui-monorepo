@@ -46,6 +46,7 @@ export interface Web3LoginOptions {
   clearCSFBucket?: boolean
   clearTrashBucket?: boolean
   deleteShareBucket?: boolean
+  withNewUser?: boolean
 }
 
 Cypress.Commands.add(
@@ -55,7 +56,8 @@ Cypress.Commands.add(
     url = localHost,
     clearCSFBucket = false,
     clearTrashBucket = false,
-    deleteShareBucket = false
+    deleteShareBucket = false,
+    withNewUser = true
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -63,32 +65,49 @@ Cypress.Commands.add(
         "https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847",
         4
       )
-      const signer = new Wallet(testPrivateKey, provider)
+      const signer = withNewUser
+        ? Wallet.createRandom()
+        : new Wallet(testPrivateKey, provider)
       // inject ethereum object in the global window
       Object.defineProperty(win, "ethereum", {
-        get: () => new CustomizedBridge(signer as any, provider as any)
+        get: () => new CustomizedBridge(signer as any, signer.address, provider as any)
       })
     })
 
-    // with nothing in localstorage (and in session storage)
-    // the whole login flow should kick in
-    cy.session("web3login", () => {
-      cy.visit(url)
-      authenticationPage.web3Button().click()
-      authenticationPage.showMoreButton().click()
-      authenticationPage.detectedWallet().click()
-      authenticationPage.web3SignInButton().safeClick()
-      authenticationPage.loginPasswordButton().click()
-      authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
+    if (withNewUser){
+      cy.session("web3loginNewUser", () => {
+        cy.visit(url)
+        authenticationPage.web3Button().click()
+        authenticationPage.showMoreButton().click()
+        authenticationPage.detectedWallet().click()
+        authenticationPage.web3SignInButton().safeClick()
+        authenticationPage.signInExplainerContinueButton().safeClick()
+        // we are using the testAccount password here, but we could input anything
+        authenticationPage.signInSetupPasswordInput().type(`${testAccountPassword}`)
+        authenticationPage.signInSetupPasswordVerificationInput().type(`${testAccountPassword}{enter}`)
 
-      if (saveBrowser) {
-        // this is taking forever for test accounts
-        authenticationPage.saveBrowserButton().click()
-      } else {
-        authenticationPage.doNotSaveBrowserButton().click()
-      }
-      homePage.appHeaderLabel().should("be.visible")
-    })
+        homePage.appHeaderLabel().should("be.visible")
+      })
+    } else {
+      cy.session("web3loginTestUser", () => {
+        cy.visit(url)
+        authenticationPage.web3Button().click()
+        authenticationPage.showMoreButton().click()
+        authenticationPage.detectedWallet().click()
+        authenticationPage.web3SignInButton().safeClick()
+        authenticationPage.loginPasswordButton().click()
+        authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
+
+        if (saveBrowser) {
+          // this is taking forever for test accounts
+          authenticationPage.saveBrowserButton().click()
+        } else {
+          authenticationPage.doNotSaveBrowserButton().click()
+        }
+        homePage.appHeaderLabel().should("be.visible")
+      })
+    }
+
 
     cy.visit(url)
     homePage.appHeaderLabel().should("be.visible")
@@ -136,6 +155,7 @@ declare global {
        * @param {Boolean} options.clearCSFBucket - (default: false) - whether any file in the csf bucket should be deleted.
        * @param {Boolean} options.clearTrashBucket - (default: false) - whether any file in the trash bucket should be deleted.
        * @param {Boolean} options.deleteShareBucket - (default: false) - whether any shared bucket should be deleted.
+       * @param {Boolean} options.withNewUser - (default: true) - whether to create a new user for this session.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => void
