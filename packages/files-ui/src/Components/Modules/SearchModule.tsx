@@ -273,7 +273,7 @@ const SearchModule: React.FC<ISearchModule> = ({
                 <Trans>No search results for </Trans>{` ${searchResults.query}`}
               </Typography>
             )}
-            {!!searchResultsFiles?.length && (
+            {searchResultsFiles && searchResultsFiles.length && (
               <div>
                 <div className={classes.resultHead}>
                   <Typography
@@ -300,7 +300,7 @@ const SearchModule: React.FC<ISearchModule> = ({
                 ))}
               </div>
             )}
-            {!!searchResultsFolders?.length && (
+            {searchResultsFolders && searchResultsFolders.length && (
               <div>
                 <div className={classes.resultHeadFolder}>
                   <Typography
