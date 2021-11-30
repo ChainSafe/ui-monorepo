@@ -56,7 +56,7 @@ Cypress.Commands.add(
     clearCSFBucket = false,
     clearTrashBucket = false,
     deleteShareBucket = false
-  }: Web3LoginOptions = {}): void => {
+  }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
       const provider = new ethers.providers.JsonRpcProvider(
