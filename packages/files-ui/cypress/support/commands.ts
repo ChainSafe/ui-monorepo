@@ -26,17 +26,16 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import { authenticationPage } from "./page-objects/authenticationPage"
-import { apiTestHelper } from "./utils/apiTestHelper"
+import { apiTestHelper, ClearBucketType } from "./utils/apiTestHelper"
 import { ethers, Wallet } from "ethers"
 import { homePage } from "./page-objects/homePage"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
-import { BucketType } from "@chainsafe/files-api-client"
 import { navigationMenu } from "./page-objects/navigationMenu"
 
-Cypress.Commands.add("clearBucket", (bucketType: BucketType) => {
+Cypress.Commands.add("clearBucket", (bucketType: ClearBucketType) => {
   apiTestHelper.clearBucket(bucketType)
 })
 
@@ -57,7 +56,7 @@ Cypress.Commands.add(
     clearCSFBucket = false,
     clearTrashBucket = false,
     deleteShareBucket = false
-  }: Web3LoginOptions = {}) => {
+  }: Web3LoginOptions = {}): void => {
 
     cy.on("window:before:load", (win) => {
       const provider = new ethers.providers.JsonRpcProvider(
@@ -115,7 +114,7 @@ Cypress.Commands.add(
   }
 )
 
-Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
+Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element?: JQuery<HTMLElement>) => {
   const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
   return cy
     .wrap($element)
@@ -139,7 +138,7 @@ declare global {
        * @param {Boolean} options.deleteShareBucket - (default: false) - whether any shared bucket should be deleted.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
-      web3Login: (options?: Web3LoginOptions) => Chainable
+      web3Login: (options?: Web3LoginOptions) => void
 
       /**
        * Use this when encountering race condition issues resulting in
@@ -153,8 +152,14 @@ declare global {
        * https://github.com/cypress-io/cypress/issues/7306
        * 
        */
-      safeClick: () => Chainable
+      safeClick: ($element?: JQuery<HTMLElement>) => Chainable
 
+      /**
+       * Clear a bucket.
+       * @param {BucketType} - what bucket type to clear for this user.
+       * @example cy.clearBucket("csf")
+       */
+      clearBucket: (bucketType: ClearBucketType) => void
     }
   }
 }
