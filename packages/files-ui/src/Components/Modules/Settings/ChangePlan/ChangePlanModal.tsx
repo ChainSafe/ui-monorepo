@@ -3,14 +3,18 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import { Modal } from "@chainsafe/common-components"
 import SelectPlan from "./SelectPlan"
-import PlanDetails from "./Subscribe"
+import PlanDetails from "./PlanDetails"
 import { useBilling } from "../../../../Contexts/BillingContext"
-import { Product } from "@chainsafe/files-api-client"
+import { Product, ProductPrice } from "@chainsafe/files-api-client"
+import PaymentMethod from "./PaymentMethod"
 
-const useStyles = makeStyles(({ constants }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     inner: {
-      borderRadius: `${constants.generalUnit / 2}px`
+      borderRadius: `${constants.generalUnit / 2}px`,
+      [breakpoints.up("sm")]: {
+        minWidth: 480
+      }
     },
     slide: {
       borderRadius: constants.generalUnit / 2,
@@ -27,7 +31,8 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const classes = useStyles()
   const { getAvailablePlans } = useBilling()
   const [selectedPlan, setSelectedPlan] = useState<Product | undefined>()
-  const [slide, setSlide] = useState<"select" | "subscribe">("select")
+  const [selectedPrice, setSelectedPrice] = useState<ProductPrice | undefined>()
+  const [slide, setSlide] = useState<"select" | "planDetails" |  "paymentMethod">("select")
   const [plans, setPlans] = useState<Product[] | undefined>()
 
   useEffect(() => {
@@ -54,10 +59,26 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           onClose={onClose}
           onSelectPlan={(plan: Product) => {
             setSelectedPlan(plan)
-            setSlide("subscribe")
+            setSlide("planDetails")
           }}
           plans={plans}
-        /> : slide === "subscribe" && selectedPlan ? <PlanDetails plan={selectedPlan} /> : null
+        /> : slide === "planDetails" && selectedPlan ? <PlanDetails plan={selectedPlan}
+          onClose={onClose}
+          goToSelectPlan={() => {
+            setSlide("select")
+          }}
+          onSelectPlanPrice={(planPrice: ProductPrice) => {
+            setSelectedPrice(planPrice)
+            setSlide("paymentMethod")
+          }}
+        /> : slide === "paymentMethod" ? <PaymentMethod onClose={onClose}
+          goToSelectPlan={() => {
+            setSlide("select")
+          }}
+          goToPlanDetails={() => {
+            setSlide("planDetails")
+          }}
+        /> : null
       }
     </Modal>
   )

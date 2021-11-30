@@ -16,7 +16,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
+      marginTop: constants.generalUnit * 2
     },
     loadingContainer: {
       margin: `${constants.generalUnit * 4}px 0`,
@@ -28,7 +29,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       gridColumnGap: constants.generalUnit * 1.5,
       gridRowGap: constants.generalUnit * 1.5,
       gridTemplateColumns: "1fr 1fr 1fr",
-      margin: `${constants.generalUnit * 4}px 0`,
+      marginTop: constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 4,
       [breakpoints.down("sm")]: {
         gridTemplateColumns: "1fr 1fr"
       }

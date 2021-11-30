@@ -61,7 +61,7 @@ const useStyles = makeStyles(
         "&.clickable": {
           cursor: "pointer"
         },
-        maxWidth: 100,
+        maxWidth: 120,
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
@@ -104,7 +104,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const generateFullCrumbs = (crumbs: Crumb[]) => {
     return crumbs.map((item: Crumb, index: number) => (
       <Fragment key={`crumb-${index}`}>
-        <div className={clsx(classes.separator)} />
         <div>
           <Typography
             onClick={() => (item.onClick ? item.onClick() : null)}
@@ -114,6 +113,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
             {item.text}
           </Typography>
         </div>
+        {index < (crumbs.length - 1) && <div className={clsx(classes.separator)} />}
       </Fragment>
     ))
   }
@@ -152,7 +152,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
       const lastCrumb = crumbs[crumbs.length - 1]
       return (
         <>
-          <div className={clsx(classes.separator)} />
           {generateDropdownCrumb(dropdownCrumbs)}
           <div className={clsx(classes.separator)} />
           <div>
@@ -171,10 +170,13 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
   return (
     <div className={clsx(classes.root, className)}>
-      {!hideHome && <HomeIcon
-        className={clsx(classes.home, homeOnClick && "clickable")}
-        onClick={() => (homeOnClick ? homeOnClick() : null)}
-      />
+      {!hideHome && <>
+        <HomeIcon
+          className={clsx(classes.home, homeOnClick && "clickable")}
+          onClick={() => (homeOnClick ? homeOnClick() : null)}
+        />
+        <div className={clsx(classes.separator)} />
+      </>
       }
       {generateCrumbs()}
     </div>
