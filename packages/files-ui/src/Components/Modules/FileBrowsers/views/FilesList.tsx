@@ -950,7 +950,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       onSortChange={toggleSortDirection}
                       sortDirection={direction}
                     >
-                      {column === "name" ? "Name" : column === "date_uploaded" ? "Date uploaded" : "Size"}
+                      {column === "name" ? t`Name` : column === "date_uploaded" ? t`Date uploaded` : t`Size`}
                     </TableHeadCell>
                     <TableHeadCell align='right'>
                       <Menu
