@@ -7,6 +7,7 @@ import { homePage } from "../page-objects/homePage"
 const API_BASE_USE = "https://stage.imploy.site/api/v1"
 const REFRESH_TOKEN_KEY = "csf.refreshToken"
 
+export type ClearBucketType = Exclude<BucketType, "share" | "pinning" | "fps">
 const getApiClient = () => {
   // Disable the internal Axios JSON deserialization as this is handled by the client
   const axiosInstance = axios.create({ transformResponse: [] })
@@ -34,7 +35,7 @@ export const apiTestHelper = {
         })
     })
   },
-  clearBucket(bucketType: BucketType) {
+  clearBucket(bucketType: ClearBucketType) {
     const apiClient = getApiClient()
 
     return new Cypress.Promise(async (resolve) => {
