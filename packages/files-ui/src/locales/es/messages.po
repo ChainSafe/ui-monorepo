@@ -29,6 +29,9 @@ msgstr ""
 msgid "Account"
 msgstr "Cuenta"
 
+msgid "Active links"
+msgstr ""
+
 msgid "Add a username"
 msgstr ""
 
@@ -47,7 +50,13 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
+msgid "Allow lookup by sharing key, wallet address or username"
+msgstr ""
+
 msgid "An error occurred:"
+msgstr ""
+
+msgid "Anyone with the link can:"
 msgstr ""
 
 msgid "Approve"
@@ -131,16 +140,10 @@ msgstr "Continuar con Monedero Web3 "
 msgid "Copied!"
 msgstr "Copiado!"
 
-msgid "Copy CID"
-msgstr "Copiar CID"
-
 msgid "Copy file"
 msgstr ""
 
 msgid "Copy info"
-msgstr ""
-
-msgid "Copy link"
 msgstr ""
 
 msgid "Copy over"
@@ -155,22 +158,22 @@ msgstr ""
 msgid "Create"
 msgstr "Crear"
 
-msgid "Create Folder"
-msgstr ""
-
 msgid "Create Shared Folder"
 msgstr ""
 
 msgid "Create a Shared Folder"
 msgstr ""
 
-msgid "Create a new shared folder"
+msgid "Create a sharing link"
 msgstr ""
 
-msgid "Create folder"
-msgstr "Crear Carpeta"
+msgid "Create folder & Copy over"
+msgstr ""
 
-msgid "Create new link"
+msgid "Create folder & Move over"
+msgstr ""
+
+msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -335,6 +338,9 @@ msgstr ""
 msgid "Go back"
 msgstr "Regresar"
 
+msgid "Go to login"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 
@@ -392,9 +398,6 @@ msgstr "Cargando vista previa"
 msgid "Loading your shared folders…"
 msgstr ""
 
-msgid "Loading..."
-msgstr ""
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Parece que está iniciando sesión desde un nuevo navegador. Elija una de las siguientes opciones para continuar:"
 
@@ -402,6 +405,9 @@ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc element
 msgstr "Lorem ipsum Aenean, y un gran maquillaje. Usamos más y colocamos en ratas. Ahora elemento libre, pero mucho del valle. , Quien no se doblegue, de la vida de una fringilla molestie."
 
 msgid "Manage Access"
+msgstr ""
+
+msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Move"
@@ -427,6 +433,9 @@ msgstr ""
 
 msgid "New folder"
 msgstr "Nuevo Folder"
+
+msgid "New shared folder name"
+msgstr ""
 
 msgid "Next"
 msgstr "Próximo"
@@ -472,6 +481,12 @@ msgstr ""
 
 msgid "Operating system:"
 msgstr "Sistema operativo:"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "O confirme iniciando sesión en sus Archivos en cualquier navegador que haya usado antes."
@@ -558,6 +573,9 @@ msgid "Rename file"
 msgstr ""
 
 msgid "Rename folder"
+msgstr ""
+
+msgid "Rename shared folder"
 msgstr ""
 
 msgid "Report"
@@ -647,6 +665,9 @@ msgstr ""
 msgid "Shared Folder Name"
 msgstr ""
 
+msgid "Shared folder name"
+msgstr ""
+
 msgid "Shared folders"
 msgstr ""
 
@@ -654,9 +675,6 @@ msgid "Shared with"
 msgstr ""
 
 msgid "Sharing files"
-msgstr ""
-
-msgid "Sharing link"
 msgstr ""
 
 msgid "Sign Out"
@@ -725,6 +743,9 @@ msgstr "Se cerró la ventana emergente de autenticación"
 msgid "The files are already in this folder"
 msgstr ""
 
+msgid "The link you typed in looks malformed. Please verify it."
+msgstr ""
+
 msgid "The username is too long"
 msgstr ""
 
@@ -758,10 +779,13 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
-msgid "This username is already taken"
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
-msgid "This username is public"
+msgid "This link is not valid any more."
+msgstr ""
+
+msgid "This username is already taken"
 msgstr ""
 
 msgid "This website uses cookies"
@@ -794,9 +818,6 @@ msgstr "Utilice un método de inicio de sesión diferente"
 msgid "Use a saved browser"
 msgstr "Utilice un navegador guardado"
 
-msgid "Use an existing shared folder"
-msgstr ""
-
 msgid "User {0} is both a reader and writer"
 msgstr ""
 
@@ -819,6 +840,9 @@ msgid "Verification code not correct!"
 msgstr ""
 
 msgid "Verification code sent!"
+msgstr ""
+
+msgid "Verifying the link..."
 msgstr ""
 
 msgid "View folder"
@@ -863,6 +887,9 @@ msgstr ""
 msgid "You can't move folders to this path"
 msgstr ""
 
+msgid "You do not have access to this shared folder."
+msgstr ""
+
 msgid "You haven't set a username yet."
 msgstr ""
 
@@ -875,7 +902,7 @@ msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de se
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "edit rights"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"
@@ -884,13 +911,10 @@ msgstr ""
 msgid "on"
 msgstr "en"
 
-msgid "read rights"
-msgstr ""
-
 msgid "unknown"
 msgstr ""
 
-msgid "with"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"

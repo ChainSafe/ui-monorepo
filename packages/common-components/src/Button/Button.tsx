@@ -93,7 +93,7 @@ const useStyles = makeStyles(
           fill: palette.common.white.main
         },
         "&:hover": {
-          backgroundColor: palette.primary.main,
+          backgroundColor: palette.primary.hover,
           color: palette.common.white.main,
           ...overrides?.Button?.variants?.secondary?.hover
         },
@@ -108,6 +108,20 @@ const useStyles = makeStyles(
           ...overrides?.Button?.variants?.secondary?.active
         },
         ...overrides?.Button?.variants?.secondary?.root
+      },
+      text: {
+        backgroundColor: "transparent",
+        color: palette.additional["gray"][9],
+        "&:hover": {
+          ...overrides?.Button?.variants?.text?.hover
+        },
+        "&:focus": {
+          ...overrides?.Button?.variants?.text?.focus
+        },
+        "&:active": {
+          ...overrides?.Button?.variants?.text?.active
+        },
+        ...overrides?.Button?.variants?.text?.root
       },
       tertiary: {
         backgroundColor: palette.additional["gray"][3],
@@ -293,7 +307,7 @@ interface IButtonProps extends Omit<ReactButton, "size"> {
   className?: string
   children?: ReactNode | ReactNode[]
   fullsize?: boolean
-  variant?: "link" | "primary" | "secondary" |"tertiary" | "outline" | "dashed" | "danger"
+  variant?: "link" | "primary" | "secondary" |"tertiary" | "outline" | "dashed" | "danger" | "text"
   iconButton?: boolean
   size?: "large" | "medium" | "small"
   type?: "button" | "submit" | "reset"

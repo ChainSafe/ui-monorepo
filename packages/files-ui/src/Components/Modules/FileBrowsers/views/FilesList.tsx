@@ -293,6 +293,15 @@ const useStyles = makeStyles(
         width: 20,
         marginRight: constants.generalUnit * 1.5,
         fill: constants.previewModal.menuItemIconColor
+      },
+      fileNameHeader: {
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        marginRight: constants.generalUnit * 2
+      },
+      buttonWrap: {
+        whiteSpace: "nowrap"
       }
     })
   }
@@ -600,8 +609,8 @@ const FilesList = ({ isShared = false }: Props) => {
   }, [setIsSurveyBannerVisible])
 
   const handleViewFolder = useCallback((cid: string) => {
-    viewFolder && viewFolder(cid)
-  }, [viewFolder])
+    !loadingCurrentPath && viewFolder && viewFolder(cid)
+  }, [viewFolder, loadingCurrentPath])
 
   const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
@@ -628,7 +637,7 @@ const FilesList = ({ isShared = false }: Props) => {
         <>
           <PlusCircleSvg className={classes.menuIcon} />
           <span>
-            <Trans>Create folder</Trans>
+            <Trans>New folder</Trans>
           </span>
         </>
       ),
@@ -691,6 +700,7 @@ const FilesList = ({ isShared = false }: Props) => {
           variant="h1"
           component="h1"
           data-cy="files-app-header"
+          className={classes.fileNameHeader}
         >
           {heading}
         </Typography>
@@ -722,7 +732,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       size="large"
                     >
                       <PlusCircleIcon />
-                      <span>
+                      <span className={classes.buttonWrap}>
                         <Trans>New folder</Trans>
                       </span>
                     </Button>
@@ -733,7 +743,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       size="large"
                     >
                       <UploadIcon />
-                      <span>
+                      <span className={classes.buttonWrap}>
                         <Trans>Upload</Trans>
                       </span>
                     </Button>
@@ -1105,7 +1115,7 @@ const FilesList = ({ isShared = false }: Props) => {
       }
       { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
         <ShareModal
-          close={() => {
+          onClose={() => {
             setIsShareModalOpen(false)
             setFilePath(undefined)
           }}

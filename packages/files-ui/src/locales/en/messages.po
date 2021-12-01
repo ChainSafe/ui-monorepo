@@ -28,6 +28,9 @@ msgstr "Accept"
 msgid "Account"
 msgstr "Account"
 
+msgid "Active links"
+msgstr "Active links"
+
 msgid "Add a username"
 msgstr "Add a username"
 
@@ -46,8 +49,14 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
 
+msgid "Allow lookup by sharing key, wallet address or username"
+msgstr "Allow lookup by sharing key, wallet address or username"
+
 msgid "An error occurred:"
 msgstr "An error occurred:"
+
+msgid "Anyone with the link can:"
+msgstr "Anyone with the link can:"
 
 msgid "Approve"
 msgstr "Approve"
@@ -130,17 +139,11 @@ msgstr "Continue with Web3 Wallet"
 msgid "Copied!"
 msgstr "Copied!"
 
-msgid "Copy CID"
-msgstr "Copy CID"
-
 msgid "Copy file"
 msgstr "Copy file"
 
 msgid "Copy info"
 msgstr "Copy info"
-
-msgid "Copy link"
-msgstr "Copy link"
 
 msgid "Copy over"
 msgstr "Copy over"
@@ -154,23 +157,23 @@ msgstr "Copying files"
 msgid "Create"
 msgstr "Create"
 
-msgid "Create Folder"
-msgstr "Create Folder"
-
 msgid "Create Shared Folder"
 msgstr "Create Shared Folder"
 
 msgid "Create a Shared Folder"
 msgstr "Create a Shared Folder"
 
-msgid "Create a new shared folder"
-msgstr "Create a new shared folder"
+msgid "Create a sharing link"
+msgstr "Create a sharing link"
 
-msgid "Create folder"
-msgstr "Create folder"
+msgid "Create folder & Copy over"
+msgstr "Create folder & Copy over"
 
-msgid "Create new link"
-msgstr "Create new link"
+msgid "Create folder & Move over"
+msgstr "Create folder & Move over"
+
+msgid "Create link"
+msgstr "Create link"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
@@ -334,6 +337,9 @@ msgstr "Give view-only permission to:"
 msgid "Go back"
 msgstr "Go back"
 
+msgid "Go to login"
+msgstr "Go to login"
+
 msgid "Got it"
 msgstr "Got it"
 
@@ -391,9 +397,6 @@ msgstr "Loading preview"
 msgid "Loading your shared folders…"
 msgstr "Loading your shared folders…"
 
-msgid "Loading..."
-msgstr "Loading..."
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
@@ -402,6 +405,9 @@ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elemen
 
 msgid "Manage Access"
 msgstr "Manage Access"
+
+msgid "Manage Shared Folder"
+msgstr "Manage Shared Folder"
 
 msgid "Move"
 msgstr "Move"
@@ -426,6 +432,9 @@ msgstr "Name too long"
 
 msgid "New folder"
 msgstr "New folder"
+
+msgid "New shared folder name"
+msgstr "New shared folder name"
 
 msgid "Next"
 msgstr "Next"
@@ -471,6 +480,12 @@ msgstr "Only you can see this."
 
 msgid "Operating system:"
 msgstr "Operating system:"
+
+msgid "Or Create a new shared folder"
+msgstr "Or Create a new shared folder"
+
+msgid "Or Use an existing shared folder"
+msgstr "Or Use an existing shared folder"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
@@ -559,6 +574,9 @@ msgstr "Rename file"
 msgid "Rename folder"
 msgstr "Rename folder"
 
+msgid "Rename shared folder"
+msgstr "Rename shared folder"
+
 msgid "Report"
 msgstr "Report"
 
@@ -646,6 +664,9 @@ msgstr "Shared"
 msgid "Shared Folder Name"
 msgstr "Shared Folder Name"
 
+msgid "Shared folder name"
+msgstr "Shared folder name"
+
 msgid "Shared folders"
 msgstr "Shared folders"
 
@@ -654,9 +675,6 @@ msgstr "Shared with"
 
 msgid "Sharing files"
 msgstr "Sharing files"
-
-msgid "Sharing link"
-msgstr "Sharing link"
 
 msgid "Sign Out"
 msgstr "Sign Out"
@@ -724,6 +742,9 @@ msgstr "The authentication popup was closed"
 msgid "The files are already in this folder"
 msgstr "The files are already in this folder"
 
+msgid "The link you typed in looks malformed. Please verify it."
+msgstr "The link you typed in looks malformed. Please verify it."
+
 msgid "The username is too long"
 msgstr "The username is too long"
 
@@ -757,11 +778,14 @@ msgstr "There was an error restoring your data"
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
 
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
+msgstr "This link is marlformed. Please verify that you copy/pasted it correctly."
+
+msgid "This link is not valid any more."
+msgstr "This link is not valid any more."
+
 msgid "This username is already taken"
 msgstr "This username is already taken"
-
-msgid "This username is public"
-msgstr "This username is public"
 
 msgid "This website uses cookies"
 msgstr "This website uses cookies"
@@ -793,9 +817,6 @@ msgstr "Use a different login method"
 msgid "Use a saved browser"
 msgstr "Use a saved browser"
 
-msgid "Use an existing shared folder"
-msgstr "Use an existing shared folder"
-
 msgid "User {0} is both a reader and writer"
 msgstr "User {0} is both a reader and writer"
 
@@ -819,6 +840,9 @@ msgstr "Verification code not correct!"
 
 msgid "Verification code sent!"
 msgstr "Verification code sent!"
+
+msgid "Verifying the link..."
+msgstr "Verifying the link..."
 
 msgid "View folder"
 msgstr "View folder"
@@ -862,6 +886,9 @@ msgstr "You can now create shared folders to share a file."
 msgid "You can't move folders to this path"
 msgstr "You can't move folders to this path"
 
+msgid "You do not have access to this shared folder."
+msgstr "You do not have access to this shared folder."
+
 msgid "You haven't set a username yet."
 msgstr "You haven't set a username yet."
 
@@ -874,8 +901,8 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
-msgid "edit rights"
-msgstr "edit rights"
+msgid "can-edit"
+msgstr "can-edit"
 
 msgid "me"
 msgstr "me"
@@ -883,14 +910,11 @@ msgstr "me"
 msgid "on"
 msgstr "on"
 
-msgid "read rights"
-msgstr "read rights"
-
 msgid "unknown"
 msgstr "unknown"
 
-msgid "with"
-msgstr "with"
+msgid "view-only"
+msgstr "view-only"
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
