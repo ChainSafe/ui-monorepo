@@ -7,7 +7,7 @@ import { CSFTheme } from "../Themes/types"
 
 interface Option {
   contents: ReactNode
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent) => void
 }
 
 interface CustomClasses {
@@ -72,9 +72,9 @@ export default function Menu({ icon, options, style, testId }: Props) {
         {options.map((option, index) => (
           <MenuItem
             key={index}
-            onClick={() => {
+            onClick={(e) => {
               handleClose()
-              option.onClick && option.onClick()
+              option.onClick && option.onClick(e)
             }}
             focusVisibleClassName={clsx(style?.focusVisible)}
             className={classes.options}

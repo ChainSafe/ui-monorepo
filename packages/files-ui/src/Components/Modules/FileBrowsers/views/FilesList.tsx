@@ -22,7 +22,8 @@ import {
   TableIcon,
   UploadSvg,
   PlusCircleSvg,
-  MoreIcon
+  MoreIcon,
+  DownloadSvg
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -666,6 +667,91 @@ const FilesList = ({ isShared = false }: Props) => {
   ],
   [classes.menuIcon])
 
+  const mobileBulkActions = useMemo(() => {
+    const menuOptions = []
+
+    validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Download as zip</Trans>
+            </span>
+          </>
+        ),
+        onClick: () => {
+          bucket && downloadMultipleFiles(selectedItems, currentPath, bucket.id)
+          resetSelectedItems()
+        }
+      })
+
+    validBulkOps.includes("move") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Move</Trans>
+            </span>
+          </>
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("move")
+        }
+      })
+
+    validBulkOps.includes("recover") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Recover</Trans>
+            </span>
+          </>
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("recover")
+        }
+      })
+
+    validBulkOps.includes("delete") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Delete</Trans>
+            </span>
+          </>
+        ),
+        onClick: handleOpenDeleteDialog
+      })
+    validBulkOps.includes("share") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Share</Trans>
+            </span>
+          </>
+        ),
+        onClick: handleOpenShareDialog
+      })
+
+    return menuOptions
+  }, [
+    validBulkOps,
+    bucket,
+    currentPath,
+    downloadMultipleFiles,
+    handleOpenDeleteDialog,
+    handleOpenMoveFileDialog,
+    handleOpenShareDialog,
+    resetSelectedItems,
+    selectedItems,
+    selectionContainsAFolder
+  ])
+
   const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
     setSelectedItems([fileSystemItem])
     handleOpenShareDialog()
@@ -788,9 +874,8 @@ const FilesList = ({ isShared = false }: Props) => {
         ? <SurveyBanner onHide={onHideSurveyBanner}/>
         : <Divider className={classes.divider} />
       }
-
-      <section className={classes.bulkOperations}>
-        {selectedItems.length > 0 && (
+      {desktop && selectedItems.length > 0 && (
+        <section className={classes.bulkOperations}>
           <>
             {validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) && (
               <Button
@@ -847,8 +932,8 @@ const FilesList = ({ isShared = false }: Props) => {
               </Button>
             )}
           </>
-        )}
-      </section>
+        </section>
+      )}
       <div
         className={clsx(
           classes.loadingContainer,
@@ -942,51 +1027,74 @@ const FilesList = ({ isShared = false }: Props) => {
                   <TableRow type="grid"
                     className={classes.tableRow}>
                     <TableHeadCell>
-                      {/* Checkbox */}
+                      {selectedItems.length > 0 &&
+                        <CheckboxInput
+                          value={selectedItems.length === items.length}
+                          onChange={() => toggleAll()}
+                          testId="select-all"
+                        />
+                      }
                     </TableHeadCell>
-                    <TableHeadCell
-                      sortButtons
-                      align='left'
-                      onSortChange={toggleSortDirection}
-                      sortDirection={direction}
-                    >
-                      {column === "name" ? t`Name` : column === "date_uploaded" ? t`Date uploaded` : t`Size`}
-                    </TableHeadCell>
-                    <TableHeadCell align='right'>
-                      <Menu
-                        testId='fileDropdown'
-                        icon={<MoreIcon className={classes.dropdownIcon} />}
-                        options={[{
-                          contents: (
-                            <>
-                              <span data-cy="sort-menu-name">
-                                <Trans>Name</Trans>
-                              </span>
-                            </>
-                          ),
-                          onClick: () => setColumn("name")
-                        }, {
-                          contents: (
-                            <>
-                              <span data-cy="sort-menu-date-uploaded">
-                                <Trans>Date Uploaded</Trans>
-                              </span>
-                            </>
-                          ),
-                          onClick: () => setColumn("date_uploaded")
-                        }, {
-                          contents: (
-                            <>
-                              <span data-cy="sort-menu-size">
-                                <Trans>Size</Trans>
-                              </span>
-                            </>
-                          ),
-                          onClick: () => setColumn("size")
-                        }]}
-                        style={{ focusVisible: classes.focusVisible }}
-                      />
-                    </TableHeadCell>
+                    {selectedItems.length === 0
+                      ? <>
+                        <TableHeadCell
+                          sortButtons
+                          align='left'
+                          onSortChange={toggleSortDirection}
+                          sortDirection={direction}
+                        >
+                          {column === "name" ? t`Name` : column === "date_uploaded" ? t`Date uploaded` : t`Size`}
+                        </TableHeadCell>
+                        <TableHeadCell align='right'>
+                          <Menu
+                            testId='sortDropdown'
+                            icon={<MoreIcon className={classes.dropdownIcon} />}
+                            options={[{
+                              contents: (
+                                <>
+                                  <span data-cy="sort-menu-name">
+                                    <Trans>Name</Trans>
+                                  </span>
+                                </>
+                              ),
+                              onClick: () => setColumn("name")
+                            }, {
+                              contents: (
+                                <>
+                                  <span data-cy="sort-menu-date-uploaded">
+                                    <Trans>Date Uploaded</Trans>
+                                  </span>
+                                </>
+                              ),
+                              onClick: () => setColumn("date_uploaded")
+                            }, {
+                              contents: (
+                                <>
+                                  <span data-cy="sort-menu-size">
+                                    <Trans>Size</Trans>
+                                  </span>
+                                </>
+                              ),
+                              onClick: () => setColumn("size")
+                            }]}
+                            style={{ focusVisible: classes.focusVisible }}
+                          />
+                        </TableHeadCell>
+                      </>
+                      : <>
+                        <TableHeadCell align='left'>
+                          <b><Trans>({selectedItems.length}) items selected</Trans></b>
+                        </TableHeadCell>
+                        <TableHeadCell align='right'>
+                          <Menu
+                            testId='bulkActionsDropdown'
+                            icon={<MoreIcon className={classes.dropdownIcon} />}
+                            options={mobileBulkActions}
+                            style={{ focusVisible: classes.focusVisible }}
+                          />
+                        </TableHeadCell>
+                      </>
+                    }
                   </TableRow>
                 </TableHead>
               )}
