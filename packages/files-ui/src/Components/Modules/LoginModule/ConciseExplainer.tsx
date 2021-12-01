@@ -178,6 +178,7 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
           variant="primary"
           onClick={onContinue}
           className={classes.continue}
+          data-cy="button-sign-in-explainer-continue"
         >
           <Trans>
             Continue

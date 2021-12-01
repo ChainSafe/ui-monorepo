@@ -4,7 +4,6 @@ import { sharingExplainerKey } from "../fixtures/filesTestData"
 import { sharedPage } from "../support/page-objects/sharedPage"
 import { viewOnlyShareLink, canEditShareLink, invalidShareLink, malformedTokenShareLink } from "../fixtures/linkData"
 import { linkSharingConfirmation } from "../support/page-objects/linkSharingConfirmation"
-import { fileBrowser } from "../support/page-objects/fileBrowser"
 import { folderContentsPage } from "../support/page-objects/sharedFolderContentsPage"
 
 describe("Link Sharing", () => {
