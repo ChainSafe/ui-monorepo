@@ -11,7 +11,7 @@ import { useFiles } from "../../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../Contexts/BillingContext"
-import ChangeProductModal from "../ChangePlan/ChangePlanModal"
+import ChangeProductModal from "./ChangePlan/ChangePlanModal"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({

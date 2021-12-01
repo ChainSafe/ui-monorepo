@@ -3,8 +3,8 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Button, ExternalSvg, Loading, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
-import { CSFTheme } from "../../../../Themes/types"
-import { useBilling } from "../../../../Contexts/BillingContext"
+import { CSFTheme } from "../../../../../Themes/types"
+import { useBilling } from "../../../../../Contexts/BillingContext"
 import { Product } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: CSFTheme) =>

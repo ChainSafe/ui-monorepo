@@ -3,7 +3,7 @@ import { Typography, CreditCardIcon, Button } from "@chainsafe/common-components
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { useBilling } from "../../../../Contexts/BillingContext"
-import AddCardModal from "./AddCardModal"
+import AddCardModal from "./AddCard/AddCardModal"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({

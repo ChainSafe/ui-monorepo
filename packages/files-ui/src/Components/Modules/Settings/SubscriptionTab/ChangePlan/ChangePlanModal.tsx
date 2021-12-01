@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../../Themes/types"
+import { CSFTheme } from "../../../../../Themes/types"
 import { Modal } from "@chainsafe/common-components"
 import SelectPlan from "./SelectPlan"
 import PlanDetails from "./PlanDetails"
-import { useBilling } from "../../../../Contexts/BillingContext"
-import { Product, ProductPrice } from "@chainsafe/files-api-client"
 import PaymentMethod from "./PaymentMethod"
+import ConfirmPlan from "./ConfirmPlan"
+import { useBilling } from "../../../../../Contexts/BillingContext"
+import { Product, ProductPrice } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -29,11 +30,12 @@ interface IChangeProductModal {
 
 const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const classes = useStyles()
-  const { getAvailablePlans } = useBilling()
+  const { getAvailablePlans, changeSubscription } = useBilling()
   const [selectedPlan, setSelectedPlan] = useState<Product | undefined>()
   const [selectedPrice, setSelectedPrice] = useState<ProductPrice | undefined>()
-  const [slide, setSlide] = useState<"select" | "planDetails" |  "paymentMethod">("select")
+  const [slide, setSlide] = useState<"select" | "planDetails" |  "paymentMethod" | "confirmPlan">("select")
   const [plans, setPlans] = useState<Product[] | undefined>()
+  const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
 
   useEffect(() => {
     if(!plans) {
@@ -42,6 +44,16 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         .catch(console.error)
     }
   })
+
+  const handleChangeSubscription = () => {
+    if (selectedPrice) {
+      setIsLoadingChangeSubscription(true)
+      changeSubscription(selectedPrice.id)
+        .then(onClose)
+        .catch(console.error)
+        .finally(() => setIsLoadingChangeSubscription(false))
+    }
+  }
 
   return (
     <Modal
@@ -78,6 +90,24 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           goToPlanDetails={() => {
             setSlide("planDetails")
           }}
+          onSelectPaymentMethod={() => {
+            setSlide("confirmPlan")
+          }}
+        /> : slide === "confirmPlan" && selectedPlan && selectedPrice ? <ConfirmPlan
+          plan={selectedPlan}
+          planPrice={selectedPrice}
+          onClose={onClose}
+          goToSelectPlan={() => {
+            setSlide("select")
+          }}
+          goToPlanDetails={() => {
+            setSlide("planDetails")
+          }}
+          goToPaymentMethod={() => {
+            setSlide("paymentMethod")
+          }}
+          loadingChangeSubscription={isLoadingChangeSubscription}
+          onChangeSubscription={handleChangeSubscription}
         /> : null
       }
     </Modal>

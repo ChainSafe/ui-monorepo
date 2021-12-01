@@ -1,8 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../../Themes/types"
+import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Breadcrumb, Button, Divider, ToggleSwitch, Typography } from "@chainsafe/common-components"
+import { Breadcrumb, Button, Divider, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 
@@ -61,28 +61,28 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
   })
 )
 
-interface IPlanDetails {
+interface IConfirmPlan {
   plan: Product
+  planPrice: ProductPrice
   onClose: () => void
   goToSelectPlan: () => void
-  onSelectPlanPrice: (planPrice: ProductPrice) => void
+  goToPlanDetails: () => void
+  goToPaymentMethod: () => void
+  onChangeSubscription: () => void
+  loadingChangeSubscription: boolean
 }
 
-const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
+const ConfirmPlan = ({
+  plan,
+  onClose,
+  planPrice,
+  goToSelectPlan,
+  goToPlanDetails,
+  goToPaymentMethod,
+  onChangeSubscription,
+  loadingChangeSubscription
+}: IConfirmPlan) => {
   const classes = useStyles()
-
-  const monthlyPrice = plan.prices.find((price) => price.recurring.interval === "month")
-  const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "year")
-
-  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">(monthlyPrice ? "monthly" : "yearly")
-
-  const handleSelectPlan = () => {
-    if(billingPeriod === "monthly" && monthlyPrice) {
-      onSelectPlanPrice(monthlyPrice)
-    } else if (yearlyPrice) {
-      onSelectPlanPrice(yearlyPrice)
-    }
-  }
 
   return (
     <article className={classes.root}>
@@ -91,8 +91,15 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
           text: "Change plan",
           onClick: goToSelectPlan
         }, {
-          text: "Plan details"
+          text: "Plan details",
+          onClick: goToPlanDetails
+        }, {
+          text: "Payment method",
+          onClick: goToPaymentMethod
+        }, {
+          text: "Confirm plan"
         }]}
+        showDropDown={true}
         hideHome={true}
       />
       <Typography variant="h5"
@@ -100,12 +107,6 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
         className={classes.heading}
       >
         {plan.name}
-      </Typography>
-      <Typography variant="body1"
-        component="p"
-        className={classes.subheading}
-      >
-        <Trans>You get access to these features right now.</Trans>
       </Typography>
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
@@ -134,25 +135,6 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
         </div>
       </div>
       <Divider className={classes.divider} />
-      <div className={classes.middleRowBox}>
-        <Typography component="p"
-          variant="body1"
-          className={classes.boldText}>
-          {billingPeriod === "monthly"
-            ? <Trans>Monthly billing</Trans>
-            : <Trans>Yearly billing</Trans>
-          }
-        </Typography>
-        <div className={classes.pushRightBox}>
-          <ToggleSwitch
-            left={{ value: "yearly" }}
-            right={{ value: "monthly" }}
-            onChange={() =>
-              setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")
-            }
-          />
-        </div>
-      </div>
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
         <Typography component="h5"
@@ -164,10 +146,11 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
           <Typography variant="body1"
             component="p"
             className={classes.boldText}
-          >{billingPeriod === "monthly"
-              ? `${monthlyPrice?.currency} ${monthlyPrice?.unit_amount}`
-              : `${yearlyPrice?.currency} ${yearlyPrice?.unit_amount}`
-            }<span className={classes.normalWeightText}>{billingPeriod ? "/month" : "/year"}</span>
+          >
+            {planPrice.currency} ${planPrice.unit_amount}
+            <span className={classes.normalWeightText}>
+              {planPrice.recurring.interval === "month" ? "/month" : "/year"}
+            </span>
           </Typography>
         </div>
       </div>
@@ -183,10 +166,11 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
           </Button>
           <Button
             variant="primary"
-            onClick={handleSelectPlan}
+            loading={loadingChangeSubscription}
+            onClick={onChangeSubscription}
           >
             <Trans>
-              Select this plan
+              Confirm plan change
             </Trans>
           </Button>
         </div>
@@ -195,4 +179,4 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
   )
 }
 
-export default PlanDetails
+export default ConfirmPlan

@@ -1,36 +1,19 @@
 import React, { FormEvent, useState } from "react"
 import { Button, Grid, Typography, useToasts } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useTheme } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../../Themes/types"
-import CustomModal from "../../../Elements/CustomModal"
-import CustomButton from "../../../Elements/CustomButton"
+import { CSFTheme } from "../../../../../Themes/types"
+import CustomButton from "../../../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
-import { useFilesApi } from "../../../../Contexts/FilesApiContext"
-import { useBilling } from "../../../../Contexts/BillingContext"
+import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
+import { useBilling } from "../../../../../Contexts/BillingContext"
 import clsx from "clsx"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, typography, zIndex, palette, animation }: CSFTheme) => {
+  ({ breakpoints, constants, palette, animation }: CSFTheme) => {
     return createStyles({
       root: {
-        padding: constants.generalUnit * 4,
         flexDirection: "column"
-      },
-      modalRoot: {
-        zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {}
-      },
-      modalInner: {
-        backgroundColor: constants.createFolder.backgroundColor,
-        color: constants.createFolder.color,
-        [breakpoints.down("md")]: {
-          bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-          maxWidth: `${breakpoints.width("md")}px !important`
-        }
       },
       okButton: {
         marginLeft: constants.generalUnit
@@ -47,15 +30,6 @@ const useStyles = makeStyles(
       label: {
         fontSize: 14,
         lineHeight: "22px"
-      },
-      heading: {
-        color: constants.createFolder.color,
-        fontWeight: typography.fontWeight.semibold,
-        textAlign: "left",
-        marginBottom: constants.generalUnit * 2
-      },
-      footer: {
-        marginTop: constants.generalUnit * 4
       },
       cardNumberInputs: {
         marginBottom: constants.generalUnit * 2,
@@ -96,11 +70,13 @@ const useStyles = makeStyles(
 )
 
 interface IAddCardModalProps {
-  isModalOpen: boolean
-  onClose: () => void
+  submitText: string
+  onCardAdd?: () => void
+  onClose?: () => void
+  footerClassName?: string
 }
 
-const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
+const AddCardModal = ({ onCardAdd, submitText, onClose, footerClassName }: IAddCardModalProps) => {
   const classes = useStyles()
   const stripe = useStripe()
   const elements = useElements()
@@ -149,7 +125,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
         id: paymentMethod.id
       })
       refreshDefaultCard()
-      onClose()
+      onCardAdd && onCardAdd()
       setLoadingPaymentMethodAdd(false)
       addToast({ title: "Payment method added", type: "success" })
     } catch (error) {
@@ -160,79 +136,57 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
   }
 
   return (
-    <CustomModal
-      className={classes.modalRoot}
-      injectedClass={{
-        inner: classes.modalInner
-      }}
-      active={isModalOpen}
-      closePosition="none"
-      maxWidth="sm"
-    >
-      <form onSubmit={handleSubmitPaymentMethod}>
-        <div
-          className={classes.root}
-          data-cy="modal-add-card"
-        >
-          <Grid
-            item
-            xs={12}
-            sm={12}
-          >
-            <Typography
-              className={classes.heading}
-              variant="h4"
-              component="h4"
-            >
-              <Trans>Add a credit card</Trans>
-            </Typography>
-          </Grid>
-          <CardNumberElement
+    <form onSubmit={handleSubmitPaymentMethod}>
+      <div
+        className={classes.root}
+        data-cy="modal-add-card"
+      >
+        <CardNumberElement
+          className={clsx(
+            classes.cardInputs,
+            classes.cardNumberInputs,
+            focusElement === "number" && classes.cardInputsFocus
+          )}
+          options={{ showIcon: true, style: {
+            base: {
+              color: theme.constants.addCard.color
+            }
+          } }}
+          onFocus={() => setFocusElement("number")}
+          onBlur={() => setFocusElement(undefined)}
+          onChange={() => setCardAddError(undefined)}
+        />
+        <div className={classes.expiryCvcContainer}>
+          <CardExpiryElement
             className={clsx(
               classes.cardInputs,
-              classes.cardNumberInputs,
-              focusElement === "number" && classes.cardInputsFocus
+              focusElement === "expiry" && classes.cardInputsFocus
             )}
-            options={{ showIcon: true, style: {
+            onFocus={() => setFocusElement("expiry")}
+            onBlur={() => setFocusElement(undefined)}
+            onChange={() => setCardAddError(undefined)}
+            options={{ style: {
               base: {
                 color: theme.constants.addCard.color
               }
             } }}
-            onFocus={() => setFocusElement("number")}
+          />
+          <CardCvcElement
+            className={clsx(
+              classes.cardInputs,
+              focusElement === "cvc" && classes.cardInputsFocus
+            )}
+            onFocus={() => setFocusElement("cvc")}
             onBlur={() => setFocusElement(undefined)}
             onChange={() => setCardAddError(undefined)}
+            options={{ style: {
+              base: {
+                color: theme.constants.addCard.color
+              }
+            } }}
           />
-          <div className={classes.expiryCvcContainer}>
-            <CardExpiryElement
-              className={clsx(
-                classes.cardInputs,
-                focusElement === "expiry" && classes.cardInputsFocus
-              )}
-              onFocus={() => setFocusElement("expiry")}
-              onBlur={() => setFocusElement(undefined)}
-              onChange={() => setCardAddError(undefined)}
-              options={{ style: {
-                base: {
-                  color: theme.constants.addCard.color
-                }
-              } }}
-            />
-            <CardCvcElement
-              className={clsx(
-                classes.cardInputs,
-                focusElement === "cvc" && classes.cardInputsFocus
-              )}
-              onFocus={() => setFocusElement("cvc")}
-              onBlur={() => setFocusElement(undefined)}
-              onChange={() => setCardAddError(undefined)}
-              options={{ style: {
-                base: {
-                  color: theme.constants.addCard.color
-                }
-              } }}
-            />
-          </div>
-          {cardAddError &&
+        </div>
+        {cardAddError &&
             <Typography
               component="p"
               variant="body1"
@@ -240,13 +194,14 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
             >
               {cardAddError}
             </Typography>
-          }
-          <Grid
-            item
-            flexDirection="row"
-            justifyContent="flex-end"
-            className={classes.footer}
-          >
+        }
+        <Grid
+          item
+          flexDirection="row"
+          justifyContent="flex-end"
+          className={footerClassName}
+        >
+          {onClose &&
             <CustomButton
               data-cy="button-cancel-create-folder"
               onClick={onClose}
@@ -258,21 +213,21 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
             >
               <Trans>Cancel</Trans>
             </CustomButton>
-            <Button
-              data-cy="button-create-folder"
-              size="medium"
-              variant="primary"
-              type="submit"
-              className={classes.okButton}
-              loading={loadingPaymentMethodAdd}
-              disabled={loadingPaymentMethodAdd}
-            >
-              <Trans>Add card</Trans>
-            </Button>
-          </Grid>
-        </div>
-      </form>
-    </CustomModal>
+          }
+          <Button
+            data-cy="button-create-folder"
+            size="medium"
+            variant="primary"
+            type="submit"
+            className={classes.okButton}
+            loading={loadingPaymentMethodAdd}
+            disabled={loadingPaymentMethodAdd}
+          >
+            {submitText}
+          </Button>
+        </Grid>
+      </div>
+    </form>
   )
 }
 
