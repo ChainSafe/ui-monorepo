@@ -12,10 +12,10 @@ export const authenticationPage = {
   // sign in section elements
   loginPasswordButton: () => cy.get("[data-cy=login-password-button]", { timeout: 20000 }),
   loginPasswordInput: () => cy.get("[data-cy=login-password-input]"),
-  signInExplainerContinueButton: () => cy.get("[data-cy=sign-in-explainer-continue-button]", { timeout: 20000 }),
-  signInSetupPasswordInput: () => cy.get("[data-cy=sign-in-password-input]"),
-  signInSetupPasswordVerificationInput: () => cy.get("[data-cy=sign-in-password-verification-input]"),
-  signInSetupPasswordSubmitButton: () => cy.get("[data-cy=sign-in-password-button]"),
+  signInExplainerContinueButton: () => cy.get("[data-cy=button-sign-in-explainer-continue]", { timeout: 20000 }),
+  signInSetupPasswordInput: () => cy.get("[data-cy=input-sign-in-password]"),
+  signInSetupPasswordVerificationInput: () => cy.get("[data-cy=input-sign-in-password-verification]"),
+  signInSetupPasswordSubmitButton: () => cy.get("[data-cy=button-sign-in-password]"),
 
   // save browser section elements
   saveBrowserButton: () => cy.get("[data-cy=save-browser-button]"),

@@ -104,7 +104,7 @@ const PasswordForm = ({ buttonLabel, setPassword }: Props) => {
           label={t`Password:`}
           labelClassName={classes.inputLabel}
           captionMessage={<StrengthIndicator fieldName="password" />}
-          data-cy="sign-in-password-input"
+          data-cy="input-sign-in-password"
         />
         <FormikTextInput
           type="password"
@@ -112,7 +112,7 @@ const PasswordForm = ({ buttonLabel, setPassword }: Props) => {
           name="confirmPassword"
           label={t`Confirm Password:`}
           labelClassName={classes.inputLabel}
-          data-cy="sign-in-password-verification-input"
+          data-cy="input-sign-in-password-verification"
         />
         <Button
           className={clsx(classes.button, "passwordFormButton")}
@@ -121,7 +121,7 @@ const PasswordForm = ({ buttonLabel, setPassword }: Props) => {
           type="submit"
           loading={loading}
           disabled={loading}
-          data-cy="sign-in-password-button"
+          data-cy="button-sign-in-password"
         >
           {displayLabel}
         </Button>
