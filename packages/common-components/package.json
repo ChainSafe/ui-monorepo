@@ -10,7 +10,7 @@
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build:storybook": "build-storybook",
+    "build:storybook": "build-storybook --openssl-legacy-provider",
     "build": "rollup -c",
     "start": "rollup -c -w",
     "lint": "eslint './{src, cypress}/**/*.{js,jsx,ts,tsx}'"
