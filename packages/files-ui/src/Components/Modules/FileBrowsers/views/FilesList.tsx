@@ -848,7 +848,7 @@ const FilesList = ({ isShared = false }: Props) => {
       >
         <Loading
           size={24}
-          type="light"
+          type="initial"
         />
         <Typography
           variant="body2"
