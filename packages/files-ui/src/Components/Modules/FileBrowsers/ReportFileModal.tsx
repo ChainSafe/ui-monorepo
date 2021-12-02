@@ -276,7 +276,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
           <div className={classes.loadingContainer}>
             <Loading
               size={32}
-              type="inherit"
+              type="initial"
             />
           </div>
         </Grid>
