@@ -122,7 +122,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     return (
       <MenuDropdown
         title={crumbs[0].text}
-        anchor="bottom-center"
+        anchor="bottom-left"
         animation="rotate"
         classNames={{
           item: classes.menuItem,
@@ -148,7 +148,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     if (crumbs.length < 3 || !showDropDown) {
       return generateFullCrumbs(crumbs)
     } else {
-      const dropdownCrumbs = crumbs.slice(0, length - 1)
+      const dropdownCrumbs = crumbs.slice(0, crumbs.length - 1)
       const lastCrumb = crumbs[crumbs.length - 1]
       return (
         <>

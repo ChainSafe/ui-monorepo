@@ -122,6 +122,7 @@ const ConfirmPlan = ({
           text: "Confirm plan"
         }]}
         hideHome={true}
+        showDropDown={true}
       />
       <Typography variant="h5"
         component="h4"
