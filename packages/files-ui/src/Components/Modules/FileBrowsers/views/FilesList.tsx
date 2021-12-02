@@ -982,7 +982,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     <TableHeadCell>
                       <CheckboxInput
                         value={selectedItems.length === items.length}
-                        onChange={() => toggleAll()}
+                        onChange={toggleAll}
                         testId="select-all"
                       />
                     </TableHeadCell>
