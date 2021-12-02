@@ -132,12 +132,10 @@ const LinkSharingModule = () => {
                 className={classes.icon}
               />
               <Typography variant="h4">
-                <span data-cy="label-link-verfication">
-                  {isValidNonce === undefined
-                    ? <Trans>Verifying the link...</Trans>
-                    : <Trans>Adding you to the shared folder...</Trans>
-                  }
-                </span>
+                {isValidNonce === undefined
+                  ? <Trans>Verifying the link...</Trans>
+                  : <Trans>Adding you to the shared folder...</Trans>
+                }
               </Typography>
             </>
           )}
@@ -148,7 +146,7 @@ const LinkSharingModule = () => {
                 className={classes.icon}
               />
               <Typography variant="h4">
-                <span data-cy="label-added-to-share-confirmation">
+                <span data-cy={permission === "read" ? "label-share-confirmation-read-access" : "label-share-confirmation-write-access"}>
                   <Trans>
                   You were added to the shared folder ({translatedPermission(permission)}): {newBucket.name}
                   </Trans>
@@ -168,17 +166,20 @@ const LinkSharingModule = () => {
               <ExclamationCircleIcon
                 size={48}
                 className={classes.icon}
+                data-cy="icon-link-error"
               />
               <Typography
                 variant="h4"
                 className={classes.errorMessage}
               >
-                <span data-cy="label-link-error">
-                  { isValidNonce === false
-                    ? <Trans>This link is not valid any more.</Trans>
-                    : error
-                  }
-                </span>
+                { isValidNonce === false
+                  ? <span data-cy="label-invalid-link">
+                    <Trans>This link is not valid any more.</Trans>
+                  </span>
+                  : <span data-cy="label-other-error-message">
+                    {error}
+                  </span>
+                }
               </Typography>
             </>
           )}

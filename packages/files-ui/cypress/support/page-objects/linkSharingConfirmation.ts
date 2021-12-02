@@ -1,7 +1,8 @@
 export const linkSharingConfirmation = {
   browseButton: () => cy.get("[data-cy=button-browse-share-folder]", { timeout: 10000 }),
-  labelLinkError: () => cy.get("[data-cy=label-link-error]", { timeout: 10000 }),
-  labelLinkAddConfirmation: () => cy.get("[data-cy=label-added-to-share-confirmation", { timeout: 10000 }),
-  labelLinkVerification: () => cy.get("[data-cy=label-link-verfication")
+  linkErrorMessage: () => cy.get("[data-cy=label-other-error-message]", { timeout: 10000 }),
+  invalidLinkMessage: () => cy.get("[data-cy=label-invalid-link]", { timeout: 10000 }),
+  editAccessConfirmationLabel: () => cy.get("[data-cy=label-share-confirmation-write-access", { timeout: 10000 }),
+  viewAccessConfirmationLabel: () => cy.get("[data-cy=label-share-confirmation-read-access", { timeout: 10000 }),
+  ErrorIcon: () => cy.get("[data-cy=icon-link-error", { timeout: 10000 })
 }
-
