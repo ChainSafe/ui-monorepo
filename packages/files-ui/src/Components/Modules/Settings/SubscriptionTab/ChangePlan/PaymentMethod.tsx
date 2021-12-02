@@ -59,7 +59,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       fontSize: 14
     },
     textButton: {
-      color: palette.primary.main,
+      color: palette.primary.background,
       cursor: "pointer"
     },
     linkButton: {
@@ -182,7 +182,7 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
           </Button>
           <Button
             variant="primary"
-            disabled={!paymentMethod}
+            disabled={!paymentMethod || view === "addCard"}
             onClick={onSelectPaymentMethod}
           >
             <Trans>

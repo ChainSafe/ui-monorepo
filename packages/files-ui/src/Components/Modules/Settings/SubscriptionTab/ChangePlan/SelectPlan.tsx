@@ -1,7 +1,7 @@
-import React from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import React, { useState } from "react"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { Button, ExternalSvg, Loading, Typography } from "@chainsafe/common-components"
+import { Button, ExternalSvg, formatBytes, Loading, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../../../Themes/types"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -10,7 +10,10 @@ import { Product } from "@chainsafe/files-api-client"
 const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: CSFTheme) =>
   createStyles({
     root:  {
-      margin: `${constants.generalUnit * 2}px 0px`
+      margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 3}px`,
+      [breakpoints.down("md")]: {
+        margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
+      }
     },
     header: {
       display: "flex",
@@ -31,29 +34,29 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       gridTemplateColumns: "1fr 1fr 1fr",
       marginTop: constants.generalUnit * 2,
       marginBottom: constants.generalUnit * 4,
-      [breakpoints.down("sm")]: {
-        gridTemplateColumns: "1fr 1fr"
+      [breakpoints.down("md")]: {
+        gridTemplateColumns: "1fr",
+        marginTop: constants.generalUnit * 3
       }
     },
     planBox: {
       border: `2px solid ${palette.additional["gray"][5]}`,
-      padding: constants.generalUnit * 3,
+      padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 4}px `,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      borderRadius: 5
+      borderRadius: 5,
+      [breakpoints.down("md")]: {
+        flexDirection: "row",
+        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px `,
+        justifyContent: "space-between"
+      },
+      "&.active": {
+        borderColor: palette.primary.background
+      }
     },
     priceSpace: {
       height: 22
-    },
-    tag: {
-      display: "block",
-      padding: `0 ${constants.generalUnit}px`,
-      borderRadius: `${constants.generalUnit * 2}px`,
-      height: 20,
-      backgroundColor: palette.primary.main,
-      color: constants.changeProduct.currentTag.text,
-      margin: `${constants.generalUnit * 0.5}px 0`
     },
     link: {
       display: "flex",
@@ -73,6 +76,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       justifyContent: "flex-end",
       "& > *": {
         marginLeft: constants.generalUnit
+      },
+      [breakpoints.down("md")]: {
+        flex: 1
       }
     },
     bottomSection: {
@@ -90,10 +96,26 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       color: palette.additional["gray"][9]
     },
     description: {
-      margin: `${constants.generalUnit * 3}px 0`
+      margin: `${constants.generalUnit * 3}px 0`,
+      [breakpoints.down("md")]: {
+        margin: 0
+      }
     },
     priceYearlyTitle: {
-      fontWeight: "bold"
+      fontWeight: "bold",
+      [breakpoints.down("md")]: {
+        fontWeight: "normal",
+        marginTop: constants.generalUnit
+      }
+    },
+    mobilePriceBox: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "end",
+      height: "100%"
+    },
+    selectButton: {
+      marginLeft: constants.generalUnit
     }
   })
 )
@@ -107,7 +129,9 @@ interface ISelectPlan {
 
 const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) => {
   const classes = useStyles()
-  const {  currentSubscription } = useBilling()
+  const { currentSubscription } = useBilling()
+  const { desktop } = useThemeSwitcher()
+  const [tempSelectedPlan, setTempSelectedPlan] = useState<Product | undefined>()
 
   return (
     <article className={clsx(classes.root, className)}>
@@ -131,9 +155,11 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
         {plans && plans.map((plan) => {
           const monthly = plan.prices.find((price) => price.recurring.interval === "month")
           const yearly = plan.prices.find((price) => price.recurring.interval === "year")
+          const isPlanSelectable = plan.id  !== currentSubscription?.product.id &&
+          (monthly?.is_update_allowed || yearly?.is_update_allowed)
 
-          return <div
-            className={classes.planBox}
+          return desktop ? <div
+            className={clsx(classes.planBox)}
             key={`plan-${plan.id}`}
           >
             <Typography
@@ -163,28 +189,70 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               className={classes.description}
             >
               {
-                plan.description
+                monthly?.metadata?.storage_size_bytes
+                  ? <>
+                    <b>{formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)}</b>&nbsp;
+                    <Trans>of storage</Trans >
+                  </>
+                  : plan.description
               }
             </Typography>
-            {plan.id  === currentSubscription?.product.id
-              ? <Typography
+            <Button variant="primary"
+              disabled={!isPlanSelectable}
+              onClick={() => onSelectPlan(plan)}
+            >
+              <Trans>Select plan</Trans>
+            </Button>
+          </div> : <div
+            className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && "active")}
+            onClick={() => isPlanSelectable && setTempSelectedPlan(plan)}
+            key={`plan-${plan.id}`}
+          >
+            <div>
+              <Typography
                 component="p"
-                variant="body2"
-                className={clsx(classes.tag, "current")}
+                variant="body1"
+                className={classes.planTitle}
               >
-                <Trans>
-                  Current plan
-                </Trans>
-              </Typography> : <Button variant="primary"
-                onClick={() => onSelectPlan(plan)}>
-                <Trans>Select plan</Trans>
-              </Button>
-            }
+                {plan.name}
+              </Typography>
+              <Typography
+                component="p"
+                variant="body1"
+                className={classes.description}
+              >
+                {
+                monthly?.metadata?.storage_size_bytes
+                  ? <>
+                    {formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)}&nbsp;
+                    <Trans>of storage</Trans >
+                  </>
+                  : plan.description
+                }
+              </Typography>
+            </div>
+            <div className={classes.mobilePriceBox}>
+              {monthly && <Typography component="h4"
+                variant="h4">
+                {monthly.unit_amount ? <>
+                  {monthly.currency.toUpperCase()} {monthly.unit_amount}
+                  <span className={classes.priceSubtitle}>/month</span>
+                </> : "Free"}
+              </Typography>
+              }
+              {monthly && yearly ? <Typography variant="body2"
+                className={classes.priceYearlyTitle}>
+                {yearly.currency.toUpperCase()} {yearly.unit_amount}
+                <span className={classes.priceSubtitle}>/year</span>
+              </Typography> : <div className={classes.priceSpace} />
+              }
+            </div>
           </div>
         })
         }
       </section>
       <section className={classes.bottomSection}>
+        {desktop &&
         <a
           className={classes.link}
           href="http://chainsafe.io"
@@ -201,6 +269,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
           </Typography>
           <ExternalSvg />
         </a>
+        }
         <div className={classes.buttons}>
           <Button
             onClick={() => onClose()}
@@ -210,6 +279,15 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               Cancel
             </Trans>
           </Button>
+          {!desktop && <Button variant="primary"
+            disabled={!tempSelectedPlan}
+            className={classes.selectButton}
+            onClick={() => tempSelectedPlan && onSelectPlan(tempSelectedPlan)}
+          >
+            <Trans>Select plan</ Trans>
+          </Button>
+
+          }
         </div>
       </section>
     </article>

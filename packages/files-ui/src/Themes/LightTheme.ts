@@ -10,7 +10,8 @@ export const lightTheme = createTheme<CsfColors>({
   themeConfig: {
     palette: {
       primary: {
-        main: "var(--csf-primary)"
+        main: "var(--csf-primary)",
+        background: "var(--csf-primary)"
       },
       secondary: {
       }

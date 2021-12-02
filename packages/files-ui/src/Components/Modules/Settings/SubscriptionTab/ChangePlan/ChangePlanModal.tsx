@@ -11,15 +11,19 @@ import { Product, ProductPrice } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
+    root: {
+      "&:before": {
+        backgroundColor: constants.modalDefault.fadeBackground
+      }
+    },
     inner: {
       borderRadius: `${constants.generalUnit / 2}px`,
       [breakpoints.up("sm")]: {
         minWidth: 480
+      },
+      [breakpoints.down("sm")]: {
+        width: "100%"
       }
-    },
-    slide: {
-      borderRadius: constants.generalUnit / 2,
-      padding: `0 ${constants.generalUnit * 3}px`
     }
   })
 )
@@ -60,6 +64,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       closePosition="none"
       active={true}
       maxWidth="md"
+      className={classes.root}
       injectedClass={{
         inner: classes.inner
       }}
@@ -67,7 +72,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
     >
       {
         slide === "select" ? <SelectPlan
-          className={classes.slide}
           onClose={onClose}
           onSelectPlan={(plan: Product) => {
             setSelectedPlan(plan)

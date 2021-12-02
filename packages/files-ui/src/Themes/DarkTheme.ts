@@ -158,7 +158,8 @@ export const darkTheme = createTheme<CsfColors>({
     palette: {
       primary: {
         main: "var(--gray3)",
-        hover: "var(--gray10)"
+        hover: "var(--gray10)",
+        background: "var(--csf-primary)"
       },
       secondary: {
         main: "var(--gray10)",

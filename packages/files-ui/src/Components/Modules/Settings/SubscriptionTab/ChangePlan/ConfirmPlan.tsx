@@ -61,7 +61,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       margin: `${constants.generalUnit}px 0`
     },
     textButton: {
-      color: palette.primary.main,
+      color: palette.primary.background,
       cursor: "pointer",
       textDecoration: "underline"
     },
