@@ -2,9 +2,10 @@ import { createEditSharedFolderModal } from "../support/page-objects/modals/crea
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { sharingExplainerKey } from "../fixtures/filesTestData"
 import { sharedPage } from "../support/page-objects/sharedPage"
-import { viewOnlyShareLink, canEditShareLink, invalidShareLink, malformedTokenShareLink } from "../fixtures/linkData"
+import { viewOnlyShareLink, canEditShareLink, deletedShareLink, malformedTokenShareLink, deletedFolderLink } from "../fixtures/linkData"
 import { linkSharingConfirmation } from "../support/page-objects/linkSharingConfirmation"
 import { folderContentsPage } from "../support/page-objects/sharedFolderContentsPage"
+import { authenticationPage } from "../support/page-objects/authenticationPage"
 
 describe("Link Sharing", () => {
 
@@ -77,7 +78,7 @@ describe("Link Sharing", () => {
       createEditSharedFolderModal.activeShareLink().should("have.length", 1)
     })
 
-    it.only("can join a share from link with view only access", () => {
+    it("can join a share from link with view only access", () => {
       cy.intercept("GET", "**/user/store", {
         body: { [sharingExplainerKey]: "true" }
       })
@@ -86,10 +87,8 @@ describe("Link Sharing", () => {
 
       cy.visit(viewOnlyShareLink)
 
-      //todo: SEE IF THERES AN API CALL I CAN WAIT FOR
-
-      linkSharingConfirmation.labelLinkAddConfirmation().should("be.visible")
-      linkSharingConfirmation.labelLinkError().should("not.exist")
+      linkSharingConfirmation.viewAccessConfirmationLabel().should("be.visible")
+      linkSharingConfirmation.linkErrorMessage().should("not.exist")
 
       // can browse the shared folder
       linkSharingConfirmation.browseButton().click()
@@ -115,7 +114,7 @@ describe("Link Sharing", () => {
       sharedPage.sharedFolderItemRow().should("have.length", 1)
     })
 
-    it.only("can join a share from link with edit access", () => {
+    it("can join a share from link with edit access", () => {
       cy.intercept("GET", "**/user/store", {
         body: { [sharingExplainerKey]: "true" }
       })
@@ -126,8 +125,8 @@ describe("Link Sharing", () => {
 
       //todo: SEE IF THERES AN API CALL I CAN WAIT FOR
 
-      linkSharingConfirmation.labelLinkAddConfirmation().should("be.visible")
-      linkSharingConfirmation.labelLinkError().should("not.exist")
+      linkSharingConfirmation.editAccessConfirmationLabel().should("be.visible")
+      linkSharingConfirmation.linkErrorMessage().should("not.exist")
 
       // can browse the shared folder
       linkSharingConfirmation.browseButton().click()
@@ -151,6 +150,42 @@ describe("Link Sharing", () => {
       // ensure shared folder is now shown on main share page
       navigationMenu.sharedNavButton().click()
       sharedPage.sharedFolderItemRow().should("have.length", 1)
+    })
+
+    it("can see an invalid link message when it has been deleted", () => {
+      cy.web3Login()
+      cy.visit(deletedShareLink)
+      linkSharingConfirmation.ErrorIcon().should("be.visible")
+      linkSharingConfirmation.invalidLinkMessage().should("be.visible")
+    })
+
+    it("can see an error message for a link with a malformed token", () => {
+      cy.web3Login()
+      cy.visit(malformedTokenShareLink)
+      linkSharingConfirmation.ErrorIcon().should("be.visible")
+      linkSharingConfirmation.linkErrorMessage().should("be.visible")
+    })
+
+    it("can see an error message for a link to a deleted shared folder", () => {
+      cy.web3Login()
+      cy.visit(deletedFolderLink)
+      linkSharingConfirmation.ErrorIcon().should("be.visible")
+      linkSharingConfirmation.linkErrorMessage().should("be.visible")
+    })
+
+    it("can see a prompt to sign in when trying to visit a share link", () => {
+      cy.visit(viewOnlyShareLink)
+      authenticationPage.signInToAccessShareLabel().should("be.visible")
+    })
+
+    it("can see an invalid link message when signed out", () => {
+      cy.visit(deletedShareLink)
+      authenticationPage.ErrorIcon().should("be.visible")
+      authenticationPage.invalidLinkMessage().should("be.visible")
+
+      // return to login
+      authenticationPage.goToLoginButton().click()
+      authenticationPage.web3Button().should("be.visible")
     })
   })
 })
