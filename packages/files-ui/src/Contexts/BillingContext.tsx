@@ -16,6 +16,7 @@ interface IBillingContext {
   changeSubscription: (newPriceId: string) => Promise<boolean | void>
   fetchCurrentSubscription: () => void
   getAvailablePlans: () => Promise<Product[]>
+  deleteCard: (card: Card) => void
 }
 
 const ProductMapping: {[key: string]: {
@@ -52,6 +53,11 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       console.error(err)
       setDefaultCard(undefined)
     })
+  }, [filesApiClient])
+
+  const deleteCard = useCallback((card: Card) => {
+    filesApiClient.deleteCard(card.id)
+      .catch(console.error)
   }, [filesApiClient])
 
   useEffect(() => {
@@ -112,7 +118,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         changeSubscription,
         refreshDefaultCard,
         defaultCard,
-        getAvailablePlans
+        getAvailablePlans,
+        deleteCard
       }}
     >
       {children}
