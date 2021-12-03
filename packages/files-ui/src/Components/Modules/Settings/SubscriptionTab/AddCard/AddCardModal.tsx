@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import CustomModal from "../../../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
 import AddCard from "./AddCard"
 import { Typography } from "@chainsafe/common-components"
+import { useBilling } from "../../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, zIndex, typography }: CSFTheme) => {
@@ -47,6 +48,8 @@ interface IAddCardModalProps {
 
 const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
   const classes = useStyles()
+  const { defaultCard } = useBilling()
+  const isUpdate = useMemo(() => !!defaultCard, [defaultCard])
 
   return (
     <CustomModal
@@ -64,12 +67,15 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
           variant="h4"
           component="h4"
         >
-          <Trans>Add a credit card</Trans>
+          {isUpdate
+            ? <Trans>Update your credit card</Trans>
+            : <Trans>Add a credit card</Trans>
+          }
         </Typography>
         <AddCard
           onClose={onClose}
           onCardAdd={onClose}
-          submitText={t`Add card`}
+          submitText={isUpdate ? t`Update card` : t`Add card`}
           footerClassName={classes.footer}
         />
       </div>

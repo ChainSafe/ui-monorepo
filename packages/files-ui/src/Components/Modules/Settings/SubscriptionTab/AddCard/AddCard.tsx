@@ -1,10 +1,15 @@
-import React, { FormEvent, useState } from "react"
+import React, { FormEvent, useMemo, useState } from "react"
 import { Button, Grid, Typography, useToasts } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useTheme } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import CustomButton from "../../../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
+import { useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement
+} from "@stripe/react-stripe-js"
 import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import clsx from "clsx"
@@ -76,16 +81,18 @@ interface IAddCardModalProps {
   footerClassName?: string
 }
 
-const AddCardModal = ({ onCardAdd, submitText, onClose, footerClassName }: IAddCardModalProps) => {
+
+const AddCardModal = ({ onClose, onCardAdd, footerClassName, submitText }: IAddCardModalProps) => {
   const classes = useStyles()
   const stripe = useStripe()
   const elements = useElements()
   const { addToast } = useToasts()
   const { filesApiClient } = useFilesApi()
-  const { refreshDefaultCard } = useBilling()
+  const { refreshDefaultCard, deleteCard, updateDefaultCard, defaultCard } = useBilling()
   const [focusElement, setFocusElement] = useState<"number" | "expiry" | "cvc" | undefined>(undefined)
   const [cardAddError, setCardAddError] = useState<string | undefined>(undefined)
   const theme: CSFTheme = useTheme()
+  const isUpdate = useMemo(() => !!defaultCard, [defaultCard])
 
   const [loadingPaymentMethodAdd, setLoadingPaymentMethodAdd] = useState(false)
 
@@ -121,13 +128,12 @@ const AddCardModal = ({ onCardAdd, submitText, onClose, footerClassName }: IAddC
         setCardAddError(t`Failed to add payment method`)
         return
       }
-      await filesApiClient.updateDefaultCard({
-        id: paymentMethod.id
-      })
+      isUpdate && defaultCard && await deleteCard(defaultCard)
+      await updateDefaultCard(paymentMethod.id)
       refreshDefaultCard()
       onCardAdd && onCardAdd()
       setLoadingPaymentMethodAdd(false)
-      addToast({ title: "Payment method added", type: "success" })
+      addToast({ title: isUpdate ? t`Card updated` : t`Card added`, type: "success" })
     } catch (error) {
       console.error(error)
       setLoadingPaymentMethodAdd(false)
