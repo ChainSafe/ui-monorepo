@@ -78,24 +78,23 @@ describe("Link Sharing", () => {
       createEditSharedFolderModal.activeShareLink().should("have.length", 1)
     })
 
-    it("can join a share from link with view only access", () => {
+    it("can join a share from link with view-only access", () => {
       cy.intercept("GET", "**/user/store", {
         body: { [sharingExplainerKey]: "true" }
       })
 
       cy.web3Login({ deleteShareBucket: true })
-
       cy.visit(viewOnlyShareLink)
-
       linkSharingConfirmation.viewAccessConfirmationLabel().should("be.visible")
       linkSharingConfirmation.linkErrorMessage().should("not.exist")
 
-      // can browse the shared folder
-      linkSharingConfirmation.browseButton().click()
+      // can navigate to the shared folder
+      linkSharingConfirmation.browseButton()
+        .should("be.visible")
+        .click()
       folderContentsPage.appHeaderLabel().should("be.visible")
 
       // ensure file options correspond to view-only access rights
-      folderContentsPage.awaitBucketRefresh()
       folderContentsPage.fileItemKebabButton()
         .first()
         .should("be.visible")
@@ -120,20 +119,17 @@ describe("Link Sharing", () => {
       })
 
       cy.web3Login({ deleteShareBucket: true })
-
       cy.visit(canEditShareLink)
-
-      //todo: SEE IF THERES AN API CALL I CAN WAIT FOR
-
       linkSharingConfirmation.editAccessConfirmationLabel().should("be.visible")
       linkSharingConfirmation.linkErrorMessage().should("not.exist")
 
-      // can browse the shared folder
-      linkSharingConfirmation.browseButton().click()
+      // can navigate to the shared folder
+      linkSharingConfirmation.browseButton()
+        .should("be.visible")
+        .click()
       folderContentsPage.appHeaderLabel().should("be.visible")
 
-      // ensure file options correspond to can-edit access rights
-      folderContentsPage.awaitBucketRefresh()
+      // ensure file options correspond to "can-edit" access rights
       folderContentsPage.fileItemKebabButton()
         .first()
         .should("be.visible")
@@ -147,7 +143,7 @@ describe("Link Sharing", () => {
       folderContentsPage.moveMenuOption().should("be.visible")
       folderContentsPage.deleteMenuOption().should("be.visible")
 
-      // ensure shared folder is now shown on main share page
+      // ensure the shared folder is now shown on the main share page
       navigationMenu.sharedNavButton().click()
       sharedPage.sharedFolderItemRow().should("have.length", 1)
     })
@@ -183,9 +179,111 @@ describe("Link Sharing", () => {
       authenticationPage.ErrorIcon().should("be.visible")
       authenticationPage.invalidLinkMessage().should("be.visible")
 
-      // return to login
+      // return to the main login section
       authenticationPage.goToLoginButton().click()
       authenticationPage.web3Button().should("be.visible")
+    })
+
+    it("can upgrade access level from view-only by visiting an can-edit link", () => {
+      cy.intercept("GET", "**/user/store", {
+        body: { [sharingExplainerKey]: "true" }
+      })
+
+      // join a shared folder with "view-only" access
+      cy.web3Login({ deleteShareBucket: true })
+      cy.visit(viewOnlyShareLink)
+      linkSharingConfirmation.viewAccessConfirmationLabel().should("be.visible")
+      linkSharingConfirmation.linkErrorMessage().should("not.exist")
+      linkSharingConfirmation.browseButton()
+        .should("be.visible")
+        .click()
+      folderContentsPage.appHeaderLabel().should("be.visible")
+
+      // ensure the file options correspond to "view-only" access rights
+      folderContentsPage.fileItemKebabButton()
+        .first()
+        .should("be.visible")
+        .click()
+      folderContentsPage.previewMenuOption().should("be.visible")
+      folderContentsPage.downloadMenuOption().should("be.visible")
+      folderContentsPage.infoMenuOption().should("be.visible")
+      folderContentsPage.reportMenuOption().should("be.visible")
+      folderContentsPage.copyToMenuOption().should("be.visible")
+      folderContentsPage.renameMenuOption().should("not.exist")
+      folderContentsPage.moveMenuOption().should("not.exist")
+      folderContentsPage.deleteMenuOption().should("not.exist")
+
+      // join a share again from a "can-edit" link
+      cy.visit(canEditShareLink)
+      linkSharingConfirmation.browseButton()
+        .should("be.visible")
+        .click()
+      folderContentsPage.appHeaderLabel().should("be.visible")
+
+      // ensure the file options correspond to "can-edit" access rights
+      folderContentsPage.fileItemKebabButton()
+        .first()
+        .should("be.visible")
+        .click()
+      folderContentsPage.previewMenuOption().should("be.visible")
+      folderContentsPage.downloadMenuOption().should("be.visible")
+      folderContentsPage.infoMenuOption().should("be.visible")
+      folderContentsPage.reportMenuOption().should("be.visible")
+      folderContentsPage.copyToMenuOption().should("be.visible")
+      folderContentsPage.renameMenuOption().should("be.visible")
+      folderContentsPage.moveMenuOption().should("be.visible")
+      folderContentsPage.deleteMenuOption().should("be.visible")
+    })
+
+    it("cannot downgrade access level from can-edit by visiting a view-only link", () => {
+      cy.intercept("GET", "**/user/store", {
+        body: { [sharingExplainerKey]: "true" }
+      })
+
+      // join a shared folder with "can-edit" rights
+      cy.web3Login({ deleteShareBucket: true })
+      cy.visit(canEditShareLink)
+      linkSharingConfirmation.editAccessConfirmationLabel().should("be.visible")
+      linkSharingConfirmation.linkErrorMessage().should("not.exist")
+      linkSharingConfirmation.browseButton()
+        .should("be.visible")
+        .click()
+      folderContentsPage.appHeaderLabel().should("be.visible")
+
+      // ensure the file options correspond to "can-edit" access rights
+      folderContentsPage.fileItemKebabButton()
+        .first()
+        .should("be.visible")
+        .click()
+      folderContentsPage.previewMenuOption().should("be.visible")
+      folderContentsPage.downloadMenuOption().should("be.visible")
+      folderContentsPage.infoMenuOption().should("be.visible")
+      folderContentsPage.reportMenuOption().should("be.visible")
+      folderContentsPage.copyToMenuOption().should("be.visible")
+      folderContentsPage.renameMenuOption().should("be.visible")
+      folderContentsPage.moveMenuOption().should("be.visible")
+      folderContentsPage.deleteMenuOption().should("be.visible")
+
+      // join a share again from a "view-only" link
+      cy.visit(viewOnlyShareLink)
+      linkSharingConfirmation.browseButton()
+        .should("be.visible")
+        .click()
+      folderContentsPage.appHeaderLabel().should("be.visible")
+
+      // ensure the file options still correspond to "can-edit" access rights
+      folderContentsPage.fileItemKebabButton()
+        .first()
+        .should("be.visible")
+        .click()
+      folderContentsPage.previewMenuOption().should("be.visible")
+      folderContentsPage.downloadMenuOption().should("be.visible")
+      folderContentsPage.infoMenuOption().should("be.visible")
+      folderContentsPage.reportMenuOption().should("be.visible")
+      folderContentsPage.copyToMenuOption().should("be.visible")
+      folderContentsPage.renameMenuOption().should("be.visible")
+      folderContentsPage.moveMenuOption().should("be.visible")
+      folderContentsPage.deleteMenuOption().should("be.visible")
     })
   })
 })
