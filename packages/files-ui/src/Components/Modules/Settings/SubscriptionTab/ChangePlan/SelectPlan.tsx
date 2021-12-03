@@ -273,7 +273,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
         }
         <div className={classes.buttons}>
           <Button
-            onClick={() => onClose()}
+            onClick={onClose}
             variant="secondary"
           >
             <Trans>
