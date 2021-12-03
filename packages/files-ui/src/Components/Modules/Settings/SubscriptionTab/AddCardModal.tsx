@@ -108,7 +108,7 @@ const AddCardModal = ({ isModalOpen, onClose, defaultCard }: IAddCardModalProps)
   const elements = useElements()
   const { addToast } = useToasts()
   const { filesApiClient } = useFilesApi()
-  const { refreshDefaultCard, deleteCard } = useBilling()
+  const { refreshDefaultCard, deleteCard, updateDefaultCard } = useBilling()
   const [focusElement, setFocusElement] = useState<"number" | "expiry" | "cvc" | undefined>(undefined)
   const [cardAddError, setCardAddError] = useState<string | undefined>(undefined)
   const theme: CSFTheme = useTheme()
@@ -148,11 +148,9 @@ const AddCardModal = ({ isModalOpen, onClose, defaultCard }: IAddCardModalProps)
         setCardAddError(t`Failed to add payment method`)
         return
       }
-      await filesApiClient.updateDefaultCard({
-        id: paymentMethod.id
-      })
+      isUpdate && defaultCard && await deleteCard(defaultCard)
+      await updateDefaultCard(paymentMethod.id)
       refreshDefaultCard()
-      isUpdate && defaultCard && deleteCard(defaultCard)
       onClose()
       setLoadingPaymentMethodAdd(false)
       addToast({ title: isUpdate ? t`Payment method updated` : t`Payment method added`, type: "success" })

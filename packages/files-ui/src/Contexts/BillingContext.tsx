@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useState } from "react"
 import { Card, CurrentSubscription, Product } from "@chainsafe/files-api-client"
 import { useCallback } from "react"
 import { t } from "@lingui/macro"
+import { PaymentMethod } from "@stripe/stripe-js"
 
 type BillingContextProps = {
   children: ReactNode | ReactNode[]
@@ -16,7 +17,8 @@ interface IBillingContext {
   changeSubscription: (newPriceId: string) => Promise<boolean | void>
   fetchCurrentSubscription: () => void
   getAvailablePlans: () => Promise<Product[]>
-  deleteCard: (card: Card) => void
+  deleteCard: (card: Card) => Promise<void>
+  updateDefaultCard: (id: PaymentMethod["id"]) => Promise<void>
 }
 
 const ProductMapping: {[key: string]: {
@@ -56,8 +58,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   }, [filesApiClient])
 
   const deleteCard = useCallback((card: Card) => {
-    filesApiClient.deleteCard(card.id)
-      .catch(console.error)
+    return filesApiClient.deleteCard(card.id)
   }, [filesApiClient])
 
   useEffect(() => {
@@ -101,6 +102,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       })
   }, [filesApiClient])
 
+  const updateDefaultCard = (id: PaymentMethod["id"]) => filesApiClient.updateDefaultCard({ id })
+
   const changeSubscription = useCallback((newPriceId: string) => {
     if (!currentSubscription?.id) return Promise.resolve()
     return filesApiClient.updateSubscription(currentSubscription.id, {
@@ -119,7 +122,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         refreshDefaultCard,
         defaultCard,
         getAvailablePlans,
-        deleteCard
+        deleteCard,
+        updateDefaultCard
       }}
     >
       {children}
