@@ -66,7 +66,6 @@ const CurrentCard: React.FC = () => {
       <AddCardModal
         isModalOpen={isAddCardModalOpen}
         onClose={() => setIsAddCardModalOpen(false)}
-        defaultCard={defaultCard}
       />
     </>
   )

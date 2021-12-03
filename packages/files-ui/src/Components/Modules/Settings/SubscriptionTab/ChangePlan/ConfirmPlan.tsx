@@ -229,7 +229,7 @@ const ConfirmPlan = ({
             component="p"
             className={classes.boldText}
           >
-            {planPrice.currency} ${planPrice.unit_amount}
+            {planPrice.unit_amount ? planPrice.currency : ""} {planPrice.unit_amount}
             <span className={classes.normalWeightText}>
               {planPrice.recurring.interval === "month" ? "/month" : "/year"}
             </span>
@@ -250,6 +250,7 @@ const ConfirmPlan = ({
           <Button
             onClick={() => onClose()}
             variant="secondary"
+            disabled={loadingChangeSubscription}
           >
             <Trans>
               Cancel

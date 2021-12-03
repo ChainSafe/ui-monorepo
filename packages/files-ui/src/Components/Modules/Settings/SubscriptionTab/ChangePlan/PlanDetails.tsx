@@ -149,26 +149,30 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
         </div>
       </div>
       <Divider className={classes.divider} />
-      <div className={classes.middleRowBox}>
-        <Typography component="p"
-          variant="body1"
-          className={classes.boldText}>
-          {billingPeriod === "monthly"
-            ? <Trans>Monthly billing</Trans>
-            : <Trans>Yearly billing</Trans>
-          }
-        </Typography>
-        <div className={classes.pushRightBox}>
-          <ToggleSwitch
-            left={{ value: "yearly" }}
-            right={{ value: "monthly" }}
-            onChange={() =>
-              setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")
-            }
-          />
-        </div>
-      </div>
-      <Divider className={classes.divider} />
+      {monthlyPrice && yearlyPrice &&
+        <>
+          <div className={classes.middleRowBox}>
+            <Typography component="p"
+              variant="body1"
+              className={classes.boldText}>
+              {billingPeriod === "monthly"
+                ? <Trans>Monthly billing</Trans>
+                : <Trans>Yearly billing</Trans>
+              }
+            </Typography>
+            <div className={classes.pushRightBox}>
+              <ToggleSwitch
+                left={{ value: "yearly" }}
+                right={{ value: "monthly" }}
+                onChange={() =>
+                  setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")
+                }
+              />
+            </div>
+          </div>
+          <Divider className={classes.divider} />
+        </>
+      }
       <div className={classes.rowBox}>
         <Typography component="h5"
           variant="h5"
@@ -180,8 +184,8 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
             component="p"
             className={classes.boldText}
           >{billingPeriod === "monthly"
-              ? `${monthlyPrice?.currency} ${monthlyPrice?.unit_amount}`
-              : `${yearlyPrice?.currency} ${yearlyPrice?.unit_amount}`
+              ? `${monthlyPrice?.unit_amount ? monthlyPrice?.currency : ""} ${monthlyPrice?.unit_amount}`
+              : `${yearlyPrice?.unit_amount ? yearlyPrice?.currency : ""} ${yearlyPrice?.unit_amount}`
             }<span className={classes.normalWeightText}>{billingPeriod ? "/month" : "/year"}</span>
           </Typography>
         </div>
