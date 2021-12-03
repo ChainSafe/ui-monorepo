@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Modal, useToasts } from "@chainsafe/common-components"
+import { Modal } from "@chainsafe/common-components"
 import SelectPlan from "./SelectPlan"
 import PlanDetails from "./PlanDetails"
 import PaymentMethod from "./PaymentMethod"
 import ConfirmPlan from "./ConfirmPlan"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
+import PlanSuccess from "./PlanSuccess"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -37,10 +38,16 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const { getAvailablePlans, changeSubscription } = useBilling()
   const [selectedPlan, setSelectedPlan] = useState<Product | undefined>()
   const [selectedPrice, setSelectedPrice] = useState<ProductPrice | undefined>()
-  const [slide, setSlide] = useState<"select" | "planDetails" |  "paymentMethod" | "confirmPlan">("select")
+  const [slide, setSlide] = useState<
+  "select"
+  | "planDetails"
+  |  "paymentMethod"
+  | "confirmPlan"
+  | "planSuccess"
+  >("select")
   const [plans, setPlans] = useState<Product[] | undefined>()
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
-  const { addToast } = useToasts()
+  const [isSubscriptionError, setIsSubscriptionError] = useState(false)
 
   useEffect(() => {
     if(!plans) {
@@ -56,9 +63,12 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       changeSubscription(selectedPrice.id)
         .then(() => {
           onClose()
-          addToast({ title: "Subscription updated", type: "success" })
+          setSlide("planSuccess")
         })
-        .catch(console.error)
+        .catch((error) => {
+          console.error(error)
+          setIsSubscriptionError(true)
+        })
         .finally(() => setIsLoadingChangeSubscription(false))
     }
   }
@@ -116,7 +126,12 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           }}
           loadingChangeSubscription={isLoadingChangeSubscription}
           onChangeSubscription={handleChangeSubscription}
-        /> : null
+          isSubscriptionError={isSubscriptionError}
+        /> : slide === "planSuccess" && selectedPlan && selectedPrice && <PlanSuccess
+          onClose={onClose}
+          plan={selectedPlan}
+          planPrice={selectedPrice}
+        />
       }
     </Modal>
   )

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Breadcrumb, Button, Divider, ToggleSwitch, Typography } from "@chainsafe/common-components"
+import { Breadcrumb, Button, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 
@@ -23,6 +23,9 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
     },
     normalWeightText: {
       fontWeight: "normal"
+    },
+    featureSeparator: {
+      marginBottom: constants.generalUnit
     },
     rowBox: {
       display: "flex",
@@ -115,6 +118,18 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
           <Trans>Features</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
+          <Typography component="p"
+            variant="body1"
+            className={classes.featureSeparator}
+          >
+            {monthlyPrice?.metadata?.storage_size_bytes
+              ? <>
+                <b>{formatBytes(Number(monthlyPrice?.metadata?.storage_size_bytes), 2)}&nbsp;</b>
+                <Trans>of storage</Trans >
+              </>
+              : plan.description
+            }
+          </Typography>
           <Typography component="p"
             variant="body1">
             {plan.description}

@@ -2,7 +2,7 @@ import React from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Breadcrumb, Button, CreditCardIcon, Divider, Typography } from "@chainsafe/common-components"
+import { Breadcrumb, Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -78,6 +78,13 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       alignItems: "center",
       marginTop: constants.generalUnit,
       marginBottom: constants.generalUnit
+    },
+    featureSeparator: {
+      marginBottom: constants.generalUnit
+    },
+    error: {
+      marginTop: constants.generalUnit,
+      color: palette.error.main
     }
   })
 )
@@ -91,6 +98,7 @@ interface IConfirmPlan {
   goToPaymentMethod: () => void
   onChangeSubscription: () => void
   loadingChangeSubscription: boolean
+  isSubscriptionError: boolean
 }
 
 const ConfirmPlan = ({
@@ -101,7 +109,8 @@ const ConfirmPlan = ({
   goToPlanDetails,
   goToPaymentMethod,
   onChangeSubscription,
-  loadingChangeSubscription
+  loadingChangeSubscription,
+  isSubscriptionError
 }: IConfirmPlan) => {
   const classes = useStyles()
   const { defaultCard } = useBilling()
@@ -154,9 +163,20 @@ const ConfirmPlan = ({
           Features
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography variant="body1"
-            component="p"
+          <Typography component="p"
+            variant="body1"
+            className={classes.featureSeparator}
           >
+            {planPrice?.metadata?.storage_size_bytes
+              ? <>
+                <b>{formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)}&nbsp;</b>
+                <Trans>of storage</Trans >
+              </>
+              : plan.description
+            }
+          </Typography>
+          <Typography component="p"
+            variant="body1">
             {plan.description}
           </Typography>
         </div>
@@ -216,6 +236,15 @@ const ConfirmPlan = ({
           </Typography>
         </div>
       </div>
+      {isSubscriptionError &&
+        <Typography
+          component="p"
+          variant="body1"
+          className={classes.error}
+        >
+          <Trans>Failed to change subscription</Trans>
+        </Typography>
+      }
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
