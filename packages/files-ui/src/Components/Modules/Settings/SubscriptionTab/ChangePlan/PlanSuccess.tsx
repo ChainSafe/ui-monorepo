@@ -103,7 +103,8 @@ const PlanSuccess = ({
         <Trans>Confirmation</Trans>
       </Typography>
       <div className={clsx(classes.middleRowBox, classes.headingBox)}>
-        <Typography variant="h5"
+        <Typography
+          variant="h5"
           component="h4"
         >
           <Trans>Plan changed successfully</Trans>
