@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react"
+import React, { FormEvent, useMemo, useState } from "react"
 import { Button, Grid, Typography, useToasts } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useTheme } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
@@ -9,6 +9,7 @@ import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcEl
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useBilling } from "../../../../Contexts/BillingContext"
 import clsx from "clsx"
+import { Card } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette, animation }: CSFTheme) => {
@@ -98,18 +99,20 @@ const useStyles = makeStyles(
 interface IAddCardModalProps {
   isModalOpen: boolean
   onClose: () => void
+  defaultCard?: Card
 }
 
-const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
+const AddCardModal = ({ isModalOpen, onClose, defaultCard }: IAddCardModalProps) => {
   const classes = useStyles()
   const stripe = useStripe()
   const elements = useElements()
   const { addToast } = useToasts()
   const { filesApiClient } = useFilesApi()
-  const { refreshDefaultCard } = useBilling()
+  const { refreshDefaultCard, deleteCard, updateDefaultCard } = useBilling()
   const [focusElement, setFocusElement] = useState<"number" | "expiry" | "cvc" | undefined>(undefined)
   const [cardAddError, setCardAddError] = useState<string | undefined>(undefined)
   const theme: CSFTheme = useTheme()
+  const isUpdate = useMemo(() => !!defaultCard, [defaultCard])
 
   const [loadingPaymentMethodAdd, setLoadingPaymentMethodAdd] = useState(false)
 
@@ -145,13 +148,12 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
         setCardAddError(t`Failed to add payment method`)
         return
       }
-      await filesApiClient.updateDefaultCard({
-        id: paymentMethod.id
-      })
+      isUpdate && defaultCard && await deleteCard(defaultCard)
+      await updateDefaultCard(paymentMethod.id)
       refreshDefaultCard()
       onClose()
       setLoadingPaymentMethodAdd(false)
-      addToast({ title: "Payment method added", type: "success" })
+      addToast({ title: isUpdate ? t`Card updated` : t`Card added`, type: "success" })
     } catch (error) {
       console.error(error)
       setLoadingPaymentMethodAdd(false)
@@ -184,7 +186,11 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               variant="h4"
               component="h4"
             >
-              <Trans>Add a credit card</Trans>
+              {
+                isUpdate
+                  ? <Trans>Update your credit card</Trans>
+                  : <Trans>Add a credit card</Trans>
+              }
             </Typography>
           </Grid>
           <CardNumberElement
@@ -267,7 +273,11 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               loading={loadingPaymentMethodAdd}
               disabled={loadingPaymentMethodAdd}
             >
-              <Trans>Add card</Trans>
+              {
+                isUpdate
+                  ? <Trans>Update card</Trans>
+                  : <Trans>Add card</Trans>
+              }
             </Button>
           </Grid>
         </div>
