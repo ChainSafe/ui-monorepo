@@ -161,7 +161,7 @@ const PlanSuccess = ({
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={() => onClose()}
+            onClick={onClose}
             variant="secondary"
           >
             <Trans>
