@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Modal } from "@chainsafe/common-components"
+import { Modal, useToasts } from "@chainsafe/common-components"
 import SelectPlan from "./SelectPlan"
 import PlanDetails from "./PlanDetails"
 import PaymentMethod from "./PaymentMethod"
@@ -40,6 +40,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const [slide, setSlide] = useState<"select" | "planDetails" |  "paymentMethod" | "confirmPlan">("select")
   const [plans, setPlans] = useState<Product[] | undefined>()
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
+  const { addToast } = useToasts()
 
   useEffect(() => {
     if(!plans) {
@@ -53,7 +54,10 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
     if (selectedPrice) {
       setIsLoadingChangeSubscription(true)
       changeSubscription(selectedPrice.id)
-        .then(onClose)
+        .then(() => {
+          onClose()
+          addToast({ title: "Subscription updated", type: "success" })
+        })
         .catch(console.error)
         .finally(() => setIsLoadingChangeSubscription(false))
     }
