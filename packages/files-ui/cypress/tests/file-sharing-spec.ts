@@ -5,6 +5,9 @@ import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { sharingExplainerKey, sharedFolderName, sharedFolderEditedName, validUsername } from "../fixtures/filesTestData"
 import { sharedPage } from "../support/page-objects/sharedPage"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
+import { viewOnlyShareLink } from "../fixtures/linkData"
+import { leaveSharedFolderModal } from "../support/page-objects/modals/leaveSharedFolderModal"
+import { linkSharingConfirmation } from "../support/page-objects/linkSharingConfirmation"
 
 describe("File Sharing", () => {
 
@@ -59,5 +62,25 @@ describe("File Sharing", () => {
       deleteSharedFolderModal.body().should("not.exist")
       sharedPage.sharedFolderItemRow().should("not.exist")
     })
+
+    it("can leave a shared folder", () => {
+      cy.intercept("GET", "**/user/store", {
+        body: { [sharingExplainerKey]: "true" }
+      })
+
+      cy.web3Login({ deleteShareBucket: true })
+      cy.visit(viewOnlyShareLink)
+      linkSharingConfirmation.viewAccessConfirmationLabel().should("be.visible")
+      navigationMenu.sharedNavButton().click()
+
+      // leave the shared folder
+      sharedPage.fileItemKebabButton().click()
+      sharedPage.leaveMenuOption().click()
+      leaveSharedFolderModal.body().should("be.visible")
+      leaveSharedFolderModal.confirmButton().safeClick()
+
+      // ensure the shared folder is no longer shown on the main share page
+      sharedPage.sharedFolderItemRow().should("have.length", 0)
+    })})
   })
 })
