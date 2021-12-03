@@ -263,7 +263,7 @@ const SharedFileBrowser = () => {
     return (
       <div className={classes.messageWrapper}>
         <Loading
-          type="inherit"
+          type="initial"
           size={48}
         />
       </div>
