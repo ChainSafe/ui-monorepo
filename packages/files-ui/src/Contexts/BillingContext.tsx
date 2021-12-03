@@ -57,9 +57,9 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     })
   }, [filesApiClient])
 
-  const deleteCard = useCallback((card: Card) => {
-    return filesApiClient.deleteCard(card.id)
-  }, [filesApiClient])
+  const deleteCard = useCallback((card: Card) =>
+    filesApiClient.deleteCard(card.id)
+  , [filesApiClient])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -102,7 +102,9 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       })
   }, [filesApiClient])
 
-  const updateDefaultCard = (id: PaymentMethod["id"]) => filesApiClient.updateDefaultCard({ id })
+  const updateDefaultCard = useCallback((id: PaymentMethod["id"]) =>
+    filesApiClient.updateDefaultCard({ id })
+  , [filesApiClient])
 
   const changeSubscription = useCallback((newPriceId: string) => {
     if (!currentSubscription?.id) return Promise.resolve()
