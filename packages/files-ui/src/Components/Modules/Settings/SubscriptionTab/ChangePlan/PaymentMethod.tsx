@@ -156,7 +156,8 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
           />
         </>
         : <div className={classes.addCardWrapper}>
-          <AddCard submitText={t`Use this card`}
+          <AddCard
+            submitText={t`Use this card`}
             footerClassName={classes.footer}
             onCardAdd={() => setView("selectPaymentMethod")}
           />
