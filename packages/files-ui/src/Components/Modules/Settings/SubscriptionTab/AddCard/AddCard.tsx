@@ -74,7 +74,7 @@ const useStyles = makeStyles(
   }
 )
 
-interface IAddCardModalProps {
+interface IAddCardProps {
   submitText: string
   onCardAdd?: () => void
   onClose?: () => void
@@ -82,7 +82,7 @@ interface IAddCardModalProps {
 }
 
 
-const AddCardModal = ({ onClose, onCardAdd, footerClassName, submitText }: IAddCardModalProps) => {
+const AddCard = ({ onClose, onCardAdd, footerClassName, submitText }: IAddCardProps) => {
   const classes = useStyles()
   const stripe = useStripe()
   const elements = useElements()
@@ -192,14 +192,13 @@ const AddCardModal = ({ onClose, onCardAdd, footerClassName, submitText }: IAddC
             } }}
           />
         </div>
-        {cardAddError &&
-            <Typography
-              component="p"
-              variant="body1"
-              className={classes.error}
-            >
-              {cardAddError}
-            </Typography>
+        {cardAddError && <Typography
+          component="p"
+          variant="body1"
+          className={classes.error}
+        >
+          {cardAddError}
+        </Typography>
         }
         <Grid
           item
@@ -237,4 +236,4 @@ const AddCardModal = ({ onClose, onCardAdd, footerClassName, submitText }: IAddC
   )
 }
 
-export default AddCardModal
+export default AddCard
