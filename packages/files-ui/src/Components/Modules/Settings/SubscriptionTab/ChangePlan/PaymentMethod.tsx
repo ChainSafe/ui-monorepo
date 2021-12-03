@@ -178,7 +178,7 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
         }
         <div className={classes.buttons}>
           <Button
-            onClick={() => onClose()}
+            onClick={onClose}
             variant="secondary"
           >
             <Trans>
