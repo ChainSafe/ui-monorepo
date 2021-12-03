@@ -286,7 +286,6 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
           >
             <Trans>Select plan</ Trans>
           </Button>
-
           }
         </div>
       </section>

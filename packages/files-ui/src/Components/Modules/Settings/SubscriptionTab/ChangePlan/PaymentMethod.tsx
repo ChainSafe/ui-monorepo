@@ -98,13 +98,13 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
     <article className={classes.root}>
       <Breadcrumb
         crumbs={[{
-          text: "Change plan",
+          text: t`Change plan`,
           onClick: goToSelectPlan
         }, {
-          text: "Plan details",
+          text: t`Plan details`,
           onClick: goToPlanDetails
         }, {
-          text: "Payment method"
+          text: t`Payment method`
         }]}
         hideHome={true}
       />

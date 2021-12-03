@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
 import { Breadcrumb, Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import clsx from "clsx"
@@ -119,16 +119,16 @@ const ConfirmPlan = ({
     <article className={classes.root}>
       <Breadcrumb
         crumbs={[{
-          text: "Change plan",
+          text: t`Change plan`,
           onClick: goToSelectPlan
         }, {
-          text: "Plan details",
+          text: t`Plan details`,
           onClick: goToPlanDetails
         }, {
-          text: "Payment method",
+          text: t`Payment method`,
           onClick: goToPaymentMethod
         }, {
-          text: "Confirm plan"
+          text: t`Confirm plan`
         }]}
         hideHome={true}
         showDropDown={true}
@@ -160,7 +160,7 @@ const ConfirmPlan = ({
         <Typography variant="body1"
           component="p"
         >
-          Features
+          <Trans>Features</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           <Typography component="p"
@@ -186,7 +186,7 @@ const ConfirmPlan = ({
         <Typography variant="body1"
           component="p"
         >
-          Payment method
+          <Trans>Payment method</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           <Typography variant="body1"

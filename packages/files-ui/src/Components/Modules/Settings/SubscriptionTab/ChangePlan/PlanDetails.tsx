@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
 import { Breadcrumb, Button, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 
 const useStyles = makeStyles(({ constants }: CSFTheme) =>
@@ -91,10 +91,10 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
     <article className={classes.root}>
       <Breadcrumb
         crumbs={[{
-          text: "Change plan",
+          text: t`Change plan`,
           onClick: goToSelectPlan
         }, {
-          text: "Plan details"
+          text: t`Plan details`
         }]}
         hideHome={true}
       />
