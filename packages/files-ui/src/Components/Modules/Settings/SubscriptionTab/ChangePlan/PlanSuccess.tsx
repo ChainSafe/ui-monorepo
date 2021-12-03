@@ -95,7 +95,8 @@ const PlanSuccess = ({
 
   return (
     <article className={classes.root}>
-      <Typography variant="body1"
+      <Typography
+        variant="body1"
         component="p"
         className={classes.headingBadge}
       >
