@@ -29,6 +29,12 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   })
 )
 
+type ChangeModalSlides = "select" |
+"planDetails"  |
+"paymentMethod" |
+"confirmPlan" |
+"planSuccess"
+
 interface IChangeProductModal {
   onClose: () => void
 }
@@ -38,13 +44,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const { getAvailablePlans, changeSubscription } = useBilling()
   const [selectedPlan, setSelectedPlan] = useState<Product | undefined>()
   const [selectedPrice, setSelectedPrice] = useState<ProductPrice | undefined>()
-  const [slide, setSlide] = useState<
-  "select"
-  | "planDetails"
-  |  "paymentMethod"
-  | "confirmPlan"
-  | "planSuccess"
-  >("select")
+  const [slide, setSlide] = useState<ChangeModalSlides>("select")
   const [plans, setPlans] = useState<Product[] | undefined>()
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
   const [isSubscriptionError, setIsSubscriptionError] = useState(false)
@@ -83,53 +83,61 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       testId="change-product"
     >
       {
-        slide === "select" ? <SelectPlan
+        slide === "select" && <SelectPlan
           onClose={onClose}
           onSelectPlan={(plan: Product) => {
             setSelectedPlan(plan)
             setSlide("planDetails")
           }}
           plans={plans}
-        /> : slide === "planDetails" && selectedPlan ? <PlanDetails plan={selectedPlan}
-          onClose={onClose}
-          goToSelectPlan={() => {
-            setSlide("select")
-          }}
-          onSelectPlanPrice={(planPrice: ProductPrice) => {
-            setSelectedPrice(planPrice)
-            setSlide("paymentMethod")
-          }}
-        /> : slide === "paymentMethod" ? <PaymentMethod onClose={onClose}
-          goToSelectPlan={() => {
-            setSlide("select")
-          }}
-          goToPlanDetails={() => {
-            setSlide("planDetails")
-          }}
-          onSelectPaymentMethod={() => {
-            setSlide("confirmPlan")
-          }}
-        /> : slide === "confirmPlan" && selectedPlan && selectedPrice ? <ConfirmPlan
-          plan={selectedPlan}
-          planPrice={selectedPrice}
-          onClose={onClose}
-          goToSelectPlan={() => {
-            setSlide("select")
-          }}
-          goToPlanDetails={() => {
-            setSlide("planDetails")
-          }}
-          goToPaymentMethod={() => {
-            setSlide("paymentMethod")
-          }}
-          loadingChangeSubscription={isLoadingChangeSubscription}
-          onChangeSubscription={handleChangeSubscription}
-          isSubscriptionError={isSubscriptionError}
-        /> : slide === "planSuccess" && selectedPlan && selectedPrice && <PlanSuccess
-          onClose={onClose}
-          plan={selectedPlan}
-          planPrice={selectedPrice}
         />
+      }
+      {slide === "planDetails" && selectedPlan && <PlanDetails plan={selectedPlan}
+        onClose={onClose}
+        goToSelectPlan={() => {
+          setSlide("select")
+        }}
+        onSelectPlanPrice={(planPrice: ProductPrice) => {
+          setSelectedPrice(planPrice)
+          setSlide("paymentMethod")
+        }}
+      />
+      }
+      {slide === "paymentMethod" && <PaymentMethod onClose={onClose}
+        goToSelectPlan={() => {
+          setSlide("select")
+        }}
+        goToPlanDetails={() => {
+          setSlide("planDetails")
+        }}
+        onSelectPaymentMethod={() => {
+          setSlide("confirmPlan")
+        }}
+      />
+      }
+      {slide === "confirmPlan" && selectedPlan && selectedPrice && <ConfirmPlan
+        plan={selectedPlan}
+        planPrice={selectedPrice}
+        onClose={onClose}
+        goToSelectPlan={() => {
+          setSlide("select")
+        }}
+        goToPlanDetails={() => {
+          setSlide("planDetails")
+        }}
+        goToPaymentMethod={() => {
+          setSlide("paymentMethod")
+        }}
+        loadingChangeSubscription={isLoadingChangeSubscription}
+        onChangeSubscription={handleChangeSubscription}
+        isSubscriptionError={isSubscriptionError}
+      />
+      }
+      {slide === "planSuccess" && selectedPlan && selectedPrice && <PlanSuccess
+        onClose={onClose}
+        plan={selectedPlan}
+        planPrice={selectedPrice}
+      />
       }
     </Modal>
   )

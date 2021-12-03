@@ -123,45 +123,45 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
         {view === "addCard" && <Trans>This card will become your default payment method</Trans>}
       </Typography>
       <Divider className={classes.divider} />
-      {view === "selectPaymentMethod"
-        ? <>
-          <div className={classes.rowBox}>
-            <RadioInput
-              label={defaultCard ? `•••• •••• •••• ${defaultCard.last_four_digit}` : "Credit card" }
-              value="creditCard"
-              onChange={() => setPaymentMethod("creditCard")}
-              checked={paymentMethod === "creditCard"}
-              labelClassName={classes.radioLabel}
-              disabled={!defaultCard}
-            />
-            <Typography variant="body1"
-              component="p"
-              className={classes.textButton}
-              onClick={() => setView("addCard")}
-            >
-              {defaultCard
-                ? <Trans>Update credit card</Trans>
-                : <Trans>Add credit card</Trans>
-              }
-            </Typography>
-          </div>
-          <Divider className={classes.divider} />
+      {view === "selectPaymentMethod" && <>
+        <div className={classes.rowBox}>
           <RadioInput
-            label="USDC, BTC, or ETH (Annual only)"
-            value="orange"
-            onChange={() => setPaymentMethod("crypto")}
-            checked={paymentMethod === "crypto"}
+            label={defaultCard ? `•••• •••• •••• ${defaultCard.last_four_digit}` : "Credit card" }
+            value="creditCard"
+            onChange={() => setPaymentMethod("creditCard")}
+            checked={paymentMethod === "creditCard"}
             labelClassName={classes.radioLabel}
-            disabled={true}
+            disabled={!defaultCard}
           />
-        </>
-        : <div className={classes.addCardWrapper}>
-          <AddCard
-            submitText={t`Use this card`}
-            footerClassName={classes.footer}
-            onCardAdd={() => setView("selectPaymentMethod")}
-          />
+          <Typography variant="body1"
+            component="p"
+            className={classes.textButton}
+            onClick={() => setView("addCard")}
+          >
+            {defaultCard
+              ? <Trans>Update credit card</Trans>
+              : <Trans>Add credit card</Trans>
+            }
+          </Typography>
         </div>
+        <Divider className={classes.divider} />
+        <RadioInput
+          label="USDC, BTC, or ETH (Annual only)"
+          value="orange"
+          onChange={() => setPaymentMethod("crypto")}
+          checked={paymentMethod === "crypto"}
+          labelClassName={classes.radioLabel}
+          disabled={true}
+        />
+      </>
+      }
+      {view === "addCard" && <div className={classes.addCardWrapper}>
+        <AddCard
+          submitText={t`Use this card`}
+          footerClassName={classes.footer}
+          onCardAdd={() => setView("selectPaymentMethod")}
+        />
+      </div>
       }
       <Divider className={classes.divider} />
       <section className={classes.bottomSection}>

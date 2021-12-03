@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { Button, ExternalSvg, formatBytes, Loading, Typography } from "@chainsafe/common-components"
+import { Button, ExternalSvg, formatBytes, Link, Loading, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../../../Themes/types"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -171,17 +171,21 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
             </Typography>
             {monthly && <Typography component="h4"
               variant="h4">
-              {monthly.unit_amount ? <>
-                {monthly.currency.toUpperCase()} {monthly.unit_amount}
-                <span className={classes.priceSubtitle}>/month</span>
-              </> : "Free"}
+              {monthly.unit_amount
+                ? <>
+                  {monthly.currency.toUpperCase()} {monthly.unit_amount}
+                  <span className={classes.priceSubtitle}>/month</span>
+                </>
+                : "Free"}
             </Typography>
             }
-            {monthly && yearly ? <Typography variant="body2"
-              className={classes.priceYearlyTitle}>
-              {yearly.currency.toUpperCase()} {yearly.unit_amount}
-              <span className={classes.priceSubtitle}>/year</span>
-            </Typography> : <div className={classes.priceSpace} />
+            {monthly && yearly
+              ? <Typography variant="body2"
+                className={classes.priceYearlyTitle}>
+                {yearly.currency.toUpperCase()} {yearly.unit_amount}
+                <span className={classes.priceSubtitle}>/year</span>
+              </Typography>
+              : <div className={classes.priceSpace} />
             }
             <Typography
               component="p"
@@ -235,17 +239,21 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
             <div className={classes.mobilePriceBox}>
               {monthly && <Typography component="h4"
                 variant="h4">
-                {monthly.unit_amount ? <>
-                  {monthly.currency.toUpperCase()} {monthly.unit_amount}
-                  <span className={classes.priceSubtitle}>/month</span>
-                </> : "Free"}
+                {monthly.unit_amount
+                  ? <>
+                    {monthly.currency.toUpperCase()} {monthly.unit_amount}
+                    <span className={classes.priceSubtitle}>/month</span>
+                  </>
+                  : "Free"}
               </Typography>
               }
-              {monthly && yearly ? <Typography variant="body2"
-                className={classes.priceYearlyTitle}>
-                {yearly.currency.toUpperCase()} {yearly.unit_amount}
-                <span className={classes.priceSubtitle}>/year</span>
-              </Typography> : <div className={classes.priceSpace} />
+              {monthly && yearly
+                ? <Typography variant="body2"
+                  className={classes.priceYearlyTitle}>
+                  {yearly.currency.toUpperCase()} {yearly.unit_amount}
+                  <span className={classes.priceSubtitle}>/year</span>
+                </Typography>
+                : <div className={classes.priceSpace} />
               }
             </div>
           </div>
@@ -254,9 +262,9 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
       </section>
       <section className={classes.bottomSection}>
         {desktop &&
-        <a
+        <Link
           className={classes.link}
-          href="http://chainsafe.io"
+          to="http://chainsafe.io"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -269,7 +277,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
             </Trans>
           </Typography>
           <ExternalSvg />
-        </a>
+        </Link>
         }
         <div className={classes.buttons}>
           <Button

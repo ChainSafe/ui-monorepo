@@ -68,7 +68,8 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       color: palette.primary.background
     },
     checkCircleIcon:  {
-      fill: palette.additional["gray"][7]
+      fill: palette.additional["gray"][7],
+      marginLeft: constants.generalUnit
     },
     tickIcon: {
       fill: palette.success.main
@@ -108,7 +109,6 @@ const PlanSuccess = ({
           component="h4"
         >
           <Trans>Plan changed successfully</Trans>
-          &nbsp;&nbsp;
         </Typography>
         <CheckCircleIcon className={classes.checkCircleIcon} />
       </div>
