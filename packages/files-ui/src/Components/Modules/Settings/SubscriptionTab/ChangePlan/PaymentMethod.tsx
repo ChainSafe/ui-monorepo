@@ -165,7 +165,8 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
       <Divider className={classes.divider} />
       <section className={classes.bottomSection}>
         {view === "addCard" ? <div>
-          <Typography variant="body1"
+          <Typography
+            variant="body1"
             component="p"
             onClick={() => setView("selectPaymentMethod")}
             className={classes.linkButton}
