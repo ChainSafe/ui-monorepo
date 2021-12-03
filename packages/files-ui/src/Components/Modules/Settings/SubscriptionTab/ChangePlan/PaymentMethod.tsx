@@ -115,7 +115,8 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
       >
         <Trans>Select payment method</Trans>
       </Typography>
-      <Typography variant="body1"
+      <Typography
+        variant="body1"
         component="p"
         className={classes.subHeading}
       >
