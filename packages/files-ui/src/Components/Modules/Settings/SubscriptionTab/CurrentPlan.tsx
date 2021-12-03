@@ -78,8 +78,10 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
         >
           {currentSubscription?.product.name}
         </Typography>
-        : <Loading size={36}
-          type="inherit" />
+        : <Loading
+          size={36}
+          type="inherit"
+        />
     }
     {storageSummary &&
       <>
