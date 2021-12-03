@@ -145,7 +145,8 @@ const PlanSuccess = ({
         </div>
       </div>
       <div className={classes.rowBox}>
-        <Typography component="p"
+        <Typography
+          component="p"
           variant="body1"
           className={classes.invoiceText}
         >
