@@ -62,7 +62,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       setIsLoadingChangeSubscription(true)
       changeSubscription(selectedPrice.id)
         .then(() => {
-          onClose()
           setSlide("planSuccess")
         })
         .catch((error) => {
