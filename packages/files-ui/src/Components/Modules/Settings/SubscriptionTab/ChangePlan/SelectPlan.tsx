@@ -197,7 +197,8 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
                   : plan.description
               }
             </Typography>
-            <Button variant="primary"
+            <Button
+              variant="primary"
               disabled={!isPlanSelectable}
               onClick={() => onSelectPlan(plan)}
             >
