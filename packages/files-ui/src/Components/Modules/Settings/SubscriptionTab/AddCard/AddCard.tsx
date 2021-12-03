@@ -145,7 +145,7 @@ const AddCardModal = ({ onClose, onCardAdd, footerClassName, submitText }: IAddC
     <form onSubmit={handleSubmitPaymentMethod}>
       <div
         className={classes.root}
-        data-cy="modal-add-card"
+        data-cy="form-add-card"
       >
         <CardNumberElement
           className={clsx(
