@@ -81,6 +81,6 @@ describe("File Sharing", () => {
 
       // ensure the shared folder is no longer shown on the main share page
       sharedPage.sharedFolderItemRow().should("have.length", 0)
-    })})
+    })
   })
 })
