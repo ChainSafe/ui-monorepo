@@ -108,7 +108,8 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
         }]}
         hideHome={true}
       />
-      <Typography variant="h5"
+      <Typography
+        variant="h5"
         component="h4"
         className={classes.heading}
       >
