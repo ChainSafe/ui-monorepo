@@ -132,6 +132,7 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
               onChange={() => setPaymentMethod("creditCard")}
               checked={paymentMethod === "creditCard"}
               labelClassName={classes.radioLabel}
+              disabled={!defaultCard}
             />
             <Typography variant="body1"
               component="p"
