@@ -280,7 +280,8 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               Cancel
             </Trans>
           </Button>
-          {!desktop && <Button variant="primary"
+          {!desktop && <Button
+            variant="primary"
             disabled={!tempSelectedPlan}
             className={classes.selectButton}
             onClick={() => tempSelectedPlan && onSelectPlan(tempSelectedPlan)}
