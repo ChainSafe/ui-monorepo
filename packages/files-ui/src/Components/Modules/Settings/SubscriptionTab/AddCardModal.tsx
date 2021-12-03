@@ -153,7 +153,7 @@ const AddCardModal = ({ isModalOpen, onClose, defaultCard }: IAddCardModalProps)
       refreshDefaultCard()
       onClose()
       setLoadingPaymentMethodAdd(false)
-      addToast({ title: isUpdate ? t`Payment method updated` : t`Payment method added`, type: "success" })
+      addToast({ title: isUpdate ? t`Card updated` : t`Card added`, type: "success" })
     } catch (error) {
       console.error(error)
       setLoadingPaymentMethodAdd(false)
