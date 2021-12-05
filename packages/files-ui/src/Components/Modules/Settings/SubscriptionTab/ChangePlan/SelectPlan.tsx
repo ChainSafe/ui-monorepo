@@ -116,6 +116,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
     },
     selectButton: {
       marginLeft: constants.generalUnit
+    },
+    cannotUpdate: {
+      color: palette.error.main,
+      marginTop: "1rem",
+      textAlign: "center"
     }
   })
 )
@@ -133,6 +138,8 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
   const { desktop } = useThemeSwitcher()
   const [tempSelectedPlan, setTempSelectedPlan] = useState<Product | undefined>()
 
+  console.log("plans", plans)
+
   return (
     <article className={clsx(classes.root, className)}>
       <header className={classes.header}>
@@ -146,17 +153,16 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
         </Typography>
       </header>
       {!plans && <div className={classes.loadingContainer}>
-        <Loading
-          type="inherit"
-        />
+        <Loading type="inherit"/>
       </div>
       }
       <section className={classes.panels}>
         {plans && plans.map((plan) => {
           const monthly = plan.prices.find((price) => price.recurring.interval === "month")
           const yearly = plan.prices.find((price) => price.recurring.interval === "year")
-          const isPlanSelectable = plan.id  !== currentSubscription?.product.id &&
-          (monthly?.is_update_allowed || yearly?.is_update_allowed)
+          const isUpdateAllowed = !!monthly?.is_update_allowed || !!yearly?.is_update_allowed
+          const isPlanSelectable = plan.id  !== currentSubscription?.product.id && isUpdateAllowed
+          const planStorageCapacity = formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)
 
           return desktop ? <div
             className={clsx(classes.planBox)}
@@ -187,6 +193,15 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               </Typography>
               : <div className={classes.priceSpace} />
             }
+            {!isUpdateAllowed && (
+              <Typography
+                component="p"
+                variant="body1"
+                className={classes.cannotUpdate}
+              >
+                <Trans>Your content exceeds the {planStorageCapacity} storage capacity for this plan.</Trans>
+              </Typography>
+            )}
             <Typography
               component="p"
               variant="body1"
@@ -195,8 +210,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               {
                 monthly?.metadata?.storage_size_bytes
                   ? <>
-                    <b>{formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)}</b>&nbsp;
-                    <Trans>of storage</Trans >
+                    <b>{planStorageCapacity}</b> <Trans>of storage</Trans>
                   </>
                   : plan.description
               }
@@ -228,10 +242,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               >
                 {
                 monthly?.metadata?.storage_size_bytes
-                  ? <>
-                    {formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)}&nbsp;
-                    <Trans>of storage</Trans >
-                  </>
+                  ? <Trans>{planStorageCapacity} of storage</Trans>
                   : plan.description
                 }
               </Typography>

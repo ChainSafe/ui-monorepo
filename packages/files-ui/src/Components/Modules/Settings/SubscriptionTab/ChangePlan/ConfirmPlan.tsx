@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
@@ -114,6 +114,13 @@ const ConfirmPlan = ({
 }: IConfirmPlan) => {
   const classes = useStyles()
   const { defaultCard } = useBilling()
+  const { currentSubscription } = useBilling()
+  const isDowngrade = useMemo(() => {
+    const currentPrice = currentSubscription?.product?.price?.unit_amount
+    return currentPrice && currentPrice > planPrice.unit_amount
+  }, [currentSubscription, planPrice]
+  )
+
 
   return (
     <article className={classes.root}>
@@ -133,21 +140,28 @@ const ConfirmPlan = ({
         hideHome={true}
         showDropDown={true}
       />
-      <Typography variant="h5"
+      <Typography
+        variant="h5"
         component="h4"
         className={classes.heading}
       >
-        <Trans>Confirm plan change</Trans>
+        {
+          isDowngrade
+            ? <Trans>Confirm plan change</Trans>
+            : <Trans>Confirm plan downgrade</Trans>
+        }
       </Typography>
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
-        <Typography variant="body1"
+        <Typography
+          variant="body1"
           component="p"
           className={classes.boldText}>
           {plan.name}
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography variant="body1"
+          <Typography
+            variant="body1"
             component="p"
             className={classes.textButton}
             onClick={goToSelectPlan}
@@ -157,13 +171,15 @@ const ConfirmPlan = ({
         </div>
       </div>
       <div className={clsx(classes.rowBox, classes.featuresBox)}>
-        <Typography variant="body1"
+        <Typography
+          variant="body1"
           component="p"
         >
           <Trans>Features</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography component="p"
+          <Typography
+            component="p"
             variant="body1"
             className={classes.featureSeparator}
           >
@@ -175,21 +191,25 @@ const ConfirmPlan = ({
               : plan.description
             }
           </Typography>
-          <Typography component="p"
-            variant="body1">
+          <Typography
+            component="p"
+            variant="body1"
+          >
             {plan.description}
           </Typography>
         </div>
       </div>
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
-        <Typography variant="body1"
+        <Typography
+          variant="body1"
           component="p"
         >
           <Trans>Payment method</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography variant="body1"
+          <Typography
+            variant="body1"
             component="p"
             className={classes.textButton}
             onClick={goToPaymentMethod}
@@ -207,25 +227,32 @@ const ConfirmPlan = ({
         </div>
       }
       <div className={classes.rowBox}>
-        <Typography component="p"
+        <Typography
+          component="p"
           variant="body1"
         >
           <Trans>Billing start time</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography variant="body1"
-            component="p">{dayjs().format("DD MMM YYYY")}</Typography>
+          <Typography
+            variant="body1"
+            component="p"
+          >{dayjs().format("DD MMM YYYY")}
+          </Typography>
         </div>
       </div>
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
-        <Typography component="h5"
+        <Typography
+          component="h5"
           variant="h5"
-          className={classes.boldText}>
+          className={classes.boldText}
+        >
           <Trans>Total</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography variant="body1"
+          <Typography
+            variant="body1"
             component="p"
             className={classes.boldText}
           >

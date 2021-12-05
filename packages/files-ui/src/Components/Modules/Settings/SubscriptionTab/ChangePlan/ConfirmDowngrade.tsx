@@ -1,11 +1,11 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import {  Button, CheckCircleIcon, CheckIcon, Divider, formatBytes, Link, Typography } from "@chainsafe/common-components"
+import { Product } from "@chainsafe/files-api-client"
+import {  Button, CrossIcon, formatBytes, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
-import { ROUTE_LINKS } from "../../../../FilesRoutes"
 import clsx from "clsx"
+import { useBilling } from "../../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -72,7 +72,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       marginLeft: constants.generalUnit
     },
     tickIcon: {
-      fill: palette.success.main
+      fill: palette.error.main
     },
     invoiceText: {
       marginTop: constants.generalUnit * 3,
@@ -81,18 +81,25 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   })
 )
 
-interface IPlanSuccess {
+interface IConfirmDowngrade {
   plan: Product
-  planPrice: ProductPrice
+  goToSelectPlan: () => void
   onClose: () => void
+  plans?: Product[]
 }
 
-const PlanSuccess = ({
+const ConfirmDowngrade = ({
   plan,
-  onClose,
-  planPrice
-}: IPlanSuccess) => {
+  goToSelectPlan,
+  plans
+}: IConfirmDowngrade) => {
   const classes = useStyles()
+  const { currentSubscription } = useBilling()
+  const currentPlan = useMemo(() => plans?.find(p => p.id === plan.id), [plan.id, plans])
+  const currentStorage = formatBytes(Number(currentPlan?.prices[0].metadata?.storage_size_bytes), 2)
+
+  if (!currentSubscription)
+    return null
 
   return (
     <article className={classes.root}>
@@ -101,72 +108,45 @@ const PlanSuccess = ({
         component="p"
         className={classes.headingBadge}
       >
-        <Trans>Confirmation</Trans>
+        <Trans>Downgrade Confirmation</Trans>
       </Typography>
-      <div className={clsx(classes.middleRowBox, classes.headingBox)}>
-        <Typography
-          variant="h5"
-          component="h4"
-        >
-          <Trans>Plan changed successfully</Trans>
-        </Typography>
-        <CheckCircleIcon className={classes.checkCircleIcon} />
-      </div>
-      <Divider className={classes.divider} />
       <div>
         <Typography
           variant="body1"
           component="p"
           className={classes.featuresTitle}
         >
-          <Trans>You now have: </Trans>
+          <Trans>You would loose the following features: </Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           <div className={clsx(classes.middleRowBox, classes.featureTickBox)}>
-            <CheckIcon className={classes.tickIcon} />
+            <CrossIcon className={classes.tickIcon} />
             <Typography component="p"
               variant="body1"
             >
-              {planPrice?.metadata?.storage_size_bytes
-                ? <>
-                  <b>{formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)}&nbsp;</b>
-                  <Trans>of storage</Trans >
-                </>
+              {currentStorage
+                ? <Trans><b>{currentStorage}</b> of storage</Trans >
                 : plan.description
               }
             </Typography>
           </div>
           <div className={classes.middleRowBox}>
-            <CheckIcon className={classes.tickIcon} />
+            <CrossIcon className={classes.tickIcon} />
             <Typography component="p"
               variant="body1">
-              {plan.description}
+              {currentSubscription?.product.description}
             </Typography>
           </div>
         </div>
       </div>
-      <div className={classes.rowBox}>
-        <Typography
-          component="p"
-          variant="body1"
-          className={classes.invoiceText}
-        >
-          <Trans>Access your billing history in settings or view your </Trans>&nbsp;
-          <Link to={ROUTE_LINKS.BillingHistory}
-            className={classes.textLink}
-          >
-            <Trans>invoices here</Trans>
-          </Link>
-        </Typography>
-      </div>
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={onClose}
+            onClick={goToSelectPlan}
             variant="secondary"
           >
             <Trans>
-              Close
+              Back
             </Trans>
           </Button>
         </div>
@@ -175,4 +155,4 @@ const PlanSuccess = ({
   )
 }
 
-export default PlanSuccess
+export default ConfirmDowngrade

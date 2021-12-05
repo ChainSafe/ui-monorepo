@@ -79,23 +79,11 @@ msgstr ""
 msgid "Approve"
 msgstr "Godkjenn"
 
-#~ msgid "Back to plan settings"
-#~ msgstr ""
-
 msgid "Backup secret phrase"
 msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
-
-#~ msgid "Billed Annually"
-#~ msgstr ""
-
-#~ msgid "Billed Monthly"
-#~ msgstr ""
-
-#~ msgid "Billed Yearly"
-#~ msgstr ""
 
 msgid "Billing history"
 msgstr ""
@@ -127,7 +115,13 @@ msgstr ""
 msgid "Cancel"
 msgstr "Avbryt"
 
+msgid "Card added"
+msgstr ""
+
 msgid "Card inputs invalid"
+msgstr ""
+
+msgid "Card updated"
 msgstr ""
 
 msgid "Change Password"
@@ -234,9 +228,6 @@ msgstr ""
 
 msgid "Credit card saved"
 msgstr ""
-
-#~ msgid "Current"
-#~ msgstr ""
 
 msgid "Dark Theme"
 msgstr "Mørk drakt"
@@ -384,9 +375,6 @@ msgstr ""
 
 msgid "Forget this browser"
 msgstr ""
-
-#~ msgid "Free"
-#~ msgstr ""
 
 msgid "Free plan"
 msgstr ""
@@ -660,9 +648,6 @@ msgstr "Profilinnstillinger"
 
 msgid "Profile updated"
 msgstr "Profil oppdatert"
-
-#~ msgid "Purchase with card"
-#~ msgstr ""
 
 msgid "Receipt"
 msgstr ""
@@ -943,9 +928,6 @@ msgstr "Prøv igjen"
 msgid "Try another method"
 msgstr "Prøv annen metode"
 
-#~ msgid "Try for 7 days"
-#~ msgstr ""
-
 msgid "Unable to upload"
 msgstr ""
 
@@ -958,11 +940,14 @@ msgstr ""
 msgid "Update Shared Folder"
 msgstr ""
 
+msgid "Update card"
+msgstr ""
+
 msgid "Update credit card"
 msgstr ""
 
-#~ msgid "Upgrade your plan"
-#~ msgstr ""
+msgid "Update your credit card"
+msgstr ""
 
 msgid "Upload"
 msgstr "Last opp"
@@ -1075,6 +1060,9 @@ msgstr ""
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+msgstr ""
+
 msgid "Your plan"
 msgstr ""
 
@@ -1095,18 +1083,6 @@ msgstr ""
 
 msgid "on"
 msgstr ""
-
-#~ msgid "per day"
-#~ msgstr ""
-
-#~ msgid "per month"
-#~ msgstr ""
-
-#~ msgid "per week"
-#~ msgstr ""
-
-#~ msgid "per year"
-#~ msgstr ""
 
 msgid "unknown"
 msgstr ""
@@ -1139,6 +1115,9 @@ msgid "{0} of {1} used"
 msgstr ""
 
 msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{planStorageCapacity} of storage"
 msgstr ""
 
 msgid "{successCount} files transferred successfully, {0} failed"

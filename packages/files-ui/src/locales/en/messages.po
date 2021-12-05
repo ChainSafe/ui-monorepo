@@ -79,23 +79,11 @@ msgstr "Anyone with the link can:"
 msgid "Approve"
 msgstr "Approve"
 
-#~ msgid "Back to plan settings"
-#~ msgstr "Back to plan settings"
-
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
-
-#~ msgid "Billed Annually"
-#~ msgstr "Billed Annually"
-
-#~ msgid "Billed Monthly"
-#~ msgstr "Billed Monthly"
-
-#~ msgid "Billed Yearly"
-#~ msgstr "Billed Yearly"
 
 msgid "Billing history"
 msgstr "Billing history"
@@ -127,8 +115,14 @@ msgstr "CID (Content Identifier)"
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Card added"
+msgstr "Card added"
+
 msgid "Card inputs invalid"
 msgstr "Card inputs invalid"
+
+msgid "Card updated"
+msgstr "Card updated"
 
 msgid "Change Password"
 msgstr "Change Password"
@@ -234,9 +228,6 @@ msgstr "Create your public username in <0>Settings</0>!"
 
 msgid "Credit card saved"
 msgstr "Credit card saved"
-
-#~ msgid "Current"
-#~ msgstr "Current"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -387,9 +378,6 @@ msgstr "For security reasons, each time you sign in we’ll ask you for one of t
 
 msgid "Forget this browser"
 msgstr "Forget this browser"
-
-#~ msgid "Free"
-#~ msgstr "Free"
 
 msgid "Free plan"
 msgstr "Free plan"
@@ -663,9 +651,6 @@ msgstr "Profile settings"
 
 msgid "Profile updated"
 msgstr "Profile updated"
-
-#~ msgid "Purchase with card"
-#~ msgstr "Purchase with card"
 
 msgid "Receipt"
 msgstr "Receipt"
@@ -946,9 +931,6 @@ msgstr "Try again"
 msgid "Try another method"
 msgstr "Try another method"
 
-#~ msgid "Try for 7 days"
-#~ msgstr "Try for 7 days"
-
 msgid "Unable to upload"
 msgstr "Unable to upload"
 
@@ -961,11 +943,14 @@ msgstr "Update Card"
 msgid "Update Shared Folder"
 msgstr "Update Shared Folder"
 
+msgid "Update card"
+msgstr "Update card"
+
 msgid "Update credit card"
 msgstr "Update credit card"
 
-#~ msgid "Upgrade your plan"
-#~ msgstr "Upgrade your plan"
+msgid "Update your credit card"
+msgstr "Update your credit card"
 
 msgid "Upload"
 msgstr "Upload"
@@ -1078,6 +1063,9 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+msgstr "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+
 msgid "Your plan"
 msgstr "Your plan"
 
@@ -1098,18 +1086,6 @@ msgstr "of storage"
 
 msgid "on"
 msgstr "on"
-
-#~ msgid "per day"
-#~ msgstr "per day"
-
-#~ msgid "per month"
-#~ msgstr "per month"
-
-#~ msgid "per week"
-#~ msgstr "per week"
-
-#~ msgid "per year"
-#~ msgstr "per year"
 
 msgid "unknown"
 msgstr "unknown"
@@ -1143,6 +1119,9 @@ msgstr "{0} of {1} used"
 
 msgid "{0} {fileProgress} - {1}"
 msgstr "{0} {fileProgress} - {1}"
+
+msgid "{planStorageCapacity} of storage"
+msgstr "{planStorageCapacity} of storage"
 
 msgid "{successCount} files transferred successfully, {0} failed"
 msgstr "{successCount} files transferred successfully, {0} failed"
