@@ -212,7 +212,7 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
           className={classes.loader}
         >
           <Loading
-            type="inherit"
+            type="initial"
             size={24}
           />
         </Typography>

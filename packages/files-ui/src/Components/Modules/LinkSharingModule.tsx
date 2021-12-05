@@ -127,7 +127,7 @@ const LinkSharingModule = () => {
           {!error && !newBucket && isValidNonce !== false && (
             <>
               <Loading
-                type="inherit"
+                type="initial"
                 size={48}
                 className={classes.icon}
               />
