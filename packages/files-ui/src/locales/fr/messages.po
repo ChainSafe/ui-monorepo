@@ -164,9 +164,6 @@ msgstr "Créer"
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
-msgid "Create a Shared Folder"
-msgstr "Créer un dossier partagé"
-
 msgid "Create a sharing link"
 msgstr "Créer un lien de partage"
 
@@ -718,6 +715,9 @@ msgstr "Quelque chose a mal tourné !"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
+
+msgid "Sort By:"
+msgstr ""
 
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"

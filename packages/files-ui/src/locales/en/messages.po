@@ -163,9 +163,6 @@ msgstr "Create"
 msgid "Create Shared Folder"
 msgstr "Create Shared Folder"
 
-msgid "Create a Shared Folder"
-msgstr "Create a Shared Folder"
-
 msgid "Create a sharing link"
 msgstr "Create a sharing link"
 
@@ -717,6 +714,9 @@ msgstr "Something went wrong!"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
+
+msgid "Sort By:"
+msgstr "Sort By:"
 
 msgid "Start Upload"
 msgstr "Start Upload"

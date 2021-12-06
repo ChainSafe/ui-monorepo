@@ -163,9 +163,6 @@ msgstr "Opprett"
 msgid "Create Shared Folder"
 msgstr ""
 
-msgid "Create a Shared Folder"
-msgstr ""
-
 msgid "Create a sharing link"
 msgstr ""
 
@@ -713,6 +710,9 @@ msgid "Something went wrong!"
 msgstr "Noe gikk galt."
 
 msgid "Something went wrong. We couldn't upload your file"
+msgstr ""
+
+msgid "Sort By:"
 msgstr ""
 
 msgid "Start Upload"
