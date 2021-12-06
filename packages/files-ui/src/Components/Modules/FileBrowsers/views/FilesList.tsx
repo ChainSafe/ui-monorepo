@@ -297,10 +297,6 @@ const useStyles = makeStyles(
         marginRight: constants.generalUnit * 1.5,
         fill: constants.previewModal.menuItemIconColor
       },
-      sortMenuIcon: {
-        minWidth: 30,
-        fill: constants.previewModal.menuItemIconColor
-      },
       fileNameHeader: {
         whiteSpace: "nowrap",
         overflow: "hidden",
@@ -971,7 +967,7 @@ const FilesList = ({ isShared = false }: Props) => {
                         }, {
                           contents: (
                             <>
-                              {column === "name" && <ListItemIcon classes={{ root: classes.sortMenuIcon }}>
+                              {column === "name" && <ListItemIcon>
                                 <CheckIcon />
                               </ListItemIcon>}
                               <ListItemText inset={column !== "name"}>
