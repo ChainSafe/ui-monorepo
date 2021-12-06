@@ -713,6 +713,9 @@ msgstr "Quelque chose a mal tourné !"
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
 
+msgid "Sort By:"
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
 

@@ -712,6 +712,9 @@ msgstr "Something went wrong!"
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
 
+msgid "Sort By:"
+msgstr "Sort By:"
+
 msgid "Start Upload"
 msgstr "Start Upload"
 
