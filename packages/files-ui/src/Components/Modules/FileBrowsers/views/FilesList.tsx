@@ -22,7 +22,8 @@ import {
   TableIcon,
   UploadSvg,
   PlusCircleSvg,
-  MoreIcon
+  SortIcon,
+  CheckIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -53,6 +54,7 @@ import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
+import { ListItemIcon, ListItemText } from "@material-ui/core"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -293,6 +295,10 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: 20,
         marginRight: constants.generalUnit * 1.5,
+        fill: constants.previewModal.menuItemIconColor
+      },
+      sortMenuIcon: {
+        minWidth: 30,
         fill: constants.previewModal.menuItemIconColor
       },
       fileNameHeader: {
@@ -945,41 +951,52 @@ const FilesList = ({ isShared = false }: Props) => {
                       {/* Checkbox */}
                     </TableHeadCell>
                     <TableHeadCell
-                      sortButtons
                       align='left'
                       onSortChange={toggleSortDirection}
+                      sortButtons
                       sortDirection={direction}
                     >
-                      {column === "name" ? t`Name` : column === "date_uploaded" ? t`Date uploaded` : t`Size`}
+                      {t`Name`}
                     </TableHeadCell>
                     <TableHeadCell align='right'>
                       <Menu
                         testId='fileDropdown'
-                        icon={<MoreIcon className={classes.dropdownIcon} />}
+                        icon={<SortIcon className={classes.dropdownIcon} />}
                         options={[{
                           contents: (
+                            <ListItemText inset>
+                              <b><Trans>Sort By:</Trans></b>
+                            </ListItemText>
+                          )
+                        }, {
+                          contents: (
                             <>
-                              <span data-cy="sort-menu-name">
+                              {column === "name" && <ListItemIcon classes={{ root: classes.sortMenuIcon }}>
+                                <CheckIcon />
+                              </ListItemIcon>}
+                              <ListItemText inset={column !== "name"}>
                                 <Trans>Name</Trans>
-                              </span>
+                              </ListItemText>
                             </>
                           ),
                           onClick: () => setColumn("name")
                         }, {
                           contents: (
                             <>
-                              <span data-cy="sort-menu-date-uploaded">
+                              {column === "date_uploaded" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                              <ListItemText inset={column !== "date_uploaded"}>
                                 <Trans>Date Uploaded</Trans>
-                              </span>
+                              </ListItemText>
                             </>
                           ),
                           onClick: () => setColumn("date_uploaded")
                         }, {
                           contents: (
                             <>
-                              <span data-cy="sort-menu-size">
+                              {column === "size" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                              <ListItemText inset={column !== "size"}>
                                 <Trans>Size</Trans>
-                              </span>
+                              </ListItemText>
                             </>
                           ),
                           onClick: () => setColumn("size")
