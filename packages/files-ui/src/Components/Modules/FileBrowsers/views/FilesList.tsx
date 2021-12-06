@@ -21,7 +21,9 @@ import {
   GridIcon,
   TableIcon,
   UploadSvg,
-  PlusCircleSvg
+  PlusCircleSvg,
+  SortIcon,
+  CheckIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -52,6 +54,7 @@ import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
+import { ListItemIcon, ListItemText } from "@material-ui/core"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -412,6 +415,14 @@ const FilesList = ({ isShared = false }: Props) => {
       } else {
         setDirection("ascend")
       }
+    }
+  }
+
+  const toggleSortDirection = () => {
+    if (direction === "ascend") {
+      setDirection("descend")
+    } else {
+      setDirection("ascend")
     }
   }
 
@@ -882,7 +893,7 @@ const FilesList = ({ isShared = false }: Props) => {
               className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
               testId="home"
             >
-              {desktop && (
+              {desktop ? (
                 <TableHead>
                   <TableRow type="grid"
                     className={classes.tableRow}>
@@ -926,6 +937,69 @@ const FilesList = ({ isShared = false }: Props) => {
                       <Trans>Size</Trans>
                     </TableHeadCell>
                     <TableHeadCell>{/* Menu */}</TableHeadCell>
+                  </TableRow>
+                </TableHead>
+              ) : (
+                <TableHead>
+                  <TableRow type="grid"
+                    className={classes.tableRow}>
+                    <TableHeadCell>
+                      {/* Checkbox */}
+                    </TableHeadCell>
+                    <TableHeadCell
+                      align='left'
+                      onSortChange={toggleSortDirection}
+                      sortButtons
+                      sortDirection={direction}
+                    >
+                      {t`Name`}
+                    </TableHeadCell>
+                    <TableHeadCell align='right'>
+                      <Menu
+                        testId='fileDropdown'
+                        icon={<SortIcon className={classes.dropdownIcon} />}
+                        options={[{
+                          contents: (
+                            <ListItemText inset>
+                              <b><Trans>Sort By:</Trans></b>
+                            </ListItemText>
+                          )
+                        }, {
+                          contents: (
+                            <>
+                              {column === "name" && <ListItemIcon>
+                                <CheckIcon />
+                              </ListItemIcon>}
+                              <ListItemText inset={column !== "name"}>
+                                <Trans>Name</Trans>
+                              </ListItemText>
+                            </>
+                          ),
+                          onClick: () => setColumn("name")
+                        }, {
+                          contents: (
+                            <>
+                              {column === "date_uploaded" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                              <ListItemText inset={column !== "date_uploaded"}>
+                                <Trans>Date Uploaded</Trans>
+                              </ListItemText>
+                            </>
+                          ),
+                          onClick: () => setColumn("date_uploaded")
+                        }, {
+                          contents: (
+                            <>
+                              {column === "size" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                              <ListItemText inset={column !== "size"}>
+                                <Trans>Size</Trans>
+                              </ListItemText>
+                            </>
+                          ),
+                          onClick: () => setColumn("size")
+                        }]}
+                        style={{ focusVisible: classes.focusVisible }}
+                      />
+                    </TableHeadCell>
                   </TableRow>
                 </TableHead>
               )}

@@ -191,6 +191,9 @@ msgstr ""
 msgid "Data restored successfully"
 msgstr ""
 
+msgid "Date Uploaded"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Fecha de subida"
 
@@ -709,6 +712,9 @@ msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Algo salió mal. No pudimos subir tu archivo"
+
+msgid "Sort By:"
+msgstr ""
 
 msgid "Start Upload"
 msgstr "Iniciar la subida"

@@ -190,6 +190,9 @@ msgstr ""
 msgid "Data restored successfully"
 msgstr ""
 
+msgid "Date Uploaded"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Dato opplastet"
 
@@ -704,6 +707,9 @@ msgid "Something went wrong!"
 msgstr "Noe gikk galt."
 
 msgid "Something went wrong. We couldn't upload your file"
+msgstr ""
+
+msgid "Sort By:"
 msgstr ""
 
 msgid "Start Upload"

@@ -191,6 +191,9 @@ msgstr "Les données ont été déplacées vers la poubelle avec succès"
 msgid "Data restored successfully"
 msgstr "Données restaurées avec succès"
 
+msgid "Date Uploaded"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Téléversé le"
 
@@ -709,6 +712,9 @@ msgstr "Quelque chose a mal tourné !"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
+
+msgid "Sort By:"
+msgstr ""
 
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
