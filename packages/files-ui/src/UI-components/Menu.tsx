@@ -1,5 +1,5 @@
 import React, { useState, ReactNode, useMemo } from "react"
-import { List, ListItem, Menu as MaterialMenu, PopoverOrigin } from "@material-ui/core"
+import { Menu as MaterialMenu, MenuItem, PopoverOrigin } from "@material-ui/core"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { useCallback } from "react"
@@ -75,21 +75,19 @@ export default function Menu({ icon, options, style, testId, anchorOrigin, trans
         anchorOrigin={anchorOrigin}
         transformOrigin={transformOrigin}
       >
-        <List>
-          {options.map((option, index) => (
-            <ListItem
-              key={index}
-              onClick={() => {
-                option.onClick && handleClose()
-                option.onClick && option.onClick()
-              }}
-              focusVisibleClassName={clsx(style?.focusVisible)}
-              className={classes.options}
-            >
-              {option.contents}
-            </ListItem>
-          ))}
-        </List>
+        {options.map((option, index) => (
+          <MenuItem
+            key={index}
+            onClick={() => {
+              option.onClick && handleClose()
+              option.onClick && option.onClick()
+            }}
+            focusVisibleClassName={clsx(style?.focusVisible)}
+            className={classes.options}
+          >
+            {option.contents}
+          </MenuItem>
+        ))}
       </MaterialMenu>
     </div>
   )
