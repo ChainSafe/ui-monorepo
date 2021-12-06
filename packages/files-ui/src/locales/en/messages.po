@@ -190,6 +190,9 @@ msgstr "Data moved to bin successfully"
 msgid "Data restored successfully"
 msgstr "Data restored successfully"
 
+msgid "Date Uploaded"
+msgstr "Date Uploaded"
+
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
@@ -708,6 +711,9 @@ msgstr "Something went wrong!"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
+
+msgid "Sort By:"
+msgstr "Sort By:"
 
 msgid "Start Upload"
 msgstr "Start Upload"
