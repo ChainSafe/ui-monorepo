@@ -878,8 +878,10 @@ const FilesList = ({ isShared = false }: Props) => {
             data-cy="data-state-no-files"
           >
             <EmptySvg />
-            <Typography variant="h4"
-              component="h4">
+            <Typography
+              variant="h4"
+              component="h4"
+            >
               <Trans>No files to show</Trans>
             </Typography>
           </section>
@@ -895,8 +897,10 @@ const FilesList = ({ isShared = false }: Props) => {
             >
               {desktop ? (
                 <TableHead>
-                  <TableRow type="grid"
-                    className={classes.tableRow}>
+                  <TableRow
+                    type="grid"
+                    className={classes.tableRow}
+                  >
                     <TableHeadCell>
                       <CheckboxInput
                         value={selectedItems.length === items.length}
@@ -941,8 +945,10 @@ const FilesList = ({ isShared = false }: Props) => {
                 </TableHead>
               ) : (
                 <TableHead>
-                  <TableRow type="grid"
-                    className={classes.tableRow}>
+                  <TableRow
+                    type="grid"
+                    className={classes.tableRow}
+                  >
                     <TableHeadCell>
                       {/* Checkbox */}
                     </TableHeadCell>

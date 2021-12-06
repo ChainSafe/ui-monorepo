@@ -149,7 +149,8 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
               This website uses cookies that help the website function and track interactions for analytics purposes.
               You have the right to decline our use of cookies. For us to provide a customizable user experience to you,
               please click on the Accept button below.
-              <a className={classes.link}
+              <a
+                className={classes.link}
                 href="https://files.chainsafe.io/privacy-policy"
                 target='_blank'
                 rel='noopener noreferrer'>Learn more
