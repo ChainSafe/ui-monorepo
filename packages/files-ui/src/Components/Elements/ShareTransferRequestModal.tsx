@@ -123,7 +123,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             requests.length > 1 && (isClearing
               ? <Loading
                 size={25}
-                type='inherit'
+                type="initial"
               />
               : <Typography
                 className={clsx(classes.clearAll)}

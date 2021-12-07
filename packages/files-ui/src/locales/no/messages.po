@@ -118,7 +118,13 @@ msgstr ""
 msgid "Cancel"
 msgstr "Avbryt"
 
+msgid "Card added"
+msgstr ""
+
 msgid "Card inputs invalid"
+msgstr ""
+
+msgid "Card updated"
 msgstr ""
 
 msgid "Change Password"
@@ -193,9 +199,6 @@ msgstr "Opprett"
 msgid "Create Shared Folder"
 msgstr ""
 
-msgid "Create a Shared Folder"
-msgstr ""
-
 msgid "Create a sharing link"
 msgstr ""
 
@@ -233,6 +236,9 @@ msgid "Data restored successfully"
 msgstr ""
 
 msgid "Date"
+msgstr ""
+
+msgid "Date Uploaded"
 msgstr ""
 
 msgid "Date uploaded"
@@ -787,6 +793,9 @@ msgstr "Noe gikk galt."
 msgid "Something went wrong. We couldn't upload your file"
 msgstr ""
 
+msgid "Sort By:"
+msgstr ""
+
 msgid "Standard plan"
 msgstr ""
 
@@ -795,6 +804,9 @@ msgstr ""
 
 msgid "Start a team"
 msgstr ""
+
+#~ msgid "Storage Plan"
+#~ msgstr ""
 
 msgid "Stored by miner"
 msgstr ""
@@ -898,6 +910,12 @@ msgstr ""
 msgid "Update Shared Folder"
 msgstr ""
 
+msgid "Update card"
+msgstr ""
+
+msgid "Update your credit card"
+msgstr ""
+
 msgid "Upgrade your plan"
 msgstr ""
 
@@ -986,6 +1004,9 @@ msgid "You can now create shared folders to share a file."
 msgstr ""
 
 msgid "You can't move folders to this path"
+msgstr ""
+
+msgid "You do not have access to this shared folder."
 msgstr ""
 
 msgid "You haven't set a username yet."
