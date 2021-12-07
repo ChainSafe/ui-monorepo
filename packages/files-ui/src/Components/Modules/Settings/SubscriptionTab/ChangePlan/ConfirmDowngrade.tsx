@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product } from "@chainsafe/files-api-client"
@@ -78,8 +78,10 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       fill: palette.additional["gray"][7],
       marginLeft: constants.generalUnit
     },
-    tickIcon: {
-      fill: palette.error.main
+    crossIcon: {
+      fill: palette.error.main,
+      fontSize: constants.generalUnit * 2,
+      marginRight: constants.generalUnit
     },
     invoiceText: {
       marginTop: constants.generalUnit * 3,
@@ -91,18 +93,18 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 interface IConfirmDowngrade {
   plan: Product
   goBack: () => void
-  goToPaymentMethod: () => void
+  goToPlanDetails: () => void
   shouldCancelPlan: boolean
-  plans?: Product[]
   onClose: () => void
 }
 
-const ConfirmDowngrade = ({ plan, goBack, plans, goToPaymentMethod, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
+const ConfirmDowngrade = ({ plan, goBack, goToPlanDetails: goToPaymentMethod, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
   const classes = useStyles()
   const { currentSubscription, cancelCurrentSubscription } = useBilling()
-  const currentPlan = useMemo(() => plans?.find(p => p.id === plan.id), [plan.id, plans])
-  const currentStorage = formatBytes(Number(currentPlan?.prices[0].metadata?.storage_size_bytes), 2)
+  const currentStorage = formatBytes(Number(currentSubscription?.product?.price.metadata?.storage_size_bytes), 2)
   const [isCancelingPlan, setIsCancellingPlan] = useState(false)
+
+  console.log("currentSubscription", currentSubscription)
 
   const onCancelPlan = useCallback(() => {
     setIsCancellingPlan(true)
@@ -137,7 +139,7 @@ const ConfirmDowngrade = ({ plan, goBack, plans, goToPaymentMethod, shouldCancel
         </Typography>
         <div className={classes.pushRightBox}>
           <div className={clsx(classes.middleRowBox, classes.featureTickBox)}>
-            <CrossIcon className={classes.tickIcon} />
+            <CrossIcon className={classes.crossIcon} />
             <Typography component="p"
               variant="body1"
             >
@@ -148,7 +150,7 @@ const ConfirmDowngrade = ({ plan, goBack, plans, goToPaymentMethod, shouldCancel
             </Typography>
           </div>
           <div className={classes.middleRowBox}>
-            <CrossIcon className={classes.tickIcon} />
+            <CrossIcon className={classes.crossIcon} />
             <Typography component="p"
               variant="body1">
               {currentSubscription?.product.description}

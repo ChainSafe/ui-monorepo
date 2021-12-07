@@ -130,8 +130,15 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       return Promise.reject("There is no current subscription")
 
     return filesApiClient.cancelSubscription(currentSubscription.id)
-      .then(fetchCurrentSubscription)
-  }, [currentSubscription, fetchCurrentSubscription, filesApiClient]
+      .then(() => {
+        fetchCurrentSubscription()
+        refreshBuckets()
+      })
+      .catch((error) => {
+        console.error(error)
+        return Promise.reject()
+      })
+  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, refreshBuckets]
   )
 
   return (

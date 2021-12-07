@@ -109,9 +109,8 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       { slide === "confirmDowngrade" && selectedPlan && (
         <ConfirmDowngrade
           goBack={() => {setSlide("select")}}
-          goToPaymentMethod={() => setSlide("paymentMethod")}
+          goToPlanDetails={() => setSlide("planDetails")}
           shouldCancelPlan={didSelecFreePlan}
-          plans={plans}
           plan={selectedPlan}
           onClose={onClose}
         />
