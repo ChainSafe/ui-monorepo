@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product } from "@chainsafe/files-api-client"
@@ -11,6 +11,13 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     root:  {
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
+    },
+    header: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginTop: constants.generalUnit * 2
     },
     headingBadge: {
       color: palette.additional["gray"][7],
@@ -83,40 +90,50 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 
 interface IConfirmDowngrade {
   plan: Product
-  goToSelectPlan: () => void
-  onClose: () => void
+  goBack: () => void
+  goToPaymentMethod: () => void
+  shouldCancelPlan: boolean
   plans?: Product[]
+  onClose: () => void
 }
 
-const ConfirmDowngrade = ({
-  plan,
-  goToSelectPlan,
-  plans
-}: IConfirmDowngrade) => {
+const ConfirmDowngrade = ({ plan, goBack, plans, goToPaymentMethod, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
   const classes = useStyles()
-  const { currentSubscription } = useBilling()
+  const { currentSubscription, cancelCurrentSubscription } = useBilling()
   const currentPlan = useMemo(() => plans?.find(p => p.id === plan.id), [plan.id, plans])
   const currentStorage = formatBytes(Number(currentPlan?.prices[0].metadata?.storage_size_bytes), 2)
+  const [isCancelingPlan, setIsCancellingPlan] = useState(false)
+
+  const onCancelPlan = useCallback(() => {
+    setIsCancellingPlan(true)
+    cancelCurrentSubscription()
+      .catch(console.error)
+      .finally(() => {
+        setIsCancellingPlan(true)
+        onClose()
+      })
+  }, [cancelCurrentSubscription, onClose])
 
   if (!currentSubscription)
     return null
 
   return (
     <article className={classes.root}>
-      <Typography
-        variant="body1"
-        component="p"
-        className={classes.headingBadge}
-      >
-        <Trans>Downgrade Confirmation</Trans>
-      </Typography>
+      <header className={classes.header}>
+        <Typography
+          component="p"
+          variant="h4"
+        >
+          <Trans>Downgrade</Trans>
+        </Typography>
+      </header>
       <div>
         <Typography
           variant="body1"
           component="p"
           className={classes.featuresTitle}
         >
-          <Trans>You would loose the following features: </Trans>
+          <Trans>You would loose the following features:</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           <div className={clsx(classes.middleRowBox, classes.featureTickBox)}>
@@ -142,13 +159,29 @@ const ConfirmDowngrade = ({
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={goToSelectPlan}
+            onClick={goBack}
             variant="secondary"
+            disabled={isCancelingPlan}
           >
-            <Trans>
-              Back
-            </Trans>
+            <Trans>Back</Trans>
           </Button>
+          {
+            shouldCancelPlan
+              ? <Button
+                variant="primary"
+                onClick={onCancelPlan}
+                loading={isCancelingPlan}
+                disabled={isCancelingPlan}
+              >
+                <Trans>Switch to Free plan</ Trans>
+              </Button>
+              : <Button
+                variant="primary"
+                onClick={goToPaymentMethod}
+              >
+                <Trans>Downgrade</ Trans>
+              </Button>
+          }
         </div>
       </section>
     </article>

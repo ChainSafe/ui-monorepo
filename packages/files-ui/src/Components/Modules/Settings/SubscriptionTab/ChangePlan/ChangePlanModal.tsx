@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Modal } from "@chainsafe/common-components"
@@ -7,7 +7,7 @@ import PlanDetails from "./PlanDetails"
 import PaymentMethod from "./PaymentMethod"
 import ConfirmPlan from "./ConfirmPlan"
 import { useBilling } from "../../../../../Contexts/BillingContext"
-import { Product, ProductPrice } from "@chainsafe/files-api-client"
+import { Product, ProductPrice, ProductPriceRecurringInterval } from "@chainsafe/files-api-client"
 import PlanSuccess from "./PlanSuccess"
 import ConfirmDowngrade from "./ConfirmDowngrade"
 
@@ -37,6 +37,10 @@ type ChangeModalSlides = "select" |
 "planSuccess" |
 "confirmDowngrade"
 
+const getPrice = (plan: Product, recurrence?: ProductPriceRecurringInterval) => {
+  return plan.prices.find(price => price?.recurring?.interval === recurrence)?.unit_amount || 0
+}
+
 interface IChangeProductModal {
   onClose: () => void
 }
@@ -50,6 +54,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const [plans, setPlans] = useState<Product[] | undefined>()
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
   const [isSubscriptionError, setIsSubscriptionError] = useState(false)
+  const didSelecFreePlan = useMemo(() => !!selectedPlan && getPrice(selectedPlan, "month") === 0, [selectedPlan])
 
   useEffect(() => {
     if(!plans) {
@@ -72,7 +77,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         .finally(() => setIsLoadingChangeSubscription(false))
     }
   }
-  // console.log("currentSubscription", currentSubscription)
 
   return (
     <Modal
@@ -92,10 +96,9 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
             setSelectedPlan(plan)
             const currentPrice = currentSubscription?.product?.price?.unit_amount
             const currentRecurrence = currentSubscription?.product.price.recurring.interval
-            const comparisonPrice = plan.prices.find(price => price?.recurring?.interval === currentRecurrence)?.unit_amount || 0
-            const isDowngrade = (currentPrice || 0) > comparisonPrice
+            const newPrice = getPrice(plan, currentRecurrence)
+            const isDowngrade = (currentPrice || 0) > newPrice
 
-            console.log("isDowngrade", isDowngrade)
             isDowngrade
               ? setSlide("confirmDowngrade")
               : setSlide("planDetails")
@@ -105,9 +108,9 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       )}
       { slide === "confirmDowngrade" && selectedPlan && (
         <ConfirmDowngrade
-          goToSelectPlan={() => {
-            setSlide("select")
-          }}
+          goBack={() => {setSlide("select")}}
+          goToPaymentMethod={() => setSlide("paymentMethod")}
+          shouldCancelPlan={didSelecFreePlan}
           plans={plans}
           plan={selectedPlan}
           onClose={onClose}

@@ -138,8 +138,6 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
   const { desktop } = useThemeSwitcher()
   const [tempSelectedPlan, setTempSelectedPlan] = useState<Product | undefined>()
 
-  console.log("plans", plans)
-
   return (
     <article className={clsx(classes.root, className)}>
       <header className={classes.header}>
@@ -153,7 +151,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
         </Typography>
       </header>
       {!plans && <div className={classes.loadingContainer}>
-        <Loading type="inherit"/>
+        <Loading type="initial"/>
       </div>
       }
       <section className={classes.panels}>
@@ -161,7 +159,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
           const monthly = plan.prices.find((price) => price.recurring.interval === "month")
           const yearly = plan.prices.find((price) => price.recurring.interval === "year")
           const isUpdateAllowed = !!monthly?.is_update_allowed || !!yearly?.is_update_allowed
-          const isPlanSelectable = plan.id  !== currentSubscription?.product.id && isUpdateAllowed
+          const isCurrentPlan = plan.id === currentSubscription?.product.id
           const planStorageCapacity = formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)
 
           return desktop ? <div
@@ -193,7 +191,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               </Typography>
               : <div className={classes.priceSpace} />
             }
-            {!isUpdateAllowed && (
+            {!isUpdateAllowed && !isCurrentPlan && (
               <Typography
                 component="p"
                 variant="body1"
@@ -217,14 +215,14 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
             </Typography>
             <Button
               variant="primary"
-              disabled={!isPlanSelectable}
+              disabled={!isUpdateAllowed || isCurrentPlan}
               onClick={() => onSelectPlan(plan)}
             >
               <Trans>Select plan</Trans>
             </Button>
           </div> : <div
             className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && "active")}
-            onClick={() => isPlanSelectable && setTempSelectedPlan(plan)}
+            onClick={() => isCurrentPlan && setTempSelectedPlan(plan)}
             key={`plan-${plan.id}`}
           >
             <div>
