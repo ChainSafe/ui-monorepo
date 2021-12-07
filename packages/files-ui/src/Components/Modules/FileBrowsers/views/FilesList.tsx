@@ -21,7 +21,9 @@ import {
   GridIcon,
   TableIcon,
   UploadSvg,
-  PlusCircleSvg
+  PlusCircleSvg,
+  SortIcon,
+  CheckIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -49,10 +51,14 @@ import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
+<<<<<<< HEAD
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import clsx from "clsx"
 import EmptySvg from "../../../../Media/Empty.svg"
+=======
+import { ListItemIcon, ListItemText } from "@material-ui/core"
+>>>>>>> e6112413f6eebd9a59d213dcb094b8e28a262ca0
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -328,7 +334,10 @@ const FilesList = ({ isShared = false }: Props) => {
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
   const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+<<<<<<< HEAD
   const { accountRestricted } = useFilesApi()
+=======
+>>>>>>> e6112413f6eebd9a59d213dcb094b8e28a262ca0
 
   const {
     heading,
@@ -421,6 +430,14 @@ const FilesList = ({ isShared = false }: Props) => {
       } else {
         setDirection("ascend")
       }
+    }
+  }
+
+  const toggleSortDirection = () => {
+    if (direction === "ascend") {
+      setDirection("descend")
+    } else {
+      setDirection("ascend")
     }
   }
 
@@ -673,6 +690,11 @@ const FilesList = ({ isShared = false }: Props) => {
     handleOpenShareDialog()
   }, [handleOpenShareDialog])
 
+  const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
+    setSelectedItems([fileSystemItem])
+    handleOpenShareDialog()
+  }, [handleOpenShareDialog])
+
   return (
     <>
       <article
@@ -688,6 +710,7 @@ const FilesList = ({ isShared = false }: Props) => {
         <div
           className={clsx(classes.dropNotification, { active: isOverBrowser })}
         >
+<<<<<<< HEAD
           <Typography
             variant="h4"
             component="p"
@@ -726,6 +749,85 @@ const FilesList = ({ isShared = false }: Props) => {
           )}
           <div className={classes.controls}>
             {controls && desktop ? (
+=======
+          <Trans>Drop to upload files</Trans>
+        </Typography>
+      </div>
+      <DragPreviewLayer
+        items={sourceFiles}
+        previewType={browserView}
+      />
+      <div
+        className={classes.breadCrumbContainer}
+        data-cy="navigation-folder-breadcrumb"
+      >
+        {crumbs && moduleRootPath && (
+          <Breadcrumb
+            crumbs={crumbs}
+            homeOnClick={() => redirect(moduleRootPath)}
+            showDropDown={!desktop}
+          />
+        )}
+      </div>
+      <header className={classes.header}>
+        <Typography
+          variant="h1"
+          component="h1"
+          data-cy="files-app-header"
+          className={classes.fileNameHeader}
+        >
+          {heading}
+        </Typography>
+        {isShared && bucket && (
+          <div className={classes.users}>
+            <SharedUsers bucket={bucket}/>
+          </div>
+        )}
+        <div className={classes.controls}>
+          {controls && desktop ? (
+            <>
+              <Button
+                onClick={() =>
+                  setBrowserView(browserView === "grid" ? "table" : "grid")
+                }
+                variant="outline"
+                size="large"
+                className={classes.viewToggleButton}
+              >
+                {browserView === "table" ? <GridIcon /> : <TableIcon />}
+              </Button>
+              {
+                permission !== "reader" && (
+                  <>
+                    <Button
+                      data-cy="button-new-folder"
+                      onClick={() => setCreateFolderModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <PlusCircleIcon />
+                      <span className={classes.buttonWrap}>
+                        <Trans>New folder</Trans>
+                      </span>
+                    </Button>
+                    <Button
+                      data-cy="button-upload-file"
+                      onClick={() => setIsUploadModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <UploadIcon />
+                      <span className={classes.buttonWrap}>
+                        <Trans>Upload</Trans>
+                      </span>
+                    </Button>
+                  </>
+                )
+              }
+            </>
+          ) : (
+            controls && !desktop && (
+>>>>>>> e6112413f6eebd9a59d213dcb094b8e28a262ca0
               <>
                 <Button
                   onClick={() =>
@@ -790,6 +892,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 </>
               )
             )}
+<<<<<<< HEAD
           </div>
         </header>
         { withSurvey && !isShared && isSurveyBannerVisible
@@ -870,12 +973,52 @@ const FilesList = ({ isShared = false }: Props) => {
           <Typography
             variant="body2"
             component="p"
+=======
+            {validBulkOps.includes("share") && (
+              <Button
+                onClick={handleOpenShareDialog}
+                variant="outline"
+                testId="share-selected-file"
+              >
+                <Trans>Share selected</Trans>
+              </Button>
+            )}
+          </>
+        )}
+      </section>
+      <div
+        className={clsx(
+          classes.loadingContainer,
+          loadingCurrentPath && classes.showLoadingContainer
+        )}
+      >
+        <Loading
+          size={24}
+          type="initial"
+        />
+        <Typography
+          variant="body2"
+          component="p"
+        >
+          <Trans>One sec, getting files ready…</Trans>
+        </Typography>
+      </div>
+      {!items.length
+        ? (
+          <section
+            className={clsx(
+              classes.noFiles,
+              loadingCurrentPath && classes.fadeOutLoading
+            )}
+            data-cy="data-state-no-files"
+>>>>>>> e6112413f6eebd9a59d213dcb094b8e28a262ca0
           >
             <Trans>One sec, getting files ready…</Trans>
           </Typography>
         </div>
         {!items.length
           ? (
+<<<<<<< HEAD
             <section
               className={clsx(
                 classes.noFiles,
@@ -1004,6 +1147,126 @@ const FilesList = ({ isShared = false }: Props) => {
                   loadingCurrentPath && classes.fadeOutLoading
                 )}
               >
+=======
+            <Table
+              fullWidth={true}
+              striped={true}
+              hover={true}
+              className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+              testId="home"
+            >
+              {desktop ? (
+                <TableHead>
+                  <TableRow type="grid"
+                    className={classes.tableRow}>
+                    <TableHeadCell>
+                      <CheckboxInput
+                        value={selectedItems.length === items.length}
+                        onChange={() => toggleAll()}
+                        testId="select-all"
+                      />
+                    </TableHeadCell>
+                    <TableHeadCell>
+                      {/* Icon */}
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons={true}
+                      align="left"
+                      onSortChange={() => handleSortToggle("name")}
+                      sortDirection={column === "name" ? direction : undefined}
+                      sortActive={column === "name"}
+                    >
+                      <Trans>Name</Trans>
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons={true}
+                      align="left"
+                      onSortChange={() => handleSortToggle("date_uploaded")}
+                      sortDirection={
+                        column === "date_uploaded" ? direction : undefined
+                      }
+                      sortActive={column === "date_uploaded"}
+                    >
+                      <Trans>Date uploaded</Trans>
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons={true}
+                      align="left"
+                      onSortChange={() => handleSortToggle("size")}
+                      sortDirection={column === "size" ? direction : undefined}
+                      sortActive={column === "size"}
+                    >
+                      <Trans>Size</Trans>
+                    </TableHeadCell>
+                    <TableHeadCell>{/* Menu */}</TableHeadCell>
+                  </TableRow>
+                </TableHead>
+              ) : (
+                <TableHead>
+                  <TableRow type="grid"
+                    className={classes.tableRow}>
+                    <TableHeadCell>
+                      {/* Checkbox */}
+                    </TableHeadCell>
+                    <TableHeadCell
+                      align='left'
+                      onSortChange={toggleSortDirection}
+                      sortButtons
+                      sortDirection={direction}
+                    >
+                      {t`Name`}
+                    </TableHeadCell>
+                    <TableHeadCell align='right'>
+                      <Menu
+                        testId='fileDropdown'
+                        icon={<SortIcon className={classes.dropdownIcon} />}
+                        options={[{
+                          contents: (
+                            <ListItemText inset>
+                              <b><Trans>Sort By:</Trans></b>
+                            </ListItemText>
+                          )
+                        }, {
+                          contents: (
+                            <>
+                              {column === "name" && <ListItemIcon>
+                                <CheckIcon />
+                              </ListItemIcon>}
+                              <ListItemText inset={column !== "name"}>
+                                <Trans>Name</Trans>
+                              </ListItemText>
+                            </>
+                          ),
+                          onClick: () => setColumn("name")
+                        }, {
+                          contents: (
+                            <>
+                              {column === "date_uploaded" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                              <ListItemText inset={column !== "date_uploaded"}>
+                                <Trans>Date Uploaded</Trans>
+                              </ListItemText>
+                            </>
+                          ),
+                          onClick: () => setColumn("date_uploaded")
+                        }, {
+                          contents: (
+                            <>
+                              {column === "size" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                              <ListItemText inset={column !== "size"}>
+                                <Trans>Size</Trans>
+                              </ListItemText>
+                            </>
+                          ),
+                          onClick: () => setColumn("size")
+                        }]}
+                        style={{ focusVisible: classes.focusVisible }}
+                      />
+                    </TableHeadCell>
+                  </TableRow>
+                </TableHead>
+              )}
+              <TableBody>
+>>>>>>> e6112413f6eebd9a59d213dcb094b8e28a262ca0
                 {items.map((file, index) => (
                   <FileSystemItem
                     key={index}
@@ -1049,6 +1312,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       setFileIndex(fileIndex)
                       setIsPreviewOpen(true)
                     }}
+<<<<<<< HEAD
                   />
                 ))}
               </section>
@@ -1097,6 +1361,65 @@ const FilesList = ({ isShared = false }: Props) => {
                   onCancel={() => {
                     setIsMoveFileModalOpen(false)
                     setMoveModalMode(undefined)
+=======
+                    handleShare={onShare}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          )
+          : (
+            <section
+              className={clsx(
+                classes.gridRoot,
+                loadingCurrentPath && classes.fadeOutLoading
+              )}
+            >
+              {items.map((file, index) => (
+                <FileSystemItem
+                  key={index}
+                  file={file}
+                  files={files}
+                  selectedCids={selectedCids}
+                  handleSelectItem={handleSelectItem}
+                  viewFolder={handleViewFolder}
+                  handleAddToSelectedItems={handleAddToSelectedItems}
+                  editing={editing}
+                  setEditing={setEditing}
+                  handleRename={async (path: string, newPath: string) => {
+                    handleRename && (await handleRename(path, newPath))
+                    setEditing(undefined)
+                  }}
+                  deleteFile={() => {
+                    setSelectedItems([file])
+                    setIsDeleteModalOpen(true)
+                  }}
+                  moveFile={() => {
+                    setSelectedItems([file])
+                    setIsMoveFileModalOpen(true)
+                    setMoveModalMode("move")
+                  }}
+                  itemOperations={getItemOperations(file.content_type)}
+                  resetSelectedFiles={resetSelectedItems}
+                  recoverFile={() => {
+                    setSelectedItems([file])
+                    setIsMoveFileModalOpen(true)
+                    setMoveModalMode("recover")
+                  }}
+                  browserView="grid"
+                  reportFile={(fileInfoPath: string) => {
+                    setFilePath(fileInfoPath)
+                    setIsReportFileModalOpen(true)}
+                  }
+                  showFileInfo={(fileInfoPath: string) => {
+                    setFilePath(fileInfoPath)
+                    setIsFileInfoModalOpen(true)
+                  }}
+                  handleShare={onShare}
+                  showPreview={(fileIndex: number) => {
+                    setFileIndex(fileIndex)
+                    setIsPreviewOpen(true)
+>>>>>>> e6112413f6eebd9a59d213dcb094b8e28a262ca0
                   }}
                   mode={moveModalMode}
                 />
@@ -1104,6 +1427,7 @@ const FilesList = ({ isShared = false }: Props) => {
             </>
           )
         }
+<<<<<<< HEAD
         {isPreviewOpen && files.length && fileIndex !== undefined && (
           <FilePreviewModal
             file={files[fileIndex]}
@@ -1114,6 +1438,58 @@ const FilesList = ({ isShared = false }: Props) => {
           />
         )}
         { filePath && isReportFileModalOpen &&
+=======
+        rejectText = {t`Cancel`}
+        acceptText = {t`Confirm`}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
+        rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
+        injectedClass={{ inner: classes.confirmDeletionDialog }}
+        onModalBodyClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
+        testId="file-deletion"
+      />
+      {
+        refreshContents && (
+          <>
+            <CreateFolderModal
+              modalOpen={createFolderModalOpen}
+              close={() => setCreateFolderModalOpen(false)}
+            />
+            <UploadFileModule
+              modalOpen={isUploadModalOpen}
+              close={() => setIsUploadModalOpen(false)}
+            />
+            {isMoveFileModalOpen && (
+              <MoveFileModal
+                filesToMove={selectedItems}
+                onClose={() => {
+                  setIsMoveFileModalOpen(false)
+                  setSelectedItems([])
+                  setMoveModalMode(undefined)
+                }}
+                onCancel={() => {
+                  setIsMoveFileModalOpen(false)
+                  setMoveModalMode(undefined)
+                }}
+                mode={moveModalMode}
+              />
+            )}
+          </>
+        )
+      }
+      {isPreviewOpen && files.length && fileIndex !== undefined && (
+        <FilePreviewModal
+          file={files[fileIndex]}
+          closePreview={closePreview}
+          nextFile={fileIndex < files.length - 1 ? setNextPreview : undefined}
+          previousFile={fileIndex > 0 ? setPreviousPreview : undefined}
+          filePath={isSearch && getPath ? getPath(files[fileIndex].cid) : currentPath}
+        />
+      )}
+      { filePath && isReportFileModalOpen &&
+>>>>>>> e6112413f6eebd9a59d213dcb094b8e28a262ca0
         <ReportFileModal
           filePath={filePath}
           close={() => {
@@ -1130,8 +1506,13 @@ const FilesList = ({ isShared = false }: Props) => {
             setFilePath(undefined)
           }}
         />
+<<<<<<< HEAD
         }
         { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
+=======
+      }
+      { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
+>>>>>>> e6112413f6eebd9a59d213dcb094b8e28a262ca0
         <ShareModal
           onClose={() => {
             setIsShareModalOpen(false)
@@ -1139,6 +1520,7 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
           fileSystemItems={selectedItems}
         />
+<<<<<<< HEAD
         }
         <SharingExplainerModal
           showModal={showExplainerBeforeShare}
@@ -1153,6 +1535,14 @@ const FilesList = ({ isShared = false }: Props) => {
         />
       </article>
     </>
+=======
+      }
+      <SharingExplainerModal
+        showModal={showExplainerBeforeShare}
+        onHide={hideModal}
+      />
+    </article>
+>>>>>>> e6112413f6eebd9a59d213dcb094b8e28a262ca0
   )
 }
 

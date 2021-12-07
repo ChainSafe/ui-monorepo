@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-11-21 00:53+0000\n"
+"PO-Revision-Date: 2021-11-27 00:52+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 4.10-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -31,12 +31,6 @@ msgstr "Compte"
 
 msgid "Active links"
 msgstr "Liens actifs"
-
-msgid "Add Card"
-msgstr ""
-
-msgid "Add a credit card"
-msgstr ""
 
 msgid "Add a username"
 msgstr "Ajouter un nom d’utilisateur"
@@ -62,9 +56,6 @@ msgstr "Je vous ajoute au dossier partagé…"
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr "Permettre la recherche par clé de partage, adresse du portefeuille ou nom d'utilisateur"
 
-msgid "Amount"
-msgstr ""
-
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
@@ -73,9 +64,6 @@ msgstr "Toute personne ayant le lien peut le faire :"
 
 msgid "Approve"
 msgstr "Accepter"
-
-msgid "Back to plan settings"
-msgstr ""
 
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
@@ -194,9 +182,6 @@ msgstr "Créer"
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
-msgid "Create a Shared Folder"
-msgstr "Créer un dossier partagé"
-
 msgid "Create a sharing link"
 msgstr "Créer un lien de partage"
 
@@ -211,12 +196,6 @@ msgstr "Créer un lien"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
-
-msgid "Credit card saved"
-msgstr ""
-
-msgid "Current"
-msgstr ""
 
 msgid "Dark Theme"
 msgstr "Thème sombre"
@@ -233,7 +212,7 @@ msgstr "Les données ont été déplacées vers la poubelle avec succès"
 msgid "Data restored successfully"
 msgstr "Données restaurées avec succès"
 
-msgid "Date"
+msgid "Date Uploaded"
 msgstr ""
 
 msgid "Date uploaded"
@@ -386,9 +365,6 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
-msgid "Go to Payments"
-msgstr ""
-
 msgid "Go to login"
 msgstr "Aller à la connexion"
 
@@ -458,9 +434,6 @@ msgstr "Gérer l’accès"
 msgid "Manage Shared Folder"
 msgstr "Gérer le dossier partagé"
 
-msgid "Method"
-msgstr ""
-
 msgid "Move"
 msgstr "Déplacer"
 
@@ -494,8 +467,14 @@ msgstr "Suivant"
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
 
-msgid "No Card"
-msgstr ""
+msgid "No file to download."
+msgstr "Aucun fichier à télécharger."
+
+msgid "No files to copy"
+msgstr "Aucun fichier à copier"
+
+msgid "No files to share"
+msgstr "Aucun fichier à partager"
 
 msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
@@ -523,9 +502,6 @@ msgstr "Non merci"
 
 msgid "No user found for this query."
 msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
-
-msgid "Not sure what to pick? Learn more about our plans"
-msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
@@ -651,7 +627,7 @@ msgid "Rename folder"
 msgstr "Renommer le dossier"
 
 msgid "Rename shared folder"
-msgstr ""
+msgstr "Renommer le dossier partagé"
 
 msgid "Report"
 msgstr "Signaler"
@@ -706,9 +682,6 @@ msgstr "Sélectionner un wallet"
 
 msgid "Select an existing shared folder or your home"
 msgstr "Sélectionnez un dossier partagé existant ou votre page d'accueil"
-
-msgid "Select this plan"
-msgstr ""
 
 msgid "Send another email"
 msgstr "Envoyer un nouveau courriel"
@@ -791,7 +764,7 @@ msgstr "Quelque chose a mal tourné !"
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
 
-msgid "Standard plan"
+msgid "Sort By:"
 msgstr ""
 
 msgid "Start Upload"
@@ -800,14 +773,11 @@ msgstr "Démarrer le téléversement"
 msgid "Start a team"
 msgstr "Créer une équipe"
 
+msgid "Storage Plan"
+msgstr "Plan de stockage"
+
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
-
-msgid "Subscription Plan"
-msgstr ""
-
-msgid "Switch Plans"
-msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr "Une maintenance du système est prévue pour démarrer à {0}. Le système sera indisponible."
@@ -863,9 +833,6 @@ msgstr "Une erreur s'est produite lors de la restauration de vos données"
 msgid "There was an error when setting username."
 msgstr "Une erreur s'est produite lors de la définition du nom d'utilisateur."
 
-msgid "This is the free product."
-msgstr ""
-
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr "Ce lien est marlformé. Veuillez vérifier que vous l'avez copié/collé correctement."
 
@@ -910,9 +877,6 @@ msgstr "Téléverser"
 
 msgid "Uploads cancelled"
 msgstr "Téléversements annulés"
-
-msgid "Uploads disabled"
-msgstr ""
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
@@ -992,6 +956,9 @@ msgstr "Vous pouvez maintenant créer des dossiers partagés pour partager un fi
 msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 
+msgid "You do not have access to this shared folder."
+msgstr "Vous n'avez pas accès à ce dossier partagé."
+
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
@@ -1004,12 +971,6 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
-msgid "Your plan"
-msgstr ""
-
-msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr ""
-
 msgid "can-edit"
 msgstr "peut-modifier"
 
@@ -1018,18 +979,6 @@ msgstr "moi"
 
 msgid "on"
 msgstr "le"
-
-msgid "per day"
-msgstr ""
-
-msgid "per month"
-msgstr ""
-
-msgid "per week"
-msgstr ""
-
-msgid "per year"
-msgstr ""
 
 msgid "unknown"
 msgstr "inconnu"
@@ -1057,9 +1006,6 @@ msgstr "{0} terminé"
 
 msgid "{0} failed"
 msgstr "échec de {0}"
-
-msgid "{0} of {1} used"
-msgstr ""
 
 msgid "{0} {fileProgress} - {1}"
 msgstr "{0} {fileProgress} – {1}"

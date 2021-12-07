@@ -31,12 +31,6 @@ msgstr "Konto"
 msgid "Active links"
 msgstr ""
 
-msgid "Add Card"
-msgstr ""
-
-msgid "Add a credit card"
-msgstr ""
-
 msgid "Add a username"
 msgstr "Legg til et brukernavn"
 
@@ -61,9 +55,6 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
-msgid "Amount"
-msgstr ""
-
 msgid "An error occurred:"
 msgstr ""
 
@@ -72,9 +63,6 @@ msgstr ""
 
 msgid "Approve"
 msgstr "Godkjenn"
-
-msgid "Back to plan settings"
-msgstr ""
 
 msgid "Backup secret phrase"
 msgstr ""
@@ -193,9 +181,6 @@ msgstr "Opprett"
 msgid "Create Shared Folder"
 msgstr ""
 
-msgid "Create a Shared Folder"
-msgstr ""
-
 msgid "Create a sharing link"
 msgstr ""
 
@@ -209,12 +194,6 @@ msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
-msgstr ""
-
-msgid "Credit card saved"
-msgstr ""
-
-msgid "Current"
 msgstr ""
 
 msgid "Dark Theme"
@@ -232,7 +211,7 @@ msgstr ""
 msgid "Data restored successfully"
 msgstr ""
 
-msgid "Date"
+msgid "Date Uploaded"
 msgstr ""
 
 msgid "Date uploaded"
@@ -382,9 +361,6 @@ msgstr ""
 msgid "Go back"
 msgstr "Tilbake"
 
-msgid "Go to Payments"
-msgstr ""
-
 msgid "Go to login"
 msgstr ""
 
@@ -457,6 +433,9 @@ msgstr ""
 msgid "Method"
 msgstr ""
 
+msgid "Manage Shared Folder"
+msgstr ""
+
 msgid "Move"
 msgstr "Flytt"
 
@@ -518,9 +497,6 @@ msgid "No thanks"
 msgstr "Nei takk"
 
 msgid "No user found for this query."
-msgstr ""
-
-msgid "Not sure what to pick? Learn more about our plans"
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
@@ -703,9 +679,6 @@ msgstr ""
 msgid "Select an existing shared folder or your home"
 msgstr ""
 
-msgid "Select this plan"
-msgstr ""
-
 msgid "Send another email"
 msgstr "Send en ny e-post"
 
@@ -787,7 +760,7 @@ msgstr "Noe gikk galt."
 msgid "Something went wrong. We couldn't upload your file"
 msgstr ""
 
-msgid "Standard plan"
+msgid "Sort By:"
 msgstr ""
 
 msgid "Start Upload"
@@ -796,13 +769,10 @@ msgstr ""
 msgid "Start a team"
 msgstr ""
 
+msgid "Storage Plan"
+msgstr ""
+
 msgid "Stored by miner"
-msgstr ""
-
-msgid "Subscription Plan"
-msgstr ""
-
-msgid "Switch Plans"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -859,9 +829,6 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
-msgid "This is the free product."
-msgstr ""
-
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
@@ -905,9 +872,6 @@ msgid "Upload"
 msgstr "Last opp"
 
 msgid "Uploads cancelled"
-msgstr ""
-
-msgid "Uploads disabled"
 msgstr ""
 
 msgid "Use a different login method"
@@ -988,6 +952,9 @@ msgstr ""
 msgid "You can't move folders to this path"
 msgstr ""
 
+msgid "You do not have access to this shared folder."
+msgstr ""
+
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
@@ -1000,12 +967,6 @@ msgstr ""
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
-msgid "Your plan"
-msgstr ""
-
-msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr ""
-
 msgid "can-edit"
 msgstr ""
 
@@ -1013,18 +974,6 @@ msgid "me"
 msgstr ""
 
 msgid "on"
-msgstr ""
-
-msgid "per day"
-msgstr ""
-
-msgid "per month"
-msgstr ""
-
-msgid "per week"
-msgstr ""
-
-msgid "per year"
 msgstr ""
 
 msgid "unknown"
@@ -1052,9 +1001,6 @@ msgid "{0} complete"
 msgstr ""
 
 msgid "{0} failed"
-msgstr ""
-
-msgid "{0} of {1} used"
 msgstr ""
 
 msgid "{0} {fileProgress} - {1}"
