@@ -226,7 +226,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
           className={classes.loader}
         >
           <Loading
-            type="inherit"
+            type="initial"
             size={24}
           />
         </Typography>
@@ -269,6 +269,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                 variant="secondary"
                 disabled={isLoadingCreation}
                 loading={isLoadingCreation}
+                data-cy="button-create-link"
               >
                 <Trans>Create link</Trans>
               </Button>

@@ -209,9 +209,6 @@ msgstr "Crear"
 msgid "Create Shared Folder"
 msgstr ""
 
-msgid "Create a Shared Folder"
-msgstr ""
-
 msgid "Create a sharing link"
 msgstr ""
 
@@ -246,6 +243,9 @@ msgid "Data restored successfully"
 msgstr ""
 
 msgid "Date"
+msgstr ""
+
+msgid "Date Uploaded"
 msgstr ""
 
 msgid "Date uploaded"
@@ -830,6 +830,9 @@ msgstr ""
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Algo salió mal. No pudimos subir tu archivo"
 
+msgid "Sort By:"
+msgstr ""
+
 msgid "Standard plan"
 msgstr ""
 
@@ -838,6 +841,9 @@ msgstr "Iniciar la subida"
 
 msgid "Start a team"
 msgstr ""
+
+#~ msgid "Storage Plan"
+#~ msgstr "Plan de almacenamiento"
 
 msgid "Stored by miner"
 msgstr "Almacenado por el minero"

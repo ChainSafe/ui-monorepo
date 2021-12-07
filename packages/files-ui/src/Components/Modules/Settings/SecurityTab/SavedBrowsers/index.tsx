@@ -41,7 +41,7 @@ const SavedBrowsers: React.FC<{isRefreshing: boolean}> = ({ isRefreshing }) => {
       >
         <Trans>Saved Browsers</Trans> {isRefreshing && <Loading
           size={16}
-          type='inherit'
+          type="initial"
         />}
       </Typography>
       {browserShares

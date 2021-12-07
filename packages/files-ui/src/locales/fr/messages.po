@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-11-21 00:53+0000\n"
+"PO-Revision-Date: 2021-11-27 00:52+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 4.10-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -209,9 +209,6 @@ msgstr "Créer"
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
-msgid "Create a Shared Folder"
-msgstr "Créer un dossier partagé"
-
 msgid "Create a sharing link"
 msgstr "Créer un lien de partage"
 
@@ -246,6 +243,9 @@ msgid "Data restored successfully"
 msgstr "Données restaurées avec succès"
 
 msgid "Date"
+msgstr ""
+
+msgid "Date Uploaded"
 msgstr ""
 
 msgid "Date uploaded"
@@ -684,7 +684,7 @@ msgid "Rename folder"
 msgstr "Renommer le dossier"
 
 msgid "Rename shared folder"
-msgstr ""
+msgstr "Renommer le dossier partagé"
 
 msgid "Report"
 msgstr "Signaler"
@@ -830,6 +830,9 @@ msgstr "Quelque chose a mal tourné !"
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
 
+msgid "Sort By:"
+msgstr ""
+
 msgid "Standard plan"
 msgstr ""
 
@@ -838,6 +841,9 @@ msgstr "Démarrer le téléversement"
 
 msgid "Start a team"
 msgstr "Créer une équipe"
+
+#~ msgid "Storage Plan"
+#~ msgstr "Plan de stockage"
 
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
