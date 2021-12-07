@@ -22,6 +22,7 @@ import {
   TableIcon,
   UploadSvg,
   PlusCircleSvg,
+  MoreIcon,
   SortIcon,
   CheckIcon
 } from "@chainsafe/common-components"
@@ -668,6 +669,91 @@ const FilesList = ({ isShared = false }: Props) => {
   ],
   [classes.menuIcon])
 
+  const mobileBulkActions = useMemo(() => {
+    const menuOptions = []
+
+    validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Download as zip</Trans>
+            </span>
+          </>
+        ),
+        onClick: () => {
+          bucket && downloadMultipleFiles(selectedItems, currentPath, bucket.id)
+          resetSelectedItems()
+        }
+      })
+
+    validBulkOps.includes("move") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Move</Trans>
+            </span>
+          </>
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("move")
+        }
+      })
+
+    validBulkOps.includes("recover") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Recover</Trans>
+            </span>
+          </>
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("recover")
+        }
+      })
+
+    validBulkOps.includes("delete") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Delete</Trans>
+            </span>
+          </>
+        ),
+        onClick: handleOpenDeleteDialog
+      })
+    validBulkOps.includes("share") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Share</Trans>
+            </span>
+          </>
+        ),
+        onClick: handleOpenShareDialog
+      })
+
+    return menuOptions
+  }, [
+    validBulkOps,
+    bucket,
+    currentPath,
+    downloadMultipleFiles,
+    handleOpenDeleteDialog,
+    handleOpenMoveFileDialog,
+    handleOpenShareDialog,
+    resetSelectedItems,
+    selectedItems,
+    selectionContainsAFolder
+  ])
+
   const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
     setSelectedItems([fileSystemItem])
     handleOpenShareDialog()
@@ -790,9 +876,8 @@ const FilesList = ({ isShared = false }: Props) => {
         ? <SurveyBanner onHide={onHideSurveyBanner}/>
         : <Divider className={classes.divider} />
       }
-
-      <section className={classes.bulkOperations}>
-        {selectedItems.length > 0 && (
+      {desktop && selectedItems.length > 0 && (
+        <section className={classes.bulkOperations}>
           <>
             {validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) && (
               <Button
@@ -849,8 +934,8 @@ const FilesList = ({ isShared = false }: Props) => {
               </Button>
             )}
           </>
-        )}
-      </section>
+        </section>
+      )}
       <div
         className={clsx(
           classes.loadingContainer,
@@ -900,7 +985,8 @@ const FilesList = ({ isShared = false }: Props) => {
                     <TableHeadCell>
                       <CheckboxInput
                         value={selectedItems.length === items.length}
-                        onChange={() => toggleAll()}
+                        indeterminate={selectedItems.length > 0}
+                        onChange={toggleAll}
                         testId="select-all"
                       />
                     </TableHeadCell>
@@ -944,62 +1030,82 @@ const FilesList = ({ isShared = false }: Props) => {
                   <TableRow type="grid"
                     className={classes.tableRow}>
                     <TableHeadCell>
-                      {/* Checkbox */}
-                    </TableHeadCell>
-                    <TableHeadCell
-                      align='left'
-                      onSortChange={toggleSortDirection}
-                      sortButtons
-                      sortDirection={direction}
-                    >
-                      {t`Name`}
-                    </TableHeadCell>
-                    <TableHeadCell align='right'>
-                      <Menu
-                        testId='fileDropdown'
-                        icon={<SortIcon className={classes.dropdownIcon} />}
-                        options={[{
-                          contents: (
-                            <ListItemText inset>
-                              <b><Trans>Sort By:</Trans></b>
-                            </ListItemText>
-                          )
-                        }, {
-                          contents: (
-                            <>
-                              {column === "name" && <ListItemIcon>
-                                <CheckIcon />
-                              </ListItemIcon>}
-                              <ListItemText inset={column !== "name"}>
-                                <Trans>Name</Trans>
-                              </ListItemText>
-                            </>
-                          ),
-                          onClick: () => setColumn("name")
-                        }, {
-                          contents: (
-                            <>
-                              {column === "date_uploaded" && <ListItemIcon><CheckIcon /></ListItemIcon>}
-                              <ListItemText inset={column !== "date_uploaded"}>
-                                <Trans>Date Uploaded</Trans>
-                              </ListItemText>
-                            </>
-                          ),
-                          onClick: () => setColumn("date_uploaded")
-                        }, {
-                          contents: (
-                            <>
-                              {column === "size" && <ListItemIcon><CheckIcon /></ListItemIcon>}
-                              <ListItemText inset={column !== "size"}>
-                                <Trans>Size</Trans>
-                              </ListItemText>
-                            </>
-                          ),
-                          onClick: () => setColumn("size")
-                        }]}
-                        style={{ focusVisible: classes.focusVisible }}
+                      <CheckboxInput
+                        value={selectedItems.length === items.length}
+                        indeterminate={selectedItems.length > 0}
+                        onChange={toggleAll}
+                        testId="select-all"
                       />
                     </TableHeadCell>
+                    {selectedItems.length === 0
+                      ? <>
+                        <TableHeadCell
+                          align='left'
+                          onSortChange={toggleSortDirection}
+                          sortButtons
+                          sortDirection={direction}
+                        >
+                          {t`Name`}
+                        </TableHeadCell>
+                        <TableHeadCell align='right'>
+                          <Menu
+                            testId='fileDropdown'
+                            icon={<SortIcon className={classes.dropdownIcon} />}
+                            options={[{
+                              contents: (
+                                <ListItemText inset>
+                                  <b><Trans>Sort By:</Trans></b>
+                                </ListItemText>
+                              )
+                            }, {
+                              contents: (
+                                <>
+                                  {column === "name" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  <ListItemText inset={column !== "name"}>
+                                    <Trans>Name</Trans>
+                                  </ListItemText>
+                                </>
+                              ),
+                              onClick: () => setColumn("name")
+                            }, {
+                              contents: (
+                                <>
+                                  {column === "date_uploaded" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  <ListItemText inset={column !== "date_uploaded"}>
+                                    <Trans>Date Uploaded</Trans>
+                                  </ListItemText>
+                                </>
+                              ),
+                              onClick: () => setColumn("date_uploaded")
+                            }, {
+                              contents: (
+                                <>
+                                  {column === "size" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  <ListItemText inset={column !== "size"}>
+                                    <Trans>Size</Trans>
+                                  </ListItemText>
+                                </>
+                              ),
+                              onClick: () => setColumn("size")
+                            }]}
+                            style={{ focusVisible: classes.focusVisible }}
+                          />
+                        </TableHeadCell>
+                      </>
+                      : <>
+                        <TableHeadCell align='left'>
+                          <b><Trans>({selectedItems.length}) items selected</Trans></b>
+                        </TableHeadCell>
+                        <TableHeadCell align='right'>
+                          <Menu
+                            testId='bulkActionsDropdown'
+                            icon={<MoreIcon className={classes.dropdownIcon} />}
+                            options={mobileBulkActions}
+                            style={{ focusVisible: classes.focusVisible }}
+                          />
+                        </TableHeadCell>
+                      </>
+                    }
                   </TableRow>
                 </TableHead>
               )}
