@@ -31,6 +31,12 @@ msgstr "Konto"
 msgid "Active links"
 msgstr ""
 
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
+
 msgid "Add a username"
 msgstr "Einen Benutzernamen hinzufügen"
 
@@ -39,6 +45,9 @@ msgstr "Fügen Sie mindestens eine weitere Authentifizierungsmethode hinzu, um I
 
 msgid "Add by sharing address, username or wallet address"
 msgstr "Durch Freigabe der Adresse, des Benutzernamens oder der Brieftaschenadresse hinzufügen"
+
+msgid "Add card"
+msgstr ""
 
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
@@ -52,6 +61,9 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
+msgid "Amount"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr "Es ist ein Fehler aufgetreten:"
 
@@ -60,6 +72,9 @@ msgstr ""
 
 msgid "Approve"
 msgstr "Genehmigen"
+
+msgid "Back to plan settings"
+msgstr ""
 
 msgid "Backup secret phrase"
 msgstr "Sicherungsgeheimsatz"
@@ -103,7 +118,13 @@ msgstr "IID (Inhaltsidentifikator)"
 msgid "Cancel"
 msgstr "Abbrechen"
 
+msgid "Card added"
+msgstr ""
+
 msgid "Card inputs invalid"
+msgstr ""
+
+msgid "Card updated"
 msgstr ""
 
 msgid "Change Password"
@@ -193,6 +214,12 @@ msgstr ""
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card saved"
+msgstr ""
+
+msgid "Current"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Dunkles Farbschema"
 
@@ -206,6 +233,9 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Date Uploaded"
@@ -358,6 +388,9 @@ msgstr ""
 msgid "Go back"
 msgstr "Zurück"
 
+msgid "Go to Payments"
+msgstr ""
+
 msgid "Go to login"
 msgstr ""
 
@@ -427,6 +460,9 @@ msgstr ""
 msgid "Manage Shared Folder"
 msgstr ""
 
+msgid "Method"
+msgstr ""
+
 msgid "Move"
 msgstr "Verschieben"
 
@@ -488,6 +524,9 @@ msgid "No thanks"
 msgstr "Nein danke"
 
 msgid "No user found for this query."
+msgstr ""
+
+msgid "Not sure what to pick? Learn more about our plans"
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
@@ -670,6 +709,9 @@ msgstr ""
 msgid "Select an existing shared folder or your home"
 msgstr ""
 
+msgid "Select this plan"
+msgstr ""
+
 msgid "Send another email"
 msgstr "Andere E-Mail senden"
 
@@ -754,16 +796,25 @@ msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"
 msgid "Sort By:"
 msgstr ""
 
+msgid "Standard plan"
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Hochladen starten"
 
 msgid "Start a team"
 msgstr ""
 
-msgid "Storage Plan"
-msgstr "Speicherplan"
+#~ msgid "Storage Plan"
+#~ msgstr "Speicherplan"
 
 msgid "Stored by miner"
+msgstr ""
+
+msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plans"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -820,6 +871,9 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This is the free product."
+msgstr ""
+
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
@@ -856,6 +910,12 @@ msgstr ""
 msgid "Update Shared Folder"
 msgstr ""
 
+msgid "Update card"
+msgstr ""
+
+msgid "Update your credit card"
+msgstr ""
+
 msgid "Upgrade your plan"
 msgstr ""
 
@@ -863,6 +923,9 @@ msgid "Upload"
 msgstr "Hochladen"
 
 msgid "Uploads cancelled"
+msgstr ""
+
+msgid "Uploads disabled"
 msgstr ""
 
 msgid "Use a different login method"
@@ -958,6 +1021,12 @@ msgstr ""
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
+msgid "Your plan"
+msgstr ""
+
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
+
 msgid "can-edit"
 msgstr ""
 
@@ -966,6 +1035,18 @@ msgstr "ich"
 
 msgid "on"
 msgstr "am"
+
+msgid "per day"
+msgstr ""
+
+msgid "per month"
+msgstr ""
+
+msgid "per week"
+msgstr ""
+
+msgid "per year"
+msgstr ""
 
 msgid "unknown"
 msgstr "unbekannt"
@@ -992,6 +1073,9 @@ msgid "{0} complete"
 msgstr ""
 
 msgid "{0} failed"
+msgstr ""
+
+msgid "{0} of {1} used"
 msgstr ""
 
 msgid "{0} {fileProgress} - {1}"

@@ -32,6 +32,12 @@ msgstr "Cuenta"
 msgid "Active links"
 msgstr ""
 
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
+
 msgid "Add a username"
 msgstr ""
 
@@ -56,6 +62,9 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
+msgid "Amount"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr ""
 
@@ -64,6 +73,9 @@ msgstr ""
 
 msgid "Approve"
 msgstr "Aprobar"
+
+msgid "Back to plan settings"
+msgstr ""
 
 msgid "Backup secret phrase"
 msgstr ""
@@ -107,7 +119,13 @@ msgstr "CID (Identificador de contenido)"
 msgid "Cancel"
 msgstr "Cancelar"
 
+msgid "Card added"
+msgstr ""
+
 msgid "Card inputs invalid"
+msgstr ""
+
+msgid "Card updated"
 msgstr ""
 
 msgid "Change Password"
@@ -197,6 +215,12 @@ msgstr ""
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card saved"
+msgstr ""
+
+msgid "Current"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
@@ -210,6 +234,9 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Date Uploaded"
@@ -365,6 +392,9 @@ msgstr ""
 msgid "Go back"
 msgstr "Regresar"
 
+msgid "Go to Payments"
+msgstr ""
+
 msgid "Go to login"
 msgstr ""
 
@@ -434,6 +464,9 @@ msgstr ""
 msgid "Manage Shared Folder"
 msgstr ""
 
+msgid "Method"
+msgstr ""
+
 msgid "Move"
 msgstr "Moverse"
 
@@ -495,6 +528,9 @@ msgid "No thanks"
 msgstr "No gracias"
 
 msgid "No user found for this query."
+msgstr ""
+
+msgid "Not sure what to pick? Learn more about our plans"
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
@@ -677,6 +713,9 @@ msgstr "Seleccione una billetera"
 msgid "Select an existing shared folder or your home"
 msgstr ""
 
+msgid "Select this plan"
+msgstr ""
+
 msgid "Send another email"
 msgstr ""
 
@@ -761,17 +800,26 @@ msgstr "Algo salió mal. No pudimos subir tu archivo"
 msgid "Sort By:"
 msgstr ""
 
+msgid "Standard plan"
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Iniciar la subida"
 
 msgid "Start a team"
 msgstr ""
 
-msgid "Storage Plan"
-msgstr "Plan de almacenamiento"
+#~ msgid "Storage Plan"
+#~ msgstr "Plan de almacenamiento"
 
 msgid "Stored by miner"
 msgstr "Almacenado por el minero"
+
+msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plans"
+msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr ""
@@ -827,6 +875,9 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This is the free product."
+msgstr ""
+
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
@@ -863,6 +914,12 @@ msgstr ""
 msgid "Update Shared Folder"
 msgstr ""
 
+msgid "Update card"
+msgstr ""
+
+msgid "Update your credit card"
+msgstr ""
+
 msgid "Upgrade your plan"
 msgstr ""
 
@@ -870,6 +927,9 @@ msgid "Upload"
 msgstr "Subir"
 
 msgid "Uploads cancelled"
+msgstr ""
+
+msgid "Uploads disabled"
 msgstr ""
 
 msgid "Use a different login method"
@@ -965,6 +1025,12 @@ msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de se
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
+msgid "Your plan"
+msgstr ""
+
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
+
 msgid "can-edit"
 msgstr ""
 
@@ -973,6 +1039,18 @@ msgstr ""
 
 msgid "on"
 msgstr "en"
+
+msgid "per day"
+msgstr ""
+
+msgid "per month"
+msgstr ""
+
+msgid "per week"
+msgstr ""
+
+msgid "per year"
+msgstr ""
 
 msgid "unknown"
 msgstr ""
@@ -999,6 +1077,9 @@ msgid "{0} complete"
 msgstr ""
 
 msgid "{0} failed"
+msgstr ""
+
+msgid "{0} of {1} used"
 msgstr ""
 
 msgid "{0} {fileProgress} - {1}"
