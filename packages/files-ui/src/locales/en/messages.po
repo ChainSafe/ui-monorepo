@@ -127,8 +127,14 @@ msgstr "CID (Content Identifier)"
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Card added"
+msgstr "Card added"
+
 msgid "Card inputs invalid"
 msgstr "Card inputs invalid"
+
+msgid "Card updated"
+msgstr "Card updated"
 
 msgid "Change Password"
 msgstr "Change Password"
@@ -214,9 +220,6 @@ msgstr "Create"
 msgid "Create Shared Folder"
 msgstr "Create Shared Folder"
 
-msgid "Create a Shared Folder"
-msgstr "Create a Shared Folder"
-
 msgid "Create a sharing link"
 msgstr "Create a sharing link"
 
@@ -255,6 +258,9 @@ msgstr "Data restored successfully"
 
 msgid "Date"
 msgstr "Date"
+
+msgid "Date Uploaded"
+msgstr "Date Uploaded"
 
 msgid "Date uploaded"
 msgstr "Date uploaded"
@@ -844,6 +850,9 @@ msgstr "Something went wrong!"
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
 
+msgid "Sort By:"
+msgstr "Sort By:"
+
 msgid "Standard plan"
 msgstr "Standard plan"
 
@@ -852,6 +861,9 @@ msgstr "Start Upload"
 
 msgid "Start a team"
 msgstr "Start a team"
+
+#~ msgid "Storage Plan"
+#~ msgstr "Storage Plan"
 
 msgid "Stored by miner"
 msgstr "Stored by miner"
@@ -967,6 +979,7 @@ msgstr "Update credit card"
 #~ msgid "Upgrade your plan"
 #~ msgstr "Upgrade your plan"
 
+
 msgid "Upload"
 msgstr "Upload"
 
@@ -1062,6 +1075,7 @@ msgstr "You can't move folders to this path"
 
 msgid "You get access to these features right now."
 msgstr "You get access to these features right now."
+
 
 msgid "You haven't set a username yet."
 msgstr "You haven't set a username yet."
