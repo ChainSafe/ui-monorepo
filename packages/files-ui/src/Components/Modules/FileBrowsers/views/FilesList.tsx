@@ -1029,14 +1029,12 @@ const FilesList = ({ isShared = false }: Props) => {
                   <TableRow type="grid"
                     className={classes.tableRow}>
                     <TableHeadCell>
-                      {selectedItems.length > 0 &&
-                        <CheckboxInput
-                          value={selectedItems.length === items.length}
-                          indeterminate={selectedItems.length > 0}
-                          onChange={toggleAll}
-                          testId="select-all"
-                        />
-                      }
+                      <CheckboxInput
+                        value={selectedItems.length === items.length}
+                        indeterminate={selectedItems.length > 0}
+                        onChange={toggleAll}
+                        testId="select-all"
+                      />
                     </TableHeadCell>
                     {selectedItems.length === 0
                       ? <>
