@@ -13,6 +13,9 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "<0>{currentStorage}</0> of storage"
+msgstr ""
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
@@ -78,6 +81,9 @@ msgstr ""
 
 msgid "Approve"
 msgstr "Godkjenn"
+
+msgid "Back"
+msgstr ""
 
 msgid "Backup secret phrase"
 msgstr ""
@@ -155,6 +161,9 @@ msgid "Confirm plan"
 msgstr ""
 
 msgid "Confirm plan change"
+msgstr ""
+
+msgid "Confirm plan downgrade"
 msgstr ""
 
 msgid "Confirmation"
@@ -269,6 +278,9 @@ msgid "Didn't receive the email ?"
 msgstr "Fikk du ikke e-posten?"
 
 msgid "Display Settings"
+msgstr ""
+
+msgid "Downgrade"
 msgstr ""
 
 msgid "Download"
@@ -838,9 +850,6 @@ msgstr ""
 msgid "Start a team"
 msgstr ""
 
-#~ msgid "Storage Plan"
-#~ msgstr ""
-
 msgid "Stored by miner"
 msgstr ""
 
@@ -848,6 +857,9 @@ msgid "Subscription Plan"
 msgstr ""
 
 msgid "Switch Plans"
+msgstr ""
+
+msgid "Switch to Free plan"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -1048,6 +1060,9 @@ msgstr ""
 msgid "You can't move folders to this path"
 msgstr ""
 
+msgid "You do not have access to this shared folder."
+msgstr ""
+
 msgid "You get access to these features right now."
 msgstr ""
 
@@ -1061,6 +1076,9 @@ msgid "You were added to the shared folder ({0}): {1}"
 msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
+
+msgid "You would loose the following features:"
 msgstr ""
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
