@@ -71,7 +71,7 @@ const BillingHistory = () => {
         <div className={classes.centered}>
           <Loading
             className={classes.loader}
-            type="inherit"
+            type="initial"
             size={32}
           />
         </div>
