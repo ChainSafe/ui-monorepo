@@ -10,6 +10,7 @@ interface Option {
   inset?: boolean
   testId?: string
   onClick?: () => void
+  disabled?: boolean
 }
 
 interface CustomClasses {
@@ -84,7 +85,7 @@ export default function Menu({ icon, options, style, testId, anchorOrigin, trans
             }}
             focusVisibleClassName={clsx(style?.focusVisible)}
             className={classes.options}
-            // disabled={option.disabled}
+            disabled={option.disabled}
           >
             {option.contents}
           </MenuItem>

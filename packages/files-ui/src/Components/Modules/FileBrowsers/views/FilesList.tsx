@@ -768,6 +768,7 @@ const FilesList = ({ isShared = false }: Props) => {
                         onClick={() => setIsUploadModalOpen(true)}
                         variant="outline"
                         size="large"
+                        disabled={accountRestricted}
                       >
                         <UploadIcon />
                         <span className={classes.buttonWrap}>
