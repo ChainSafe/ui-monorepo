@@ -146,9 +146,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
         </Typography>
       </header>
       {!plans && <div className={classes.loadingContainer}>
-        <Loading
-          type="inherit"
-        />
+        <Loading type='initial'/>
       </div>
       }
       <section className={classes.panels}>
