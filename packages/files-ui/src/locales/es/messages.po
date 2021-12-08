@@ -14,7 +14,13 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "({0}) items selected"
+msgid "/month"
+msgstr ""
+
+msgid "/year"
+msgstr ""
+
+msgid "<0>{currentStorage}</0> of storage"
 msgstr ""
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -36,6 +42,12 @@ msgid "Account"
 msgstr "Cuenta"
 
 msgid "Active links"
+msgstr ""
+
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
 msgstr ""
 
 msgid "Add a username"
@@ -65,6 +77,9 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
+msgid "Amount"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr ""
 
@@ -73,6 +88,9 @@ msgstr ""
 
 msgid "Approve"
 msgstr "Aprobar"
+
+msgid "Back"
+msgstr ""
 
 msgid "Backup secret phrase"
 msgstr ""
@@ -221,6 +239,9 @@ msgstr ""
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card saved"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
@@ -234,6 +255,9 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Date Uploaded"
@@ -374,6 +398,9 @@ msgstr "Por motivos de seguridad, cada vez que inicie sesión le pediremos uno d
 msgid "Forget this browser"
 msgstr "Olvida este navegador"
 
+msgid "Free"
+msgstr ""
+
 msgid "Free plan"
 msgstr ""
 
@@ -403,6 +430,9 @@ msgstr ""
 
 msgid "Go back"
 msgstr "Regresar"
+
+msgid "Go to Payments"
+msgstr ""
 
 msgid "Go to login"
 msgstr ""
@@ -473,6 +503,12 @@ msgstr ""
 msgid "Manage Shared Folder"
 msgstr ""
 
+msgid "Method"
+msgstr ""
+
+msgid "Monthly billing"
+msgstr ""
+
 msgid "Move"
 msgstr "Moverse"
 
@@ -534,6 +570,9 @@ msgid "No thanks"
 msgstr "No gracias"
 
 msgid "No user found for this query."
+msgstr ""
+
+msgid "Not sure what to pick? Learn more about our plans"
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
@@ -722,6 +761,15 @@ msgstr "Seleccione una billetera"
 msgid "Select an existing shared folder or your home"
 msgstr ""
 
+msgid "Select payment method"
+msgstr ""
+
+msgid "Select plan"
+msgstr ""
+
+msgid "Select this plan"
+msgstr ""
+
 msgid "Send another email"
 msgstr ""
 
@@ -806,17 +854,26 @@ msgstr "Algo salió mal. No pudimos subir tu archivo"
 msgid "Sort By:"
 msgstr ""
 
+msgid "Standard plan"
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Iniciar la subida"
 
 msgid "Start a team"
 msgstr ""
 
-msgid "Storage Plan"
-msgstr "Plan de almacenamiento"
-
 msgid "Stored by miner"
 msgstr "Almacenado por el minero"
+
+msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plans"
+msgstr ""
+
+msgid "Switch to Free plan"
+msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr ""
@@ -872,6 +929,12 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This card will become your default payment method"
+msgstr ""
+
+msgid "This is the free product."
+msgstr ""
+
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
@@ -921,6 +984,9 @@ msgid "Upload"
 msgstr "Subir"
 
 msgid "Uploads cancelled"
+msgstr ""
+
+msgid "Uploads disabled"
 msgstr ""
 
 msgid "Use a different login method"
@@ -1031,6 +1097,15 @@ msgstr ""
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+msgstr ""
+
+msgid "Your plan"
+msgstr ""
+
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
+
 msgid "can-edit"
 msgstr ""
 
@@ -1038,9 +1113,6 @@ msgid "invoices here"
 msgstr ""
 
 msgid "me"
-msgstr ""
-
-msgid "of storage"
 msgstr ""
 
 msgid "on"
@@ -1073,7 +1145,16 @@ msgstr ""
 msgid "{0} failed"
 msgstr ""
 
+msgid "{0} of {1} used"
+msgstr ""
+
 msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{currentPlanStorage} of storage"
+msgstr ""
+
+msgid "{newPlanCapacity} of storage"
 msgstr ""
 
 msgid "{planStorageCapacity} of storage"
