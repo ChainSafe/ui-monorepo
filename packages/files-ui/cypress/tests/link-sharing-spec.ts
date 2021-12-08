@@ -165,7 +165,7 @@ describe("Link Sharing", () => {
     it("can see an error message for a link to a deleted shared folder", () => {
       cy.web3Login()
       cy.visit(deletedFolderLink)
-      linkSharingConfirmation.ErrorIcon().should("be.visible")
+      linkSharingConfirmation.errorIcon().should("be.visible")
       linkSharingConfirmation.linkErrorMessage().should("be.visible")
     })
 
