@@ -126,7 +126,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
               variant="body1"
             >
               {planPrice?.metadata?.storage_size_bytes
-                ? <Trans>{newPlanCapacity} of storage</Trans >
+                ? <Trans>{newPlanCapacity} of storage</Trans>
                 : plan.description
               }
             </Typography>

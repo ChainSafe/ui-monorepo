@@ -174,7 +174,7 @@ const ConfirmPlan = ({
             className={classes.featureSeparator}
           >
             {planPrice?.metadata?.storage_size_bytes
-              ? <Trans>{currentPlanStorage} of storage</Trans >
+              ? <Trans>{currentPlanStorage} of storage</Trans>
               : plan.description
             }
           </Typography>

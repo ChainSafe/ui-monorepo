@@ -6,6 +6,7 @@ import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../../../Themes/types"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { Product } from "@chainsafe/files-api-client"
+import { ROUTE_LINKS } from "../../../../FilesRoutes"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: CSFTheme) =>
   createStyles({
@@ -140,15 +141,14 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
           component="p"
           variant="h4"
         >
-          <Trans>
-            Switch Plans
-          </Trans>
+          <Trans>Switch Plans</Trans>
         </Typography>
       </header>
-      {!plans && <div className={classes.loadingContainer}>
-        <Loading type='initial'/>
-      </div>
-      }
+      {!plans && (
+        <div className={classes.loadingContainer}>
+          <Loading type='initial'/>
+        </div>
+      )}
       <section className={classes.panels}>
         {plans && plans.map((plan) => {
           const monthly = plan.prices.find((price) => price.recurring.interval === "month")
@@ -183,8 +183,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
                     </>
                     : t`Free`}
                 </Typography>
-              )
-              }
+              )}
               {monthly && yearly
                 ? (
                   <Typography
@@ -206,7 +205,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               >
                 {
                 monthly?.metadata?.storage_size_bytes
-                  ? <Trans>{currentStorage} of storage</Trans >
+                  ? <Trans>{currentStorage} of storage</Trans>
                   : plan.description
                 }
               </Typography>
@@ -239,9 +238,9 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
                     className={classes.description}
                   >
                     {
-                monthly?.metadata?.storage_size_bytes
-                  ? <Trans>{currentStorage} of storage</Trans >
-                  : plan.description
+                      monthly?.metadata?.storage_size_bytes
+                        ? <Trans>{currentStorage} of storage</Trans>
+                        : plan.description
                     }
                   </Typography>
                 </div>
@@ -277,7 +276,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
         {desktop && (
           <Link
             className={classes.link}
-            to="http://chainsafe.io"
+            to={ROUTE_LINKS.ProductPlans}
             target="_blank"
             rel="noopener noreferrer"
           >
