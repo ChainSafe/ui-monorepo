@@ -107,10 +107,11 @@ const ToastNotificationDemo: React.FC<{toast: ToastParams}> = ({ toast }) => {
       <br />
       {toasts.map((toast) => (
         toast.progress && toast.progress < 80 ? (
-          <button onClick={() => updateToast(toast.id, {
-            ...toast,
-            progress: toast.progress !== undefined ? toast.progress + 20 : undefined
-          })}>
+          <button
+            onClick={() => updateToast(toast.id, {
+              ...toast,
+              progress: toast.progress !== undefined ? toast.progress + 20 : undefined
+            })}>
             increase progress toast
           </button>
         ) : null

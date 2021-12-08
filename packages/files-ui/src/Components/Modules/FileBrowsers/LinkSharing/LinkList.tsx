@@ -215,6 +215,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                 refreshNonces={refreshNonces}
                 bucketEncryptionKey={bucketEncryptionKey}
                 nonce={nonce}
+                data-cy="link-share-folder"
               />
             )}
           </div>

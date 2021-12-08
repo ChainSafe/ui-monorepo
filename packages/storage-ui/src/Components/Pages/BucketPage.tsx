@@ -202,30 +202,31 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   }), [])
 
   return (
-    <FileBrowserContext.Provider value={{
-      bucket,
-      bulkOperations,
-      crumbs,
-      moduleRootPath: ROUTE_LINKS.Bucket(bucketId, "/"),
-      currentPath,
-      refreshContents,
-      deleteItems,
-      downloadFile: handleDownload,
-      moveItems,
-      renameItem,
-      viewFolder,
-      handleUploadOnDrop,
-      uploadsInProgress,
-      loadingCurrentPath,
-      showUploadsInTable: true,
-      sourceFiles: pathContents,
-      heading: bucket?.name,
-      controls: true,
-      allowDropUpload: true,
-      itemOperations,
-      withSurvey: showSurvey,
-      fileSystemType: bucket?.file_system_type
-    }}>
+    <FileBrowserContext.Provider
+      value={{
+        bucket,
+        bulkOperations,
+        crumbs,
+        moduleRootPath: ROUTE_LINKS.Bucket(bucketId, "/"),
+        currentPath,
+        refreshContents,
+        deleteItems,
+        downloadFile: handleDownload,
+        moveItems,
+        renameItem,
+        viewFolder,
+        handleUploadOnDrop,
+        uploadsInProgress,
+        loadingCurrentPath,
+        showUploadsInTable: true,
+        sourceFiles: pathContents,
+        heading: bucket?.name,
+        controls: true,
+        allowDropUpload: true,
+        itemOperations,
+        withSurvey: showSurvey,
+        fileSystemType: bucket?.file_system_type
+      }}>
       <DragAndDrop>
         <FilesList />
       </DragAndDrop>
