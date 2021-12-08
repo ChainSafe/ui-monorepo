@@ -297,28 +297,29 @@ const SharedFileBrowser = () => {
 
 
   return (
-    <FileBrowserContext.Provider value={{
-      bucket,
-      bulkOperations,
-      handleUploadOnDrop,
-      crumbs,
-      moduleRootPath: ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", "/"),
-      currentPath,
-      refreshContents,
-      deleteItems,
-      downloadFile: handleDownload,
-      moveItems,
-      renameItem,
-      viewFolder,
-      loadingCurrentPath,
-      showUploadsInTable: false,
-      sourceFiles: pathContents,
-      heading: bucket?.name || t`Shared`,
-      controls: true,
-      allowDropUpload: access === "writer" || access === "owner",
-      itemOperations,
-      withSurvey: false
-    }}>
+    <FileBrowserContext.Provider
+      value={{
+        bucket,
+        bulkOperations,
+        handleUploadOnDrop,
+        crumbs,
+        moduleRootPath: ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", "/"),
+        currentPath,
+        refreshContents,
+        deleteItems,
+        downloadFile: handleDownload,
+        moveItems,
+        renameItem,
+        viewFolder,
+        loadingCurrentPath,
+        showUploadsInTable: false,
+        sourceFiles: pathContents,
+        heading: bucket?.name || t`Shared`,
+        controls: true,
+        allowDropUpload: access === "writer" || access === "owner",
+        itemOperations,
+        withSurvey: false
+      }}>
       <DragAndDrop>
         <FilesList isShared/>
       </DragAndDrop>

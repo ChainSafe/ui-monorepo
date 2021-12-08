@@ -365,8 +365,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
                   onChange={() => {
                     captureEvent("copy or move files on share")
                     setKeepOriginalFile(!keepOriginalFile)
-                  }
-                  }
+                  }}
                   label={t`Keep original files`}
                 />
               </div>

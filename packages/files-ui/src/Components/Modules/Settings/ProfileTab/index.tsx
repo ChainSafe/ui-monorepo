@@ -9,7 +9,6 @@ import {
   RadioInput,
   TextInput,
   CheckIcon,
-  Divider,
   CheckboxInput
 } from "@chainsafe/common-components"
 import {
@@ -475,7 +474,8 @@ const ProfileView = () => {
                     }
                   </>
                 }
-                <CheckboxInput label={t`Allow lookup by sharing key, wallet address or username`}
+                <CheckboxInput
+                  label={t`Allow lookup by sharing key, wallet address or username`}
                   value={profile?.lookupConsent || false}
                   onChange={toggleLookupConsent} />
               </div>
@@ -595,7 +595,8 @@ const ProfileView = () => {
               <Trans>Theme</Trans>
             </Typography>
             <Grid container>
-              <Grid item
+              <Grid
+                item
                 xs={12}
                 lg={6}
               >
@@ -611,7 +612,8 @@ const ProfileView = () => {
                   </Typography>}
                 </label>
               </Grid>
-              <Grid item
+              <Grid
+                item
                 xs={12}
                 lg={6}
               >

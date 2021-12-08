@@ -100,6 +100,16 @@ const useStyles = makeStyles(
           }
         }
       },
+      accountControls: {
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        flexDirection: "row",
+
+        "& > *:first-child": {
+          marginRight: constants.generalUnit * 2
+        }
+      },
       searchModule: {
         [breakpoints.down("md")]: {
           height: constants.mobileHeaderHeight,

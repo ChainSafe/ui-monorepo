@@ -123,23 +123,24 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   }), [])
 
   return (
-    <FileBrowserContext.Provider value={{
-      bucket,
-      crumbs: undefined,
-      deleteItems,
-      recoverItems,
-      currentPath,
-      moduleRootPath: ROUTE_LINKS.Bin("/"),
-      refreshContents,
-      loadingCurrentPath,
-      showUploadsInTable: false,
-      sourceFiles: pathContents,
-      heading: t`Bin`,
-      controls,
-      itemOperations,
-      bulkOperations,
-      viewFolder
-    }}>
+    <FileBrowserContext.Provider
+      value={{
+        bucket,
+        crumbs: undefined,
+        deleteItems,
+        recoverItems,
+        currentPath,
+        moduleRootPath: ROUTE_LINKS.Bin("/"),
+        refreshContents,
+        loadingCurrentPath,
+        showUploadsInTable: false,
+        sourceFiles: pathContents,
+        heading: t`Bin`,
+        controls,
+        itemOperations,
+        bulkOperations,
+        viewFolder
+      }}>
       <DragAndDrop>
         <FilesList />
       </DragAndDrop>
