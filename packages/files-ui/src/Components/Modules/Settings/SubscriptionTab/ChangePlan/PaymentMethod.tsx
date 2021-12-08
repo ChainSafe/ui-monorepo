@@ -47,7 +47,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     bottomSection: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "space-between",
+      justifyContent: "flex-end",
       alignItems: "center",
       marginTop: constants.generalUnit * 4,
       marginBottom: constants.generalUnit * 3
@@ -160,22 +160,12 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
           submitText={t`Use this card`}
           footerClassName={classes.footer}
           onCardAdd={() => setView("selectPaymentMethod")}
+          goBack={() => setView("selectPaymentMethod")}
         />
       </div>
       }
       <Divider className={classes.divider} />
       <section className={classes.bottomSection}>
-        {view === "addCard" ? <div>
-          <Typography
-            variant="body1"
-            component="p"
-            onClick={() => setView("selectPaymentMethod")}
-            className={classes.linkButton}
-          >
-            <Trans>Go  back</Trans>
-          </Typography>
-        </div> : <div />
-        }
         <div className={classes.buttons}>
           <Button
             onClick={onClose}

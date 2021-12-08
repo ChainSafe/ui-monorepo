@@ -69,6 +69,15 @@ const useStyles = makeStyles(
       error: {
         marginTop: constants.generalUnit * 2,
         color: palette.error.main
+      },
+      backButton: {
+        flex: 1,
+        display: "flex",
+        alignItems: "center"
+      },
+      linkButton: {
+        textDecoration: "underline",
+        cursor: "pointer"
       }
     })
   }
@@ -78,11 +87,12 @@ interface IAddCardProps {
   submitText: string
   onCardAdd?: () => void
   onClose?: () => void
+  goBack?: () => void
   footerClassName?: string
 }
 
 
-const AddCard = ({ onClose, onCardAdd, footerClassName, submitText }: IAddCardProps) => {
+const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IAddCardProps) => {
   const classes = useStyles()
   const stripe = useStripe()
   const elements = useElements()
@@ -203,9 +213,20 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText }: IAddCardPr
         <Grid
           item
           flexDirection="row"
-          justifyContent="flex-end"
           className={footerClassName}
         >
+          <div className={classes.backButton}>
+            {goBack &&
+              <Typography
+                variant="body1"
+                component="p"
+                onClick={goBack}
+                className={classes.linkButton}
+              >
+                <Trans>Go  back</Trans>
+              </Typography>
+            }
+          </div>
           {onClose &&
             <CustomButton
               data-cy="button-cancel-create-folder"
