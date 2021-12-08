@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { Button, ExternalSvg, formatBytes, Link, Loading, Typography } from "@chainsafe/common-components"
+import { Button, ExternalSvg, formatBytes, Loading, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../../../Themes/types"
 import { useBilling } from "../../../../../Contexts/BillingContext"
