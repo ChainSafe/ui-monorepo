@@ -92,7 +92,8 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           plans={plans}
         />
       }
-      {slide === "planDetails" && selectedPlan && <PlanDetails plan={selectedPlan}
+      {slide === "planDetails" && selectedPlan && <PlanDetails
+        plan={selectedPlan}
         onClose={onClose}
         goToSelectPlan={() => {
           setSlide("select")
@@ -103,7 +104,8 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         }}
       />
       }
-      {slide === "paymentMethod" && <PaymentMethod onClose={onClose}
+      {slide === "paymentMethod" && <PaymentMethod
+        onClose={onClose}
         goToSelectPlan={() => {
           setSlide("select")
         }}

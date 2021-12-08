@@ -133,7 +133,8 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
             labelClassName={classes.radioLabel}
             disabled={!defaultCard}
           />
-          <Typography variant="body1"
+          <Typography
+            variant="body1"
             component="p"
             className={classes.textButton}
             onClick={() => setView("addCard")}

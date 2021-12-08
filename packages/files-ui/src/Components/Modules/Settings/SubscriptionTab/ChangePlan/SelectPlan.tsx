@@ -167,7 +167,8 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
             >
               {plan.name}
             </Typography>
-            {monthly && <Typography component="h4"
+            {monthly && <Typography
+              component="h4"
               variant="h4">
               {monthly.unit_amount
                 ? <>
@@ -178,7 +179,8 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
             </Typography>
             }
             {monthly && yearly
-              ? <Typography variant="body2"
+              ? <Typography
+                variant="body2"
                 className={classes.priceYearlyTitle}>
                 {yearly.currency.toUpperCase()} {yearly.unit_amount}
                 <span className={classes.priceSubtitle}>/year</span>
@@ -235,7 +237,8 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               </Typography>
             </div>
             <div className={classes.mobilePriceBox}>
-              {monthly && <Typography component="h4"
+              {monthly && <Typography
+                component="h4"
                 variant="h4">
                 {monthly.unit_amount
                   ? <>
@@ -246,7 +249,8 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               </Typography>
               }
               {monthly && yearly
-                ? <Typography variant="body2"
+                ? <Typography
+                  variant="body2"
                   className={classes.priceYearlyTitle}>
                   {yearly.currency.toUpperCase()} {yearly.unit_amount}
                   <span className={classes.priceSubtitle}>/year</span>

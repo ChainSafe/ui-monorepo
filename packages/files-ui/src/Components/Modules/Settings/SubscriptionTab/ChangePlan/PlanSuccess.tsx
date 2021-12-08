@@ -114,7 +114,8 @@ const PlanSuccess = ({
       </div>
       <Divider className={classes.divider} />
       <div>
-        <Typography variant="body1"
+        <Typography
+          variant="body1"
           component="p"
           className={classes.featuresTitle}
         >
@@ -123,7 +124,8 @@ const PlanSuccess = ({
         <div className={classes.pushRightBox}>
           <div className={clsx(classes.middleRowBox, classes.featureTickBox)}>
             <CheckIcon className={classes.tickIcon} />
-            <Typography component="p"
+            <Typography
+              component="p"
               variant="body1"
             >
               {planPrice?.metadata?.storage_size_bytes
@@ -137,7 +139,8 @@ const PlanSuccess = ({
           </div>
           <div className={classes.middleRowBox}>
             <CheckIcon className={classes.tickIcon} />
-            <Typography component="p"
+            <Typography
+              component="p"
               variant="body1">
               {plan.description}
             </Typography>
@@ -151,7 +154,8 @@ const PlanSuccess = ({
           className={classes.invoiceText}
         >
           <Trans>Access your billing history in settings or view your </Trans>&nbsp;
-          <Link to={ROUTE_LINKS.BillingHistory}
+          <Link
+            to={ROUTE_LINKS.BillingHistory}
             className={classes.textLink}
           >
             <Trans>invoices here</Trans>
