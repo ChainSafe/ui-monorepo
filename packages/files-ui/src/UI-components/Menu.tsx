@@ -79,7 +79,7 @@ export default function Menu({ icon, options, style, testId, anchorOrigin, trans
           <MenuItem
             key={index}
             onClick={(e) => {
-              handleClose()
+              option.onClick && handleClose()
               option.onClick && option.onClick(e)
             }}
             focusVisibleClassName={clsx(style?.focusVisible)}
