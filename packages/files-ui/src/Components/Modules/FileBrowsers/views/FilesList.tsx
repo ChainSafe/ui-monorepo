@@ -876,8 +876,9 @@ const FilesList = ({ isShared = false }: Props) => {
         ? <SurveyBanner onHide={onHideSurveyBanner}/>
         : <Divider className={classes.divider} />
       }
-      {desktop && selectedItems.length > 0 && (
+      {desktop && (
         <section className={classes.bulkOperations}>
+          {selectedItems.length > 0 &&
           <>
             {validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) && (
               <Button
@@ -934,6 +935,7 @@ const FilesList = ({ isShared = false }: Props) => {
               </Button>
             )}
           </>
+          }
         </section>
       )}
       <div
