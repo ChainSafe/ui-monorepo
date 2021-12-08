@@ -4,5 +4,5 @@ export const linkSharingConfirmation = {
   invalidLinkMessage: () => cy.get("[data-cy=label-invalid-link]", { timeout: 10000 }),
   editAccessConfirmationLabel: () => cy.get("[data-cy=label-share-confirmation-write-access", { timeout: 20000 }),
   viewAccessConfirmationLabel: () => cy.get("[data-cy=label-share-confirmation-read-access", { timeout: 20000 }),
-  ErrorIcon: () => cy.get("[data-cy=icon-link-error", { timeout: 10000 })
+  errorIcon: () => cy.get("[data-cy=icon-link-error", { timeout: 10000 })
 }
