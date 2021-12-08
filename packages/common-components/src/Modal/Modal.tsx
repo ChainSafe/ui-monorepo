@@ -94,6 +94,7 @@ const useStyles = makeStyles(
         margin: "auto",
         maxHeight: "100%",
         overflow: "auto",
+        alignItems: "center",
         "&.xs": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("xs"),

@@ -19,6 +19,8 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
     modalInner: {
       padding: constants.generalUnit * 4,
       textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
       "& img" : {
         width: "min-content",
         margin: "auto",
@@ -121,7 +123,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             requests.length > 1 && (isClearing
               ? <Loading
                 size={25}
-                type='inherit'
+                type="initial"
               />
               : <Typography
                 className={clsx(classes.clearAll)}

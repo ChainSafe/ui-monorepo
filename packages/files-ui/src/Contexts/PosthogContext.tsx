@@ -10,6 +10,7 @@ import { useUser } from "./UserContext"
 export type PosthogContext = {
   hasOptedIn: boolean
   posthogInitialized: boolean
+  captureEvent: (eventName: string, properties?: posthog.Properties) => void
 }
 
 type PosthogProviderProps = posthog.Config & {
@@ -18,7 +19,8 @@ type PosthogProviderProps = posthog.Config & {
 
 const PosthogContext = React.createContext<PosthogContext>({
   hasOptedIn: false,
-  posthogInitialized: false
+  posthogInitialized: false,
+  captureEvent: () => undefined
 })
 
 const useStyles = makeStyles(
@@ -116,6 +118,12 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
     }
   }, [posthogInitialized, touchCookieBanner])
 
+  const captureEvent = useCallback((eventName: string, properties?: posthog.Properties) => {
+    if (posthogInitialized) {
+      posthog.capture(eventName, properties)
+    }
+  }, [posthogInitialized])
+
   useEffect(() => {
     if (profile) {
       posthogInitialized && posthog.identify(profile.userId)
@@ -128,7 +136,8 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
     <PosthogContext.Provider
       value={{
         hasOptedIn,
-        posthogInitialized
+        posthogInitialized,
+        captureEvent
       }}
     >
       {children}
@@ -140,7 +149,8 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
               This website uses cookies that help the website function and track interactions for analytics purposes.
               You have the right to decline our use of cookies. For us to provide a customizable user experience to you,
               please click on the Accept button below.
-              <a className={classes.link}
+              <a
+                className={classes.link}
                 href="https://files.chainsafe.io/privacy-policy"
                 target='_blank'
                 rel='noopener noreferrer'>Learn more

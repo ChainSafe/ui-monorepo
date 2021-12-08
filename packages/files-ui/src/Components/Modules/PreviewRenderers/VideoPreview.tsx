@@ -5,7 +5,8 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      maxWidth: "100vw"
+      maxWidth: "100vw",
+      maxHeight: "100vh"
     }
   })
 )
@@ -28,7 +29,7 @@ const VideoPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
       className={classes.root}
       src={videoUrl}
       controls
-      autoPlay/>
+      autoPlay />
   )
 }
 

@@ -13,6 +13,9 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "({0}) items selected"
+msgstr ""
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "Es wird ein Sicherungsgeheimsatz generiert und für Ihr Konto verwendet.<0/>Wir speichern ihn nicht und <1>er kann nur einmal angezeigt werden</1>. Speichern Sie ihn an einem sicheren Ort!"
 
@@ -27,6 +30,9 @@ msgstr "Akzeptieren"
 
 msgid "Account"
 msgstr "Konto"
+
+msgid "Active links"
+msgstr ""
 
 msgid "Add a username"
 msgstr "Einen Benutzernamen hinzufügen"
@@ -51,6 +57,9 @@ msgstr ""
 
 msgid "An error occurred:"
 msgstr "Es ist ein Fehler aufgetreten:"
+
+msgid "Anyone with the link can:"
+msgstr ""
 
 msgid "Approve"
 msgstr "Genehmigen"
@@ -133,16 +142,10 @@ msgstr "Weiter mit Web3 Wallet"
 msgid "Copied!"
 msgstr "Kopiert!"
 
-msgid "Copy CID"
-msgstr "IID kopieren"
-
 msgid "Copy file"
 msgstr ""
 
 msgid "Copy info"
-msgstr ""
-
-msgid "Copy link"
 msgstr ""
 
 msgid "Copy over"
@@ -160,13 +163,16 @@ msgstr "Erstellen"
 msgid "Create Shared Folder"
 msgstr ""
 
-msgid "Create a Shared Folder"
+msgid "Create a sharing link"
 msgstr ""
 
-msgid "Create a new shared folder"
+msgid "Create folder & Copy over"
 msgstr ""
 
-msgid "Create new link"
+msgid "Create folder & Move over"
+msgstr ""
+
+msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -185,6 +191,9 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
+msgstr ""
+
+msgid "Date Uploaded"
 msgstr ""
 
 msgid "Date uploaded"
@@ -388,9 +397,6 @@ msgstr "Vorschau wird geladen"
 msgid "Loading your shared folders…"
 msgstr ""
 
-msgid "Loading..."
-msgstr ""
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
@@ -398,6 +404,9 @@ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc element
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Manage Access"
+msgstr ""
+
+msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Move"
@@ -423,6 +432,9 @@ msgstr "Name zu lang"
 
 msgid "New folder"
 msgstr "Neuer Ordner"
+
+msgid "New shared folder name"
+msgstr ""
 
 msgid "Next"
 msgstr "Nächste"
@@ -468,6 +480,12 @@ msgstr "Nur Sie können dies sehen."
 
 msgid "Operating system:"
 msgstr "Betriebssystem:"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
@@ -555,6 +573,9 @@ msgstr "Datei umbenennen"
 
 msgid "Rename folder"
 msgstr "Ordner umbenennen"
+
+msgid "Rename shared folder"
+msgstr ""
 
 msgid "Report"
 msgstr "Melden"
@@ -646,6 +667,9 @@ msgstr "Geteilt"
 msgid "Shared Folder Name"
 msgstr ""
 
+msgid "Shared folder name"
+msgstr ""
+
 msgid "Shared folders"
 msgstr ""
 
@@ -653,9 +677,6 @@ msgid "Shared with"
 msgstr ""
 
 msgid "Sharing files"
-msgstr ""
-
-msgid "Sharing link"
 msgstr ""
 
 msgid "Sign Out"
@@ -693,6 +714,9 @@ msgstr "Etwas ist schief gelaufen!"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"
+
+msgid "Sort By:"
+msgstr ""
 
 msgid "Start Upload"
 msgstr "Hochladen starten"
@@ -799,9 +823,6 @@ msgstr "Eine andere Anmeldemethode verwenden"
 msgid "Use a saved browser"
 msgstr "Einen gespeicherten Browser verwenden"
 
-msgid "Use an existing shared folder"
-msgstr ""
-
 msgid "User {0} is both a reader and writer"
 msgstr ""
 
@@ -886,7 +907,7 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
 
-msgid "edit rights"
+msgid "can-edit"
 msgstr ""
 
 msgid "me"
@@ -895,13 +916,10 @@ msgstr "ich"
 msgid "on"
 msgstr "am"
 
-msgid "read rights"
-msgstr ""
-
 msgid "unknown"
 msgstr "unbekannt"
 
-msgid "with"
+msgid "view-only"
 msgstr ""
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"

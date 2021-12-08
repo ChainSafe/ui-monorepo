@@ -17,8 +17,7 @@ import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import CreateOrEditSharedFolderModal from "./CreateOrEditSharedFolderModal"
-import clsx from "clsx"
+import CreateOrManageSharedFolderModal from "./CreateOrManageSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
@@ -191,19 +190,21 @@ const SharedFolderOverview = () => {
             >
               <PlusIcon />
               <span className={classes.buttonWrap}>
-                <Trans>Create a Shared Folder</Trans>
+                <Trans>Create</Trans>
               </span>
             </Button>
           </div>
         </header>
         {isLoadingBuckets && (
-          <div
-            className={clsx(classes.loadingContainer)}
-          >
-            <Loading size={24}
-              type="light" />
-            <Typography variant="body2"
-              component="p">
+          <div className={classes.loadingContainer}>
+            <Loading
+              size={24}
+              type="light"
+            />
+            <Typography
+              variant="body2"
+              component="p"
+            >
               <Trans>Loading your shared folders…</Trans>
             </Typography>
           </div>
@@ -280,7 +281,7 @@ const SharedFolderOverview = () => {
         showModal={!hasSeenSharingExplainerModal}
         onHide={hideModal}
       />
-      <CreateOrEditSharedFolderModal
+      <CreateOrManageSharedFolderModal
         mode={createOrEditSharedFolderMode}
         isModalOpen={!!createOrEditSharedFolderMode}
         onClose={() => {

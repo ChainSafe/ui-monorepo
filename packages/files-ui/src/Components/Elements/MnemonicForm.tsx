@@ -136,8 +136,10 @@ const MnemonicForm = ({ buttonLabel, onComplete }: Props) => {
               component="p"
               className={classes.loader}
             >
-              <Loading type="inherit"
-                size={16} />
+              <Loading
+                type="initial"
+                size={16}
+              />
               <Trans>
                 Generating…
               </Trans>
