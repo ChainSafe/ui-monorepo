@@ -82,11 +82,13 @@ const NotificationsDropdown: React.FC<INotificationsDropdownProps> = ({ notifica
         >
           <div>
             {notifications.map((n, i) => (
-              <div key={i}
+              <div
+                key={i}
                 className={classes.notificationBody}
                 onClick={n.onClick}
               >
-                <Typography variant="body2"
+                <Typography
+                  variant="body2"
                   className={classes.notificationTitle}
                   component="p"
                 >
