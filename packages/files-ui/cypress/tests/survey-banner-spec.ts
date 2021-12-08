@@ -20,7 +20,7 @@ describe("Survey Banner", () => {
         body: { [dismissedSurveyKey]: "false" }
       })
 
-      cy.web3Login()
+      cy.web3Login({ withNewUser: false })
       homePage.surveyBanner().should("be.visible")
 
       // set up a spy for the POST response
@@ -42,7 +42,7 @@ describe("Survey Banner", () => {
         body: { [dismissedSurveyKey]: "true" }
       })
 
-      cy.web3Login()
+      cy.web3Login({ withNewUser: false })
       homePage.surveyBanner().should("not.exist")
     })
 
@@ -51,7 +51,7 @@ describe("Survey Banner", () => {
         body: {}
       })
 
-      cy.web3Login()
+      cy.web3Login({ withNewUser: false })
       homePage.surveyBanner().should("be.visible")
     })
 
@@ -67,7 +67,12 @@ describe("Survey Banner", () => {
         body: {}
       })
 
-      cy.web3Login()
+      cy.web3Login({ withNewUser: false })
+      homePage.surveyBanner().should("not.exist")
+    })
+
+    it("A new user should not see the banner", () => {
+      cy.web3Login({ withNewUser: true })
       homePage.surveyBanner().should("not.exist")
     })
   })

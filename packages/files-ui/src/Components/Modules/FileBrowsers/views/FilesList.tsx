@@ -21,7 +21,9 @@ import {
   GridIcon,
   TableIcon,
   UploadSvg,
-  PlusCircleSvg
+  PlusCircleSvg,
+  SortIcon,
+  CheckIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -53,11 +55,12 @@ import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import clsx from "clsx"
 import EmptySvg from "../../../../Media/Empty.svg"
+import { ListItemIcon, ListItemText } from "@material-ui/core"
 
-const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
+const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
 const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename", "recover"]
-const csfOperations:  FileOperation[] = [...ownerOperations, "share"]
+const csfOperations: FileOperation[] = [...ownerOperations, "share"]
 const writerOperations: FileOperation[] = [...ownerOperations, "report"]
 
 interface IStyleProps {
@@ -291,7 +294,7 @@ const useStyles = makeStyles(
         display: "flex",
         justifyContent: "flex-end"
       },
-      focusVisible:{
+      focusVisible: {
         backgroundColor: "transparent !important"
       },
       menuIcon: {
@@ -372,7 +375,7 @@ const FilesList = ({ isShared = false }: Props) => {
     let temp = []
 
     switch (column) {
-    // defaults to name sorting
+      // defaults to name sorting
       default: {
         temp = sourceFiles.sort((a, b) => {
           return a.name.localeCompare(b.name, selectedLocale, {
@@ -421,6 +424,14 @@ const FilesList = ({ isShared = false }: Props) => {
       } else {
         setDirection("ascend")
       }
+    }
+  }
+
+  const toggleSortDirection = () => {
+    if (direction === "ascend") {
+      setDirection("descend")
+    } else {
+      setDirection("ascend")
     }
   }
 
@@ -517,7 +528,7 @@ const FilesList = ({ isShared = false }: Props) => {
 
     if (!!permission && isShared) {
 
-      switch(permission) {
+      switch (permission) {
         case "owner":
           fileOperations = ownerOperations
           break
@@ -716,12 +727,13 @@ const FilesList = ({ isShared = false }: Props) => {
             variant="h1"
             component="h1"
             data-cy="files-app-header"
+            className={classes.fileNameHeader}
           >
             {heading}
           </Typography>
           {isShared && bucket && (
             <div className={classes.users}>
-              <SharedUsers bucket={bucket}/>
+              <SharedUsers bucket={bucket} />
             </div>
           )}
           <div className={classes.controls}>
@@ -745,10 +757,9 @@ const FilesList = ({ isShared = false }: Props) => {
                         onClick={() => setCreateFolderModalOpen(true)}
                         variant="outline"
                         size="large"
-                        disabled={accountRestricted}
                       >
                         <PlusCircleIcon />
-                        <span>
+                        <span className={classes.buttonWrap}>
                           <Trans>New folder</Trans>
                         </span>
                       </Button>
@@ -760,7 +771,7 @@ const FilesList = ({ isShared = false }: Props) => {
                         disabled={accountRestricted}
                       >
                         <UploadIcon />
-                        <span>
+                        <span className={classes.buttonWrap}>
                           <Trans>Upload</Trans>
                         </span>
                       </Button>
@@ -783,7 +794,7 @@ const FilesList = ({ isShared = false }: Props) => {
                   </Button>
                   <Menu
                     testId='mobileMenu'
-                    icon={<PlusIcon className={classes.dropdownIcon}/>}
+                    icon={<PlusIcon className={classes.dropdownIcon} />}
                     options={mobileMenuItems}
                     style={{ focusVisible: classes.focusVisible }}
                   />
@@ -792,8 +803,8 @@ const FilesList = ({ isShared = false }: Props) => {
             )}
           </div>
         </header>
-        { withSurvey && !isShared && isSurveyBannerVisible
-          ? <SurveyBanner onHide={onHideSurveyBanner}/>
+        {withSurvey && !isShared && isSurveyBannerVisible
+          ? <SurveyBanner onHide={onHideSurveyBanner} />
           : <Divider className={classes.divider} />
         }
 
@@ -899,7 +910,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
                 testId="home"
               >
-                {desktop && (
+                {desktop ? (
                   <TableHead>
                     <TableRow type="grid"
                       className={classes.tableRow}>
@@ -945,6 +956,69 @@ const FilesList = ({ isShared = false }: Props) => {
                       <TableHeadCell>{/* Menu */}</TableHeadCell>
                     </TableRow>
                   </TableHead>
+                ) : (
+                  <TableHead>
+                    <TableRow type="grid"
+                      className={classes.tableRow}>
+                      <TableHeadCell>
+                        {/* Checkbox */}
+                      </TableHeadCell>
+                      <TableHeadCell
+                        align='left'
+                        onSortChange={toggleSortDirection}
+                        sortButtons
+                        sortDirection={direction}
+                      >
+                        {t`Name`}
+                      </TableHeadCell>
+                      <TableHeadCell align='right'>
+                        <Menu
+                          testId='fileDropdown'
+                          icon={<SortIcon className={classes.dropdownIcon} />}
+                          options={[{
+                            contents: (
+                              <ListItemText inset>
+                                <b><Trans>Sort By:</Trans></b>
+                              </ListItemText>
+                            )
+                          }, {
+                            contents: (
+                              <>
+                                {column === "name" && <ListItemIcon>
+                                  <CheckIcon />
+                                </ListItemIcon>}
+                                <ListItemText inset={column !== "name"}>
+                                  <Trans>Name</Trans>
+                                </ListItemText>
+                              </>
+                            ),
+                            onClick: () => setColumn("name")
+                          }, {
+                            contents: (
+                              <>
+                                {column === "date_uploaded" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                <ListItemText inset={column !== "date_uploaded"}>
+                                  <Trans>Date Uploaded</Trans>
+                                </ListItemText>
+                              </>
+                            ),
+                            onClick: () => setColumn("date_uploaded")
+                          }, {
+                            contents: (
+                              <>
+                                {column === "size" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                <ListItemText inset={column !== "size"}>
+                                  <Trans>Size</Trans>
+                                </ListItemText>
+                              </>
+                            ),
+                            onClick: () => setColumn("size")
+                          }]}
+                          style={{ focusVisible: classes.focusVisible }}
+                        />
+                      </TableHeadCell>
+                    </TableRow>
+                  </TableHead>
                 )}
                 <TableBody>
                   {items.map((file, index) => (
@@ -981,7 +1055,8 @@ const FilesList = ({ isShared = false }: Props) => {
                       browserView='table'
                       reportFile={(fileInfoPath: string) => {
                         setFilePath(fileInfoPath)
-                        setIsReportFileModalOpen(true)}
+                        setIsReportFileModalOpen(true)
+                      }
                       }
                       showFileInfo={(fileInfoPath: string) => {
                         setFilePath(fileInfoPath)
@@ -1038,7 +1113,8 @@ const FilesList = ({ isShared = false }: Props) => {
                     browserView="grid"
                     reportFile={(fileInfoPath: string) => {
                       setFilePath(fileInfoPath)
-                      setIsReportFileModalOpen(true)}
+                      setIsReportFileModalOpen(true)
+                    }
                     }
                     showFileInfo={(fileInfoPath: string) => {
                       setFilePath(fileInfoPath)
@@ -1064,8 +1140,8 @@ const FilesList = ({ isShared = false }: Props) => {
               other: `You are about to delete ${selectedCids.length} items.`
             })
           }
-          rejectText = {t`Cancel`}
-          acceptText = {t`Confirm`}
+          rejectText={t`Cancel`}
+          acceptText={t`Confirm`}
           acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
           rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
           injectedClass={{ inner: classes.confirmDeletionDialog }}
@@ -1113,39 +1189,39 @@ const FilesList = ({ isShared = false }: Props) => {
             filePath={isSearch && getPath ? getPath(files[fileIndex].cid) : currentPath}
           />
         )}
-        { filePath && isReportFileModalOpen &&
-        <ReportFileModal
-          filePath={filePath}
-          close={() => {
-            setIsReportFileModalOpen(false)
-            setFilePath(undefined)
-          }}
-        />
+        {filePath && isReportFileModalOpen &&
+          <ReportFileModal
+            filePath={filePath}
+            close={() => {
+              setIsReportFileModalOpen(false)
+              setFilePath(undefined)
+            }}
+          />
         }
-        { filePath && isFileInfoModalOpen &&
-        <FileInfoModal
-          filePath={filePath}
-          close={() => {
-            setIsFileInfoModalOpen(false)
-            setFilePath(undefined)
-          }}
-        />
+        {filePath && isFileInfoModalOpen &&
+          <FileInfoModal
+            filePath={filePath}
+            close={() => {
+              setIsFileInfoModalOpen(false)
+              setFilePath(undefined)
+            }}
+          />
         }
-        { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
-        <ShareModal
-          onClose={() => {
-            setIsShareModalOpen(false)
-            setFilePath(undefined)
-          }}
-          fileSystemItems={selectedItems}
-        />
+        {!showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
+          <ShareModal
+            onClose={() => {
+              setIsShareModalOpen(false)
+              setFilePath(undefined)
+            }}
+            fileSystemItems={selectedItems}
+          />
         }
         <SharingExplainerModal
           showModal={showExplainerBeforeShare}
           onHide={hideModal}
         />
         {accountRestricted &&
-        <RestrictedModeBanner />
+          <RestrictedModeBanner />
         }
         <SharingExplainerModal
           showModal={showExplainerBeforeShare}

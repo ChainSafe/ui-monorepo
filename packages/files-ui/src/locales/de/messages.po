@@ -127,7 +127,13 @@ msgstr "IID (Inhaltsidentifikator)"
 msgid "Cancel"
 msgstr "Abbrechen"
 
+msgid "Card added"
+msgstr ""
+
 msgid "Card inputs invalid"
+msgstr ""
+
+msgid "Card updated"
 msgstr ""
 
 msgid "Change Password"
@@ -214,9 +220,6 @@ msgstr "Erstellen"
 msgid "Create Shared Folder"
 msgstr ""
 
-msgid "Create a Shared Folder"
-msgstr ""
-
 msgid "Create a sharing link"
 msgstr ""
 
@@ -254,6 +257,9 @@ msgid "Data restored successfully"
 msgstr ""
 
 msgid "Date"
+msgstr ""
+
+msgid "Date Uploaded"
 msgstr ""
 
 msgid "Date uploaded"
@@ -841,6 +847,9 @@ msgstr "Etwas ist schief gelaufen!"
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"
 
+msgid "Sort By:"
+msgstr ""
+
 msgid "Standard plan"
 msgstr ""
 
@@ -849,6 +858,9 @@ msgstr "Hochladen starten"
 
 msgid "Start a team"
 msgstr ""
+
+#~ msgid "Storage Plan"
+#~ msgstr "Speicherplan"
 
 msgid "Stored by miner"
 msgstr ""
@@ -957,6 +969,7 @@ msgstr ""
 
 msgid "Update Shared Folder"
 msgstr ""
+
 
 msgid "Update credit card"
 msgstr ""
@@ -1079,7 +1092,7 @@ msgid "Your plan"
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
+msgstr ""
 
 msgid "can-edit"
 msgstr ""

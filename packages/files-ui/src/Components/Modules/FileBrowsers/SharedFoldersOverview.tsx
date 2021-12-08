@@ -200,7 +200,7 @@ const SharedFolderOverview = () => {
             >
               <PlusIcon />
               <span className={classes.buttonWrap}>
-                <Trans>Create a Shared Folder</Trans>
+                <Trans>Create</Trans>
               </span>
             </Button>
           </div>

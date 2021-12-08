@@ -293,7 +293,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                   className={classes.menuItem}
                   menuItems={[
                     {
-                      onClick: () => signOut(),
+                      onClick: signOut,
                       contents: (
                         <div
                           data-cy="menu-sign-out"
@@ -332,9 +332,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
               <nav className={classes.navMenu}>
                 <Link
                   data-cy="link-home"
-                  onClick={() => {
-                    handleOnClick()
-                  }}
+                  onClick={handleOnClick}
                   className={classes.navItem}
                   to={ROUTE_LINKS.Drive("/")}
                 >
@@ -414,17 +412,31 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                         size="small"
                       />
                     </>
-                  )
-                  }
+                  )}
                 </div>
               )}
               {!desktop && (
-                <div
-                  onClick={() => setNavOpen(false)}
-                  className={clsx(classes.blocker, {
-                    active: navOpen
-                  })}
-                ></div>
+                <>
+                  <div
+                    onClick={() => setNavOpen(false)}
+                    className={clsx(classes.blocker, {
+                      active: navOpen
+                    })}
+                  />
+                  <div
+                    data-cy="signout-nav"
+                    className={classes.navItem}
+                    onClick={() => {
+                      handleOnClick()
+                      signOut()
+                    }}
+                  >
+                    <PowerDownSvg />
+                    <Typography>
+                      <Trans>Sign Out</Trans>
+                    </Typography>
+                  </div>
+                </>
               )}
             </section>
           </>

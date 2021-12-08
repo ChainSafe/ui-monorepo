@@ -80,7 +80,7 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
         </Typography>
         : <Loading
           size={36}
-          type="inherit"
+          type="initial"
         />
     }
     {storageSummary &&
