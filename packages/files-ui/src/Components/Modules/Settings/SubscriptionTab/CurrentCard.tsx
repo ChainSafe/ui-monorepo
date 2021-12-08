@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { Typography, CreditCardIcon, Button } from "@chainsafe/common-components"
+import { Typography, CreditCardIcon, Button, Dialog } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useBilling } from "../../../../Contexts/BillingContext"
 import AddCardModal from "./AddCardModal"
 
@@ -21,6 +21,14 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
     creditCardIcon: {
       marginRight: constants.generalUnit,
       fill: palette.additional["gray"][9]
+    },
+    linkButton: {
+      textDecoration: "underline",
+      cursor: "pointer",
+      margin:  `0 ${constants.generalUnit * 2}px`
+    },
+    confirmDeletionDialog: {
+      top: "50%"
     }
   })
 )
@@ -28,7 +36,21 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
 const CurrentCard: React.FC = () => {
   const classes = useStyles()
   const [isAddCardModalOpen, setIsAddCardModalOpen ] = useState(false)
-  const { defaultCard } = useBilling()
+  const { defaultCard, deleteCard, refreshDefaultCard } = useBilling()
+  const [isDeleteCardModalOpen, setIsDeleteCardModalOpen] = useState(false)
+  const [isDeleteCardLoading, setIsDeleteCardLoading] = useState(false)
+
+  const onRemoveCard = () =>  {
+    if (!defaultCard) return
+    setIsDeleteCardLoading(true)
+    deleteCard(defaultCard)
+      .then(refreshDefaultCard)
+      .catch(console.error)
+      .finally(() => {
+        setIsDeleteCardModalOpen(false)
+        setIsDeleteCardLoading(false)
+      })
+  }
 
   return (
     <>
@@ -44,8 +66,19 @@ const CurrentCard: React.FC = () => {
         {defaultCard
           ? <div className={classes.cardDetailsContainer}>
             <CreditCardIcon className={classes.creditCardIcon} />
-            <Typography>
-           •••• •••• •••• {defaultCard.last_four_digit}
+            <Typography
+              variant="body1"
+              component="p"
+            >
+              •••• •••• •••• {defaultCard.last_four_digit}
+            </Typography>
+            <Typography
+              variant="body1"
+              component="p"
+              className={classes.linkButton}
+              onClick={() => setIsDeleteCardModalOpen(true)}
+            >
+              <Trans>Remove</Trans>
             </Typography>
           </div>
           : <Typography
@@ -67,6 +100,17 @@ const CurrentCard: React.FC = () => {
         isModalOpen={isAddCardModalOpen}
         onClose={() => setIsAddCardModalOpen(false)}
         defaultCard={defaultCard}
+      />
+      <Dialog
+        active={isDeleteCardModalOpen}
+        reject={() => setIsDeleteCardModalOpen(false)}
+        accept={onRemoveCard}
+        requestMessage={t`Are you sure? This will delete your default payment method.`}
+        rejectText={t`Cancel`}
+        acceptText={t`Confirm`}
+        acceptButtonProps={{ loading: isDeleteCardLoading, disabled: isDeleteCardLoading }}
+        rejectButtonProps={{ disabled: isDeleteCardLoading }}
+        injectedClass={{ inner: classes.confirmDeletionDialog }}
       />
     </>
   )
