@@ -5,6 +5,7 @@ import { Card, CurrentSubscription, Product } from "@chainsafe/files-api-client"
 import { useCallback } from "react"
 import { t } from "@lingui/macro"
 import { PaymentMethod } from "@stripe/stripe-js"
+import { useFiles } from "./FilesContext"
 
 type BillingContextProps = {
   children: ReactNode | ReactNode[]
@@ -14,7 +15,7 @@ interface IBillingContext {
   defaultCard: Card | undefined
   refreshDefaultCard: () => void
   currentSubscription: CurrentSubscription | undefined
-  changeSubscription: (newPriceId: string) => Promise<boolean | void>
+  changeSubscription: (newPriceId: string) => Promise<void>
   fetchCurrentSubscription: () => void
   getAvailablePlans: () => Promise<Product[]>
   deleteCard: (card: Card) => Promise<void>
@@ -45,6 +46,7 @@ const BillingContext = React.createContext<IBillingContext | undefined>(
 
 const BillingProvider = ({ children }: BillingContextProps) => {
   const { filesApiClient, isLoggedIn } = useFilesApi()
+  const { refreshBuckets } = useFiles()
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
 
@@ -109,11 +111,18 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const changeSubscription = useCallback((newPriceId: string) => {
     if (!currentSubscription?.id) return Promise.resolve()
     return filesApiClient.updateSubscription(currentSubscription.id, {
-      price_id: newPriceId
+      price_id: newPriceId,
+      payment_method: "stripe"
     })
-      .then(() => true)
-      .catch(console.error)
-  }, [filesApiClient, currentSubscription])
+      .then(() => {
+        fetchCurrentSubscription()
+        refreshBuckets()
+      })
+      .catch((error) => {
+        console.error(error)
+        return Promise.reject()
+      })
+  }, [filesApiClient, currentSubscription, fetchCurrentSubscription, refreshBuckets])
 
   return (
     <BillingContext.Provider

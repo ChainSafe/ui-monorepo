@@ -29,6 +29,9 @@ msgstr "Un fichier avec ce nom existe déjà"
 msgid "Accept"
 msgstr "Accepter"
 
+msgid "Access your billing history in settings or view your"
+msgstr ""
+
 msgid "Account"
 msgstr "Compte"
 
@@ -45,6 +48,9 @@ msgid "Add by sharing address, username or wallet address"
 msgstr "Ajouter par adresse de partage, nom d'utilisateur ou adresse de portefeuille"
 
 msgid "Add card"
+msgstr ""
+
+msgid "Add credit card"
 msgstr ""
 
 msgid "Add more files"
@@ -74,16 +80,19 @@ msgstr "Phrase secrète de sauvegarde"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et réessayer."
 
-msgid "Billed Annually"
-msgstr ""
+#~ msgid "Billed Annually"
+#~ msgstr ""
 
-msgid "Billed Monthly"
-msgstr ""
+#~ msgid "Billed Monthly"
+#~ msgstr ""
 
-msgid "Billed Yearly"
-msgstr ""
+#~ msgid "Billed Yearly"
+#~ msgstr ""
 
 msgid "Billing history"
+msgstr ""
+
+msgid "Billing start time"
 msgstr ""
 
 msgid "Bin"
@@ -128,6 +137,9 @@ msgstr ""
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
+msgid "Change plan"
+msgstr ""
+
 msgid "Check your inbox! We've sent another email."
 msgstr "Vérifiez votre boîte de réception ! Nous avons envoyé un autre courriel."
 
@@ -142,6 +154,15 @@ msgstr "Confirmer"
 
 msgid "Confirm Password:"
 msgstr "Confirmer le mot de passe :"
+
+msgid "Confirm plan"
+msgstr ""
+
+msgid "Confirm plan change"
+msgstr ""
+
+msgid "Confirmation"
+msgstr ""
 
 msgid "Connect Wallet to Files"
 msgstr "Connecter un wallet à Files"
@@ -275,6 +296,12 @@ msgstr "Les téléchargements ont échoué"
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
+msgid "Edit payment method"
+msgstr ""
+
+msgid "Edit plan"
+msgstr ""
+
 msgid "Email is required"
 msgstr "Un courriel est requis"
 
@@ -293,6 +320,9 @@ msgstr "Entrez le code de vérification :"
 msgid "Failed to add payment method"
 msgstr ""
 
+msgid "Failed to change subscription"
+msgstr ""
+
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
 
@@ -307,6 +337,9 @@ msgstr ""
 "Échec de la validation de la signature.\n"
 "Si vous utilisez un contract wallet, veuillez\n"
 "vérifier que vous avez activé votre wallet."
+
+msgid "Features"
+msgstr ""
 
 msgid "File Info"
 msgstr "Infos du fichier"
@@ -344,8 +377,8 @@ msgstr "Pour des raisons de sécurité, chaque fois que vous vous connectez, nou
 msgid "Forget this browser"
 msgstr "Oublier ce navigateur"
 
-msgid "Free"
-msgstr ""
+#~ msgid "Free"
+#~ msgstr ""
 
 msgid "Free plan"
 msgstr ""
@@ -370,6 +403,9 @@ msgstr "Donner l’autorisation de modifier à :"
 
 msgid "Give view-only permission to:"
 msgstr "Donner l’accès en lecture seule à :"
+
+msgid "Go  back"
+msgstr ""
 
 msgid "Go back"
 msgstr "Retour"
@@ -566,6 +602,15 @@ msgstr "Les mots de passes de correspondent pas"
 msgid "Payment and Subscriptions"
 msgstr ""
 
+msgid "Payment method"
+msgstr ""
+
+msgid "Plan changed successfully"
+msgstr ""
+
+msgid "Plan details"
+msgstr ""
+
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"
 
@@ -602,8 +647,8 @@ msgstr "Paramètres du profil"
 msgid "Profile updated"
 msgstr "Profile mis à jour"
 
-msgid "Purchase with card"
-msgstr ""
+#~ msgid "Purchase with card"
+#~ msgstr ""
 
 msgid "Receipt"
 msgstr ""
@@ -857,14 +902,17 @@ msgstr "Ce site web utilise des cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre les interactions à des fins d'analyse. Vous avez le droit de refuser notre utilisation des cookies. Pour que nous puissions vous offrir une expérience utilisateur personnalisable, veuillez cliquer sur le bouton Accepter ci-dessous.<0>En savoir plus</0>"
 
+msgid "Total"
+msgstr ""
+
 msgid "Try again"
 msgstr "Essayer de nouveau"
 
 msgid "Try another method"
 msgstr "Essayer une autre méthode"
 
-msgid "Try for 7 days"
-msgstr ""
+#~ msgid "Try for 7 days"
+#~ msgstr ""
 
 msgid "Unable to upload"
 msgstr ""
@@ -878,14 +926,11 @@ msgstr ""
 msgid "Update Shared Folder"
 msgstr "Mettre à jour le dossier partagé"
 
-msgid "Update card"
+msgid "Update credit card"
 msgstr ""
 
-msgid "Update your credit card"
-msgstr ""
-
-msgid "Upgrade your plan"
-msgstr ""
+#~ msgid "Upgrade your plan"
+#~ msgstr ""
 
 msgid "Upload"
 msgstr "Téléverser"
@@ -898,6 +943,9 @@ msgstr "Utilisez une méthode de connexion différente"
 
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
+
+msgid "Use this card"
+msgstr ""
 
 msgid "User {0} is both a reader and writer"
 msgstr "L'utilisateur {0} est dans les auteurs et lecteurs"
@@ -959,6 +1007,9 @@ msgstr "Quelle belle journée."
 msgid "What a fine night it is."
 msgstr "Quelle belle nuit."
 
+msgid "Yearly billing"
+msgstr ""
+
 msgid "Yes, save it"
 msgstr "Oui, l’enregistrer"
 
@@ -971,11 +1022,14 @@ msgstr "Vous pouvez maintenant créer des dossiers partagés pour partager un fi
 msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
 
-msgid "You do not have access to this shared folder."
-msgstr "Vous n'avez pas accès à ce dossier partagé."
+msgid "You get access to these features right now."
+msgstr ""
 
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
+
+msgid "You now have:"
+msgstr ""
 
 msgid "You were added to the shared folder ({0}): {1}"
 msgstr "Vous avez été ajouté(e) au dossier partagé ({0}) : {1}"
@@ -989,8 +1043,14 @@ msgstr ""
 msgid "can-edit"
 msgstr "peut-modifier"
 
+msgid "invoices here"
+msgstr ""
+
 msgid "me"
 msgstr "moi"
+
+msgid "of storage"
+msgstr ""
 
 msgid "on"
 msgstr "le"

@@ -28,6 +28,9 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
+msgid "Access your billing history in settings or view your"
+msgstr ""
+
 msgid "Account"
 msgstr "Konto"
 
@@ -44,6 +47,9 @@ msgid "Add by sharing address, username or wallet address"
 msgstr ""
 
 msgid "Add card"
+msgstr ""
+
+msgid "Add credit card"
 msgstr ""
 
 msgid "Add more files"
@@ -67,22 +73,31 @@ msgstr ""
 msgid "Approve"
 msgstr "Godkjenn"
 
+<<<<<<< HEAD
+#~ msgid "Back to plan settings"
+#~ msgstr ""
+
+=======
+>>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
 msgid "Backup secret phrase"
 msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
 
-msgid "Billed Annually"
-msgstr ""
+#~ msgid "Billed Annually"
+#~ msgstr ""
 
-msgid "Billed Monthly"
-msgstr ""
+#~ msgid "Billed Monthly"
+#~ msgstr ""
 
-msgid "Billed Yearly"
-msgstr ""
+#~ msgid "Billed Yearly"
+#~ msgstr ""
 
 msgid "Billing history"
+msgstr ""
+
+msgid "Billing start time"
 msgstr ""
 
 msgid "Bin"
@@ -127,6 +142,9 @@ msgstr ""
 msgid "Change password"
 msgstr "Endre passord"
 
+msgid "Change plan"
+msgstr ""
+
 msgid "Check your inbox! We've sent another email."
 msgstr ""
 
@@ -141,6 +159,15 @@ msgstr "Bekreft"
 
 msgid "Confirm Password:"
 msgstr "Bekreft passord:"
+
+msgid "Confirm plan"
+msgstr ""
+
+msgid "Confirm plan change"
+msgstr ""
+
+msgid "Confirmation"
+msgstr ""
 
 msgid "Connect Wallet to Files"
 msgstr ""
@@ -205,6 +232,15 @@ msgstr ""
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+<<<<<<< HEAD
+msgid "Credit card saved"
+msgstr ""
+
+#~ msgid "Current"
+#~ msgstr ""
+
+=======
+>>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
 msgid "Dark Theme"
 msgstr "Mørk drakt"
 
@@ -274,6 +310,12 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
+msgid "Edit payment method"
+msgstr ""
+
+msgid "Edit plan"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -292,6 +334,9 @@ msgstr "Skriv inn bekreftelseskoden:"
 msgid "Failed to add payment method"
 msgstr ""
 
+msgid "Failed to change subscription"
+msgstr ""
+
 msgid "Failed to get signature"
 msgstr ""
 
@@ -302,6 +347,9 @@ msgid ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
+msgstr ""
+
+msgid "Features"
 msgstr ""
 
 msgid "File Info"
@@ -340,8 +388,8 @@ msgstr ""
 msgid "Forget this browser"
 msgstr ""
 
-msgid "Free"
-msgstr ""
+#~ msgid "Free"
+#~ msgstr ""
 
 msgid "Free plan"
 msgstr ""
@@ -365,6 +413,9 @@ msgid "Give edit permission to:"
 msgstr ""
 
 msgid "Give view-only permission to:"
+msgstr ""
+
+msgid "Go  back"
 msgstr ""
 
 msgid "Go back"
@@ -442,7 +493,11 @@ msgstr ""
 msgid "Method"
 msgstr ""
 
+<<<<<<< HEAD
+msgid "Monthly billing"
+=======
 msgid "Manage Shared Folder"
+>>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
 msgstr ""
 
 msgid "Move"
@@ -562,6 +617,15 @@ msgstr "Passordene må samsvare"
 msgid "Payment and Subscriptions"
 msgstr ""
 
+msgid "Payment method"
+msgstr ""
+
+msgid "Plan changed successfully"
+msgstr ""
+
+msgid "Plan details"
+msgstr ""
+
 msgid "Please enter a file name"
 msgstr "Skriv inn et filnavn"
 
@@ -598,8 +662,8 @@ msgstr "Profilinnstillinger"
 msgid "Profile updated"
 msgstr "Profil oppdatert"
 
-msgid "Purchase with card"
-msgstr ""
+#~ msgid "Purchase with card"
+#~ msgstr ""
 
 msgid "Receipt"
 msgstr ""
@@ -688,6 +752,18 @@ msgstr ""
 msgid "Select an existing shared folder or your home"
 msgstr ""
 
+<<<<<<< HEAD
+msgid "Select payment method"
+msgstr ""
+
+msgid "Select plan"
+msgstr ""
+
+msgid "Select this plan"
+msgstr ""
+
+=======
+>>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
 msgid "Send another email"
 msgstr "Send en ny e-post"
 
@@ -841,6 +917,15 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
+<<<<<<< HEAD
+msgid "This card will become your default payment method"
+msgstr ""
+
+msgid "This is the free product."
+msgstr ""
+
+=======
+>>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
@@ -856,14 +941,17 @@ msgstr ""
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
+msgid "Total"
+msgstr ""
+
 msgid "Try again"
 msgstr "Prøv igjen"
 
 msgid "Try another method"
 msgstr "Prøv annen metode"
 
-msgid "Try for 7 days"
-msgstr ""
+#~ msgid "Try for 7 days"
+#~ msgstr ""
 
 msgid "Unable to upload"
 msgstr ""
@@ -877,14 +965,11 @@ msgstr ""
 msgid "Update Shared Folder"
 msgstr ""
 
-msgid "Update card"
+msgid "Update credit card"
 msgstr ""
 
-msgid "Update your credit card"
-msgstr ""
-
-msgid "Upgrade your plan"
-msgstr ""
+#~ msgid "Upgrade your plan"
+#~ msgstr ""
 
 msgid "Upload"
 msgstr "Last opp"
@@ -896,6 +981,9 @@ msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
 
 msgid "Use a saved browser"
+msgstr ""
+
+msgid "Use this card"
 msgstr ""
 
 msgid "User {0} is both a reader and writer"
@@ -958,6 +1046,9 @@ msgstr ""
 msgid "What a fine night it is."
 msgstr ""
 
+msgid "Yearly billing"
+msgstr ""
+
 msgid "Yes, save it"
 msgstr "Ja, lagre"
 
@@ -970,11 +1061,14 @@ msgstr ""
 msgid "You can't move folders to this path"
 msgstr ""
 
-msgid "You do not have access to this shared folder."
+msgid "You get access to these features right now."
 msgstr ""
 
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
+
+msgid "You now have:"
+msgstr ""
 
 msgid "You were added to the shared folder ({0}): {1}"
 msgstr ""
@@ -988,12 +1082,33 @@ msgstr ""
 msgid "can-edit"
 msgstr ""
 
+msgid "invoices here"
+msgstr ""
+
 msgid "me"
+msgstr ""
+
+<<<<<<< HEAD
+msgid "of storage"
 msgstr ""
 
 msgid "on"
 msgstr ""
 
+#~ msgid "per day"
+#~ msgstr ""
+
+#~ msgid "per month"
+#~ msgstr ""
+
+#~ msgid "per week"
+#~ msgstr ""
+
+#~ msgid "per year"
+#~ msgstr ""
+
+=======
+>>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
 msgid "unknown"
 msgstr ""
 

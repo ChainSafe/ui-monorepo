@@ -38,6 +38,7 @@ export const BreadcrumbStory = (): React.ReactNode => {
         homeOnClick={() => actionsData.homeClicked()}
         showDropDown={boolean("show dropdown", true)}
         crumbs={crumbs}
+        hideHome={boolean("hide home", false)}
       />
     </>
   )}

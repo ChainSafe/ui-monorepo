@@ -3,7 +3,7 @@ import { Typography, CreditCardIcon, Button, Dialog } from "@chainsafe/common-co
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
 import { useBilling } from "../../../../Contexts/BillingContext"
-import AddCardModal from "./AddCardModal"
+import AddCardModal from "./AddCard/AddCardModal"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -99,7 +99,6 @@ const CurrentCard: React.FC = () => {
       <AddCardModal
         isModalOpen={isAddCardModalOpen}
         onClose={() => setIsAddCardModalOpen(false)}
-        defaultCard={defaultCard}
       />
       <Dialog
         active={isDeleteCardModalOpen}
