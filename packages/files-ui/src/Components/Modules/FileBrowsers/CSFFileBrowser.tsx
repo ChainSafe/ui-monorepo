@@ -185,28 +185,29 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   }), [])
 
   return (
-    <FileBrowserContext.Provider value={{
-      bucket,
-      bulkOperations,
-      crumbs,
-      moduleRootPath: ROUTE_LINKS.Drive("/"),
-      currentPath,
-      refreshContents,
-      deleteItems: moveItemsToBin,
-      downloadFile: handleDownload,
-      moveItems,
-      renameItem: renameItem,
-      viewFolder,
-      handleUploadOnDrop,
-      loadingCurrentPath,
-      showUploadsInTable: true,
-      sourceFiles: pathContents,
-      heading: t`My Files`,
-      controls: true,
-      allowDropUpload: true,
-      itemOperations,
-      withSurvey: showSurvey && olderThanOneWeek
-    }}>
+    <FileBrowserContext.Provider
+      value={{
+        bucket,
+        bulkOperations,
+        crumbs,
+        moduleRootPath: ROUTE_LINKS.Drive("/"),
+        currentPath,
+        refreshContents,
+        deleteItems: moveItemsToBin,
+        downloadFile: handleDownload,
+        moveItems,
+        renameItem: renameItem,
+        viewFolder,
+        handleUploadOnDrop,
+        loadingCurrentPath,
+        showUploadsInTable: true,
+        sourceFiles: pathContents,
+        heading: t`My Files`,
+        controls: true,
+        allowDropUpload: true,
+        itemOperations,
+        withSurvey: showSurvey && olderThanOneWeek
+      }}>
       <DragAndDrop>
         <FilesList />
       </DragAndDrop>

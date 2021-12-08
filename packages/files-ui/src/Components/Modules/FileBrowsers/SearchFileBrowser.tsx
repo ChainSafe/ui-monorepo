@@ -102,20 +102,21 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   }), [])
 
   return (
-    <FileBrowserContext.Provider value={{
-      crumbs: undefined,
-      loadingCurrentPath: loadingSearchResults,
-      showUploadsInTable: false,
-      viewFolder,
-      sourceFiles: pathContents,
-      moduleRootPath: undefined,
-      currentPath: searchTerm,
-      heading: t`Search results`,
-      controls,
-      itemOperations,
-      isSearch: true,
-      getPath
-    }}>
+    <FileBrowserContext.Provider
+      value={{
+        crumbs: undefined,
+        loadingCurrentPath: loadingSearchResults,
+        showUploadsInTable: false,
+        viewFolder,
+        sourceFiles: pathContents,
+        moduleRootPath: undefined,
+        currentPath: searchTerm,
+        heading: t`Search results`,
+        controls,
+        itemOperations,
+        isSearch: true,
+        getPath
+      }}>
       <DragAndDrop>
         <FilesList />
       </DragAndDrop>
