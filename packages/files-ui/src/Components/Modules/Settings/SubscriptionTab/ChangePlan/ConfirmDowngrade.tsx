@@ -140,7 +140,8 @@ const ConfirmDowngrade = ({ plan, goBack, goToPlanDetails: goToPaymentMethod, sh
         <div className={classes.pushRightBox}>
           <div className={clsx(classes.middleRowBox, classes.featureTickBox)}>
             <CrossIcon className={classes.crossIcon} />
-            <Typography component="p"
+            <Typography
+              component="p"
               variant="body1"
             >
               {currentStorage
@@ -151,8 +152,10 @@ const ConfirmDowngrade = ({ plan, goBack, goToPlanDetails: goToPaymentMethod, sh
           </div>
           <div className={classes.middleRowBox}>
             <CrossIcon className={classes.crossIcon} />
-            <Typography component="p"
-              variant="body1">
+            <Typography
+              component="p"
+              variant="body1"
+            >
               {currentSubscription?.product.description}
             </Typography>
           </div>
