@@ -572,7 +572,8 @@ const FilesList = () => {
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
       >
-        <Typography variant="h4"
+        <Typography
+          variant="h4"
           component="p">
           <Trans>Drop to upload files</Trans>
         </Typography>
@@ -737,9 +738,11 @@ const FilesList = () => {
           loadingCurrentPath && classes.showLoadingContainer
         )}
       >
-        <Loading size={24}
+        <Loading
+          size={24}
           type="light" />
-        <Typography variant="body2"
+        <Typography
+          variant="body2"
           component="p">
           <Trans>One sec, getting files ready...</Trans>
         </Typography>
@@ -752,7 +755,8 @@ const FilesList = () => {
           )}
         >
           <EmptySvg />
-          <Typography variant="h4"
+          <Typography
+            variant="h4"
             component="h4">
             <Trans>No files to show</Trans>
           </Typography>
@@ -766,7 +770,8 @@ const FilesList = () => {
         >
           {desktop && (
             <TableHead className={classes.tableHead}>
-              <TableRow type="grid"
+              <TableRow
+                type="grid"
                 className={classes.tableRow}>
                 <TableHeadCell>
                   <CheckboxInput
