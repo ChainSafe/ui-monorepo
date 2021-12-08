@@ -176,7 +176,7 @@ describe("Link Sharing", () => {
 
     it("can see an invalid link message when signed out", () => {
       cy.visit(deletedShareLink)
-      authenticationPage.ErrorIcon().should("be.visible")
+      authenticationPage.errorIcon().should("be.visible")
       authenticationPage.invalidLinkMessage().should("be.visible")
 
       // return to the main login section
