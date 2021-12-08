@@ -151,7 +151,7 @@ describe("Link Sharing", () => {
     it("can see an invalid link message when it has been deleted", () => {
       cy.web3Login()
       cy.visit(deletedShareLink)
-      linkSharingConfirmation.ErrorIcon().should("be.visible")
+      linkSharingConfirmation.errorIcon().should("be.visible")
       linkSharingConfirmation.invalidLinkMessage().should("be.visible")
     })
 
