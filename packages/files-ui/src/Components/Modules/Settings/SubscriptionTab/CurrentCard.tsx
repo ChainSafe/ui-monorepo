@@ -78,7 +78,7 @@ const CurrentCard: React.FC = () => {
               className={classes.linkButton}
               onClick={() => setIsDeleteCardModalOpen(true)}
             >
-              Remove
+              <Trans>Remove</Trans>
             </Typography>
           </div>
           : <Typography
