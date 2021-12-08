@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Button, ExternalSvg, formatBytes, Link, Loading, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../../../Themes/types"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { Product } from "@chainsafe/files-api-client"
@@ -155,65 +155,14 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
           const yearly = plan.prices.find((price) => price.recurring.interval === "year")
           const isPlanSelectable = plan.id  !== currentSubscription?.product.id &&
           (monthly?.is_update_allowed || yearly?.is_update_allowed)
+          const currentStorage = formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)
 
-          return desktop ? <div
-            className={clsx(classes.planBox)}
-            key={`plan-${plan.id}`}
-          >
-            <Typography
-              component="p"
-              variant="body1"
-              className={classes.planTitle}
+
+          return desktop ? (
+            <div
+              className={clsx(classes.planBox)}
+              key={`plan-${plan.id}`}
             >
-              {plan.name}
-            </Typography>
-            {monthly && <Typography
-              component="h4"
-              variant="h4">
-              {monthly.unit_amount
-                ? <>
-                  {monthly.currency.toUpperCase()} {monthly.unit_amount}
-                  <span className={classes.priceSubtitle}>/month</span>
-                </>
-                : "Free"}
-            </Typography>
-            }
-            {monthly && yearly
-              ? <Typography
-                variant="body2"
-                className={classes.priceYearlyTitle}>
-                {yearly.currency.toUpperCase()} {yearly.unit_amount}
-                <span className={classes.priceSubtitle}>/year</span>
-              </Typography>
-              : <div className={classes.priceSpace} />
-            }
-            <Typography
-              component="p"
-              variant="body1"
-              className={classes.description}
-            >
-              {
-                monthly?.metadata?.storage_size_bytes
-                  ? <>
-                    <b>{formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)}</b>&nbsp;
-                    <Trans>of storage</Trans >
-                  </>
-                  : plan.description
-              }
-            </Typography>
-            <Button
-              variant="primary"
-              disabled={!isPlanSelectable}
-              onClick={() => onSelectPlan(plan)}
-            >
-              <Trans>Select plan</Trans>
-            </Button>
-          </div> : <div
-            className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && "active")}
-            onClick={() => isPlanSelectable && setTempSelectedPlan(plan)}
-            key={`plan-${plan.id}`}
-          >
-            <div>
               <Typography
                 component="p"
                 variant="body1"
@@ -221,6 +170,35 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               >
                 {plan.name}
               </Typography>
+              {monthly && (
+                <Typography
+                  component="h4"
+                  variant="h4">
+                  {monthly.unit_amount
+                    ? <>
+                      {monthly.currency.toUpperCase()} {monthly.unit_amount}
+                      <span className={classes.priceSubtitle}>
+                        <Trans>/month</Trans>
+                      </span>
+                    </>
+                    : t`Free`}
+                </Typography>
+              )
+              }
+              {monthly && yearly
+                ? (
+                  <Typography
+                    variant="body2"
+                    className={classes.priceYearlyTitle}
+                  >
+                    {yearly.currency.toUpperCase()} {yearly.unit_amount}
+                    <span className={classes.priceSubtitle}>
+                      <Trans>/year</Trans>
+                    </span>
+                  </Typography>
+                )
+                : <div className={classes.priceSpace} />
+              }
               <Typography
                 component="p"
                 variant="body1"
@@ -228,77 +206,107 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               >
                 {
                 monthly?.metadata?.storage_size_bytes
-                  ? <>
-                    {formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)}&nbsp;
-                    <Trans>of storage</Trans >
-                  </>
+                  ? <Trans>{currentStorage} of storage</Trans >
                   : plan.description
                 }
               </Typography>
+              <Button
+                variant="primary"
+                disabled={!isPlanSelectable}
+                onClick={() => onSelectPlan(plan)}
+              >
+                <Trans>Select plan</Trans>
+              </Button>
             </div>
-            <div className={classes.mobilePriceBox}>
-              {monthly && <Typography
-                component="h4"
-                variant="h4">
-                {monthly.unit_amount
-                  ? <>
-                    {monthly.currency.toUpperCase()} {monthly.unit_amount}
-                    <span className={classes.priceSubtitle}>/month</span>
-                  </>
-                  : "Free"}
-              </Typography>
-              }
-              {monthly && yearly
-                ? <Typography
-                  variant="body2"
-                  className={classes.priceYearlyTitle}>
-                  {yearly.currency.toUpperCase()} {yearly.unit_amount}
-                  <span className={classes.priceSubtitle}>/year</span>
-                </Typography>
-                : <div className={classes.priceSpace} />
-              }
-            </div>
-          </div>
-        })
-        }
+          )
+            : (
+              <div
+                className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && "active")}
+                onClick={() => isPlanSelectable && setTempSelectedPlan(plan)}
+                key={`plan-${plan.id}`}
+              >
+                <div>
+                  <Typography
+                    component="p"
+                    variant="body1"
+                    className={classes.planTitle}
+                  >
+                    {plan.name}
+                  </Typography>
+                  <Typography
+                    component="p"
+                    variant="body1"
+                    className={classes.description}
+                  >
+                    {
+                monthly?.metadata?.storage_size_bytes
+                  ? <Trans>{currentStorage} of storage</Trans >
+                  : plan.description
+                    }
+                  </Typography>
+                </div>
+                <div className={classes.mobilePriceBox}>
+                  {monthly && (
+                    <Typography
+                      component="h4"
+                      variant="h4">
+                      {monthly.unit_amount
+                        ? <>
+                          {monthly.currency.toUpperCase()} {monthly.unit_amount}
+                          <span className={classes.priceSubtitle}>/month</span>
+                        </>
+                        : t`Free`}
+                    </Typography>
+                  )}
+                  {monthly && yearly
+                    ? (
+                      <Typography
+                        variant="body2"
+                        className={classes.priceYearlyTitle}>
+                        {yearly.currency.toUpperCase()} {yearly.unit_amount}
+                        <span className={classes.priceSubtitle}>/year</span>
+                      </Typography>
+                    )
+                    : <div className={classes.priceSpace} />
+                  }
+                </div>
+              </div>
+            )})}
       </section>
       <section className={classes.bottomSection}>
-        {desktop &&
-        <Link
-          className={classes.link}
-          to="http://chainsafe.io"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Typography
-            component="span"
-            variant="h5"
+        {desktop && (
+          <Link
+            className={classes.link}
+            to="http://chainsafe.io"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <Trans>
-              Not sure what to pick? Learn more about our plans
-            </Trans>
-          </Typography>
-          <ExternalSvg />
-        </Link>
-        }
+            <Typography
+              component="span"
+              variant="h5"
+            >
+              <Trans>Not sure what to pick? Learn more about our plans</Trans>
+            </Typography>
+            <ExternalSvg />
+          </Link>
+        )}
         <div className={classes.buttons}>
           <Button
             onClick={onClose}
             variant="secondary"
           >
-            <Trans>
-              Cancel
-            </Trans>
+            <Trans>Cancel</Trans>
           </Button>
-          {!desktop && <Button
-            variant="primary"
-            disabled={!tempSelectedPlan}
-            className={classes.selectButton}
-            onClick={() => tempSelectedPlan && onSelectPlan(tempSelectedPlan)}
-          >
-            <Trans>Select plan</ Trans>
-          </Button>
-          }
+          {!desktop && (
+            <Button
+              variant="primary"
+              disabled={!tempSelectedPlan}
+              className={classes.selectButton}
+              onClick={() => tempSelectedPlan && onSelectPlan(tempSelectedPlan)}
+            >
+              <Trans>Select plan</ Trans>
+            </Button>
+          )}
         </div>
       </section>
     </article>

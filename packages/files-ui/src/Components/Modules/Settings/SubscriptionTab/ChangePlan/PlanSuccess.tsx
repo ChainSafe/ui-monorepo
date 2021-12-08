@@ -87,12 +87,9 @@ interface IPlanSuccess {
   onClose: () => void
 }
 
-const PlanSuccess = ({
-  plan,
-  onClose,
-  planPrice
-}: IPlanSuccess) => {
+const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
   const classes = useStyles()
+  const newPlanCapacity = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
 
   return (
     <article className={classes.root}>
@@ -119,7 +116,7 @@ const PlanSuccess = ({
           component="p"
           className={classes.featuresTitle}
         >
-          <Trans>You now have: </Trans>
+          <Trans>You now have:</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           <div className={clsx(classes.middleRowBox, classes.featureTickBox)}>
@@ -129,10 +126,7 @@ const PlanSuccess = ({
               variant="body1"
             >
               {planPrice?.metadata?.storage_size_bytes
-                ? <>
-                  <b>{formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)}&nbsp;</b>
-                  <Trans>of storage</Trans >
-                </>
+                ? <Trans>{newPlanCapacity} of storage</Trans >
                 : plan.description
               }
             </Typography>
@@ -141,7 +135,8 @@ const PlanSuccess = ({
             <CheckIcon className={classes.tickIcon} />
             <Typography
               component="p"
-              variant="body1">
+              variant="body1"
+            >
               {plan.description}
             </Typography>
           </div>
@@ -168,9 +163,7 @@ const PlanSuccess = ({
             onClick={onClose}
             variant="secondary"
           >
-            <Trans>
-              Close
-            </Trans>
+            <Trans>Close</Trans>
           </Button>
         </div>
       </section>
