@@ -11,6 +11,7 @@ export const useSharingExplainerModalFlag = () => {
     if (!localStore) {
       return
     }
+
     if (localStore[DISMISSED_SHARING_EXPLAINER_KEY] === "false"){
       setHasSeenSharingExplainerModal(false)
     }

@@ -13,7 +13,7 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "<0>{currentStorage}</0> of storage"
+msgid "({0}) items selected"
 msgstr ""
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -35,12 +35,6 @@ msgid "Account"
 msgstr "Konto"
 
 msgid "Active links"
-msgstr ""
-
-msgid "Add Card"
-msgstr ""
-
-msgid "Add a credit card"
 msgstr ""
 
 msgid "Add a username"
@@ -68,9 +62,6 @@ msgid "Adding you to the shared folder..."
 msgstr ""
 
 msgid "Allow lookup by sharing key, wallet address or username"
-msgstr ""
-
-msgid "Amount"
 msgstr ""
 
 msgid "An error occurred:"
@@ -250,9 +241,6 @@ msgstr ""
 msgid "Data restored successfully"
 msgstr ""
 
-msgid "Date"
-msgstr ""
-
 msgid "Date Uploaded"
 msgstr ""
 
@@ -418,9 +406,6 @@ msgstr ""
 msgid "Go back"
 msgstr "Tilbake"
 
-msgid "Go to Payments"
-msgstr ""
-
 msgid "Go to login"
 msgstr ""
 
@@ -493,9 +478,6 @@ msgstr ""
 msgid "Method"
 msgstr ""
 
-msgid "Monthly billing"
-msgstr ""
-
 msgid "Move"
 msgstr "Flytt"
 
@@ -557,9 +539,6 @@ msgid "No thanks"
 msgstr "Nei takk"
 
 msgid "No user found for this query."
-msgstr ""
-
-msgid "Not sure what to pick? Learn more about our plans"
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
@@ -841,14 +820,12 @@ msgstr ""
 msgid "Sort By:"
 msgstr ""
 
-msgid "Standard plan"
-msgstr ""
-
 msgid "Start Upload"
 msgstr ""
 
 msgid "Start a team"
 msgstr ""
+
 
 msgid "Stored by miner"
 msgstr ""
@@ -860,6 +837,15 @@ msgid "Switch Plans"
 msgstr ""
 
 msgid "Switch to Free plan"
+msgstr ""
+
+msgid "Storage Plan"
+msgstr ""
+
+#~ msgid "Storage Plan"
+#~ msgstr ""
+
+msgid "Stored by miner"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -971,9 +957,6 @@ msgid "Upload"
 msgstr "Last opp"
 
 msgid "Uploads cancelled"
-msgstr ""
-
-msgid "Uploads disabled"
 msgstr ""
 
 msgid "Use a different login method"
@@ -1108,6 +1091,18 @@ msgstr ""
 msgid "on"
 msgstr ""
 
+#~ msgid "per day"
+#~ msgstr ""
+
+#~ msgid "per month"
+#~ msgstr ""
+
+#~ msgid "per week"
+#~ msgstr ""
+
+#~ msgid "per year"
+#~ msgstr ""
+
 msgid "unknown"
 msgstr ""
 
@@ -1133,9 +1128,6 @@ msgid "{0} complete"
 msgstr ""
 
 msgid "{0} failed"
-msgstr ""
-
-msgid "{0} of {1} used"
 msgstr ""
 
 msgid "{0} {fileProgress} - {1}"

@@ -73,9 +73,9 @@ interface IPlanDetails {
 
 const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
   const classes = useStyles()
-
   const monthlyPrice = plan.prices.find((price) => price.recurring.interval === "month")
   const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "year")
+  const currentPlanStorage = formatBytes(Number(monthlyPrice?.metadata?.storage_size_bytes), 2)
 
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">(monthlyPrice ? "monthly" : "yearly")
 
@@ -98,13 +98,15 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
         }]}
         hideHome={true}
       />
-      <Typography variant="h5"
+      <Typography
+        variant="h5"
         component="h4"
         className={classes.heading}
       >
         {plan.name}
       </Typography>
-      <Typography variant="body1"
+      <Typography
+        variant="body1"
         component="p"
         className={classes.subheading}
       >
@@ -112,25 +114,26 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
       </Typography>
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
-        <Typography variant="body1"
+        <Typography
+          variant="body1"
           component="p"
-          className={classes.boldText}>
+          className={classes.boldText}
+        >
           <Trans>Features</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography component="p"
+          <Typography
+            component="p"
             variant="body1"
             className={classes.featureSeparator}
           >
             {monthlyPrice?.metadata?.storage_size_bytes
-              ? <>
-                <b>{formatBytes(Number(monthlyPrice?.metadata?.storage_size_bytes), 2)}&nbsp;</b>
-                <Trans>of storage</Trans >
-              </>
+              ? <Trans>{currentPlanStorage} of storage</Trans>
               : plan.description
             }
           </Typography>
-          <Typography component="p"
+          <Typography
+            component="p"
             variant="body1">
             {plan.description}
           </Typography>
@@ -138,23 +141,31 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
       </div>
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
-        <Typography component="p"
+        <Typography
+          component="p"
           variant="body1"
-          className={classes.boldText}>
+          className={classes.boldText}
+        >
           <Trans>Billing start time</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography variant="body1"
-            component="p">{dayjs().format("DD MMM YYYY")}</Typography>
+          <Typography
+            variant="body1"
+            component="p"
+          >
+            {dayjs().format("DD MMM YYYY")}
+          </Typography>
         </div>
       </div>
       <Divider className={classes.divider} />
       {monthlyPrice && yearlyPrice &&
         <>
           <div className={classes.middleRowBox}>
-            <Typography component="p"
+            <Typography
+              component="p"
               variant="body1"
-              className={classes.boldText}>
+              className={classes.boldText}
+            >
               {billingPeriod === "monthly"
                 ? <Trans>Monthly billing</Trans>
                 : <Trans>Yearly billing</Trans>
@@ -164,9 +175,7 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
               <ToggleSwitch
                 left={{ value: "yearly" }}
                 right={{ value: "monthly" }}
-                onChange={() =>
-                  setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")
-                }
+                onChange={() => setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")}
               />
             </div>
           </div>
@@ -174,19 +183,23 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
         </>
       }
       <div className={classes.rowBox}>
-        <Typography component="h5"
+        <Typography
+          component="h5"
           variant="h5"
-          className={classes.boldText}>
+          className={classes.boldText}
+        >
           <Trans>Total</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography variant="body1"
+          <Typography
+            variant="body1"
             component="p"
             className={classes.boldText}
-          >{billingPeriod === "monthly"
+          >
+            {billingPeriod === "monthly"
               ? `${monthlyPrice?.unit_amount ? monthlyPrice?.currency : ""} ${monthlyPrice?.unit_amount}`
               : `${yearlyPrice?.unit_amount ? yearlyPrice?.currency : ""} ${yearlyPrice?.unit_amount}`
-            }<span className={classes.normalWeightText}>{billingPeriod ? "/month" : "/year"}</span>
+            }<span className={classes.normalWeightText}>{billingPeriod ? t`/month` : t`/year`}</span>
           </Typography>
         </div>
       </div>
@@ -196,17 +209,13 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
             onClick={() => onClose()}
             variant="secondary"
           >
-            <Trans>
-              Cancel
-            </Trans>
+            <Trans>Cancel</Trans>
           </Button>
           <Button
             variant="primary"
             onClick={handleSelectPlan}
           >
-            <Trans>
-              Select this plan
-            </Trans>
+            <Trans>Select this plan</Trans>
           </Button>
         </div>
       </section>

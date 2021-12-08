@@ -311,7 +311,8 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                   {!!profileTitle &&
                   <div className={classes.profileButton}>
                     <div className={classes.hashIconContainer}>
-                      <Hashicon value={profile?.userId || ""}
+                      <Hashicon
+                        value={profile?.userId || ""}
                         size={20} />
                     </div>
                     <Typography

@@ -15,12 +15,14 @@ import LinkSharingLanding from "./Pages/LinkSharingLanding"
 
 export const SETTINGS_BASE = "/settings"
 export const LINK_SHARING_BASE = "/link-sharing"
+const CHAINSAFE_LANDING = "https://chainsafe.io/"
 
 export const ROUTE_LINKS = {
   Landing: "/",
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
-  ChainSafe: "https://chainsafe.io/",
+  ChainSafe: CHAINSAFE_LANDING,
+  ProductPlans: `${CHAINSAFE_LANDING}`,
   Drive: (rawCurrentPath: string) => `/drive${rawCurrentPath}`,
   Bin: (rawBinPath: string) => `/bin${rawBinPath}`,
   Search: (rawSearchTerm: string) => `/search/${rawSearchTerm}`,

@@ -115,12 +115,12 @@ const ConfirmPlan = ({
   const classes = useStyles()
   const { defaultCard } = useBilling()
   const { currentSubscription } = useBilling()
+  const currentPlanStorage = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
   const isDowngrade = useMemo(() => {
     const currentPrice = currentSubscription?.product?.price?.unit_amount
     return currentPrice && currentPrice > planPrice.unit_amount
   }, [currentSubscription, planPrice]
   )
-
 
   return (
     <article className={classes.root}>
@@ -184,10 +184,7 @@ const ConfirmPlan = ({
             className={classes.featureSeparator}
           >
             {planPrice?.metadata?.storage_size_bytes
-              ? <>
-                <b>{formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)}&nbsp;</b>
-                <Trans>of storage</Trans >
-              </>
+              ? <Trans>{currentPlanStorage} of storage</Trans>
               : plan.description
             }
           </Typography>
@@ -237,7 +234,8 @@ const ConfirmPlan = ({
           <Typography
             variant="body1"
             component="p"
-          >{dayjs().format("DD MMM YYYY")}
+          >
+            {dayjs().format("DD MMM YYYY")}
           </Typography>
         </div>
       </div>
@@ -258,7 +256,7 @@ const ConfirmPlan = ({
           >
             {planPrice.unit_amount ? planPrice.currency : ""} {planPrice.unit_amount}
             <span className={classes.normalWeightText}>
-              {planPrice.recurring.interval === "month" ? "/month" : "/year"}
+              {planPrice.recurring.interval === "month" ? t`/month` : t`/year`}
             </span>
           </Typography>
         </div>
@@ -279,9 +277,7 @@ const ConfirmPlan = ({
             variant="secondary"
             disabled={loadingChangeSubscription}
           >
-            <Trans>
-              Cancel
-            </Trans>
+            <Trans>Cancel</Trans>
           </Button>
           <Button
             variant="primary"
@@ -289,9 +285,7 @@ const ConfirmPlan = ({
             disabled={loadingChangeSubscription}
             onClick={onChangeSubscription}
           >
-            <Trans>
-              Confirm plan change
-            </Trans>
+            <Trans>Confirm plan change</Trans>
           </Button>
         </div>
       </section>
