@@ -89,6 +89,9 @@ msgstr ""
 msgid "Approve"
 msgstr "Aprobar"
 
+msgid "Are you sure? This will delete your default payment method."
+msgstr ""
+
 msgid "Back"
 msgstr ""
 
@@ -694,6 +697,9 @@ msgstr "Rechazar"
 
 msgid "Reject all"
 msgstr "Rechazar todo"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Rename"
 msgstr "Renombrar"

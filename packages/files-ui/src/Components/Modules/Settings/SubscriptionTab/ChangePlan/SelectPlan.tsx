@@ -287,9 +287,9 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
       </section>
       <section className={classes.bottomSection}>
         {desktop && (
-          <Link
+          <a
             className={classes.link}
-            to={ROUTE_LINKS.ProductPlans}
+            href={ROUTE_LINKS.ProductPlans}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -300,7 +300,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               <Trans>Not sure what to pick? Learn more about our plans</Trans>
             </Typography>
             <ExternalSvg />
-          </Link>
+          </a>
         )}
         <div className={classes.buttons}>
           <Button

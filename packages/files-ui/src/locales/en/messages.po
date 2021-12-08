@@ -88,6 +88,9 @@ msgstr "Anyone with the link can:"
 msgid "Approve"
 msgstr "Approve"
 
+msgid "Are you sure? This will delete your default payment method."
+msgstr "Are you sure? This will delete your default payment method."
+
 msgid "Back"
 msgstr "Back"
 
@@ -693,6 +696,9 @@ msgstr "Reject"
 
 msgid "Reject all"
 msgstr "Reject all"
+
+msgid "Remove"
+msgstr "Remove"
 
 msgid "Rename"
 msgstr "Rename"

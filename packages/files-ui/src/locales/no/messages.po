@@ -88,6 +88,9 @@ msgstr ""
 msgid "Approve"
 msgstr "Godkjenn"
 
+msgid "Are you sure? This will delete your default payment method."
+msgstr ""
+
 msgid "Back"
 msgstr ""
 
@@ -690,6 +693,9 @@ msgstr "Avslå"
 
 msgid "Reject all"
 msgstr "Avslå alle"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Rename"
 msgstr "Gi nytt navn"
