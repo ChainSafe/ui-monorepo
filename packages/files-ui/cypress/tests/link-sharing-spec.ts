@@ -158,7 +158,7 @@ describe("Link Sharing", () => {
     it("can see an error message for a link with a malformed token", () => {
       cy.web3Login()
       cy.visit(malformedTokenShareLink)
-      linkSharingConfirmation.ErrorIcon().should("be.visible")
+      linkSharingConfirmation.errorIcon().should("be.visible")
       linkSharingConfirmation.linkErrorMessage().should("be.visible")
     })
 
