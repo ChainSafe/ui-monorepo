@@ -9,7 +9,8 @@ import {
   RadioInput,
   TextInput,
   CheckIcon,
-  CheckboxInput
+  CheckboxInput,
+  Divider
 } from "@chainsafe/common-components"
 import {
   makeStyles,

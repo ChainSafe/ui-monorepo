@@ -79,9 +79,9 @@ export default function Menu({ icon, options, style, testId, anchorOrigin, trans
         {options.map((option, index) => (
           <MenuItem
             key={index}
-            onClick={(e) => {
+            onClick={() => {
               option.onClick && handleClose()
-              option.onClick && option.onClick(e)
+              option.onClick && option.onClick()
             }}
             focusVisibleClassName={clsx(style?.focusVisible)}
             className={classes.options}
