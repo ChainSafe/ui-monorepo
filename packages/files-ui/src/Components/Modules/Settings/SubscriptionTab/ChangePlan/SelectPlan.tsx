@@ -161,9 +161,6 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
           const isUpdateAllowed = !!monthly?.is_update_allowed || !!yearly?.is_update_allowed
           const isCurrentPlan = plan.id === currentSubscription?.product.id
           const planStorageCapacity = formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)
-          const isPlanSelectable = plan.id  !== currentSubscription?.product.id &&
-          (monthly?.is_update_allowed || yearly?.is_update_allowed)
-
 
           return desktop ? (
             <div
@@ -227,7 +224,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
               </Typography>
               <Button
                 variant="primary"
-                disabled={!isPlanSelectable}
+                disabled={isCurrentPlan || !isUpdateAllowed}
                 onClick={() => onSelectPlan(plan)}
               >
                 <Trans>Select plan</Trans>
@@ -237,7 +234,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
             : (
               <div
                 className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && "active")}
-                onClick={() => isPlanSelectable && setTempSelectedPlan(plan)}
+                onClick={() => isUpdateAllowed && setTempSelectedPlan(plan)}
                 key={`plan-${plan.id}`}
               >
                 <div>
