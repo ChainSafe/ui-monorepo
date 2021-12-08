@@ -189,7 +189,8 @@ const MoveFileModule = ({ filesToMove, onClose, onCancel, mode }: IMoveFileModul
         sm={12}
         className={classes.paddedContainer}
       >
-        <Typography className={classes.heading}
+        <Typography
+          className={classes.heading}
           variant="h5"
           component="h5"
         >
