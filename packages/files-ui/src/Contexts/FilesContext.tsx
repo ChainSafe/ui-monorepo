@@ -579,7 +579,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               const relativeFilePath = getRelativePath(fullPath, currentPath)
               zipList[relativeFilePath] = new Uint8Array(fileArrayBuffer)
             }
-            console.log("return")
             return totalP + item.size
           }, Promise.resolve(0))
 
