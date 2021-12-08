@@ -584,10 +584,11 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             size={48}
             data-cy="icon-link-error"
           />
-          <Typography variant='h2'>
-            <span data-cy="label-invalid-link">
-              <Trans>This link is not valid any more.</Trans>
-            </span>
+          <Typography
+            variant='h2'
+            data-cy="label-invalid-link"
+          >
+            <Trans>This link is not valid any more.</Trans>
           </Typography>
           <Button
             variant="primary"
