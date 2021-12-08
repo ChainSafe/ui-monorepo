@@ -5,7 +5,7 @@ export const authenticationPage = {
 
   goToLoginButton: () => cy.get("[data-cy=button-go-to-login]"),
   invalidLinkMessage: () => cy.get("[data-cy=label-invalid-link]", { timeout: 10000 }),
-  ErrorIcon: () => cy.get("[data-cy=icon-link-error", { timeout: 10000 }),
+  errorIcon: () => cy.get("[data-cy=icon-link-error", { timeout: 10000 }),
 
   // get started section elements
   signInToAccessShareLabel: () => cy.get("[data-cy=label-sign-in-to-access-share]"),
