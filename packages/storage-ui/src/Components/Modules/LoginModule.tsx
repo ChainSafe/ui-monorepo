@@ -468,10 +468,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
                     <a
                       href={ROUTE_LINKS.DiscordInvite}
                       target="_blank"
-                      rel='noreferrer noopener'
-                    >
-                      Files Support Channel
-                    </a>{" "}
+                      rel='noreferrer noopener'>Files Support Channel</a>{" "}
                       on Discord
                   </Trans>
                 </Typography>

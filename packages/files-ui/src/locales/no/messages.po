@@ -74,11 +74,14 @@ msgid "Approve"
 msgstr "Godkjenn"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #~ msgid "Back to plan settings"
 #~ msgstr ""
 
 =======
 >>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
+=======
+>>>>>>> origin/dev
 msgid "Backup secret phrase"
 msgstr ""
 
@@ -218,6 +221,7 @@ msgid "Create Shared Folder"
 msgstr ""
 
 msgid "Create a sharing link"
+<<<<<<< HEAD
 msgstr ""
 
 msgid "Create folder & Copy over"
@@ -235,6 +239,21 @@ msgstr ""
 <<<<<<< HEAD
 msgid "Credit card saved"
 msgstr ""
+=======
+msgstr ""
+
+msgid "Create folder & Copy over"
+msgstr ""
+
+msgid "Create folder & Move over"
+msgstr ""
+
+msgid "Create link"
+msgstr ""
+
+msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
+>>>>>>> origin/dev
 
 #~ msgid "Current"
 #~ msgstr ""
@@ -313,12 +332,15 @@ msgstr "Dra for å laste opp filer"
 msgid "Edit payment method"
 msgstr ""
 
+<<<<<<< HEAD
 msgid "Edit plan"
 msgstr ""
 
 msgid "Email is required"
 msgstr "E-post kreves"
 
+=======
+>>>>>>> origin/dev
 msgid "Enter backup secret phrase:"
 msgstr ""
 
@@ -349,9 +371,12 @@ msgid ""
 "sure you have activated your wallet."
 msgstr ""
 
+<<<<<<< HEAD
 msgid "Features"
 msgstr ""
 
+=======
+>>>>>>> origin/dev
 msgid "File Info"
 msgstr "Filinfo"
 
@@ -498,6 +523,9 @@ msgid "Monthly billing"
 =======
 msgid "Manage Shared Folder"
 >>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
+msgstr ""
+
+msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Move"
@@ -750,6 +778,7 @@ msgid "Select a wallet"
 msgstr ""
 
 msgid "Select an existing shared folder or your home"
+<<<<<<< HEAD
 msgstr ""
 
 <<<<<<< HEAD
@@ -764,6 +793,10 @@ msgstr ""
 
 =======
 >>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
+=======
+msgstr ""
+
+>>>>>>> origin/dev
 msgid "Send another email"
 msgstr "Send en ny e-post"
 
@@ -918,6 +951,7 @@ msgid "There was an error when setting username."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 msgid "This card will become your default payment method"
 msgstr ""
 
@@ -926,6 +960,8 @@ msgstr ""
 
 =======
 >>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
+=======
+>>>>>>> origin/dev
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
@@ -937,11 +973,16 @@ msgstr ""
 
 msgid "This website uses cookies"
 msgstr ""
+<<<<<<< HEAD
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
 msgid "Total"
+=======
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+>>>>>>> origin/dev
 msgstr ""
 
 msgid "Try again"
@@ -983,9 +1024,12 @@ msgstr "Bruk en annen innloggingsmetode"
 msgid "Use a saved browser"
 msgstr ""
 
+<<<<<<< HEAD
 msgid "Use this card"
 msgstr ""
 
+=======
+>>>>>>> origin/dev
 msgid "User {0} is both a reader and writer"
 msgstr ""
 
@@ -1061,18 +1105,30 @@ msgstr ""
 msgid "You can't move folders to this path"
 msgstr ""
 
+<<<<<<< HEAD
 msgid "You get access to these features right now."
+=======
+msgid "You do not have access to this shared folder."
+>>>>>>> origin/dev
 msgstr ""
 
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
+<<<<<<< HEAD
 msgid "You now have:"
+=======
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
+
+msgid "You will need to sign a message in your wallet to complete sign in."
+>>>>>>> origin/dev
 msgstr ""
 
 msgid "You were added to the shared folder ({0}): {1}"
 msgstr ""
 
+<<<<<<< HEAD
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
@@ -1084,10 +1140,15 @@ msgstr ""
 
 msgid "invoices here"
 msgstr ""
+=======
+msgid "can-edit"
+msgstr ""
+>>>>>>> origin/dev
 
 msgid "me"
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 msgid "of storage"
 msgstr ""
@@ -1109,6 +1170,11 @@ msgstr ""
 
 =======
 >>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e
+=======
+msgid "on"
+msgstr ""
+
+>>>>>>> origin/dev
 msgid "unknown"
 msgstr ""
 

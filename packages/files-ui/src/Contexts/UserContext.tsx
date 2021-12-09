@@ -118,6 +118,21 @@ const UserProvider = ({ children }: UserContextProps) => {
       return
     }
 
+    filesApiClient.getUserLocalStore()
+      .then((apiStore) => {
+        initLocalStore(apiStore)
+      })
+      .catch((e) => {
+        console.error(e)
+        initLocalStore({})
+      })
+  }, [isLoggedIn, filesApiClient, initLocalStore])
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      return
+    }
+
     refreshProfile()
       .catch(console.error)
 
