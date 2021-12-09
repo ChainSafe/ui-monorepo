@@ -4,7 +4,7 @@ import { sharingExplainerKey } from "../fixtures/filesTestData"
 import { sharedPage } from "../support/page-objects/sharedPage"
 import { viewOnlyShareLink, canEditShareLink, deletedShareLink, malformedTokenShareLink, deletedFolderLink } from "../fixtures/linkData"
 import { linkSharingConfirmation } from "../support/page-objects/linkSharingConfirmation"
-import { folderContentsPage } from "../support/page-objects/sharedFolderContentsPage"
+import { sharedFolderContentsPage } from "../support/page-objects/sharedFolderContentsPage"
 import { authenticationPage } from "../support/page-objects/authenticationPage"
 
 describe("Link Sharing", () => {
@@ -38,15 +38,15 @@ describe("Link Sharing", () => {
 
       // ensure "view-only" and "can-edit" options are present
       createEditSharedFolderModal.permissionTypeDropdown().click()
-      createEditSharedFolderModal.viewOnlyOption()
+      createEditSharedFolderModal.viewOnlyDropdownOption()
         .scrollIntoView()
         .should("be.visible")
-      createEditSharedFolderModal.canEditOption()
+      createEditSharedFolderModal.canEditDropdownOption()
         .scrollIntoView()
         .should("be.visible")
 
       // create a "view-only" link
-      createEditSharedFolderModal.viewOnlyOption().click()
+      createEditSharedFolderModal.viewOnlyDropdownOption().click()
       createEditSharedFolderModal.createLinkButton().click()
       createEditSharedFolderModal.activeShareLink().should("have.length", 1)
       createEditSharedFolderModal.labelPermissionType().should("have.length", 1)
@@ -54,13 +54,13 @@ describe("Link Sharing", () => {
 
       // ensure only the can-edit option is present if a "view-only" link exists
       createEditSharedFolderModal.permissionTypeDropdown().click()
-      createEditSharedFolderModal.viewOnlyOption().should("not.exist")
-      createEditSharedFolderModal.canEditOption()
+      createEditSharedFolderModal.viewOnlyDropdownOption().should("not.exist")
+      createEditSharedFolderModal.canEditDropdownOption()
         .scrollIntoView()
         .should("be.visible")
 
       // create a "can-edit" link
-      createEditSharedFolderModal.canEditOption().click()
+      createEditSharedFolderModal.canEditDropdownOption().click()
       createEditSharedFolderModal.createLinkButton().click()
       createEditSharedFolderModal.activeShareLink().should("have.length", 2)
       createEditSharedFolderModal.labelPermissionType().should("have.length", 2)
@@ -92,21 +92,15 @@ describe("Link Sharing", () => {
       linkSharingConfirmation.browseButton()
         .should("be.visible")
         .click()
-      folderContentsPage.appHeaderLabel().should("be.visible")
+      sharedFolderContentsPage.appHeaderLabel().should("be.visible")
 
       // ensure file options correspond to view-only access rights
-      folderContentsPage.fileItemKebabButton()
+      sharedFolderContentsPage.fileItemKebabButton()
         .first()
         .should("be.visible")
         .click()
-      folderContentsPage.previewMenuOption().should("be.visible")
-      folderContentsPage.downloadMenuOption().should("be.visible")
-      folderContentsPage.infoMenuOption().should("be.visible")
-      folderContentsPage.reportMenuOption().should("be.visible")
-      folderContentsPage.copyToMenuOption().should("be.visible")
-      folderContentsPage.renameMenuOption().should("not.exist")
-      folderContentsPage.moveMenuOption().should("not.exist")
-      folderContentsPage.deleteMenuOption().should("not.exist")
+      sharedFolderContentsPage.hasViewOnlyPermissionOptions(true)
+      sharedFolderContentsPage.hasCanEditPermissionOptions(false)
 
       // ensure shared folder is now shown on main share page
       navigationMenu.sharedNavButton().click()
@@ -127,21 +121,15 @@ describe("Link Sharing", () => {
       linkSharingConfirmation.browseButton()
         .should("be.visible")
         .click()
-      folderContentsPage.appHeaderLabel().should("be.visible")
+      sharedFolderContentsPage.appHeaderLabel().should("be.visible")
 
       // ensure file options correspond to "can-edit" access rights
-      folderContentsPage.fileItemKebabButton()
+      sharedFolderContentsPage.fileItemKebabButton()
         .first()
         .should("be.visible")
         .click()
-      folderContentsPage.previewMenuOption().should("be.visible")
-      folderContentsPage.downloadMenuOption().should("be.visible")
-      folderContentsPage.infoMenuOption().should("be.visible")
-      folderContentsPage.reportMenuOption().should("be.visible")
-      folderContentsPage.copyToMenuOption().should("be.visible")
-      folderContentsPage.renameMenuOption().should("be.visible")
-      folderContentsPage.moveMenuOption().should("be.visible")
-      folderContentsPage.deleteMenuOption().should("be.visible")
+      sharedFolderContentsPage.hasViewOnlyPermissionOptions(true)
+      sharedFolderContentsPage.hasCanEditPermissionOptions(true)
 
       // ensure the shared folder is now shown on the main share page
       navigationMenu.sharedNavButton().click()
@@ -194,45 +182,21 @@ describe("Link Sharing", () => {
       cy.visit(viewOnlyShareLink)
       linkSharingConfirmation.viewAccessConfirmationLabel().should("be.visible")
       linkSharingConfirmation.linkErrorMessage().should("not.exist")
-      linkSharingConfirmation.browseButton()
-        .should("be.visible")
-        .click()
-      folderContentsPage.appHeaderLabel().should("be.visible")
 
-      // ensure the file options correspond to "view-only" access rights
-      folderContentsPage.fileItemKebabButton()
-        .first()
-        .should("be.visible")
-        .click()
-      folderContentsPage.previewMenuOption().should("be.visible")
-      folderContentsPage.downloadMenuOption().should("be.visible")
-      folderContentsPage.infoMenuOption().should("be.visible")
-      folderContentsPage.reportMenuOption().should("be.visible")
-      folderContentsPage.copyToMenuOption().should("be.visible")
-      folderContentsPage.renameMenuOption().should("not.exist")
-      folderContentsPage.moveMenuOption().should("not.exist")
-      folderContentsPage.deleteMenuOption().should("not.exist")
-
-      // join a share again from a "can-edit" link
+      // join the share again from a "can-edit" link
       cy.visit(canEditShareLink)
       linkSharingConfirmation.browseButton()
         .should("be.visible")
         .click()
-      folderContentsPage.appHeaderLabel().should("be.visible")
+      sharedFolderContentsPage.appHeaderLabel().should("be.visible")
 
       // ensure the file options correspond to "can-edit" access rights
-      folderContentsPage.fileItemKebabButton()
+      sharedFolderContentsPage.fileItemKebabButton()
         .first()
         .should("be.visible")
         .click()
-      folderContentsPage.previewMenuOption().should("be.visible")
-      folderContentsPage.downloadMenuOption().should("be.visible")
-      folderContentsPage.infoMenuOption().should("be.visible")
-      folderContentsPage.reportMenuOption().should("be.visible")
-      folderContentsPage.copyToMenuOption().should("be.visible")
-      folderContentsPage.renameMenuOption().should("be.visible")
-      folderContentsPage.moveMenuOption().should("be.visible")
-      folderContentsPage.deleteMenuOption().should("be.visible")
+      sharedFolderContentsPage.hasViewOnlyPermissionOptions(true)
+      sharedFolderContentsPage.hasCanEditPermissionOptions(true)
     })
 
     it("cannot downgrade access level from can-edit by visiting a view-only link", () => {
@@ -245,45 +209,21 @@ describe("Link Sharing", () => {
       cy.visit(canEditShareLink)
       linkSharingConfirmation.editAccessConfirmationLabel().should("be.visible")
       linkSharingConfirmation.linkErrorMessage().should("not.exist")
-      linkSharingConfirmation.browseButton()
-        .should("be.visible")
-        .click()
-      folderContentsPage.appHeaderLabel().should("be.visible")
 
-      // ensure the file options correspond to "can-edit" access rights
-      folderContentsPage.fileItemKebabButton()
-        .first()
-        .should("be.visible")
-        .click()
-      folderContentsPage.previewMenuOption().should("be.visible")
-      folderContentsPage.downloadMenuOption().should("be.visible")
-      folderContentsPage.infoMenuOption().should("be.visible")
-      folderContentsPage.reportMenuOption().should("be.visible")
-      folderContentsPage.copyToMenuOption().should("be.visible")
-      folderContentsPage.renameMenuOption().should("be.visible")
-      folderContentsPage.moveMenuOption().should("be.visible")
-      folderContentsPage.deleteMenuOption().should("be.visible")
-
-      // join a share again from a "view-only" link
+      // join the share again from a "view-only" link
       cy.visit(viewOnlyShareLink)
       linkSharingConfirmation.browseButton()
         .should("be.visible")
         .click()
-      folderContentsPage.appHeaderLabel().should("be.visible")
+      sharedFolderContentsPage.appHeaderLabel().should("be.visible")
 
       // ensure the file options still correspond to "can-edit" access rights
-      folderContentsPage.fileItemKebabButton()
+      sharedFolderContentsPage.fileItemKebabButton()
         .first()
         .should("be.visible")
         .click()
-      folderContentsPage.previewMenuOption().should("be.visible")
-      folderContentsPage.downloadMenuOption().should("be.visible")
-      folderContentsPage.infoMenuOption().should("be.visible")
-      folderContentsPage.reportMenuOption().should("be.visible")
-      folderContentsPage.copyToMenuOption().should("be.visible")
-      folderContentsPage.renameMenuOption().should("be.visible")
-      folderContentsPage.moveMenuOption().should("be.visible")
-      folderContentsPage.deleteMenuOption().should("be.visible")
+      sharedFolderContentsPage.hasViewOnlyPermissionOptions(true)
+      sharedFolderContentsPage.hasCanEditPermissionOptions(true)
     })
   })
 })
