@@ -145,12 +145,13 @@ const LinkSharingModule = () => {
                 size={48}
                 className={classes.icon}
               />
-              <Typography variant="h4">
-                <span data-cy={permission === "read" ? "label-share-confirmation-read-access" : "label-share-confirmation-write-access"}>
-                  <Trans>
+              <Typography
+                variant="h4"
+                data-cy={permission === "read" ? "label-share-confirmation-read-access" : "label-share-confirmation-write-access"}
+              >
+                <Trans>
                   You were added to the shared folder ({translatedPermission(permission)}): {newBucket.name}
-                  </Trans>
-                </span>
+                </Trans>
               </Typography>
               <Button
                 className={classes.browseButton}
