@@ -14,13 +14,13 @@ msgstr ""
 "X-Generator: Weblate 4.10-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "({0}) items selected"
-msgstr ""
-
 msgid "/month"
 msgstr ""
 
 msgid "/year"
+msgstr ""
+
+msgid "<0>{currentStorage}</0> of storage"
 msgstr ""
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -90,6 +90,9 @@ msgid "Approve"
 msgstr "Accepter"
 
 msgid "Are you sure? This will delete your default payment method."
+msgstr ""
+
+msgid "Back"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -168,6 +171,9 @@ msgid "Confirm plan"
 msgstr ""
 
 msgid "Confirm plan change"
+msgstr ""
+
+msgid "Confirm plan downgrade"
 msgstr ""
 
 msgid "Confirmation"
@@ -257,9 +263,6 @@ msgstr "Données restaurées avec succès"
 msgid "Date"
 msgstr ""
 
-msgid "Date Uploaded"
-msgstr "Téléversé le"
-
 msgid "Date uploaded"
 msgstr "Téléversé le"
 
@@ -271,9 +274,6 @@ msgstr "Clé de déchiffrement"
 
 msgid "Delete"
 msgstr "Supprimer"
-
-msgid "Delete selected"
-msgstr "Supprimer la sélection"
 
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
@@ -310,9 +310,6 @@ msgstr "Téléchargements annulés"
 
 msgid "Downloads failed"
 msgstr "Les téléchargements ont échoué"
-
-msgid "Drop to upload files"
-msgstr "Faire glisser pour téléverser un fichier"
 
 msgid "Edit payment method"
 msgstr ""
@@ -382,9 +379,6 @@ msgstr "Prénom"
 
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
-
-msgid "Folder uploads are not supported currently"
-msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
 
 msgid "Folders"
 msgstr "Dossiers"
@@ -512,9 +506,6 @@ msgstr "Déplacer"
 msgid "Move over"
 msgstr "Déplacer"
 
-msgid "Move selected"
-msgstr "Déplacer la sélection"
-
 msgid "Move to…"
 msgstr "Déplacer vers…"
 
@@ -551,9 +542,6 @@ msgstr "Aucun fichier à copier"
 msgid "No files to share"
 msgstr "Aucun fichier à partager"
 
-msgid "No files to show"
-msgstr ""
-
 msgid "No folders"
 msgstr "Aucun dossier"
 
@@ -577,9 +565,6 @@ msgstr "Nombre de copies (facteur de réplication)"
 
 msgid "OK"
 msgstr "OK"
-
-msgid "One sec, getting files ready…"
-msgstr "Un instant, nous préparons les fichiers…"
 
 msgid "Only you can see this."
 msgstr "Vous seul(e) pouvez voir ceci."
@@ -676,9 +661,6 @@ msgstr ""
 
 msgid "Recover"
 msgstr "Récupérer"
-
-msgid "Recover selected"
-msgstr "Récupérer la sélection"
 
 msgid "Recover to…"
 msgstr "Récupérer vers…"
@@ -794,9 +776,6 @@ msgstr "Partager"
 msgid "Share file"
 msgstr "Partager le fichier"
 
-msgid "Share selected"
-msgstr "Partager la sélection"
-
 msgid "Shared"
 msgstr "Partagé"
 
@@ -851,9 +830,6 @@ msgstr "Quelque chose a mal tourné !"
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
 
-msgid "Sort By:"
-msgstr "Trier par :"
-
 msgid "Standard plan"
 msgstr ""
 
@@ -870,6 +846,9 @@ msgid "Subscription Plan"
 msgstr ""
 
 msgid "Switch Plans"
+msgstr ""
+
+msgid "Switch to Free plan"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -956,9 +935,6 @@ msgstr "Essayer de nouveau"
 msgid "Try another method"
 msgstr "Essayer une autre méthode"
 
-msgid "Unable to upload"
-msgstr ""
-
 msgid "Update"
 msgstr "Mettre à jour"
 
@@ -976,9 +952,6 @@ msgstr ""
 
 msgid "Update your credit card"
 msgstr ""
-
-msgid "Upload"
-msgstr "Téléverser"
 
 msgid "Uploads cancelled"
 msgstr "Téléversements annulés"
@@ -1088,7 +1061,13 @@ msgstr "Vous avez été ajouté(e) au dossier partagé ({0}) : {1}"
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
 
+msgid "You would loose the following features:"
+msgstr ""
+
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr ""
 
 msgid "Your plan"
@@ -1121,9 +1100,6 @@ msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargemen
 msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
 msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {Chiffrement et téléversements {2} fichiers}}"
 
-msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
-msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
-
 msgid "{0} cancelled"
 msgstr "{0} annulé(s)"
 
@@ -1145,10 +1121,10 @@ msgstr "{0} {fileProgress} – {1}"
 msgid "{currentPlanStorage} of storage"
 msgstr ""
 
-msgid "{currentStorage} of storage"
+msgid "{newPlanCapacity} of storage"
 msgstr ""
 
-msgid "{newPlanCapacity} of storage"
+msgid "{planStorageCapacity} of storage"
 msgstr ""
 
 msgid "{successCount} files transferred successfully, {0} failed"
