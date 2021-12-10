@@ -16,35 +16,17 @@ export const sharedFolderContentsPage = {
   deleteMenuOption: () => cy.get("[data-cy=menu-delete]"),
 
   // helpers and convenience functions
-  hasViewOnlyPermissionOptions(elementVisible: boolean) {
-    let assertion: string
-
-    if (elementVisible == true) {
-      assertion = "be.visible"
-    }
-    else {
-      assertion = "not.exist"
-    }
-
-    this.previewMenuOption().should(assertion)
-    this.downloadMenuOption().should(assertion)
-    this.infoMenuOption().should(assertion)
-    this.reportMenuOption().should(assertion)
-    this.copyToMenuOption().should(assertion)
+  viewOnlyPermissionOptionsShould(elementVisible: "be.visible" | "not.exist") {
+    this.previewMenuOption().should(elementVisible)
+    this.downloadMenuOption().should(elementVisible)
+    this.infoMenuOption().should(elementVisible)
+    this.reportMenuOption().should(elementVisible)
+    this.copyToMenuOption().should(elementVisible)
   },
 
-  hasCanEditPermissionOptions(elementVisible: boolean) {
-    let assertion: string
-
-    if (elementVisible == true) {
-      assertion = "be.visible"
-    }
-    else {
-      assertion = "not.exist"
-    }
-
-    this.renameMenuOption().should(assertion)
-    this.moveMenuOption().should(assertion)
-    this.deleteMenuOption().should(assertion)
+  canEditPermissionOptionsShould(elementVisible: "be.visible" | "not.exist") {
+    this.renameMenuOption().should(elementVisible)
+    this.moveMenuOption().should(elementVisible)
+    this.deleteMenuOption().should(elementVisible)
   }
 }

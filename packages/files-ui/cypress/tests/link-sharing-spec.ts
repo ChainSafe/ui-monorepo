@@ -99,8 +99,8 @@ describe("Link Sharing", () => {
         .first()
         .should("be.visible")
         .click()
-      sharedFolderContentsPage.hasViewOnlyPermissionOptions(true)
-      sharedFolderContentsPage.hasCanEditPermissionOptions(false)
+      sharedFolderContentsPage.viewOnlyPermissionOptionsShould("be.visible")
+      sharedFolderContentsPage.canEditPermissionOptionsShould("not.exist")
 
       // ensure shared folder is now shown on main share page
       navigationMenu.sharedNavButton().click()
@@ -128,8 +128,8 @@ describe("Link Sharing", () => {
         .first()
         .should("be.visible")
         .click()
-      sharedFolderContentsPage.hasViewOnlyPermissionOptions(true)
-      sharedFolderContentsPage.hasCanEditPermissionOptions(true)
+      sharedFolderContentsPage.viewOnlyPermissionOptionsShould("be.visible")
+      sharedFolderContentsPage.canEditPermissionOptionsShould("be.visible")
 
       // ensure the shared folder is now shown on the main share page
       navigationMenu.sharedNavButton().click()
@@ -195,8 +195,8 @@ describe("Link Sharing", () => {
         .first()
         .should("be.visible")
         .click()
-      sharedFolderContentsPage.hasViewOnlyPermissionOptions(true)
-      sharedFolderContentsPage.hasCanEditPermissionOptions(true)
+      sharedFolderContentsPage.viewOnlyPermissionOptionsShould("be.visible")
+      sharedFolderContentsPage.canEditPermissionOptionsShould("be.visible")
     })
 
     it("cannot downgrade access level from can-edit by visiting a view-only link", () => {
@@ -222,8 +222,8 @@ describe("Link Sharing", () => {
         .first()
         .should("be.visible")
         .click()
-      sharedFolderContentsPage.hasViewOnlyPermissionOptions(true)
-      sharedFolderContentsPage.hasCanEditPermissionOptions(true)
+      sharedFolderContentsPage.viewOnlyPermissionOptionsShould("be.visible")
+      sharedFolderContentsPage.canEditPermissionOptionsShould("be.visible")
     })
   })
 })
