@@ -13,13 +13,13 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "({0}) items selected"
+msgstr ""
+
 msgid "/month"
 msgstr ""
 
 msgid "/year"
-msgstr ""
-
-msgid "<0>{currentStorage}</0> of storage"
 msgstr ""
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -86,12 +86,9 @@ msgid "Anyone with the link can:"
 msgstr ""
 
 msgid "Approve"
-msgstr "Godkjenn"
+msgstr "Godkjenn<<<<<<< HEAD<<<<<<< HEAD"
 
 msgid "Are you sure? This will delete your default payment method."
-msgstr ""
-
-msgid "Back"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -172,9 +169,6 @@ msgstr ""
 msgid "Confirm plan change"
 msgstr ""
 
-msgid "Confirm plan downgrade"
-msgstr ""
-
 msgid "Confirmation"
 msgstr ""
 
@@ -239,7 +233,7 @@ msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
-msgstr ""
+msgstr ">>>>>>> origin/dev"
 
 msgid "Credit card saved"
 msgstr ""
@@ -320,13 +314,13 @@ msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
 msgid "Edit payment method"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
 msgid "Edit plan"
 msgstr ""
 
 msgid "Email is required"
-msgstr "E-post kreves"
+msgstr "E-post kreves=======>>>>>>> origin/dev"
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -356,10 +350,10 @@ msgid ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
 msgid "Features"
-msgstr ""
+msgstr "=======>>>>>>> origin/dev"
 
 msgid "File Info"
 msgstr "Filinfo"
@@ -503,7 +497,7 @@ msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Method"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
 msgid "Monthly billing"
 msgstr ""
@@ -770,7 +764,7 @@ msgid "Select plan"
 msgstr ""
 
 msgid "Select this plan"
-msgstr ""
+msgstr ">>>>>>> origin/dev"
 
 msgid "Send another email"
 msgstr "Send en ny e-post"
@@ -874,9 +868,6 @@ msgstr ""
 msgid "Switch Plans"
 msgstr ""
 
-msgid "Switch to Free plan"
-msgstr ""
-
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr ""
 
@@ -929,6 +920,18 @@ msgid "There was an error restoring your data"
 msgstr ""
 
 msgid "There was an error when setting username."
+msgstr "<<<<<<< HEAD<<<<<<< HEAD"
+
+msgid "This card will become your default payment method"
+msgstr ""
+
+msgid "This is the free product."
+msgstr "=======>>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e=======>>>>>>> origin/dev"
+
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
+msgstr ""
+
+msgid "This link is not valid any more."
 msgstr ""
 
 msgid "This card will become your default payment method"
@@ -947,7 +950,7 @@ msgid "This username is already taken"
 msgstr ""
 
 msgid "This website uses cookies"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
@@ -995,10 +998,10 @@ msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
 
 msgid "Use a saved browser"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
 msgid "Use this card"
-msgstr ""
+msgstr "=======>>>>>>> origin/dev"
 
 msgid "User {0} is both a reader and writer"
 msgstr ""
@@ -1073,6 +1076,12 @@ msgid "You can now create shared folders to share a file."
 msgstr ""
 
 msgid "You can't move folders to this path"
+msgstr "<<<<<<< HEAD"
+
+msgid "You do not have access to this shared folder."
+msgstr ""
+
+msgid "You get access to these features right now."
 msgstr ""
 
 msgid "You do not have access to this shared folder."
@@ -1082,7 +1091,13 @@ msgid "You get access to these features right now."
 msgstr ""
 
 msgid "You haven't set a username yet."
-msgstr "Du har ikke satt noe brukernavn enda."
+msgstr "Du har ikke satt noe brukernavn enda.<<<<<<< HEAD"
+
+msgid "You now have:"
+msgstr ""
+
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr "<<<<<<< HEAD"
 
 msgid "You now have:"
 msgstr ""
@@ -1093,13 +1108,7 @@ msgstr ""
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
-msgid "You would loose the following features:"
-msgstr ""
-
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
-msgstr ""
-
-msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr ""
 
 msgid "Your plan"
@@ -1109,18 +1118,27 @@ msgid "Your recovery key can be used to restore your account in place of your ba
 msgstr ""
 
 msgid "can-edit"
-msgstr ""
+msgstr ">>>>>>> origin/dev"
 
 msgid "invoices here"
-msgstr ""
+msgstr "======="
 
 msgid "me"
-msgstr ""
+msgstr "<<<<<<< HEAD<<<<<<< HEAD"
 
 msgid "on"
-msgstr ""
+msgstr ">>>>>>> origin/dev"
 
 msgid "unknown"
+msgstr ""
+
+msgid "view-only"
+msgstr ""
+
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
 msgstr ""
 
 msgid "view-only"
@@ -1156,10 +1174,10 @@ msgstr ""
 msgid "{currentPlanStorage} of storage"
 msgstr ""
 
-msgid "{newPlanCapacity} of storage"
+msgid "{currentStorage} of storage"
 msgstr ""
 
-msgid "{planStorageCapacity} of storage"
+msgid "{newPlanCapacity} of storage"
 msgstr ""
 
 msgid "{successCount} files transferred successfully, {0} failed"
