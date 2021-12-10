@@ -32,7 +32,7 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
 
 export interface Notification {
   title: string
-  createdAt: Date
+  createdAt: number
   onClick?: () => void
 }
 
