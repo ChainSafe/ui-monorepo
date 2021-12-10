@@ -22,6 +22,9 @@ msgstr ""
 msgid "/year"
 msgstr ""
 
+msgid "<0>{currentStorage}</0> of storage"
+msgstr ""
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
@@ -89,6 +92,9 @@ msgid "Approve"
 msgstr "Godkjenn<<<<<<< HEAD<<<<<<< HEAD"
 
 msgid "Are you sure? This will delete your default payment method."
+msgstr ""
+
+msgid "Back"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -167,6 +173,9 @@ msgid "Confirm plan"
 msgstr ""
 
 msgid "Confirm plan change"
+msgstr ""
+
+msgid "Confirm plan downgrade"
 msgstr ""
 
 msgid "Confirmation"
@@ -377,9 +386,6 @@ msgid "First name"
 msgstr "Fornavn"
 
 msgid "Folder name is already in use"
-msgstr ""
-
-msgid "Folder uploads are not supported currently"
 msgstr ""
 
 msgid "Folders"
@@ -868,6 +874,9 @@ msgstr ""
 msgid "Switch Plans"
 msgstr ""
 
+msgid "Switch to Free plan"
+msgstr ""
+
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr ""
 
@@ -926,18 +935,6 @@ msgid "This card will become your default payment method"
 msgstr ""
 
 msgid "This is the free product."
-msgstr "=======>>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e=======>>>>>>> origin/dev"
-
-msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
-msgstr ""
-
-msgid "This link is not valid any more."
-msgstr ""
-
-msgid "This card will become your default payment method"
-msgstr ""
-
-msgid "This is the free product."
 msgstr ""
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
@@ -963,9 +960,6 @@ msgstr "Prøv igjen"
 
 msgid "Try another method"
 msgstr "Prøv annen metode"
-
-msgid "Unable to upload"
-msgstr ""
 
 msgid "Update"
 msgstr "Oppdater"
@@ -1084,20 +1078,8 @@ msgstr ""
 msgid "You get access to these features right now."
 msgstr ""
 
-msgid "You do not have access to this shared folder."
-msgstr ""
-
-msgid "You get access to these features right now."
-msgstr ""
-
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda.<<<<<<< HEAD"
-
-msgid "You now have:"
-msgstr ""
-
-msgid "You were added to the shared folder ({0}): {1}"
-msgstr "<<<<<<< HEAD"
 
 msgid "You now have:"
 msgstr ""
@@ -1108,7 +1090,13 @@ msgstr ""
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
+msgid "You would loose the following features:"
+msgstr ""
+
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr ""
 
 msgid "Your plan"
@@ -1130,15 +1118,6 @@ msgid "on"
 msgstr ">>>>>>> origin/dev"
 
 msgid "unknown"
-msgstr ""
-
-msgid "view-only"
-msgstr ""
-
-msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
-msgstr ""
-
-msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
 msgstr ""
 
 msgid "view-only"
@@ -1174,10 +1153,10 @@ msgstr ""
 msgid "{currentPlanStorage} of storage"
 msgstr ""
 
-msgid "{currentStorage} of storage"
+msgid "{newPlanCapacity} of storage"
 msgstr ""
 
-msgid "{newPlanCapacity} of storage"
+msgid "{planStorageCapacity} of storage"
 msgstr ""
 
 msgid "{successCount} files transferred successfully, {0} failed"

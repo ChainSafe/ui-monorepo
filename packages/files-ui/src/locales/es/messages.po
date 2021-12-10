@@ -23,6 +23,9 @@ msgstr ""
 msgid "/year"
 msgstr ""
 
+msgid "<0>{currentStorage}</0> of storage"
+msgstr ""
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
@@ -90,6 +93,9 @@ msgid "Approve"
 msgstr "Aprobar"
 
 msgid "Are you sure? This will delete your default payment method."
+msgstr ""
+
+msgid "Back"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -168,6 +174,9 @@ msgid "Confirm plan"
 msgstr ""
 
 msgid "Confirm plan change"
+msgstr ""
+
+msgid "Confirm plan downgrade"
 msgstr ""
 
 msgid "Confirmation"
@@ -381,9 +390,6 @@ msgid "First name"
 msgstr "Primer Nombre"
 
 msgid "Folder name is already in use"
-msgstr ""
-
-msgid "Folder uploads are not supported currently"
 msgstr ""
 
 msgid "Folders"
@@ -872,6 +878,9 @@ msgstr ""
 msgid "Switch Plans"
 msgstr ""
 
+msgid "Switch to Free plan"
+msgstr ""
+
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr ""
 
@@ -955,9 +964,6 @@ msgstr "Intentar otra vez"
 
 msgid "Try another method"
 msgstr "Prueba con otro método"
-
-msgid "Unable to upload"
-msgstr ""
 
 msgid "Update"
 msgstr "Actualizar"
@@ -1088,7 +1094,13 @@ msgstr ""
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
 
+msgid "You would loose the following features:"
+msgstr ""
+
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr ""
 
 msgid "Your plan"
@@ -1145,10 +1157,10 @@ msgstr ""
 msgid "{currentPlanStorage} of storage"
 msgstr ""
 
-msgid "{currentStorage} of storage"
+msgid "{newPlanCapacity} of storage"
 msgstr ""
 
-msgid "{newPlanCapacity} of storage"
+msgid "{planStorageCapacity} of storage"
 msgstr ""
 
 msgid "{successCount} files transferred successfully, {0} failed"
