@@ -16,7 +16,7 @@ import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
 import TeamModal from "../Elements/TeamModal"
-import NotificationsDropdown from "../Elements/NotificationsDropdown"
+import NotificationsDropdown from "../Elements/Notifications/NotificationsDropdown"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
