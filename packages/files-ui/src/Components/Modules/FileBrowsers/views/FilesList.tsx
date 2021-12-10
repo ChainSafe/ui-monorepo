@@ -28,7 +28,9 @@ import {
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { t, Trans } from "@lingui/macro"
+import EmptySvg from "../../../../Media/Empty.svg"
+import clsx from "clsx"
+import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation, MoveModalMode } from "../types"
@@ -781,8 +783,9 @@ const FilesList = ({ isShared = false }: Props) => {
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
       >
-        <div
-          className={clsx(classes.dropNotification, { active: isOverBrowser })}
+        <Typography
+          variant="h4"
+          component="p"
         >
           <Trans>Drop to upload files</Trans>
         </Typography>
@@ -1136,18 +1139,18 @@ const FilesList = ({ isShared = false }: Props) => {
                     files={files}
                     selectedCids={selectedCids}
                     handleSelectItem={handleSelectItem}
-                    viewFolder={handleViewFolder}
                     handleAddToSelectedItems={handleAddToSelectedItems}
                     editing={editing}
                     setEditing={setEditing}
-                    handleRename={async (path: string, newPath: string) => {
-                      handleRename && (await handleRename(path, newPath))
+                    handleRename={async (cid: string, newName: string) => {
+                      handleRename && (await handleRename(cid, newName))
                       setEditing(undefined)
                     }}
                     deleteFile={() => {
                       setSelectedItems([file])
                       setIsDeleteModalOpen(true)
                     }}
+                    viewFolder={handleViewFolder}
                     moveFile={() => {
                       setSelectedItems([file])
                       setIsMoveFileModalOpen(true)
@@ -1155,6 +1158,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     }}
                     itemOperations={getItemOperations(file.content_type)}
                     resetSelectedFiles={resetSelectedItems}
+                    browserView="table"
                     recoverFile={() => {
                       setSelectedItems([file])
                       setIsMoveFileModalOpen(true)
@@ -1165,8 +1169,8 @@ const FilesList = ({ isShared = false }: Props) => {
                       setIsReportFileModalOpen(true)
                     }
                     }
-                    showFileInfo={(fileInfoPath: string) => {
-                      setFilePath(fileInfoPath)
+                    showFileInfo={(filePath: string) => {
+                      setFilePath(filePath)
                       setIsFileInfoModalOpen(true)
                     }}
                     handleShare={onShare}
@@ -1232,11 +1236,19 @@ const FilesList = ({ isShared = false }: Props) => {
                     setFileIndex(fileIndex)
                     setIsPreviewOpen(true)
                   }}
-                  mode={moveModalMode}
                 />
-              )}
-            </>
-          )
+              ))}
+            </section>
+          )}
+      <Dialog
+        active={isDeleteModalOpen}
+        reject={() => setIsDeleteModalOpen(false)}
+        accept={handleDeleteFiles}
+        requestMessage={
+          plural(selectedCids.length, {
+            one: `You are about to delete ${selectedCids.length} item.`,
+            other: `You are about to delete ${selectedCids.length} items.`
+          })
         }
         rejectText={t`Cancel`}
         acceptText={t`Confirm`}
