@@ -17,6 +17,12 @@ msgstr ""
 msgid "({0}) items selected"
 msgstr ""
 
+msgid "/month"
+msgstr ""
+
+msgid "/year"
+msgstr ""
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
@@ -29,10 +35,19 @@ msgstr "Ya existe un archivo con el mismo nombre"
 msgid "Accept"
 msgstr ""
 
+msgid "Access your billing history in settings or view your"
+msgstr ""
+
 msgid "Account"
 msgstr "Cuenta"
 
 msgid "Active links"
+msgstr ""
+
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
 msgstr ""
 
 msgid "Add a username"
@@ -42,6 +57,12 @@ msgid "Add at least one more authentication method to protect your account. You�
 msgstr "Agregue al menos un método de autenticación más para proteger su cuenta. Solo necesitaría dos para iniciar sesión en Archivos desde cualquier dispositivo."
 
 msgid "Add by sharing address, username or wallet address"
+msgstr ""
+
+msgid "Add card"
+msgstr ""
+
+msgid "Add credit card"
 msgstr ""
 
 msgid "Add more files"
@@ -56,6 +77,9 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
+msgid "Amount"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr ""
 
@@ -65,10 +89,19 @@ msgstr ""
 msgid "Approve"
 msgstr "Aprobar"
 
+msgid "Are you sure? This will delete your default payment method."
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
+msgstr ""
+
+msgid "Billing history"
+msgstr ""
+
+msgid "Billing start time"
 msgstr ""
 
 msgid "Bin"
@@ -95,11 +128,26 @@ msgstr "CID (Identificador de contenido)"
 msgid "Cancel"
 msgstr "Cancelar"
 
+msgid "Card added"
+msgstr ""
+
+msgid "Card inputs invalid"
+msgstr ""
+
+msgid "Card updated"
+msgstr ""
+
 msgid "Change Password"
 msgstr "Cambiar la contraseña"
 
+msgid "Change Plan"
+msgstr ""
+
 msgid "Change password"
 msgstr "Cambiar la contraseña"
+
+msgid "Change plan"
+msgstr ""
 
 msgid "Check your inbox! We've sent another email."
 msgstr ""
@@ -115,6 +163,15 @@ msgstr "Confirmar"
 
 msgid "Confirm Password:"
 msgstr "Confirmar Contraseña:"
+
+msgid "Confirm plan"
+msgstr ""
+
+msgid "Confirm plan change"
+msgstr ""
+
+msgid "Confirmation"
+msgstr ""
 
 msgid "Connect Wallet to Files"
 msgstr "Conectar monedero a archivos"
@@ -179,6 +236,9 @@ msgstr ""
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card saved"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
@@ -192,6 +252,9 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Date Uploaded"
@@ -248,6 +311,12 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
+msgid "Edit payment method"
+msgstr ""
+
+msgid "Edit plan"
+msgstr ""
+
 msgid "Email is required"
 msgstr ""
 
@@ -263,8 +332,11 @@ msgstr "Introducir la contraseña:"
 msgid "Enter the verification code:"
 msgstr ""
 
-msgid "Essentials - Free"
-msgstr "Esenciales - Gratis"
+msgid "Failed to add payment method"
+msgstr ""
+
+msgid "Failed to change subscription"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr "No se pudo obtener la firma"
@@ -280,6 +352,9 @@ msgstr ""
 "No se pudo validar la firma.\n"
 "Si está utilizando una billetera de contrato, haga\n"
 "seguro que has activado tu billetera."
+
+msgid "Features"
+msgstr ""
 
 msgid "File Info"
 msgstr "Información del archivo"
@@ -305,9 +380,6 @@ msgstr "Primer Nombre"
 msgid "Folder name is already in use"
 msgstr ""
 
-msgid "Folder uploads are not supported currently"
-msgstr ""
-
 msgid "Folders"
 msgstr "Archivos"
 
@@ -316,6 +388,12 @@ msgstr "Por motivos de seguridad, cada vez que inicie sesión le pediremos uno d
 
 msgid "Forget this browser"
 msgstr "Olvida este navegador"
+
+msgid "Free"
+msgstr ""
+
+msgid "Free plan"
+msgstr ""
 
 msgid "General"
 msgstr "General"
@@ -338,8 +416,14 @@ msgstr ""
 msgid "Give view-only permission to:"
 msgstr ""
 
+msgid "Go  back"
+msgstr ""
+
 msgid "Go back"
 msgstr "Regresar"
+
+msgid "Go to Payments"
+msgstr ""
 
 msgid "Go to login"
 msgstr ""
@@ -404,13 +488,16 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Parece que está iniciando sesión desde un nuevo navegador. Elija una de las siguientes opciones para continuar:"
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum Aenean, y un gran maquillaje. Usamos más y colocamos en ratas. Ahora elemento libre, pero mucho del valle. , Quien no se doblegue, de la vida de una fringilla molestie."
-
 msgid "Manage Access"
 msgstr ""
 
 msgid "Manage Shared Folder"
+msgstr ""
+
+msgid "Method"
+msgstr ""
+
+msgid "Monthly billing"
 msgstr ""
 
 msgid "Move"
@@ -446,6 +533,9 @@ msgstr "Próximo"
 msgid "Nice to see you again!"
 msgstr "Encantado de verte de nuevo!"
 
+msgid "No Card"
+msgstr ""
+
 msgid "No file to download."
 msgstr ""
 
@@ -461,6 +551,9 @@ msgstr "No hay archivos para mostrar"
 msgid "No folders"
 msgstr "Sin carpetas"
 
+msgid "No invoice found"
+msgstr ""
+
 msgid "No search results for"
 msgstr "No hay resultados de búsqueda para"
 
@@ -468,6 +561,9 @@ msgid "No thanks"
 msgstr "No gracias"
 
 msgid "No user found for this query."
+msgstr ""
+
+msgid "Not sure what to pick? Learn more about our plans"
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
@@ -480,6 +576,9 @@ msgid "One sec, getting files ready…"
 msgstr ""
 
 msgid "Only you can see this."
+msgstr ""
+
+msgid "Oops! You need to pay for this month to upload more content."
 msgstr ""
 
 msgid "Operating system:"
@@ -518,6 +617,18 @@ msgstr "Contraseña:"
 msgid "Passwords must match"
 msgstr "Las contraseñas deben coincidir"
 
+msgid "Payment and Subscriptions"
+msgstr ""
+
+msgid "Payment method"
+msgstr ""
+
+msgid "Plan changed successfully"
+msgstr ""
+
+msgid "Plan details"
+msgstr ""
+
 msgid "Please enter a file name"
 msgstr "Ingrese un nombre de archivo"
 
@@ -531,6 +642,9 @@ msgid "Please provide a password"
 msgstr "Por favor ingrese una contraseña"
 
 msgid "Please select a file to upload"
+msgstr ""
+
+msgid "Premium plan"
 msgstr ""
 
 msgid "Preview"
@@ -551,6 +665,9 @@ msgstr ""
 msgid "Profile updated"
 msgstr "Perfil actualizado"
 
+msgid "Receipt"
+msgstr ""
+
 msgid "Recover"
 msgstr "Recuperar"
 
@@ -568,6 +685,9 @@ msgstr "Rechazar"
 
 msgid "Reject all"
 msgstr "Rechazar todo"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Rename"
 msgstr "Renombrar"
@@ -633,6 +753,15 @@ msgid "Select a wallet"
 msgstr "Seleccione una billetera"
 
 msgid "Select an existing shared folder or your home"
+msgstr ""
+
+msgid "Select payment method"
+msgstr ""
+
+msgid "Select plan"
+msgstr ""
+
+msgid "Select this plan"
 msgstr ""
 
 msgid "Send another email"
@@ -719,17 +848,23 @@ msgstr "Algo salió mal. No pudimos subir tu archivo"
 msgid "Sort By:"
 msgstr ""
 
+msgid "Standard plan"
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Iniciar la subida"
 
 msgid "Start a team"
 msgstr ""
 
-msgid "Storage Plan"
-msgstr "Plan de almacenamiento"
-
 msgid "Stored by miner"
 msgstr "Almacenado por el minero"
+
+msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plans"
+msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr ""
@@ -785,6 +920,12 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This card will become your default payment method"
+msgstr ""
+
+msgid "This is the free product."
+msgstr ""
+
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
 
@@ -800,6 +941,9 @@ msgstr ""
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
+msgid "Total"
+msgstr ""
+
 msgid "Try again"
 msgstr "Intentar otra vez"
 
@@ -809,7 +953,19 @@ msgstr "Prueba con otro método"
 msgid "Update"
 msgstr "Actualizar"
 
+msgid "Update Card"
+msgstr ""
+
 msgid "Update Shared Folder"
+msgstr ""
+
+msgid "Update card"
+msgstr ""
+
+msgid "Update credit card"
+msgstr ""
+
+msgid "Update your credit card"
 msgstr ""
 
 msgid "Upload"
@@ -818,11 +974,17 @@ msgstr "Subir"
 msgid "Uploads cancelled"
 msgstr ""
 
+msgid "Uploads disabled"
+msgstr ""
+
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
 
 msgid "Use a saved browser"
 msgstr "Utilice un navegador guardado"
+
+msgid "Use this card"
+msgstr ""
 
 msgid "User {0} is both a reader and writer"
 msgstr ""
@@ -854,6 +1016,9 @@ msgstr ""
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
 
+msgid "View invoices"
+msgstr ""
+
 msgid "Wallet address"
 msgstr "Utilice un navegador guardado"
 
@@ -881,6 +1046,9 @@ msgstr "Qué buen día es."
 msgid "What a fine night it is."
 msgstr "Qué hermosa noche es."
 
+msgid "Yearly billing"
+msgstr ""
+
 msgid "Yes, save it"
 msgstr "Si guárdalo"
 
@@ -896,7 +1064,13 @@ msgstr ""
 msgid "You do not have access to this shared folder."
 msgstr ""
 
+msgid "You get access to these features right now."
+msgstr ""
+
 msgid "You haven't set a username yet."
+msgstr ""
+
+msgid "You now have:"
 msgstr ""
 
 msgid "You were added to the shared folder ({0}): {1}"
@@ -905,10 +1079,19 @@ msgstr ""
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
 
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your plan"
+msgstr ""
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
 msgid "can-edit"
+msgstr ""
+
+msgid "invoices here"
 msgstr ""
 
 msgid "me"
@@ -944,7 +1127,19 @@ msgstr ""
 msgid "{0} failed"
 msgstr ""
 
+msgid "{0} of {1} used"
+msgstr ""
+
 msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{currentPlanStorage} of storage"
+msgstr ""
+
+msgid "{currentStorage} of storage"
+msgstr ""
+
+msgid "{newPlanCapacity} of storage"
 msgstr ""
 
 msgid "{successCount} files transferred successfully, {0} failed"

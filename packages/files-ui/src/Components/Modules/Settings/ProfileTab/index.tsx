@@ -9,7 +9,8 @@ import {
   RadioInput,
   TextInput,
   CheckIcon,
-  CheckboxInput
+  CheckboxInput,
+  Divider
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -19,13 +20,13 @@ import {
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Form, useFormik, FormikProvider } from "formik"
-import { useUser } from "../../../Contexts/UserContext"
+import { useUser } from "../../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
-import { centerEllipsis } from "../../../Utils/Helpers"
-import { CSFTheme } from "../../../Themes/types"
+import { centerEllipsis } from "../../../../Utils/Helpers"
+import { CSFTheme } from "../../../../Themes/types"
 import clsx from "clsx"
 import LanguageSelection from "./LanguageSelection"
-import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
+import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import EthCrypto from "eth-crypto"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
@@ -42,11 +43,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       [breakpoints.down("md")]: {
         borderBottom: "none"
       }
-    },
-    header: {
-      fontSize: 28,
-      lineHeight: "32px",
-      marginBottom: constants.generalUnit * 5
     },
     boxContainer: {
       marginBottom: constants.generalUnit * 4
@@ -131,7 +127,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       borderRadius: 4,
       paddingLeft: 20,
       paddingTop: 14,
-      margin: 6,
+      margin: "6px 0",
       [breakpoints.down("sm")]: {
         width: "100%"
       },
@@ -330,10 +326,10 @@ const ProfileView = () => {
               <Typography
                 variant="h3"
                 component="h3"
-                className={classes.header}
               >
                 <Trans>Profile settings</Trans>
               </Typography>
+              <Divider />
               {profile?.publicAddress &&
                 <div
                   className={classes.boxContainer}

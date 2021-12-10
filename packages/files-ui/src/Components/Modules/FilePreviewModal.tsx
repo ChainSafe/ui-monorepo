@@ -325,7 +325,8 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
               <Button
                 onClick={previousFile}
                 className={classes.prevNextButton}
-                data-cy="button-view-previous-file">
+                data-cy="button-view-previous-file"
+              >
                 <ArrowLeftIcon />
               </Button>
             )}

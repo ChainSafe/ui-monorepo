@@ -5,7 +5,6 @@ import clsx from "clsx"
 import {
   Link,
   Typography,
-  ChainsafeFilesLogo,
   DatabaseSvg,
   SettingSvg,
   PowerDownSvg,
@@ -13,6 +12,7 @@ import {
   formatBytes,
   DeleteSvg,
   UserShareSvg,
+  MenuDropdown,
   ScrollbarWrapper
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
@@ -21,6 +21,8 @@ import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 import { useUser } from "../../Contexts/UserContext"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
+import { Hashicon } from "@emeraldpay/hashicon-react"
+
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
@@ -109,30 +111,9 @@ const useStyles = makeStyles(
         }
       },
       logo: {
-        textDecoration: "none",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-
-        [breakpoints.up("md")]: {
-          "& img": {
-            height: constants.generalUnit * 5,
-            width: "auto"
-          },
-          "& > *:first-child": {
-            marginRight: constants.generalUnit
-          }
-        },
-        [breakpoints.down("md")]: {
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%,-50%)",
-          "& img": {
-            height: constants.generalUnit * 3.25,
-            width: "auto"
-          }
-        }
+        width: constants.generalUnit * 2,
+        height: constants.generalUnit * 2,
+        marginRight: constants.generalUnit
       },
       navMenu: {
         display: "flex",
@@ -206,21 +187,48 @@ const useStyles = makeStyles(
         }
       },
       menuItem: {
-        width: 100,
+        width: "100%",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        color: constants.header.menuItemTextColor,
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit
+          marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7],
+          stroke: palette.additional["gray"][7]
         }
       },
       spaceUsedMargin: {
         marginBottom: constants.generalUnit
       },
-      betaCaption: {
-        marginBottom: constants.generalUnit * 0.5
+      profileButton: {
+        borderRadius: 4,
+        display: "flex",
+        alignItems: "center",
+        padding: constants.generalUnit,
+        background: palette.additional["gray"][1],
+        boxShadow: constants.nav.profileButtonShadow
+      },
+      options: {
+        backgroundColor: constants.header.optionsBackground,
+        color: constants.header.optionsTextColor,
+        border: `1px solid ${constants.header.optionsBorder}`,
+        minWidth: 145
+      },
+      icon: {
+        "& svg": {
+          fill: constants.header.iconColor
+        }
+      },
+      hashIconContainer: {
+        marginRight: constants.generalUnit,
+        display: "flex",
+        alignItems: "center"
+      },
+      menuTitle: {
+        padding: `${constants.generalUnit * 1.5}px 0`
       }
     })
   }
@@ -237,7 +245,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   const { storageSummary } = useFiles()
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
-  const { removeUser } = useUser()
+  const { removeUser, getProfileTitle, profile } = useUser()
 
   const signOut = useCallback(() => {
     logout()
@@ -249,6 +257,8 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
       setNavOpen(false)
     }
   }, [desktop, navOpen, setNavOpen])
+
+  const profileTitle = getProfileTitle()
 
   return (
     <ScrollbarWrapper className={classes.scrollRoot}>
@@ -264,30 +274,57 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
         })}
       >
         {isLoggedIn &&
-          secured &&
-          !!publicKey &&
-          !isNewDevice &&
-          !shouldInitializeAccount && (
+        secured &&
+        !!publicKey &&
+        !isNewDevice &&
+        !shouldInitializeAccount && (
           <>
             {desktop && (
-              <div>
-                <Link
-                  className={classes.logo}
-                  to={ROUTE_LINKS.Drive("/")}
+              <section>
+                <MenuDropdown
+                  anchor="bottom-left"
+                  testId="sign-out"
+                  hideIndicator={true}
+                  classNames={{
+                    icon: classes.icon,
+                    options: classes.options,
+                    title: classes.menuTitle
+                  }}
+                  className={classes.menuItem}
+                  menuItems={[
+                    {
+                      onClick: signOut,
+                      contents: (
+                        <div
+                          data-cy="menu-sign-out"
+                          className={classes.menuItem}
+                        >
+                          <PowerDownSvg />
+                          <Typography>
+                            <Trans>Sign Out</Trans>
+                          </Typography>
+                        </div>
+                      )
+                    }
+                  ]}
                 >
-                  <ChainsafeFilesLogo />
-                  <Typography variant="h5">
-                    Files
-                  </Typography>
-                  &nbsp;
-                  <Typography
-                    variant="caption"
-                    className={classes.betaCaption}
-                  >
-                    beta
-                  </Typography>
-                </Link>
-              </div>
+                  {!!profileTitle &&
+                  <div className={classes.profileButton}>
+                    <div className={classes.hashIconContainer}>
+                      <Hashicon
+                        value={profile?.userId || ""}
+                        size={20} />
+                    </div>
+                    <Typography
+                      variant="body1"
+                      component="p"
+                    >
+                      {profileTitle}
+                    </Typography>
+                  </div>
+                  }
+                </MenuDropdown>
+              </section>
             )}
             <div className={classes.linksArea}>
               <Typography className={classes.navHead}>
@@ -296,9 +333,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
               <nav className={classes.navMenu}>
                 <Link
                   data-cy="link-home"
-                  onClick={() => {
-                    handleOnClick()
-                  }}
+                  onClick={handleOnClick}
                   className={classes.navItem}
                   to={ROUTE_LINKS.Drive("/")}
                 >
@@ -378,34 +413,33 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                         size="small"
                       />
                     </>
-                  )
-                  }
+                  )}
                 </div>
               )}
               {!desktop && (
-                <div
-                  data-cy="signout-nav"
-                  className={classes.navItem}
-                  onClick={() => {
-                    handleOnClick()
-                    signOut()
-                  }}
-                >
-                  <PowerDownSvg />
-                  <Typography>
-                    <Trans>Sign Out</Trans>
-                  </Typography>
-                </div>
+                <>
+                  <div
+                    onClick={() => setNavOpen(false)}
+                    className={clsx(classes.blocker, {
+                      active: navOpen
+                    })}
+                  />
+                  <div
+                    data-cy="signout-nav"
+                    className={classes.navItem}
+                    onClick={() => {
+                      handleOnClick()
+                      signOut()
+                    }}
+                  >
+                    <PowerDownSvg />
+                    <Typography>
+                      <Trans>Sign Out</Trans>
+                    </Typography>
+                  </div>
+                </>
               )}
             </section>
-            {!desktop && (
-              <div
-                onClick={() => setNavOpen(false)}
-                className={clsx(classes.blocker, {
-                  active: navOpen
-                })}
-              ></div>
-            )}
           </>
         )}
       </section>

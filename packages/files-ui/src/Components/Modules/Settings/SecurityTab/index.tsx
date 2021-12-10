@@ -7,12 +7,11 @@ import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import clsx from "clsx"
 import PasswordForm from "../../../Elements/PasswordForm"
 import MnemonicForm from "../../../Elements/MnemonicForm"
-import SavedBrowsers from "../SavedBrowsers"
+import SavedBrowsers from "./SavedBrowsers"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIndex }: CSFTheme) =>
   createStyles({
     root: {
-      paddingTop: constants.generalUnit * 2,
       paddingBottom: constants.generalUnit * 3,
       maxWidth: breakpoints.values["md"],
       [breakpoints.down("md")]: {
@@ -160,11 +159,12 @@ const Security = ({ className }: SecurityProps) => {
         data-cy="settings-security-header"
       >
         <Typography
-          variant="h4"
-          component="h4"
+          variant="h3"
+          component="h3"
         >
           <Trans>Sign-in methods</Trans>
         </Typography>
+        <Divider />
         {showWarning && (
           <Typography
             variant="body1"

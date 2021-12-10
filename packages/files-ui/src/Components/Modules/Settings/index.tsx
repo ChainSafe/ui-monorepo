@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo } from "react"
-import Profile from "./Profile"
-import { Tabs,
+import React, { useCallback } from "react"
+import ProfileTab from "./ProfileTab"
+import {
+  Tabs,
   TabPane as TabPaneOrigin,
-  Typography, Divider,
-  Breadcrumb,
-  Crumb,
+  Typography,
+  Divider,
   useParams,
   useHistory,
   ITabPaneProps,
@@ -12,18 +12,19 @@ import { Tabs,
   LockIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { ROUTE_LINKS, SettingsPath, SETTINGS_BASE } from "../../FilesRoutes"
+import { ROUTE_LINKS, SettingsPath } from "../../FilesRoutes"
 import { t, Trans } from "@lingui/macro"
-// import Plan from "./Plan"
-import { ProfileIcon } from "@chainsafe/common-components"
+import SubscriptionTab from "./SubscriptionTab"
+import { ProfileIcon, SubscriptionPlanIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
-import Security from "./Security"
+import SecurityTab from "./SecurityTab"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     title: {
       marginTop: constants.generalUnit,
+      cursor: "pointer",
       [breakpoints.down("md")]: {
         fontSize: 20,
         lineHeight: "28px",
@@ -56,7 +57,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     tabsContainer: {
       borderRadius: 10,
       backgroundColor: palette.additional["gray"][3],
-      marginTop: constants.generalUnit * 4,
+      marginTop: constants.generalUnit * 2,
       [breakpoints.down("md")]: {
         borderRadius: 0,
         marginTop: 0
@@ -64,16 +65,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     tabPane: {
       flex: 1,
-      padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`,
-      "&.securityPane": {
-        [breakpoints.down("lg")]: {
-          paddingLeft: constants.generalUnit,
-          paddingRight: constants.generalUnit
-        }
-      },
-      [breakpoints.down("md")]: {
-        padding: `${constants.generalUnit * 2}px`
-      },
+      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`,
       [breakpoints.down("md")]: {
         padding: `${constants.generalUnit * 2}px 0`
       }
@@ -136,32 +128,22 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
 
 const Settings: React.FC = () => {
   const { desktop } = useThemeSwitcher()
-  const { path = desktop ? "profile" : "" } = useParams<{path: SettingsPath}>()
+  const { path = desktop ? "profile" : undefined } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
-  const { redirect } = useHistory()
-
+  const { redirect, history } = useHistory()
 
   const onSelectTab = useCallback(
-    (key: string) => redirect(`${SETTINGS_BASE}/${key}`)
+    (key: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(key))
     , [redirect])
-
-  const crumbs: Crumb[] = useMemo(() => [
-    {
-      text: t`Settings`
-    }
-  ], [])
 
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Breadcrumb
-          crumbs={crumbs}
-          homeOnClick={() => redirect(ROUTE_LINKS.Drive(""))}
-        />
         <Typography
           variant="h1"
           component="p"
           className={classes.title}
+          onClick={() => history.push(ROUTE_LINKS.SettingsDefault)}
         >
           <Trans>Settings</Trans>
         </Typography>
@@ -192,21 +174,27 @@ const Settings: React.FC = () => {
               tabKey="profile"
               testId="profile-tab"
             >
-              <Profile />
+              <ProfileTab />
             </TabPane>
             <TabPane
-              className={clsx(classes.tabPane, "securityPane", (!desktop && !path) ? classes.hideTabPane : "")}
+              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
               icon={<LockIcon className={classes.lockIcon}/>}
               iconRight={<CaretRightIcon/>}
               title={t`Security`}
               tabKey="security"
               testId="security-tab"
             >
-              <Security />
+              <SecurityTab />
             </TabPane>
-            {/* <TabPane title={t`Plan`} tabKey="plan">
-              <Plan />
-            </TabPane> */}
+            <TabPane
+              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+              title={t`Subscription Plan`}
+              tabKey="plan"
+              icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
+              iconRight={<CaretRightIcon/>}
+            >
+              <SubscriptionTab />
+            </TabPane>
           </Tabs>
         </div>
       }

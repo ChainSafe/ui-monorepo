@@ -16,6 +16,7 @@ import { nameValidator } from "../../../Utils/validationSchema"
 import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
 import LinkList from "./LinkSharing/LinkList"
 import { usePosthogContext } from "../../../Contexts/PosthogContext"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
 interface StyleProps {
   width: number
@@ -139,6 +140,7 @@ interface IShareFileProps {
 
 const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
+  const { accountRestricted } = useFilesApi()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const [isUsingExistingBucket, setIsUsingExistingBucket] = useState(true)
   const [keepOriginalFile, setKeepOriginalFile] = useState(true)
@@ -168,18 +170,19 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
 
     return buckets
       .filter(buck => buck.type === "share" || buck.type === "csf")
-      // keep only alive buckets
+      // do not show any buckets being deleted
       .filter(buck => buck.status !== "deleting")
-      // filter out the current bucket
+      // Do not show the current bucket
       .filter(buck => buck.id !== bucket?.id)
-      // all buckets where the user is reader or writer
+      // Show only buckets where the user is owner or writer
       .filter(buck => !!buck.writers.find((w) => w.uuid === profile.userId) || !!buck.owners.find((o) => o.uuid === profile.userId))
+      // filter out CSF and share buckets where user is an owner if their account is restricted
+      .filter(buck => !(!!accountRestricted && (buck.type === "csf" || !!buck.owners.find(o => o.uuid === profile.userId))))
       .map(buck => ({
         label: buck.name || t`Home`,
         value: buck.id
       }))
-  }
-  , [bucket, buckets, profile])
+  }, [bucket, buckets, profile, accountRestricted])
 
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
 
@@ -190,10 +193,10 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
 
   // if the user has no shared bucket, we default to new folder creation
   useEffect(() => {
-    if (hasNoSharedBucket) {
+    if (hasNoSharedBucket && !accountRestricted) {
       setIsUsingExistingBucket(false)
     }
-  }, [hasNoSharedBucket])
+  }, [hasNoSharedBucket, accountRestricted])
 
   const onNameChange = useCallback((value?: string | number) => {
     if (value === undefined) return
@@ -212,12 +215,12 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
   }, [])
 
   const handleShare = useCallback(async () => {
-    if(!bucket) {
+    if (!bucket) {
       console.error("Bucket is undefined")
       return
     }
 
-    if(!destinationBucket && isUsingExistingBucket){
+    if (!destinationBucket && isUsingExistingBucket) {
       return
     }
 
@@ -228,7 +231,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
       try {
         const newBucket = await handleCreateSharedFolder(sharedFolderName, [], [])
 
-        if(!newBucket){
+        if (!newBucket) {
           return
         }
         bucketToUpload = newBucket
@@ -239,7 +242,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
       setIsFolderCreationLoading(false)
     }
 
-    if(!bucketToUpload){
+    if (!bucketToUpload) {
       console.error("Bucket id to upload is undefined")
       return
     }
@@ -275,7 +278,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
       closePosition="none"
       maxWidth="sm"
       mobileStickyBottom={false}
-      subModal={bucketToUpload &&  (
+      subModal={bucketToUpload && (
         <LinkList
           bucketEncryptionKey={bucketToUpload.encryptionKey}
           bucketId={bucketToUpload.id}
@@ -361,8 +364,8 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
                   value={keepOriginalFile}
                   onChange={() => {
                     captureEvent("copy or move files on share")
-                    setKeepOriginalFile(!keepOriginalFile)}
-                  }
+                    setKeepOriginalFile(!keepOriginalFile)
+                  }}
                   label={t`Keep original files`}
                 />
               </div>
@@ -377,7 +380,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
                 loading={!isUsingExistingBucket && isFolderCreationLoading}
                 disabled={isUsingExistingBucket
                   ? !destinationBucket?.id
-                  : !sharedFolderName  || !!nameError
+                  : !sharedFolderName || !!nameError
                 }
               >
                 {isUsingExistingBucket ? keepOriginalFile
@@ -406,4 +409,3 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
 }
 
 export default ShareModal
-

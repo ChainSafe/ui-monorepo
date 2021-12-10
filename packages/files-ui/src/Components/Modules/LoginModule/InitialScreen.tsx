@@ -451,7 +451,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     <Typography
                       component="p"
                       variant="body1"
-                      className={classes.error}>{error}</Typography>
+                      className={classes.error}
+                    >
+                      {error}
+                    </Typography>
                   )}
                   <Button
                     className={clsx(classes.button)}
