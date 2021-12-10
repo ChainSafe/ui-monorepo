@@ -22,6 +22,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
+import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -42,9 +43,9 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   }))
 
 const SharedFileBrowser = () => {
-  const classes = useStyles()
   const { downloadFile, uploadFiles, buckets, getStorageSummary, refreshBuckets } = useFiles()
-  const { filesApiClient } = useFilesApi()
+  const { filesApiClient, accountRestricted } = useFilesApi()
+  const classes = useStyles()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
@@ -129,7 +130,6 @@ const SharedFileBrowser = () => {
     if (!bucket) return
 
     const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
-
     filesApiClient.removeBucketObject(bucket.id, { paths: pathsToDelete })
       .then(() => {
         addToast({
@@ -200,23 +200,20 @@ const SharedFileBrowser = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
-    let hasFolder = false
-    for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
-        hasFolder = true
-      }
-    }
-    if (hasFolder) {
+    if (accountRestricted) {
       addToast({
-        title: t`Folder uploads are not supported currently`,
-        type: "error"
+        type:"error",
+        title: t`Uploads disabled`,
+        subtitle: t`Oops! You need to pay for this month to upload more content.`
       })
-    } else {
-      uploadFiles(bucket, files, path)
-        .then(() => refreshContents())
-        .catch(console.error)
+      return
     }
-  }, [addToast, uploadFiles, bucket, refreshContents])
+    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
+    const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
+    paths.forEach(p => {
+      uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
+    })
+  }, [uploadFiles, bucket, accountRestricted, addToast])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],

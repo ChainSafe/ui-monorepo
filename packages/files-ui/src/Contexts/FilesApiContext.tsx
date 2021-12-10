@@ -34,6 +34,7 @@ type FilesApiContext = {
   validateMasterPassword: (candidatePassword: string) => Promise<boolean>
   encryptedEncryptionKey?: string
   isMasterPasswordSet: boolean
+  accountRestricted?: boolean
 }
 
 const FilesApiContext = React.createContext<FilesApiContext | undefined>(undefined)
@@ -62,6 +63,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
   // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [secured, setSecured] = useState<boolean | undefined>(undefined)
+  const [accountRestricted, setAccountRestricted] = useState(false)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
   { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
@@ -216,13 +218,18 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
   useEffect(() => {
     if (accessToken && accessToken.token && filesApiClient) {
       filesApiClient?.setToken(accessToken.token)
-      const decodedAccessToken = jwtDecode<{ perm: { secured?: string } }>(
+      const decodedAccessToken = jwtDecode<{ perm: { secured?: string; files?: string } }>(
         accessToken.token
       )
       if (decodedAccessToken.perm.secured === "true") {
         setSecured(true)
       } else {
         setSecured(false)
+      }
+      if (decodedAccessToken.perm.files === "restricted") {
+        setAccountRestricted(true)
+      } else {
+        setAccountRestricted(false)
       }
     }
   }, [accessToken, filesApiClient])
@@ -308,7 +315,8 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
         thresholdKeyLogin,
         secureThresholdKeyAccount,
         encryptedEncryptionKey: decodedRefreshToken?.enckey,
-        isMasterPasswordSet: !!decodedRefreshToken?.mps
+        isMasterPasswordSet: !!decodedRefreshToken?.mps,
+        accountRestricted
       }}
     >
       {children}

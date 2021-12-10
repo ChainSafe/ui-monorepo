@@ -24,7 +24,6 @@ const useStyles = makeStyles(
           padding: "0",
           "&.active": {
             // This moves the content areas based on the size of the nav bar
-
             padding: `${0}px ${constants.contentPadding}px ${0}px ${
               Number(constants.navWidth) +
               Number(constants.contentPadding)
@@ -34,20 +33,18 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {}
       },
       content: {
+        height: "initial",
         [breakpoints.up("md")]: {
           height: "100%",
           minHeight: "100vh",
           transitionDuration: `${animation.translate}ms`,
-          padding: 0,
           "&.active": {
-            height: "initial",
             padding: `${constants.contentTopPadding}px 0 0`
           }
         },
         [breakpoints.down("md")]: {
           minHeight: "100vh",
           "&.active": {
-            height: "initial",
             padding: `${constants.mobileHeaderHeight}px 0 0`
           }
         }
@@ -84,14 +81,16 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
           setNavOpen={setNavOpen}
         />
         <section
-          className={clsx(classes.content, {
-            active:
+          className={clsx(
+            classes.content, {
+              active:
               isLoggedIn &&
               secured &&
               !!publicKey &&
               !isNewDevice &&
               !shouldInitializeAccount
-          })}
+            }
+          )}
         >
           {children}
         </section>

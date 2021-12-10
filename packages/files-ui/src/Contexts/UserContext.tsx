@@ -52,7 +52,6 @@ const UserProvider = ({ children }: UserContextProps) => {
   const [localStore, _setLocalStore] = useState<ILocalStore | undefined>()
 
   const setLocalStore = useCallback((newData: ILocalStore, method: "update" | "overwrite" = "update") => {
-
     const toStore = method === "update"
       ? { ...localStore, ...newData }
       : newData

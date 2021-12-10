@@ -38,7 +38,6 @@ export const useGetFile = () => {
     const cancelToken = getSource().token
     setIsDownloading(true)
     setError("")
-
     try {
       const content = await getFileContent(
         id,
