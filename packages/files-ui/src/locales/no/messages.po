@@ -86,7 +86,7 @@ msgid "Anyone with the link can:"
 msgstr ""
 
 msgid "Approve"
-msgstr ""
+msgstr "Godkjenn"
 
 msgid "Are you sure? This will delete your default payment method."
 msgstr ""
@@ -317,7 +317,7 @@ msgid "Edit plan"
 msgstr ""
 
 msgid "Email is required"
-msgstr ""
+msgstr "E-post kreves"
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -1064,7 +1064,7 @@ msgid "You get access to these features right now."
 msgstr ""
 
 msgid "You haven't set a username yet."
-msgstr ""
+msgstr "Du har ikke satt noe brukernavn enda."
 
 msgid "You now have:"
 msgstr ""
