@@ -147,8 +147,8 @@ const ConfirmPlan = ({
       >
         {
           isDowngrade
-            ? <Trans>Confirm plan change</Trans>
-            : <Trans>Confirm plan downgrade</Trans>
+            ? <Trans>Confirm plan downgrade</Trans>
+            : <Trans>Confirm plan change</Trans>
         }
       </Typography>
       <Divider className={classes.divider} />

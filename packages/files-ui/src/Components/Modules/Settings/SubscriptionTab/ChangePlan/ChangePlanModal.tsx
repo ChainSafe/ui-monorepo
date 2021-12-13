@@ -54,7 +54,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const [plans, setPlans] = useState<Product[] | undefined>()
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
   const [isSubscriptionError, setIsSubscriptionError] = useState(false)
-  const didSelecFreePlan = useMemo(() => !!selectedPlan && getPrice(selectedPlan, "month") === 0, [selectedPlan])
+  const didSelectFreePlan = useMemo(() => !!selectedPlan && getPrice(selectedPlan, "month") === 0, [selectedPlan])
 
   useEffect(() => {
     if(!plans) {
@@ -110,7 +110,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         <DowngradeDetails
           goBack={() => {setSlide("select")}}
           goToPlanDetails={() => setSlide("planDetails")}
-          shouldCancelPlan={didSelecFreePlan}
+          shouldCancelPlan={didSelectFreePlan}
           plan={selectedPlan}
           onClose={onClose}
         />
