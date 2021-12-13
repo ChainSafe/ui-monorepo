@@ -868,9 +868,6 @@ msgstr ""
 msgid "Switch Plan"
 msgstr ""
 
-msgid "Switch Plans"
-msgstr ""
-
 msgid "Switch to Free plan"
 msgstr ""
 

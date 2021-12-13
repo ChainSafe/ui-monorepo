@@ -871,9 +871,6 @@ msgstr "Subscription Plan"
 msgid "Switch Plan"
 msgstr "Switch Plan"
 
-msgid "Switch Plans"
-msgstr "Switch Plans"
-
 msgid "Switch to Free plan"
 msgstr "Switch to Free plan"
 
