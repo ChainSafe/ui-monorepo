@@ -130,6 +130,7 @@ const SharedFileBrowser = () => {
     if (!bucket) return
 
     const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+
     filesApiClient.removeBucketObject(bucket.id, { paths: pathsToDelete })
       .then(() => {
         addToast({

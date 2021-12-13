@@ -92,9 +92,9 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
 
       case 2:
         return <>
-          <div
-            className={classes.title}
-          ><Trans>Add viewers and editors by username, sharing id or Ethereum address.</Trans></div>
+          <div className={classes.title}>
+            <Trans>Add viewers and editors by username, sharing id or Ethereum address.</Trans>
+          </div>
           <div className={classes.imageContainer}>
             <img
               className={classes.image}
@@ -103,7 +103,6 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
             />
           </div>
         </>
-
       case 3:
         return <>
           <div className={classes.title}>

@@ -22,6 +22,9 @@ msgstr "/month"
 msgid "/year"
 msgstr "/year"
 
+msgid "<0>{currentStorage}</0> of storage"
+msgstr "<0>{currentStorage}</0> of storage"
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
@@ -168,6 +171,9 @@ msgstr "Confirm plan"
 
 msgid "Confirm plan change"
 msgstr "Confirm plan change"
+
+msgid "Confirm plan downgrade"
+msgstr "Confirm plan downgrade"
 
 msgid "Confirmation"
 msgstr "Confirmation"
@@ -862,8 +868,11 @@ msgstr "Stored by miner"
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
 
-msgid "Switch Plans"
-msgstr "Switch Plans"
+msgid "Switch Plan"
+msgstr "Switch Plan"
+
+msgid "Switch to Free plan"
+msgstr "Switch to Free plan"
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -963,6 +972,9 @@ msgstr "Update card"
 
 msgid "Update credit card"
 msgstr "Update credit card"
+
+msgid "Update details"
+msgstr "Update details"
 
 msgid "Update your credit card"
 msgstr "Update your credit card"
@@ -1078,8 +1090,14 @@ msgstr "You were added to the shared folder ({0}): {1}"
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
+msgid "You would lose the following features:"
+msgstr "You would lose the following features:"
+
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+msgstr "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 
 msgid "Your plan"
 msgstr "Your plan"
@@ -1135,11 +1153,14 @@ msgstr "{0} {fileProgress} - {1}"
 msgid "{currentPlanStorage} of storage"
 msgstr "{currentPlanStorage} of storage"
 
-msgid "{currentStorage} of storage"
-msgstr "{currentStorage} of storage"
-
 msgid "{newPlanCapacity} of storage"
 msgstr "{newPlanCapacity} of storage"
+
+msgid "{newPlanStorage} of storage"
+msgstr "{newPlanStorage} of storage"
+
+msgid "{planStorageCapacity} of storage"
+msgstr "{planStorageCapacity} of storage"
 
 msgid "{successCount} files transferred successfully, {0} failed"
 msgstr "{successCount} files transferred successfully, {0} failed"

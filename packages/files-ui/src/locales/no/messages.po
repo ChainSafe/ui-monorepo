@@ -22,6 +22,9 @@ msgstr ""
 msgid "/year"
 msgstr ""
 
+msgid "<0>{currentStorage}</0> of storage"
+msgstr ""
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
@@ -169,6 +172,9 @@ msgstr ""
 msgid "Confirm plan change"
 msgstr ""
 
+msgid "Confirm plan downgrade"
+msgstr ""
+
 msgid "Confirmation"
 msgstr ""
 
@@ -272,7 +278,7 @@ msgid "Delete"
 msgstr "Slett"
 
 msgid "Delete selected"
-msgstr "Slett valgte"
+msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr ""
@@ -308,7 +314,7 @@ msgid "Downloads failed"
 msgstr ""
 
 msgid "Drop to upload files"
-msgstr "Dra for å laste opp filer"
+msgstr ""
 
 msgid "Edit payment method"
 msgstr ""
@@ -503,7 +509,7 @@ msgid "Move over"
 msgstr ""
 
 msgid "Move selected"
-msgstr "Flytt valgte"
+msgstr ""
 
 msgid "Move to…"
 msgstr "Flytt til …"
@@ -542,7 +548,7 @@ msgid "No files to share"
 msgstr ""
 
 msgid "No files to show"
-msgstr "Ingen filer å vise"
+msgstr ""
 
 msgid "No folders"
 msgstr "Ingen mapper"
@@ -668,7 +674,7 @@ msgid "Recover"
 msgstr "Gjenopprett"
 
 msgid "Recover selected"
-msgstr "Gjenoppretting valgt"
+msgstr ""
 
 msgid "Recover to…"
 msgstr ""
@@ -859,7 +865,10 @@ msgstr ""
 msgid "Subscription Plan"
 msgstr ""
 
-msgid "Switch Plans"
+msgid "Switch Plan"
+msgstr ""
+
+msgid "Switch to Free plan"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -961,11 +970,14 @@ msgstr ""
 msgid "Update credit card"
 msgstr ""
 
+msgid "Update details"
+msgstr ""
+
 msgid "Update your credit card"
 msgstr ""
 
 msgid "Upload"
-msgstr "Last opp"
+msgstr ""
 
 msgid "Uploads cancelled"
 msgstr ""
@@ -1075,7 +1087,13 @@ msgstr ""
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
+msgid "You would lose the following features:"
+msgstr ""
+
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr ""
 
 msgid "Your plan"
@@ -1132,10 +1150,13 @@ msgstr ""
 msgid "{currentPlanStorage} of storage"
 msgstr ""
 
-msgid "{currentStorage} of storage"
+msgid "{newPlanCapacity} of storage"
 msgstr ""
 
-msgid "{newPlanCapacity} of storage"
+msgid "{newPlanStorage} of storage"
+msgstr ""
+
+msgid "{planStorageCapacity} of storage"
 msgstr ""
 
 msgid "{successCount} files transferred successfully, {0} failed"
