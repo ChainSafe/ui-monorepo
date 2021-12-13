@@ -240,7 +240,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
           <div className={classes.loadingContainer}>
             <Loading
               size={32}
-              type="inherit"
+              type="initial"
             />
           </div>
         </Grid>
@@ -368,7 +368,8 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       <Trans>CID (Content Identifier)</Trans>
                     </Typography>
                   </Grid>
-                  <div onClick={onCopyCID}
+                  <div
+                    onClick={onCopyCID}
                     className={classes.copyRow}
                   >
                     <Typography
@@ -402,7 +403,8 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       <Trans>Decryption key</Trans>
                     </Typography>
                   </Grid>
-                  <div onClick={onCopyKey}
+                  <div
+                    onClick={onCopyKey}
                     className={classes.copyRow}
                   >
                     <Typography

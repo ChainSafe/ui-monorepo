@@ -482,6 +482,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }
     } catch (error) {
       if (axios.isCancel(error)) {
+        // Do not propogate cancellation up the stack to ensure that the next
+        // download starts correctly
         return Promise.reject()
       } else {
         console.error(error)
@@ -497,17 +499,20 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   ): Promise<FileSystemItemPath[]> => {
     return await itemsToDownload.reduce(
       async (acc: Promise<FileSystemItemPath[]>, item: FileSystemItem): Promise<FileSystemItemPath[]> => {
+        // this is needed to make sure the reduce is sequential
+        const accP = await acc
+
         if (item.isFolder) {
           const folderPath = getPathWithFile(currentPath, item.name)
           const newList = await filesApiClient.getBucketObjectChildrenList(bucketId, { path: folderPath })
 
           const childFolderItems = newList.map(parseFileContentResponse)
           return childFolderItems.length
-            ? [...await acc, ...await getFileList(childFolderItems, folderPath, bucketId)]
+            ? [...accP, ...await getFileList(childFolderItems, folderPath, bucketId)]
             : Promise.resolve(acc)
         }
 
-        return [...await acc, { ...item, path: currentPath }]
+        return [...accP, { ...item, path: currentPath }]
       }, Promise.resolve([] as FileSystemItemPath[]))
   }, [filesApiClient])
 
@@ -549,6 +554,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           // Idea for parallel download https://glebbahmutov.com/blog/run-n-promises-in-parallel/
           // we need to use a reduce here because forEach doesn't wait for the Promise to resolve
           await fullStructure.reduce(async (totalDownloaded: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
+            // this is needed to make sure the reduce is sequential
+            const totalP = await totalDownloaded
+
             const file = await getFileContent(bucketId, {
               cid: item.cid,
               file: item,
@@ -561,7 +569,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
                   ...toastParams,
                   title: t`Downloading ${fileProgress} - ${item.name}`,
                   progress: Math.ceil(
-                    ((await totalDownloaded + progressEvent.loaded) / totalFileSize) * 100
+                    ((totalP + progressEvent.loaded) / totalFileSize) * 100
                   )
                 })
               }
@@ -573,8 +581,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               const relativeFilePath = getRelativePath(fullPath, currentPath)
               zipList[relativeFilePath] = new Uint8Array(fileArrayBuffer)
             }
-
-            return await totalDownloaded + item.size
+            return totalP + item.size
           }, Promise.resolve(0))
 
           // level 0 means without compression
@@ -789,8 +796,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
       try {
         await allItems.reduce(async (totalProgress: Promise<number>, item, i) => {
+          // this is needed to make sure the reduce is sequential
           const previousProgress = await totalProgress
           const fileProgress = `${i + 1}/${totalFileNumber}`
+
           try {
             const file = await getFileContent(sourceBucket.id, {
               cid: item.cid,

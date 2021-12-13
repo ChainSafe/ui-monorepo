@@ -13,6 +13,7 @@ export type Crumb = {
 export type BreadcrumbProps = {
   crumbs?: Crumb[]
   homeOnClick?: () => void
+  hideHome?: boolean
   className?: string
   showDropDown?: boolean
 }
@@ -60,7 +61,7 @@ const useStyles = makeStyles(
         "&.clickable": {
           cursor: "pointer"
         },
-        maxWidth: 100,
+        maxWidth: 120,
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
@@ -94,6 +95,7 @@ const useStyles = makeStyles(
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   crumbs = [],
   homeOnClick,
+  hideHome,
   className,
   showDropDown
 }: BreadcrumbProps) => {
@@ -102,7 +104,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const generateFullCrumbs = (crumbs: Crumb[]) => {
     return crumbs.map((item: Crumb, index: number) => (
       <Fragment key={`crumb-${index}`}>
-        <div className={clsx(classes.separator)} />
         <div>
           <Typography
             onClick={() => (item.onClick ? item.onClick() : null)}
@@ -112,6 +113,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
             {item.text}
           </Typography>
         </div>
+        {index < (crumbs.length - 1) && <div className={clsx(classes.separator)} />}
       </Fragment>
     ))
   }
@@ -120,7 +122,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     return (
       <MenuDropdown
         title={crumbs[0].text}
-        anchor="bottom-center"
+        anchor="bottom-left"
         animation="rotate"
         classNames={{
           item: classes.menuItem,
@@ -146,11 +148,10 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     if (crumbs.length < 3 || !showDropDown) {
       return generateFullCrumbs(crumbs)
     } else {
-      const dropdownCrumbs = crumbs.slice(0, length - 1)
+      const dropdownCrumbs = crumbs.slice(0, crumbs.length - 1)
       const lastCrumb = crumbs[crumbs.length - 1]
       return (
         <>
-          <div className={clsx(classes.separator)} />
           {generateDropdownCrumb(dropdownCrumbs)}
           <div className={clsx(classes.separator)} />
           <div>
@@ -169,10 +170,14 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
   return (
     <div className={clsx(classes.root, className)}>
-      <HomeIcon
-        className={clsx(classes.home, homeOnClick && "clickable")}
-        onClick={() => (homeOnClick ? homeOnClick() : null)}
-      />
+      {!hideHome && <>
+        <HomeIcon
+          className={clsx(classes.home, homeOnClick && "clickable")}
+          onClick={() => (homeOnClick ? homeOnClick() : null)}
+        />
+        <div className={clsx(classes.separator)} />
+      </>
+      }
       {generateCrumbs()}
     </div>
   )

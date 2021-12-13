@@ -1,8 +1,8 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { ITheme, useTheme } from "@chainsafe/common-theme"
 
 export interface ILoadingProps {
-  type?: "inherit" | "primary" | "dark" | "light"
+  type?: "initial" | "primary" | "dark" | "light"
   size?: number
   className?: string
 }
@@ -13,6 +13,42 @@ const Loading: React.FC<ILoadingProps> = ({
   className
 }) => {
   const theme: ITheme = useTheme()
+
+  const uniqueKey = `${Math.random()}-${Math.random()}`
+
+  const {
+    start,
+    end
+  } = useMemo(() => {
+    switch (type) {
+      case "primary":
+        return {
+          start: theme.palette.primary.main,
+          end: "transparent"
+        }
+      case "light":
+        return {
+          start: theme.palette.common.white.main,
+          end: "transparent"
+        }
+      case "dark":
+        return {
+          start: theme.palette.common.black.main,
+          end: "transparent"
+        }
+      case "initial":
+        return {
+          start: "#FFFFFF",
+          end: "transparent"
+        }
+      default:
+        return {
+          start: "#FFFFFF",
+          end: "transparent"
+        }
+    }
+  }, [type, theme.palette])
+
   return (
     <svg
       width={size}
@@ -22,7 +58,7 @@ const Loading: React.FC<ILoadingProps> = ({
     >
       <defs>
         <linearGradient
-          id="gradient"
+          id={`gradient-${uniqueKey}`}
           x1="0%"
           y1="0%"
           x2="0%"
@@ -30,19 +66,11 @@ const Loading: React.FC<ILoadingProps> = ({
         >
           <stop
             offset="0%"
-            stopColor={
-              type === "primary"
-                ? theme.palette.primary.main
-                : type === "dark"
-                  ? theme.palette.common.black.main
-                  : theme.palette.additional["gray"][5]
-            }
+            stopColor={start}
           />
           <stop
             offset="100%"
-            stopColor={
-              type === "light" ? theme.palette.common.white.main : "transparent"
-            }
+            stopColor={end}
           />
         </linearGradient>
       </defs>
@@ -50,7 +78,7 @@ const Loading: React.FC<ILoadingProps> = ({
         cx="50"
         cy="50"
         r="47"
-        stroke="url(#gradient)"
+        stroke={`url(#gradient-${uniqueKey})`}
         strokeWidth="6"
         fill="none"
         transform="rotate(90 50 50)"

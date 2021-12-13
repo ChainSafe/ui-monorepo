@@ -360,7 +360,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           <Loading
             className={classes.loader}
             size={50}
-            type='inherit'
+            type="initial"
           />
         </>}
       </section>
@@ -444,9 +444,13 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     labelClassName={classes.inputLabel}
                   />
                   {!!errorEmail && (
-                    <Typography component="p"
+                    <Typography
+                      component="p"
                       variant="body1"
-                      className={classes.error}>{error}</Typography>
+                      className={classes.error}
+                    >
+                      {error}
+                    </Typography>
                   )}
                   <Button
                     className={clsx(classes.button)}
@@ -506,7 +510,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
               {maintenanceMode && (
                 <Typography className={clsx(classes.maintenanceMessage, classes.maintenanceActiveMessage)}>
                   <Trans>We are performing routine maintenance of the system. Service status updates will be posted on the{" "}
-                    <a href={ROUTE_LINKS.DiscordInvite}
+                    <a
+                      href={ROUTE_LINKS.DiscordInvite}
                       target="_blank"
                       rel='noreferrer noopener'>Files Support Channel</a>{" "}
                       on Discord
