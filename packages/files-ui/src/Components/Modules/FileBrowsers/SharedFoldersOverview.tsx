@@ -313,7 +313,10 @@ const SharedFolderOverview = () => {
         acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder, testId: "confirm-deletion" }}
         rejectButtonProps={{ disabled: isDeletingSharedFolder, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
-        testId="shared-folder-deletion"
+        testId={bucketToDelete?.permission === "owner"
+          ? "shared-folder-deletion"
+          : "shared-folder-leave"
+        }
       />
       {accountRestricted &&
         <RestrictedModeBanner />

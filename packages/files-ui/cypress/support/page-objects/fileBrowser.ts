@@ -1,5 +1,5 @@
 export const fileBrowser = {
-  fileItemKebabButton: () => cy.get("[data-testid=menu-title-fileDropdown]"),
+  fileItemKebabButton: () => cy.get("[data-testid=menu-title-fileDropdown]", { timeout: 10000 }),
   fileItemName: () => cy.get("[data-cy=file-item-name]"),
   fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
   fileTable: () => cy.get("[data-testid=table-home]"),

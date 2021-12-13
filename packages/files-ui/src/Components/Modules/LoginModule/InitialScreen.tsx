@@ -426,8 +426,12 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           className={classes.headerText}
         >
           {isSharing && status !== "logging in"
-            ? <Trans>Sign in/up to access the shared folder</Trans>
-            : <Trans>Get Started</Trans>
+            ? <span data-cy="label-sign-in-to-access-share" >
+              <Trans>Sign in/up to access the shared folder</Trans>
+            </span>
+            : <span data-cy="label-get-started" >
+              <Trans>Get Started</Trans>
+            </span>
           }
         </Typography>
       )}
@@ -581,8 +585,12 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           <ExclamationCircleIcon
             className={classes.exclamationIcon}
             size={48}
+            data-cy="icon-link-error"
           />
-          <Typography variant='h2'>
+          <Typography
+            variant='h2'
+            data-cy="label-invalid-link"
+          >
             <Trans>This link is not valid any more.</Trans>
           </Typography>
           <Button
@@ -591,6 +599,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
               resetLogin()
               redirect("/")
             }}
+            data-cy="button-go-to-login"
           >
             <Trans>Go to login</Trans>
           </Button>
