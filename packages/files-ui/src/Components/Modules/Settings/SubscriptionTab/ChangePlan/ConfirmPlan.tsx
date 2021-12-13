@@ -115,7 +115,7 @@ const ConfirmPlan = ({
   const classes = useStyles()
   const { defaultCard } = useBilling()
   const { currentSubscription } = useBilling()
-  const currentPlanStorage = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
+  const newPlanStorage = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
   const isDowngrade = useMemo(() => {
     const currentPrice = currentSubscription?.product?.price?.unit_amount
     return currentPrice && currentPrice > planPrice.unit_amount
@@ -183,16 +183,7 @@ const ConfirmPlan = ({
             variant="body1"
             className={classes.featureSeparator}
           >
-            {planPrice?.metadata?.storage_size_bytes
-              ? <Trans>{currentPlanStorage} of storage</Trans>
-              : plan.description
-            }
-          </Typography>
-          <Typography
-            component="p"
-            variant="body1"
-          >
-            {plan.description}
+            <Trans>{newPlanStorage} of storage</Trans>
           </Typography>
         </div>
       </div>

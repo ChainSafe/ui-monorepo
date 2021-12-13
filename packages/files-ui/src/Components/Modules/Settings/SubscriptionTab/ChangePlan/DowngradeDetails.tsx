@@ -2,8 +2,8 @@ import React, { useCallback, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product } from "@chainsafe/files-api-client"
-import {  Button, CrossIcon, formatBytes, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import {  Breadcrumb, Button, CrossIcon, formatBytes, Typography } from "@chainsafe/common-components"
+import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 
@@ -98,13 +98,11 @@ interface IConfirmDowngrade {
   onClose: () => void
 }
 
-const ConfirmDowngrade = ({ plan, goBack, goToPlanDetails: goToPaymentMethod, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
+const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
   const classes = useStyles()
   const { currentSubscription, cancelCurrentSubscription } = useBilling()
   const currentStorage = formatBytes(Number(currentSubscription?.product?.price.metadata?.storage_size_bytes), 2)
   const [isCancelingPlan, setIsCancellingPlan] = useState(false)
-
-  console.log("currentSubscription", currentSubscription)
 
   const onCancelPlan = useCallback(() => {
     setIsCancellingPlan(true)
@@ -121,12 +119,21 @@ const ConfirmDowngrade = ({ plan, goBack, goToPlanDetails: goToPaymentMethod, sh
 
   return (
     <article className={classes.root}>
+      <Breadcrumb
+        crumbs={[{
+          text: t`Change plan`,
+          onClick: goBack
+        }, {
+          text: t`Update details`
+        }]}
+        hideHome={true}
+      />
       <header className={classes.header}>
         <Typography
           component="p"
           variant="h4"
         >
-          <Trans>Downgrade</Trans>
+          <Trans>Change plan</Trans>
         </Typography>
       </header>
       <div>
@@ -135,7 +142,7 @@ const ConfirmDowngrade = ({ plan, goBack, goToPlanDetails: goToPaymentMethod, sh
           component="p"
           className={classes.featuresTitle}
         >
-          <Trans>You would loose the following features:</Trans>
+          <Trans>You would lose the following features:</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           <div className={clsx(classes.middleRowBox, classes.featureTickBox)}>
@@ -164,11 +171,11 @@ const ConfirmDowngrade = ({ plan, goBack, goToPlanDetails: goToPaymentMethod, sh
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={goBack}
+            onClick={onClose}
             variant="secondary"
             disabled={isCancelingPlan}
           >
-            <Trans>Back</Trans>
+            <Trans>Cancel</Trans>
           </Button>
           {
             shouldCancelPlan
@@ -182,9 +189,9 @@ const ConfirmDowngrade = ({ plan, goBack, goToPlanDetails: goToPaymentMethod, sh
               </Button>
               : <Button
                 variant="primary"
-                onClick={goToPaymentMethod}
+                onClick={goToPlanDetails}
               >
-                <Trans>Downgrade</ Trans>
+                <Trans>Switch Plan</ Trans>
               </Button>
           }
         </div>
@@ -193,4 +200,4 @@ const ConfirmDowngrade = ({ plan, goBack, goToPlanDetails: goToPaymentMethod, sh
   )
 }
 
-export default ConfirmDowngrade
+export default DowngradeDetails

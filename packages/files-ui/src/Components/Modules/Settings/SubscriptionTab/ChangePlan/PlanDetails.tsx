@@ -127,15 +127,7 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
             variant="body1"
             className={classes.featureSeparator}
           >
-            {monthlyPrice?.metadata?.storage_size_bytes
-              ? <Trans>{currentPlanStorage} of storage</Trans>
-              : plan.description
-            }
-          </Typography>
-          <Typography
-            component="p"
-            variant="body1">
-            {plan.description}
+            <Trans>{currentPlanStorage} of storage</Trans>
           </Typography>
         </div>
       </div>

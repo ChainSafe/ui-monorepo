@@ -9,7 +9,7 @@ import ConfirmPlan from "./ConfirmPlan"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { Product, ProductPrice, ProductPriceRecurringInterval } from "@chainsafe/files-api-client"
 import PlanSuccess from "./PlanSuccess"
-import ConfirmDowngrade from "./ConfirmDowngrade"
+import DowngradeDetails from "./DowngradeDetails"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -35,7 +35,7 @@ type ChangeModalSlides = "select" |
 "paymentMethod" |
 "confirmPlan" |
 "planSuccess" |
-"confirmDowngrade"
+"downgradeDetails"
 
 const getPrice = (plan: Product, recurrence?: ProductPriceRecurringInterval) => {
   return plan.prices.find(price => price?.recurring?.interval === recurrence)?.unit_amount || 0
@@ -100,14 +100,14 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
             const isDowngrade = (currentPrice || 0) > newPrice
 
             isDowngrade
-              ? setSlide("confirmDowngrade")
+              ? setSlide("downgradeDetails")
               : setSlide("planDetails")
           }}
           plans={plans}
         />
       )}
-      { slide === "confirmDowngrade" && selectedPlan && (
-        <ConfirmDowngrade
+      { slide === "downgradeDetails" && selectedPlan && (
+        <DowngradeDetails
           goBack={() => {setSlide("select")}}
           goToPlanDetails={() => setSlide("planDetails")}
           shouldCancelPlan={didSelecFreePlan}

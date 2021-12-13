@@ -13,6 +13,9 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "({0}) items selected"
+msgstr ""
+
 msgid "/month"
 msgstr ""
 
@@ -89,9 +92,6 @@ msgid "Approve"
 msgstr "Godkjenn<<<<<<< HEAD<<<<<<< HEAD"
 
 msgid "Are you sure? This will delete your default payment method."
-msgstr ""
-
-msgid "Back"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -262,6 +262,9 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
+msgid "Date Uploaded"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Dato opplastet"
 
@@ -274,6 +277,9 @@ msgstr ""
 msgid "Delete"
 msgstr "Slett"
 
+msgid "Delete selected"
+msgstr ""
+
 msgid "Device awaiting confirmation"
 msgstr ""
 
@@ -281,9 +287,6 @@ msgid "Didn't receive the email ?"
 msgstr "Fikk du ikke e-posten?"
 
 msgid "Display Settings"
-msgstr ""
-
-msgid "Downgrade"
 msgstr ""
 
 msgid "Download"
@@ -308,6 +311,9 @@ msgid "Downloads cancelled"
 msgstr ""
 
 msgid "Downloads failed"
+msgstr ""
+
+msgid "Drop to upload files"
 msgstr ""
 
 msgid "Edit payment method"
@@ -502,6 +508,9 @@ msgstr "Flytt"
 msgid "Move over"
 msgstr ""
 
+msgid "Move selected"
+msgstr ""
+
 msgid "Move to…"
 msgstr "Flytt til …"
 
@@ -538,6 +547,9 @@ msgstr ""
 msgid "No files to share"
 msgstr ""
 
+msgid "No files to show"
+msgstr ""
+
 msgid "No folders"
 msgstr "Ingen mapper"
 
@@ -560,6 +572,9 @@ msgid "Number of copies (Replication Factor)"
 msgstr ""
 
 msgid "OK"
+msgstr ""
+
+msgid "One sec, getting files ready…"
 msgstr ""
 
 msgid "Only you can see this."
@@ -657,6 +672,9 @@ msgstr ""
 
 msgid "Recover"
 msgstr "Gjenopprett"
+
+msgid "Recover selected"
+msgstr ""
 
 msgid "Recover to…"
 msgstr ""
@@ -772,6 +790,9 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Delt"
 
@@ -826,6 +847,9 @@ msgstr "Noe gikk galt."
 msgid "Something went wrong. We couldn't upload your file"
 msgstr ""
 
+msgid "Sort By:"
+msgstr ""
+
 msgid "Standard plan"
 msgstr ""
 
@@ -839,6 +863,9 @@ msgid "Stored by miner"
 msgstr ""
 
 msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plan"
 msgstr ""
 
 msgid "Switch Plans"
@@ -946,7 +973,13 @@ msgstr ""
 msgid "Update credit card"
 msgstr ""
 
+msgid "Update details"
+msgstr ""
+
 msgid "Update your credit card"
+msgstr ""
+
+msgid "Upload"
 msgstr ""
 
 msgid "Uploads cancelled"
@@ -1057,7 +1090,7 @@ msgstr ""
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
-msgid "You would loose the following features:"
+msgid "You would lose the following features:"
 msgstr ""
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
@@ -1121,6 +1154,9 @@ msgid "{currentPlanStorage} of storage"
 msgstr ""
 
 msgid "{newPlanCapacity} of storage"
+msgstr ""
+
+msgid "{newPlanStorage} of storage"
 msgstr ""
 
 msgid "{planStorageCapacity} of storage"
