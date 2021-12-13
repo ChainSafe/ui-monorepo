@@ -86,7 +86,7 @@ msgid "Anyone with the link can:"
 msgstr ""
 
 msgid "Approve"
-msgstr "Godkjenn<<<<<<< HEAD<<<<<<< HEAD"
+msgstr "Godkjenn"
 
 msgid "Are you sure? This will delete your default payment method."
 msgstr ""
@@ -233,7 +233,7 @@ msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
-msgstr ">>>>>>> origin/dev"
+msgstr ""
 
 msgid "Credit card saved"
 msgstr ""
@@ -311,13 +311,13 @@ msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
 msgid "Edit payment method"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 msgid "Edit plan"
 msgstr ""
 
 msgid "Email is required"
-msgstr "E-post kreves=======>>>>>>> origin/dev"
+msgstr "E-post kreves"
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -347,10 +347,10 @@ msgid ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 msgid "Features"
-msgstr "=======>>>>>>> origin/dev"
+msgstr ""
 
 msgid "File Info"
 msgstr "Filinfo"
@@ -491,7 +491,7 @@ msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Method"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 msgid "Monthly billing"
 msgstr ""
@@ -758,7 +758,7 @@ msgid "Select plan"
 msgstr ""
 
 msgid "Select this plan"
-msgstr ">>>>>>> origin/dev"
+msgstr ""
 
 msgid "Send another email"
 msgstr "Send en ny e-post"
@@ -914,13 +914,13 @@ msgid "There was an error restoring your data"
 msgstr ""
 
 msgid "There was an error when setting username."
-msgstr "<<<<<<< HEAD<<<<<<< HEAD"
+msgstr ""
 
 msgid "This card will become your default payment method"
 msgstr ""
 
 msgid "This is the free product."
-msgstr "=======>>>>>>> ecce826c708fb0146bff649f12f0896b4d9ca89e=======>>>>>>> origin/dev"
+msgstr ""
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr ""
@@ -932,7 +932,7 @@ msgid "This username is already taken"
 msgstr ""
 
 msgid "This website uses cookies"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
@@ -977,10 +977,10 @@ msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
 
 msgid "Use a saved browser"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 msgid "Use this card"
-msgstr "=======>>>>>>> origin/dev"
+msgstr ""
 
 msgid "User {0} is both a reader and writer"
 msgstr ""
@@ -1055,7 +1055,7 @@ msgid "You can now create shared folders to share a file."
 msgstr ""
 
 msgid "You can't move folders to this path"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 msgid "You do not have access to this shared folder."
 msgstr ""
@@ -1064,13 +1064,13 @@ msgid "You get access to these features right now."
 msgstr ""
 
 msgid "You haven't set a username yet."
-msgstr "Du har ikke satt noe brukernavn enda.<<<<<<< HEAD"
+msgstr "Du har ikke satt noe brukernavn enda."
 
 msgid "You now have:"
 msgstr ""
 
 msgid "You were added to the shared folder ({0}): {1}"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
@@ -1085,16 +1085,16 @@ msgid "Your recovery key can be used to restore your account in place of your ba
 msgstr ""
 
 msgid "can-edit"
-msgstr ">>>>>>> origin/dev"
+msgstr ""
 
 msgid "invoices here"
-msgstr "======="
+msgstr ""
 
 msgid "me"
-msgstr "<<<<<<< HEAD<<<<<<< HEAD"
+msgstr ""
 
 msgid "on"
-msgstr ">>>>>>> origin/dev"
+msgstr ""
 
 msgid "unknown"
 msgstr ""
