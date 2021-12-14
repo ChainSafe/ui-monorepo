@@ -76,12 +76,11 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 )
 
 interface IPaymentMethodProps {
-  goToSelectPlan: () => void
-  goToPlanDetails: () => void
+  goBack: () => void
   onSelectPaymentMethod: () => void
 }
 
-const PlanDetails = ({ onSelectPaymentMethod }: IPaymentMethodProps) => {
+const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => {
   const classes = useStyles()
   const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
   const [view, setView] = useState<"selectPaymentMethod" | "addCard">("selectPaymentMethod")
@@ -155,6 +154,12 @@ const PlanDetails = ({ onSelectPaymentMethod }: IPaymentMethodProps) => {
       <Divider className={classes.divider} />
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
+          <Button
+            onClick={goBack}
+            variant="secondary"
+          >
+            <Trans>Go back</Trans>
+          </Button>
           <Button
             variant="primary"
             disabled={!paymentMethod || view === "addCard"}

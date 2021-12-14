@@ -70,7 +70,7 @@ interface IPlanDetails {
   onSelectPlanPrice: (planPrice: ProductPrice) => void
 }
 
-const PlanDetails = ({ plan, onSelectPlanPrice }: IPlanDetails) => {
+const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
   const classes = useStyles()
   const monthlyPrice = plan.prices.find((price) => price.recurring.interval === "month")
   const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "year")
@@ -187,6 +187,12 @@ const PlanDetails = ({ plan, onSelectPlanPrice }: IPlanDetails) => {
       </div>
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
+          <Button
+            onClick={() => goToSelectPlan()}
+            variant="secondary"
+          >
+            <Trans>Go back</Trans>
+          </Button>
           <Button
             variant="primary"
             onClick={handleSelectPlan}

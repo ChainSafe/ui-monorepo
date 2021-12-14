@@ -2,8 +2,8 @@ import React, { useCallback, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product } from "@chainsafe/files-api-client"
-import { Button, CrossIcon, formatBytes, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import {  Button, CrossIcon, formatBytes, Typography } from "@chainsafe/common-components"
+import {  Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 
@@ -98,7 +98,7 @@ interface IConfirmDowngrade {
   onClose: () => void
 }
 
-const DowngradeDetails = ({ plan, goToPlanDetails, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
+const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
   const classes = useStyles()
   const { currentSubscription, cancelCurrentSubscription } = useBilling()
   const currentStorage = formatBytes(Number(currentSubscription?.product?.price.metadata?.storage_size_bytes), 2)
@@ -161,6 +161,13 @@ const DowngradeDetails = ({ plan, goToPlanDetails, shouldCancelPlan, onClose }: 
       </div>
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
+          <Button
+            onClick={goBack}
+            variant="secondary"
+            disabled={isCancelingPlan}
+          >
+            <Trans>Go back</Trans>
+          </Button>
           {
             shouldCancelPlan
               ? <Button

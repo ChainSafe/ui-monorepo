@@ -92,7 +92,6 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 interface IConfirmPlan {
   plan: Product
   planPrice: ProductPrice
-  onClose: () => void
   goToSelectPlan: () => void
   goToPlanDetails: () => void
   goToPaymentMethod: () => void
@@ -245,6 +244,13 @@ const ConfirmPlan = ({
       }
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
+          <Button
+            onClick={goToPaymentMethod}
+            variant="secondary"
+            disabled={loadingChangeSubscription}
+          >
+            <Trans>Go back</Trans>
+          </Button>
           <Button
             variant="primary"
             loading={loadingChangeSubscription}
