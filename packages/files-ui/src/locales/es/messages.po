@@ -14,9 +14,6 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "({0}) items selected"
-msgstr ""
-
 msgid "/month"
 msgstr ""
 
@@ -75,6 +72,9 @@ msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
 msgid "Adding you to the shared folder..."
+msgstr ""
+
+msgid "All invoices"
 msgstr ""
 
 msgid "Allow lookup by sharing key, wallet address or username"
@@ -263,9 +263,6 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-msgid "Date Uploaded"
-msgstr ""
-
 msgid "Date uploaded"
 msgstr "Fecha de subida"
 
@@ -277,9 +274,6 @@ msgstr ""
 
 msgid "Delete"
 msgstr "Borrar"
-
-msgid "Delete selected"
-msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr "Dispositivo pendiente de confirmación"
@@ -312,9 +306,6 @@ msgid "Downloads cancelled"
 msgstr ""
 
 msgid "Downloads failed"
-msgstr ""
-
-msgid "Drop to upload files"
 msgstr ""
 
 msgid "Edit payment method"
@@ -384,9 +375,6 @@ msgid "First name"
 msgstr "Primer Nombre"
 
 msgid "Folder name is already in use"
-msgstr ""
-
-msgid "Folder uploads are not supported currently"
 msgstr ""
 
 msgid "Folders"
@@ -515,9 +503,6 @@ msgstr "Moverse"
 msgid "Move over"
 msgstr ""
 
-msgid "Move selected"
-msgstr ""
-
 msgid "Move to…"
 msgstr ""
 
@@ -554,9 +539,6 @@ msgstr ""
 msgid "No files to share"
 msgstr ""
 
-msgid "No files to show"
-msgstr ""
-
 msgid "No folders"
 msgstr "Sin carpetas"
 
@@ -579,9 +561,6 @@ msgid "Number of copies (Replication Factor)"
 msgstr "Número de copias (factor de replicación)"
 
 msgid "OK"
-msgstr ""
-
-msgid "One sec, getting files ready…"
 msgstr ""
 
 msgid "Only you can see this."
@@ -679,9 +658,6 @@ msgstr ""
 
 msgid "Recover"
 msgstr "Recuperar"
-
-msgid "Recover selected"
-msgstr ""
 
 msgid "Recover to…"
 msgstr ""
@@ -797,9 +773,6 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
-msgid "Share selected"
-msgstr ""
-
 msgid "Shared"
 msgstr ""
 
@@ -853,9 +826,6 @@ msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Algo salió mal. No pudimos subir tu archivo"
-
-msgid "Sort By:"
-msgstr ""
 
 msgid "Standard plan"
 msgstr ""
@@ -962,12 +932,6 @@ msgstr "Intentar otra vez"
 msgid "Try another method"
 msgstr "Prueba con otro método"
 
-#~ msgid "Try for 7 days"
-#~ msgstr ""
-
-msgid "Unable to upload"
-msgstr ""
-
 msgid "Update"
 msgstr "Actualizar"
 
@@ -987,9 +951,6 @@ msgid "Update details"
 msgstr ""
 
 msgid "Update your credit card"
-msgstr ""
-
-msgid "Upload"
 msgstr ""
 
 msgid "Uploads cancelled"
@@ -1036,9 +997,6 @@ msgstr ""
 
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
-
-msgid "View invoices"
-msgstr ""
 
 msgid "Wallet address"
 msgstr "Utilice un navegador guardado"
@@ -1137,9 +1095,6 @@ msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr ""
 
 msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
-msgstr ""
-
-msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
 
 msgid "{0} cancelled"

@@ -13,9 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-msgid "({0}) items selected"
-msgstr "({0}) items selected"
-
 msgid "/month"
 msgstr "/month"
 
@@ -75,6 +72,9 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
+
+msgid "All invoices"
+msgstr "All invoices"
 
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr "Allow lookup by sharing key, wallet address or username"
@@ -262,9 +262,6 @@ msgstr "Data restored successfully"
 msgid "Date"
 msgstr "Date"
 
-msgid "Date Uploaded"
-msgstr "Date Uploaded"
-
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
@@ -276,9 +273,6 @@ msgstr "Decryption key"
 
 msgid "Delete"
 msgstr "Delete"
-
-msgid "Delete selected"
-msgstr "Delete selected"
 
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
@@ -312,9 +306,6 @@ msgstr "Downloads cancelled"
 
 msgid "Downloads failed"
 msgstr "Downloads failed"
-
-msgid "Drop to upload files"
-msgstr "Drop to upload files"
 
 msgid "Edit payment method"
 msgstr "Edit payment method"
@@ -384,9 +375,6 @@ msgstr "First name"
 
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
-
-msgid "Folder uploads are not supported currently"
-msgstr "Folder uploads are not supported currently"
 
 msgid "Folders"
 msgstr "Folders"
@@ -514,9 +502,6 @@ msgstr "Move"
 msgid "Move over"
 msgstr "Move over"
 
-msgid "Move selected"
-msgstr "Move selected"
-
 msgid "Move to…"
 msgstr "Move to…"
 
@@ -553,9 +538,6 @@ msgstr "No files to copy"
 msgid "No files to share"
 msgstr "No files to share"
 
-msgid "No files to show"
-msgstr "No files to show"
-
 msgid "No folders"
 msgstr "No folders"
 
@@ -579,9 +561,6 @@ msgstr "Number of copies (Replication Factor)"
 
 msgid "OK"
 msgstr "OK"
-
-msgid "One sec, getting files ready…"
-msgstr "One sec, getting files ready…"
 
 msgid "Only you can see this."
 msgstr "Only you can see this."
@@ -678,9 +657,6 @@ msgstr "Receipt"
 
 msgid "Recover"
 msgstr "Recover"
-
-msgid "Recover selected"
-msgstr "Recover selected"
 
 msgid "Recover to…"
 msgstr "Recover to…"
@@ -796,9 +772,6 @@ msgstr "Share"
 msgid "Share file"
 msgstr "Share file"
 
-msgid "Share selected"
-msgstr "Share selected"
-
 msgid "Shared"
 msgstr "Shared"
 
@@ -852,9 +825,6 @@ msgstr "Something went wrong!"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
-
-msgid "Sort By:"
-msgstr "Sort By:"
 
 msgid "Standard plan"
 msgstr "Standard plan"
@@ -961,12 +931,6 @@ msgstr "Try again"
 msgid "Try another method"
 msgstr "Try another method"
 
-#~ msgid "Try for 7 days"
-#~ msgstr "Try for 7 days"
-
-msgid "Unable to upload"
-msgstr "Unable to upload"
-
 msgid "Update"
 msgstr "Update"
 
@@ -987,9 +951,6 @@ msgstr "Update details"
 
 msgid "Update your credit card"
 msgstr "Update your credit card"
-
-msgid "Upload"
-msgstr "Upload"
 
 msgid "Uploads cancelled"
 msgstr "Uploads cancelled"
@@ -1035,9 +996,6 @@ msgstr "Verifying the link..."
 
 msgid "View folder"
 msgstr "View folder"
-
-msgid "View invoices"
-msgstr "View invoices"
 
 msgid "Wallet address"
 msgstr "Wallet address"
@@ -1137,9 +1095,6 @@ msgstr "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 
 msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
 msgstr "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
-
-msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
-msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
 msgid "{0} cancelled"
 msgstr "{0} cancelled"

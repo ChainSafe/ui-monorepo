@@ -13,9 +13,6 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "({0}) items selected"
-msgstr ""
-
 msgid "/month"
 msgstr ""
 
@@ -74,6 +71,9 @@ msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
 msgid "Adding you to the shared folder..."
+msgstr ""
+
+msgid "All invoices"
 msgstr ""
 
 msgid "Allow lookup by sharing key, wallet address or username"
@@ -262,9 +262,6 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-msgid "Date Uploaded"
-msgstr ""
-
 msgid "Date uploaded"
 msgstr "Hochgeladen am"
 
@@ -276,9 +273,6 @@ msgstr ""
 
 msgid "Delete"
 msgstr "Löschen"
-
-msgid "Delete selected"
-msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr "Gerät wartet auf Bestätigung"
@@ -311,9 +305,6 @@ msgid "Downloads cancelled"
 msgstr ""
 
 msgid "Downloads failed"
-msgstr ""
-
-msgid "Drop to upload files"
 msgstr ""
 
 msgid "Edit payment method"
@@ -380,9 +371,6 @@ msgid "First name"
 msgstr "Vorname"
 
 msgid "Folder name is already in use"
-msgstr ""
-
-msgid "Folder uploads are not supported currently"
 msgstr ""
 
 msgid "Folders"
@@ -511,9 +499,6 @@ msgstr "Verschieben"
 msgid "Move over"
 msgstr ""
 
-msgid "Move selected"
-msgstr ""
-
 msgid "Move to…"
 msgstr "Verschieben nach …"
 
@@ -550,9 +535,6 @@ msgstr ""
 msgid "No files to share"
 msgstr ""
 
-msgid "No files to show"
-msgstr ""
-
 msgid "No folders"
 msgstr "Keine Ordner"
 
@@ -575,9 +557,6 @@ msgid "Number of copies (Replication Factor)"
 msgstr "Anzahl der Kopien (Replikationsfaktor)"
 
 msgid "OK"
-msgstr ""
-
-msgid "One sec, getting files ready…"
 msgstr ""
 
 msgid "Only you can see this."
@@ -675,9 +654,6 @@ msgstr ""
 
 msgid "Recover"
 msgstr "Wiederherstellen"
-
-msgid "Recover selected"
-msgstr ""
 
 msgid "Recover to…"
 msgstr ""
@@ -793,9 +769,6 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
-msgid "Share selected"
-msgstr ""
-
 msgid "Shared"
 msgstr "Geteilt"
 
@@ -849,9 +822,6 @@ msgstr "Etwas ist schief gelaufen!"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"
-
-msgid "Sort By:"
-msgstr ""
 
 msgid "Standard plan"
 msgstr ""
@@ -958,12 +928,6 @@ msgstr "Erneut versuchen"
 msgid "Try another method"
 msgstr "Eine andere Methode versuchen"
 
-#~ msgid "Try for 7 days"
-#~ msgstr ""
-
-msgid "Unable to upload"
-msgstr ""
-
 msgid "Update"
 msgstr "Aktualisieren"
 
@@ -983,9 +947,6 @@ msgid "Update details"
 msgstr ""
 
 msgid "Update your credit card"
-msgstr ""
-
-msgid "Upload"
 msgstr ""
 
 msgid "Uploads cancelled"
@@ -1032,9 +993,6 @@ msgstr ""
 
 msgid "View folder"
 msgstr "Ordner anzeigen"
-
-msgid "View invoices"
-msgstr ""
 
 msgid "Wallet address"
 msgstr ""
@@ -1134,9 +1092,6 @@ msgstr "{0, plural, one {{1} Datei wird heruntergeladen} other {{2} Dateien werd
 
 msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
 msgstr "{0, plural, one {{1} Datei wird verschlüsselt und hochgeladen} other {{2} Dateien werden verschlüsselt und hochgeladen}}"
-
-msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
-msgstr ""
 
 msgid "{0} cancelled"
 msgstr ""
