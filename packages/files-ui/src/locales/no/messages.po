@@ -82,9 +82,6 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
-msgid "Amount"
-msgstr ""
-
 msgid "An error occurred:"
 msgstr ""
 
@@ -260,9 +257,6 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
-msgstr ""
-
-msgid "Date"
 msgstr ""
 
 msgid "Date Uploaded"
@@ -499,9 +493,6 @@ msgstr ""
 msgid "Manage Shared Folder"
 msgstr ""
 
-msgid "Method"
-msgstr ""
-
 msgid "Monthly billing"
 msgstr ""
 
@@ -669,9 +660,6 @@ msgstr "Profilinnstillinger"
 
 msgid "Profile updated"
 msgstr "Profil oppdatert"
-
-msgid "Receipt"
-msgstr ""
 
 msgid "Recover"
 msgstr "Gjenopprett"
