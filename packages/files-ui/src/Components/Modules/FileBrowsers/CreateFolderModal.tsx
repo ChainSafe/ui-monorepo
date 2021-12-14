@@ -130,7 +130,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
       maxWidth="sm"
     >
       <FormikProvider value={formik}>
-        <Form data-cy='folder-creation-form'>
+        <Form data-cy='form-folder-creation'>
           <div
             className={classes.root}
             data-cy="modal-create-folder"

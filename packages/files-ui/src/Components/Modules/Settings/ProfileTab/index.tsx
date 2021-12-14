@@ -333,7 +333,7 @@ const ProfileView = () => {
               {profile?.publicAddress &&
                 <div
                   className={classes.boxContainer}
-                  data-cy="settings-profile-header"
+                  data-cy="label-profile-header"
                 >
                   <div className={classes.walletAddressContainer}>
                     <Typography
@@ -366,7 +366,7 @@ const ProfileView = () => {
               {compressedPubKey &&
                 <div
                   className={classes.boxContainer}
-                  data-cy="settings-profile-header"
+                  data-cy="label-profile-header"
                 >
                   <div className={classes.walletAddressContainer}>
                     <Typography
@@ -501,7 +501,7 @@ const ProfileView = () => {
                       size="medium"
                       hideLabel={true}
                       className={classes.input}
-                      data-cy="profile-firstname-input"
+                      data-cy="input-profile-firstname"
                     />
                   </div>
                   <div className={classes.inputBoxContainer}>
@@ -518,7 +518,7 @@ const ProfileView = () => {
                       size="medium"
                       hideLabel={true}
                       className={classes.input}
-                      data-cy="profile-lastname-input"
+                      data-cy="input-profile-lastname"
                     />
                   </div>
                   {/* <div className={classes.boxContainer}>
@@ -540,7 +540,7 @@ const ProfileView = () => {
                     loading={updatingProfile}
                     variant={themeKey === "dark" ? "outline" : "primary"}
                     loadingText="Saving"
-                    data-cy="profile-save-button"
+                    data-cy="button-save-changes"
                     disabled={!formik.dirty}
                   >
                     <LockIcon className={classes.icon} />

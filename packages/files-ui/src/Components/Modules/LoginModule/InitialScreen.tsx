@@ -314,7 +314,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
       <div className={classes.connectWalletRoot}>
         <section className={classes.buttonSection}>
           <Button
-            data-cy="sign-in-with-web3-button"
+            data-cy="button-sign-in-with-web3"
             onClick={() => {handleLogin("web3")}}
             className={classes.button}
             variant="primary"
@@ -476,7 +476,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <Trans>Or using one of the following:</Trans>
               </Typography>
               <Button
-                data-cy="web3"
+                data-cy="button-web3"
                 onClick={() => {
                   setLoginMode("web3")
                   handleSelectWalletAndConnect()
