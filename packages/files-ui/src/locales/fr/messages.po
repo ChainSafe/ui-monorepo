@@ -14,9 +14,6 @@ msgstr ""
 "X-Generator: Weblate 4.10-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "({0}) items selected"
-msgstr ""
-
 msgid "/month"
 msgstr ""
 
@@ -266,9 +263,6 @@ msgstr "Données restaurées avec succès"
 msgid "Date"
 msgstr ""
 
-msgid "Date Uploaded"
-msgstr ""
-
 msgid "Date uploaded"
 msgstr "Téléversé le"
 
@@ -280,9 +274,6 @@ msgstr "Clé de déchiffrement"
 
 msgid "Delete"
 msgstr "Supprimer"
-
-msgid "Delete selected"
-msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
@@ -316,9 +307,6 @@ msgstr "Téléchargements annulés"
 
 msgid "Downloads failed"
 msgstr "Les téléchargements ont échoué"
-
-msgid "Drop to upload files"
-msgstr ""
 
 msgid "Edit payment method"
 msgstr ""
@@ -515,9 +503,6 @@ msgstr "Déplacer"
 msgid "Move over"
 msgstr "Déplacer"
 
-msgid "Move selected"
-msgstr ""
-
 msgid "Move to…"
 msgstr "Déplacer vers…"
 
@@ -554,9 +539,6 @@ msgstr "Aucun fichier à copier"
 msgid "No files to share"
 msgstr "Aucun fichier à partager"
 
-msgid "No files to show"
-msgstr ""
-
 msgid "No folders"
 msgstr "Aucun dossier"
 
@@ -580,9 +562,6 @@ msgstr "Nombre de copies (facteur de réplication)"
 
 msgid "OK"
 msgstr "OK"
-
-msgid "One sec, getting files ready…"
-msgstr ""
 
 msgid "Only you can see this."
 msgstr "Vous seul(e) pouvez voir ceci."
@@ -679,9 +658,6 @@ msgstr ""
 
 msgid "Recover"
 msgstr "Récupérer"
-
-msgid "Recover selected"
-msgstr ""
 
 msgid "Recover to…"
 msgstr "Récupérer vers…"
@@ -797,9 +773,6 @@ msgstr "Partager"
 msgid "Share file"
 msgstr "Partager le fichier"
 
-msgid "Share selected"
-msgstr ""
-
 msgid "Shared"
 msgstr "Partagé"
 
@@ -853,9 +826,6 @@ msgstr "Quelque chose a mal tourné !"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
-
-msgid "Sort By:"
-msgstr ""
 
 msgid "Standard plan"
 msgstr ""
@@ -981,9 +951,6 @@ msgid "Update details"
 msgstr ""
 
 msgid "Update your credit card"
-msgstr ""
-
-msgid "Upload"
 msgstr ""
 
 msgid "Uploads cancelled"
@@ -1129,9 +1096,6 @@ msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargemen
 
 msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
 msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {Chiffrement et téléversements {2} fichiers}}"
-
-msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
-msgstr ""
 
 msgid "{0} cancelled"
 msgstr "{0} annulé(s)"
