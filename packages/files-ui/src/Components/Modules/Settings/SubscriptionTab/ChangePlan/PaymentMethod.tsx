@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Breadcrumb, Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
+import { Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import AddCard from "../AddCard/AddCard"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -76,13 +76,12 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 )
 
 interface IPaymentMethodProps {
-  onClose: () => void
   goToSelectPlan: () => void
   goToPlanDetails: () => void
   onSelectPaymentMethod: () => void
 }
 
-const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPaymentMethod }: IPaymentMethodProps) => {
+const PlanDetails = ({ onSelectPaymentMethod }: IPaymentMethodProps) => {
   const classes = useStyles()
   const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
   const [view, setView] = useState<"selectPaymentMethod" | "addCard">("selectPaymentMethod")
@@ -96,18 +95,6 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
 
   return (
     <article className={classes.root}>
-      <Breadcrumb
-        crumbs={[{
-          text: t`Change plan`,
-          onClick: goToSelectPlan
-        }, {
-          text: t`Plan details`,
-          onClick: goToPlanDetails
-        }, {
-          text: t`Payment method`
-        }]}
-        hideHome={true}
-      />
       <Typography
         variant="h5"
         component="h4"
@@ -168,12 +155,6 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
       <Divider className={classes.divider} />
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
-          <Button
-            onClick={onClose}
-            variant="secondary"
-          >
-            <Trans>Cancel</Trans>
-          </Button>
           <Button
             variant="primary"
             disabled={!paymentMethod || view === "addCard"}

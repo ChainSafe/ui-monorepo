@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Breadcrumb, Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
+import { Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -103,10 +103,8 @@ interface IConfirmPlan {
 
 const ConfirmPlan = ({
   plan,
-  onClose,
   planPrice,
   goToSelectPlan,
-  goToPlanDetails,
   goToPaymentMethod,
   onChangeSubscription,
   loadingChangeSubscription,
@@ -124,22 +122,6 @@ const ConfirmPlan = ({
 
   return (
     <article className={classes.root}>
-      <Breadcrumb
-        crumbs={[{
-          text: t`Change plan`,
-          onClick: goToSelectPlan
-        }, {
-          text: t`Plan details`,
-          onClick: goToPlanDetails
-        }, {
-          text: t`Payment method`,
-          onClick: goToPaymentMethod
-        }, {
-          text: t`Confirm plan`
-        }]}
-        hideHome={true}
-        showDropDown={true}
-      />
       <Typography
         variant="h5"
         component="h4"
@@ -263,13 +245,6 @@ const ConfirmPlan = ({
       }
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
-          <Button
-            onClick={onClose}
-            variant="secondary"
-            disabled={loadingChangeSubscription}
-          >
-            <Trans>Cancel</Trans>
-          </Button>
           <Button
             variant="primary"
             loading={loadingChangeSubscription}

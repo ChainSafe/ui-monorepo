@@ -80,7 +80,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
 
   return (
     <Modal
-      closePosition="none"
+      closePosition="right"
       active={true}
       maxWidth="md"
       className={classes.root}
@@ -88,10 +88,10 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         inner: classes.inner
       }}
       testId="change-product"
+      onClose={onClose}
     >
       {slide === "select" && (
         <SelectPlan
-          onClose={onClose}
           onSelectPlan={(plan: Product) => {
             setSelectedPlan(plan)
             const currentPrice = currentSubscription?.product?.price?.unit_amount
@@ -118,7 +118,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       {slide === "planDetails" && selectedPlan && (
         <PlanDetails
           plan={selectedPlan}
-          onClose={onClose}
           goToSelectPlan={() => {
             setSlide("select")
           }}
@@ -130,7 +129,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       )}
       {slide === "paymentMethod" && (
         <PaymentMethod
-          onClose={onClose}
           goToSelectPlan={() => {
             setSlide("select")
           }}

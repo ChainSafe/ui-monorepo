@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { Button, ExternalSvg, formatBytes, Loading, Typography } from "@chainsafe/common-components"
+import { Button, formatBytes, Loading, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../../../Themes/types"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -94,7 +94,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
     },
     priceSubtitle: {
       ...typography.body2,
-      color: palette.additional["gray"][9]
+      color: palette.additional["gray"][7]
     },
     description: {
       margin: `${constants.generalUnit * 3}px 0`,
@@ -129,11 +129,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
 interface ISelectPlan {
   className?: string
   plans?: Product[]
-  onClose: () => void
   onSelectPlan: (plan: Product) => void
 }
 
-const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) => {
+const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
   const classes = useStyles()
   const { currentSubscription } = useBilling()
   const { desktop } = useThemeSwitcher()
@@ -253,7 +252,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
                   >
                     {
                       monthly?.metadata?.storage_size_bytes
-                        ? <Trans>{planStorageCapacity} of storage</Trans>
+                        ? <Trans><b>{planStorageCapacity}</b> of storage</Trans>
                         : plan.description
                     }
                   </Typography>
@@ -288,28 +287,21 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
       </section>
       <section className={classes.bottomSection}>
         {desktop && (
-          <a
-            className={classes.link}
-            href={ROUTE_LINKS.ProductPlans}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Typography
+            component="p"
+            variant="body1"
           >
-            <Typography
-              component="span"
-              variant="h5"
+            <Trans>Have a question?</Trans>&nbsp;
+            <a
+              href={ROUTE_LINKS.DiscordInvite}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <Trans>Not sure what to pick? Learn more about our plans</Trans>
-            </Typography>
-            <ExternalSvg />
-          </a>
+              <Trans>Contact us</Trans>
+            </a>
+          </Typography>
         )}
         <div className={classes.buttons}>
-          <Button
-            onClick={onClose}
-            variant="secondary"
-          >
-            <Trans>Cancel</Trans>
-          </Button>
           {!desktop && (
             <Button
               variant="primary"
