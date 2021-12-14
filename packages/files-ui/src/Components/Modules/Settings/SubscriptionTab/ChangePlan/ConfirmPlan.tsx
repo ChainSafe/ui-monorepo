@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Button, CreditCardIcon, CrossIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
+import { Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -101,7 +101,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 interface IConfirmPlan {
   plan: Product
   planPrice: ProductPrice
-  onClose: () => void
+  closeIcon: JSX.Element
   goToSelectPlan: () => void
   goToPlanDetails: () => void
   goToPaymentMethod: () => void
@@ -113,7 +113,7 @@ interface IConfirmPlan {
 const ConfirmPlan = ({
   plan,
   planPrice,
-  onClose,
+  closeIcon,
   goToSelectPlan,
   goToPaymentMethod,
   onChangeSubscription,
@@ -132,10 +132,7 @@ const ConfirmPlan = ({
 
   return (
     <article className={classes.root}>
-      <CrossIcon
-        onClick={onClose}
-        className={classes.crossIcon}
-      />
+      {closeIcon}
       <Typography
         variant="h5"
         component="h4"

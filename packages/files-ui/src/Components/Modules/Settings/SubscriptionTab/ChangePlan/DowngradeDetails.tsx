@@ -101,13 +101,14 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 
 interface IConfirmDowngrade {
   plan: Product
+  onClose: () => void
   goBack: () => void
   goToPlanDetails: () => void
   shouldCancelPlan: boolean
-  onClose: () => void
+  closeIcon: JSX.Element
 }
 
-const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
+const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, closeIcon, onClose }: IConfirmDowngrade) => {
   const classes = useStyles()
   const { currentSubscription, cancelCurrentSubscription } = useBilling()
   const currentStorage = formatBytes(Number(currentSubscription?.product?.price.metadata?.storage_size_bytes), 2)
@@ -128,10 +129,7 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
 
   return (
     <article className={classes.root}>
-      <CrossIcon
-        onClick={onClose}
-        className={classes.crossIconTop}
-      />
+      {closeIcon}
       <header className={classes.header}>
         <Typography
           component="p"

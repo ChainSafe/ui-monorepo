@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Button, CrossIcon, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsafe/common-components"
+import { Button, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 
@@ -75,12 +75,12 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 
 interface IPlanDetails {
   plan: Product
-  onClose: () => void
+  closeIcon: JSX.Element
   goToSelectPlan: () => void
   onSelectPlanPrice: (planPrice: ProductPrice) => void
 }
 
-const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
+const PlanDetails = ({ plan, closeIcon, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
   const classes = useStyles()
   const monthlyPrice = plan.prices.find((price) => price.recurring.interval === "month")
   const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "year")
@@ -98,10 +98,7 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
 
   return (
     <article className={classes.root}>
-      <CrossIcon
-        onClick={onClose}
-        className={classes.crossIcon}
-      />
+      {closeIcon}
       <Typography
         variant="h5"
         component="h4"
