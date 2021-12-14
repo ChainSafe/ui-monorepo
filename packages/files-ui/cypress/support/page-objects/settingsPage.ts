@@ -8,6 +8,6 @@ export const settingsPage = {
   lastNameInput: () => cy.get("[data-cy=input-profile-lastname]"),
   saveChangesButton: () => cy.get("[data-cy=button-save-changes]"),
   securityTabButton: () => cy.get("[data-testid=tab-security]"),
-  securityTabHeader: () => cy.get("[data-cy=settings-security-header]"),
+  securityTabHeader: () => cy.get("[data-cy=label-security-header]"),
   subscriptionTabButton: () => cy.get("[data-testid=tab-subscription]")
 }
