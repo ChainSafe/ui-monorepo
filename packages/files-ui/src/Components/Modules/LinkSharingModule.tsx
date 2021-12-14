@@ -136,7 +136,6 @@ const LinkSharingModule = () => {
                   ? <Trans>Verifying the link...</Trans>
                   : <Trans>Adding you to the shared folder...</Trans>
                 }
-
               </Typography>
             </>
           )}
@@ -146,7 +145,10 @@ const LinkSharingModule = () => {
                 size={48}
                 className={classes.icon}
               />
-              <Typography variant="h4">
+              <Typography
+                variant="h4"
+                data-cy={permission === "read" ? "label-share-confirmation-read-access" : "label-share-confirmation-write-access"}
+              >
                 <Trans>
                   You were added to the shared folder ({translatedPermission(permission)}): {newBucket.name}
                 </Trans>
@@ -154,6 +156,7 @@ const LinkSharingModule = () => {
               <Button
                 className={classes.browseButton}
                 onClick={onBrowseBucket}
+                data-cy="button-browse-share-folder"
               >
                 <Trans>Browse {newBucket.name}</Trans>
               </Button>
@@ -164,14 +167,19 @@ const LinkSharingModule = () => {
               <ExclamationCircleIcon
                 size={48}
                 className={classes.icon}
+                data-cy="icon-link-error"
               />
               <Typography
                 variant="h4"
                 className={classes.errorMessage}
               >
                 { isValidNonce === false
-                  ? <Trans>This link is not valid any more.</Trans>
-                  : error
+                  ? <span data-cy="label-invalid-link">
+                    <Trans>This link is not valid any more.</Trans>
+                  </span>
+                  : <span data-cy="label-other-error-message">
+                    {error}
+                  </span>
                 }
               </Typography>
             </>

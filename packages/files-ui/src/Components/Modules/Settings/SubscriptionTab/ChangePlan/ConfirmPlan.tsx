@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
@@ -114,7 +114,13 @@ const ConfirmPlan = ({
 }: IConfirmPlan) => {
   const classes = useStyles()
   const { defaultCard } = useBilling()
-  const currentPlanStorage = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
+  const { currentSubscription } = useBilling()
+  const newPlanStorage = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
+  const isDowngrade = useMemo(() => {
+    const currentPrice = currentSubscription?.product?.price?.unit_amount
+    return currentPrice && currentPrice > planPrice.unit_amount
+  }, [currentSubscription, planPrice]
+  )
 
   return (
     <article className={classes.root}>
@@ -139,7 +145,11 @@ const ConfirmPlan = ({
         component="h4"
         className={classes.heading}
       >
-        <Trans>Confirm plan change</Trans>
+        {
+          isDowngrade
+            ? <Trans>Confirm plan downgrade</Trans>
+            : <Trans>Confirm plan change</Trans>
+        }
       </Typography>
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
@@ -173,15 +183,7 @@ const ConfirmPlan = ({
             variant="body1"
             className={classes.featureSeparator}
           >
-            {planPrice?.metadata?.storage_size_bytes
-              ? <Trans>{currentPlanStorage} of storage</Trans>
-              : plan.description
-            }
-          </Typography>
-          <Typography
-            component="p"
-            variant="body1">
-            {plan.description}
+            <Trans>{newPlanStorage} of storage</Trans>
           </Typography>
         </div>
       </div>

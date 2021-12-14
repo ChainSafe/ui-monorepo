@@ -294,7 +294,7 @@ const FileSystemGridItem = React.forwardRef(
         <div>
           {!!menuItems.length && (
             <Menu
-              testId='fileDropdown'
+              testId='file-item-kebab'
               icon={<MoreIcon className={classes.dropdownIcon} />}
               options={menuItems}
               style={{ focusVisible: classes.focusVisible }}

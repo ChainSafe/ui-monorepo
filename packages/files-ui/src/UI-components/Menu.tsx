@@ -9,7 +9,7 @@ interface Option {
   contents: ReactNode
   inset?: boolean
   testId?: string
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent) => void
   disabled?: boolean
 }
 
@@ -61,7 +61,7 @@ export default function Menu({ icon, options, style, testId, anchorOrigin, trans
   return (
     <div className={clsx(style?.menuWrapper)}>
       <div
-        data-testid={`menu-title-${testId}`}
+        data-testid={`icon-${testId}`}
         className={clsx(classes.iconContainer, style?.iconContainer)}
         onClick={handleClick}
       >
@@ -79,9 +79,9 @@ export default function Menu({ icon, options, style, testId, anchorOrigin, trans
         {options.map((option, index) => (
           <MenuItem
             key={index}
-            onClick={() => {
+            onClick={(e) => {
               option.onClick && handleClose()
-              option.onClick && option.onClick()
+              option.onClick && option.onClick(e)
             }}
             focusVisibleClassName={clsx(style?.focusVisible)}
             className={classes.options}

@@ -156,7 +156,7 @@ const Security = ({ className }: SecurityProps) => {
     <div className={clsx(classes.root, className)}>
       <div
         id="security"
-        data-cy="settings-security-header"
+        data-cy="label-security-header"
       >
         <Typography
           variant="h3"

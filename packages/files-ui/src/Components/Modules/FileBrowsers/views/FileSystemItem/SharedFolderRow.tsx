@@ -272,7 +272,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
   return  (
     <>
       <TableRow
-        data-cy="shared-folder-item-row"
+        data-cy="row-shared-folder-item"
         className={classes.tableRow}
         type="grid"
       >
@@ -285,7 +285,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         </TableCell>
         }
         <TableCell
-          data-cy="shared-folder-item-name"
+          data-cy="cell-shared-folder-item-name"
           align="left"
           className={clsx(classes.filename, desktop && isRenaming && "editing")}
           onClick={(e) => onFolderClick(e)}
@@ -296,7 +296,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
               <FormikProvider value={formik}>
                 <Form
                   className={classes.desktopRename}
-                  data-cy='rename-form'
+                  data-cy='form-rename'
                 >
                   <FormikTextInput
                     className={classes.renameInput}
@@ -337,7 +337,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         }
         <TableCell align="right">
           <Menu
-            testId='fileDropdown'
+            testId='file-item-kebab'
             icon={<MoreIcon className={classes.dropdownIcon}/>}
             options={menuItems}
             style={{ focusVisible: classes.focusVisible }}

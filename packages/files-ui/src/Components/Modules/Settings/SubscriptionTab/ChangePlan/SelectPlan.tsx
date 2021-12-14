@@ -117,6 +117,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
     },
     selectButton: {
       marginLeft: constants.generalUnit
+    },
+    cannotUpdate: {
+      color: palette.error.main,
+      marginTop: "1rem",
+      textAlign: "center"
     }
   })
 )
@@ -141,7 +146,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
           component="p"
           variant="h4"
         >
-          <Trans>Switch Plans</Trans>
+          <Trans>Switch Plan</Trans>
         </Typography>
       </header>
       {!plans && (
@@ -153,75 +158,84 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
         {plans && plans.map((plan) => {
           const monthly = plan.prices.find((price) => price.recurring.interval === "month")
           const yearly = plan.prices.find((price) => price.recurring.interval === "year")
-          const isPlanSelectable = plan.id  !== currentSubscription?.product.id &&
-          (monthly?.is_update_allowed || yearly?.is_update_allowed)
-          const currentStorage = formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)
+          const isUpdateAllowed = !!monthly?.is_update_allowed || !!yearly?.is_update_allowed
+          const isCurrentPlan = plan.id === currentSubscription?.product.id
+          const planStorageCapacity = formatBytes(Number(monthly?.metadata?.storage_size_bytes), 2)
 
-
-          return desktop ? (
-            <div
-              className={clsx(classes.planBox)}
-              key={`plan-${plan.id}`}
-            >
-              <Typography
-                component="p"
-                variant="body1"
-                className={classes.planTitle}
+          return desktop
+            ? (
+              <div
+                className={clsx(classes.planBox)}
+                key={`plan-${plan.id}`}
               >
-                {plan.name}
-              </Typography>
-              {monthly && (
                 <Typography
-                  component="h4"
-                  variant="h4">
-                  {monthly.unit_amount
-                    ? <>
-                      {monthly.currency.toUpperCase()} {monthly.unit_amount}
-                      <span className={classes.priceSubtitle}>
-                        <Trans>/month</Trans>
-                      </span>
-                    </>
-                    : t`Free`}
+                  component="p"
+                  variant="body1"
+                  className={classes.planTitle}
+                >
+                  {plan.name}
                 </Typography>
-              )}
-              {monthly && yearly
-                ? (
+                {monthly && (
                   <Typography
-                    variant="body2"
-                    className={classes.priceYearlyTitle}
-                  >
-                    {yearly.currency.toUpperCase()} {yearly.unit_amount}
-                    <span className={classes.priceSubtitle}>
-                      <Trans>/year</Trans>
-                    </span>
+                    component="h4"
+                    variant="h4">
+                    {monthly.unit_amount
+                      ? <>
+                        {monthly.currency.toUpperCase()} {monthly.unit_amount}
+                        <span className={classes.priceSubtitle}>
+                          <Trans>/month</Trans>
+                        </span>
+                      </>
+                      : t`Free`}
                   </Typography>
-                )
-                : <div className={classes.priceSpace} />
-              }
-              <Typography
-                component="p"
-                variant="body1"
-                className={classes.description}
-              >
-                {
-                monthly?.metadata?.storage_size_bytes
-                  ? <Trans>{currentStorage} of storage</Trans>
-                  : plan.description
+                )}
+                {monthly && yearly
+                  ? (
+                    <Typography
+                      variant="body2"
+                      className={classes.priceYearlyTitle}
+                    >
+                      {yearly.currency.toUpperCase()} {yearly.unit_amount}
+                      <span className={classes.priceSubtitle}>
+                        <Trans>/year</Trans>
+                      </span>
+                    </Typography>
+                  )
+                  : <div className={classes.priceSpace} />
                 }
-              </Typography>
-              <Button
-                variant="primary"
-                disabled={!isPlanSelectable}
-                onClick={() => onSelectPlan(plan)}
-              >
-                <Trans>Select plan</Trans>
-              </Button>
-            </div>
-          )
+                {!isUpdateAllowed && !isCurrentPlan && (
+                  <Typography
+                    component="p"
+                    variant="body1"
+                    className={classes.cannotUpdate}
+                  >
+                    <Trans>Your content exceeds the {planStorageCapacity} storage capacity for this plan.</Trans>
+                  </Typography>
+                )}
+                <Typography
+                  component="p"
+                  variant="body1"
+                  className={classes.description}
+                >
+                  {
+                monthly?.metadata?.storage_size_bytes
+                  ? <Trans>{planStorageCapacity} of storage</Trans>
+                  : plan.description
+                  }
+                </Typography>
+                <Button
+                  variant="primary"
+                  disabled={isCurrentPlan || !isUpdateAllowed}
+                  onClick={() => onSelectPlan(plan)}
+                >
+                  <Trans>Select plan</Trans>
+                </Button>
+              </div>
+            )
             : (
               <div
-                className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && "active")}
-                onClick={() => isPlanSelectable && setTempSelectedPlan(plan)}
+                className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && !isCurrentPlan && "active")}
+                onClick={() => isUpdateAllowed && !isCurrentPlan && setTempSelectedPlan(plan)}
                 key={`plan-${plan.id}`}
               >
                 <div>
@@ -239,7 +253,7 @@ const SelectPlan = ({ onClose, className, onSelectPlan, plans }: ISelectPlan) =>
                   >
                     {
                       monthly?.metadata?.storage_size_bytes
-                        ? <Trans>{currentStorage} of storage</Trans>
+                        ? <Trans>{planStorageCapacity} of storage</Trans>
                         : plan.description
                     }
                   </Typography>

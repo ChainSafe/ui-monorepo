@@ -20,9 +20,9 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useUser } from "../../../Contexts/UserContext"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
-import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
+import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -204,22 +204,10 @@ const SharedFileBrowser = () => {
     if (accountRestricted) {
       addToast({
         type:"error",
-        title: t`Unable to upload`,
+        title: t`Uploads disabled`,
         subtitle: t`Oops! You need to pay for this month to upload more content.`
       })
       return
-    }
-    let hasFolder = false
-    for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
-        hasFolder = true
-      }
-    }
-    if (hasFolder) {
-      addToast({
-        title: t`Folder uploads are not supported currently`,
-        type: "error"
-      })
     }
     const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
     const paths = [...new Set(flattenedFiles.map(f => f.filepath))]

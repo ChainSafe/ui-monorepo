@@ -14,10 +14,10 @@ export const createEditSharedFolderModal = {
   activeShareLink: () => cy.get("[data-cy=link-active-share]"),
   labelPermissionType: () => cy.get("[data-cy=label-permission-type]"),
   copyLinkButton: () => cy.get("[data-cy=button-copy-link]"),
-  linkKebabMenu: () => cy.get("[data-testid=menu-title-link-kebab]"),
+  linkKebabMenu: () => cy.get("[data-testid=icon-link-kebab]"),
   deleteLinkMenuOption: () => cy.get("[data-cy=menu-delete-active-link]"),
   permissionTypeDropdown: () => cy.get("[data-testid=dropdown-title-permission]"),
-  viewOnlyOption: () => cy.get("[data-cy=menu-read]"),
-  canEditOption: () => cy.get("[data-cy=menu-write]"),
+  viewOnlyDropdownOption: () => cy.get("[data-cy=menu-read]"),
+  canEditDropdownOption: () => cy.get("[data-cy=menu-write]"),
   createLinkButton: () => cy.get("[data-cy=button-create-link]")
 }

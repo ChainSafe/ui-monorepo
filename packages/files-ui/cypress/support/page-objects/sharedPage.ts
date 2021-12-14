@@ -8,8 +8,8 @@ export const sharedPage = {
   ...fileBrowser,
 
   createSharedFolderButton: () => cy.get("[data-cy=button-create-a-shared-folder]"),
-  sharedFolderItemName: () => cy.get("[data-cy=shared-folder-item-name]"),
-  sharedFolderItemRow: () => cy.get("[data-cy=shared-folder-item-row]", { timeout: 20000 }),
+  sharedFolderItemName: () => cy.get("[data-cy=cell-shared-folder-item-name]"),
+  sharedFolderItemRow: () => cy.get("[data-cy=row-shared-folder-item]", { timeout: 20000 }),
   shareRenameInput: () => cy.get("[data-cy=input-rename-share]"),
 
   // kebab menu elements

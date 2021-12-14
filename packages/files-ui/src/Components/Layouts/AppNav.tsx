@@ -283,7 +283,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
               <section>
                 <MenuDropdown
                   anchor="bottom-left"
-                  testId="sign-out"
+                  testId="sign-out-dropdown"
                   hideIndicator={true}
                   classNames={{
                     icon: classes.icon,
@@ -425,7 +425,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                     })}
                   />
                   <div
-                    data-cy="signout-nav"
+                    data-cy="container-signout-nav"
                     className={classes.navItem}
                     onClick={() => {
                       handleOnClick()

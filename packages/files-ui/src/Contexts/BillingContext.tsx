@@ -21,6 +21,7 @@ interface IBillingContext {
   deleteCard: (card: Card) => Promise<void>
   updateDefaultCard: (id: PaymentMethod["id"]) => Promise<void>
   invoices?: InvoiceResponse[]
+  cancelCurrentSubscription: () => Promise<void>
 }
 
 const ProductMapping: {[key: string]: {
@@ -139,6 +140,22 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       })
   }, [filesApiClient, currentSubscription, fetchCurrentSubscription, refreshBuckets])
 
+  const cancelCurrentSubscription = useCallback(() => {
+    if (!currentSubscription)
+      return Promise.reject("There is no current subscription")
+
+    return filesApiClient.cancelSubscription(currentSubscription.id)
+      .then(() => {
+        fetchCurrentSubscription()
+        refreshBuckets()
+      })
+      .catch((error) => {
+        console.error(error)
+        return Promise.reject()
+      })
+  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, refreshBuckets]
+  )
+
   return (
     <BillingContext.Provider
       value={{
@@ -150,7 +167,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         getAvailablePlans,
         deleteCard,
         updateDefaultCard,
-        invoices
+        invoices,
+        cancelCurrentSubscription
       }}
     >
       {children}
