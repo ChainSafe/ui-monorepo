@@ -13,6 +13,9 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "({0}) items selected"
+msgstr "({0}) items selected"
+
 msgid "/month"
 msgstr "/month"
 
@@ -262,6 +265,9 @@ msgstr "Data restored successfully"
 msgid "Date"
 msgstr "Date"
 
+msgid "Date Uploaded"
+msgstr "Date Uploaded"
+
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
@@ -273,6 +279,9 @@ msgstr "Decryption key"
 
 msgid "Delete"
 msgstr "Delete"
+
+msgid "Delete selected"
+msgstr "Delete selected"
 
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
@@ -306,6 +315,9 @@ msgstr "Downloads cancelled"
 
 msgid "Downloads failed"
 msgstr "Downloads failed"
+
+msgid "Drop to upload files"
+msgstr "Drop to upload files"
 
 msgid "Edit payment method"
 msgstr "Edit payment method"
@@ -502,6 +514,9 @@ msgstr "Move"
 msgid "Move over"
 msgstr "Move over"
 
+msgid "Move selected"
+msgstr "Move selected"
+
 msgid "Move to…"
 msgstr "Move to…"
 
@@ -538,6 +553,9 @@ msgstr "No files to copy"
 msgid "No files to share"
 msgstr "No files to share"
 
+msgid "No files to show"
+msgstr "No files to show"
+
 msgid "No folders"
 msgstr "No folders"
 
@@ -561,6 +579,9 @@ msgstr "Number of copies (Replication Factor)"
 
 msgid "OK"
 msgstr "OK"
+
+msgid "One sec, getting files ready…"
+msgstr "One sec, getting files ready…"
 
 msgid "Only you can see this."
 msgstr "Only you can see this."
@@ -657,6 +678,9 @@ msgstr "Receipt"
 
 msgid "Recover"
 msgstr "Recover"
+
+msgid "Recover selected"
+msgstr "Recover selected"
 
 msgid "Recover to…"
 msgstr "Recover to…"
@@ -772,6 +796,9 @@ msgstr "Share"
 msgid "Share file"
 msgstr "Share file"
 
+msgid "Share selected"
+msgstr "Share selected"
+
 msgid "Shared"
 msgstr "Shared"
 
@@ -825,6 +852,9 @@ msgstr "Something went wrong!"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
+
+msgid "Sort By:"
+msgstr "Sort By:"
 
 msgid "Standard plan"
 msgstr "Standard plan"
@@ -951,6 +981,9 @@ msgstr "Update details"
 
 msgid "Update your credit card"
 msgstr "Update your credit card"
+
+msgid "Upload"
+msgstr "Upload"
 
 msgid "Uploads cancelled"
 msgstr "Uploads cancelled"
@@ -1095,6 +1128,9 @@ msgstr "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 
 msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
 msgstr "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
 msgid "{0} cancelled"
 msgstr "{0} cancelled"

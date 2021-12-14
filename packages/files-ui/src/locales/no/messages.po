@@ -13,6 +13,9 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "({0}) items selected"
+msgstr ""
+
 msgid "/month"
 msgstr ""
 
@@ -262,6 +265,9 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
+msgid "Date Uploaded"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Dato opplastet"
 
@@ -273,6 +279,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr "Slett"
+
+msgid "Delete selected"
+msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr ""
@@ -305,6 +314,9 @@ msgid "Downloads cancelled"
 msgstr ""
 
 msgid "Downloads failed"
+msgstr ""
+
+msgid "Drop to upload files"
 msgstr ""
 
 msgid "Edit payment method"
@@ -499,6 +511,9 @@ msgstr "Flytt"
 msgid "Move over"
 msgstr ""
 
+msgid "Move selected"
+msgstr ""
+
 msgid "Move to…"
 msgstr "Flytt til …"
 
@@ -535,6 +550,9 @@ msgstr ""
 msgid "No files to share"
 msgstr ""
 
+msgid "No files to show"
+msgstr ""
+
 msgid "No folders"
 msgstr "Ingen mapper"
 
@@ -557,6 +575,9 @@ msgid "Number of copies (Replication Factor)"
 msgstr ""
 
 msgid "OK"
+msgstr ""
+
+msgid "One sec, getting files ready…"
 msgstr ""
 
 msgid "Only you can see this."
@@ -654,6 +675,9 @@ msgstr ""
 
 msgid "Recover"
 msgstr "Gjenopprett"
+
+msgid "Recover selected"
+msgstr ""
 
 msgid "Recover to…"
 msgstr ""
@@ -769,6 +793,9 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Delt"
 
@@ -821,6 +848,9 @@ msgid "Something went wrong!"
 msgstr "Noe gikk galt."
 
 msgid "Something went wrong. We couldn't upload your file"
+msgstr ""
+
+msgid "Sort By:"
 msgstr ""
 
 msgid "Standard plan"
@@ -947,6 +977,9 @@ msgid "Update details"
 msgstr ""
 
 msgid "Update your credit card"
+msgstr ""
+
+msgid "Upload"
 msgstr ""
 
 msgid "Uploads cancelled"
@@ -1091,6 +1124,9 @@ msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr ""
 
 msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
 
 msgid "{0} cancelled"
