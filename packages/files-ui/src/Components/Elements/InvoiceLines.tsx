@@ -1,13 +1,13 @@
 import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
-import { Table, TableHead, TableHeadCell, TableBody, TableRow, TableCell, Typography, Loading } from "@chainsafe/common-components"
+import { Typography, Loading } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../Contexts/BillingContext"
 
 const useStyles = makeStyles(
-  ({ constants, breakpoints }: CSFTheme) =>
+  ({ constants, breakpoints, palette, typography }: CSFTheme) =>
     createStyles({
       heading: {
         marginBottom: constants.generalUnit * 4,
@@ -25,6 +25,31 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           padding: `0 ${constants.generalUnit}px`
         }
+      },
+      setOption: {
+        width: "100%",
+        backgroundColor: palette.additional["gray"][4],
+        color: palette.additional["gray"][9],
+        padding: constants.generalUnit * 1.5,
+        borderRadius: 16,
+        marginTop: constants.generalUnit * 1.5,
+        "& > div": {
+          display: "flex",
+          alignItems: "center",
+          "& > span": {
+            display: "block",
+            lineHeight: "16px",
+            fontWeight: typography.fontWeight.regular,
+            "&.receiptDate": {
+              marginLeft: constants.generalUnit,
+              marginRight: constants.generalUnit,
+              flex: "1 1 0"
+            }
+          }
+        }
+      },
+      price: {
+        fontWeight: "bold !important" as "bold"
       }
     })
 )
@@ -67,33 +92,30 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
         </div>
       )}
       {!!invoicesToShow?.length && (
-        <Table
-          fullWidth={true}
-          dense={true}
-        >
-          <TableHead>
-            <TableRow
-              type="grid"
-            >
-              <TableHeadCell align="left"><Trans>Date</Trans></TableHeadCell>
-              <TableHeadCell align="left"><Trans>Amount</Trans></TableHeadCell>
-              <TableHeadCell align="left"><Trans>Method</Trans></TableHeadCell>
-              <TableHeadCell align="left"><Trans>Receipt</Trans></TableHeadCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {invoicesToShow.map(({ paid_on, amount, payment_method, currency, uuid }, index) =>
-              <TableRow
-                type="grid"
-                key={index}
+        invoicesToShow.map(({ paid_on, amount, currency, uuid }, index) =>
+          <section
+            className={classes.setOption}
+            key={index}
+          >
+            <div>
+              <Typography
+                variant="body1"
+                className={classes.price}
               >
-                <TableCell align="left">{dayjs(paid_on).format("ddd D MMMM h:mm a")}</TableCell>
-                <TableCell align="left">{amount} {currency}</TableCell>
-                <TableCell align="left">{payment_method}</TableCell>
-                <TableCell align="left">{uuid}</TableCell>
-              </TableRow>)}
-          </TableBody>
-        </Table>
+                {amount} {currency}
+              </Typography>
+              <Typography
+                variant="body2"
+                className="receiptDate"
+              >
+                {dayjs(paid_on).format("MMM D, YYYY")}
+              </Typography>
+              <Typography>
+                {uuid}
+              </Typography>
+            </div>
+          </section>
+        )
       )}
     </>
   )
