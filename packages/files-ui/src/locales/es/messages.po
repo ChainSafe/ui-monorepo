@@ -77,6 +77,9 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
+msgid "All invoices"
+msgstr ""
+
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
@@ -384,9 +387,6 @@ msgid "First name"
 msgstr "Primer Nombre"
 
 msgid "Folder name is already in use"
-msgstr ""
-
-msgid "Folder uploads are not supported currently"
 msgstr ""
 
 msgid "Folders"
@@ -962,12 +962,6 @@ msgstr "Intentar otra vez"
 msgid "Try another method"
 msgstr "Prueba con otro método"
 
-#~ msgid "Try for 7 days"
-#~ msgstr ""
-
-msgid "Unable to upload"
-msgstr ""
-
 msgid "Update"
 msgstr "Actualizar"
 
@@ -1036,9 +1030,6 @@ msgstr ""
 
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
-
-msgid "View invoices"
-msgstr ""
 
 msgid "Wallet address"
 msgstr "Utilice un navegador guardado"

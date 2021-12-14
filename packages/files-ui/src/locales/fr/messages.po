@@ -77,6 +77,9 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
 
+msgid "All invoices"
+msgstr ""
+
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr "Permettre la recherche par clé de partage, adresse du portefeuille ou nom d'utilisateur"
 
@@ -323,12 +326,6 @@ msgstr ""
 msgid "Edit plan"
 msgstr ""
 
-msgid "Edit payment method"
-msgstr ""
-
-msgid "Edit plan"
-msgstr ""
-
 msgid "Email is required"
 msgstr "Un courriel est requis"
 
@@ -391,9 +388,6 @@ msgstr "Prénom"
 
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
-
-msgid "Folder uploads are not supported currently"
-msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
 
 msgid "Folders"
 msgstr "Dossiers"
@@ -968,12 +962,6 @@ msgstr "Essayer de nouveau"
 msgid "Try another method"
 msgstr "Essayer une autre méthode"
 
-#~ msgid "Try for 7 days"
-#~ msgstr ""
-
-msgid "Unable to upload"
-msgstr ""
-
 msgid "Update"
 msgstr "Mettre à jour"
 
@@ -1042,9 +1030,6 @@ msgstr "Vérification du lien…"
 
 msgid "View folder"
 msgstr "Voir le dossier"
-
-msgid "View invoices"
-msgstr ""
 
 msgid "Wallet address"
 msgstr "Addresse du wallet"

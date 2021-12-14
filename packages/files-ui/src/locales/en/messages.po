@@ -76,6 +76,9 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
 
+msgid "All invoices"
+msgstr "All invoices"
+
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr "Allow lookup by sharing key, wallet address or username"
 
@@ -384,9 +387,6 @@ msgstr "First name"
 
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
-
-msgid "Folder uploads are not supported currently"
-msgstr "Folder uploads are not supported currently"
 
 msgid "Folders"
 msgstr "Folders"
@@ -961,12 +961,6 @@ msgstr "Try again"
 msgid "Try another method"
 msgstr "Try another method"
 
-#~ msgid "Try for 7 days"
-#~ msgstr "Try for 7 days"
-
-msgid "Unable to upload"
-msgstr "Unable to upload"
-
 msgid "Update"
 msgstr "Update"
 
@@ -1035,9 +1029,6 @@ msgstr "Verifying the link..."
 
 msgid "View folder"
 msgstr "View folder"
-
-msgid "View invoices"
-msgstr "View invoices"
 
 msgid "Wallet address"
 msgstr "Wallet address"
