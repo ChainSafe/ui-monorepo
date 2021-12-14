@@ -2,13 +2,14 @@ import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Button, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsafe/common-components"
+import { Button, CrossIcon, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 
-const useStyles = makeStyles(({ constants }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     root:  {
+      position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     heading: {
@@ -60,17 +61,26 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
     },
     divider: {
       margin: `${constants.generalUnit}px 0`
+    },
+    crossIcon: {
+      position: "absolute",
+      right: 0,
+      top: 0,
+      fontSize: 14,
+      fill: palette.additional["gray"][8],
+      cursor: "pointer"
     }
   })
 )
 
 interface IPlanDetails {
   plan: Product
+  onClose: () => void
   goToSelectPlan: () => void
   onSelectPlanPrice: (planPrice: ProductPrice) => void
 }
 
-const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
+const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
   const classes = useStyles()
   const monthlyPrice = plan.prices.find((price) => price.recurring.interval === "month")
   const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "year")
@@ -88,6 +98,10 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
 
   return (
     <article className={classes.root}>
+      <CrossIcon
+        onClick={onClose}
+        className={classes.crossIcon}
+      />
       <Typography
         variant="h5"
         component="h4"

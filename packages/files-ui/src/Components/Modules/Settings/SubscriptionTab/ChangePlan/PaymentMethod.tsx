@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
+import { Button, CrossIcon, Divider, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import AddCard from "../AddCard/AddCard"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -9,6 +9,7 @@ import { useBilling } from "../../../../../Contexts/BillingContext"
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     root:  {
+      position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     heading: {
@@ -71,16 +72,25 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     },
     footer: {
       marginTop: constants.generalUnit * 2
+    },
+    crossIcon: {
+      position: "absolute",
+      right: 0,
+      top: -4,
+      fontSize: 14,
+      fill: palette.additional["gray"][8],
+      cursor: "pointer"
     }
   })
 )
 
 interface IPaymentMethodProps {
   goBack: () => void
+  onClose: () => void
   onSelectPaymentMethod: () => void
 }
 
-const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => {
+const PlanDetails = ({ goBack, onClose, onSelectPaymentMethod }: IPaymentMethodProps) => {
   const classes = useStyles()
   const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
   const [view, setView] = useState<"selectPaymentMethod" | "addCard">("selectPaymentMethod")
@@ -94,6 +104,10 @@ const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => 
 
   return (
     <article className={classes.root}>
+      <CrossIcon
+        onClick={onClose}
+        className={classes.crossIcon}
+      />
       <Typography
         variant="h5"
         component="h4"

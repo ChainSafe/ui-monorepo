@@ -80,7 +80,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
 
   return (
     <Modal
-      closePosition="right"
+      closePosition="none"
       active={true}
       maxWidth="md"
       className={classes.root}
@@ -104,6 +104,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
               : setSlide("planDetails")
           }}
           plans={plans}
+          onClose={onClose}
         />
       )}
       { slide === "downgradeDetails" && selectedPlan && (
@@ -125,6 +126,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
             setSelectedPrice(planPrice)
             setSlide("paymentMethod")
           }}
+          onClose={onClose}
         />
       )}
       {slide === "paymentMethod" && (
@@ -135,6 +137,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           onSelectPaymentMethod={() => {
             setSlide("confirmPlan")
           }}
+          onClose={onClose}
         />
       )}
       {slide === "confirmPlan" && selectedPlan && selectedPrice && (
@@ -153,6 +156,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           loadingChangeSubscription={isLoadingChangeSubscription}
           onChangeSubscription={handleChangeSubscription}
           isSubscriptionError={isSubscriptionError}
+          onClose={onClose}
         />
       )}
       {slide === "planSuccess" && selectedPlan && selectedPrice && (

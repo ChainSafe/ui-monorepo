@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { Button, formatBytes, Loading, Typography } from "@chainsafe/common-components"
+import { Button, formatBytes, Loading, Typography, CrossIcon } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../../../Themes/types"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -10,7 +10,8 @@ import { ROUTE_LINKS } from "../../../../FilesRoutes"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: CSFTheme) =>
   createStyles({
-    root:  {
+    root: {
+      position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 3}px`,
       [breakpoints.down("md")]: {
         margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
@@ -34,7 +35,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       gridRowGap: constants.generalUnit * 1.5,
       gridTemplateColumns: "1fr 1fr 1fr",
       marginTop: constants.generalUnit * 2,
-      marginBottom: constants.generalUnit * 4,
+      marginBottom: constants.generalUnit * 3,
       [breakpoints.down("md")]: {
         gridTemplateColumns: "1fr",
         marginTop: constants.generalUnit * 3
@@ -122,17 +123,26 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       color: palette.error.main,
       marginTop: "1rem",
       textAlign: "center"
+    },
+    crossIcon: {
+      position: "absolute",
+      right: 0,
+      top: 4,
+      fontSize: 14,
+      fill: palette.additional["gray"][8],
+      cursor: "pointer"
     }
   })
 )
 
 interface ISelectPlan {
   className?: string
+  onClose: () => void
   plans?: Product[]
   onSelectPlan: (plan: Product) => void
 }
 
-const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
+const SelectPlan = ({ className, onSelectPlan, plans, onClose }: ISelectPlan) => {
   const classes = useStyles()
   const { currentSubscription } = useBilling()
   const { desktop } = useThemeSwitcher()
@@ -140,6 +150,10 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
 
   return (
     <article className={clsx(classes.root, className)}>
+      <CrossIcon
+        onClick={onClose}
+        className={classes.crossIcon}
+      />
       <header className={classes.header}>
         <Typography
           component="p"

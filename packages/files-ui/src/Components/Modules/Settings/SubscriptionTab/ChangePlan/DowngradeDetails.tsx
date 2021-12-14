@@ -10,6 +10,7 @@ import { useBilling } from "../../../../../Contexts/BillingContext"
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     root:  {
+      position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     header: {
@@ -86,6 +87,14 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     invoiceText: {
       marginTop: constants.generalUnit * 3,
       marginBottom: constants.generalUnit
+    },
+    crossIconTop: {
+      position: "absolute",
+      right: 0,
+      top: 0,
+      fontSize: 14,
+      fill: palette.additional["gray"][8],
+      cursor: "pointer"
     }
   })
 )
@@ -119,6 +128,10 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
 
   return (
     <article className={classes.root}>
+      <CrossIcon
+        onClick={onClose}
+        className={classes.crossIconTop}
+      />
       <header className={classes.header}>
         <Typography
           component="p"

@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
+import { Button, CreditCardIcon, CrossIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -11,6 +11,7 @@ import clsx from "clsx"
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     root:  {
+      position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     heading: {
@@ -85,6 +86,14 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     error: {
       marginTop: constants.generalUnit,
       color: palette.error.main
+    },
+    crossIcon: {
+      position: "absolute",
+      right: 0,
+      top: -4,
+      fontSize: 14,
+      fill: palette.additional["gray"][8],
+      cursor: "pointer"
     }
   })
 )
@@ -92,6 +101,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 interface IConfirmPlan {
   plan: Product
   planPrice: ProductPrice
+  onClose: () => void
   goToSelectPlan: () => void
   goToPlanDetails: () => void
   goToPaymentMethod: () => void
@@ -103,6 +113,7 @@ interface IConfirmPlan {
 const ConfirmPlan = ({
   plan,
   planPrice,
+  onClose,
   goToSelectPlan,
   goToPaymentMethod,
   onChangeSubscription,
@@ -121,6 +132,10 @@ const ConfirmPlan = ({
 
   return (
     <article className={classes.root}>
+      <CrossIcon
+        onClick={onClose}
+        className={classes.crossIcon}
+      />
       <Typography
         variant="h5"
         component="h4"
