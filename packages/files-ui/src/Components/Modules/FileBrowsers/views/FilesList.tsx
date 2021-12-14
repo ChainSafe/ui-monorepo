@@ -796,7 +796,7 @@ const FilesList = ({ isShared = false }: Props) => {
       />
       <div
         className={classes.breadCrumbContainer}
-        data-cy="navigation-folder-breadcrumb"
+        data-cy="breadcrumb-folder-navigation"
       >
         {crumbs && moduleRootPath && (
           <Breadcrumb
@@ -810,7 +810,7 @@ const FilesList = ({ isShared = false }: Props) => {
         <Typography
           variant="h1"
           component="h1"
-          data-cy="files-app-header"
+          data-cy="label-files-app-header"
           className={classes.fileNameHeader}
         >
           {heading}
@@ -976,7 +976,7 @@ const FilesList = ({ isShared = false }: Props) => {
               classes.noFiles,
               loadingCurrentPath && classes.fadeOutLoading
             )}
-            data-cy="data-state-no-files"
+            data-cy="container-no-files-data-state"
           >
             <EmptySvg />
             <Typography
@@ -1071,7 +1071,7 @@ const FilesList = ({ isShared = false }: Props) => {
                         </TableHeadCell>
                         <TableHeadCell align='right'>
                           <Menu
-                            testId='fileDropdown'
+                            testId='file-item-kebab'
                             icon={<SortIcon className={classes.dropdownIcon} />}
                             options={[{
                               contents: (

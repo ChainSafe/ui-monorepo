@@ -198,7 +198,7 @@ const FileSystemTableItem = React.forwardRef(
 
     return (
       <TableRow
-        data-cy="file-item-row"
+        data-cy="row-file-item"
         className={clsx(classes.tableRow, {
           droppable: isFolder && (isOverMove || isOverUpload),
           highlighted: !desktop && selectedCids.includes(cid)
@@ -223,7 +223,7 @@ const FileSystemTableItem = React.forwardRef(
           {icon}
         </TableCell>
         <TableCell
-          data-cy="file-item-name"
+          data-cy="label-file-item-name"
           ref={preview}
           align="left"
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
@@ -235,7 +235,7 @@ const FileSystemTableItem = React.forwardRef(
               <FormikProvider value={formik}>
                 <Form
                   className={classes.desktopRename}
-                  data-cy='rename-form'
+                  data-cy='form-rename'
                   ref={formRef}
                 >
                   <FormikTextInput
@@ -281,7 +281,7 @@ const FileSystemTableItem = React.forwardRef(
         <TableCell align="right">
           {!!menuItems.length && (
             <Menu
-              testId='fileDropdown'
+              testId='file-item-kebab'
               icon={<MoreIcon className={classes.dropdownIcon} />}
               options={menuItems}
               style={{ focusVisible: classes.focusVisible }}

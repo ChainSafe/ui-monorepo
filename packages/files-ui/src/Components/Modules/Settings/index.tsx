@@ -172,7 +172,7 @@ const Settings: React.FC = () => {
               iconRight={<CaretRightIcon/>}
               title={t`Profile and Display`}
               tabKey="profile"
-              testId="profile-tab"
+              testId="tab-profile"
             >
               <ProfileTab />
             </TabPane>
@@ -182,7 +182,7 @@ const Settings: React.FC = () => {
               iconRight={<CaretRightIcon/>}
               title={t`Security`}
               tabKey="security"
-              testId="security-tab"
+              testId="tab-security"
             >
               <SecurityTab />
             </TabPane>
@@ -190,6 +190,7 @@ const Settings: React.FC = () => {
               className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
               title={t`Subscription Plan`}
               tabKey="plan"
+              testId="tab-subscription"
               icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
               iconRight={<CaretRightIcon/>}
             >
