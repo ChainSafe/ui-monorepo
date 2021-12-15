@@ -92,10 +92,10 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
         </div>
       )}
       {!!invoicesToShow?.length && (
-        invoicesToShow.map(({ paid_on, amount, currency, uuid }, index) =>
+        invoicesToShow.map(({ paid_on, amount, currency, uuid }) =>
           <section
             className={classes.setOption}
-            key={index}
+            key={uuid}
           >
             <div>
               <Typography
