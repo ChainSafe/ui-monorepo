@@ -2,14 +2,15 @@ import React, { useCallback, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product } from "@chainsafe/files-api-client"
-import {  Breadcrumb, Button, CrossIcon, formatBytes, Typography } from "@chainsafe/common-components"
-import { t, Trans } from "@lingui/macro"
+import {  Button, CrossIcon, formatBytes, Typography } from "@chainsafe/common-components"
+import {  Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     root:  {
+      position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     header: {
@@ -92,10 +93,10 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 
 interface IConfirmDowngrade {
   plan: Product
+  onClose: () => void
   goBack: () => void
   goToPlanDetails: () => void
   shouldCancelPlan: boolean
-  onClose: () => void
 }
 
 const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
@@ -119,15 +120,6 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
 
   return (
     <article className={classes.root}>
-      <Breadcrumb
-        crumbs={[{
-          text: t`Change plan`,
-          onClick: goBack
-        }, {
-          text: t`Update details`
-        }]}
-        hideHome={true}
-      />
       <header className={classes.header}>
         <Typography
           component="p"
@@ -171,11 +163,11 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={onClose}
+            onClick={goBack}
             variant="secondary"
             disabled={isCancelingPlan}
           >
-            <Trans>Cancel</Trans>
+            <Trans>Go back</Trans>
           </Button>
           {
             shouldCancelPlan

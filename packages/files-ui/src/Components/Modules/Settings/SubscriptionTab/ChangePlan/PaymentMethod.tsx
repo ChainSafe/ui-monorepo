@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Breadcrumb, Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
+import { Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import AddCard from "../AddCard/AddCard"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -9,6 +9,7 @@ import { useBilling } from "../../../../../Contexts/BillingContext"
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     root:  {
+      position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     heading: {
@@ -76,13 +77,11 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 )
 
 interface IPaymentMethodProps {
-  onClose: () => void
-  goToSelectPlan: () => void
-  goToPlanDetails: () => void
+  goBack: () => void
   onSelectPaymentMethod: () => void
 }
 
-const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPaymentMethod }: IPaymentMethodProps) => {
+const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => {
   const classes = useStyles()
   const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
   const [view, setView] = useState<"selectPaymentMethod" | "addCard">("selectPaymentMethod")
@@ -96,18 +95,6 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
 
   return (
     <article className={classes.root}>
-      <Breadcrumb
-        crumbs={[{
-          text: t`Change plan`,
-          onClick: goToSelectPlan
-        }, {
-          text: t`Plan details`,
-          onClick: goToPlanDetails
-        }, {
-          text: t`Payment method`
-        }]}
-        hideHome={true}
-      />
       <Typography
         variant="h5"
         component="h4"
@@ -169,10 +156,10 @@ const PlanDetails = ({ onClose, goToSelectPlan, goToPlanDetails, onSelectPayment
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={onClose}
+            onClick={goBack}
             variant="secondary"
           >
-            <Trans>Cancel</Trans>
+            <Trans>Go back</Trans>
           </Button>
           <Button
             variant="primary"

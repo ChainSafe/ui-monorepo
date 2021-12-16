@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Breadcrumb, Button, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsafe/common-components"
+import { Button, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 
@@ -66,12 +66,11 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
 
 interface IPlanDetails {
   plan: Product
-  onClose: () => void
   goToSelectPlan: () => void
   onSelectPlanPrice: (planPrice: ProductPrice) => void
 }
 
-const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
+const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
   const classes = useStyles()
   const monthlyPrice = plan.prices.find((price) => price.recurring.interval === "month")
   const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "year")
@@ -89,15 +88,6 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
 
   return (
     <article className={classes.root}>
-      <Breadcrumb
-        crumbs={[{
-          text: t`Change plan`,
-          onClick: goToSelectPlan
-        }, {
-          text: t`Plan details`
-        }]}
-        hideHome={true}
-      />
       <Typography
         variant="h5"
         component="h4"
@@ -198,10 +188,10 @@ const PlanDetails = ({ plan, onClose, goToSelectPlan, onSelectPlanPrice }: IPlan
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={() => onClose()}
+            onClick={() => goToSelectPlan()}
             variant="secondary"
           >
-            <Trans>Cancel</Trans>
+            <Trans>Go back</Trans>
           </Button>
           <Button
             variant="primary"
