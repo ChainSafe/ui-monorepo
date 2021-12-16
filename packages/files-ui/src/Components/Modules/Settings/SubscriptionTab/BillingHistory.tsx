@@ -3,6 +3,7 @@ import { Typography, Link } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
+import InvoiceLines from "../../../Elements/InvoiceLines"
 
 const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
@@ -11,8 +12,8 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
       margin: `${constants.generalUnit * 1.5}px 0`
     },
     link: {
-      display: "inline-block",
-      margin: `${constants.generalUnit * 2}px 0`
+      textAlign: "right",
+      marginBottom: constants.generalUnit
     }
   })
 )
@@ -29,16 +30,15 @@ const BillingHistory = () => {
         <Trans>Billing history</Trans>
       </Typography>
       <Typography
-        variant="h5"
-        component="h5"
+        variant="body1"
+        component="p"
+        className={classes.link}
       >
-        <Link
-          className={classes.link}
-          to={ROUTE_LINKS.BillingHistory}
-        >
-          <Trans>View invoices</Trans>
+        <Link to={ROUTE_LINKS.BillingHistory}>
+          <Trans>All invoices</Trans>
         </Link>
       </Typography>
+      <InvoiceLines lineNumber={3}/>
     </div>
   )
 }

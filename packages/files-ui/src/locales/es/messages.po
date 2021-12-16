@@ -80,10 +80,10 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
-msgid "Allow lookup by sharing key, wallet address or username"
+msgid "All invoices"
 msgstr ""
 
-msgid "Amount"
+msgid "Allow lookup by sharing key, wallet address or username"
 msgstr ""
 
 msgid "An error occurred:"
@@ -261,9 +261,6 @@ msgid "Data moved to bin successfully"
 msgstr ""
 
 msgid "Data restored successfully"
-msgstr ""
-
-msgid "Date"
 msgstr ""
 
 msgid "Date Uploaded"
@@ -506,9 +503,6 @@ msgstr ""
 msgid "Manage Shared Folder"
 msgstr ""
 
-msgid "Method"
-msgstr ""
-
 msgid "Monthly billing"
 msgstr ""
 
@@ -670,9 +664,6 @@ msgstr ""
 
 msgid "Profile updated"
 msgstr "Perfil actualizado"
-
-msgid "Receipt"
-msgstr ""
 
 msgid "Recover"
 msgstr "Recuperar"
@@ -1024,9 +1015,6 @@ msgstr ""
 
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
-
-msgid "View invoices"
-msgstr ""
 
 msgid "Wallet address"
 msgstr "Utilice un navegador guardado"

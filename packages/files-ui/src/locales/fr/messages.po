@@ -80,11 +80,11 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
 
+msgid "All invoices"
+msgstr ""
+
 msgid "Allow lookup by sharing key, wallet address or username"
 msgstr "Permettre la recherche par clé de partage, adresse du portefeuille ou nom d'utilisateur"
-
-msgid "Amount"
-msgstr ""
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
@@ -262,9 +262,6 @@ msgstr "Les données ont été déplacées vers la poubelle avec succès"
 
 msgid "Data restored successfully"
 msgstr "Données restaurées avec succès"
-
-msgid "Date"
-msgstr ""
 
 msgid "Date Uploaded"
 msgstr ""
@@ -506,9 +503,6 @@ msgstr "Gérer l’accès"
 msgid "Manage Shared Folder"
 msgstr "Gérer le dossier partagé"
 
-msgid "Method"
-msgstr ""
-
 msgid "Monthly billing"
 msgstr ""
 
@@ -670,9 +664,6 @@ msgstr "Paramètres du profil"
 
 msgid "Profile updated"
 msgstr "Profile mis à jour"
-
-msgid "Receipt"
-msgstr ""
 
 msgid "Recover"
 msgstr "Récupérer"
@@ -1024,9 +1015,6 @@ msgstr "Vérification du lien…"
 
 msgid "View folder"
 msgstr "Voir le dossier"
-
-msgid "View invoices"
-msgstr ""
 
 msgid "Wallet address"
 msgstr "Addresse du wallet"

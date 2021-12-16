@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useFilesApi } from "./FilesApiContext"
 import { ReactNode, useEffect, useState } from "react"
-import { Card, CurrentSubscription, Product } from "@chainsafe/files-api-client"
+import { Card, CurrentSubscription, InvoiceResponse, Product } from "@chainsafe/files-api-client"
 import { useCallback } from "react"
 import { t } from "@lingui/macro"
 import { PaymentMethod } from "@stripe/stripe-js"
@@ -20,6 +20,7 @@ interface IBillingContext {
   getAvailablePlans: () => Promise<Product[]>
   deleteCard: (card: Card) => Promise<void>
   updateDefaultCard: (id: PaymentMethod["id"]) => Promise<void>
+  invoices?: InvoiceResponse[]
   cancelCurrentSubscription: () => Promise<void>
 }
 
@@ -50,6 +51,20 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const { refreshBuckets } = useFiles()
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
+  const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
+
+  useEffect(() => {
+    if (!currentSubscription) return
+
+    filesApiClient.getAllInvoices(currentSubscription.id)
+      .then(({ invoices }) => {
+        setInvoices(invoices)
+      })
+      .catch((e: any) => {
+        console.error(e)
+        setInvoices([])
+      })
+  }, [currentSubscription, filesApiClient])
 
   const refreshDefaultCard = useCallback(() => {
     filesApiClient.getDefaultCard().then((card) => {
@@ -152,6 +167,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         getAvailablePlans,
         deleteCard,
         updateDefaultCard,
+        invoices,
         cancelCurrentSubscription
       }}
     >
