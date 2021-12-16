@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice, UpdateSubscriptionResponse } from "@chainsafe/files-api-client"
@@ -8,11 +8,14 @@ import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
+import QRCode from "react-qr-code"
+import { useWeb3 } from "@chainsafe/web3-context"
+import { utils } from "ethers"
+
 dayjs.extend(duration)
 
-
-const paymentTimeRemaining = (endTime: number) => {
-  return dayjs.duration(endTime - dayjs().unix(), "s").format("mm:ss")
+const paymentTimeRemaining = (endTimestamp: number) => {
+  return dayjs.duration(endTimestamp - dayjs().unix(), "s").format("mm:ss")
 }
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
@@ -107,6 +110,8 @@ const CryptoPayment = ({
   planPrice
 }: ICryptoPayment) => {
   const classes = useStyles()
+  const { selectWallet } = useFilesApi()
+  const { isReady, network, provider, wallet, tokens } = useWeb3()
   const { filesApiClient } = useFilesApi()
   const { currentSubscription } = useBilling()
   const [subResponse, setSubResponse] = useState<UpdateSubscriptionResponse | undefined>()
@@ -118,13 +123,11 @@ const CryptoPayment = ({
     filesApiClient.updateSubscription(currentSubscription.id, {
       price_id: planPrice.id,
       payment_method: "crypto"
-    }).then(r => {
-      setSubResponse(r)
-
-    }).catch(error => {
-      console.error(error)
-      setError(`There was a problem creating a charge ${error}`)
-    })
+    }).then(setSubResponse)
+      .catch(error => {
+        console.error(error)
+        setError(`There was a problem creating a charge ${error}`)
+      })
   }, [currentSubscription, filesApiClient, planPrice.id])
 
   const cryptoPayment = useMemo(() => subResponse?.invoice?.crypto, [subResponse])
@@ -132,19 +135,44 @@ const CryptoPayment = ({
   const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       if (cryptoPayment) {
-        console.log("timer fired")
         setTimeRemaining(paymentTimeRemaining(cryptoPayment.expires_at))
       }
     }, 1000)
 
     return () => {
-      console.log("clear timeout")
-      clearTimeout(timer)
+      timer && clearInterval(timer)
     }
   }, [cryptoPayment])
 
+
+  const handlePayment = useCallback(async () => {
+    if (!provider || !selectedCurrency) return
+    const selectedPaymentMethod = cryptoPayment?.payment_methods.find(p => p.currency === selectedCurrency)
+    if (!selectedPaymentMethod) return
+
+    const signer = provider.getSigner()
+    console.log(selectedPaymentMethod)
+    if (selectedCurrency === "ethereum") {
+      signer.sendTransaction({
+        to: selectedPaymentMethod.address,
+        value: utils.parseEther(selectedPaymentMethod.amount)
+      })
+    } else {
+      const token = Object.values(tokens).find(t => t.symbol?.toLowerCase() === selectedCurrency)
+      if (!token || !token.transfer) return
+      try {
+        // TODO Set loading state here
+        await (await token.transfer(
+          selectedPaymentMethod.address,
+          utils.parseUnits(selectedPaymentMethod.amount, token.decimals)
+        )).wait(1)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [cryptoPayment?.payment_methods, provider, selectedCurrency, tokens])
 
   return (
     <article className={classes.root}>
@@ -165,7 +193,7 @@ const CryptoPayment = ({
           <Trans>Failed to create a charge</Trans>
         </Typography>
       }
-      {subResponse && subResponse.invoice && subResponse.invoice.crypto &&
+      {cryptoPayment &&
         <>
           <div>
             {timeRemaining}
@@ -176,6 +204,26 @@ const CryptoPayment = ({
               onClick={() => setSelectedCurrency(c)}>
               {c}
             </Button>)
+          }
+          {selectedCurrency &&
+          <div>
+            <QRCode value={cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address || "0x"} />
+            <Typography><Trans>Only send {selectedCurrency} to this address</Trans></Typography>
+            <Divider />
+            <Typography><Trans>Destination Address</Trans></Typography>
+            <Typography>{cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address}</Typography>
+            <Typography><Trans>Total Amount</Trans></Typography>
+            <Typography>{cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.amount}</Typography>
+            {selectedCurrency !== "bitcoin" && !isReady &&
+              <Button onClick={selectWallet}><Trans>Connect Wallet</Trans></Button>
+            }
+            {selectedCurrency !== "bitcoin" && isReady && network !== 1 &&
+              <Button><Trans>Switch Network</Trans></Button>
+            }
+            {selectedCurrency !== "bitcoin" && isReady && network === 1 &&
+              <Button onClick={handlePayment}><Trans>Pay with {wallet?.name}</Trans></Button>
+            }
+          </div>
           }
         </>
       }

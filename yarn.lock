@@ -20962,6 +20962,14 @@ react-popper@^2.2.4:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
 
+react-qr-code@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-2.0.3.tgz#cc80785e08f817d1ab066ca4035262f77d049648"
+  integrity sha512-6GDH0l53lksf2JgZwwcoS0D60a1OAal/GQRyNFkMBW19HjSqvtD5S20scmSQsKl+BgWM85Wd5DCcUYoHd+PZnQ==
+  dependencies:
+    prop-types "^15.7.2"
+    qr.js "0.0.0"
+
 react-qr-reader@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-qr-reader/-/react-qr-reader-2.2.1.tgz#dc89046d1c1a1da837a683dd970de5926817d55b"

@@ -13,14 +13,8 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#~ msgid "({0}) items selected"
-#~ msgstr "({0}) items selected"
-
-msgid "/month"
-msgstr "/month"
-
-msgid "/year"
-msgstr "/year"
+msgid "({0}) items selected"
+msgstr "({0}) items selected"
 
 msgid "/month"
 msgstr "/month"
@@ -45,6 +39,9 @@ msgstr "A file with the same name already exists"
 
 msgid "Accept"
 msgstr "Accept"
+
+msgid "Accepted currencies"
+msgstr "Accepted currencies"
 
 msgid "Access your billing history in settings or view your"
 msgstr "Access your billing history in settings or view your"
@@ -184,6 +181,9 @@ msgstr "Confirm plan downgrade"
 msgid "Confirmation"
 msgstr "Confirmation"
 
+msgid "Connect Wallet"
+msgstr "Connect Wallet"
+
 msgid "Connect Wallet to Files"
 msgstr "Connect Wallet to Files"
 
@@ -286,6 +286,9 @@ msgstr "Delete"
 msgid "Delete selected"
 msgstr "Delete selected"
 
+msgid "Destination Address"
+msgstr "Destination Address"
+
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
@@ -322,6 +325,9 @@ msgstr "Downloads failed"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Edit payment"
+msgstr "Edit payment"
+
 msgid "Edit payment method"
 msgstr "Edit payment method"
 
@@ -348,6 +354,9 @@ msgstr "Failed to add payment method"
 
 msgid "Failed to change subscription"
 msgstr "Failed to change subscription"
+
+msgid "Failed to create a charge"
+msgstr "Failed to create a charge"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -583,6 +592,9 @@ msgstr "OK"
 msgid "One sec, getting files ready…"
 msgstr "One sec, getting files ready…"
 
+msgid "Only send {selectedCurrency} to this address"
+msgstr "Only send {selectedCurrency} to this address"
+
 msgid "Only you can see this."
 msgstr "Only you can see this."
 
@@ -625,6 +637,15 @@ msgstr "Password:"
 msgid "Passwords must match"
 msgstr "Passwords must match"
 
+msgid "Pay with Crypto"
+msgstr "Pay with Crypto"
+
+msgid "Pay with crypto"
+msgstr "Pay with crypto"
+
+msgid "Pay with {0}"
+msgstr "Pay with {0}"
+
 msgid "Payment and Subscriptions"
 msgstr "Payment and Subscriptions"
 
@@ -633,6 +654,9 @@ msgstr "Payment method"
 
 msgid "Plan changed successfully"
 msgstr "Plan changed successfully"
+
+msgid "Plan details"
+msgstr "Plan details"
 
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
@@ -660,6 +684,9 @@ msgstr "Previous"
 
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
+
+msgid "Proceed to payment"
+msgstr "Proceed to payment"
 
 msgid "Profile and Display"
 msgstr "Profile and Display"
@@ -865,6 +892,9 @@ msgstr "Stored by miner"
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
 
+msgid "Switch Network"
+msgstr "Switch Network"
+
 msgid "Switch Plan"
 msgstr "Switch Plan"
 
@@ -948,6 +978,9 @@ msgstr "This website uses cookies that help the website function and track inter
 
 msgid "Total"
 msgstr "Total"
+
+msgid "Total Amount"
+msgstr "Total Amount"
 
 msgid "Try again"
 msgstr "Try again"

@@ -13,13 +13,7 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
-#~ msgid "({0}) items selected"
-#~ msgstr ""
-
-msgid "/month"
-msgstr ""
-
-msgid "/year"
+msgid "({0}) items selected"
 msgstr ""
 
 msgid "/month"
@@ -45,6 +39,9 @@ msgstr "Es existiert bereits eine Datei mit demselben Namen"
 
 msgid "Accept"
 msgstr "Akzeptieren"
+
+msgid "Accepted currencies"
+msgstr ""
 
 msgid "Access your billing history in settings or view your"
 msgstr ""
@@ -184,6 +181,9 @@ msgstr ""
 msgid "Confirmation"
 msgstr ""
 
+msgid "Connect Wallet"
+msgstr ""
+
 msgid "Connect Wallet to Files"
 msgstr "Wallet mit Dateien verbinden"
 
@@ -286,6 +286,9 @@ msgstr "Löschen"
 msgid "Delete selected"
 msgstr ""
 
+msgid "Destination Address"
+msgstr ""
+
 msgid "Device awaiting confirmation"
 msgstr "Gerät wartet auf Bestätigung"
 
@@ -322,6 +325,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr ""
 
+msgid "Edit payment"
+msgstr ""
+
 msgid "Edit payment method"
 msgstr ""
 
@@ -347,6 +353,9 @@ msgid "Failed to add payment method"
 msgstr ""
 
 msgid "Failed to change subscription"
+msgstr ""
+
+msgid "Failed to create a charge"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -580,6 +589,9 @@ msgstr ""
 msgid "One sec, getting files ready…"
 msgstr ""
 
+msgid "Only send {selectedCurrency} to this address"
+msgstr ""
+
 msgid "Only you can see this."
 msgstr "Nur Sie können dies sehen."
 
@@ -622,6 +634,15 @@ msgstr "Passwort:"
 msgid "Passwords must match"
 msgstr "Passwörter müssen übereinstimmen"
 
+msgid "Pay with Crypto"
+msgstr ""
+
+msgid "Pay with crypto"
+msgstr ""
+
+msgid "Pay with {0}"
+msgstr ""
+
 msgid "Payment and Subscriptions"
 msgstr ""
 
@@ -629,6 +650,9 @@ msgid "Payment method"
 msgstr ""
 
 msgid "Plan changed successfully"
+msgstr ""
+
+msgid "Plan details"
 msgstr ""
 
 msgid "Please enter a file name"
@@ -657,6 +681,9 @@ msgstr "Vorherige"
 
 msgid "Privacy Policy"
 msgstr "Datenschutzrichtlinie"
+
+msgid "Proceed to payment"
+msgstr ""
 
 msgid "Profile and Display"
 msgstr "Profil und Anzeige"
@@ -862,6 +889,9 @@ msgstr ""
 msgid "Subscription Plan"
 msgstr ""
 
+msgid "Switch Network"
+msgstr ""
+
 msgid "Switch Plan"
 msgstr ""
 
@@ -944,6 +974,9 @@ msgid "This website uses cookies that help the website function and track intera
 msgstr ""
 
 msgid "Total"
+msgstr ""
+
+msgid "Total Amount"
 msgstr ""
 
 msgid "Try again"
