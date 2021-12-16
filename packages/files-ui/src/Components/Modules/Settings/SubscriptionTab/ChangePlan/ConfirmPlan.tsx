@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Breadcrumb, Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
+import { Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -11,6 +11,7 @@ import clsx from "clsx"
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     root:  {
+      position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     heading: {
@@ -92,7 +93,6 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 interface IConfirmPlan {
   plan: Product
   planPrice: ProductPrice
-  onClose: () => void
   goToSelectPlan: () => void
   goToPlanDetails: () => void
   goToPaymentMethod: () => void
@@ -103,10 +103,8 @@ interface IConfirmPlan {
 
 const ConfirmPlan = ({
   plan,
-  onClose,
   planPrice,
   goToSelectPlan,
-  goToPlanDetails,
   goToPaymentMethod,
   onChangeSubscription,
   loadingChangeSubscription,
@@ -124,22 +122,6 @@ const ConfirmPlan = ({
 
   return (
     <article className={classes.root}>
-      <Breadcrumb
-        crumbs={[{
-          text: t`Change plan`,
-          onClick: goToSelectPlan
-        }, {
-          text: t`Plan details`,
-          onClick: goToPlanDetails
-        }, {
-          text: t`Payment method`,
-          onClick: goToPaymentMethod
-        }, {
-          text: t`Confirm plan`
-        }]}
-        hideHome={true}
-        showDropDown={true}
-      />
       <Typography
         variant="h5"
         component="h4"
@@ -264,11 +246,11 @@ const ConfirmPlan = ({
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={onClose}
+            onClick={goToPaymentMethod}
             variant="secondary"
             disabled={loadingChangeSubscription}
           >
-            <Trans>Cancel</Trans>
+            <Trans>Go back</Trans>
           </Button>
           <Button
             variant="primary"

@@ -25,6 +25,9 @@ msgstr "/year"
 msgid "<0>{currentStorage}</0> of storage"
 msgstr "<0>{currentStorage}</0> of storage"
 
+msgid "<0>{planStorageCapacity}</0> of storage"
+msgstr "<0>{planStorageCapacity}</0> of storage"
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
@@ -166,9 +169,6 @@ msgstr "Confirm"
 msgid "Confirm Password:"
 msgstr "Confirm Password:"
 
-msgid "Confirm plan"
-msgstr "Confirm plan"
-
 msgid "Confirm plan change"
 msgstr "Confirm plan change"
 
@@ -186,6 +186,9 @@ msgstr "Connect a new wallet"
 
 msgid "Connection failed"
 msgstr "Connection failed"
+
+msgid "Contact us"
+msgstr "Contact us"
 
 msgid "Continue"
 msgstr "Continue"
@@ -436,6 +439,9 @@ msgstr "Go to login"
 msgid "Got it"
 msgstr "Got it"
 
+msgid "Have a question?"
+msgstr "Have a question?"
+
 msgid "Hello again!"
 msgstr "Hello again!"
 
@@ -568,9 +574,6 @@ msgstr "No thanks"
 msgid "No user found for this query."
 msgstr "No user found for this query."
 
-msgid "Not sure what to pick? Learn more about our plans"
-msgstr "Not sure what to pick? Learn more about our plans"
-
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
 
@@ -630,9 +633,6 @@ msgstr "Payment method"
 
 msgid "Plan changed successfully"
 msgstr "Plan changed successfully"
-
-msgid "Plan details"
-msgstr "Plan details"
 
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
@@ -972,9 +972,6 @@ msgstr "Update card"
 
 msgid "Update credit card"
 msgstr "Update credit card"
-
-msgid "Update details"
-msgstr "Update details"
 
 msgid "Update your credit card"
 msgstr "Update your credit card"

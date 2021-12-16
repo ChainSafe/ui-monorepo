@@ -80,18 +80,19 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
 
   return (
     <Modal
-      closePosition="none"
+      closePosition="right"
       active={true}
-      maxWidth="md"
+      maxWidth={800}
+      width="max-content"
       className={classes.root}
       injectedClass={{
         inner: classes.inner
       }}
       testId="change-product"
+      onClose={onClose}
     >
       {slide === "select" && (
         <SelectPlan
-          onClose={onClose}
           onSelectPlan={(plan: Product) => {
             setSelectedPlan(plan)
             const currentPrice = currentSubscription?.product?.price?.unit_amount
@@ -118,7 +119,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       {slide === "planDetails" && selectedPlan && (
         <PlanDetails
           plan={selectedPlan}
-          onClose={onClose}
           goToSelectPlan={() => {
             setSlide("select")
           }}
@@ -130,11 +130,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       )}
       {slide === "paymentMethod" && (
         <PaymentMethod
-          onClose={onClose}
-          goToSelectPlan={() => {
-            setSlide("select")
-          }}
-          goToPlanDetails={() => {
+          goBack={() => {
             setSlide("planDetails")
           }}
           onSelectPaymentMethod={() => {
@@ -146,7 +142,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         <ConfirmPlan
           plan={selectedPlan}
           planPrice={selectedPrice}
-          onClose={onClose}
           goToSelectPlan={() => {
             setSlide("select")
           }}
