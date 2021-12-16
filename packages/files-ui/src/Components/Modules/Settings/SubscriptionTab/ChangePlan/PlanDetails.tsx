@@ -6,10 +6,9 @@ import { Button, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsa
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 
-const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
+const useStyles = makeStyles(({ constants }: CSFTheme) =>
   createStyles({
     root:  {
-      position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     heading: {
@@ -61,26 +60,17 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     },
     divider: {
       margin: `${constants.generalUnit}px 0`
-    },
-    crossIcon: {
-      position: "absolute",
-      right: 0,
-      top: 0,
-      fontSize: 14,
-      fill: palette.additional["gray"][8],
-      cursor: "pointer"
     }
   })
 )
 
 interface IPlanDetails {
   plan: Product
-  closeIcon: JSX.Element
   goToSelectPlan: () => void
   onSelectPlanPrice: (planPrice: ProductPrice) => void
 }
 
-const PlanDetails = ({ plan, closeIcon, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
+const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
   const classes = useStyles()
   const monthlyPrice = plan.prices.find((price) => price.recurring.interval === "month")
   const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "year")
@@ -98,7 +88,6 @@ const PlanDetails = ({ plan, closeIcon, goToSelectPlan, onSelectPlanPrice }: IPl
 
   return (
     <article className={classes.root}>
-      {closeIcon}
       <Typography
         variant="h5"
         component="h4"

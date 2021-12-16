@@ -131,10 +131,9 @@ interface ISelectPlan {
   className?: string
   plans?: Product[]
   onSelectPlan: (plan: Product) => void
-  closeIcon: JSX.Element
 }
 
-const SelectPlan = ({ className, onSelectPlan, plans, closeIcon }: ISelectPlan) => {
+const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
   const classes = useStyles()
   const { currentSubscription } = useBilling()
   const { desktop } = useThemeSwitcher()
@@ -142,7 +141,6 @@ const SelectPlan = ({ className, onSelectPlan, plans, closeIcon }: ISelectPlan) 
 
   return (
     <article className={clsx(classes.root, className)}>
-      {closeIcon}
       <header className={classes.header}>
         <Typography
           component="p"

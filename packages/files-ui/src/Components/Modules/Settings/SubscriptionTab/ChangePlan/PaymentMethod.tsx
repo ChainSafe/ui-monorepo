@@ -78,11 +78,10 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 
 interface IPaymentMethodProps {
   goBack: () => void
-  closeIcon: JSX.Element
   onSelectPaymentMethod: () => void
 }
 
-const PlanDetails = ({ goBack, closeIcon, onSelectPaymentMethod }: IPaymentMethodProps) => {
+const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => {
   const classes = useStyles()
   const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
   const [view, setView] = useState<"selectPaymentMethod" | "addCard">("selectPaymentMethod")
@@ -96,7 +95,6 @@ const PlanDetails = ({ goBack, closeIcon, onSelectPaymentMethod }: IPaymentMetho
 
   return (
     <article className={classes.root}>
-      {closeIcon}
       <Typography
         variant="h5"
         component="h4"

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { CrossIcon, Modal } from "@chainsafe/common-components"
+import { Modal } from "@chainsafe/common-components"
 import SelectPlan from "./SelectPlan"
 import PlanDetails from "./PlanDetails"
 import PaymentMethod from "./PaymentMethod"
@@ -11,7 +11,7 @@ import { Product, ProductPrice, ProductPriceRecurringInterval } from "@chainsafe
 import PlanSuccess from "./PlanSuccess"
 import DowngradeDetails from "./DowngradeDetails"
 
-const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
       "&:before": {
@@ -26,14 +26,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
       [breakpoints.down("sm")]: {
         width: "100%"
       }
-    },
-    crossIcon: {
-      position: "absolute",
-      right: 0,
-      top: 0,
-      fontSize: 14,
-      fill: palette.additional["gray"][8],
-      cursor: "pointer"
     }
   })
 )
@@ -86,16 +78,12 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
     }
   }
 
-  const closeIcon = <CrossIcon
-    onClick={onClose}
-    className={classes.crossIcon}
-  />
-
   return (
     <Modal
-      closePosition="none"
+      closePosition="right"
       active={true}
-      maxWidth="md"
+      maxWidth={800}
+      width="max-content"
       className={classes.root}
       injectedClass={{
         inner: classes.inner
@@ -117,7 +105,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
               : setSlide("planDetails")
           }}
           plans={plans}
-          closeIcon={closeIcon}
         />
       )}
       { slide === "downgradeDetails" && selectedPlan && (
@@ -126,7 +113,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           goToPlanDetails={() => setSlide("planDetails")}
           shouldCancelPlan={didSelectFreePlan}
           plan={selectedPlan}
-          closeIcon={closeIcon}
           onClose={onClose}
         />
       )}
@@ -140,7 +126,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
             setSelectedPrice(planPrice)
             setSlide("paymentMethod")
           }}
-          closeIcon={closeIcon}
         />
       )}
       {slide === "paymentMethod" && (
@@ -151,7 +136,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           onSelectPaymentMethod={() => {
             setSlide("confirmPlan")
           }}
-          closeIcon={closeIcon}
         />
       )}
       {slide === "confirmPlan" && selectedPlan && selectedPrice && (
@@ -170,7 +154,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           loadingChangeSubscription={isLoadingChangeSubscription}
           onChangeSubscription={handleChangeSubscription}
           isSubscriptionError={isSubscriptionError}
-          closeIcon={closeIcon}
         />
       )}
       {slide === "planSuccess" && selectedPlan && selectedPrice && (

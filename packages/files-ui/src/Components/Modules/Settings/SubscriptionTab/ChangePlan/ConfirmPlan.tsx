@@ -86,14 +86,6 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     error: {
       marginTop: constants.generalUnit,
       color: palette.error.main
-    },
-    crossIcon: {
-      position: "absolute",
-      right: 0,
-      top: -4,
-      fontSize: 14,
-      fill: palette.additional["gray"][8],
-      cursor: "pointer"
     }
   })
 )
@@ -101,7 +93,6 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 interface IConfirmPlan {
   plan: Product
   planPrice: ProductPrice
-  closeIcon: JSX.Element
   goToSelectPlan: () => void
   goToPlanDetails: () => void
   goToPaymentMethod: () => void
@@ -113,7 +104,6 @@ interface IConfirmPlan {
 const ConfirmPlan = ({
   plan,
   planPrice,
-  closeIcon,
   goToSelectPlan,
   goToPaymentMethod,
   onChangeSubscription,
@@ -132,7 +122,6 @@ const ConfirmPlan = ({
 
   return (
     <article className={classes.root}>
-      {closeIcon}
       <Typography
         variant="h5"
         component="h4"
