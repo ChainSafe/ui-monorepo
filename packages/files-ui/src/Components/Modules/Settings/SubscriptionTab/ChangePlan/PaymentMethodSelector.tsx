@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
+import { Breadcrumb, Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import AddCard from "../AddCard/AddCard"
 import { useBilling } from "../../../../../Contexts/BillingContext"
+import { ProductPrice } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
-    root:  {
-      position: "relative",
+    root: {
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     heading: {
@@ -77,11 +77,14 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 )
 
 interface IPaymentMethodProps {
-  goBack: () => void
-  onSelectPaymentMethod: () => void
+  selectedProductPrice: ProductPrice
+  onClose: () => void
+  goToSelectPlan: () => void
+  goToPlanDetails: () => void
+  onSelectPaymentMethod: (paymentMethod: "creditCard" | "crypto") => void
 }
 
-const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => {
+const PaymentMethodSelector = ({ selectedProductPrice, onClose, goToSelectPlan, goToPlanDetails, onSelectPaymentMethod }: IPaymentMethodProps) => {
   const classes = useStyles()
   const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
   const [view, setView] = useState<"selectPaymentMethod" | "addCard">("selectPaymentMethod")
@@ -95,6 +98,18 @@ const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => 
 
   return (
     <article className={classes.root}>
+      <Breadcrumb
+        crumbs={[{
+          text: t`Change plan`,
+          onClick: goToSelectPlan
+        }, {
+          text: t`Plan details`,
+          onClick: goToPlanDetails
+        }, {
+          text: t`Payment method`
+        }]}
+        hideHome={true}
+      />
       <Typography
         variant="h5"
         component="h4"
@@ -113,7 +128,7 @@ const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => 
       {view === "selectPaymentMethod" && <>
         <div className={classes.rowBox}>
           <RadioInput
-            label={defaultCard ? `•••• •••• •••• ${defaultCard.last_four_digit}` : "Credit card" }
+            label={defaultCard ? `•••• •••• •••• ${defaultCard.last_four_digit}` : "Credit card"}
             value="creditCard"
             onChange={() => setPaymentMethod("creditCard")}
             checked={paymentMethod === "creditCard"}
@@ -135,11 +150,11 @@ const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => 
         <Divider className={classes.divider} />
         <RadioInput
           label="USDC, BTC, or ETH (Annual only)"
-          value="orange"
+          value="crypto"
           onChange={() => setPaymentMethod("crypto")}
           checked={paymentMethod === "crypto"}
           labelClassName={classes.radioLabel}
-          disabled={true}
+          disabled={selectedProductPrice.recurring.interval !== "year"}
         />
       </>
       }
@@ -156,15 +171,15 @@ const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => 
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={goBack}
+            onClick={onClose}
             variant="secondary"
           >
-            <Trans>Go back</Trans>
+            <Trans>Cancel</Trans>
           </Button>
           <Button
             variant="primary"
             disabled={!paymentMethod || view === "addCard"}
-            onClick={onSelectPaymentMethod}
+            onClick={() => paymentMethod && onSelectPaymentMethod(paymentMethod)}
           >
             <Trans>Select payment method</Trans>
           </Button>
@@ -174,4 +189,4 @@ const PlanDetails = ({ goBack, onSelectPaymentMethod }: IPaymentMethodProps) => 
   )
 }
 
-export default PlanDetails
+export default PaymentMethodSelector

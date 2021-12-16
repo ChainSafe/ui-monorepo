@@ -1925,13 +1925,13 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/browser-storage-hooks/-/browser-storage-hooks-1.0.1.tgz#26d32cde1999914db755a631e2643823c54959f7"
   integrity sha512-Q4b5gQAZnsRXKeADspd5isqfwwhhXjDk70y++YadufA6EZ3tf340oW0OVszp74KaGEw+CAYFGQR4X7bzpZ3x9Q==
 
-"@chainsafe/files-api-client@^1.18.22":
-  version "1.18.22"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.22.tgz#7e66a43f5c8b4234a53745a2be8172c32a6f0b9d"
-  integrity sha512-m3RfBMcWKOITyH0goMl7jxg8NY//3N2cglzKS64ksrWhULKeaCARZxe5Auo8NXEfIlTkQCKmazHoozl146UR/g==
+"@chainsafe/files-api-client@^1.18.23":
+  version "1.18.23"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.23.tgz#722c3a32ecbb194bb33f3d998b9078c444bae3ae"
+  integrity sha512-hEmwVeEym33iZhOYf3dBCzGeddBdpaHQ115J4BF5PMFX0zDdLxWlhJ/oXy/np0hochks2zY2U8P+ODt4jsr3xw==
   dependencies:
     "@redocly/openapi-cli" "^1.0.0-beta.58"
-    "@redocly/openapi-core" "^1.0.0-beta.58"
+    "@redocly/openapi-core" "^1.0.0-beta.69"
     redoc-cli "^0.12.3"
 
 "@chainsafe/web3-context@1.1.4":
@@ -4499,6 +4499,16 @@
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
+"@redocly/ajv@^8.6.4":
+  version "8.6.4"
+  resolved "https://registry.yarnpkg.com/@redocly/ajv/-/ajv-8.6.4.tgz#94053e7a9d4146d1a4feacd3813892873f229a85"
+  integrity sha512-y9qNj0//tZtWB2jfXNK3BX18BSBp9zNR7KE7lMysVHwbZtY392OJCjm6Rb/h4UHH2r1AqjNEHFD6bRn+DqU9Mw==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
+
 "@redocly/openapi-cli@^1.0.0-beta.58":
   version "1.0.0-beta.61"
   resolved "https://registry.yarnpkg.com/@redocly/openapi-cli/-/openapi-cli-1.0.0-beta.61.tgz#03dfbf058b2bf85922a0e19adaa2856f111d1b14"
@@ -4532,7 +4542,7 @@
     node-fetch "^2.6.1"
     yaml-ast-parser "0.0.43"
 
-"@redocly/openapi-core@^1.0.0-beta.58", "@redocly/openapi-core@^1.0.0-beta.61":
+"@redocly/openapi-core@^1.0.0-beta.61":
   version "1.0.0-beta.61"
   resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.61.tgz#d5fa05a4f625c234d5d83d65986f6d3dba68336a"
   integrity sha512-/OgtozUxy7SvHVBZ3Iygu6brDTOFTOlkzpDQyykpa0lK2cPBeYjkJP5foBlHKeHl+TvxfPuzh1CSGSShSc+IBg==
@@ -4545,6 +4555,22 @@
     lodash.isequal "^4.5.0"
     minimatch "^3.0.4"
     node-fetch "^2.6.1"
+    yaml-ast-parser "0.0.43"
+
+"@redocly/openapi-core@^1.0.0-beta.69":
+  version "1.0.0-beta.73"
+  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.73.tgz#12dd8cf1490ee7ec61d712e12fc1c7ff5a1eca6f"
+  integrity sha512-1wmKGJp+lvhNFDEfTzjB6QlyEPNyozSiDb4sfr+R97pcGa+6YdSmgItPl5P/21Y0fBZYku9Uo1n0rhFVdr20EQ==
+  dependencies:
+    "@redocly/ajv" "^8.6.4"
+    "@types/node" "^14.11.8"
+    colorette "^1.2.0"
+    js-levenshtein "^1.1.6"
+    js-yaml "^4.1.0"
+    lodash.isequal "^4.5.0"
+    minimatch "^3.0.4"
+    node-fetch "^2.6.1"
+    pluralize "^8.0.0"
     yaml-ast-parser "0.0.43"
 
 "@redocly/react-dropdown-aria@^2.0.11":
@@ -7351,6 +7377,11 @@ argparse@^1.0.7:
   integrity sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==
   dependencies:
     sprintf-js "~1.0.2"
+
+argparse@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
+  integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
 
 aria-query@^3.0.0:
   version "3.0.0"
@@ -16174,6 +16205,13 @@ js-yaml@^3.14.1:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
+js-yaml@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-4.1.0.tgz#c1fb65f8f5017901cdd2c951864ba18458a10602"
+  integrity sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==
+  dependencies:
+    argparse "^2.0.1"
+
 jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
@@ -19236,6 +19274,11 @@ pkg-up@3.1.0, pkg-up@^3.1.0:
   integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
   dependencies:
     find-up "^3.0.0"
+
+pluralize@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
+  integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
 
 plurals-cldr@^1.0.4:
   version "1.0.4"

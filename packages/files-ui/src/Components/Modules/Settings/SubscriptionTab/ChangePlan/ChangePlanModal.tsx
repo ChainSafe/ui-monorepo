@@ -4,13 +4,15 @@ import { CSFTheme } from "../../../../../Themes/types"
 import { Modal } from "@chainsafe/common-components"
 import SelectPlan from "./SelectPlan"
 import PlanDetails from "./PlanDetails"
-import PaymentMethod from "./PaymentMethod"
+import PaymentMethodSelector from "./PaymentMethodSelector"
 import ConfirmPlan from "./ConfirmPlan"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { Product, ProductPrice, ProductPriceRecurringInterval } from "@chainsafe/files-api-client"
 import PlanSuccess from "./PlanSuccess"
 import DowngradeDetails from "./DowngradeDetails"
 
+import { PaymentMethod } from "../../../../../Contexts/BillingContext"
+import CryptoPayment from "./CryptoPayment"
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
@@ -35,7 +37,8 @@ type ChangeModalSlides = "select" |
 "paymentMethod" |
 "confirmPlan" |
 "planSuccess" |
-"downgradeDetails"
+"downgradeDetails" |
+"cryptoPayment"
 
 const getPrice = (plan: Product, recurrence?: ProductPriceRecurringInterval) => {
   return plan.prices.find(price => price?.recurring?.interval === recurrence)?.unit_amount || 0
@@ -50,6 +53,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const { getAvailablePlans, changeSubscription, currentSubscription } = useBilling()
   const [selectedPlan, setSelectedPlan] = useState<Product | undefined>()
   const [selectedPrice, setSelectedPrice] = useState<ProductPrice | undefined>()
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | undefined>()
   const [slide, setSlide] = useState<ChangeModalSlides>("select")
   const [plans, setPlans] = useState<Product[] | undefined>()
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
@@ -128,41 +132,53 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           }}
         />
       )}
-      {slide === "paymentMethod" && (
-        <PaymentMethod
-          goBack={() => {
-            setSlide("planDetails")
-          }}
-          onSelectPaymentMethod={() => {
-            setSlide("confirmPlan")
-          }}
-        />
-      )}
-      {slide === "confirmPlan" && selectedPlan && selectedPrice && (
-        <ConfirmPlan
-          plan={selectedPlan}
-          planPrice={selectedPrice}
+      {slide === "paymentMethod" && selectedPrice &&
+        <PaymentMethodSelector
+          selectedProductPrice={selectedPrice}
+          onClose={onClose}
           goToSelectPlan={() => {
             setSlide("select")
           }}
           goToPlanDetails={() => {
             setSlide("planDetails")
           }}
-          goToPaymentMethod={() => {
-            setSlide("paymentMethod")
+          onSelectPaymentMethod={(paymentMethod) => {
+            setSelectedPaymentMethod(paymentMethod)
+            setSlide("confirmPlan")
           }}
-          loadingChangeSubscription={isLoadingChangeSubscription}
-          onChangeSubscription={handleChangeSubscription}
-          isSubscriptionError={isSubscriptionError}
         />
-      )}
-      {slide === "planSuccess" && selectedPlan && selectedPrice && (
-        <PlanSuccess
-          onClose={onClose}
+      }
+      {slide === "confirmPlan" && selectedPlan && selectedPrice && selectedPaymentMethod &&
+      <ConfirmPlan
+        plan={selectedPlan}
+        planPrice={selectedPrice}
+        goToSelectPlan={() => {
+          setSlide("select")
+        }}
+        goToPlanDetails={() => {
+          setSlide("planDetails")
+        }}
+        goToPaymentMethod={() => {
+          setSlide("paymentMethod")
+        }}
+        loadingChangeSubscription={isLoadingChangeSubscription}
+        onChangeSubscription={selectedPaymentMethod === "creditCard" ? handleChangeSubscription : () => setSlide("cryptoPayment")}
+        isSubscriptionError={isSubscriptionError}
+        paymentMethod={selectedPaymentMethod}
+      />
+      }
+      {slide === "cryptoPayment" && selectedPlan && selectedPrice &&
+        <CryptoPayment
           plan={selectedPlan}
           planPrice={selectedPrice}
-        />
-      )}
+          onClose={onClose} />
+      }
+      {slide === "planSuccess" && selectedPlan && selectedPrice && <PlanSuccess
+        onClose={onClose}
+        plan={selectedPlan}
+        planPrice={selectedPrice}
+      />
+      }
     </Modal>
   )
 }

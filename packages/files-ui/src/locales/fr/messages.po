@@ -19,6 +19,12 @@ msgid "({0}) items selected"
 msgstr "({0}) éléments sélectionnés"
 
 msgid "/month"
+msgstr ""
+
+msgid "/year"
+msgstr ""
+
+msgid "/month"
 msgstr "/mois"
 
 msgid "/year"

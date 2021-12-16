@@ -13,8 +13,14 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-msgid "({0}) items selected"
-msgstr "({0}) items selected"
+#~ msgid "({0}) items selected"
+#~ msgstr "({0}) items selected"
+
+msgid "/month"
+msgstr "/month"
+
+msgid "/year"
+msgstr "/year"
 
 msgid "/month"
 msgstr "/month"

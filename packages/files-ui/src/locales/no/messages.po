@@ -13,7 +13,13 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "({0}) items selected"
+#~ msgid "({0}) items selected"
+#~ msgstr ""
+
+msgid "/month"
+msgstr ""
+
+msgid "/year"
 msgstr ""
 
 msgid "/month"
@@ -502,6 +508,9 @@ msgstr ""
 msgid "Monthly billing"
 msgstr ""
 
+#~ msgid "Monthly billing======="
+#~ msgstr ""
+
 msgid "Move"
 msgstr "Flytt"
 
@@ -746,7 +755,7 @@ msgid "Select a wallet"
 msgstr ""
 
 msgid "Select an existing shared folder or your home"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
 msgid "Select payment method"
 msgstr ""
@@ -847,7 +856,7 @@ msgstr ""
 msgid "Start Upload"
 msgstr ""
 
-msgid "Start a team"
+msgid "Start Upload"
 msgstr ""
 
 msgid "Stored by miner"
@@ -860,6 +869,12 @@ msgid "Switch Plan"
 msgstr ""
 
 msgid "Switch to Free plan"
+msgstr ""
+
+msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Plans"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
@@ -1052,6 +1067,9 @@ msgid "You can now create shared folders to share a file."
 msgstr ""
 
 msgid "You can't move folders to this path"
+msgstr ""
+
+msgid "You do not have access to this shared folder."
 msgstr ""
 
 msgid "You do not have access to this shared folder."

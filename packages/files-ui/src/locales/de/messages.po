@@ -13,7 +13,13 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "({0}) items selected"
+#~ msgid "({0}) items selected"
+#~ msgstr ""
+
+msgid "/month"
+msgstr ""
+
+msgid "/year"
 msgstr ""
 
 msgid "/month"
