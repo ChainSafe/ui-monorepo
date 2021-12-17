@@ -223,6 +223,7 @@ const Modal = ({
       >
         {closePosition !== "none" && (
           <div
+            data-testid={`button-close-modal-${testId}`}
             onClick={handleClose}
             className={clsx(classes.closeIcon, injectedClass?.closeIcon, closePosition)}
           >

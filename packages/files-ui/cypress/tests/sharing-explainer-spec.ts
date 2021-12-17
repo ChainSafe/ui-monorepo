@@ -22,7 +22,32 @@ describe("Sharing Explainer", () => {
         // dismiss the sharing explainer
         sharingExplainerModal.nextButton().click()
         sharingExplainerModal.nextButton().click()
+        sharingExplainerModal.nextButton().click()
         sharingExplainerModal.gotItButton().click()
+        sharingExplainerModal.body().should("not.exist")
+
+        // intercept POST to ensure the key was updated after the explainer is dismissed
+        cy.wait("@storePost").its("request.body").should("contain", {
+          [sharingExplainerKey]: "true"
+        })
+      })
+    })
+
+    it("User can dismiss the sharing explainer with the cross", () => {
+      // intercept and stub the response to ensure the explainer is displayed
+      cy.intercept("GET", "**/user/store", {
+        body: { [sharingExplainerKey]: "false" }
+      })
+
+      cy.web3Login()
+      navigationMenu.sharedNavButton().click()
+      sharingExplainerModal.body().should("be.visible")
+
+      // set up a spy for the POST response
+      cy.intercept("POST", "**/user/store").as("storePost").then(() => {
+
+        // dismiss the sharing explainer
+        sharingExplainerModal.closeButton().click()
         sharingExplainerModal.body().should("not.exist")
 
         // intercept POST to ensure the key was updated after the explainer is dismissed
