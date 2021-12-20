@@ -29,7 +29,7 @@ describe("Settings", () => {
         settingsPage.saveChangesButton().should("be.disabled")
       })
 
-      it("can add/edit firstname and lastname", () => {
+      it("can add/edit firstname and lastname with enter", () => {
         const newFirstName = "test first name"
         const newLastName = "test last name"
 
@@ -38,8 +38,16 @@ describe("Settings", () => {
 
         settingsPage.firstNameInput().should("have.value", newFirstName)
         settingsPage.lastNameInput().should("have.value", newLastName)
+      })
 
-        settingsPage.saveChangesButton().safeClick()
+      it("can add/edit firstname and lastname with click", () => {
+        const newFirstName = "test first name"
+        const newLastName = "test last name"
+
+        settingsPage.firstNameInput().type(newFirstName)
+        settingsPage.lastNameInput().type(`${newLastName}`)
+        settingsPage.saveChangesButton().click()
+
         settingsPage.firstNameInput().should("have.value", newFirstName)
         settingsPage.lastNameInput().should("have.value", newLastName)
       })
