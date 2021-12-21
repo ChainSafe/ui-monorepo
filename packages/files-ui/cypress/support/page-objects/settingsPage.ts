@@ -9,6 +9,7 @@ export const settingsPage = {
   saveChangesButton: () => cy.get("[data-cy=button-save-changes]"),
   addUsernameButton: () => cy.get("[data-cy=button-add-username]"),
   usernameInput: () => cy.get("[data-cy=input-profile-username]"),
+  usernameErrorLabel: () => cy.get("[data-cy=input-profile-username] span.error"),
   setUsernameButton: () => cy.get("[data-cy=button-set-username]"),
   usernamePresentInput: () => cy.get("[data-cy=input-profile-username-present]"),
   securityTabButton: () => cy.get("[data-testid=tab-security]"),
