@@ -7,6 +7,10 @@ export const settingsPage = {
   firstNameInput: () => cy.get("[data-cy=input-profile-firstname]"),
   lastNameInput: () => cy.get("[data-cy=input-profile-lastname]"),
   saveChangesButton: () => cy.get("[data-cy=button-save-changes]"),
+  addUsernameButton: () => cy.get("[data-cy=button-add-username]"),
+  usernameInput: () => cy.get("[data-cy=input-profile-username]"),
+  setUsernameButton: () => cy.get("[data-cy=button-set-username]"),
+  usernamePresentInput: () => cy.get("[data-cy=input-profile-username-present]"),
   securityTabButton: () => cy.get("[data-testid=tab-security]"),
   securityTabHeader: () => cy.get("[data-cy=label-security-header]"),
   subscriptionTabButton: () => cy.get("[data-testid=tab-subscription]")

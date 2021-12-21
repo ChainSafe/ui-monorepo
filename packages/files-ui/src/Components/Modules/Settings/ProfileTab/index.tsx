@@ -210,7 +210,7 @@ const ProfileView = () => {
     try {
       setUpdatingProfile(true)
       await updateProfile(firstName, lastName)
-      addToast({ title: t`Profile updated`, type: "success" })
+      addToast({ title: t`Profile updated`, type: "success", testId: "profile-update-success" })
       setUpdatingProfile(false)
     } catch (error) {
       error instanceof Error && addToast({ title: error.message, type: "error" })
@@ -410,6 +410,7 @@ const ProfileView = () => {
                         disabled={true}
                         value={profile.username}
                         className={classes.usernameInput}
+                        data-cy="input-profile-username-present"
                       />
                     </div>
                   </>
@@ -442,13 +443,14 @@ const ProfileView = () => {
                             onChange={onUsernameChange}
                             captionMessage={usernameData.error}
                             state={usernameData.error ? "error" : "normal"}
-                            data-cy="profile-username-input"
+                            data-cy="input-profile-username"
                           />
                           <div>
                             <Button
                               type="submit"
                               disabled={usernameData.loading || !!usernameData.error || !username}
                               loading={usernameData.loading}
+                              data-cy="button-set-username"
                             >
                               {usernameData.loading ? t`Setting Username` : t`Set Username`}
                             </Button>
@@ -467,6 +469,7 @@ const ProfileView = () => {
                           <span
                             className={classes.buttonLink}
                             onClick={() => setShowUsernameForm(true)}
+                            data-cy="button-add-username"
                           >
                             <Trans>Add a username</Trans>
                           </span>
