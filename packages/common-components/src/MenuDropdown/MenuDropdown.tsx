@@ -264,7 +264,7 @@ const MenuDropdown = ({
       className={clsx(classes.root, className)}
     >
       <section
-        data-testid={`dropdown-title-${testId}`}
+        data-testid={testId && `dropdown-title-${testId}`}
         onClick={() => setOpen(!open)}
         className={clsx(classes.title, classNames?.title, {
           ["open"]: open

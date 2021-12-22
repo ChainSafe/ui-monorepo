@@ -491,7 +491,7 @@ const FilesList = ({ isShared = false }: Props) => {
     }
   }, [selectedItems.length, items])
 
-  const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
+  const [{ isOverBrowserOnlyAndUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any, monitor) => {
       if (monitor.isOver({ shallow: true })) {
@@ -503,8 +503,18 @@ const FilesList = ({ isShared = false }: Props) => {
     },
     collect: (monitor) => ({
       isOverBrowser: monitor.isOver(),
-      isOverUploadable: monitor.isOver({ shallow: true }),
-      canDrop: monitor.canDrop()
+      isOverBrowserOnlyAndUploadable: monitor.isOver({ shallow: true })
+    })
+  })
+
+  const [{ isOverBreadcrumb }, dropBreadcrumbRef] = useDrop({
+    accept: [NativeTypes.FILE],
+    drop: (item: any) => {
+      handleUploadOnDrop && handleUploadOnDrop(item.files, item.items, "/")
+      refreshContents && refreshContents()
+    },
+    collect: (monitor) => ({
+      isOverBreadcrumb: monitor.isOver()
     })
   })
 
@@ -773,7 +783,7 @@ const FilesList = ({ isShared = false }: Props) => {
   return (
     <article
       className={clsx(classes.root, {
-        droppable: isOverUploadable && allowDropUpload
+        droppable: isOverBrowserOnlyAndUploadable && allowDropUpload
       }, {
         bottomBanner: accountRestricted
       }
@@ -802,6 +812,8 @@ const FilesList = ({ isShared = false }: Props) => {
           <Breadcrumb
             crumbs={crumbs}
             homeOnClick={() => redirect(moduleRootPath)}
+            homeRef={dropBreadcrumbRef}
+            homeActive={isOverBreadcrumb}
             showDropDown={!desktop}
           />
         )}

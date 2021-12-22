@@ -8,12 +8,16 @@ import { MenuDropdown } from "../MenuDropdown"
 export type Crumb = {
   text: string
   onClick?: () => void
+  forwardedRef?: React.Ref<HTMLDivElement>
+  active?: boolean
 }
 
 export type BreadcrumbProps = {
   crumbs?: Crumb[]
   homeOnClick?: () => void
   hideHome?: boolean
+  homeRef?: React.Ref<HTMLDivElement>
+  homeActive?: boolean
   className?: string
   showDropDown?: boolean
 }
@@ -36,6 +40,7 @@ const useStyles = makeStyles(
       },
       home: {
         height: 16,
+        width: "fit-content",
         margin: "3px 0",
         "& > svg": {
           display: "block",
@@ -79,7 +84,7 @@ const useStyles = makeStyles(
         textOverflow: "ellipsis"
       },
       menuTitle: {
-        padding: `0px ${constants.generalUnit}px 0px 0px`
+        padding: `0px ${constants.generalUnit * 1.5}px 0px ${constants.generalUnit * 0.5}px`
       },
       menuIcon: {
         width: 12,
@@ -88,6 +93,16 @@ const useStyles = makeStyles(
           height: 12,
           width: 12
         }
+      },
+      wrapper: {
+        border: "1px solid transparent",
+        padding: `0 ${constants.generalUnit * 0.5}px`,
+        "&.active": {
+          borderColor: palette.primary.main
+        }
+      },
+      fullWidth: {
+        width: "100%"
       }
     })
 )
@@ -96,21 +111,26 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   crumbs = [],
   homeOnClick,
   hideHome,
+  homeRef,
+  homeActive,
   className,
   showDropDown
 }: BreadcrumbProps) => {
   const classes = useStyles()
 
   const generateFullCrumbs = (crumbs: Crumb[]) => {
-    return crumbs.map((item: Crumb, index: number) => (
+    return crumbs.map((crumb: Crumb, index: number) => (
       <Fragment key={`crumb-${index}`}>
-        <div>
+        <div
+          ref={crumb.forwardedRef}
+          className={clsx(crumb.active && "active", classes.wrapper)}
+        >
           <Typography
-            onClick={() => (item.onClick ? item.onClick() : null)}
-            className={clsx(classes.crumb, item.onClick && "clickable")}
+            onClick={() => (crumb.onClick ? crumb.onClick() : null)}
+            className={clsx(classes.crumb, crumb.onClick && "clickable")}
             variant="body1"
           >
-            {item.text}
+            {crumb.text}
           </Typography>
         </div>
         {index < (crumbs.length - 1) && <div className={clsx(classes.separator)} />}
@@ -132,12 +152,17 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         }}
         menuItems={crumbs.map((crumb) => ({
           contents: (
-            <Typography
-              variant="body1"
-              onClick={() => (crumb.onClick ? crumb.onClick() : null)}
+            <div
+              ref={crumb.forwardedRef}
+              className={clsx(classes.fullWidth, crumb.active && "active", classes.wrapper)}
             >
-              {crumb.text}
-            </Typography>
+              <Typography
+                variant="body1"
+                onClick={() => (crumb.onClick ? crumb.onClick() : null)}
+              >
+                {crumb.text}
+              </Typography>
+            </div>
           )
         }))}
       />
@@ -154,7 +179,10 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         <>
           {generateDropdownCrumb(dropdownCrumbs)}
           <div className={clsx(classes.separator)} />
-          <div>
+          <div
+            ref={lastCrumb.forwardedRef}
+            className={clsx(lastCrumb.active && "active", classes.wrapper)}
+          >
             <Typography
               onClick={() => (lastCrumb.onClick ? lastCrumb.onClick() : null)}
               className={clsx(classes.crumb, lastCrumb.onClick && "clickable")}
@@ -171,11 +199,16 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   return (
     <div className={clsx(classes.root, className)}>
       {!hideHome && <>
-        <HomeIcon
-          className={clsx(classes.home, homeOnClick && "clickable")}
-          onClick={() => (homeOnClick ? homeOnClick() : null)}
-        />
-        <div className={clsx(classes.separator)} />
+        <div
+          ref={homeRef}
+          className={clsx(classes.wrapper, homeActive && "active")}
+        >
+          <HomeIcon
+            className={clsx(classes.home, homeOnClick && "clickable")}
+            onClick={() => (homeOnClick ? homeOnClick() : null)}
+          />
+        </div>
+        {crumbs.length && <div className={clsx(classes.separator)} />}
       </>
       }
       {generateCrumbs()}
