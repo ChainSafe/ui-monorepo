@@ -9,6 +9,7 @@ describe("Settings", () => {
       cy.web3Login()
       navigationMenu.settingsNavButton().click()
     })
+
     it("can navigate to settings profile page", () => {
       settingsPage.profileTabHeader().should("be.visible")
       cy.url().should("include", "/settings")
@@ -18,6 +19,7 @@ describe("Settings", () => {
     })
 
     it("save changes button should be disabled without first and last name", () => {
+      settingsPage.signOutDropdown().should("be.visible")
       settingsPage.firstNameInput().clear()
       settingsPage.lastNameInput().clear()
 
@@ -25,6 +27,7 @@ describe("Settings", () => {
     })
 
     it("can add/edit firstname and lastname", () => {
+      settingsPage.signOutDropdown().should("be.visible")
       const newFirstName = "test first name"
       const newLastName = "test last name"
 
@@ -36,10 +39,11 @@ describe("Settings", () => {
       settingsPage.lastNameInput().should("have.value", newLastName)
     })
 
-    // random username generation
-    const newUserName = Buffer.from(Math.random().toString()).toString("base64").substr(10, 12)
+    // username from date
+    const newUserName = Date.now().toString()
 
     it("can add a username", () => {
+      settingsPage.signOutDropdown().should("be.visible")
       settingsPage.addUsernameButton().should("be.visible")
       settingsPage.addUsernameButton().click()
       settingsPage.usernameInput().should("be.visible")
