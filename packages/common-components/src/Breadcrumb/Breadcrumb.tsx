@@ -7,9 +7,11 @@ import { MenuDropdown } from "../MenuDropdown"
 
 export type Crumb = {
   text: string
+  path?: string
   onClick?: () => void
   forwardedRef?: React.Ref<HTMLDivElement>
   active?: boolean
+  component?: React.ReactNode
 }
 
 export type BreadcrumbProps = {
@@ -121,7 +123,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const generateFullCrumbs = (crumbs: Crumb[]) => {
     return crumbs.map((crumb: Crumb, index: number) => (
       <Fragment key={`crumb-${index}`}>
-        <div
+        {!crumb.component ?  <div
           ref={crumb.forwardedRef}
           className={clsx(crumb.active && "active", classes.wrapper)}
         >
@@ -132,7 +134,8 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
           >
             {crumb.text}
           </Typography>
-        </div>
+        </div> : crumb.component
+        }
         {index < (crumbs.length - 1) && <div className={clsx(classes.separator)} />}
       </Fragment>
     ))
@@ -152,7 +155,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         }}
         menuItems={crumbs.map((crumb) => ({
           contents: (
-            <div
+            !crumb.component ?  <div
               ref={crumb.forwardedRef}
               className={clsx(classes.fullWidth, crumb.active && "active", classes.wrapper)}
             >
@@ -162,7 +165,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
               >
                 {crumb.text}
               </Typography>
-            </div>
+            </div> : crumb.component
           )
         }))}
       />
@@ -179,7 +182,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         <>
           {generateDropdownCrumb(dropdownCrumbs)}
           <div className={clsx(classes.separator)} />
-          <div
+          {lastCrumb.component ? <div
             ref={lastCrumb.forwardedRef}
             className={clsx(lastCrumb.active && "active", classes.wrapper)}
           >
@@ -190,7 +193,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
             >
               {lastCrumb.text}
             </Typography>
-          </div>
+          </div> : lastCrumb.component}
         </>
       )
     }
@@ -208,7 +211,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
             onClick={() => (homeOnClick ? homeOnClick() : null)}
           />
         </div>
-        {crumbs.length && <div className={clsx(classes.separator)} />}
+        {!!crumbs.length && <div className={clsx(classes.separator)} />}
       </>
       }
       {generateCrumbs()}

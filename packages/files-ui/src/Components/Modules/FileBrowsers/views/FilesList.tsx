@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import {
   Divider,
   PlusIcon,
@@ -57,6 +57,7 @@ import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalF
 import { ListItemIcon, ListItemText } from "@material-ui/core"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
+import { DragTypes } from "../DragConstants"
 
 const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -341,6 +342,7 @@ const FilesList = ({ isShared = false }: Props) => {
     handleUploadOnDrop,
     bulkOperations,
     crumbs,
+    moveItems,
     renameItem: handleRename,
     deleteItems: deleteFiles,
     viewFolder,
@@ -507,16 +509,31 @@ const FilesList = ({ isShared = false }: Props) => {
     })
   })
 
-  const [{ isOverBreadcrumb }, dropBreadcrumbRef] = useDrop({
+  const [{ isOverUploadHomeBreadcrumb }, dropUploadHomeBreadcrumbRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any) => {
       handleUploadOnDrop && handleUploadOnDrop(item.files, item.items, "/")
       refreshContents && refreshContents()
     },
     collect: (monitor) => ({
-      isOverBreadcrumb: monitor.isOver()
+      isOverUploadHomeBreadcrumb: monitor.isOver()
     })
   })
+
+  const [{ isOverMoveHomeBreadcrumb }, dropMoveHomeBreadcrumbRef] = useDrop({
+    accept: DragTypes.MOVABLE_FILE,
+    drop: (item: { ids: string[]}) => {
+      moveItems && moveItems(item.ids, "/")
+      setSelectedItems([])
+    },
+    collect: (monitor) => ({
+      isOverMoveHomeBreadcrumb: monitor.isOver()
+    })
+  })
+
+  const homeBreadcrumbRef  =  useRef<HTMLDivElement>(null)
+  dropMoveHomeBreadcrumbRef(homeBreadcrumbRef)
+  dropUploadHomeBreadcrumbRef(homeBreadcrumbRef)
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
@@ -661,6 +678,8 @@ const FilesList = ({ isShared = false }: Props) => {
     setClickedShare(true)
     setIsShareModalOpen(true)
   }, [])
+
+  console.log(crumbs)
 
   const mobileMenuItems = useMemo(() => [
     {
@@ -812,8 +831,8 @@ const FilesList = ({ isShared = false }: Props) => {
           <Breadcrumb
             crumbs={crumbs}
             homeOnClick={() => redirect(moduleRootPath)}
-            homeRef={dropBreadcrumbRef}
-            homeActive={isOverBreadcrumb}
+            homeRef={homeBreadcrumbRef}
+            homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
             showDropDown={!desktop}
           />
         )}
