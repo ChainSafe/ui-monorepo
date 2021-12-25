@@ -93,7 +93,8 @@ const useStyles = makeStyles(
         height: 12,
         "& svg": {
           height: 12,
-          width: 12
+          width: 12,
+          fill: palette.additional["gray"][9]
         }
       },
       wrapper: {
