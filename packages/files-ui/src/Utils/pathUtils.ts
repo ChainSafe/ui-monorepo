@@ -22,6 +22,14 @@ export function getArrayOfPaths(path: string): string[] {
   }
 }
 
+// "/" -> []
+// "/path/to/this" -> ["path", "to", "this"]
+export function joinArrayOfPaths(arrayOfPaths: string[]): string {
+  if (!arrayOfPaths.length) return "/"
+  else {
+    return `/${arrayOfPaths.join("/")}`
+  }
+}
 // [] -> "/"
 // ["path", "to", "this"] -> "/path/to/this"
 export function getURISafePathFromArray(arrayOfPaths: string[]): string {

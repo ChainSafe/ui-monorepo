@@ -8,7 +8,7 @@ import { CSFTheme } from "../../../../Themes/types"
 import { DragTypes } from "../DragConstants"
 
 const useStyles = makeStyles(
-  ({  constants, palette  }: CSFTheme) => {
+  ({  palette  }: CSFTheme) => {
     return createStyles({
       crumb: {
         fontSize: 14,
@@ -21,7 +21,7 @@ const useStyles = makeStyles(
       },
       wrapper: {
         border: "1px solid transparent",
-        padding: `0 ${constants.generalUnit * 0.5}px`,
+        padding: "0 4px",
         "&.active": {
           borderColor: palette.primary.main
         }
@@ -34,7 +34,7 @@ const useStyles = makeStyles(
 )
 
 interface IFolderBreadcrumb {
-  onClick: () => void
+  onClick?: () => void
   folderName: string
   handleMove: (item: any) => void
   handleUpload: (item: any) => void

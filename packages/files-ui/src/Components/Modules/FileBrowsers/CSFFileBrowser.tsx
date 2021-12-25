@@ -8,7 +8,8 @@ import {
   extractFileBrowserPathFromURL,
   getUrlSafePathWithFile,
   getAbsolutePathsFromCids,
-  pathEndingWithSlash
+  pathEndingWithSlash,
+  joinArrayOfPaths
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
@@ -146,15 +147,14 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
   const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => {
-    const URISafePath = getURISafePathFromArray(arrayOfPaths.slice(0, index + 1))
     return {
       text: decodeURIComponent(path),
       onClick: () => {
         redirect(
-          ROUTE_LINKS.Drive(URISafePath)
+          ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
         )
       },
-      path: URISafePath
+      path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
     }}), [arrayOfPaths, redirect])
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {

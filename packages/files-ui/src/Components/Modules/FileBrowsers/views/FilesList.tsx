@@ -58,6 +58,7 @@ import { ListItemIcon, ListItemText } from "@material-ui/core"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import { DragTypes } from "../DragConstants"
+import FolderBreadcrumb from "./FolderBreadcrumb"
 
 const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -511,9 +512,11 @@ const FilesList = ({ isShared = false }: Props) => {
 
   const [{ isOverUploadHomeBreadcrumb }, dropUploadHomeBreadcrumbRef] = useDrop({
     accept: [NativeTypes.FILE],
-    drop: (item: any) => {
+    drop: (item: {
+      files: File[]
+      items:DataTransferItemList
+    }) => {
       handleUploadOnDrop && handleUploadOnDrop(item.files, item.items, "/")
-      refreshContents && refreshContents()
     },
     collect: (monitor) => ({
       isOverUploadHomeBreadcrumb: monitor.isOver()
@@ -829,7 +832,21 @@ const FilesList = ({ isShared = false }: Props) => {
       >
         {crumbs && moduleRootPath && (
           <Breadcrumb
-            crumbs={crumbs}
+            crumbs={crumbs.map((crumb) => ({
+              ...crumb,
+              component: <FolderBreadcrumb
+                folderName={crumb.text}
+                onClick={crumb.onClick}
+                handleMove={(item) => {
+                  moveItems && crumb.path && moveItems(item.ids, crumb.path)
+                  setSelectedItems([])
+                }}
+                handleUpload={(item) => handleUploadOnDrop &&
+                  crumb.path &&
+                  handleUploadOnDrop(item.files, item.items, crumb.path)}
+              />
+            }))
+            }
             homeOnClick={() => redirect(moduleRootPath)}
             homeRef={homeBreadcrumbRef}
             homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
