@@ -682,8 +682,6 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsShareModalOpen(true)
   }, [])
 
-  console.log(crumbs)
-
   const mobileMenuItems = useMemo(() => [
     {
       contents: (
