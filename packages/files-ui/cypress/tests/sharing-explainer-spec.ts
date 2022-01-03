@@ -47,7 +47,7 @@ describe("Sharing Explainer", () => {
       cy.intercept("POST", "**/user/store").as("storePost").then(() => {
 
         // dismiss the sharing explainer
-        sharingExplainerModal.closeButton().safeClick()
+        sharingExplainerModal.closeButton().click()
         sharingExplainerModal.body().should("not.exist")
 
         // intercept POST to ensure the key was updated after the explainer is dismissed
