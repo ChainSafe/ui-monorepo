@@ -47,7 +47,7 @@ describe("Settings", () => {
       settingsPage.addUsernameButton().should("be.visible")
       settingsPage.addUsernameButton().click()
       settingsPage.usernameInput().should("be.visible")
-      settingsPage.usernameInput().type(`${newUserName}`)
+      settingsPage.usernameInput().type(newUserName)
       settingsPage.setUsernameButton().should("be.enabled")
       settingsPage.setUsernameButton().safeClick()
       settingsPage.usernamePresentInput().should("be.visible")
