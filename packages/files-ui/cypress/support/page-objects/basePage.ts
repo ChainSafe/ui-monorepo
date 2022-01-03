@@ -2,8 +2,8 @@
 
 export const basePage = {
   appHeaderLabel: () => cy.get("[data-cy=label-files-app-header]", { timeout: 20000 }),
-  searchInput: () => cy.get("[data-testid=input-search-bar]"),
-  signOutDropdown: () => cy.get("[data-testid=dropdown-title-sign-out-dropdown]"),
+  searchInput: () => cy.get("[data-testId=input-search-bar]"),
+  signOutDropdown: () => cy.get("[data-testId=dropdown-title-sign-out-dropdown]"),
   signOutMenuOption: () => cy.get("[data-cy=menu-sign-out]"),
   // Mobile view only element
   hamburgerMenuButton: () => cy.get("[data-testId=icon-hamburger-menu]"),

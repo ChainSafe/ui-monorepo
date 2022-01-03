@@ -201,7 +201,7 @@ const FileInput = ({
   return (
     <div
       {...getRootProps()}
-      data-testid={`input-file-dropzone-${testId}`}
+      data-testId={`input-file-dropzone-${testId}`}
       className={clsx(classes.root, className)}
     >
       <input {...getInputProps()} />
@@ -220,7 +220,7 @@ const FileInput = ({
           </div>
         ) : (
           <div
-            data-testid={`list-${testId}`}
+            data-testId={`list-${testId}`}
             className={clsx(classes.root, classNames?.filelist)}
           >
             <ScrollbarWrapper className={clsx("scrollbar")}>
