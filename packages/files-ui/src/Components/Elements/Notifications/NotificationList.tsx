@@ -5,7 +5,7 @@ import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { Notification } from "./NotificationsDropdown"
 import { Trans } from "@lingui/macro"
-import { BellIcon } from "@chainsafe/common-components"
+import { MoonStarIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 dayjs.extend(relativeTime)
 
@@ -16,7 +16,7 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       display: "flex",
       alignItems: "center",
       cursor: "pointer",
-      backgroundColor: "initial",
+      backgroundColor: palette.additional["gray"][2],
       "&.empty": {
         display: "flex",
         flexDirection: "column",
@@ -26,8 +26,8 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       "&:hover": {
         backgroundColor: palette.additional["gray"][3]
       },
-      "& svg": {
-        fill: palette.additional["gray"][9]
+      "& svg>path": {
+        stroke: palette.additional["gray"][7]
       },
       borderBottom: `1px solid ${palette.additional["gray"][5]}`,
       "&:last-child": {
@@ -68,7 +68,7 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
       <div>
         {notifications.length === 0 && (
           <div className={clsx(classes.notificationBody, "empty")}>
-            <BellIcon className={classes.icon} />
+            <MoonStarIcon className={classes.icon} />
             <Typography variant="h4" >
               <Trans>There are no notifications!</Trans>
             </Typography>
