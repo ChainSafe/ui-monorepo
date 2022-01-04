@@ -1,4 +1,4 @@
-import  React, { ReactNode, useState } from "react"
+import  React, { ReactNode, useCallback, useState } from "react"
 import { Notification } from "../Components/Elements/Notifications/NotificationsDropdown"
 
 type NotificationsContextProps = {
@@ -18,16 +18,16 @@ const NotificationsContext = React.createContext<INotificationsContext | undefin
 const NotificationsProvider = ({ children }: NotificationsContextProps) => {
   const [notifications, setNotifications] = useState<Notification[]>([])
 
-  const addNotification = (notification: Omit<Notification, "id">) => {
+  const addNotification = useCallback((notification: Omit<Notification, "id">) => {
     setNotifications([...notifications, {
       id: (notifications.length + 1).toString(),
       ...notification
     }])
-  }
+  }, [notifications])
 
-  const removeNotification = (id: string) => {
+  const removeNotification = useCallback((id: string) => {
     setNotifications(notifications.filter((notification) => notification.id !== id))
-  }
+  }, [notifications])
 
   return (
     <NotificationsContext.Provider
