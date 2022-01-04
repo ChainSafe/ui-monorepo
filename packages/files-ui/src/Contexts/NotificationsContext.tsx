@@ -45,7 +45,7 @@ const NotificationsProvider = ({ children }: NotificationsContextProps) => {
 const useNotifications = () => {
   const context = React.useContext(NotificationsContext)
   if (context === undefined) {
-    throw new Error("useNotifications must be used within a BillingProvider")
+    throw new Error("useNotifications must be used within a NotificationsProvider")
   }
   return context
 }
