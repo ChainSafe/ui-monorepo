@@ -137,6 +137,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       ...constants.settingsPage.darkSwitch
     },
     themeBoxLight: {
+      marginLeft: constants.generalUnit,
       ...constants.settingsPage.lightSwitch
     },
     themeSubtitle: {
