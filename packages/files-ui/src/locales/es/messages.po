@@ -893,6 +893,9 @@ msgstr ""
 msgid "Theme"
 msgstr "Tema"
 
+msgid "There are no notifications!"
+msgstr ""
+
 msgid "There was an error authenticating"
 msgstr "Hubo un error de autenticación."
 

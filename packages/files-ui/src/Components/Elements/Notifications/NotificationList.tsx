@@ -4,6 +4,9 @@ import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { Notification } from "./NotificationsDropdown"
+import { Trans } from "@lingui/macro"
+import { MoonStarIcon } from "@chainsafe/common-components"
+import clsx from "clsx"
 dayjs.extend(relativeTime)
 
 const useStyles = makeStyles(({ palette, constants }: ITheme) =>
@@ -13,17 +16,27 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       display: "flex",
       alignItems: "center",
       cursor: "pointer",
-      backgroundColor: "initial",
+      backgroundColor: palette.additional["gray"][2],
+      "&.empty": {
+        display: "flex",
+        flexDirection: "column",
+        padding: `${constants.generalUnit * 3 }px ${constants.generalUnit * 1.5}px`,
+        color: palette.additional["gray"][7]
+      },
       "&:hover": {
         backgroundColor: palette.additional["gray"][3]
       },
-      "svg": {
-        fill: palette.additional["gray"][9]
+      "& svg>path": {
+        stroke: palette.additional["gray"][7]
       },
       borderBottom: `1px solid ${palette.additional["gray"][5]}`,
-      ":last-child": {
+      "&:last-child": {
         border: "none"
       }
+    },
+    icon: {
+      transition: "none",
+      marginBottom: 2 * constants.generalUnit
     },
     notificationTitle: {
       color: palette.additional["gray"][9],
@@ -53,6 +66,14 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
       className={classes.scrollContent}
     >
       <div>
+        {notifications.length === 0 && (
+          <div className={clsx(classes.notificationBody, "empty")}>
+            <MoonStarIcon className={classes.icon} />
+            <Typography variant="h4" >
+              <Trans>There are no notifications!</Trans>
+            </Typography>
+          </div>
+        )}
         {notifications.map((n, i) => (
           <div
             key={i}

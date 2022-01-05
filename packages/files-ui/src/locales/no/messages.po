@@ -889,6 +889,9 @@ msgstr ""
 msgid "Theme"
 msgstr "Drakt"
 
+msgid "There are no notifications!"
+msgstr ""
+
 msgid "There was an error authenticating"
 msgstr ""
 
