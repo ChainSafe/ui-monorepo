@@ -1,8 +1,8 @@
 // Only add things here that could be applicable to all / most pages
 
 export const basePage = {
-  signOutDropdown: () => cy.get("[data-testId=dropdown-title-sign-out]"),
+  signOutDropdown: () => cy.get("[data-testid=dropdown-title-sign-out]"),
   signOutMenuOption: () => cy.get("[data-cy=menu-sign-out]"),
   // Mobile view only element
-  hamburgerMenuButton: () => cy.get("[data-testId=icon-hamburger-menu]")
+  hamburgerMenuButton: () => cy.get("[data-testid=icon-hamburger-menu]")
 }

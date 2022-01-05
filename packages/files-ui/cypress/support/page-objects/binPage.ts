@@ -6,9 +6,9 @@ export const binPage = {
   ...fileBrowser,
 
   // bin page specific file browser elements
-  recoverSelectedButton: () => cy.get("[data-testId=button-recover-selected-file]"),
-  deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
-  selectAllCheckbox: () => cy.get("[data-testId=checkbox-select-all]"),
+  recoverSelectedButton: () => cy.get("[data-testid=button-recover-selected-file]"),
+  deleteSelectedButton: () => cy.get("[data-testid=button-delete-selected-file]"),
+  selectAllCheckbox: () => cy.get("[data-testid=checkbox-select-all]"),
 
   // kebab menu elements
   recoverMenuOption: () => cy.get("[data-cy=menu-recover]"),
