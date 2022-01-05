@@ -356,7 +356,7 @@ const Button: React.FC<IButtonProps> = ({
       )}
       disabled={disabled || loading}
       {...rest}
-      data-testid={`button-${testId}`}
+      data-testId={`button-${testId}`}
     >
       {loading && (
         <>

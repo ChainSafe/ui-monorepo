@@ -210,7 +210,7 @@ const Modal = ({
       ref={ref}
     >
       <section
-        data-testid={`modal-container-${testId}`}
+        data-testId={`modal-container-${testId}`}
         style={
           maxWidth && typeof maxWidth == "number"
             ? {

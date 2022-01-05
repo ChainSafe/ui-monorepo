@@ -896,6 +896,9 @@ msgstr "Le nom d'utilisateur est trop long"
 msgid "Theme"
 msgstr "Thème"
 
+msgid "There are no notifications!"
+msgstr ""
+
 msgid "There was an error authenticating"
 msgstr "Une erreur s’est produite lors de l’authentification"
 
