@@ -49,6 +49,7 @@ const NotificationsDropdown = ({ notifications }: INotificationsDropdownProps) =
       dropdown={<NotificationList notifications={notifications}/>}
       hideIndicator={true}
       anchor="bottom-right"
+      autoclose
     >
       <Button variant="tertiary">
         <div className={classes.notificationsButton}>

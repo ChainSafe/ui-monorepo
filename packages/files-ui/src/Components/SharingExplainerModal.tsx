@@ -8,6 +8,7 @@ import { SETTINGS_BASE } from "./FilesRoutes"
 import step1Image from "../Media/sharingExplainer/step1.png"
 import step2Image from "../Media/sharingExplainer/step2.png"
 import step3Image from "../Media/sharingExplainer/step3.png"
+import step4Image from "../Media/sharingExplainer/step4.png"
 import { DISMISSED_SHARING_EXPLAINER_KEY } from "./Modules/FileBrowsers/hooks/useSharingExplainerModalFlag"
 import { useUser } from "../Contexts/UserContext"
 
@@ -69,7 +70,7 @@ interface Props {
   onHide: () => void
 }
 
-const STEP_NUMBER = 3
+const STEP_NUMBER = 4
 
 const SharingExplainerModal = ({ showModal, onHide }: Props) => {
   const classes = useStyles()
@@ -106,6 +107,19 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
       case 3:
         return <>
           <div className={classes.title}>
+            <Trans>Share links to your encrypted folders.</Trans>
+          </div>
+          <div className={classes.imageContainer}>
+            <img
+              className={classes.image}
+              src={step3Image}
+              alt={"share explainer step 3"}
+            />
+          </div>
+        </>
+      case 4:
+        return <>
+          <div className={classes.title}>
             <Trans>Create your public username in <Link
               className={classes.buttonLink}
               to={`${SETTINGS_BASE}/profile`}
@@ -115,8 +129,8 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
           <div className={classes.imageContainer}>
             <img
               className={classes.image}
-              src={step3Image}
-              alt={"share explainer step 3"}
+              src={step4Image}
+              alt={"share explainer step 4"}
             />
           </div>
         </>

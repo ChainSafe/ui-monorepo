@@ -785,6 +785,9 @@ msgstr "Partager"
 msgid "Share file"
 msgstr "Partager le fichier"
 
+msgid "Share links to your encrypted folders."
+msgstr ""
+
 msgid "Share selected"
 msgstr ""
 
@@ -892,6 +895,9 @@ msgstr "Le nom d'utilisateur est trop long"
 
 msgid "Theme"
 msgstr "Thème"
+
+msgid "There are no notifications!"
+msgstr ""
 
 msgid "There was an error authenticating"
 msgstr "Une erreur s’est produite lors de l’authentification"
