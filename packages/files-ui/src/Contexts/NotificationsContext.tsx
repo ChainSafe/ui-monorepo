@@ -1,5 +1,6 @@
 import  React, { ReactNode, useCallback, useState } from "react"
 import { Notification } from "../Components/Elements/Notifications/NotificationsDropdown"
+import { v4 as uuidv4 } from "uuid"
 
 type NotificationsContextProps = {
   children: ReactNode | ReactNode[]
@@ -7,7 +8,7 @@ type NotificationsContextProps = {
 
 interface INotificationsContext {
   notifications: Notification[]
-  addNotification: (notification: Omit<Notification, "id">) => void
+  addNotification: (notification: Omit<Notification, "id">) => string
   removeNotification: (id: string) => void
 }
 
@@ -19,10 +20,12 @@ const NotificationsProvider = ({ children }: NotificationsContextProps) => {
   const [notifications, setNotifications] = useState<Notification[]>([])
 
   const addNotification = useCallback((notification: Omit<Notification, "id">) => {
+    const id = uuidv4()
     setNotifications([...notifications, {
-      id: (notifications.length + 1).toString(),
+      id,
       ...notification
     }])
+    return id
   }, [notifications])
 
   const removeNotification = useCallback((id: string) => {
