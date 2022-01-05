@@ -785,6 +785,9 @@ msgstr "Partager"
 msgid "Share file"
 msgstr "Partager le fichier"
 
+msgid "Share links to your encrypted folders."
+msgstr ""
+
 msgid "Share selected"
 msgstr ""
 

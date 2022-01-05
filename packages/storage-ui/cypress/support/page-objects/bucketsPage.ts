@@ -14,10 +14,10 @@ export const bucketsPage = {
   nameTableHeader: () => cy.get("[data-cy=table-header-name]"),
   sizeTableHeader: () => cy.get("[data-cy=table-header-size]"),
   bucketItemName: () => cy.get("[data-cy=cell-bucket-name]"),
-  bucketRowKebabButton: () => cy.get("[data-testid=dropdown-title-bucket-kebab]"),
+  bucketRowKebabButton: () => cy.get("[data-testId=dropdown-title-bucket-kebab]"),
 
   // create bucket modal elements
-  createBucketForm: () => cy.get("[data-testid=form-create-bucket]", { timeout: 10000 }),
+  createBucketForm: () => cy.get("[data-testId=form-create-bucket]", { timeout: 10000 }),
   bucketNameInput: () => cy.get("[data-cy=input-bucket-name]", { timeout: 10000 }),
   createBucketCancelButton: () => cy.get("[data-cy=button-cancel-create]"),
   createBucketSubmitButton: () => cy.get("[data-cy=button-submit-create]", { timeout: 10000 }),

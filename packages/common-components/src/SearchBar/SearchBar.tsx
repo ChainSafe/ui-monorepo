@@ -227,7 +227,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           value={value}
           placeholder={placeholder}
           onChange={onChange}
-          data-testid={testId}
+          data-testId={testId}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
           <Spinner

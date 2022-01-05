@@ -1,5 +1,5 @@
 export const leaveSharedFolderModal = {
-  body: () => cy.get("[data-testid=modal-container-shared-folder-leave]"),
-  cancelButton: () => cy.get("[data-testid=button-cancel-deletion]"),
-  confirmButton: () => cy.get("[data-testid=button-confirm-deletion]", { timeout: 10000 })
+  body: () => cy.get("[data-testId=modal-container-shared-folder-leave]"),
+  cancelButton: () => cy.get("[data-testId=button-cancel-deletion]"),
+  confirmButton: () => cy.get("[data-testId=button-confirm-deletion]", { timeout: 10000 })
 }

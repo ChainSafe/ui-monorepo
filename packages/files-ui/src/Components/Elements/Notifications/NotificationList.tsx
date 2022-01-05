@@ -36,7 +36,7 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
     },
     icon: {
       transition: "none",
-      marginBottom: constants.generalUnit
+      marginBottom: 2 * constants.generalUnit
     },
     notificationTitle: {
       color: palette.additional["gray"][9],
