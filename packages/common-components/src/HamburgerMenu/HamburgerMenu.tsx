@@ -111,7 +111,7 @@ const HamburgerMenu = ({
     <section
       onClick={onClick}
       className={clsx(classes.root, variant, className)}
-      data-testid={testId}
+      data-testId={testId}
     >
       <div className={classes.inner}>
         <span></span>
