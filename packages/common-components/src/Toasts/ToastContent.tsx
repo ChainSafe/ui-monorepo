@@ -87,7 +87,7 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
   return (
     <div
       className={clsx(classes.root)}
-      data-testid={`toast-${toast.testId}`}
+      data-testId={`toast-${toast.testId}`}
     >
       {progress !== undefined
         ? <>
@@ -141,7 +141,7 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
       }
       {isClosable &&
         <div
-          data-testid={`button-close-toast-${toast.testId}`}
+          data-testId={`button-close-toast-${toast.testId}`}
           className={classes.closeIcon}
           onClick={onClose}
         >

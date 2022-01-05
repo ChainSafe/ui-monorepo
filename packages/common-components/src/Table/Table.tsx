@@ -91,7 +91,7 @@ const Table: React.FC<ITableProps> = ({
         },
         className
       )}
-      data-testid={`table-${testId}`}
+      data-testId={`table-${testId}`}
       {...rest}
     >
       {children}
