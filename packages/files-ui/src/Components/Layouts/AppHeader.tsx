@@ -17,7 +17,6 @@ import { CSFTheme } from "../../Themes/types"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
 import TeamModal from "../Elements/TeamModal"
 import NotificationsDropdown from "../Elements/Notifications/NotificationsDropdown"
-import { useNotifications } from "../../Contexts/NotificationsContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
@@ -146,7 +145,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const classes = useStyles()
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
-  const { notifications } = useNotifications()
   const [searchActive, setSearchActive] = useState(false)
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false)
 
@@ -205,9 +203,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 </Button>
               </section>
               <section>
-                <NotificationsDropdown
-                  notifications={notifications}
-                />
+                <NotificationsDropdown />
               </section>
             </section>
           ) : (
