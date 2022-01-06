@@ -814,6 +814,9 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share links to your encrypted folders."
+msgstr ""
+
 msgid "Share selected"
 msgstr ""
 
@@ -924,6 +927,9 @@ msgstr ""
 
 msgid "Theme"
 msgstr "Farbschema"
+
+msgid "There are no notifications!"
+msgstr ""
 
 msgid "There was an error authenticating"
 msgstr "Es gab einen Fehler bei der Authentifizierung"

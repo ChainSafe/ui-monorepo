@@ -210,7 +210,7 @@ const Modal = ({
       ref={ref}
     >
       <section
-        data-testid={`modal-container-${testId}`}
+        data-testId={`modal-container-${testId}`}
         style={
           maxWidth && typeof maxWidth == "number"
             ? {
@@ -223,6 +223,7 @@ const Modal = ({
       >
         {closePosition !== "none" && (
           <div
+            data-testid={`button-close-modal-${testId}`}
             onClick={handleClose}
             className={clsx(classes.closeIcon, injectedClass?.closeIcon, closePosition)}
           >
