@@ -111,7 +111,7 @@ const CryptoPayment = ({
 }: ICryptoPayment) => {
   const classes = useStyles()
   const { selectWallet } = useFilesApi()
-  const { isReady, network, provider, wallet, tokens } = useWeb3()
+  const { isReady, network, provider, wallet, tokens, switchNetwork, checkIsReady } = useWeb3()
   const { filesApiClient } = useFilesApi()
   const { currentSubscription } = useBilling()
   const [subResponse, setSubResponse] = useState<UpdateSubscriptionResponse | undefined>()
@@ -153,7 +153,6 @@ const CryptoPayment = ({
     if (!selectedPaymentMethod) return
 
     const signer = provider.getSigner()
-    console.log(selectedPaymentMethod)
     if (selectedCurrency === "ethereum") {
       signer.sendTransaction({
         to: selectedPaymentMethod.address,
@@ -172,7 +171,12 @@ const CryptoPayment = ({
         console.error(error)
       }
     }
-  }, [cryptoPayment?.payment_methods, provider, selectedCurrency, tokens])
+  }, [cryptoPayment, provider, selectedCurrency, tokens])
+
+  const handleSwitchNetwork = useCallback(async () => {
+    await switchNetwork(1)
+    await checkIsReady()
+  }, [checkIsReady, switchNetwork])
 
   return (
     <article className={classes.root}>
@@ -198,12 +202,21 @@ const CryptoPayment = ({
           <div>
             {timeRemaining}
           </div>
+          <div>
+            Total
+          </div>
+          <div>
+            {subResponse?.invoice?.amount}
+          </div>
           {!selectedCurrency && currencies &&
-            currencies.map(c => <Button
-              key={c}
-              onClick={() => setSelectedCurrency(c)}>
-              {c}
-            </Button>)
+            <>
+              <Typography>Select a cryptocurrency</Typography>
+              {currencies.map(c => <Button
+                key={c}
+                onClick={() => setSelectedCurrency(c)}>
+                {c}
+              </Button>)}
+            </>
           }
           {selectedCurrency &&
           <div>
@@ -218,7 +231,9 @@ const CryptoPayment = ({
               <Button onClick={selectWallet}><Trans>Connect Wallet</Trans></Button>
             }
             {selectedCurrency !== "bitcoin" && isReady && network !== 1 &&
-              <Button><Trans>Switch Network</Trans></Button>
+              <Button  onClick={handleSwitchNetwork}>
+                <Trans>Switch Network</Trans>
+              </Button>
             }
             {selectedCurrency !== "bitcoin" && isReady && network === 1 &&
               <Button onClick={handlePayment}><Trans>Pay with {wallet?.name}</Trans></Button>
