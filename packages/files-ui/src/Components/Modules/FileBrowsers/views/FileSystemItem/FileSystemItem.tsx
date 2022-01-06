@@ -428,13 +428,18 @@ const FileSystemItem = ({
 
   const fileOrFolderRef = useRef<any>()
 
-  if (!editing && isFolder) {
-    dropMoveRef(fileOrFolderRef)
-    dropUploadRef(fileOrFolderRef)
-  }
+  console.log(fileOrFolderRef)
 
-  if (!editing && !isFolder) {
-    desktop && dragMoveRef(fileOrFolderRef)
+  if (editing || !desktop) {
+    // clear ref
+    fileOrFolderRef.current = null
+  } else {
+    if (isFolder) {
+      dropMoveRef(fileOrFolderRef)
+      dropUploadRef(fileOrFolderRef)
+    } else {
+      dragMoveRef(fileOrFolderRef)
+    }
   }
 
   const onSingleClick = useCallback(
