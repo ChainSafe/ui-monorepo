@@ -22,8 +22,8 @@ export function getArrayOfPaths(path: string): string[] {
   }
 }
 
-// "/" -> []
-// "/path/to/this" -> ["path", "to", "this"]
+// [] -> "/"
+// ["path", "to", "this"] => "/path/to/this"
 export function joinArrayOfPaths(arrayOfPaths: string[]): string {
   if (!arrayOfPaths.length) return "/"
   else {
