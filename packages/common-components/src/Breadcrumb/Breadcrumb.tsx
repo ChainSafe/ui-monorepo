@@ -129,7 +129,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
           className={clsx(crumb.active && "active", classes.wrapper)}
         >
           <Typography
-            onClick={() => (crumb.onClick ? crumb.onClick() : null)}
+            onClick={() => crumb.onClick ? crumb.onClick()}
             className={clsx(classes.crumb, crumb.onClick && "clickable")}
             variant="body1"
           >
