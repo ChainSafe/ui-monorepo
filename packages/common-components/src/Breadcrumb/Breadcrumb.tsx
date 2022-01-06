@@ -209,7 +209,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         >
           <HomeIcon
             className={clsx(classes.home, homeOnClick && "clickable")}
-            onClick={() => (homeOnClick ? homeOnClick() : null)}
+            onClick={() => homeOnClick && homeOnClick()}
           />
         </div>
         {!!crumbs.length && <div className={clsx(classes.separator)} />}
