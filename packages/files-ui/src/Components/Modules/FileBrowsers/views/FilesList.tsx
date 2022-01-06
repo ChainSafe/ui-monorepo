@@ -830,9 +830,9 @@ const FilesList = ({ isShared = false }: Props) => {
       >
         {crumbs && moduleRootPath && (
           <Breadcrumb
-            crumbs={crumbs.map((crumb) => ({
+            crumbs={crumbs.map((crumb, i) => ({
               ...crumb,
-              component: <FolderBreadcrumb
+              component: (i < crumbs.length - 1) && <FolderBreadcrumb
                 folderName={crumb.text}
                 onClick={crumb.onClick}
                 handleMove={(item) => {
