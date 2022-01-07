@@ -12,9 +12,9 @@ export const homePage = {
   surveyBanner: () => cy.get("[data-cy=banner-survey]"),
   newFolderButton: () => cy.get("[data-cy=button-new-folder]"),
   uploadButton: () => cy.get("[data-cy=button-upload-file]"),
-  moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
-  deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
-  selectAllCheckbox: () => cy.get("[data-testId=checkbox-select-all]"),
+  moveSelectedButton: () => cy.get("[data-testid=button-move-selected-file]"),
+  deleteSelectedButton: () => cy.get("[data-testid=button-delete-selected-file]"),
+  selectAllCheckbox: () => cy.get("[data-testid=checkbox-select-all]"),
   fileRenameInput: () => cy.get("[data-cy=input-rename-file-or-folder]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=form-rename] span.minimal.error"),
 
