@@ -26,8 +26,7 @@ describe("Subscription Plan", () => {
 
       // ensure the modal disappeared and card shows on profile
       settingsPage.updateCardButton().should("be.visible")
-
+      // ToDo: add all the extra checks for validation
     })
-
   })
 })
