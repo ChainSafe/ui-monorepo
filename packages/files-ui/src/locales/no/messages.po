@@ -436,6 +436,9 @@ msgstr ""
 msgid "Go  back"
 msgstr ""
 
+msgid "Go Back"
+msgstr ""
+
 msgid "Go back"
 msgstr "Tilbake"
 
@@ -468,6 +471,9 @@ msgstr ""
 
 msgid "Info"
 msgstr "Info"
+
+msgid "Insufficient balance"
+msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
@@ -516,9 +522,6 @@ msgstr ""
 
 msgid "Monthly billing"
 msgstr ""
-
-#~ msgid "Monthly billing======="
-#~ msgstr ""
 
 msgid "Move"
 msgstr "Flytt"
@@ -653,9 +656,6 @@ msgid "Payment method"
 msgstr ""
 
 msgid "Plan changed successfully"
-msgstr ""
-
-msgid "Plan details"
 msgstr ""
 
 msgid "Please enter a file name"
@@ -900,9 +900,6 @@ msgstr ""
 
 msgid "Switch Plan"
 msgstr ""
-
-#~ msgid "Switch Plans"
-#~ msgstr ""
 
 msgid "Switch to Free plan"
 msgstr ""

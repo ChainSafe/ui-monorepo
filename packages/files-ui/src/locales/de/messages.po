@@ -436,6 +436,9 @@ msgstr ""
 msgid "Go  back"
 msgstr ""
 
+msgid "Go Back"
+msgstr ""
+
 msgid "Go back"
 msgstr "Zurück"
 
@@ -468,6 +471,9 @@ msgstr ""
 
 msgid "Info"
 msgstr "Infos"
+
+msgid "Insufficient balance"
+msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Ich bin fertig mit dem Speichern meines Sixherungsgeheimsatzes"
@@ -650,9 +656,6 @@ msgid "Payment method"
 msgstr ""
 
 msgid "Plan changed successfully"
-msgstr ""
-
-msgid "Plan details"
 msgstr ""
 
 msgid "Please enter a file name"

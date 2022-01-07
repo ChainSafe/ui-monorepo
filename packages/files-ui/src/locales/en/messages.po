@@ -439,6 +439,9 @@ msgstr "Give view-only permission to:"
 msgid "Go  back"
 msgstr "Go  back"
 
+msgid "Go Back"
+msgstr "Go Back"
+
 msgid "Go back"
 msgstr "Go back"
 
@@ -471,6 +474,9 @@ msgstr "If you think this file does not comply with our <0>Terms of Service</0>,
 
 msgid "Info"
 msgstr "Info"
+
+msgid "Insufficient balance"
+msgstr "Insufficient balance"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
@@ -654,9 +660,6 @@ msgstr "Payment method"
 
 msgid "Plan changed successfully"
 msgstr "Plan changed successfully"
-
-msgid "Plan details"
-msgstr "Plan details"
 
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
