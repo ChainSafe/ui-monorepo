@@ -2,6 +2,7 @@ import React from "react"
 import { Button, BellIcon, MenuDropdown } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import NotificationList from "./NotificationList"
+import { useNotifications } from "../../../Contexts/NotificationsContext"
 
 const useStyles = makeStyles(({ palette, constants }: ITheme) =>
   createStyles({
@@ -31,17 +32,15 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
 )
 
 export interface Notification {
+  id: string
   title: string
   createdAt: number
   onClick?: () => void
 }
 
-interface INotificationsDropdownProps {
-  notifications: Notification[]
-}
-
-const NotificationsDropdown = ({ notifications }: INotificationsDropdownProps) => {
+const NotificationsDropdown = () => {
   const classes = useStyles()
+  const { notifications } = useNotifications()
 
   return (
     <MenuDropdown

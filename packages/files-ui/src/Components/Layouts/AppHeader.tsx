@@ -203,9 +203,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 </Button>
               </section>
               <section>
-                <NotificationsDropdown
-                  notifications={[]}
-                />
+                <NotificationsDropdown />
               </section>
             </section>
           ) : (
