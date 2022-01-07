@@ -16,6 +16,7 @@ import { FilesApiProvider }  from "./Contexts/FilesApiContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
 import { PosthogProvider } from "./Contexts/PosthogContext"
+import { NotificationsProvider } from "./Contexts/NotificationsContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -125,19 +126,21 @@ const App = () => {
                   enableLogging={directAuthNetwork !== "mainnet"}
                   network={directAuthNetwork}
                 >
-                  <UserProvider>
-                    <FilesProvider>
-                      <BillingProvider>
-                        <Router>
-                          <PosthogProvider>
-                            <AppWrapper>
-                              <FilesRoutes />
-                            </AppWrapper>
-                          </PosthogProvider>
-                        </Router>
-                      </BillingProvider>
-                    </FilesProvider>
-                  </UserProvider>
+                  <NotificationsProvider>
+                    <UserProvider>
+                      <FilesProvider>
+                        <BillingProvider>
+                          <Router>
+                            <PosthogProvider>
+                              <AppWrapper>
+                                <FilesRoutes />
+                              </AppWrapper>
+                            </PosthogProvider>
+                          </Router>
+                        </BillingProvider>
+                      </FilesProvider>
+                    </UserProvider>
+                  </NotificationsProvider>
                 </ThresholdKeyProvider>
               </FilesApiProvider>
             </Web3Provider>
