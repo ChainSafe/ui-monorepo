@@ -136,7 +136,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         <PaymentMethodSelector
           selectedProductPrice={selectedPrice}
           onClose={onClose}
-          goToSelectPlan={() => {
+          goBack={() => {
             setSlide("select")
           }}
           goToPlanDetails={() => {
@@ -155,9 +155,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         goToSelectPlan={() => {
           setSlide("select")
         }}
-        goToPlanDetails={() => {
-          setSlide("planDetails")
-        }}
         goToPaymentMethod={() => {
           setSlide("paymentMethod")
         }}
@@ -171,7 +168,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         <CryptoPayment
           plan={selectedPlan}
           planPrice={selectedPrice}
-          onClose={onClose} />
+          goBack={() => setSlide("confirmPlan")}/>
       }
       {slide === "planSuccess" && selectedPlan && selectedPrice && <PlanSuccess
         onClose={onClose}

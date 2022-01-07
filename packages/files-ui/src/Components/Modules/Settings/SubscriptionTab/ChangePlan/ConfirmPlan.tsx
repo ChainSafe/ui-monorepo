@@ -94,7 +94,6 @@ interface IConfirmPlan {
   plan: Product
   planPrice: ProductPrice
   goToSelectPlan: () => void
-  goToPlanDetails: () => void
   goToPaymentMethod: () => void
   onChangeSubscription: () => void
   loadingChangeSubscription: boolean

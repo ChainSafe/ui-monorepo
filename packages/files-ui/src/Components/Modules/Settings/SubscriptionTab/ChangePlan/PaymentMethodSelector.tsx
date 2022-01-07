@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Breadcrumb, Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
+import { Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import AddCard from "../AddCard/AddCard"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -79,12 +79,12 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 interface IPaymentMethodProps {
   selectedProductPrice: ProductPrice
   onClose: () => void
-  goToSelectPlan: () => void
+  goBack: () => void
   goToPlanDetails: () => void
   onSelectPaymentMethod: (paymentMethod: "creditCard" | "crypto") => void
 }
 
-const PaymentMethodSelector = ({ selectedProductPrice, onClose, goToSelectPlan, goToPlanDetails, onSelectPaymentMethod }: IPaymentMethodProps) => {
+const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMethod }: IPaymentMethodProps) => {
   const classes = useStyles()
   const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
   const [view, setView] = useState<"selectPaymentMethod" | "addCard">("selectPaymentMethod")
@@ -98,18 +98,6 @@ const PaymentMethodSelector = ({ selectedProductPrice, onClose, goToSelectPlan, 
 
   return (
     <article className={classes.root}>
-      <Breadcrumb
-        crumbs={[{
-          text: t`Change plan`,
-          onClick: goToSelectPlan
-        }, {
-          text: t`Plan details`,
-          onClick: goToPlanDetails
-        }, {
-          text: t`Payment method`
-        }]}
-        hideHome={true}
-      />
       <Typography
         variant="h5"
         component="h4"
@@ -171,10 +159,10 @@ const PaymentMethodSelector = ({ selectedProductPrice, onClose, goToSelectPlan, 
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
-            onClick={onClose}
-            variant="secondary"
+            onClick={goBack}
+            variant="text"
           >
-            <Trans>Cancel</Trans>
+            <Trans>Go Back</Trans>
           </Button>
           <Button
             variant="primary"

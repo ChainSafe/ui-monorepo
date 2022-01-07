@@ -189,7 +189,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
         <div className={classes.buttons}>
           <Button
             onClick={() => goToSelectPlan()}
-            variant="secondary"
+            variant="text"
           >
             <Trans>Go back</Trans>
           </Button>
