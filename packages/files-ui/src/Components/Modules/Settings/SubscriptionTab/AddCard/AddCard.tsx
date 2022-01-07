@@ -155,7 +155,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
     <form onSubmit={handleSubmitPaymentMethod}>
       <div
         className={classes.root}
-        data-cy="form-add-card"
+        data-cy="modal-add-card"
       >
         <CardNumberElement
           className={clsx(
@@ -229,25 +229,25 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
           </div>
           {onClose &&
             <CustomButton
-              data-cy="button-cancel-create-folder"
               onClick={onClose}
               size="medium"
               className={classes.cancelButton}
               variant="outline"
               type="button"
               disabled={loadingPaymentMethodAdd}
+              data-cy="button-cancel-add-card"
             >
               <Trans>Cancel</Trans>
             </CustomButton>
           }
           <Button
-            data-cy="button-create-folder"
             size="medium"
             variant="primary"
             type="submit"
             className={classes.okButton}
             loading={loadingPaymentMethodAdd}
             disabled={loadingPaymentMethodAdd}
+            data-cy="button-add-card"
           >
             {submitText}
           </Button>

@@ -69,6 +69,7 @@ const CurrentCard: React.FC = () => {
             <Typography
               variant="body1"
               component="p"
+              data-cy="label-default-card"
             >
               •••• •••• •••• {defaultCard.last_four_digit}
             </Typography>
@@ -77,6 +78,7 @@ const CurrentCard: React.FC = () => {
               component="p"
               className={classes.linkButton}
               onClick={() => setIsDeleteCardModalOpen(true)}
+              data-cy="link-remove-card"
             >
               <Trans>Remove</Trans>
             </Typography>
@@ -85,11 +87,17 @@ const CurrentCard: React.FC = () => {
             component="p"
             variant="body1"
             className={classes.noCard}
+            data-cy="label-no-card"
           >
             <Trans>No Card</Trans>
           </Typography>
         }
-        <Button onClick={() => setIsAddCardModalOpen(true)}>
+        <Button
+          {...(defaultCard
+            ? { testId: "update-card" }
+            : { testId: "add-card" }
+          )}
+          onClick={() => setIsAddCardModalOpen(true)}>
           {defaultCard
             ? <Trans>Update Card</Trans>
             : <Trans>Add Card</Trans>

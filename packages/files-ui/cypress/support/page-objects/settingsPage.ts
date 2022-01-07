@@ -2,6 +2,8 @@ import { basePage } from "./basePage"
 
 export const settingsPage = {
   ...basePage,
+
+  // profile tab
   profileTabButton: () => cy.get("[data-testId=tab-profile]"),
   profileTabHeader: () => cy.get("[data-cy=label-profile-header]"),
   firstNameInput: () => cy.get("[data-cy=input-profile-firstname]"),
@@ -12,7 +14,13 @@ export const settingsPage = {
   usernameErrorLabel: () => cy.get("[data-cy=input-profile-username] span.error"),
   setUsernameButton: () => cy.get("[data-cy=button-set-username]"),
   usernamePresentInput: () => cy.get("[data-cy=input-profile-username-present]"),
+
+  // security tab
   securityTabButton: () => cy.get("[data-testId=tab-security]"),
   securityTabHeader: () => cy.get("[data-cy=label-security-header]"),
-  subscriptionTabButton: () => cy.get("[data-testId=tab-subscription]")
+
+  // subscription tab
+  subscriptionTabButton: () => cy.get("[data-testId=tab-subscription]"),
+  addCardButton: () => cy.get("[data-testid=button-add-card]"),
+  updateCardButton: () => cy.get("[data-testId=button-update-card]")
 }
