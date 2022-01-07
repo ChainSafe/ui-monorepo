@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice, UpdateSubscriptionResponse } from "@chainsafe/files-api-client"
-import { BitcoinIcon, Button, CircularProgressBar, DaiIcon, Divider, EthereumIcon, EthereumLogoIcon, Typography, UsdcIcon } from "@chainsafe/common-components"
+import { BitcoinIcon, Button, CircularProgressBar, CopyIcon, DaiIcon, Divider, EthereumIcon, Typography, UsdcIcon } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration"
@@ -11,10 +11,11 @@ import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
 import QRCode from "react-qr-code"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { utils } from "ethers"
+import clsx from "clsx"
 
 dayjs.extend(duration)
 
-const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
@@ -126,6 +127,54 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
         fill: palette.primary.main,
         height: 16
       }
+    },
+    copiedFlag: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      left: "50%",
+      bottom: "calc(100% + 8px)",
+      position: "absolute",
+      transform: "translate(-50%, 0%)",
+      zIndex: zIndex?.layer1,
+      transitionDuration: `${animation.transform}ms`,
+      opacity: 0,
+      visibility: "hidden",
+      backgroundColor: palette.additional["gray"][9],
+      color: palette.additional["gray"][1],
+      padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
+      borderRadius: 2,
+      "&:after": {
+        transitionDuration: `${animation.transform}ms`,
+        content: "''",
+        position: "absolute",
+        top: "100%",
+        left: "50%",
+        transform: "translate(-50%,0)",
+        width: 0,
+        height: 0,
+        borderLeft: "5px solid transparent",
+        borderRight: "5px solid transparent",
+        borderTop: `5px solid ${palette.additional["gray"][9]}`
+      },
+      "&.active": {
+        opacity: 1,
+        visibility: "visible"
+      }
+    },
+    copyIcon: {
+      fontSize: "16px",
+      fill: palette.additional["gray"][9],
+      [breakpoints.down("md")]: {
+        fontSize: "18px",
+        fill: palette.additional["gray"][9]
+      }
+    },
+    copyRow: {
+      cursor: "pointer",
+      borderRadius: 10,
+      backgroundColor: "var(--gray4)"
     }
   })
 )
@@ -150,12 +199,43 @@ const CryptoPayment = ({
   const [timeRemaining, setTimeRemaining] = useState<string | undefined>()
   const pageLoadTimestamp = useRef(dayjs().unix())
 
+  const [copiedDestinationAddress, setCopiedDestinationAddress] = useState(false)
+  const [copiedAmount, setCopiedAmount] = useState(false)
+  const debouncedSwitchCopiedDestinationAddress = debounce(() => setCopiedDestinationAddress(false), 3000)
+  const debouncedSwitchCopiedAmount = debounce(() => setCopiedAmount(false), 3000)
+
+  const onCopyDestinationAddress = () => {
+    if (cryptoPayment) {
+      navigator.clipboard.writeText(cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address || "")
+        .then(() => {
+          setCopiedDestinationAddress(true)
+          debouncedSwitchCopiedDestinationAddress()
+        }).catch(console.error)
+    }
+  }
+
+  const onCopyAmount = () => {
+    if (cryptoPayment) {
+      navigator.clipboard.writeText(cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.amount || "")
+        .then(() => {
+          setCopiedAmount(true)
+          debouncedSwitchCopiedAmount()
+        }).catch(console.error)
+    }
+  }
 
   const iconMap: {[key: string]: React.FC<any>} = {
     ethereum: EthereumIcon,
     bitcoin: BitcoinIcon,
     dai: DaiIcon,
     usdc: UsdcIcon
+  }
+
+  const symbolMap: {[key: string]: string} = {
+    ethereum: "ETH",
+    bitcoin: "BTC",
+    dai: "DAI",
+    usdc: "USDC"
   }
 
   useEffect(() => {
@@ -292,7 +372,9 @@ const CryptoPayment = ({
           {selectedCurrency &&
             <>
               <div className={classes.qrCode}>
-                <QRCode value={cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address || "0x"} />
+                <QRCode
+                  value={cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address || "0x"}
+                  size={128} />
               </div>
               <div className={classes.qrCodeLabel}>
                 <Typography>
@@ -300,16 +382,38 @@ const CryptoPayment = ({
                 </Typography>
               </div>
               <Divider />
-              <div className={classes.rowBox}>
-                <Typography><Trans>Destination Address</Trans></Typography>
+              <Typography><Trans>Destination Address</Trans></Typography>
+              <div
+                className={clsx(classes.rowBox, classes.copyRow)}
+                onClick={onCopyDestinationAddress}>
+                <Typography>{cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address}</Typography>
                 <div className={classes.pushRightBox}>
-                  <Typography>{cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address}</Typography>
+                  <CopyIcon className={classes.copyIcon} />
+                  <div className={clsx(classes.copiedFlag, { "active": copiedDestinationAddress })}>
+                    <span>
+                      <Trans>
+                        Copied!
+                      </Trans>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className={classes.rowBox}>
-                <Typography><Trans>Total Amount</Trans></Typography>
+              <Typography><Trans>Total Amount</Trans></Typography>
+              <div
+                className={clsx(classes.rowBox, classes.copyRow)}
+                onClick={onCopyAmount}>
+                <Typography>
+                  {cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.amount} {symbolMap[selectedCurrency]}
+                </Typography>
                 <div className={classes.pushRightBox}>
-                  <Typography>{cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.amount}</Typography>
+                  <CopyIcon className={classes.copyIcon} />
+                  <div className={clsx(classes.copiedFlag, { "active": copiedAmount })}>
+                    <span>
+                      <Trans>
+                        Copied!
+                      </Trans>
+                    </span>
+                  </div>
                 </div>
               </div>
             </>
