@@ -158,6 +158,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
         data-cy="modal-add-card"
       >
         <CardNumberElement
+          id="iframe-card-number"
           className={clsx(
             classes.cardInputs,
             classes.cardNumberInputs,
@@ -174,6 +175,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
         />
         <div className={classes.expiryCvcContainer}>
           <CardExpiryElement
+            id="iframe-card-expiry"
             className={clsx(
               classes.cardInputs,
               focusElement === "expiry" && classes.cardInputsFocus
@@ -188,6 +190,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             } }}
           />
           <CardCvcElement
+            id="iframe-card-cvc"
             className={clsx(
               classes.cardInputs,
               focusElement === "cvc" && classes.cardInputsFocus

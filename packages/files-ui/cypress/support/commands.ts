@@ -135,6 +135,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element?: JQuery<HTMLElement>) => {
   const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
+
   return cy
     .wrap($element)
     .should("be.visible")
@@ -142,6 +143,31 @@ Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element?: JQuery
     .pipe(click)
     .should($el => expect($el).to.not.be.visible)
 })
+
+Cypress.Commands.add("iframeLoaded", { prevSubject: "element" }, ($iframe?: JQuery<HTMLElement>): any => {
+  const contentWindow = $iframe?.prop("contentWindow")
+  return new Promise(resolve => {
+    if (
+      contentWindow &&
+              contentWindow.document.readyState === "complete"
+    ) {
+      resolve(contentWindow)
+    } else {
+      $iframe?.on("load", () => {
+        resolve(contentWindow)
+      })
+    }
+  })
+})
+
+Cypress.Commands.add("getInDocument", { prevSubject: "document" }, (document: any, selector: keyof HTMLElementTagNameMap) =>
+  Cypress.$(selector, document))
+
+Cypress.Commands.add("getWithinIframe", (targetElement: any, selector: string) =>
+  cy.get(selector || "iframe")
+    .iframeLoaded()
+    .its("document")
+    .getInDocument(targetElement))
 
 // Must be declared global to be detected by typescript (allows import/export)
 // eslint-disable @typescript/interface-name
@@ -180,6 +206,10 @@ declare global {
        * @example cy.clearBucket("csf")
        */
       clearBucket: (bucketType: ClearBucketType) => void
+      iframeLoaded: ($iframe?: JQuery<HTMLElement>) => any
+      getInDocument: (document: any, selector: keyof HTMLElementTagNameMap) => JQuery<HTMLElement>
+      getWithinIframe: (targetElement: string, selector: string) => Chainable
+
     }
   }
 }

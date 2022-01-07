@@ -18,14 +18,19 @@ describe("Subscription Plan", () => {
       settingsPage.addCardButton().click()
       addCardModal.body().should("be.visible")
       // this is where we start to have problems with the iframe inputs
-      addCardModal.cardNumberInput()
+      cy.getWithinIframe("[data-elements-stable-field-name=cardNumber]", "#iframe-card-number iframe")
         .type(visaCardNumber)
-      addCardModal.expiryDateInput().type(cardExpirationDate)
-      addCardModal.cvcNumberInput().type(cardCvcNumber)
+
+      cy.getWithinIframe("[data-elements-stable-field-name=cardExpiry]", "#iframe-card-expiry iframe")
+        .type(cardExpirationDate)
+
+      cy.getWithinIframe("[data-elements-stable-field-name=cardCvc]", "#iframe-card-cvc iframe")
+        .type(cardCvcNumber)
+
       addCardModal.addCardButton().safeClick()
 
       // ensure the modal disappeared and card shows on profile
-      settingsPage.updateCardButton().should("be.visible")
+      settingsPage.addCardButton().should("be.visible")
       // ToDo: add all the extra checks for validation
     })
   })
