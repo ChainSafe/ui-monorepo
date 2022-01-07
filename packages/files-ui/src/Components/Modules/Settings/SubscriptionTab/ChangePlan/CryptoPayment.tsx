@@ -2,7 +2,16 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice, UpdateSubscriptionResponse } from "@chainsafe/files-api-client"
-import { BitcoinIcon, Button, CircularProgressBar, CopyIcon, DaiIcon, Divider, EthereumIcon, Typography, UsdcIcon } from "@chainsafe/common-components"
+import {
+  BitcoinIcon,
+  Button,
+  CircularProgressBar,
+  CopyIcon, DaiIcon,
+  Divider,
+  EthereumIcon,
+  Typography,
+  UsdcIcon
+} from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration"
@@ -174,7 +183,8 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
     copyRow: {
       cursor: "pointer",
       borderRadius: 10,
-      backgroundColor: "var(--gray4)"
+      backgroundColor: "var(--gray4)",
+      padding: "5px 10px"
     }
   })
 )
