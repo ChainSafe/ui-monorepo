@@ -16,10 +16,10 @@ export const cidsPage = {
   sizeTableHeader: () => cy.get("[data-cy=table-header-size]"),
   statusTableHeader: () => cy.get("[data-cy=table-header-status]"),
   cidItemRow: () => cy.get("[data-cy=row-cid-item]", { timeout: 20000 }),
-  cidRowKebabButton: () => cy.get("[data-testId=dropdown-title-cid-kebab]"),
+  cidRowKebabButton: () => cy.get("[data-testid=dropdown-title-cid-kebab]"),
 
   // pin cid modal elements
-  pinCidForm: () => cy.get("[data-testId=form-create-bucket]"),
+  pinCidForm: () => cy.get("[data-testid=form-create-bucket]"),
   cidInput: () => cy.get("[data-cy=input-cid]"),
   pinCancelButton: () => cy.get("[data-cy=button-cancel-add-pin]"),
   pinSubmitButton: () => cy.get("[data-cy=button-submit-pin]"),

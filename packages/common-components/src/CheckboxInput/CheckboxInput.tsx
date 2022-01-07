@@ -130,7 +130,7 @@ const CheckboxInput: React.FC<ICheckboxProps> = ({
   return (
     <label
       className={clsx(classes.root, className)}
-      data-testId={`checkbox-${testId}`}
+      data-testid={`checkbox-${testId}`}
     >
       <input
         type="checkbox"
