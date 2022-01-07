@@ -16,6 +16,12 @@ import { FilesApiProvider }  from "./Contexts/FilesApiContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
 import { PosthogProvider } from "./Contexts/PosthogContext"
+import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: "c",
+  disableGlobal: true
+})
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -93,55 +99,55 @@ const App = () => {
   ), [])
 
   return (
-
-    <ThemeSwitcher
-      storageKey="csf.themeKey"
-      themes={{ light: lightTheme, dark: darkTheme }}
-    >
-      <ErrorBoundary
-        fallback={fallBack}
-        onReset={() => window.location.reload()}
+    <StylesProvider generateClassName={generateClassName}>
+      <ThemeSwitcher
+        storageKey="csf.themeKey"
+        themes={{ light: lightTheme, dark: darkTheme }}
       >
-        <CssBaseline />
-        <LanguageProvider availableLanguages={availableLanguages}>
-          <ToastProvider
-            autoDismiss
-            defaultPosition="bottomRight"
-          >
-            <Web3Provider
-              onboardConfig={onboardConfig}
-              checkNetwork={false}
-              cacheWalletSelection={canUseLocalStorage}
+        <ErrorBoundary
+          fallback={fallBack}
+          onReset={() => window.location.reload()}
+        >
+          <CssBaseline />
+          <LanguageProvider availableLanguages={availableLanguages}>
+            <ToastProvider
+              autoDismiss
+              defaultPosition="bottomRight"
             >
-              <FilesApiProvider
-                apiUrl={apiUrl}
-                withLocalStorage={false}
+              <Web3Provider
+                onboardConfig={onboardConfig}
+                checkNetwork={false}
+                cacheWalletSelection={canUseLocalStorage}
               >
-                <ThresholdKeyProvider
-                  enableLogging={directAuthNetwork !== "mainnet"}
-                  network={directAuthNetwork}
+                <FilesApiProvider
+                  apiUrl={apiUrl}
+                  withLocalStorage={false}
                 >
-                  <UserProvider>
-                    <FilesProvider>
-                      <BillingProvider>
-                        <Router>
-                          <PosthogProvider>
-                            <AppWrapper>
-                              <FilesRoutes />
-                            </AppWrapper>
-                          </PosthogProvider>
-                        </Router>
-                      </BillingProvider>
-                    </FilesProvider>
-                  </UserProvider>
-                </ThresholdKeyProvider>
-              </FilesApiProvider>
-            </Web3Provider>
-          </ToastProvider>
-        </LanguageProvider>
-      </ErrorBoundary>
-    </ThemeSwitcher>
-
+                  <ThresholdKeyProvider
+                    enableLogging={directAuthNetwork !== "mainnet"}
+                    network={directAuthNetwork}
+                  >
+                    <UserProvider>
+                      <FilesProvider>
+                        <BillingProvider>
+                          <Router>
+                            <PosthogProvider>
+                              <AppWrapper>
+                                <FilesRoutes />
+                              </AppWrapper>
+                            </PosthogProvider>
+                          </Router>
+                        </BillingProvider>
+                      </FilesProvider>
+                    </UserProvider>
+                  </ThresholdKeyProvider>
+                </FilesApiProvider>
+              </Web3Provider>
+            </ToastProvider>
+          </LanguageProvider>
+        </ErrorBoundary>
+      </ThemeSwitcher>
+    </StylesProvider>
   )
 }
 
