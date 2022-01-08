@@ -832,7 +832,7 @@ const FilesList = ({ isShared = false }: Props) => {
           <Breadcrumb
             crumbs={crumbs.map((crumb, i) => ({
               ...crumb,
-              component: (i < crumbs.length - 1) && <FolderBreadcrumb
+              component: (i < crumbs.length - 1) ? <FolderBreadcrumb
                 folderName={crumb.text}
                 onClick={crumb.onClick}
                 handleMove={(item) => {
@@ -842,7 +842,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 handleUpload={(item) => handleUploadOnDrop &&
                   crumb.path &&
                   handleUploadOnDrop(item.files, item.items, crumb.path)}
-              />
+              /> : null
             }))
             }
             homeOnClick={() => redirect(moduleRootPath)}

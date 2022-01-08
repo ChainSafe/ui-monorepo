@@ -11,7 +11,7 @@ export type Crumb = {
   onClick?: () => void
   forwardedRef?: React.Ref<HTMLDivElement>
   active?: boolean
-  component?: React.ReactElement
+  component?: React.ReactElement | null
 }
 
 export type BreadcrumbProps = {

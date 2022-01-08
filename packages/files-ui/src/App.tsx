@@ -19,6 +19,7 @@ import { PosthogProvider } from "./Contexts/PosthogContext"
 import { NotificationsProvider } from "./Contexts/NotificationsContext"
 import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
 
+// making material and jss use one className generator
 const generateClassName = createGenerateClassName({
   productionPrefix: "c",
   disableGlobal: true
