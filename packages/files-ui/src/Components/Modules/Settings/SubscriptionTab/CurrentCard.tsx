@@ -94,8 +94,8 @@ const CurrentCard: React.FC = () => {
         }
         <Button
           {...(defaultCard
-            ? { testId: "update-card" }
-            : { testId: "add-card" }
+            ? { testId: "update-a-card" }
+            : { testId: "add-a-card" }
           )}
           onClick={() => setIsAddCardModalOpen(true)}>
           {defaultCard
@@ -115,9 +115,10 @@ const CurrentCard: React.FC = () => {
         requestMessage={t`Are you sure? This will delete your default payment method.`}
         rejectText={t`Cancel`}
         acceptText={t`Confirm`}
-        acceptButtonProps={{ loading: isDeleteCardLoading, disabled: isDeleteCardLoading }}
-        rejectButtonProps={{ disabled: isDeleteCardLoading }}
+        acceptButtonProps={{ loading: isDeleteCardLoading, disabled: isDeleteCardLoading, testId: "confirm-remove" }}
+        rejectButtonProps={{ disabled: isDeleteCardLoading, testId: "cancel-remove" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
+        testId="remove-card-confirmation"
       />
     </>
   )

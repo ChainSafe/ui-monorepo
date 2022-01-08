@@ -143,7 +143,11 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
       refreshDefaultCard()
       onCardAdd && onCardAdd()
       setLoadingPaymentMethodAdd(false)
-      addToast({ title: isUpdate ? t`Card updated` : t`Card added`, type: "success" })
+      addToast({
+        title: isUpdate ? t`Card updated` : t`Card added`,
+        type: "success",
+        testId: isUpdate ? "card-updated" : "card-added"
+      })
     } catch (error) {
       console.error(error)
       setLoadingPaymentMethodAdd(false)
@@ -155,7 +159,6 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
     <form onSubmit={handleSubmitPaymentMethod}>
       <div
         className={classes.root}
-        data-cy="modal-add-card"
       >
         <CardNumberElement
           id="iframe-card-number"
@@ -250,7 +253,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             className={classes.okButton}
             loading={loadingPaymentMethodAdd}
             disabled={loadingPaymentMethodAdd}
-            data-cy="button-add-card"
+            testId={isUpdate ? "update-card" : "add-card"}
           >
             {submitText}
           </Button>
