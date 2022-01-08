@@ -61,7 +61,7 @@ export default function Menu({ icon, options, style, testId, anchorOrigin, trans
   return (
     <div className={clsx(style?.menuWrapper)}>
       <div
-        data-testId={`icon-${testId}`}
+        data-testid={`icon-${testId}`}
         className={clsx(classes.iconContainer, style?.iconContainer)}
         onClick={handleClick}
       >

@@ -69,7 +69,7 @@ const Tabs = <TabKey, >({ className, children, activeKey, injectedClass, onTabSe
           ? children.map((elem, index) => {
             return (
               <li
-                data-testId={elem.props.testId}
+                data-testid={elem.props.testId}
                 key={index}
                 className={
                   clsx(
