@@ -11,7 +11,7 @@ export type Crumb = {
   onClick?: () => void
   forwardedRef?: React.Ref<HTMLDivElement>
   active?: boolean
-  component?: React.ReactNode
+  component?: React.ReactElement
 }
 
 export type BreadcrumbProps = {
@@ -110,7 +110,27 @@ const useStyles = makeStyles(
     })
 )
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({
+const CrumbComponent = ({ crumb }: {crumb: Crumb}) => {
+  const classes = useStyles()
+  return (
+    !crumb.component
+      ? <div
+        ref={crumb.forwardedRef}
+        className={clsx(crumb.active && "active", classes.wrapper)}
+      >
+        <Typography
+          onClick={() => crumb.onClick && crumb.onClick()}
+          className={clsx(classes.crumb, crumb.onClick && "clickable")}
+          variant="body1"
+        >
+          {crumb.text}
+        </Typography>
+      </div>
+      : crumb.component
+  )
+}
+
+const Breadcrumb = ({
   crumbs = [],
   homeOnClick,
   hideHome,
@@ -124,21 +144,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const generateFullCrumbs = (crumbs: Crumb[]) => {
     return crumbs.map((crumb: Crumb, index: number) => (
       <Fragment key={`crumb-${index}`}>
-        {!crumb.component
-          ? <div
-            ref={crumb.forwardedRef}
-            className={clsx(crumb.active && "active", classes.wrapper)}
-          >
-            <Typography
-              onClick={() => crumb.onClick && crumb.onClick()}
-              className={clsx(classes.crumb, crumb.onClick && "clickable")}
-              variant="body1"
-            >
-              {crumb.text}
-            </Typography>
-          </div>
-          : crumb.component
-        }
+        <CrumbComponent crumb={crumb} />
         {index < (crumbs.length - 1) && <div className={clsx(classes.separator)} />}
       </Fragment>
     ))
@@ -157,21 +163,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
           titleText: classes.menuTitleText
         }}
         menuItems={crumbs.map((crumb) => ({
-          contents: (
-            !crumb.component
-              ? <div
-                ref={crumb.forwardedRef}
-                className={clsx(classes.fullWidth, crumb.active && "active", classes.wrapper)}
-              >
-                <Typography
-                  variant="body1"
-                  onClick={() => (crumb.onClick ? crumb.onClick() : null)}
-                >
-                  {crumb.text}
-                </Typography>
-              </div>
-              : crumb.component
-          )
+          contents: <CrumbComponent crumb={crumb} />
         }))}
       />
     )
@@ -187,20 +179,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         <>
           {generateDropdownCrumb(dropdownCrumbs)}
           <div className={clsx(classes.separator)} />
-          {lastCrumb.component
-            ? <div
-              ref={lastCrumb.forwardedRef}
-              className={clsx(lastCrumb.active && "active", classes.wrapper)}
-            >
-              <Typography
-                onClick={() => (lastCrumb.onClick && lastCrumb.onClick())}
-                className={clsx(classes.crumb, lastCrumb.onClick && "clickable")}
-                variant="body1"
-              >
-                {lastCrumb.text}
-              </Typography>
-            </div>
-            : lastCrumb.component}
+          <CrumbComponent crumb={lastCrumb} />
         </>
       )
     }
