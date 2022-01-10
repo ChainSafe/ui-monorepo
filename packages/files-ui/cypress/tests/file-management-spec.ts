@@ -392,6 +392,7 @@ describe("File management", () => {
 
       // upload a file and ensure the storage space label adjusts
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      navigationMenu.spaceUsedProgressBar().should("be.visible")
       navigationMenu.spaceUsedLabel().should("not.contain.text", "0 Bytes")
 
       // delete the file from the bin and ensure the storage space label adjusts
@@ -407,6 +408,7 @@ describe("File management", () => {
       deleteFileModal.confirmButton().safeClick()
       deleteSuccessToast.body().should("be.visible")
       deleteSuccessToast.closeButton().click()
+      navigationMenu.spaceUsedProgressBar().should("be.visible")
       navigationMenu.spaceUsedLabel().should("contain.text", "0 Bytes")
     })
 
