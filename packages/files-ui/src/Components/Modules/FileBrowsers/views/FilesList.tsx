@@ -832,19 +832,20 @@ const FilesList = ({ isShared = false }: Props) => {
           <Breadcrumb
             crumbs={crumbs.map((crumb, i) => ({
               ...crumb,
-              component: (i < crumbs.length - 1) ? <FolderBreadcrumb
-                folderName={crumb.text}
-                onClick={crumb.onClick}
-                handleMove={(item) => {
-                  moveItems && crumb.path && moveItems(item.ids, crumb.path)
-                  setSelectedItems([])
-                }}
-                handleUpload={(item) => handleUploadOnDrop &&
+              component: (i < crumbs.length - 1)
+                ? <FolderBreadcrumb
+                  folderName={crumb.text}
+                  onClick={crumb.onClick}
+                  handleMove={(item) => {
+                    moveItems && crumb.path && moveItems(item.ids, crumb.path)
+                    setSelectedItems([])
+                  }}
+                  handleUpload={(item) => handleUploadOnDrop &&
                   crumb.path &&
                   handleUploadOnDrop(item.files, item.items, crumb.path)}
-              /> : null
-            }))
-            }
+                />
+                : null
+            }))}
             homeOnClick={() => redirect(moduleRootPath)}
             homeRef={homeBreadcrumbRef}
             homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
