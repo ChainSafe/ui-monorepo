@@ -436,9 +436,6 @@ msgstr ""
 msgid "Go  back"
 msgstr ""
 
-msgid "Go Back"
-msgstr ""
-
 msgid "Go back"
 msgstr "Tilbake"
 

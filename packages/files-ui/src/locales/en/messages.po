@@ -439,9 +439,6 @@ msgstr "Give view-only permission to:"
 msgid "Go  back"
 msgstr "Go  back"
 
-msgid "Go Back"
-msgstr "Go Back"
-
 msgid "Go back"
 msgstr "Go back"
 
