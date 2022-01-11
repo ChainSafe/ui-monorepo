@@ -19,7 +19,8 @@ export const BreadcrumbStory = (): React.ReactNode => {
   const crumbs = useMemo(() => ([
     {
       text: text("breadcrumb 2", "Level 1 Clickable"),
-      onClick: () => actionsData.linkClick()
+      onClick: () => actionsData.linkClick(),
+      active: boolean("breadcrumb-2-active", false)
     },
     {
       text: "Level 2"
@@ -36,6 +37,7 @@ export const BreadcrumbStory = (): React.ReactNode => {
     <>
       <Breadcrumb
         homeOnClick={() => actionsData.homeClicked()}
+        homeActive={boolean("home-active", false)}
         showDropDown={boolean("show dropdown", true)}
         crumbs={crumbs}
         hideHome={boolean("hide home", false)}
