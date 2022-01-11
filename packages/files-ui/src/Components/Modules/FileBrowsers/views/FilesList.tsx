@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import {
   Divider,
   PlusIcon,
@@ -57,6 +57,8 @@ import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalF
 import { ListItemIcon, ListItemText } from "@material-ui/core"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
+import { DragTypes } from "../DragConstants"
+import FolderBreadcrumb from "./FolderBreadcrumb"
 
 const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -341,6 +343,7 @@ const FilesList = ({ isShared = false }: Props) => {
     handleUploadOnDrop,
     bulkOperations,
     crumbs,
+    moveItems,
     renameItem: handleRename,
     deleteItems: deleteFiles,
     viewFolder,
@@ -491,7 +494,7 @@ const FilesList = ({ isShared = false }: Props) => {
     }
   }, [selectedItems.length, items])
 
-  const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
+  const [{ isOverBrowserOnlyAndUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any, monitor) => {
       if (monitor.isOver({ shallow: true })) {
@@ -503,10 +506,37 @@ const FilesList = ({ isShared = false }: Props) => {
     },
     collect: (monitor) => ({
       isOverBrowser: monitor.isOver(),
-      isOverUploadable: monitor.isOver({ shallow: true }),
-      canDrop: monitor.canDrop()
+      isOverBrowserOnlyAndUploadable: monitor.isOver({ shallow: true })
     })
   })
+
+  const [{ isOverUploadHomeBreadcrumb }, dropUploadHomeBreadcrumbRef] = useDrop({
+    accept: [NativeTypes.FILE],
+    drop: (item: {
+      files: File[]
+      items:DataTransferItemList
+    }) => {
+      handleUploadOnDrop && handleUploadOnDrop(item.files, item.items, "/")
+    },
+    collect: (monitor) => ({
+      isOverUploadHomeBreadcrumb: monitor.isOver()
+    })
+  })
+
+  const [{ isOverMoveHomeBreadcrumb }, dropMoveHomeBreadcrumbRef] = useDrop({
+    accept: DragTypes.MOVABLE_FILE,
+    drop: (item: { ids: string[]}) => {
+      moveItems && moveItems(item.ids, "/")
+      setSelectedItems([])
+    },
+    collect: (monitor) => ({
+      isOverMoveHomeBreadcrumb: monitor.isOver()
+    })
+  })
+
+  const homeBreadcrumbRef  =  useRef<HTMLDivElement>(null)
+  dropMoveHomeBreadcrumbRef(homeBreadcrumbRef)
+  dropUploadHomeBreadcrumbRef(homeBreadcrumbRef)
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
@@ -773,7 +803,7 @@ const FilesList = ({ isShared = false }: Props) => {
   return (
     <article
       className={clsx(classes.root, {
-        droppable: isOverUploadable && allowDropUpload
+        droppable: isOverBrowserOnlyAndUploadable && allowDropUpload
       }, {
         bottomBanner: accountRestricted
       }
@@ -800,8 +830,25 @@ const FilesList = ({ isShared = false }: Props) => {
       >
         {crumbs && moduleRootPath && (
           <Breadcrumb
-            crumbs={crumbs}
+            crumbs={crumbs.map((crumb, i) => ({
+              ...crumb,
+              component: (i < crumbs.length - 1)
+                ? <FolderBreadcrumb
+                  folderName={crumb.text}
+                  onClick={crumb.onClick}
+                  handleMove={(item) => {
+                    moveItems && crumb.path && moveItems(item.ids, crumb.path)
+                    setSelectedItems([])
+                  }}
+                  handleUpload={(item) => handleUploadOnDrop &&
+                  crumb.path &&
+                  handleUploadOnDrop(item.files, item.items, crumb.path)}
+                />
+                : null
+            }))}
             homeOnClick={() => redirect(moduleRootPath)}
+            homeRef={homeBreadcrumbRef}
+            homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
             showDropDown={!desktop}
           />
         )}

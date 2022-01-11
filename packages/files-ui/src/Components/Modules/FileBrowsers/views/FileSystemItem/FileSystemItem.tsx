@@ -381,17 +381,17 @@ const FileSystemItem = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag(() =>
-    ({
-      type: DragTypes.MOVABLE_FILE,
-      item: () => {
-        if (selectedCids.includes(file.cid)) {
-          return { ids: selectedCids }
-        } else {
-          return { ids: [...selectedCids, file.cid] }
-        }
+  const [, dragMoveRef, preview] = useDrag({
+    type: DragTypes.MOVABLE_FILE,
+    canDrag: !isFolder,
+    item: () => {
+      if (selectedCids.includes(file.cid)) {
+        return { ids: selectedCids }
+      } else {
+        return { ids: [...selectedCids, file.cid] }
       }
-    }), [selectedCids])
+    }
+  })
 
   useEffect(() => {
     // This gets called after every render, by default
@@ -418,6 +418,7 @@ const FileSystemItem = ({
 
   const [{ isOverUpload }, dropUploadRef] = useDrop({
     accept: [NativeTypes.FILE],
+    canDrop: () => isFolder,
     drop: (item: any) => {
       handleUploadOnDrop &&
         handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
@@ -429,13 +430,13 @@ const FileSystemItem = ({
 
   const fileOrFolderRef = useRef<any>()
 
-  if (!editing && isFolder) {
-    dropMoveRef(fileOrFolderRef)
-    dropUploadRef(fileOrFolderRef)
-  }
-
-  if (!editing && !isFolder) {
-    desktop && dragMoveRef(fileOrFolderRef)
+  if (!editing && desktop) {
+    if (isFolder) {
+      dropMoveRef(fileOrFolderRef)
+      dropUploadRef(fileOrFolderRef)
+    } else {
+      dragMoveRef(fileOrFolderRef)
+    }
   }
 
   const onSingleClick = useCallback(
