@@ -17,6 +17,13 @@ import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
 import { PosthogProvider } from "./Contexts/PosthogContext"
 import { NotificationsProvider } from "./Contexts/NotificationsContext"
+import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
+
+// making material and jss use one className generator
+const generateClassName = createGenerateClassName({
+  productionPrefix: "c",
+  disableGlobal: true
+})
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -94,61 +101,63 @@ const App = () => {
   ), [])
 
   return (
-
-    <ThemeSwitcher
-      storageKey="csf.themeKey"
-      themes={{ light: lightTheme, dark: darkTheme }}
-    >
-      <ErrorBoundary
-        fallback={fallBack}
-        onReset={() => window.location.reload()}
+    <StylesProvider generateClassName={generateClassName}>
+      <ThemeSwitcher
+        storageKey="csf.themeKey"
+        themes={{ light: lightTheme, dark: darkTheme }}
       >
-        <CssBaseline />
-        <LanguageProvider availableLanguages={availableLanguages}>
-          <ToastProvider
-            autoDismiss
-            defaultPosition="bottomRight"
-          >
-            <Web3Provider
-              onboardConfig={onboardConfig}
-              checkNetwork={false}
-              cacheWalletSelection={canUseLocalStorage}
-              tokensToWatch={{ 1: [
-                { address: "0x6b175474e89094c44da98b954eedeac495271d0f" },
-                { address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }
-              ] }}
+        <ErrorBoundary
+          fallback={fallBack}
+          onReset={() => window.location.reload()}
+        >
+          <CssBaseline />
+          <LanguageProvider availableLanguages={availableLanguages}>
+            <ToastProvider
+              autoDismiss
+              defaultPosition="bottomRight"
             >
-              <FilesApiProvider
-                apiUrl={apiUrl}
-                withLocalStorage={false}
+              <Web3Provider
+                onboardConfig={onboardConfig}
+                checkNetwork={false}
+                cacheWalletSelection={canUseLocalStorage}
+                tokensToWatch={{
+                  1: [
+                    { address: "0x6b175474e89094c44da98b954eedeac495271d0f" },
+                    { address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }
+                  ]
+                }}
               >
-                <ThresholdKeyProvider
-                  enableLogging={directAuthNetwork !== "mainnet"}
-                  network={directAuthNetwork}
+                <FilesApiProvider
+                  apiUrl={apiUrl}
+                  withLocalStorage={false}
                 >
-                  <NotificationsProvider>
-                    <UserProvider>
-                      <FilesProvider>
-                        <BillingProvider>
-                          <Router>
-                            <PosthogProvider>
-                              <AppWrapper>
-                                <FilesRoutes />
-                              </AppWrapper>
-                            </PosthogProvider>
-                          </Router>
-                        </BillingProvider>
-                      </FilesProvider>
-                    </UserProvider>
-                  </NotificationsProvider>
-                </ThresholdKeyProvider>
-              </FilesApiProvider>
-            </Web3Provider>
-          </ToastProvider>
-        </LanguageProvider>
-      </ErrorBoundary>
-    </ThemeSwitcher>
-
+                  <ThresholdKeyProvider
+                    enableLogging={directAuthNetwork !== "mainnet"}
+                    network={directAuthNetwork}
+                  >
+                    <NotificationsProvider>
+                      <UserProvider>
+                        <FilesProvider>
+                          <BillingProvider>
+                            <Router>
+                              <PosthogProvider>
+                                <AppWrapper>
+                                  <FilesRoutes />
+                                </AppWrapper>
+                              </PosthogProvider>
+                            </Router>
+                          </BillingProvider>
+                        </FilesProvider>
+                      </UserProvider>
+                    </NotificationsProvider>
+                  </ThresholdKeyProvider>
+                </FilesApiProvider>
+              </Web3Provider>
+            </ToastProvider>
+          </LanguageProvider>
+        </ErrorBoundary>
+      </ThemeSwitcher>
+    </StylesProvider>
   )
 }
 
