@@ -196,7 +196,24 @@ interface ICryptoPayment {
   goBack: () => void
 }
 
-const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
+const iconMap: { [key: string]: React.FC<any> } = {
+  ethereum: EthereumIcon,
+  bitcoin: BitcoinIcon,
+  dai: DaiIcon,
+  usdc: UsdcIcon
+}
+
+const symbolMap: { [key: string]: string } = {
+  ethereum: "ETH",
+  bitcoin: "BTC",
+  dai: "DAI",
+  usdc: "USDC"
+}
+
+const CryptoPayment = ({
+  goBack,
+  planPrice
+}: ICryptoPayment) => {
   const classes = useStyles()
   const { selectWallet } = useFilesApi()
   const { isReady, network, provider, wallet, tokens, switchNetwork, checkIsReady, ethBalance } = useWeb3()
@@ -211,40 +228,6 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
   const [copiedAmount, setCopiedAmount] = useState(false)
   const debouncedSwitchCopiedDestinationAddress = debounce(() => setCopiedDestinationAddress(false), 3000)
   const debouncedSwitchCopiedAmount = debounce(() => setCopiedAmount(false), 3000)
-
-  const onCopyDestinationAddress = () => {
-    if (cryptoPayment) {
-      navigator.clipboard.writeText(cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address || "")
-        .then(() => {
-          setCopiedDestinationAddress(true)
-          debouncedSwitchCopiedDestinationAddress()
-        }).catch(console.error)
-    }
-  }
-
-  const onCopyAmount = () => {
-    if (cryptoPayment) {
-      navigator.clipboard.writeText(cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.amount || "")
-        .then(() => {
-          setCopiedAmount(true)
-          debouncedSwitchCopiedAmount()
-        }).catch(console.error)
-    }
-  }
-
-  const iconMap: {[key: string]: React.FC<any>} = {
-    ethereum: EthereumIcon,
-    bitcoin: BitcoinIcon,
-    dai: DaiIcon,
-    usdc: UsdcIcon
-  }
-
-  const symbolMap: {[key: string]: string} = {
-    ethereum: "ETH",
-    bitcoin: "BTC",
-    dai: "DAI",
-    usdc: "USDC"
-  }
 
   useEffect(() => {
     if (!currentSubscription) return undefined
@@ -275,6 +258,32 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
       timer && clearInterval(timer)
     }
   }, [cryptoPayment])
+
+  const selectedPaymentMethod = useMemo(() => {
+    return cryptoPayment && selectedCurrency
+      ? cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)
+      : undefined
+  }, [cryptoPayment, selectedCurrency])
+
+  const onCopyDestinationAddress = useCallback(() => {
+    if (selectedPaymentMethod) {
+      navigator.clipboard.writeText(selectedPaymentMethod.address)
+        .then(() => {
+          setCopiedDestinationAddress(true)
+          debouncedSwitchCopiedDestinationAddress()
+        }).catch(console.error)
+    }
+  }, [debouncedSwitchCopiedDestinationAddress, selectedPaymentMethod])
+
+  const onCopyAmount = useCallback(() => {
+    if (selectedPaymentMethod) {
+      navigator.clipboard.writeText(selectedPaymentMethod.amount)
+        .then(() => {
+          setCopiedAmount(true)
+          debouncedSwitchCopiedAmount()
+        }).catch(console.error)
+    }
+  }, [debouncedSwitchCopiedAmount, selectedPaymentMethod])
 
   const isBalanceSufficient = useMemo(() => {
     const selectedPaymentMethod = cryptoPayment?.payment_methods.find(p => p.currency === selectedCurrency)
@@ -377,11 +386,11 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
               </div>
             </>
           }
-          {selectedCurrency &&
+          {selectedCurrency && selectedPaymentMethod &&
             <>
               <div className={classes.qrCode}>
                 <QRCode
-                  value={cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address || "0x"}
+                  value={selectedPaymentMethod.address}
                   size={128} />
               </div>
               <div className={classes.qrCodeLabel}>
@@ -394,7 +403,7 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
               <div
                 className={clsx(classes.rowBox, classes.copyRow)}
                 onClick={onCopyDestinationAddress}>
-                <Typography>{cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.address}</Typography>
+                <Typography>{selectedPaymentMethod.address}</Typography>
                 <div className={classes.pushRightBox}>
                   <CopyIcon className={classes.copyIcon} />
                   <div className={clsx(classes.copiedFlag, { "active": copiedDestinationAddress })}>
@@ -411,7 +420,7 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
                 className={clsx(classes.rowBox, classes.copyRow)}
                 onClick={onCopyAmount}>
                 <Typography>
-                  {cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)?.amount} {symbolMap[selectedCurrency]}
+                  {selectedPaymentMethod.amount} {symbolMap[selectedCurrency]}
                 </Typography>
                 <div className={classes.pushRightBox}>
                   <CopyIcon className={classes.copyIcon} />

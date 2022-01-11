@@ -4,7 +4,7 @@ import { CSFTheme } from "../../../../../Themes/types"
 import { Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import AddCard from "../AddCard/AddCard"
-import { useBilling } from "../../../../../Contexts/BillingContext"
+import { PaymentMethod, useBilling } from "../../../../../Contexts/BillingContext"
 import { ProductPrice } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
@@ -81,7 +81,7 @@ interface IPaymentMethodProps {
   onClose: () => void
   goBack: () => void
   goToPlanDetails: () => void
-  onSelectPaymentMethod: (paymentMethod: "creditCard" | "crypto") => void
+  onSelectPaymentMethod: (paymentMethod: PaymentMethod) => void
 }
 
 const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMethod }: IPaymentMethodProps) => {
