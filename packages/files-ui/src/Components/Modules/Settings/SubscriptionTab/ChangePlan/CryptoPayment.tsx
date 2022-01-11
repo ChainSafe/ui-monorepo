@@ -210,10 +210,7 @@ const symbolMap: { [key: string]: string } = {
   usdc: "USDC"
 }
 
-const CryptoPayment = ({
-  goBack,
-  planPrice
-}: ICryptoPayment) => {
+const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
   const classes = useStyles()
   const { selectWallet } = useFilesApi()
   const { isReady, network, provider, wallet, tokens, switchNetwork, checkIsReady, ethBalance } = useWeb3()
