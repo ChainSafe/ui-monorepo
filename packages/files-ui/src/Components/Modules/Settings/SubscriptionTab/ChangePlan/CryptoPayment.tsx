@@ -6,7 +6,8 @@ import {
   BitcoinIcon,
   Button,
   CircularProgressBar,
-  CopyIcon, DaiIcon,
+  CopyIcon,
+  DaiIcon,
   Divider,
   EthereumIcon,
   Typography,
@@ -195,10 +196,7 @@ interface ICryptoPayment {
   goBack: () => void
 }
 
-const CryptoPayment = ({
-  goBack,
-  planPrice
-}: ICryptoPayment) => {
+const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
   const classes = useStyles()
   const { selectWallet } = useFilesApi()
   const { isReady, network, provider, wallet, tokens, switchNetwork, checkIsReady, ethBalance } = useWeb3()

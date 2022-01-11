@@ -221,9 +221,7 @@ const ConfirmPlan = ({
           </div>
           <div>
           </div>
-          <div className={classes.pushRightBox}>
-
-          </div>
+          <div className={classes.pushRightBox} />
           <div className={classes.rowBox}>
             <Typography
               component="p"
@@ -236,7 +234,7 @@ const ConfirmPlan = ({
                 variant="body1"
                 component="p"
               >
-                USDC, BTC or ETH
+                DAI, USDC, ETH or BTC
               </Typography>
             </div>
           </div>

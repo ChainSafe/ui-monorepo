@@ -162,7 +162,7 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
             onClick={goBack}
             variant="text"
           >
-            <Trans>Go Back</Trans>
+            <Trans>Go back</Trans>
           </Button>
           <Button
             variant="primary"

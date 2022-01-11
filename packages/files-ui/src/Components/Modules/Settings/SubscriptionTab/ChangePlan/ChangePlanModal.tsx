@@ -10,7 +10,6 @@ import { useBilling } from "../../../../../Contexts/BillingContext"
 import { Product, ProductPrice, ProductPriceRecurringInterval } from "@chainsafe/files-api-client"
 import PlanSuccess from "./PlanSuccess"
 import DowngradeDetails from "./DowngradeDetails"
-
 import { PaymentMethod } from "../../../../../Contexts/BillingContext"
 import CryptoPayment from "./CryptoPayment"
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
