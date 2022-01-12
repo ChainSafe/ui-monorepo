@@ -141,7 +141,8 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
           onChange={() => setPaymentMethod("crypto")}
           checked={paymentMethod === "crypto"}
           labelClassName={classes.radioLabel}
-          disabled={selectedProductPrice.recurring.interval !== "year"}
+          // TODO Revert once testing is finished
+          disabled={selectedProductPrice.recurring.interval !== "day"}
         />
       </>
       }

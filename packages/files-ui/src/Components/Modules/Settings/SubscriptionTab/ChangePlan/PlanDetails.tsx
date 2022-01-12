@@ -73,7 +73,8 @@ interface IPlanDetails {
 const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
   const classes = useStyles()
   const monthlyPrice = plan.prices.find((price) => price.recurring.interval === "month")
-  const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "year")
+  // TODO Revert this to year when testing is complete
+  const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "day")
   const currentPlanStorage = formatBytes(Number(monthlyPrice?.metadata?.storage_size_bytes), 2)
 
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">(monthlyPrice ? "monthly" : "yearly")
