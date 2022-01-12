@@ -135,7 +135,7 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
     },
     currencyIcon: {
       "& > svg": {
-        fill: palette.primary.main,
+        fill: "var(--gray10)",
         height: 16
       }
     },
