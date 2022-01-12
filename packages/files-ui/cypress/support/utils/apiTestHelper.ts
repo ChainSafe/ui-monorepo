@@ -35,6 +35,26 @@ export const apiTestHelper = {
         })
     })
   },
+  deleteCreditCards() {
+    const apiClient = getApiClient()
+
+    return new Cypress.Promise(async (resolve) => {
+      cy.window()
+        .then(async (win) => {
+          const tokens = await apiClient.getRefreshToken({ refresh: win.sessionStorage.getItem(REFRESH_TOKEN_KEY) || "" })
+
+          await apiClient.setToken(tokens.access_token.token)
+          try {
+            const card = await apiClient.getDefaultCard()
+            apiClient.deleteCard(card.id)
+          } catch {
+            cy.log("There's no card to delete")
+          }
+          cy.log("Done deleting the default card")
+          resolve()
+        })
+    })
+  },
   clearBucket(bucketType: ClearBucketType) {
     const apiClient = getApiClient()
 
