@@ -80,7 +80,6 @@ interface IPaymentMethodProps {
   selectedProductPrice: ProductPrice
   onClose: () => void
   goBack: () => void
-  goToPlanDetails: () => void
   onSelectPaymentMethod: (paymentMethod: PaymentMethod) => void
 }
 
@@ -137,7 +136,7 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
         </div>
         <Divider className={classes.divider} />
         <RadioInput
-          label="USDC, BTC, or ETH (Annual only)"
+          label="USDC, DAI, BTC, or ETH (Annual only)"
           value="crypto"
           onChange={() => setPaymentMethod("crypto")}
           checked={paymentMethod === "crypto"}
