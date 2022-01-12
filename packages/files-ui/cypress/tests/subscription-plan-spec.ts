@@ -11,8 +11,8 @@ describe("Subscription Plan", () => {
 
   context("desktop", () => {
 
-    it.skip("can add, update and remove a credit card for billing", () => {
-      cy.web3Login()
+    it("can add, update and remove a credit card for billing", () => {
+      cy.web3Login({ deleteCreditCard: true })
 
       // navigate to settings
       navigationMenu.settingsNavButton().click()
