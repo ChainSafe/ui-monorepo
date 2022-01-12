@@ -122,9 +122,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       {slide === "planDetails" && selectedPlan && (
         <PlanDetails
           plan={selectedPlan}
-          goToSelectPlan={() => {
-            setSlide("select")
-          }}
+          goToSelectPlan={() => setSlide("select")}
           onSelectPlanPrice={(planPrice: ProductPrice) => {
             setSelectedPrice(planPrice)
             setSlide("paymentMethod")
@@ -136,9 +134,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           selectedProductPrice={selectedPrice}
           onClose={onClose}
           goBack={() => {
-            setSlide("select")
-          }}
-          goToPlanDetails={() => {
             setSlide("planDetails")
           }}
           onSelectPaymentMethod={(paymentMethod) => {

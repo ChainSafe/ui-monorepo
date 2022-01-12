@@ -10,6 +10,7 @@ import {
   DaiIcon,
   Divider,
   EthereumIcon,
+  Loading,
   Typography,
   UsdcIcon
 } from "@chainsafe/common-components"
@@ -186,6 +187,11 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
       borderRadius: 10,
       backgroundColor: "var(--gray4)",
       padding: "5px 10px"
+    },
+    loadingContainer: {
+      margin: `${constants.generalUnit * 4}px 0`,
+      display: "flex",
+      justifyContent: "center"
     }
   })
 )
@@ -210,7 +216,7 @@ const symbolMap: { [key: string]: string } = {
   usdc: "USDC"
 }
 
-const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
+const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
   const classes = useStyles()
   const { selectWallet } = useFilesApi()
   const { isReady, network, provider, wallet, tokens, switchNetwork, checkIsReady, ethBalance } = useWeb3()
@@ -218,6 +224,8 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
   const { currentSubscription } = useBilling()
   const [subResponse, setSubResponse] = useState<UpdateSubscriptionResponse | undefined>()
   const [error, setError] = useState<string | undefined>(undefined)
+  const [cryptoChargeLoading, setCryptoChargeLoading] = useState(false)
+  const [transferActive, setTransferActive] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState<string | undefined>()
   const pageLoadTimestamp = useRef(dayjs().unix())
 
@@ -228,16 +236,18 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
 
   useEffect(() => {
     if (!currentSubscription) return undefined
+
+    setCryptoChargeLoading(true)
     filesApiClient.updateSubscription(currentSubscription.id, {
       price_id: planPrice.id,
       payment_method: "crypto"
     }).then((response) => {
       setSubResponse(response)
       pageLoadTimestamp.current = dayjs().unix()
-    }).catch(error => {
+    }).catch((error) => {
       console.error(error)
       setError(`There was a problem creating a charge ${error}`)
-    })
+    }).finally(() => setCryptoChargeLoading(false))
   }, [currentSubscription, filesApiClient, planPrice.id])
 
   const cryptoPayment = useMemo(() => subResponse?.invoice?.crypto, [subResponse])
@@ -300,27 +310,26 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
     if (!selectedPaymentMethod) return
 
     const signer = provider.getSigner()
-    if (selectedCurrency === "ethereum") {
-      try {
+    try {
+      setTransferActive(true)
+      if (selectedCurrency === "ethereum") {
         await (await signer.sendTransaction({
           to: selectedPaymentMethod.address,
           value: utils.parseEther(selectedPaymentMethod.amount)
         })).wait(1)
-      } catch (error) {
-        console.error(error)
-      }
-    } else {
-      const token = Object.values(tokens).find(t => t.symbol?.toLowerCase() === selectedCurrency)
-      if (!token || !token.transfer) return
-      try {
+      } else {
+        const token = Object.values(tokens).find(t => t.symbol?.toLowerCase() === selectedCurrency)
+        if (!token || !token.transfer) return
         // TODO Set loading state here
         await (await token.transfer(
           selectedPaymentMethod.address,
           utils.parseUnits(selectedPaymentMethod.amount, token.decimals)
         )).wait(1)
-      } catch (error) {
-        console.error(error)
       }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setTransferActive(false)
     }
   }, [cryptoPayment, provider, selectedCurrency, tokens])
 
@@ -347,6 +356,9 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
             variant="secondary" />
         </div>}
       </div>
+      {cryptoChargeLoading && <div className={classes.loadingContainer}>
+        <Loading type='initial' />
+      </div>}
       {error &&
         <Typography
           component="p"
@@ -453,7 +465,8 @@ const CryptoPayment = ({goBack,planPrice}: ICryptoPayment) => {
           {selectedCurrency && selectedCurrency !== "bitcoin" && isReady && network === 1 &&
             <Button
               onClick={handlePayment}
-              disabled={!isBalanceSufficient}>
+              disabled={!isBalanceSufficient || transferActive}
+              loading={transferActive}>
               {isBalanceSufficient
                 ? <Trans>Pay with {wallet?.name}</Trans>
                 : <Trans>Insufficient balance</Trans>}
