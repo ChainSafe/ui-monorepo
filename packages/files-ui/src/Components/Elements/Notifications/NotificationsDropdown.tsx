@@ -60,10 +60,6 @@ const NotificationsDropdown = () => {
             {notifications.length}
           </div>
           }
-          <div className={classes.badge}>
-            {10}
-          </div>
-
         </div>
       </Button>
     </MenuDropdown>
