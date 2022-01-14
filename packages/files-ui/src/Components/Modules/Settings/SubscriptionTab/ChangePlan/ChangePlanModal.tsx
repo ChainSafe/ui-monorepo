@@ -15,6 +15,7 @@ import CryptoPayment from "./CryptoPayment"
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
+      maxWidth: "100%",
       "&:before": {
         backgroundColor: constants.modalDefault.fadeBackground
       }
@@ -85,7 +86,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
     <Modal
       closePosition="right"
       active={true}
-      maxWidth={800}
+      width="fit-content"
       className={classes.root}
       injectedClass={{
         inner: classes.inner
