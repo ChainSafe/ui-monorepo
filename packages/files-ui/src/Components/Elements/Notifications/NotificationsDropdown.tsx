@@ -7,10 +7,7 @@ import { useNotifications } from "../../../Contexts/NotificationsContext"
 const useStyles = makeStyles(({ palette, constants }: ITheme) =>
   createStyles({
     notificationsButton: {
-      position: "relative",
-      "span": {
-        transition: "none"
-      }
+      position: "relative"
     },
     badge: {
       position: "absolute",
@@ -20,13 +17,16 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       left: "13px",
       borderRadius: constants.generalUnit,
       padding: `${constants.generalUnit * 0.25}px ${constants.generalUnit * 0.5}px`,
-      fontSize: "11px",
+      fontSize: "10px",
       lineHeight: "11px",
-      height: "0.9rem",
+      height: "0.92rem",
       minWidth: "1rem"
     },
     icon: {
       transition: "none"
+    },
+    button: {
+      height: constants.generalUnit * 4
     }
   })
 )
@@ -50,7 +50,10 @@ const NotificationsDropdown = () => {
       anchor="bottom-right"
       autoclose
     >
-      <Button variant="tertiary">
+      <Button
+        variant="tertiary"
+        className={classes.button}
+      >
         <div className={classes.notificationsButton}>
           <BellIcon className={classes.icon} />
           {!!notifications.length && <div className={classes.badge}>
