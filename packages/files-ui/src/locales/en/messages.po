@@ -100,6 +100,9 @@ msgstr "Approve"
 msgid "Are you sure? This will delete your default payment method."
 msgstr "Are you sure? This will delete your default payment method."
 
+msgid "Awaiting payment"
+msgstr "Awaiting payment"
+
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
@@ -933,6 +936,9 @@ msgstr "Theme"
 
 msgid "There are no notifications!"
 msgstr "There are no notifications!"
+
+msgid "There was a problem creating a charge {error}"
+msgstr "There was a problem creating a charge {error}"
 
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
