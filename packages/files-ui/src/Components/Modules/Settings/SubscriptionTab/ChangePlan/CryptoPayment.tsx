@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Product, ProductPrice, UpdateSubscriptionResponse } from "@chainsafe/files-api-client"
+import { Product, ProductPrice, InvoiceResponse } from "@chainsafe/files-api-client"
 import {
   BitcoinIcon,
   Button,
@@ -14,7 +14,7 @@ import {
   Typography,
   UsdcIcon
 } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -221,8 +221,8 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
   const { selectWallet } = useFilesApi()
   const { isReady, network, provider, wallet, tokens, switchNetwork, checkIsReady, ethBalance } = useWeb3()
   const { filesApiClient } = useFilesApi()
-  const { currentSubscription } = useBilling()
-  const [subResponse, setSubResponse] = useState<UpdateSubscriptionResponse | undefined>()
+  const { currentSubscription, fetchCurrentSubscription, isPending, invoices } = useBilling()
+  const [cryptoPayment, setCryptoPayment] = useState<InvoiceResponse["crypto"] | undefined>()
   const [error, setError] = useState<string | undefined>(undefined)
   const [cryptoChargeLoading, setCryptoChargeLoading] = useState(false)
   const [transferActive, setTransferActive] = useState(false)
@@ -233,26 +233,38 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
   const [copiedAmount, setCopiedAmount] = useState(false)
   const debouncedSwitchCopiedDestinationAddress = debounce(() => setCopiedDestinationAddress(false), 3000)
   const debouncedSwitchCopiedAmount = debounce(() => setCopiedAmount(false), 3000)
+  const unpaidCryptoInvoice = useMemo(() =>
+    isPending && invoices?.find((i) => i.payment_method === "crypto" && i.status === "open")
+  , [invoices, isPending])
+  const currencies = useMemo(() => cryptoPayment?.payment_methods.map(c => c.currency), [cryptoPayment])
+  const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    if (!currentSubscription) return undefined
+    if (!currentSubscription || isPending) return
 
     setCryptoChargeLoading(true)
     filesApiClient.updateSubscription(currentSubscription.id, {
       price_id: planPrice.id,
       payment_method: "crypto"
-    }).then((response) => {
-      setSubResponse(response)
-      pageLoadTimestamp.current = dayjs().unix()
+    }).then(() => {
+      fetchCurrentSubscription()
     }).catch((error) => {
       console.error(error)
-      setError(`There was a problem creating a charge ${error}`)
+      setError(t`There was a problem creating a charge ${error}`)
     }).finally(() => setCryptoChargeLoading(false))
-  }, [currentSubscription, filesApiClient, planPrice.id])
+  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, isPending, planPrice.id])
 
-  const cryptoPayment = useMemo(() => subResponse?.invoice?.crypto, [subResponse])
-  const currencies = useMemo(() => cryptoPayment?.payment_methods.map(c => c.currency), [cryptoPayment])
-  const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
+  useEffect(() => {
+    if(!unpaidCryptoInvoice) return
+
+    unpaidCryptoInvoice?.uuid && filesApiClient.payInvoice(unpaidCryptoInvoice.uuid)
+      .then(r => {
+        setCryptoPayment(r.crypto)
+        pageLoadTimestamp.current = dayjs().unix()
+      })
+      .catch(console.error)
+  })
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -266,34 +278,31 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
     }
   }, [cryptoPayment])
 
-  const selectedPaymentMethod = useMemo(() => {
-    return cryptoPayment && selectedCurrency
-      ? cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)
-      : undefined
-  }, [cryptoPayment, selectedCurrency])
+  const selectedPaymentMethod = useMemo(() =>
+    cryptoPayment && selectedCurrency && cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)
+  , [cryptoPayment, selectedCurrency])
 
   const onCopyDestinationAddress = useCallback(() => {
-    if (selectedPaymentMethod) {
-      navigator.clipboard.writeText(selectedPaymentMethod.address)
-        .then(() => {
-          setCopiedDestinationAddress(true)
-          debouncedSwitchCopiedDestinationAddress()
-        }).catch(console.error)
-    }
+    if (!selectedPaymentMethod) return
+
+    navigator.clipboard.writeText(selectedPaymentMethod.address)
+      .then(() => {
+        setCopiedDestinationAddress(true)
+        debouncedSwitchCopiedDestinationAddress()
+      }).catch(console.error)
   }, [debouncedSwitchCopiedDestinationAddress, selectedPaymentMethod])
 
   const onCopyAmount = useCallback(() => {
-    if (selectedPaymentMethod) {
-      navigator.clipboard.writeText(selectedPaymentMethod.amount)
-        .then(() => {
-          setCopiedAmount(true)
-          debouncedSwitchCopiedAmount()
-        }).catch(console.error)
-    }
+    if (!selectedPaymentMethod) return
+
+    navigator.clipboard.writeText(selectedPaymentMethod.amount)
+      .then(() => {
+        setCopiedAmount(true)
+        debouncedSwitchCopiedAmount()
+      }).catch(console.error)
   }, [debouncedSwitchCopiedAmount, selectedPaymentMethod])
 
   const isBalanceSufficient = useMemo(() => {
-    const selectedPaymentMethod = cryptoPayment?.payment_methods.find(p => p.currency === selectedCurrency)
     if (selectedCurrency === "bitcoin") {
       return false
     } else if (selectedCurrency === "ethereum") {
@@ -302,12 +311,10 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
       const token = Object.values(tokens).find(t => t.symbol?.toLowerCase() === selectedCurrency)
       return token && selectedPaymentMethod && token.balance >= Number(selectedPaymentMethod.amount)
     }
-  }, [tokens, ethBalance, selectedCurrency, cryptoPayment])
+  }, [selectedCurrency, ethBalance, selectedPaymentMethod, tokens])
 
   const handlePayment = useCallback(async () => {
-    if (!provider || !selectedCurrency) return
-    const selectedPaymentMethod = cryptoPayment?.payment_methods.find(p => p.currency === selectedCurrency)
-    if (!selectedPaymentMethod) return
+    if (!provider || !selectedCurrency || !selectedPaymentMethod) return
 
     const signer = provider.getSigner()
     try {
@@ -331,12 +338,14 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
     } finally {
       setTransferActive(false)
     }
-  }, [cryptoPayment, provider, selectedCurrency, tokens])
+  }, [provider, selectedCurrency, selectedPaymentMethod, tokens])
 
   const handleSwitchNetwork = useCallback(async () => {
     await switchNetwork(1)
     await checkIsReady()
   }, [checkIsReady, switchNetwork])
+
+  if (!unpaidCryptoInvoice) return null
 
   return (
     <article className={classes.root}>
@@ -374,7 +383,7 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
             <Typography>Total</Typography>
             <div className={classes.pushRightBox}>
               <Typography>
-                {subResponse?.invoice?.currency?.toUpperCase()} {subResponse?.invoice?.amount}
+                {unpaidCryptoInvoice.currency?.toUpperCase()} {unpaidCryptoInvoice.amount}
               </Typography>
             </div>
           </div>

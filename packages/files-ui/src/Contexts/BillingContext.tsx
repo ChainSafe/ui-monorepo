@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useMemo } from "react"
 import { useFilesApi } from "./FilesApiContext"
 import { ReactNode, useEffect, useState } from "react"
 import { Card, CurrentSubscription, InvoiceResponse, Product } from "@chainsafe/files-api-client"
@@ -24,6 +24,7 @@ interface IBillingContext {
   updateDefaultCard: (id: StripePaymentMethod["id"]) => Promise<void>
   invoices?: InvoiceResponse[]
   cancelCurrentSubscription: () => Promise<void>
+  isPending: boolean
 }
 
 const ProductMapping: {[key: string]: {
@@ -54,11 +55,12 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
+  const isPending = useMemo(() => currentSubscription?.status === "pending_update" as "unpaid", [currentSubscription])
 
   useEffect(() => {
     if (!currentSubscription) return
 
-    filesApiClient.getAllInvoices(currentSubscription.id)
+    filesApiClient.getAllInvoices(currentSubscription.id, 100)
       .then(({ invoices }) => {
         setInvoices(invoices)
       })
@@ -170,7 +172,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         deleteCard,
         updateDefaultCard,
         invoices,
-        cancelCurrentSubscription
+        cancelCurrentSubscription,
+        isPending
       }}
     >
       {children}

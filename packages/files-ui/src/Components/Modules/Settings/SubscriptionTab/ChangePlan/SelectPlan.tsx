@@ -123,6 +123,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       color: palette.error.main,
       marginTop: "1rem",
       textAlign: "center"
+    },
+    loader: {
+      "& > svg" : {
+        marginRight: constants.generalUnit
+      }
     }
   })
 )
@@ -131,11 +136,12 @@ interface ISelectPlan {
   className?: string
   plans?: Product[]
   onSelectPlan: (plan: Product) => void
+  onShowCryptoOutstandingPayment: () => void
 }
 
-const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
+const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPayment }: ISelectPlan) => {
   const classes = useStyles()
-  const { currentSubscription } = useBilling()
+  const { currentSubscription, isPending } = useBilling()
   const { desktop } = useThemeSwitcher()
   const [tempSelectedPlan, setTempSelectedPlan] = useState<Product | undefined>()
 
@@ -223,13 +229,28 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
                   : plan.description
                   }
                 </Typography>
-                <Button
-                  variant="primary"
-                  disabled={isCurrentPlan || !isUpdateAllowed}
-                  onClick={() => onSelectPlan(plan)}
-                >
-                  <Trans>Select plan</Trans>
-                </Button>
+                {isPending && isCurrentPlan
+                  ? <Button
+                    variant="primary"
+                    onClick={onShowCryptoOutstandingPayment}
+                    className={classes.loader}
+                  >
+                    <>
+                      <Loading
+                        size={12}
+                        type="initial"
+                      />
+                      <Trans>Awaiting payment</Trans>
+                    </>
+                  </Button>
+                  : <Button
+                    variant="primary"
+                    disabled={isCurrentPlan || !isUpdateAllowed}
+                    onClick={() => onSelectPlan(plan)}
+                  >
+                    <Trans>Select plan</Trans>
+                  </Button>
+                }
               </div>
             )
             : (

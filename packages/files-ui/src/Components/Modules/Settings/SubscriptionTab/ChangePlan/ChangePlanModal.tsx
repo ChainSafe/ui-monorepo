@@ -107,6 +107,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
               ? setSlide("downgradeDetails")
               : setSlide("planDetails")
           }}
+          onShowCryptoOutstandingPayment={() => setSlide("cryptoPayment")}
           plans={plans}
         />
       )}
