@@ -170,7 +170,7 @@ Cypress.Commands.add("getInDocument", { prevSubject: "document" }, (document: an
   Cypress.$(selector, document))
 
 Cypress.Commands.add("getWithinIframe", (targetElement: any, selector: string) =>
-  cy.get(selector || "iframe")
+  cy.get(selector || "iframe", { timeout: 10000 })
     .iframeLoaded()
     .its("document")
     .getInDocument(targetElement))
