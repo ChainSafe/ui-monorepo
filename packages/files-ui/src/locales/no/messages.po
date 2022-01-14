@@ -779,7 +779,7 @@ msgid "Select a wallet"
 msgstr ""
 
 msgid "Select an existing shared folder or your home"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 msgid "Select payment method"
 msgstr ""
