@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Product, ProductPrice, InvoiceResponse } from "@chainsafe/files-api-client"
+import { ProductPrice, InvoiceResponse } from "@chainsafe/files-api-client"
 import {
   BitcoinIcon,
   Button,
@@ -197,8 +197,7 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
 )
 
 interface ICryptoPayment {
-  plan: Product
-  planPrice: ProductPrice
+  planPrice?: ProductPrice
   goBack: () => void
 }
 
@@ -240,8 +239,9 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
   const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    if (!currentSubscription || isPending) return
+    if (!currentSubscription || !planPrice || isPending) return
 
+    console.log("in 1")
     setCryptoChargeLoading(true)
     filesApiClient.updateSubscription(currentSubscription.id, {
       price_id: planPrice.id,
@@ -252,10 +252,10 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
       console.error(error)
       setError(t`There was a problem creating a charge ${error}`)
     }).finally(() => setCryptoChargeLoading(false))
-  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, isPending, planPrice.id])
+  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, isPending, planPrice])
 
   useEffect(() => {
-    if(!unpaidCryptoInvoice) return
+    if (!unpaidCryptoInvoice) return
 
     unpaidCryptoInvoice?.uuid && filesApiClient.payInvoice(unpaidCryptoInvoice.uuid)
       .then(r => {
@@ -345,8 +345,6 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
     await checkIsReady()
   }, [checkIsReady, switchNetwork])
 
-  if (!unpaidCryptoInvoice) return null
-
   return (
     <article className={classes.root}>
       <div className={classes.rowBox}>
@@ -366,7 +364,7 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
           />
         </div>}
       </div>
-      {cryptoChargeLoading && <div className={classes.loadingContainer}>
+      {(cryptoChargeLoading || !unpaidCryptoInvoice) && <div className={classes.loadingContainer}>
         <Loading type='initial' />
       </div>}
       {error &&
@@ -378,7 +376,7 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
           <Trans>Failed to create a charge</Trans>
         </Typography>
       }
-      {cryptoPayment &&
+      {cryptoPayment && unpaidCryptoInvoice &&
         <>
           <div className={classes.rowBox}>
             <Typography>Total</Typography>

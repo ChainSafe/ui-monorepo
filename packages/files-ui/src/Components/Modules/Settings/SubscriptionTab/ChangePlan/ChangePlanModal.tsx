@@ -158,9 +158,8 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         paymentMethod={selectedPaymentMethod}
       />
       }
-      {slide === "cryptoPayment" && selectedPlan && selectedPrice &&
+      {slide === "cryptoPayment" &&
         <CryptoPayment
-          plan={selectedPlan}
           planPrice={selectedPrice}
           goBack={() => setSlide("confirmPlan")}/>
       }
