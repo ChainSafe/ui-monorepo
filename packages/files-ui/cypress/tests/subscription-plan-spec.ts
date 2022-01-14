@@ -6,6 +6,7 @@ import { mastercardNumber, mastercardExpiry, mastercardCvc } from "../fixtures/c
 import { cardAddedToast } from "../support/page-objects/toasts/cardAddedToast"
 import { cardUpdatedToast } from "../support/page-objects/toasts/cardUpdatedToast"
 import { removeCardModal } from "../support/page-objects/modals/removeCardModal"
+import { selectPlanModal } from "../support/page-objects/modals/selectPlanModal"
 
 describe("Subscription Plan", () => {
 
@@ -70,6 +71,58 @@ describe("Subscription Plan", () => {
       removeCardModal.confirmButton().safeClick()
       settingsPage.noCardLabel().should("be.visible")
       settingsPage.addCardButton().should("be.visible")
+    })
+
+    it("can select different subscription plans and view plan summaries", () => {
+      cy.web3Login()
+
+      // navigate to settings
+      navigationMenu.settingsNavButton().click()
+      settingsPage.subscriptionTabButton().click()
+      settingsPage.changePlanButton().click()
+
+      selectPlanModal.body().should("be.visible")
+      selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
+
+      // create cypress aliases for the plans
+      selectPlanModal.planBoxContainer().contains("Free plan")
+        .should("be.visible")
+        .as("freePlanBox")
+      selectPlanModal.planBoxContainer().contains("Standard plan")
+        .should("be.visible")
+        .as("standardPlanBox")
+      selectPlanModal.planBoxContainer().contains("Premium plan")
+        .should("be.visible")
+        .as("premiumPlanBox")
+
+      // ensure all plan boxes contain expected elements and element state
+      cy.get("@freePlanBox").parent().within(() => {
+        selectPlanModal.planTitleLabel().should("be.visible")
+        selectPlanModal.FreePriceLabel().should("be.visible")
+        selectPlanModal.storageDescriptionLabel().should("be.visible")
+        selectPlanModal.selectPlanButton()
+          .should("be.visible")
+          // button should be disabled when already on free plan
+          .should("be.disabled")
+      })
+
+      cy.get("@standardPlanBox").parent().within(() => {
+        selectPlanModal.planTitleLabel().should("be.visible")
+        selectPlanModal.monthlyPriceLabel().should("be.visible")
+        selectPlanModal.storageDescriptionLabel().should("be.visible")
+        selectPlanModal.selectPlanButton()
+          .should("be.visible")
+          .should("be.enabled")
+      })
+
+      cy.get("@premiumPlanBox").parent().within(() => {
+        selectPlanModal.planTitleLabel().should("be.visible")
+        selectPlanModal.monthlyPriceLabel().should("be.visible")
+        selectPlanModal.storageDescriptionLabel().should("be.visible")
+        selectPlanModal.selectPlanButton()
+          .should("be.visible")
+          .should("be.enabled")
+      })
     })
   })
 })
