@@ -86,7 +86,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       closePosition="right"
       active={true}
       maxWidth={800}
-      width="max-content"
       className={classes.root}
       injectedClass={{
         inner: classes.inner

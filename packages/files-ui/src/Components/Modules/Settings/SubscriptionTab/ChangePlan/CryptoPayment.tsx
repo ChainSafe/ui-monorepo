@@ -362,7 +362,8 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
             progress={(cryptoPayment.expires_at - dayjs().unix()) / (cryptoPayment.expires_at - pageLoadTimestamp.current) * 100}
             width={23}
             label={timeRemaining}
-            variant="secondary" />
+            variant="secondary"
+          />
         </div>}
       </div>
       {cryptoChargeLoading && <div className={classes.loadingContainer}>
@@ -397,10 +398,12 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
                   return <Button
                     key={c}
                     onClick={() => setSelectedCurrency(c)}
-                    className={classes.currencyButton}>
+                    className={classes.currencyButton}
+                  >
                     <CurrencyIcon className={classes.currencyIcon} />
                     {c.replace(/(^|\s)\S/g, letter => letter.toUpperCase())}
-                  </Button>})}
+                  </Button>
+                })}
               </div>
             </>
           }
@@ -409,7 +412,8 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
               <div className={classes.qrCode}>
                 <QRCode
                   value={selectedPaymentMethod.address}
-                  size={128} />
+                  size={128}
+                />
               </div>
               <div className={classes.qrCodeLabel}>
                 <Typography>
@@ -436,7 +440,8 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
               <Typography><Trans>Total Amount</Trans></Typography>
               <div
                 className={clsx(classes.rowBox, classes.copyRow)}
-                onClick={onCopyAmount}>
+                onClick={onCopyAmount}
+              >
                 <Typography>
                   {selectedPaymentMethod.amount} {symbolMap[selectedCurrency]}
                 </Typography>
