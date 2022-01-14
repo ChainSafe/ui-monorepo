@@ -525,12 +525,13 @@ const FilesList = ({ isShared = false }: Props) => {
 
   const [{ isOverMoveHomeBreadcrumb }, dropMoveHomeBreadcrumbRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
+    canDrop: () => currentPath !== "/",
     drop: (item: { ids: string[]}) => {
       moveItems && moveItems(item.ids, "/")
       setSelectedItems([])
     },
     collect: (monitor) => ({
-      isOverMoveHomeBreadcrumb: monitor.isOver()
+      isOverMoveHomeBreadcrumb: monitor.isOver() && currentPath !== "/"
     })
   })
 
