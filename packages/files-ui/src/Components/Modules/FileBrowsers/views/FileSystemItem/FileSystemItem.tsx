@@ -383,7 +383,6 @@ const FileSystemItem = ({
 
   const [, dragMoveRef, preview] = useDrag({
     type: DragTypes.MOVABLE_FILE,
-    canDrag: !isFolder,
     item: () => {
       if (selectedCids.includes(file.cid)) {
         return { ids: selectedCids }
@@ -407,12 +406,12 @@ const FileSystemItem = ({
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
-    canDrop: () => isFolder,
+    canDrop: (item) => isFolder && !item.ids.includes(file.cid),
     drop: (item: { ids: string[]}) => {
       moveItems && moveItems(item.ids, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
-      isOverMove: monitor.isOver()
+      isOverMove: monitor.isOver() && !monitor.getItem<{ids: string[]}>().ids.includes(file.cid)
     })
   })
 
@@ -431,11 +430,10 @@ const FileSystemItem = ({
   const fileOrFolderRef = useRef<any>()
 
   if (!editing && desktop) {
+    dragMoveRef(fileOrFolderRef)
     if (isFolder) {
       dropMoveRef(fileOrFolderRef)
       dropUploadRef(fileOrFolderRef)
-    } else {
-      dragMoveRef(fileOrFolderRef)
     }
   }
 
