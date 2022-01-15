@@ -25,5 +25,19 @@ export const settingsPage = {
   updateCardButton: () => cy.get("[data-testId=button-update-a-card]"),
   defaultCardLabel: () => cy.get("[data-cy=label-default-card]"),
   noCardLabel: () => cy.get("[data-cy=label-no-card]"),
-  removeCardLink: () => cy.get("[data-cy=link-remove-card]")
+  removeCardLink: () => cy.get("[data-cy=link-remove-card]"),
+
+  // helpers
+  awaitStripeConfirmation() {
+    cy.intercept("POST", "**/setup_intents/*/confirm").as("stripeConfirmation")
+    cy.wait("@stripeConfirmation")
+  },
+
+  awaitDefaultCardRequest() {
+    cy.intercept("GET", "**/billing/cards/default").as("defaultCard")
+
+    cy.wait("@defaultCard").its("response.body").should("contain", {
+      type: "credit"
+    })
+  }
 }

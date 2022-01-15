@@ -216,7 +216,6 @@ declare global {
       iframeLoaded: ($iframe?: JQuery<HTMLElement>) => any
       getInDocument: (document: any, selector: keyof HTMLElementTagNameMap) => JQuery<HTMLElement>
       getWithinIframe: (targetElement: string, selector: string) => Chainable
-
     }
   }
 }
