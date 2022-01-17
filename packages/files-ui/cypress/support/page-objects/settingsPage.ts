@@ -4,7 +4,7 @@ export const settingsPage = {
   ...basePage,
 
   // profile tab
-  profileTabButton: () => cy.get("[data-testId=tab-profile]"),
+  profileTabButton: () => cy.get("[data-testid=tab-profile]"),
   profileTabHeader: () => cy.get("[data-cy=label-profile-header]"),
   firstNameInput: () => cy.get("[data-cy=input-profile-firstname]"),
   lastNameInput: () => cy.get("[data-cy=input-profile-lastname]"),
@@ -16,15 +16,28 @@ export const settingsPage = {
   usernamePresentInput: () => cy.get("[data-cy=input-profile-username-present]"),
 
   // security tab
-  securityTabButton: () => cy.get("[data-testId=tab-security]"),
+  securityTabButton: () => cy.get("[data-testid=tab-security]"),
   securityTabHeader: () => cy.get("[data-cy=label-security-header]"),
 
   // subscription tab
-  subscriptionTabButton: () => cy.get("[data-testId=tab-subscription]"),
+  subscriptionTabButton: () => cy.get("[data-testid=tab-subscription]"),
   addCardButton: () => cy.get("[data-testid=button-add-a-card]"),
-  updateCardButton: () => cy.get("[data-testId=button-update-a-card]"),
+  updateCardButton: () => cy.get("[data-testid=button-update-a-card]"),
   defaultCardLabel: () => cy.get("[data-cy=label-default-card]"),
   noCardLabel: () => cy.get("[data-cy=label-no-card]"),
   removeCardLink: () => cy.get("[data-cy=link-remove-card]"),
-  changePlanButton: () => cy.get("[data-cy=button-change-plan]", { timeout: 10000 })
+
+  // helpers
+  awaitStripeConfirmation() {
+    cy.intercept("POST", "**/setup_intents/*/confirm").as("stripeConfirmation")
+    cy.wait("@stripeConfirmation")
+  },
+
+  awaitDefaultCardRequest() {
+    cy.intercept("GET", "**/billing/cards/default").as("defaultCard")
+
+    cy.wait("@defaultCard").its("response.body").should("contain", {
+      type: "credit"
+    })
+  }
 }

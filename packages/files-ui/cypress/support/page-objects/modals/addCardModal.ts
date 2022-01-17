@@ -8,5 +8,12 @@ export const addOrUpdateCardModal = {
   expiryDateInput: () => cy.getWithinIframe("[data-elements-stable-field-name=cardExpiry]", "#iframe-card-expiry iframe"),
   addCardHeader: () => cy.get("[data-cy=header-add-card]"),
   updateCardHeader: () => cy.get("[data-cy=header-update-card]"),
-  updateCardButton: () => cy.get("[data-testid=button-update-card]", { timeout: 10000 })
+  updateCardButton: () => cy.get("[data-testid=button-update-card]", { timeout: 10000 }),
+
+  awaitStripeElementReady() {
+    // this waits for all of the posts from stripe to ensure the element is ready event is received
+    // by waiting for these to complete we can ensure the elements will be ready for interaction
+    cy.intercept("POST", "**/r.stripe.com/*").as("stripeElementActivation")
+    cy.wait("@stripeElementActivation")
+  }
 }

@@ -47,6 +47,7 @@ export interface Web3LoginOptions {
   clearTrashBucket?: boolean
   deleteShareBucket?: boolean
   withNewUser?: boolean
+  deleteCreditCard? : boolean
 }
 
 Cypress.Commands.add(
@@ -57,7 +58,8 @@ Cypress.Commands.add(
     clearCSFBucket = false,
     clearTrashBucket = false,
     deleteShareBucket = false,
-    withNewUser = true
+    withNewUser = true,
+    deleteCreditCard = false
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -124,6 +126,10 @@ Cypress.Commands.add(
       apiTestHelper.clearBucket("trash")
     }
 
+    if (deleteCreditCard) {
+      apiTestHelper.deleteCreditCards()
+    }
+
     if(clearTrashBucket || clearCSFBucket || deleteShareBucket){
       navigationMenu.binNavButton().click()
       navigationMenu.homeNavButton().click()
@@ -164,7 +170,7 @@ Cypress.Commands.add("getInDocument", { prevSubject: "document" }, (document: an
   Cypress.$(selector, document))
 
 Cypress.Commands.add("getWithinIframe", (targetElement: any, selector: string) =>
-  cy.get(selector || "iframe")
+  cy.get(selector || "iframe", { timeout: 10000 })
     .iframeLoaded()
     .its("document")
     .getInDocument(targetElement))
@@ -182,6 +188,7 @@ declare global {
        * @param {Boolean} options.clearTrashBucket - (default: false) - whether any file in the trash bucket should be deleted.
        * @param {Boolean} options.deleteShareBucket - (default: false) - whether any shared bucket should be deleted.
        * @param {Boolean} options.withNewUser - (default: true) - whether to create a new user for this session.
+       * @param {Boolean} options.deleteCreditCard - (default: false) - whether to delete the default credit card associate to the account.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => void
@@ -209,7 +216,6 @@ declare global {
       iframeLoaded: ($iframe?: JQuery<HTMLElement>) => any
       getInDocument: (document: any, selector: keyof HTMLElementTagNameMap) => JQuery<HTMLElement>
       getWithinIframe: (targetElement: string, selector: string) => Chainable
-
     }
   }
 }
