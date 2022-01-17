@@ -186,13 +186,7 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
       cursor: "pointer",
       borderRadius: 10,
       backgroundColor: "var(--gray4)",
-      padding: "5px 10px",
-      "& > span": {
-        width: "100%",
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis"
-      }
+      padding: "5px 10px"
     },
     loadingContainer: {
       margin: `${constants.generalUnit * 4}px 0`,
