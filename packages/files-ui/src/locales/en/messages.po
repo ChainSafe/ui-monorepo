@@ -49,6 +49,9 @@ msgstr "Access your billing history in settings or view your"
 msgid "Account"
 msgstr "Account"
 
+msgid "Account is restricted"
+msgstr "Account is restricted"
+
 msgid "Active links"
 msgstr "Active links"
 
@@ -474,6 +477,9 @@ msgstr "Info"
 
 msgid "Insufficient balance"
 msgstr "Insufficient balance"
+
+msgid "Invoice outstanding"
+msgstr "Invoice outstanding"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
