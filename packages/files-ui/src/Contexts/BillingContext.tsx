@@ -6,6 +6,10 @@ import { useCallback } from "react"
 import { t } from "@lingui/macro"
 import { PaymentMethod as StripePaymentMethod } from "@stripe/stripe-js"
 import { useFiles } from "./FilesContext"
+import { useNotifications } from "./NotificationsContext"
+import dayjs from "dayjs"
+import { useHistory } from "@chainsafe/common-components"
+import { ROUTE_LINKS } from "../Components/FilesRoutes"
 
 export type PaymentMethod = "crypto" | "creditCard"
 
@@ -49,32 +53,67 @@ const BillingContext = React.createContext<IBillingContext | undefined>(
 )
 
 const BillingProvider = ({ children }: BillingContextProps) => {
-  const { filesApiClient, isLoggedIn } = useFilesApi()
+  const { filesApiClient, isLoggedIn, accountRestricted } = useFilesApi()
+  const { redirect } = useHistory()
+  const { addNotification, removeNotification } = useNotifications()
   const { refreshBuckets } = useFiles()
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
+  const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
+  const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
 
   useEffect(() => {
     if (!currentSubscription) return
 
     filesApiClient.getAllInvoices(currentSubscription.id)
       .then(({ invoices }) => {
-        setInvoices(invoices)
-      })
-      .catch((e: any) => {
+        setInvoices(invoices
+          .filter(i => i.status !== "void")
+          .sort((a, b) => b.period_start - a.period_start))
+      }).catch((e: any) => {
         console.error(e)
         setInvoices([])
       })
   }, [currentSubscription, filesApiClient])
 
+  useEffect(() => {
+    if (accountRestricted && !restrictedNotification) {
+      const notif = addNotification({
+        createdAt: dayjs().unix(),
+        title: "Account is restricted",
+        onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+      })
+      setRestrictedNotification(notif)
+    } else if (accountRestricted === false && restrictedNotification) {
+      removeNotification(restrictedNotification)
+      setRestrictedNotification(undefined)
+    }
+  }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
+
+  useEffect(() => {
+    const outstandingInvoices = invoices?.find(i => i.status === "open")
+    if (outstandingInvoices && !unpaidInvoiceNotification) {
+      const notif = addNotification({
+        createdAt: dayjs().unix(),
+        title: "Invoice ",
+        onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+      })
+      setUnpaidInvoiceNotification(notif)
+    } else if (!outstandingInvoices && unpaidInvoiceNotification) {
+      removeNotification(unpaidInvoiceNotification)
+      setUnpaidInvoiceNotification(undefined)
+    }
+  }, [addNotification, invoices, redirect, removeNotification, unpaidInvoiceNotification])
+
   const refreshDefaultCard = useCallback(() => {
-    filesApiClient.getDefaultCard().then((card) => {
-      setDefaultCard(card)
-    }).catch((err) => {
-      console.error(err)
-      setDefaultCard(undefined)
-    })
+    filesApiClient.getDefaultCard()
+      .then((card) => {
+        setDefaultCard(card)
+      }).catch((err) => {
+        console.error(err)
+        setDefaultCard(undefined)
+      })
   }, [filesApiClient])
 
   const deleteCard = useCallback((card: Card) =>
