@@ -135,9 +135,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         <PaymentMethodSelector
           selectedProductPrice={selectedPrice}
           onClose={onClose}
-          goBack={() => {
-            setSlide("planDetails")
-          }}
+          goBack={() => setSlide("planDetails")}
           onSelectPaymentMethod={(paymentMethod) => {
             setSelectedPaymentMethod(paymentMethod)
             setSlide("confirmPlan")
@@ -148,23 +146,15 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       <ConfirmPlan
         plan={selectedPlan}
         planPrice={selectedPrice}
-        goToSelectPlan={() => {
-          setSlide("select")
-        }}
-        goToPaymentMethod={() => {
-          setSlide("paymentMethod")
-        }}
+        goToSelectPlan={() => setSlide("select")}
+        goToPaymentMethod={() => setSlide("paymentMethod")}
         loadingChangeSubscription={isLoadingChangeSubscription}
         onChangeSubscription={selectedPaymentMethod === "creditCard" ? handleChangeSubscription : () => setSlide("cryptoPayment")}
         isSubscriptionError={isSubscriptionError}
         paymentMethod={selectedPaymentMethod}
       />
       }
-      {slide === "cryptoPayment" &&
-        <CryptoPayment
-          planPrice={selectedPrice}
-          goBack={() => setSlide("confirmPlan")}/>
-      }
+      {slide === "cryptoPayment" && <CryptoPayment planPrice={selectedPrice} />}
       {slide === "planSuccess" && selectedPlan && selectedPrice && <PlanSuccess
         onClose={onClose}
         plan={selectedPlan}

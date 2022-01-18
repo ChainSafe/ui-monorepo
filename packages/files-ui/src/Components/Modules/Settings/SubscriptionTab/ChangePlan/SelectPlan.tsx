@@ -141,7 +141,7 @@ interface ISelectPlan {
 
 const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPayment }: ISelectPlan) => {
   const classes = useStyles()
-  const { currentSubscription, isPending } = useBilling()
+  const { currentSubscription, isPendingInvoice } = useBilling()
   const { desktop } = useThemeSwitcher()
   const [tempSelectedPlan, setTempSelectedPlan] = useState<Product | undefined>()
 
@@ -229,7 +229,7 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                   : plan.description
                   }
                 </Typography>
-                {isPending && isCurrentPlan
+                {isPendingInvoice && isCurrentPlan
                   ? <Button
                     variant="primary"
                     onClick={onShowCryptoOutstandingPayment}
@@ -245,7 +245,7 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                   </Button>
                   : <Button
                     variant="primary"
-                    disabled={isCurrentPlan || !isUpdateAllowed}
+                    disabled={isCurrentPlan || !isUpdateAllowed || isPendingInvoice}
                     onClick={() => onSelectPlan(plan)}
                   >
                     <Trans>Select plan</Trans>

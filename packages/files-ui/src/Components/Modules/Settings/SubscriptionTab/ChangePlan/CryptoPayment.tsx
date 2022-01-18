@@ -183,6 +183,7 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
       }
     },
     copyRow: {
+      position: "relative",
       cursor: "pointer",
       borderRadius: 10,
       backgroundColor: "var(--gray4)",
@@ -204,7 +205,6 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
 
 interface ICryptoPayment {
   planPrice?: ProductPrice
-  goBack: () => void
 }
 
 const iconMap: { [key: string]: React.FC<any> } = {
@@ -221,34 +221,33 @@ const symbolMap: { [key: string]: string } = {
   usdc: "USDC"
 }
 
-const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
+const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
   const classes = useStyles()
   const { selectWallet } = useFilesApi()
   const { isReady, network, provider, wallet, tokens, switchNetwork, checkIsReady, ethBalance } = useWeb3()
   const { filesApiClient } = useFilesApi()
-  const { currentSubscription, fetchCurrentSubscription, isPending, invoices } = useBilling()
+  const { currentSubscription, fetchCurrentSubscription, isPendingInvoice, invoices } = useBilling()
   const [cryptoPayment, setCryptoPayment] = useState<InvoiceResponse["crypto"] | undefined>()
   const [error, setError] = useState<string | undefined>(undefined)
   const [cryptoChargeLoading, setCryptoChargeLoading] = useState(false)
   const [transferActive, setTransferActive] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState<string | undefined>()
   const pageLoadTimestamp = useRef(dayjs().unix())
-
   const [copiedDestinationAddress, setCopiedDestinationAddress] = useState(false)
   const [copiedAmount, setCopiedAmount] = useState(false)
   const debouncedSwitchCopiedDestinationAddress = debounce(() => setCopiedDestinationAddress(false), 3000)
   const debouncedSwitchCopiedAmount = debounce(() => setCopiedAmount(false), 3000)
-  const unpaidCryptoInvoice = useMemo(() =>
-    isPending && invoices?.find((i) => i.payment_method === "crypto" && i.status === "open")
-  , [invoices, isPending])
+  const pendingCryptoInvoice = useMemo(() =>
+    isPendingInvoice && invoices?.find((i) => i.payment_method === "crypto" && i.status === "open")
+  , [invoices, isPendingInvoice])
   const currencies = useMemo(() => cryptoPayment?.payment_methods.map(c => c.currency), [cryptoPayment])
   const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    if (!currentSubscription || !planPrice || isPending) return
+    if (!currentSubscription || !planPrice || isPendingInvoice) return
 
-    console.log("in 1")
     setCryptoChargeLoading(true)
+
     filesApiClient.updateSubscription(currentSubscription.id, {
       price_id: planPrice.id,
       payment_method: "crypto"
@@ -258,19 +257,18 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
       console.error(error)
       setError(t`There was a problem creating a charge ${error}`)
     }).finally(() => setCryptoChargeLoading(false))
-  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, isPending, planPrice])
+  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, isPendingInvoice, planPrice])
 
   useEffect(() => {
-    if (!unpaidCryptoInvoice) return
+    if (!pendingCryptoInvoice) return
 
-    unpaidCryptoInvoice?.uuid && filesApiClient.payInvoice(unpaidCryptoInvoice.uuid)
+    pendingCryptoInvoice?.uuid && filesApiClient.payInvoice(pendingCryptoInvoice.uuid)
       .then(r => {
         setCryptoPayment(r.crypto)
         pageLoadTimestamp.current = dayjs().unix()
       })
       .catch(console.error)
-  })
-
+  }, [filesApiClient, pendingCryptoInvoice])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -333,7 +331,7 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
       } else {
         const token = Object.values(tokens).find(t => t.symbol?.toLowerCase() === selectedCurrency)
         if (!token || !token.transfer) return
-        // TODO Set loading state here
+
         await (await token.transfer(
           selectedPaymentMethod.address,
           utils.parseUnits(selectedPaymentMethod.amount, token.decimals)
@@ -370,7 +368,7 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
           />
         </div>}
       </div>
-      {(cryptoChargeLoading || !unpaidCryptoInvoice) && <div className={classes.loadingContainer}>
+      {(cryptoChargeLoading || (pendingCryptoInvoice && !timeRemaining)) && <div className={classes.loadingContainer}>
         <Loading type='initial' />
       </div>}
       {error &&
@@ -382,13 +380,13 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
           <Trans>Failed to create a charge</Trans>
         </Typography>
       }
-      {cryptoPayment && unpaidCryptoInvoice &&
+      {cryptoPayment && pendingCryptoInvoice &&
         <>
           <div className={classes.rowBox}>
             <Typography>Total</Typography>
             <div className={classes.pushRightBox}>
               <Typography>
-                {unpaidCryptoInvoice.currency?.toUpperCase()} {unpaidCryptoInvoice.amount}
+                {pendingCryptoInvoice.currency?.toUpperCase()} {pendingCryptoInvoice.amount}
               </Typography>
             </div>
           </div>
@@ -466,12 +464,12 @@ const CryptoPayment = ({ goBack, planPrice }: ICryptoPayment) => {
       }
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
-          <Button
-            onClick={() => !selectedCurrency ? goBack() : setSelectedCurrency(undefined)}
+          {!!selectedCurrency && <Button
+            onClick={() => setSelectedCurrency(undefined)}
             variant="text"
           >
             <Trans>Go back</Trans>
-          </Button>
+          </Button>}
           {selectedCurrency && selectedCurrency !== "bitcoin" && !isReady &&
             <Button onClick={selectWallet}><Trans>Connect Wallet</Trans></Button>
           }

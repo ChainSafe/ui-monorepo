@@ -24,7 +24,7 @@ interface IBillingContext {
   updateDefaultCard: (id: StripePaymentMethod["id"]) => Promise<void>
   invoices?: InvoiceResponse[]
   cancelCurrentSubscription: () => Promise<void>
-  isPending: boolean
+  isPendingInvoice: boolean
 }
 
 const ProductMapping: {[key: string]: {
@@ -55,7 +55,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
-  const isPending = useMemo(() => currentSubscription?.status === "pending_update" as "unpaid", [currentSubscription])
+  const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update" as "unpaid", [currentSubscription])
 
   useEffect(() => {
     if (!currentSubscription) return
@@ -173,7 +173,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         updateDefaultCard,
         invoices,
         cancelCurrentSubscription,
-        isPending
+        isPendingInvoice
       }}
     >
       {children}
