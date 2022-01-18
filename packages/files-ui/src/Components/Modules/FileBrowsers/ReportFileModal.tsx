@@ -123,10 +123,7 @@ const useStyles = makeStyles(
       copyContainer: {
         position: "relative",
         flexBasis: "75%",
-        color: palette.additional["gray"][9],
-        [breakpoints.down("md")]: {
-          flexBasis: "75%"
-        }
+        color: palette.additional["gray"][9]
       },
       decryptionKey: {
         width: "100%",
