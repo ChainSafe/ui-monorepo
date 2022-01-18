@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Modal } from "@chainsafe/common-components"
 import SelectPlan from "./SelectPlan"
@@ -49,6 +49,7 @@ interface IChangeProductModal {
 
 const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const classes = useStyles()
+  const { desktop } = useThemeSwitcher()
   const { getAvailablePlans, changeSubscription, currentSubscription } = useBilling()
   const [selectedPlan, setSelectedPlan] = useState<Product | undefined>()
   const [selectedPrice, setSelectedPrice] = useState<ProductPrice | undefined>()
@@ -85,7 +86,8 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
     <Modal
       closePosition="right"
       active={true}
-      maxWidth={800}
+      maxWidth={desktop ? 800 : undefined}
+      width={desktop ? "max-content" : "100%"}
       className={classes.root}
       injectedClass={{
         inner: classes.inner
