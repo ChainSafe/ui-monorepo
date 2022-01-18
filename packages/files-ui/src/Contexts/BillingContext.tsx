@@ -81,7 +81,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     if (accountRestricted && !restrictedNotification) {
       const notif = addNotification({
         createdAt: dayjs().unix(),
-        title: "Account is restricted",
+        title: t`Account is restricted`,
         onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
       })
       setRestrictedNotification(notif)
@@ -92,15 +92,15 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
 
   useEffect(() => {
-    const outstandingInvoices = invoices?.find(i => i.status === "open")
-    if (outstandingInvoices && !unpaidInvoiceNotification) {
+    const outstandingInvoice = invoices?.find(i => i.status === "open")
+    if (outstandingInvoice && !unpaidInvoiceNotification) {
       const notif = addNotification({
-        createdAt: dayjs().unix(),
-        title: "Invoice ",
+        createdAt: outstandingInvoice.period_start,
+        title: t`Invoice outstanding`,
         onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
       })
       setUnpaidInvoiceNotification(notif)
-    } else if (!outstandingInvoices && unpaidInvoiceNotification) {
+    } else if (!outstandingInvoice && unpaidInvoiceNotification) {
       removeNotification(unpaidInvoiceNotification)
       setUnpaidInvoiceNotification(undefined)
     }
