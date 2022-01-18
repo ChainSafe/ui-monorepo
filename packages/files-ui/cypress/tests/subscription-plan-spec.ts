@@ -7,6 +7,7 @@ import { cardAddedToast } from "../support/page-objects/toasts/cardAddedToast"
 import { cardUpdatedToast } from "../support/page-objects/toasts/cardUpdatedToast"
 import { removeCardModal } from "../support/page-objects/modals/removeCardModal"
 import { selectPlanModal } from "../support/page-objects/modals/selectPlanModal"
+import { planDetailsModal } from "../support/page-objects/modals/planDetailsModal"
 
 describe("Subscription Plan", () => {
 
@@ -79,7 +80,7 @@ describe("Subscription Plan", () => {
       settingsPage.addCardButton().should("be.visible")
     })
 
-    it("can select different subscription plans and view plan summaries", () => {
+    it("can select a subscription plan and view plan details", () => {
       cy.web3Login()
 
       // navigate to settings
@@ -108,7 +109,7 @@ describe("Subscription Plan", () => {
         selectPlanModal.storageDescriptionLabel().should("be.visible")
         selectPlanModal.selectPlanButton()
           .should("be.visible")
-          // button should be disabled when already on free plan
+          // ensure button is disabled when on default free plan
           .should("be.disabled")
       })
 
@@ -129,6 +130,44 @@ describe("Subscription Plan", () => {
           .should("be.visible")
           .should("be.enabled")
       })
+
+      // select the standard plan 
+      cy.get("@standardPlanBox").parent().within(() => {
+        selectPlanModal.selectPlanButton().click()
+      })
+
+      // ensure all the default plan details are displayed
+      planDetailsModal.body().should("be.visible")
+      planDetailsModal.selectedPlanHeader().should("be.visible")
+      planDetailsModal.selectedPlanSubheader().should("be.visible")
+      planDetailsModal.featuresLabel().should("be.visible")
+      planDetailsModal.storageDetailsLabel().should("be.visible")
+      planDetailsModal.billingLabel().should("be.visible")
+      planDetailsModal.billingStartDate().should("be.visible")
+      planDetailsModal.monthlyBillingLabel().should("be.visible")
+      planDetailsModal.yearlyBillingLabel().should("not.exist")
+      planDetailsModal.durationToggleSwitch().should("be.visible")
+      planDetailsModal.totalCostLabel().should("be.visible")
+      planDetailsModal.selectThisPlanButton().should("be.visible")
+      planDetailsModal.goBackButton().should("be.visible")
+
+      // retrieve monthly plan data as cypress alias for later comparison
+      planDetailsModal.totalCostLabel().invoke("text").as("monthlyBillingPrice")
+
+      // toggle to display yearly pay
+      planDetailsModal.durationToggleSwitch().click()
+      planDetailsModal.monthlyBillingLabel().should("not.exist")
+      planDetailsModal.yearlyBillingLabel().should("be.visible")
+      planDetailsModal.totalCostLabel().invoke("text").as("yearlyBillingPrice")
+
+      // price should update when switching to yearly
+      cy.get("@monthlyBillingPrice").then(($monthlyBillingPrice) => {
+        cy.get("@yearlyBillingPrice").should("not.equal", $monthlyBillingPrice)
+      })
+
+      // return to plan selection
+      planDetailsModal.goBackButton().click()
+      selectPlanModal.body().should("be.visible")
     })
   })
 })

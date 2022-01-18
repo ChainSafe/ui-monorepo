@@ -110,7 +110,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
           variant="body1"
           component="p"
           className={classes.boldText}
-          data-cy="label-features-section"
+          data-cy="label-features"
         >
           <Trans>Features</Trans>
         </Typography>
@@ -131,7 +131,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
           component="p"
           variant="body1"
           className={classes.boldText}
-          data-cy="label-billing-section"
+          data-cy="label-billing"
         >
           <Trans>Billing start time</Trans>
         </Typography>
@@ -161,12 +161,12 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
               }
             </Typography>
             <div className={classes.pushRightBox}>
-              <ToggleSwitch
-                left={{ value: "yearly" }}
-                right={{ value: "monthly" }}
-                onChange={() => setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")}
-                data-cy="toggle-switch-duration"
-              />
+              <span data-cy="toggle-switch-duration">
+                <ToggleSwitch
+                  left={{ value: "yearly" }}
+                  right={{ value: "monthly" }}
+                  onChange={() => setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")}
+                /></span>
             </div>
           </div>
           <Divider className={classes.divider} />
