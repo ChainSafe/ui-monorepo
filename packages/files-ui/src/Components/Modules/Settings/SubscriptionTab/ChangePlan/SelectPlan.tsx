@@ -170,7 +170,8 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
               <div
                 className={clsx(classes.planBox)}
                 data-cy="container-plan-box"
-                key={`plan-${plan.id}`}>
+                key={`plan-${plan.id}`}
+              >
                 <Typography
                   component="p"
                   variant="body1"
@@ -183,7 +184,8 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
                   <Typography
                     component="h4"
                     variant="h4"
-                    data-cy={monthly.unit_amount ? "label-monthly-price" : "label-no-charge"}>
+                    data-cy={monthly.unit_amount ? "label-monthly-price" : "label-no-charge"}
+                  >
                     {monthly.unit_amount
                       ? <>
                         {monthly.currency.toUpperCase()} {monthly.unit_amount}
