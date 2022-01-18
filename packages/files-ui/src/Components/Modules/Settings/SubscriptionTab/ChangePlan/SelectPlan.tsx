@@ -155,9 +155,7 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
           <Loading type='initial'/>
         </div>
       )}
-      <section
-        className={classes.panels}
-        data-cy="container-plan-box">
+      <section className={classes.panels}>
         {plans && plans.map((plan) => {
           const monthly = plan.prices.find((price) => price.recurring.interval === "month")
           const yearly = plan.prices.find((price) => price.recurring.interval === "year")
