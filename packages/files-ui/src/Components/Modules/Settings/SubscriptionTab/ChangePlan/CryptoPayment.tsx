@@ -331,7 +331,6 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
       } else {
         const token = Object.values(tokens).find(t => t.symbol?.toLowerCase() === selectedCurrency)
         if (!token || !token.transfer) return
-
         await (await token.transfer(
           selectedPaymentMethod.address,
           utils.parseUnits(selectedPaymentMethod.amount, token.decimals)
