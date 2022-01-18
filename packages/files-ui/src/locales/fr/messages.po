@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
 "PO-Revision-Date: 2022-01-14 07:55+0000\n"
 "Last-Translator: Maxime Leroy <lisacintosh@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
-"chainsafe-files-user-interface/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -41,6 +40,9 @@ msgstr "Un fichier avec ce nom existe déjà"
 
 msgid "Accept"
 msgstr "Accepter"
+
+msgid "Accepted currencies"
+msgstr ""
 
 msgid "Access your billing history in settings or view your"
 msgstr ""
@@ -97,8 +99,7 @@ msgid "Approve"
 msgstr "Accepter"
 
 msgid "Are you sure? This will delete your default payment method."
-msgstr ""
-"Êtes-vous sûr(e) ? Ceci va supprimer votre moyen de paiement par défaut."
+msgstr "Êtes-vous sûr(e) ? Ceci va supprimer votre moyen de paiement par défaut."
 
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
@@ -139,7 +140,6 @@ msgstr "Annuler"
 msgid "Card added"
 msgstr "Carte ajoutée"
 
-#, fuzzy
 msgid "Card inputs invalid"
 msgstr "Carte invalide"
 
@@ -149,14 +149,12 @@ msgstr "Carte mise à jour"
 msgid "Change Password"
 msgstr "Changer le mot de passe"
 
-#, fuzzy
 msgid "Change Plan"
 msgstr "Changer de formule"
 
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#, fuzzy
 msgid "Change plan"
 msgstr "Changer de formule"
 
@@ -178,12 +176,14 @@ msgstr "Confirmer le mot de passe :"
 msgid "Confirm plan change"
 msgstr "Confirmer le changement de formule"
 
-#, fuzzy
 msgid "Confirm plan downgrade"
 msgstr "Confirmer l'augmentation de la formule"
 
 msgid "Confirmation"
 msgstr "Confirmation"
+
+msgid "Connect Wallet"
+msgstr ""
 
 msgid "Connect Wallet to Files"
 msgstr "Connecter un wallet à Files"
@@ -287,6 +287,9 @@ msgstr "Supprimer"
 msgid "Delete selected"
 msgstr "Supprimer la sélection"
 
+msgid "Destination Address"
+msgstr ""
+
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
@@ -323,6 +326,9 @@ msgstr "Les téléchargements ont échoué"
 msgid "Drop to upload files"
 msgstr "Déposer pour téléverser un fichier"
 
+msgid "Edit payment"
+msgstr ""
+
 msgid "Edit payment method"
 msgstr "Modifier les méthodes de paiement"
 
@@ -349,6 +355,9 @@ msgstr "Échec de l'ajout d'une méthode de paiement"
 
 msgid "Failed to change subscription"
 msgstr "Échec de changement de souscription"
+
+msgid "Failed to create a charge"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
@@ -463,6 +472,9 @@ msgstr "Si vous pensez que ce fichier n'est pas conforme à nos <0>Conditions de
 
 msgid "Info"
 msgstr "Infos"
+
+msgid "Insufficient balance"
+msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
@@ -584,6 +596,9 @@ msgstr "OK"
 msgid "One sec, getting files ready…"
 msgstr "Les fichiers sont presque prêts…"
 
+msgid "Only send {selectedCurrency} to this address"
+msgstr ""
+
 msgid "Only you can see this."
 msgstr "Vous seul(e) pouvez voir ceci."
 
@@ -626,6 +641,15 @@ msgstr "Mot de passe :"
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
+msgid "Pay with Crypto"
+msgstr ""
+
+msgid "Pay with crypto"
+msgstr ""
+
+msgid "Pay with {0}"
+msgstr ""
+
 msgid "Payment and Subscriptions"
 msgstr "Paiements et souscriptions"
 
@@ -661,6 +685,9 @@ msgstr "Précédent"
 
 msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
+
+msgid "Proceed to payment"
+msgstr ""
 
 msgid "Profile and Display"
 msgstr "Profil et affichage"
@@ -866,9 +893,11 @@ msgstr "Créer une équipe"
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
 
-#, fuzzy
 msgid "Subscription Plan"
 msgstr "Formule souscrite"
+
+msgid "Switch Network"
+msgstr ""
 
 msgid "Switch Plan"
 msgstr "Changer de formule"
@@ -956,6 +985,9 @@ msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre
 
 msgid "Total"
 msgstr "Total"
+
+msgid "Total Amount"
+msgstr ""
 
 msgid "Try again"
 msgstr "Essayer de nouveau"
@@ -1093,22 +1125,16 @@ msgid "You would lose the following features:"
 msgstr "Vous perdriez ces fonctionnalités :"
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
-msgstr ""
-"Vous avez un paiement en retard. Tant qu'il n'a pas été réglé, l'accès à "
-"votre compte a été restreint"
+msgstr "Vous avez un paiement en retard. Tant qu'il n'a pas été réglé, l'accès à votre compte a été restreint"
 
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
-msgstr ""
-"Votre contenu dépasse la capacité de stockage de {planStorageCapacity} de "
-"cette formule."
+msgstr "Votre contenu dépasse la capacité de stockage de {planStorageCapacity} de cette formule."
 
 msgid "Your plan"
 msgstr "Votre formule"
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr ""
-"Votre clé de récupération vous permet de récupérer l'accès à votre compte à "
-"la place de la phrase secrète."
+msgstr "Votre clé de récupération vous permet de récupérer l'accès à votre compte à la place de la phrase secrète."
 
 msgid "can-edit"
 msgstr "peut-modifier"
@@ -1135,9 +1161,7 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {Chiffrement et téléversements {2} fichiers}}"
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
-msgstr ""
-"{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {"
-"Vous êtes sur le point de supprimer {2} éléments.}}"
+msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
 
 msgid "{0} cancelled"
 msgstr "{0} annulé(s)"

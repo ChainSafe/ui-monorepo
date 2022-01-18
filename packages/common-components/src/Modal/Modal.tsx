@@ -70,7 +70,7 @@ const useStyles = makeStyles(
         position: "absolute",
         zIndex: 2,
         "& svg": {
-          stroke: palette.common?.black.main
+          stroke: "var(--gray10)"
         },
         "&.right": {
           transform: "translate(-50%, 50%)",

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { withKnobs, select, boolean, number } from "@storybook/addon-knobs"
+import { withKnobs, select, boolean, number, text } from "@storybook/addon-knobs"
 import { ProgressBar, CircularProgressBar } from "../ProgressBar"
 
 export default {
@@ -57,6 +57,7 @@ export const CircularProgressBarDemo = (): React.ReactNode => {
           [undefined, "small", "medium", "large"],
           undefined
         )}
+        label={text("label", "")}
         showBackdrop={boolean("backdrop", true)}
         width={number("width", 20)}
         progress={progress}

@@ -4,8 +4,10 @@ import { ReactNode, useEffect, useState } from "react"
 import { Card, CurrentSubscription, InvoiceResponse, Product } from "@chainsafe/files-api-client"
 import { useCallback } from "react"
 import { t } from "@lingui/macro"
-import { PaymentMethod } from "@stripe/stripe-js"
+import { PaymentMethod as StripePaymentMethod } from "@stripe/stripe-js"
 import { useFiles } from "./FilesContext"
+
+export type PaymentMethod = "crypto" | "creditCard"
 
 type BillingContextProps = {
   children: ReactNode | ReactNode[]
@@ -19,7 +21,7 @@ interface IBillingContext {
   fetchCurrentSubscription: () => void
   getAvailablePlans: () => Promise<Product[]>
   deleteCard: (card: Card) => Promise<void>
-  updateDefaultCard: (id: PaymentMethod["id"]) => Promise<void>
+  updateDefaultCard: (id: StripePaymentMethod["id"]) => Promise<void>
   invoices?: InvoiceResponse[]
   cancelCurrentSubscription: () => Promise<void>
 }
@@ -120,7 +122,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       })
   }, [filesApiClient])
 
-  const updateDefaultCard = useCallback((id: PaymentMethod["id"]) =>
+  const updateDefaultCard = useCallback((id: StripePaymentMethod["id"]) =>
     filesApiClient.updateDefaultCard({ id })
   , [filesApiClient])
 

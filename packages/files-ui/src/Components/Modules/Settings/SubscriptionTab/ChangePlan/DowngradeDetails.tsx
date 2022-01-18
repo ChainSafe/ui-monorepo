@@ -164,7 +164,7 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
         <div className={classes.buttons}>
           <Button
             onClick={goBack}
-            variant="secondary"
+            variant="text"
             disabled={isCancelingPlan}
           >
             <Trans>Go back</Trans>
