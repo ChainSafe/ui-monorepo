@@ -55,7 +55,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
-  const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update" as "unpaid", [currentSubscription])
+  const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update", [currentSubscription])
 
   useEffect(() => {
     if (!currentSubscription) return
