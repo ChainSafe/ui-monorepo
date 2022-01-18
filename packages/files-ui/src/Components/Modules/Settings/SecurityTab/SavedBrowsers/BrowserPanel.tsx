@@ -85,8 +85,6 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
       backgroundColor: constants.actionModal.backgroundColor,
       color: constants.actionModal.color,
       [breakpoints.down("md")]: {
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         maxWidth: `${breakpoints.width("md")}px !important`
       }
     }
