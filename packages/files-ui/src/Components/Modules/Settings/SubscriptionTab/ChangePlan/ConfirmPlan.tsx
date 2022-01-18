@@ -5,7 +5,7 @@ import { Product, ProductPrice } from "@chainsafe/files-api-client"
 import { Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
-import { useBilling } from "../../../../../Contexts/BillingContext"
+import { PaymentMethod, useBilling } from "../../../../../Contexts/BillingContext"
 import clsx from "clsx"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
@@ -94,11 +94,11 @@ interface IConfirmPlan {
   plan: Product
   planPrice: ProductPrice
   goToSelectPlan: () => void
-  goToPlanDetails: () => void
   goToPaymentMethod: () => void
   onChangeSubscription: () => void
   loadingChangeSubscription: boolean
   isSubscriptionError: boolean
+  paymentMethod: PaymentMethod
 }
 
 const ConfirmPlan = ({
@@ -108,7 +108,8 @@ const ConfirmPlan = ({
   goToPaymentMethod,
   onChangeSubscription,
   loadingChangeSubscription,
-  isSubscriptionError
+  isSubscriptionError,
+  paymentMethod
 }: IConfirmPlan) => {
   const classes = useStyles()
   const { defaultCard } = useBilling()
@@ -170,31 +171,74 @@ const ConfirmPlan = ({
         </div>
       </div>
       <Divider className={classes.divider} />
-      <div className={classes.rowBox}>
-        <Typography
-          variant="body1"
-          component="p"
-        >
-          <Trans>Payment method</Trans>
-        </Typography>
-        <div className={classes.pushRightBox}>
-          <Typography
-            variant="body1"
-            component="p"
-            className={classes.textButton}
-            onClick={goToPaymentMethod}
-          >
-            <Trans>Edit payment method</Trans>
-          </Typography>
-        </div>
-      </div>
-      {defaultCard &&
-        <div className={classes.creditCardRow}>
-          <CreditCardIcon className={classes.creditCardIcon} />
-          <Typography>
-           •••• •••• •••• {defaultCard.last_four_digit}
-          </Typography>
-        </div>
+      {paymentMethod === "creditCard" && defaultCard &&
+        <>
+          <div className={classes.rowBox}>
+            <Typography
+              variant="body1"
+              component="p"
+            >
+              <Trans>Payment method</Trans>
+            </Typography>
+            <div className={classes.pushRightBox}>
+              <Typography
+                variant="body1"
+                component="p"
+                className={classes.textButton}
+                onClick={goToPaymentMethod}
+              >
+                <Trans>Edit payment method</Trans>
+              </Typography>
+            </div>
+          </div>
+          <div className={classes.creditCardRow}>
+            <CreditCardIcon className={classes.creditCardIcon} />
+            <Typography>
+              •••• •••• •••• {defaultCard.last_four_digit}
+            </Typography>
+          </div>
+        </>
+      }
+      {paymentMethod === "crypto" &&
+        <>
+          <div className={classes.rowBox}>
+            <Typography
+              variant="body1"
+              component="p"
+            >
+              <Trans>Pay with Crypto</Trans>
+            </Typography>
+            <div className={classes.pushRightBox}>
+              <Typography
+                variant="body1"
+                component="p"
+                className={classes.textButton}
+                onClick={goToPaymentMethod}
+              >
+                <Trans>Edit payment</Trans>
+              </Typography>
+            </div>
+          </div>
+          <div>
+          </div>
+          <div className={classes.pushRightBox} />
+          <div className={classes.rowBox}>
+            <Typography
+              component="p"
+              variant="body1"
+            >
+              <Trans>Accepted currencies</Trans>
+            </Typography>
+            <div className={classes.pushRightBox}>
+              <Typography
+                variant="body1"
+                component="p"
+              >
+                DAI, USDC, ETH or BTC
+              </Typography>
+            </div>
+          </div>
+        </>
       }
       <div className={classes.rowBox}>
         <Typography
@@ -258,7 +302,9 @@ const ConfirmPlan = ({
             disabled={loadingChangeSubscription}
             onClick={onChangeSubscription}
           >
-            <Trans>Confirm plan change</Trans>
+            {paymentMethod === "creditCard"
+              ? <Trans>Confirm plan change</Trans>
+              : <Trans>Proceed to payment</Trans> }
           </Button>
         </div>
       </section>
