@@ -1,6 +1,6 @@
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { settingsPage } from "../support/page-objects/settingsPage"
-import { addOrUpdateCardModal } from "../support/page-objects/modals/addCardModal"
+import { addOrUpdateCardModal } from "../support/page-objects/modals/addOrUpdateCardModal"
 import { visaNumber, visaExpiry, visaCvc } from "../fixtures/cardData"
 import { mastercardNumber, mastercardExpiry, mastercardCvc } from "../fixtures/cardData"
 import { cardAddedToast } from "../support/page-objects/toasts/cardAddedToast"
