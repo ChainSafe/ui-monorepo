@@ -101,6 +101,9 @@ msgstr "Accepter"
 msgid "Are you sure? This will delete your default payment method."
 msgstr "Êtes-vous sûr(e) ? Ceci va supprimer votre moyen de paiement par défaut."
 
+msgid "Awaiting payment"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
 
@@ -934,6 +937,9 @@ msgstr "Thème"
 
 msgid "There are no notifications!"
 msgstr "Il n'y a aucune notification !"
+
+msgid "There was a problem creating a charge {error}"
+msgstr ""
 
 msgid "There was an error authenticating"
 msgstr "Une erreur s’est produite lors de l’authentification"
