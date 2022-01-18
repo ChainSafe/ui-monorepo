@@ -50,6 +50,21 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     error: {
       stroke: theme.palette.error.main
+    },
+    label: {
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      position: "absolute",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 12
+    },
+    wrapper: {
+      position: "relative",
+      display: "inline-flex"
     }
   })
 )
@@ -60,6 +75,7 @@ export type ProgressBarVariant = "primary" | "secondary"
 
 export interface ICircularProgressBarProps {
   className?: string
+  label?: string
   progress: number
   size?: ProgressBarSize
   variant?: ProgressBarVariant
@@ -75,7 +91,8 @@ const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
   variant,
   showBackdrop = true,
   width,
-  className
+  className,
+  label
 }) => {
   const strokeWidth = size === "small" ? 2 : size === "medium" ? 3 : 4
   const radius = width
@@ -97,28 +114,31 @@ const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
   })
 
   return (
-    <svg
-      className={className}
-      viewBox={`0 0 ${diameter} ${diameter}`}
-      width={diameter}
-      height={diameter}
-    >
-      {showBackdrop && (
+    <div className={classes.wrapper}>
+      {label && <span className={classes.label}>{label}</span>}
+      <svg
+        className={className}
+        viewBox={`0 0 ${diameter} ${diameter}`}
+        width={diameter}
+        height={diameter}
+      >
+        {showBackdrop && (
+          <path
+            d={pathDescription}
+            strokeWidth={strokeWidth}
+            fillOpacity={0}
+            className={classes.backdrop}
+          />
+        )}
+
         <path
           d={pathDescription}
           strokeWidth={strokeWidth}
           fillOpacity={0}
-          className={classes.backdrop}
+          className={clsx(classes.progressBar, size, classes[state], variant)}
         />
-      )}
-
-      <path
-        d={pathDescription}
-        strokeWidth={strokeWidth}
-        fillOpacity={0}
-        className={clsx(classes.progressBar, size, classes[state], variant)}
-      />
-    </svg>
+      </svg>
+    </div>
   )
 }
 

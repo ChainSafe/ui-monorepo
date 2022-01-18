@@ -40,6 +40,9 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
+msgid "Accepted currencies"
+msgstr ""
+
 msgid "Access your billing history in settings or view your"
 msgstr ""
 
@@ -178,6 +181,9 @@ msgstr ""
 msgid "Confirmation"
 msgstr ""
 
+msgid "Connect Wallet"
+msgstr ""
+
 msgid "Connect Wallet to Files"
 msgstr ""
 
@@ -280,6 +286,9 @@ msgstr "Slett"
 msgid "Delete selected"
 msgstr ""
 
+msgid "Destination Address"
+msgstr ""
+
 msgid "Device awaiting confirmation"
 msgstr ""
 
@@ -316,6 +325,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr ""
 
+msgid "Edit payment"
+msgstr ""
+
 msgid "Edit payment method"
 msgstr ""
 
@@ -341,6 +353,9 @@ msgid "Failed to add payment method"
 msgstr ""
 
 msgid "Failed to change subscription"
+msgstr ""
+
+msgid "Failed to create a charge"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -453,6 +468,9 @@ msgstr ""
 
 msgid "Info"
 msgstr "Info"
+
+msgid "Insufficient balance"
+msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
@@ -574,6 +592,9 @@ msgstr ""
 msgid "One sec, getting files ready…"
 msgstr ""
 
+msgid "Only send {selectedCurrency} to this address"
+msgstr ""
+
 msgid "Only you can see this."
 msgstr "Kun du kan se dette."
 
@@ -616,6 +637,15 @@ msgstr "Passord:"
 msgid "Passwords must match"
 msgstr "Passordene må samsvare"
 
+msgid "Pay with Crypto"
+msgstr ""
+
+msgid "Pay with crypto"
+msgstr ""
+
+msgid "Pay with {0}"
+msgstr ""
+
 msgid "Payment and Subscriptions"
 msgstr ""
 
@@ -651,6 +681,9 @@ msgstr "Forrige"
 
 msgid "Privacy Policy"
 msgstr "Personvernspraksis"
+
+msgid "Proceed to payment"
+msgstr ""
 
 msgid "Profile and Display"
 msgstr "Profil og visning"
@@ -859,6 +892,9 @@ msgstr ""
 msgid "Subscription Plan"
 msgstr ""
 
+msgid "Switch Network"
+msgstr ""
+
 msgid "Switch Plan"
 msgstr ""
 
@@ -944,6 +980,9 @@ msgid "This website uses cookies that help the website function and track intera
 msgstr ""
 
 msgid "Total"
+msgstr ""
+
+msgid "Total Amount"
 msgstr ""
 
 msgid "Try again"
