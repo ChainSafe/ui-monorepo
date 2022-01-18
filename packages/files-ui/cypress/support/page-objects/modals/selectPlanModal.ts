@@ -1,6 +1,6 @@
 export const selectPlanModal = {
   body: () => cy.get("[data-testid=modal-container-select-plan]", { timeout: 10000 }),
-  planBoxContainer: () => cy.get("[data-cy=container-plan-box]"),
+  planBoxContainer: () => cy.get("[data-cy=container-plan-box]", { timeout: 10000 }),
   switchPlanHeader: () => cy.get("[data-cy=header-switch-plan]"),
   selectPlanButton: () => cy.get("[data-testid=button-select-plan]"),
   contactUsLink: () => cy.get("[data-cy=link-contact-us]"),
