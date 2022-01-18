@@ -167,7 +167,8 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
                   left={{ value: "yearly" }}
                   right={{ value: "monthly" }}
                   onChange={() => setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")}
-                /></span>
+                />
+              </span>
             </div>
           </div>
           <Divider className={classes.divider} />
