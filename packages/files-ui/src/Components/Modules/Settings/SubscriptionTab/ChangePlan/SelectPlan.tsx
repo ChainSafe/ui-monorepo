@@ -265,8 +265,8 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
             )
             : (
               <div
-                className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && !isCurrentPlan && !isPendingInvoice && "active")}
-                onClick={() => isUpdateAllowed && !isCurrentPlan && setTempSelectedPlan(plan)}
+                className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && !isCurrentPlan && "active")}
+                onClick={() => !isPendingInvoice && isUpdateAllowed && !isCurrentPlan && setTempSelectedPlan(plan)}
                 key={`plan-${plan.id}`}
               >
                 <div className={classes.priceAndDescription}>
@@ -349,8 +349,8 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
             </a>
           </Typography>
         )}
-        <div className={classes.buttons}>
-          {!desktop && (
+        {!desktop && !isPendingInvoice && (
+          <div className={classes.buttons}>
             <Button
               variant="primary"
               disabled={!tempSelectedPlan}
@@ -359,8 +359,8 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
             >
               <Trans>Select plan</ Trans>
             </Button>
-          )}
-        </div>
+          </div>
+        )}
       </section>
     </article>
   )
