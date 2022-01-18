@@ -36,6 +36,7 @@ import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import CustomButton from "../../../../Elements/CustomButton"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -47,17 +48,11 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
     },
     modalRoot: {
       [breakpoints.down("md")]: {
-        paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+        paddingBottom: Number(constants?.mobileButtonHeight)
       }
     },
     modalInner: {
       [breakpoints.down("md")]: {
-        bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
         maxWidth: `${breakpoints.width("md")}px !important`
       }
     },
@@ -91,15 +86,6 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
     },
     okButton: {
       marginLeft: constants.generalUnit
-    },
-    cancelButton: {
-      [breakpoints.down("md")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: constants?.mobileButtonHeight
-      }
     },
     menuIcon: {
       display: "flex",
@@ -561,15 +547,14 @@ const FileSystemItem = ({
                     }
                   </div>
                   <footer className={classes.renameFooter}>
-                    <Button
+                    <CustomButton
                       onClick={() => setEditing("")}
                       size="medium"
-                      className={classes.cancelButton}
-                      variant="outline"
+                      variant={desktop ? "outline" : "gray"}
                       type="button"
                     >
                       <Trans>Cancel</Trans>
-                    </Button>
+                    </CustomButton>
                     <Button
                       variant="primary"
                       size="medium"

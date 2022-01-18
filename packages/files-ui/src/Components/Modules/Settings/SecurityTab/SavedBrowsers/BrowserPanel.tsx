@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from "react"
 import {
   makeStyles,
-  createStyles
+  createStyles,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Button, ExpansionPanel, Typography } from "@chainsafe/common-components"
@@ -10,6 +11,7 @@ import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { BrowserShare, useThresholdKey } from "../../../../../Contexts/ThresholdKeyContext"
 import CustomModal from "../../../../Elements/CustomModal"
+import CustomButton from "../../../../Elements/CustomButton"
 
 const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CSFTheme) =>
   createStyles({
@@ -108,6 +110,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
   const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
   const [loadingDownloadKey, setLoadingDownloadKey] = useState(false)
   const [isModalConfirmationOpen, setIsModalConfirmationOpen] = useState(false)
+  const { desktop } = useThemeSwitcher()
 
   const onDeleteShare = useCallback(() => {
     setLoadingDeleteShare(true)
@@ -212,14 +215,14 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
                     <Trans>By forgetting this browser, you will not be able to use its associated recovery key to sign-in.</Trans>
                   </Typography>
                   <div className={classes.modalFooter}>
-                    <Button
-                      variant="outline"
+                    <CustomButton
+                      variant={desktop ? "outline" : "gray"}
                       onClick={() => setIsModalConfirmationOpen(false)}
                       className={classes.cancelButton}
                       disabled={loadingDeleteShare}
                     >
                       <Trans>Cancel</Trans>
-                    </Button>
+                    </CustomButton>
                     <Button
                       variant="primary"
                       onClick={onDeleteShare}

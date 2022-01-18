@@ -59,6 +59,7 @@ const CreateOrManageSharedFolderModal = (
           bucketId={bucketToEdit.id}
         />
       )}
+      mobileStickyBottom={false}
     >
       <CreateOrManageSharedFolder
         onClose={onClose}
