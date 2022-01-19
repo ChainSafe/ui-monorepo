@@ -109,14 +109,16 @@ const BillingProvider = ({ children }: BillingContextProps) => {
 
   useEffect(() => {
     if (defaultCard && currentSubscription) {
-      if (!cardExpiringNotification && currentSubscription.expiry_date > dayjs(`${defaultCard.exp_year}-${defaultCard.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
+      if (!cardExpiringNotification && currentSubscription.expiry_date >
+        dayjs(`${defaultCard.exp_year}-${defaultCard.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
         const notif = addNotification({
           createdAt: dayjs().unix(),
           title: t`Credit Card is expiring soon`,
           onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
         })
         setCardExpiringNotification(notif)
-      } else if (cardExpiringNotification && currentSubscription?.expiry_date <= dayjs(`${defaultCard?.exp_year}-${defaultCard?.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
+      } else if (cardExpiringNotification && currentSubscription?.expiry_date <=
+        dayjs(`${defaultCard?.exp_year}-${defaultCard?.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
         removeNotification(cardExpiringNotification)
         setCardExpiringNotification(undefined)
       }
