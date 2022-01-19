@@ -1007,9 +1007,6 @@ msgstr "Mettre à jour"
 msgid "Update Card"
 msgstr "Mettre à jour la carte"
 
-msgid "Update Shared Folder"
-msgstr "Mettre à jour le dossier partagé"
-
 msgid "Update card"
 msgstr "Mettre à jour la carte"
 
