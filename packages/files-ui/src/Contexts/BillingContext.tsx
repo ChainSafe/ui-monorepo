@@ -62,6 +62,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
   const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
   const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
+  const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
 
   useEffect(() => {
     if (!currentSubscription) return
@@ -105,6 +106,22 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       setUnpaidInvoiceNotification(undefined)
     }
   }, [addNotification, invoices, redirect, removeNotification, unpaidInvoiceNotification])
+
+  useEffect(() => {
+    if (defaultCard && currentSubscription) {
+      if (!cardExpiringNotification && currentSubscription.expiry_date > dayjs(`${defaultCard.exp_year}-${defaultCard.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
+        const notif = addNotification({
+          createdAt: dayjs().unix(),
+          title: t`Credit Card is expiring soon`,
+          onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+        })
+        setCardExpiringNotification(notif)
+      } else if (cardExpiringNotification && currentSubscription?.expiry_date <= dayjs(`${defaultCard?.exp_year}-${defaultCard?.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
+        removeNotification(cardExpiringNotification)
+        setCardExpiringNotification(undefined)
+      }
+    }
+  }, [addNotification, cardExpiringNotification, currentSubscription, defaultCard, redirect, removeNotification])
 
   const refreshDefaultCard = useCallback(() => {
     filesApiClient.getDefaultCard()

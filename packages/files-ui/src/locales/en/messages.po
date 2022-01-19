@@ -253,6 +253,9 @@ msgstr "Create link"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
 
+msgid "Credit Card is expiring soon"
+msgstr "Credit Card is expiring soon"
+
 msgid "Credit card saved"
 msgstr "Credit card saved"
 
