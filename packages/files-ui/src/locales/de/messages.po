@@ -1006,9 +1006,6 @@ msgstr "Aktualisieren"
 msgid "Update Card"
 msgstr ""
 
-msgid "Update Shared Folder"
-msgstr ""
-
 msgid "Update card"
 msgstr ""
 
