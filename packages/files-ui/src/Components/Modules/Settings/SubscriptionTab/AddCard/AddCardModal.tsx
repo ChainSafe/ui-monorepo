@@ -21,10 +21,6 @@ const useStyles = makeStyles(
         backgroundColor: constants.createFolder.backgroundColor,
         color: constants.createFolder.color,
         [breakpoints.down("md")]: {
-          bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`
         }
       },

@@ -13,17 +13,13 @@ const useStyles = makeStyles(
       modalRoot: {
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {
-          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+          paddingBottom: Number(constants?.mobileButtonHeight)
         }
       },
       modalInner: {
         backgroundColor: constants.modalDefault.backgroundColor,
         color: constants.modalDefault.color,
         [breakpoints.down("md")]: {
-          bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`
         }
       },
@@ -63,6 +59,7 @@ const CreateOrManageSharedFolderModal = (
           bucketId={bucketToEdit.id}
         />
       )}
+      mobileStickyBottom={false}
     >
       <CreateOrManageSharedFolder
         onClose={onClose}

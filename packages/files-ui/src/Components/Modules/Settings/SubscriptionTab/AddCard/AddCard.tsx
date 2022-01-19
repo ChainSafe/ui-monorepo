@@ -1,6 +1,6 @@
 import React, { FormEvent, useMemo, useState } from "react"
 import { Button, Grid, Typography, useToasts } from "@chainsafe/common-components"
-import { createStyles, makeStyles, useTheme } from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useTheme, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import CustomButton from "../../../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
@@ -22,15 +22,6 @@ const useStyles = makeStyles(
       },
       okButton: {
         marginLeft: constants.generalUnit
-      },
-      cancelButton: {
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: constants?.mobileButtonHeight
-        }
       },
       label: {
         fontSize: 14,
@@ -103,6 +94,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
   const [cardAddError, setCardAddError] = useState<string | undefined>(undefined)
   const theme: CSFTheme = useTheme()
   const isUpdate = useMemo(() => !!defaultCard, [defaultCard])
+  const { desktop } = useThemeSwitcher()
 
   const [loadingPaymentMethodAdd, setLoadingPaymentMethodAdd] = useState(false)
 
@@ -237,8 +229,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             <CustomButton
               onClick={onClose}
               size="medium"
-              className={classes.cancelButton}
-              variant="outline"
+              variant={desktop ? "outline" : "gray"}
               type="button"
               disabled={loadingPaymentMethodAdd}
               data-cy="button-cancel-add-card"
