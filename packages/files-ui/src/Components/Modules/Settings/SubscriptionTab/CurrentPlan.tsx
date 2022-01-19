@@ -105,6 +105,7 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
             fullsize
             variant="primary"
             onClick={() => setChangeProductModalVisible(true)}
+            data-cy="button-change-plan"
           >
             <Trans>Change Plan</Trans>
           </Button>

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import CurrentCard from "./CurrentCard"
 import { Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
@@ -7,6 +7,7 @@ import BillingHistory from "./BillingHistory"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import CurrentProduct from "./CurrentPlan"
+import { useBilling } from "../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
@@ -23,6 +24,12 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK || "")
 
 const PlanView: React.FC = () => {
   const classes = useStyles()
+  const { refreshDefaultCard } = useBilling()
+
+  useEffect(() => {
+    // this is needed for testing when a card is deleted programmatically
+    refreshDefaultCard()
+  }, [refreshDefaultCard])
 
   return (
     <Elements stripe={stripePromise}>

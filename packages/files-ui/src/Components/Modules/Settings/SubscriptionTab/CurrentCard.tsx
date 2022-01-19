@@ -69,6 +69,7 @@ const CurrentCard: React.FC = () => {
             <Typography
               variant="body1"
               component="p"
+              data-cy="label-default-card"
             >
               •••• •••• •••• {defaultCard.last_four_digit}
             </Typography>
@@ -77,6 +78,7 @@ const CurrentCard: React.FC = () => {
               component="p"
               className={classes.linkButton}
               onClick={() => setIsDeleteCardModalOpen(true)}
+              data-cy="link-remove-card"
             >
               <Trans>Remove</Trans>
             </Typography>
@@ -85,11 +87,17 @@ const CurrentCard: React.FC = () => {
             component="p"
             variant="body1"
             className={classes.noCard}
+            data-cy="label-no-card"
           >
             <Trans>No Card</Trans>
           </Typography>
         }
-        <Button onClick={() => setIsAddCardModalOpen(true)}>
+        <Button
+          {...(defaultCard
+            ? { testId: "update-a-card" }
+            : { testId: "add-a-card" }
+          )}
+          onClick={() => setIsAddCardModalOpen(true)}>
           {defaultCard
             ? <Trans>Update Card</Trans>
             : <Trans>Add Card</Trans>
@@ -107,9 +115,10 @@ const CurrentCard: React.FC = () => {
         requestMessage={t`Are you sure? This will delete your default payment method.`}
         rejectText={t`Cancel`}
         acceptText={t`Confirm`}
-        acceptButtonProps={{ loading: isDeleteCardLoading, disabled: isDeleteCardLoading }}
-        rejectButtonProps={{ disabled: isDeleteCardLoading }}
+        acceptButtonProps={{ loading: isDeleteCardLoading, disabled: isDeleteCardLoading, testId: "confirm-remove" }}
+        rejectButtonProps={{ disabled: isDeleteCardLoading, testId: "cancel-remove" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
+        testId="remove-card-confirmation"
       />
     </>
   )
