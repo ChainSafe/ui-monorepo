@@ -162,7 +162,6 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
       closePosition="right"
       maxWidth="sm"
       onClose={onHide}
-      mobileStickyBottom={false}
       testId="sharing-explainer"
     >
       <div className={classes.root}>
