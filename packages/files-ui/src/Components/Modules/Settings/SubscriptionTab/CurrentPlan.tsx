@@ -49,6 +49,11 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       display: "block",
       width: "100%",
       textDecoration: "none"
+    },
+    changePlanButton: {
+      "& > svg" : {
+        marginRight: constants.generalUnit
+      }
     }
   })
 )
@@ -60,7 +65,7 @@ interface ICurrentProduct {
 const CurrentProduct = ({ className }: ICurrentProduct) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
-  const { currentSubscription } = useBilling()
+  const { currentSubscription, isPendingInvoice } = useBilling()
   const [isChangeProductModalVisible, setChangeProductModalVisible] = useState(false)
 
   return (<section className={clsx(classes.root, className)}>
@@ -106,8 +111,18 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
             variant="primary"
             onClick={() => setChangeProductModalVisible(true)}
             data-cy="button-change-plan"
+            className={classes.changePlanButton}
           >
-            <Trans>Change Plan</Trans>
+            {isPendingInvoice
+              ? <>
+                <Loading
+                  size={12}
+                  type="initial"
+                />
+                <Trans>Awaiting payment</Trans>
+              </>
+              : <Trans>Change Plan</Trans>
+            }
           </Button>
         </div>
         {
