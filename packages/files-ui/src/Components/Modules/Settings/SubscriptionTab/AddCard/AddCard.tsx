@@ -135,7 +135,11 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
       refreshDefaultCard()
       onCardAdd && onCardAdd()
       setLoadingPaymentMethodAdd(false)
-      addToast({ title: isUpdate ? t`Card updated` : t`Card added`, type: "success" })
+      addToast({
+        title: isUpdate ? t`Card updated` : t`Card added`,
+        type: "success",
+        testId: isUpdate ? "card-updated" : "card-added"
+      })
     } catch (error) {
       console.error(error)
       setLoadingPaymentMethodAdd(false)
@@ -147,9 +151,9 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
     <form onSubmit={handleSubmitPaymentMethod}>
       <div
         className={classes.root}
-        data-cy="form-add-card"
       >
         <CardNumberElement
+          id="iframe-card-number"
           className={clsx(
             classes.cardInputs,
             classes.cardNumberInputs,
@@ -166,6 +170,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
         />
         <div className={classes.expiryCvcContainer}>
           <CardExpiryElement
+            id="iframe-card-expiry"
             className={clsx(
               classes.cardInputs,
               focusElement === "expiry" && classes.cardInputsFocus
@@ -180,6 +185,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             } }}
           />
           <CardCvcElement
+            id="iframe-card-cvc"
             className={clsx(
               classes.cardInputs,
               focusElement === "cvc" && classes.cardInputsFocus
@@ -221,24 +227,24 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
           </div>
           {onClose &&
             <CustomButton
-              data-cy="button-cancel-create-folder"
               onClick={onClose}
               size="medium"
               variant={desktop ? "outline" : "gray"}
               type="button"
               disabled={loadingPaymentMethodAdd}
+              data-cy="button-cancel-add-card"
             >
               <Trans>Cancel</Trans>
             </CustomButton>
           }
           <Button
-            data-cy="button-create-folder"
             size="medium"
             variant="primary"
             type="submit"
             className={classes.okButton}
             loading={loadingPaymentMethodAdd}
             disabled={loadingPaymentMethodAdd}
+            testId={isUpdate ? "update-card" : "add-card"}
           >
             {submitText}
           </Button>

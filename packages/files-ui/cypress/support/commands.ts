@@ -47,6 +47,7 @@ export interface Web3LoginOptions {
   clearTrashBucket?: boolean
   deleteShareBucket?: boolean
   withNewUser?: boolean
+  deleteCreditCard? : boolean
 }
 
 Cypress.Commands.add(
@@ -57,7 +58,8 @@ Cypress.Commands.add(
     clearCSFBucket = false,
     clearTrashBucket = false,
     deleteShareBucket = false,
-    withNewUser = true
+    withNewUser = true,
+    deleteCreditCard = false
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -124,6 +126,10 @@ Cypress.Commands.add(
       apiTestHelper.clearBucket("trash")
     }
 
+    if (deleteCreditCard) {
+      apiTestHelper.deleteCreditCards()
+    }
+
     if(clearTrashBucket || clearCSFBucket || deleteShareBucket){
       navigationMenu.binNavButton().click()
       navigationMenu.homeNavButton().click()
@@ -135,6 +141,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element?: JQuery<HTMLElement>) => {
   const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
+
   return cy
     .wrap($element)
     .should("be.visible")
@@ -142,6 +149,31 @@ Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element?: JQuery
     .pipe(click)
     .should($el => expect($el).to.not.be.visible)
 })
+
+Cypress.Commands.add("iframeLoaded", { prevSubject: "element" }, ($iframe?: JQuery<HTMLElement>): any => {
+  const contentWindow = $iframe?.prop("contentWindow")
+  return new Promise(resolve => {
+    if (
+      contentWindow &&
+              contentWindow.document.readyState === "complete"
+    ) {
+      resolve(contentWindow)
+    } else {
+      $iframe?.on("load", () => {
+        resolve(contentWindow)
+      })
+    }
+  })
+})
+
+Cypress.Commands.add("getInDocument", { prevSubject: "document" }, (document: any, selector: keyof HTMLElementTagNameMap) =>
+  Cypress.$(selector, document))
+
+Cypress.Commands.add("getWithinIframe", (targetElement: any, selector: string) =>
+  cy.get(selector || "iframe", { timeout: 10000 })
+    .iframeLoaded()
+    .its("document")
+    .getInDocument(targetElement))
 
 // Must be declared global to be detected by typescript (allows import/export)
 // eslint-disable @typescript/interface-name
@@ -156,6 +188,7 @@ declare global {
        * @param {Boolean} options.clearTrashBucket - (default: false) - whether any file in the trash bucket should be deleted.
        * @param {Boolean} options.deleteShareBucket - (default: false) - whether any shared bucket should be deleted.
        * @param {Boolean} options.withNewUser - (default: true) - whether to create a new user for this session.
+       * @param {Boolean} options.deleteCreditCard - (default: false) - whether to delete the default credit card associate to the account.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => void
@@ -180,6 +213,9 @@ declare global {
        * @example cy.clearBucket("csf")
        */
       clearBucket: (bucketType: ClearBucketType) => void
+      iframeLoaded: ($iframe?: JQuery<HTMLElement>) => any
+      getInDocument: (document: any, selector: keyof HTMLElementTagNameMap) => JQuery<HTMLElement>
+      getWithinIframe: (targetElement: string, selector: string) => Chainable
     }
   }
 }
