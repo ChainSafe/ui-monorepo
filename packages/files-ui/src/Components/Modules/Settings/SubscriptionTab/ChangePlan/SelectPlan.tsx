@@ -298,7 +298,9 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                         {monthly.unit_amount
                           ? <>
                             {monthly.currency.toUpperCase()} {monthly.unit_amount}
-                            <span className={classes.priceSubtitle}>/month</span>
+                            <span className={classes.priceSubtitle}>
+                              <Trans>/month</Trans>
+                            </span>
                           </>
                           : t`Free`}
                       </Typography>
@@ -309,7 +311,9 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                           variant="body2"
                           className={classes.priceYearlyTitle}>
                           {yearly.currency.toUpperCase()} {yearly.unit_amount}
-                          <span className={classes.priceSubtitle}>/year</span>
+                          <span className={classes.priceSubtitle}>
+                            <Trans>/year</Trans>
+                          </span>
                         </Typography>
                       )
                       : <div className={classes.priceSpace} />
