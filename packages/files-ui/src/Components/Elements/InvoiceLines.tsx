@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { Typography, Loading, Button } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../Contexts/BillingContext"
-import { useFilesApi } from "../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, palette, typography }: CSFTheme) =>
@@ -118,7 +117,7 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
               )}
               {(status === "open") && (
                 <Button onClick={() => console.log("Not implemented")}>
-                  Pay invoice
+                  <Trans>Pay invoice</Trans>
                 </Button>
               )}
             </div>
