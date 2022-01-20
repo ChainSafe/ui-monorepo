@@ -61,8 +61,7 @@ interface  IInvoiceProps {
 
 const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
   const classes = useStyles()
-  const { invoices } = useBilling()
-  const { filesApiClient } = useFilesApi()
+  const { invoices, downloadInvoice } = useBilling()
   const invoicesToShow = useMemo(() => {
     if (!invoices) return
 
@@ -70,18 +69,6 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
       ? invoices.slice(0, lineNumber)
       : invoices
   }, [invoices, lineNumber])
-
-  const downloadInvoice = useCallback(async (invoiceId: string) => {
-    try {
-      const result = await filesApiClient.downloadInvoice(invoiceId)
-      const link = document.createElement("a")
-      link.href = URL.createObjectURL(result.data)
-      link.download = "Chainsafe Files Invoice"
-      link.click()
-    } catch (error) {
-      console.error(error)
-    }
-  }, [filesApiClient])
 
   return (
     <>
