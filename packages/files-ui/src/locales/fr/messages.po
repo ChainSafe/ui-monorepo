@@ -650,6 +650,9 @@ msgstr "Mot de passe :"
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
+msgid "Pay invoice"
+msgstr ""
+
 msgid "Pay with Crypto"
 msgstr ""
 

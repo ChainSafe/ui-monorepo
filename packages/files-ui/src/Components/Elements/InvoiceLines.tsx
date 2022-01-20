@@ -112,7 +112,7 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
               </Typography>
               {(status === "paid") && (
                 <Button onClick={() => downloadInvoice(uuid)}>
-                  Download
+                  <Trans>Download</Trans>
                 </Button>
               )}
               {(status === "open") && (
