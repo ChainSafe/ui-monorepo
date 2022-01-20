@@ -49,6 +49,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
 
   return (
     <CustomModal
+      testId="add-or-update-card"
       className={classes.modalRoot}
       injectedClass={{
         inner: classes.modalInner
@@ -62,6 +63,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
           className={classes.heading}
           variant="h4"
           component="h4"
+          data-cy={isUpdate ? "header-update-card" : "header-add-card"}
         >
           {isUpdate
             ? <Trans>Update your credit card</Trans>

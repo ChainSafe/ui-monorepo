@@ -10,12 +10,16 @@ describe("Main Navigation", () => {
     })
 
     it("can navigate to the bin page", () => {
-      navigationMenu.binNavButton().click()
+      navigationMenu.binNavButton()
+        .should("be.visible")
+        .click()
       cy.url().should("include", "/bin")
     })
 
     it("can navigate to the settings page", () => {
-      navigationMenu.settingsNavButton().click()
+      navigationMenu.settingsNavButton()
+        .should("be.visible")
+        .click()
       cy.url().should("include", "/settings")
     })
 
@@ -24,7 +28,9 @@ describe("Main Navigation", () => {
     })
 
     it("can navigate to the home page", () => {
-      navigationMenu.homeNavButton().click()
+      navigationMenu.homeNavButton()
+        .should("be.visible")
+        .click()
       cy.url().should("include", "/drive")
     })
   })
@@ -36,26 +42,36 @@ describe("Main Navigation", () => {
 
     beforeEach(() => {
       cy.viewport("iphone-6")
-      homePage.hamburgerMenuButton().click()
+      homePage.hamburgerMenuButton()
+        .should("be.visible")
+        .click()
     })
 
     it("can navigate to the bin page", () => {
-      navigationMenu.binNavButton().click()
+      navigationMenu.binNavButton()
+        .should("be.visible")
+        .click()
       cy.url().should("include", "/bin")
     })
 
     it("can navigate to the settings page", () => {
-      navigationMenu.settingsNavButton().click()
+      navigationMenu.settingsNavButton()
+        .should("be.visible")
+        .click()
       cy.url().should("include", "/settings")
     })
 
     it("can navigate to the home page", () => {
-      navigationMenu.homeNavButton().click()
+      navigationMenu.homeNavButton()
+        .should("be.visible")
+        .click()
       cy.url().should("include", "/drive")
     })
 
     it("can sign out from the navigation bar", () => {
-      navigationMenu.signOutButton().click()
+      navigationMenu.signOutButton()
+        .should("be.visible")
+        .click()
       authenticationPage.web3Button().should("be.visible")
       cy.url().should("not.include", "/drive")
       cy.url().should("not.include", "/bin")
