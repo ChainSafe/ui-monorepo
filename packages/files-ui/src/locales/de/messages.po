@@ -646,6 +646,9 @@ msgstr "Passwort:"
 msgid "Passwords must match"
 msgstr "Passwörter müssen übereinstimmen"
 
+msgid "Pay invoice"
+msgstr ""
+
 msgid "Pay with Crypto"
 msgstr ""
 
