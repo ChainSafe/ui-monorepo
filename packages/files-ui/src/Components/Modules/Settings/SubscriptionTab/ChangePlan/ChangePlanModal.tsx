@@ -96,7 +96,9 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       testId={
         (slide === "select")
           ? "select-plan"
-          : (slide === "downgradeDetails" ? "downgrade-details" : "plan-details")
+          : slide === "downgradeDetails"
+            ? "downgrade-details"
+            : "plan-details"
       }
     >
       {slide === "select" && (
