@@ -1,6 +1,7 @@
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { settingsPage } from "../support/page-objects/settingsPage"
 import { addOrUpdateCardModal } from "../support/page-objects/modals/addOrUpdateCardModal"
+import { invalidCardNumber, invalidExpiry, invalidCvc } from "../fixtures/cardData"
 import { visaNumber, visaExpiry, visaCvc } from "../fixtures/cardData"
 import { mastercardNumber, mastercardExpiry, mastercardCvc } from "../fixtures/cardData"
 import { cardAddedToast } from "../support/page-objects/toasts/cardAddedToast"
@@ -78,6 +79,62 @@ describe("Subscription Plan", () => {
       removeCardModal.confirmButton().safeClick()
       settingsPage.noCardLabel().should("be.visible")
       settingsPage.addCardButton().should("be.visible")
+    })
+
+    it("can not add an invalid card to the profile", () => {
+      cy.web3Login({ deleteCreditCard: true })
+
+      // navigate to settings
+      navigationMenu.settingsNavButton().click()
+      settingsPage.subscriptionTabButton().click()
+
+      // attempt to add card with invalid number
+      settingsPage.addCardButton()
+        .should("be.visible")
+        .click()
+      addOrUpdateCardModal.body().should("be.visible")
+      addOrUpdateCardModal.addCardHeader().should("be.visible")
+      addOrUpdateCardModal.awaitStripeElementReady()
+      addOrUpdateCardModal.cardNumberInput().type(invalidCardNumber)
+      addOrUpdateCardModal.expiryDateInput().type(visaExpiry)
+      addOrUpdateCardModal.cvcNumberInput().type(visaCvc)
+      addOrUpdateCardModal.addCardButton().click()
+
+      // ensure error is displayed and modal remains in view
+      addOrUpdateCardModal.cardErrorLabel().should("be.visible")
+      addOrUpdateCardModal.body().should("be.visible")
+
+      // attempt to add card with invalid expiry
+      addOrUpdateCardModal.cardNumberInput()
+        .type("{selectall}{del}")
+        .type(visaNumber)
+      addOrUpdateCardModal.expiryDateInput()
+        .type("{selectall}{del}")
+        .type(invalidExpiry)
+      addOrUpdateCardModal.cvcNumberInput()
+        .type("{selectall}{del}")
+        .type(visaCvc)
+      addOrUpdateCardModal.addCardButton().click()
+
+      // ensure error is displayed and modal remains in view
+      addOrUpdateCardModal.cardErrorLabel().should("be.visible")
+      addOrUpdateCardModal.body().should("be.visible")
+
+      // attempt to add card with invalid cvc
+      addOrUpdateCardModal.cardNumberInput()
+        .type("{selectall}{del}")
+        .type(visaNumber)
+      addOrUpdateCardModal.expiryDateInput()
+        .type("{selectall}{del}")
+        .type(visaExpiry)
+      addOrUpdateCardModal.cvcNumberInput()
+        .type("{selectall}{del}")
+        .type(invalidCvc)
+      addOrUpdateCardModal.addCardButton().click()
+
+      // ensure error is displayed and modal remains in view
+      addOrUpdateCardModal.cardErrorLabel().should("be.visible")
+      addOrUpdateCardModal.body().should("be.visible")
     })
 
     it("can select a subscription plan and view plan details", () => {
