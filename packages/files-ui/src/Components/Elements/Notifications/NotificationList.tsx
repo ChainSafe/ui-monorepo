@@ -92,7 +92,7 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
               className={classes.notificationTime}
               component="p"
             >
-              {dayjs(n.createdAt).fromNow()}
+              {dayjs.unix(n.createdAt).fromNow()}
             </Typography>
           </div>
         ))}
