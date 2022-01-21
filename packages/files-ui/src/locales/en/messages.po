@@ -64,8 +64,8 @@ msgstr "Add a username"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
-msgid "Add by sharing address, username or wallet address"
-msgstr "Add by sharing address, username or wallet address"
+msgid "Add by sharing address, username, wallet address or ENS"
+msgstr "Add by sharing address, username, wallet address or ENS"
 
 msgid "Add card"
 msgstr "Add card"
