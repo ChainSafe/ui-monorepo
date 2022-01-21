@@ -13,6 +13,9 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "(Awaiting payment)"
+msgstr "(Awaiting payment)"
+
 msgid "({0}) items selected"
 msgstr "({0}) items selected"
 
@@ -102,9 +105,6 @@ msgstr "Approve"
 
 msgid "Are you sure? This will delete your default payment method."
 msgstr "Are you sure? This will delete your default payment method."
-
-msgid "Awaiting payment"
-msgstr "Awaiting payment"
 
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
@@ -792,6 +792,9 @@ msgstr "Search…"
 
 msgid "Security"
 msgstr "Security"
+
+msgid "See payment info"
+msgstr "See payment info"
 
 msgid "Select a wallet"
 msgstr "Select a wallet"

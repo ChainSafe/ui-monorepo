@@ -14,6 +14,9 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "(Awaiting payment)"
+msgstr ""
+
 msgid "({0}) items selected"
 msgstr ""
 
@@ -102,9 +105,6 @@ msgid "Approve"
 msgstr "Aprobar"
 
 msgid "Are you sure? This will delete your default payment method."
-msgstr ""
-
-msgid "Awaiting payment"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -793,6 +793,9 @@ msgstr ""
 
 msgid "Security"
 msgstr "Seguridad"
+
+msgid "See payment info"
+msgstr ""
 
 msgid "Select a wallet"
 msgstr "Seleccione una billetera"
