@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useEffect, useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
@@ -7,6 +7,7 @@ import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { PaymentMethod, useBilling } from "../../../../../Contexts/BillingContext"
 import clsx from "clsx"
+import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -114,12 +115,21 @@ const ConfirmPlan = ({
   const classes = useStyles()
   const { defaultCard } = useBilling()
   const { currentSubscription } = useBilling()
+  const { filesApiClient } = useFilesApi()
   const newPlanStorage = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
+
   const isDowngrade = useMemo(() => {
     const currentPrice = currentSubscription?.product?.price?.unit_amount
     return currentPrice && currentPrice > planPrice.unit_amount
-  }, [currentSubscription, planPrice]
-  )
+  }, [currentSubscription, planPrice])
+
+  useEffect(() => {
+    if (!currentSubscription) return
+    filesApiClient.checkSubscriptionUpdate(currentSubscription?.id, {
+      payment_method: paymentMethod === "creditCard" ? "stripe" : "crypto",
+      price_id: planPrice.id
+    }).then(console.log).catch(console.error)
+  }, [currentSubscription, paymentMethod, filesApiClient, planPrice])
 
   return (
     <article className={classes.root}>
