@@ -42,7 +42,7 @@ export const useLookupSharedFolderUser = () => {
     }
     const ethAddressRegex = new RegExp("^0(x|X)[a-fA-F0-9]{40}$") // Eth Address Starting with 0x and 40 HEX chars
     const pubKeyRegex = new RegExp("^0(x|X)[a-fA-F0-9]{66}$") // Compressed public key, 66 chars long
-    const ensRegex = new RegExp("(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]") // domain name check
+    const ensRegex = new RegExp("^[A-z0-9\u1F60-\uFFFF]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,7}$") // domain name check
 
     if (ethAddressRegex.test(inputVal)) {
       lookupBody.public_address = inputVal
