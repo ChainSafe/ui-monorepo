@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
 import { Typography, Link } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 import InvoiceLines from "../../../Elements/InvoiceLines"
+import PayInvoiceModal from "./PayInvoice/PayInvoiceModal"
+import { useBilling } from "../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
@@ -20,6 +22,8 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
 
 const BillingHistory = () => {
   const classes = useStyles()
+  const [isPayInvoiceModalVisible, setPayInvoiceModalVisible] = useState(false)
+  const { isPendingInvoice } = useBilling()
 
   return (
     <div className={classes.container}>
@@ -29,6 +33,9 @@ const BillingHistory = () => {
       >
         <Trans>Billing history</Trans>
       </Typography>
+      {isPendingInvoice && <Typography>
+        Please complete payment of the following outstanding invoices in order to avoid account suspension.
+      </Typography>}
       <Typography
         variant="body1"
         component="p"
@@ -38,7 +45,14 @@ const BillingHistory = () => {
           <Trans>All invoices</Trans>
         </Link>
       </Typography>
-      <InvoiceLines lineNumber={3}/>
+      <InvoiceLines
+        lineNumber={3}
+        payInvoice={() => setPayInvoiceModalVisible(true)}/>
+      {
+        isPayInvoiceModalVisible && (<PayInvoiceModal
+          onClose={() => setPayInvoiceModalVisible(false)}
+        />)
+      }
     </div>
   )
 }

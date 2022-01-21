@@ -57,9 +57,10 @@ const useStyles = makeStyles(
 
 interface  IInvoiceProps {
   lineNumber?: number
+  payInvoice?: () => void
 }
 
-const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
+const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
   const classes = useStyles()
   const { invoices } = useBilling()
   const { filesApiClient } = useFilesApi()
@@ -129,8 +130,8 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
                   Download
                 </Button>
               )}
-              {(status === "open") && (
-                <Button onClick={() => console.log("Not implemented")}>
+              {(status === "open" &&  payInvoice) && (
+                <Button onClick={payInvoice}>
                   Pay invoice
                 </Button>
               )}

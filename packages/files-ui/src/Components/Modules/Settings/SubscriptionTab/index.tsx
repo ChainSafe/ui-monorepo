@@ -6,7 +6,7 @@ import { Trans } from "@lingui/macro"
 import BillingHistory from "./BillingHistory"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
-import CurrentProduct from "./CurrentPlan"
+import CurrentPlan from "./CurrentPlan"
 import { useBilling } from "../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
@@ -41,7 +41,7 @@ const PlanView: React.FC = () => {
           <Trans>Payment and Subscriptions</Trans>
         </Typography>
         <Divider />
-        <CurrentProduct />
+        <CurrentPlan />
         <CurrentCard />
         <BillingHistory />
       </div>

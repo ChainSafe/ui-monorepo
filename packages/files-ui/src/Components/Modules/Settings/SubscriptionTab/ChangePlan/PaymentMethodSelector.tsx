@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
-import AddCard from "../AddCard/AddCard"
+import AddCard from "../Common/AddCard"
 import { PaymentMethod, useBilling } from "../../../../../Contexts/BillingContext"
 import { ProductPrice } from "@chainsafe/files-api-client"
 

@@ -11,7 +11,7 @@ import { useFiles } from "../../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../Contexts/BillingContext"
-import ChangeProductModal from "./ChangePlan/ChangePlanModal"
+import ChangePlanModal from "./ChangePlan/ChangePlanModal"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
@@ -62,11 +62,12 @@ interface ICurrentProduct {
   className?: string
 }
 
-const CurrentProduct = ({ className }: ICurrentProduct) => {
+const CurrentPlan = ({ className }: ICurrentProduct) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
   const { currentSubscription, isPendingInvoice } = useBilling()
   const [isChangeProductModalVisible, setChangeProductModalVisible] = useState(false)
+
 
   return (<section className={clsx(classes.root, className)}>
     <Typography
@@ -126,7 +127,7 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
           </Button>
         </div>
         {
-          isChangeProductModalVisible && (<ChangeProductModal
+          isChangeProductModalVisible && (<ChangePlanModal
             onClose={() => setChangeProductModalVisible(false)}
           />)
         }
@@ -136,4 +137,4 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
   </section>)
 }
 
-export default CurrentProduct
+export default CurrentPlan
