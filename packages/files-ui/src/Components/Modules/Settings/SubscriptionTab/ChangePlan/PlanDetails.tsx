@@ -87,10 +87,6 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
     }
   }
 
-  console.log(billingPeriod)
-  console.log("monthlyPrice", monthlyPrice)
-  console.log("yearlyPrice", yearlyPrice)
-
   return (
     <article className={classes.root}>
       <Typography
