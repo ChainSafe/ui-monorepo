@@ -49,6 +49,9 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
+msgid "Account is restricted"
+msgstr ""
+
 msgid "Active links"
 msgstr ""
 
@@ -251,6 +254,9 @@ msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
+
+msgid "Credit Card is expiring soon"
 msgstr ""
 
 msgid "Credit card saved"
@@ -473,6 +479,9 @@ msgid "Info"
 msgstr "Info"
 
 msgid "Insufficient balance"
+msgstr ""
+
+msgid "Invoice outstanding"
 msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
