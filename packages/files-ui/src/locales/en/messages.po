@@ -49,6 +49,9 @@ msgstr "Access your billing history in settings or view your"
 msgid "Account"
 msgstr "Account"
 
+msgid "Account is restricted"
+msgstr "Account is restricted"
+
 msgid "Active links"
 msgstr "Active links"
 
@@ -249,6 +252,9 @@ msgstr "Create link"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
+
+msgid "Credit Card is expiring soon"
+msgstr "Credit Card is expiring soon"
 
 msgid "Credit card saved"
 msgstr "Credit card saved"
@@ -475,6 +481,9 @@ msgstr "Info"
 msgid "Insufficient balance"
 msgstr "Insufficient balance"
 
+msgid "Invoice outstanding"
+msgstr "Invoice outstanding"
+
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
 
@@ -639,6 +648,9 @@ msgstr "Password:"
 
 msgid "Passwords must match"
 msgstr "Passwords must match"
+
+msgid "Pay invoice"
+msgstr "Pay invoice"
 
 msgid "Pay with Crypto"
 msgstr "Pay with Crypto"
