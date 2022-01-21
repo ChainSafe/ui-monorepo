@@ -92,6 +92,9 @@ msgstr ""
 msgid "An error occurred:"
 msgstr ""
 
+msgid "Annual billing"
+msgstr ""
+
 msgid "Anyone with the link can:"
 msgstr ""
 
@@ -519,9 +522,6 @@ msgid "Manage Access"
 msgstr ""
 
 msgid "Manage Shared Folder"
-msgstr ""
-
-msgid "Monthly billing"
 msgstr ""
 
 msgid "Move"
@@ -1084,9 +1084,6 @@ msgstr "Qué buen día es."
 
 msgid "What a fine night it is."
 msgstr "Qué hermosa noche es."
-
-msgid "Yearly billing"
-msgstr ""
 
 msgid "Yes, save it"
 msgstr "Si guárdalo"
