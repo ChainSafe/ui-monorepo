@@ -204,6 +204,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
           component="p"
           variant="body1"
           className={classes.error}
+          data-cy="label-add-card-error"
         >
           {cardAddError}
         </Typography>
