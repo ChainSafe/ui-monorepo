@@ -6,6 +6,10 @@ import { useCallback } from "react"
 import { t } from "@lingui/macro"
 import { PaymentMethod as StripePaymentMethod } from "@stripe/stripe-js"
 import { useFiles } from "./FilesContext"
+import { useNotifications } from "./NotificationsContext"
+import dayjs from "dayjs"
+import { useHistory } from "@chainsafe/common-components"
+import { ROUTE_LINKS } from "../Components/FilesRoutes"
 
 export type PaymentMethod = "crypto" | "creditCard"
 
@@ -25,6 +29,7 @@ interface IBillingContext {
   invoices?: InvoiceResponse[]
   cancelCurrentSubscription: () => Promise<void>
   isPendingInvoice: boolean
+  downloadInvoice: (invoiceId: string) => Promise<void>
 }
 
 const ProductMapping: {[key: string]: {
@@ -50,33 +55,87 @@ const BillingContext = React.createContext<IBillingContext | undefined>(
 )
 
 const BillingProvider = ({ children }: BillingContextProps) => {
-  const { filesApiClient, isLoggedIn } = useFilesApi()
+  const { filesApiClient, isLoggedIn, accountRestricted } = useFilesApi()
+  const { redirect } = useHistory()
+  const { addNotification, removeNotification } = useNotifications()
   const { refreshBuckets } = useFiles()
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
   const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update", [currentSubscription])
+  const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
+  const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
+  const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
 
   useEffect(() => {
     if (!currentSubscription) return
 
     filesApiClient.getAllInvoices(currentSubscription.id, 100)
       .then(({ invoices }) => {
-        setInvoices(invoices)
-      })
-      .catch((e: any) => {
+        setInvoices(invoices
+          .filter(i => i.status !== "void")
+          .sort((a, b) => b.period_start - a.period_start))
+      }).catch((e: any) => {
         console.error(e)
         setInvoices([])
       })
   }, [currentSubscription, filesApiClient])
 
+  useEffect(() => {
+    if (accountRestricted && !restrictedNotification) {
+      const notif = addNotification({
+        createdAt: dayjs().unix(),
+        title: t`Account is restricted`,
+        onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+      })
+      setRestrictedNotification(notif)
+    } else if (accountRestricted === false && restrictedNotification) {
+      removeNotification(restrictedNotification)
+      setRestrictedNotification(undefined)
+    }
+  }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
+
+  useEffect(() => {
+    const outstandingInvoice = invoices?.find(i => i.status === "open")
+    if (outstandingInvoice && !unpaidInvoiceNotification) {
+      const notif = addNotification({
+        createdAt: outstandingInvoice.period_start,
+        title: t`Invoice outstanding`,
+        onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+      })
+      setUnpaidInvoiceNotification(notif)
+    } else if (!outstandingInvoice && unpaidInvoiceNotification) {
+      removeNotification(unpaidInvoiceNotification)
+      setUnpaidInvoiceNotification(undefined)
+    }
+  }, [addNotification, invoices, redirect, removeNotification, unpaidInvoiceNotification])
+
+  useEffect(() => {
+    if (defaultCard && currentSubscription) {
+      if (!cardExpiringNotification && currentSubscription.expiry_date >
+        dayjs(`${defaultCard.exp_year}-${defaultCard.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
+        const notif = addNotification({
+          createdAt: dayjs().unix(),
+          title: t`Credit Card is expiring soon`,
+          onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+        })
+        setCardExpiringNotification(notif)
+      } else if (cardExpiringNotification && currentSubscription?.expiry_date <=
+        dayjs(`${defaultCard?.exp_year}-${defaultCard?.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
+        removeNotification(cardExpiringNotification)
+        setCardExpiringNotification(undefined)
+      }
+    }
+  }, [addNotification, cardExpiringNotification, currentSubscription, defaultCard, redirect, removeNotification])
+
   const refreshDefaultCard = useCallback(() => {
-    filesApiClient.getDefaultCard().then((card) => {
-      setDefaultCard(card)
-    }).catch((err) => {
-      console.error(err)
-      setDefaultCard(undefined)
-    })
+    filesApiClient.getDefaultCard()
+      .then((card) => {
+        setDefaultCard(card)
+      }).catch((err) => {
+        console.error(err)
+        setDefaultCard(undefined)
+      })
   }, [filesApiClient])
 
   const deleteCard = useCallback((card: Card) =>
@@ -157,8 +216,19 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         console.error(error)
         return Promise.reject()
       })
-  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, refreshBuckets]
-  )
+  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, refreshBuckets])
+
+  const downloadInvoice = useCallback(async (invoiceId: string) => {
+    try {
+      const result = await filesApiClient.downloadInvoice(invoiceId)
+      const link = document.createElement("a")
+      link.href = URL.createObjectURL(result.data)
+      link.download = "Chainsafe Files Invoice"
+      link.click()
+    } catch (error) {
+      console.error(error)
+    }
+  }, [filesApiClient])
 
   return (
     <BillingContext.Provider
@@ -173,7 +243,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         updateDefaultCard,
         invoices,
         cancelCurrentSubscription,
-        isPendingInvoice
+        isPendingInvoice,
+        downloadInvoice
       }}
     >
       {children}

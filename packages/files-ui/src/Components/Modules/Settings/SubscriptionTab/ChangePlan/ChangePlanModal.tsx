@@ -101,8 +101,14 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       injectedClass={{
         inner: classes.inner
       }}
-      testId="change-product"
       onClose={onClose}
+      testId={
+        (slide === "select")
+          ? "select-plan"
+          : slide === "downgradeDetails"
+            ? "downgrade-details"
+            : "plan-details"
+      }
     >
       {slide === "select" && (
         <SelectPlan

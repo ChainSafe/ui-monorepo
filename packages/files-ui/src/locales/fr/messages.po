@@ -50,6 +50,9 @@ msgstr "Accédez à l'historique de votre facturation dans les paramètres ou vi
 msgid "Account"
 msgstr "Compte"
 
+msgid "Account is restricted"
+msgstr ""
+
 msgid "Active links"
 msgstr "Liens actifs"
 
@@ -253,6 +256,9 @@ msgstr "Créer un lien"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
+
+msgid "Credit Card is expiring soon"
+msgstr ""
 
 msgid "Credit card saved"
 msgstr "Carte de crédit enregistrée"
@@ -479,6 +485,9 @@ msgstr "Infos"
 msgid "Insufficient balance"
 msgstr ""
 
+msgid "Invoice outstanding"
+msgstr ""
+
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
@@ -643,6 +652,9 @@ msgstr "Mot de passe :"
 
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
+
+msgid "Pay invoice"
+msgstr ""
 
 msgid "Pay with Crypto"
 msgstr ""

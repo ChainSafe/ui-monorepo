@@ -135,21 +135,21 @@ const App = () => {
                     enableLogging={directAuthNetwork !== "mainnet"}
                     network={directAuthNetwork}
                   >
-                    <NotificationsProvider>
-                      <UserProvider>
-                        <FilesProvider>
-                          <BillingProvider>
-                            <Router>
+                    <Router>
+                      <NotificationsProvider>
+                        <UserProvider>
+                          <FilesProvider>
+                            <BillingProvider>
                               <PosthogProvider>
                                 <AppWrapper>
                                   <FilesRoutes />
                                 </AppWrapper>
                               </PosthogProvider>
-                            </Router>
-                          </BillingProvider>
-                        </FilesProvider>
-                      </UserProvider>
-                    </NotificationsProvider>
+                            </BillingProvider>
+                          </FilesProvider>
+                        </UserProvider>
+                      </NotificationsProvider>
+                    </Router>
                   </ThresholdKeyProvider>
                 </FilesApiProvider>
               </Web3Provider>

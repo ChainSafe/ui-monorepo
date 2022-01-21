@@ -95,10 +95,11 @@ interface IToggleSwitch {
   error?: string
   disabled?: boolean
   value?: any
+  testId?: string
   // name?: string
 }
 
-const ToggleSwitch = ({ injectedClasses, disabled, left, right, onChange, value, size, error }: IToggleSwitch) => {
+const ToggleSwitch = ({ injectedClasses, disabled, left, right, onChange, value, size, error, testId }: IToggleSwitch) => {
   const resolvedSize = useMemo(() => {
     switch (size) {
       case "large":
@@ -132,6 +133,7 @@ const ToggleSwitch = ({ injectedClasses, disabled, left, right, onChange, value,
       "disabled": disabled
     })}
     onClick={onToggle}
+    data-testid={`toggle-switch-${testId}`}
   >
     {
       side === "left" && left.label && (
