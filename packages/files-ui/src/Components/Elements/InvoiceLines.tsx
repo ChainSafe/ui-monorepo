@@ -1,7 +1,7 @@
 import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
-import { Typography, Loading } from "@chainsafe/common-components"
+import { Typography, Loading, Button } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../Contexts/BillingContext"
@@ -60,7 +60,7 @@ interface  IInvoiceProps {
 
 const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
   const classes = useStyles()
-  const { invoices } = useBilling()
+  const { invoices, downloadInvoice } = useBilling()
   const invoicesToShow = useMemo(() => {
     if (!invoices) return
 
@@ -92,7 +92,7 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
         </div>
       )}
       {!!invoicesToShow?.length && (
-        invoicesToShow.map(({ paid_on, amount, currency, uuid }) =>
+        invoicesToShow.map(({ amount, currency, uuid, period_start, status }) =>
           <section
             className={classes.setOption}
             key={uuid}
@@ -108,11 +108,18 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
                 variant="body2"
                 className="receiptDate"
               >
-                {dayjs(paid_on).format("MMM D, YYYY")}
+                {dayjs.unix(period_start).format("MMM D, YYYY")}
               </Typography>
-              <Typography>
-                {uuid}
-              </Typography>
+              {(status === "paid") && (
+                <Button onClick={() => downloadInvoice(uuid)}>
+                  <Trans>Download</Trans>
+                </Button>
+              )}
+              {(status === "open") && (
+                <Button onClick={() => console.log("Not implemented")}>
+                  <Trans>Pay invoice</Trans>
+                </Button>
+              )}
             </div>
           </section>
         )
