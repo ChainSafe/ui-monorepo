@@ -50,15 +50,24 @@ interface IChangeProductModal {
 const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { getAvailablePlans, changeSubscription, currentSubscription } = useBilling()
+  const { getAvailablePlans, changeSubscription, currentSubscription, isPendingInvoice } = useBilling()
   const [selectedPlan, setSelectedPlan] = useState<Product | undefined>()
   const [selectedPrice, setSelectedPrice] = useState<ProductPrice | undefined>()
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | undefined>()
-  const [slide, setSlide] = useState<ChangeModalSlides>("select")
+  const [slide, setSlide] = useState<ChangeModalSlides | undefined>()
   const [plans, setPlans] = useState<Product[] | undefined>()
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
   const [isSubscriptionError, setIsSubscriptionError] = useState(false)
   const didSelectFreePlan = useMemo(() => !!selectedPlan && getPrice(selectedPlan, "month") === 0, [selectedPlan])
+
+  useEffect(() => {
+    if(!slide){
+      setSlide(isPendingInvoice
+        ? "cryptoPayment"
+        : "select"
+      )
+    }
+  }, [isPendingInvoice, slide])
 
   useEffect(() => {
     if(!plans) {
@@ -108,7 +117,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
               ? setSlide("downgradeDetails")
               : setSlide("planDetails")
           }}
-          onShowCryptoOutstandingPayment={() => setSlide("cryptoPayment")}
           plans={plans}
         />
       )}

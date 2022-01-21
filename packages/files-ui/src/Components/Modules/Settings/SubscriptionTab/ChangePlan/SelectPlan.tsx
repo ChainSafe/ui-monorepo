@@ -146,12 +146,11 @@ interface ISelectPlan {
   className?: string
   plans?: Product[]
   onSelectPlan: (plan: Product) => void
-  onShowCryptoOutstandingPayment: () => void
 }
 
-const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPayment }: ISelectPlan) => {
+const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
   const classes = useStyles()
-  const { currentSubscription, isPendingInvoice } = useBilling()
+  const { currentSubscription } = useBilling()
   const { desktop } = useThemeSwitcher()
   const [tempSelectedPlan, setTempSelectedPlan] = useState<Product | undefined>()
 
@@ -239,34 +238,19 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                   : plan.description
                   }
                 </Typography>
-                {isPendingInvoice && isCurrentPlan
-                  ? <Button
-                    variant="primary"
-                    onClick={onShowCryptoOutstandingPayment}
-                    className={classes.loader}
-                  >
-                    <>
-                      <Loading
-                        size={12}
-                        type="initial"
-                      />
-                      <Trans>Awaiting payment</Trans>
-                    </>
-                  </Button>
-                  : <Button
-                    variant="primary"
-                    disabled={isCurrentPlan || !isUpdateAllowed || isPendingInvoice}
-                    onClick={() => onSelectPlan(plan)}
-                  >
-                    <Trans>Select plan</Trans>
-                  </Button>
-                }
+                <Button
+                  variant="primary"
+                  disabled={isCurrentPlan || !isUpdateAllowed}
+                  onClick={() => onSelectPlan(plan)}
+                >
+                  <Trans>Select plan</Trans>
+                </Button>
               </div>
             )
             : (
               <div
                 className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && !isCurrentPlan && "active")}
-                onClick={() => !isPendingInvoice && isUpdateAllowed && !isCurrentPlan && setTempSelectedPlan(plan)}
+                onClick={() => isUpdateAllowed && !isCurrentPlan && setTempSelectedPlan(plan)}
                 key={`plan-${plan.id}`}
               >
                 <div className={classes.priceAndDescription}>
@@ -320,20 +304,6 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                     }
                   </div>
                 </div>
-                {isPendingInvoice && isCurrentPlan && <Button
-                  variant="primary"
-                  onClick={onShowCryptoOutstandingPayment}
-                  className={classes.loader}
-                >
-                  <>
-                    <Loading
-                      size={12}
-                      type="initial"
-                    />
-                    <Trans>Awaiting payment</Trans>
-                  </>
-                </Button>
-                }
               </div>
             )})}
       </section>
@@ -353,7 +323,7 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
             </a>
           </Typography>
         )}
-        {!desktop && !isPendingInvoice && (
+        {!desktop && (
           <div className={classes.buttons}>
             <Button
               variant="primary"

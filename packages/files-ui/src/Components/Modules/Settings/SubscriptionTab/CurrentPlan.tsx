@@ -17,7 +17,6 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
     root: {
       padding: constants.generalUnit,
-      maxWidth: 240,
       "& h2, & h5": {
         marginBottom: constants.generalUnit,
         fontWeight: 400
@@ -26,6 +25,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       }
     },
     spaceUsedBox: {
+      maxWidth: 240,
       [breakpoints.down("md")]: {
         marginBottom: constants.generalUnit,
         width: "inherit"
@@ -38,6 +38,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       overflow: "hidden"
     },
     buttons: {
+      maxWidth: 240,
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
@@ -49,11 +50,6 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       display: "block",
       width: "100%",
       textDecoration: "none"
-    },
-    changePlanButton: {
-      "& > svg" : {
-        marginRight: constants.generalUnit
-      }
     }
   })
 )
@@ -81,7 +77,7 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
           variant="h5"
           component="h5"
         >
-          {currentSubscription?.product.name}
+          {currentSubscription?.product.name}{isPendingInvoice && ` ${t`(Awaiting payment)`}`}
         </Typography>
         : <Loading
           size={36}
@@ -111,16 +107,9 @@ const CurrentProduct = ({ className }: ICurrentProduct) => {
             variant="primary"
             onClick={() => setChangeProductModalVisible(true)}
             data-cy="button-change-plan"
-            className={classes.changePlanButton}
           >
             {isPendingInvoice
-              ? <>
-                <Loading
-                  size={12}
-                  type="initial"
-                />
-                <Trans>Awaiting payment</Trans>
-              </>
+              ? <Trans>See payment info</Trans>
               : <Trans>Change Plan</Trans>
             }
           </Button>
