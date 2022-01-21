@@ -87,6 +87,10 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
     }
   }
 
+  console.log(billingPeriod)
+  console.log("monthlyPrice", monthlyPrice)
+  console.log("yearlyPrice", yearlyPrice)
+
   return (
     <article className={classes.root}>
       <Typography
@@ -149,15 +153,12 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
               variant="body1"
               className={classes.boldText}
             >
-              {billingPeriod === "monthly"
-                ? <Trans>Monthly billing</Trans>
-                : <Trans>Yearly billing</Trans>
-              }
+              <Trans>Annual billing</Trans>
             </Typography>
             <div className={classes.pushRightBox}>
               <ToggleSwitch
-                left={{ value: "yearly" }}
-                right={{ value: "monthly" }}
+                left={{ value: "monthly" }}
+                right={{ value: "yearly" }}
                 onChange={() => setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")}
               />
             </div>
@@ -182,7 +183,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
             {billingPeriod === "monthly"
               ? `${monthlyPrice?.unit_amount ? monthlyPrice?.currency : ""} ${monthlyPrice?.unit_amount}`
               : `${yearlyPrice?.unit_amount ? yearlyPrice?.currency : ""} ${yearlyPrice?.unit_amount}`
-            }<span className={classes.normalWeightText}>{billingPeriod ? t`/month` : t`/year`}</span>
+            }<span className={classes.normalWeightText}>{billingPeriod === "monthly" ? t`/month` : t`/year`}</span>
           </Typography>
         </div>
       </div>
