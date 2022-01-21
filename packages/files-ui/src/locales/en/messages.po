@@ -85,8 +85,8 @@ msgstr "Adding you to the shared folder..."
 msgid "All invoices"
 msgstr "All invoices"
 
-msgid "Allow lookup by sharing key, wallet address or username"
-msgstr "Allow lookup by sharing key, wallet address or username"
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
+msgstr "Allow lookup by sharing key, wallet address, username or ENS"
 
 msgid "An error occurred:"
 msgstr "An error occurred:"

@@ -86,7 +86,7 @@ msgstr ""
 msgid "All invoices"
 msgstr ""
 
-msgid "Allow lookup by sharing key, wallet address or username"
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
 msgid "An error occurred:"
