@@ -206,7 +206,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
           labelClassName={classes.inputLabel}
           value={sharedFolderReaders}
           fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
-          placeholder={t`Add by sharing address, username or wallet address`}
+          placeholder={t`Add by sharing address, username, wallet address or ENS`}
           styles={{
             control: (provided) => ({
               ...provided,
@@ -232,7 +232,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
           labelClassName={classes.inputLabel}
           value={sharedFolderWriters}
           fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
-          placeholder={t`Add by sharing address, username or wallet address`}
+          placeholder={t`Add by sharing address, username, wallet address or ENS`}
           styles={{
             control: (provided) => ({
               ...provided,
