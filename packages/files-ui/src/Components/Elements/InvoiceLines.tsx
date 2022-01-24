@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { Typography, Loading, Button } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../Contexts/BillingContext"
-import { useFilesApi } from "../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, palette, typography }: CSFTheme) =>
@@ -71,18 +70,6 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
       : invoices
   }, [invoices, lineNumber])
 
-  const downloadInvoice = useCallback(async (invoiceId: string) => {
-    try {
-      const result = await filesApiClient.downloadInvoice(invoiceId)
-      const link = document.createElement("a")
-      link.href = URL.createObjectURL(result.data)
-      link.download = "Chainsafe Files Invoice"
-      link.click()
-    } catch (error) {
-      console.error(error)
-    }
-  }, [filesApiClient])
-
   return (
     <>
       {!invoicesToShow && (
@@ -130,7 +117,7 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
                 </Button>
               )}
               {(status === "open") && (
-                <Button onClick={() => console.log("Not implemented")}>
+                <Button onClick={payInvoice}>
                   <Trans>Pay invoice</Trans>
                 </Button>
               )}
