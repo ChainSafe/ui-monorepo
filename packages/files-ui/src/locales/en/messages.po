@@ -190,6 +190,9 @@ msgstr "Confirm plan downgrade"
 msgid "Confirmation"
 msgstr "Confirmation"
 
+msgid "Connect Wallet"
+msgstr "Connect Wallet"
+
 msgid "Connect Wallet to Files"
 msgstr "Connect Wallet to Files"
 
@@ -295,6 +298,9 @@ msgstr "Delete"
 msgid "Delete selected"
 msgstr "Delete selected"
 
+msgid "Destination Address"
+msgstr "Destination Address"
+
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
@@ -360,6 +366,9 @@ msgstr "Failed to add payment method"
 
 msgid "Failed to change subscription"
 msgstr "Failed to change subscription"
+
+msgid "Failed to create a charge"
+msgstr "Failed to create a charge"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -475,6 +484,9 @@ msgstr "If you think this file does not comply with our <0>Terms of Service</0>,
 msgid "Info"
 msgstr "Info"
 
+msgid "Insufficient balance"
+msgstr "Insufficient balance"
+
 msgid "Invoice outstanding"
 msgstr "Invoice outstanding"
 
@@ -577,6 +589,9 @@ msgstr "No files to show"
 msgid "No folders"
 msgstr "No folders"
 
+msgid "No invoice found"
+msgstr "No invoice found"
+
 msgid "No search results for"
 msgstr "No search results for"
 
@@ -594,6 +609,9 @@ msgstr "OK"
 
 msgid "One sec, getting files ready…"
 msgstr "One sec, getting files ready…"
+
+msgid "Only send {selectedCurrency} to this address"
+msgstr "Only send {selectedCurrency} to this address"
 
 msgid "Only you can see this."
 msgstr "Only you can see this."
@@ -637,8 +655,17 @@ msgstr "Password:"
 msgid "Passwords must match"
 msgstr "Passwords must match"
 
+msgid "Pay invoice"
+msgstr "Pay invoice"
+
 msgid "Pay with Crypto"
 msgstr "Pay with Crypto"
+
+msgid "Pay with crypto"
+msgstr "Pay with crypto"
+
+msgid "Pay with {0}"
+msgstr "Pay with {0}"
 
 msgid "Payment and Subscriptions"
 msgstr "Payment and Subscriptions"
@@ -889,6 +916,9 @@ msgstr "Stored by miner"
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
 
+msgid "Switch Network"
+msgstr "Switch Network"
+
 msgid "Switch Plan"
 msgstr "Switch Plan"
 
@@ -924,6 +954,9 @@ msgstr "Theme"
 
 msgid "There are no notifications!"
 msgstr "There are no notifications!"
+
+msgid "There was a problem creating a charge {error}"
+msgstr "There was a problem creating a charge {error}"
 
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
@@ -975,6 +1008,9 @@ msgstr "This website uses cookies that help the website function and track inter
 
 msgid "Total"
 msgstr "Total"
+
+msgid "Total Amount"
+msgstr "Total Amount"
 
 msgid "Try again"
 msgstr "Try again"
