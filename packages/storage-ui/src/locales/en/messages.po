@@ -226,9 +226,6 @@ msgstr "Move to..."
 msgid "Name"
 msgstr "Name"
 
-msgid "Name too long"
-msgstr "Name too long"
-
 msgid "New Key"
 msgstr "New Key"
 
