@@ -23,14 +23,22 @@ interface MenuProps {
   testId?: string
 }
 
-const useStyles = makeStyles(({ constants }: ITheme) => {
+const useStyles = makeStyles(({ constants, palette }: ITheme) => {
   return createStyles({
     paper:{
       backgroundColor: `${constants.menu?.["backgroundColor"]} !important`,
       color: `${constants.menu?.["color"]} !important`
     },
     iconContainer: {
-      cursor: "pointer"
+      cursor: "pointer",
+      padding: constants.generalUnit * 0.5,
+      "& svg": {
+        stroke: palette.additional["gray"][8],
+        left: 0,
+        width: 14,
+        height: 14,
+        position: "absolute"
+      }
     },
     options: {
       "&:hover": {
