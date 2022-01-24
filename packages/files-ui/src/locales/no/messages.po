@@ -547,9 +547,6 @@ msgstr "Mine filer"
 msgid "Name"
 msgstr "Navn"
 
-msgid "Name too long"
-msgstr "Navnet er for langt"
-
 msgid "New folder"
 msgstr "Ny mappe"
 
