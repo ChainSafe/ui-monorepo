@@ -27,15 +27,6 @@ const useStyles = makeStyles(
       okButton: {
         marginLeft: constants.generalUnit
       },
-      cancelButton: {
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: constants?.mobileButtonHeight
-        }
-      },
       label: {
         fontSize: 14,
         lineHeight: "22px"
@@ -215,7 +206,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
           labelClassName={classes.inputLabel}
           value={sharedFolderReaders}
           fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
-          placeholder={t`Add by sharing address, username or wallet address`}
+          placeholder={t`Add by sharing address, username, wallet address or ENS`}
           styles={{
             control: (provided) => ({
               ...provided,
@@ -241,7 +232,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
           labelClassName={classes.inputLabel}
           value={sharedFolderWriters}
           fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
-          placeholder={t`Add by sharing address, username or wallet address`}
+          placeholder={t`Add by sharing address, username, wallet address or ENS`}
           styles={{
             control: (provided) => ({
               ...provided,
@@ -278,7 +269,6 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
           <CustomButton
             onClick={handleClose}
             size="medium"
-            className={classes.cancelButton}
             variant={desktop ? "outline" : "gray"}
             type="button"
             data-cy="button-cancel-create-shared-folder"

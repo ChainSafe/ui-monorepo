@@ -25,6 +25,8 @@ import { SharedFolderModalMode } from "./types"
 import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
 import { usePageTrack } from "../../../Contexts/PosthogContext"
+import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
+import clsx from "clsx"
 
 export const desktopSharedGridSettings = "50px 3fr 90px 140px 140px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -36,7 +38,10 @@ const useStyles = makeStyles(
         position: "relative",
         [breakpoints.down("md")]: {
           marginLeft: constants.generalUnit * 2,
-          marginRight: constants.generalUnit * 2
+          marginRight: constants.generalUnit * 2,
+          "&.bottomBanner": {
+            paddingBottom: constants.bottomBannerMobileHeight
+          }
         },
         [breakpoints.up("md")]: {
           border: "1px solid transparent",
@@ -45,6 +50,10 @@ const useStyles = makeStyles(
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.additional["geekblue"][4]
+          },
+          "&.bottomBanner": {
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + Number(constants.bottomBannerHeight)}px)`,
+            paddingBottom: constants.bottomBannerHeight
           }
         }
       },
@@ -109,7 +118,7 @@ type SortingType = "name" | "size" | "date_uploaded"
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
-  const { filesApiClient } = useFilesApi()
+  const { filesApiClient, accountRestricted } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
   const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
@@ -165,11 +174,12 @@ const SharedFolderOverview = () => {
   const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
-
   return (
     <>
       <article
-        className={classes.root}
+        className={clsx(classes.root, {
+          bottomBanner: accountRestricted
+        })}
       >
         <header className={classes.header}>
           <Typography
@@ -190,7 +200,7 @@ const SharedFolderOverview = () => {
             >
               <PlusIcon />
               <span className={classes.buttonWrap}>
-                <Trans>Create a Shared Folder</Trans>
+                <Trans>Create</Trans>
               </span>
             </Button>
           </div>
@@ -303,8 +313,14 @@ const SharedFolderOverview = () => {
         acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder, testId: "confirm-deletion" }}
         rejectButtonProps={{ disabled: isDeletingSharedFolder, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
-        testId="shared-folder-deletion"
+        testId={bucketToDelete?.permission === "owner"
+          ? "shared-folder-deletion"
+          : "shared-folder-leave"
+        }
       />
+      {accountRestricted &&
+        <RestrictedModeBanner />
+      }
     </>
   )
 }

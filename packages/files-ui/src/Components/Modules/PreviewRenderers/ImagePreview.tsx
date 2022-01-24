@@ -48,7 +48,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
   const [imageUrl, setImageUrl] = useState<string | undefined>()
   const [loading, setLoading] = useState(false)
   useEffect(() => {
-    if (contentType !== "image/heic") {
+    if (contentType !== "image/heic" && contentType !== "image/heif") {
       setImageUrl(URL.createObjectURL(contents))
     } else {
       setLoading(true)
@@ -72,7 +72,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
       {loading
         ? <Loading
           size={50}
-          type='inherit'
+          type="initial"
         />
         : <TransformWrapper
           options={{

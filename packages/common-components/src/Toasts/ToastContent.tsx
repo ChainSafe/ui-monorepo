@@ -105,7 +105,8 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
             />
             {onProgressCancel &&
               onProgressCancelLoading
-              ? <Loading size={16}
+              ? <Loading
+                size={16}
                 className={classes.progressCrossButton} />
               : <CloseCirceSvg
                 className={classes.progressCrossButton}

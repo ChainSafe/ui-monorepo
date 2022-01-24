@@ -13,7 +13,6 @@ const useStyles = makeStyles(
         cursor: "pointer",
         paddingLeft: constants.generalUnit * 3,
         paddingRight: constants.generalUnit * 3,
-        margin: `${constants.generalUnit}px 0`,
         ...overrides?.RadioInput?.radioContainer
       },
       radioInput: {
@@ -27,7 +26,7 @@ const useStyles = makeStyles(
         width: constants.generalUnit * 2,
         height: constants.generalUnit * 2,
         left: 0,
-        top: 0,
+        top: "auto",
         borderRadius: "50%",
         transition: `all ${animation.transform}ms ease`,
         ...overrides?.RadioInput?.radio?.root,
@@ -83,6 +82,7 @@ const useStyles = makeStyles(
 
 export interface IRadioInputProps extends React.HTMLProps<HTMLInputElement> {
   className?: string
+  labelClassName?: string
   value: string
   label?: string
   name?: string
@@ -94,6 +94,7 @@ export interface IRadioInputProps extends React.HTMLProps<HTMLInputElement> {
 
 const RadioInput: React.FC<IRadioInputProps> = ({
   className,
+  labelClassName,
   value,
   name,
   label,
@@ -130,7 +131,7 @@ const RadioInput: React.FC<IRadioInputProps> = ({
         })}
       />
       {label && (
-        <Typography className={clsx(classes.label)}>{label}</Typography>
+        <Typography className={clsx(classes.label, labelClassName)}>{label}</Typography>
       )}
       {error && <div className={classes.error}>{error}</div>}
     </label>

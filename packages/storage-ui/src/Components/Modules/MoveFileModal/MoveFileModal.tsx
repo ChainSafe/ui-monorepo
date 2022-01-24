@@ -176,7 +176,8 @@ const MoveFileModal = ({ filesToMove, onClose, onCancel, mode }: IMoveFileModule
         sm={12}
         className={classes.paddedContainer}
       >
-        <Typography className={classes.heading}
+        <Typography
+          className={classes.heading}
           variant="h5"
           component="h5">
           <Trans>Move to...</Trans>

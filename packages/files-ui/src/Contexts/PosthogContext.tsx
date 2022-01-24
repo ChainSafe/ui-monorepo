@@ -24,7 +24,7 @@ const PosthogContext = React.createContext<PosthogContext>({
 })
 
 const useStyles = makeStyles(
-  ({ palette, breakpoints, constants }: CSFTheme) => {
+  ({ palette, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
       cookieBanner: {
         position: "fixed",
@@ -35,35 +35,39 @@ const useStyles = makeStyles(
         flexDirection: "column",
         backgroundColor: constants.cookieBanner.backgroundColor,
         padding: "16px 32px",
+        zIndex: zIndex?.layer1,
         [breakpoints.down("sm")]: {
-          padding: "8px 16px"
+          padding: "16px 16px"
         }
       },
       bannerHeading: {
         fontSize: 24,
-        lineHeight: "28px",
+        lineHeight: "42px",
         [breakpoints.down("sm")]: {
-          fontSize: 18,
-          lineHeight: "22px"
+          fontSize: 22,
+          lineHeight: "40px"
         }
       },
       bannerText: {
         fontSize: 14,
         lineHeight: "18px",
+        marginBottom: constants.generalUnit * 1.5,
         [breakpoints.down("sm")]: {
-          fontSize: 12,
+          fontSize: 13,
           lineHeight: "16px"
         }
       },
       link: {
-        color: palette.common.white.main
+        color: palette.common.white.main,
+        paddingLeft: constants.generalUnit
       },
       buttonSection: {
         display: "flex",
         flexDirection: "row",
-        "& > *": {
-          margin: 8
-        }
+        margin: `${constants.generalUnit}px 0`
+      },
+      acceptButton: {
+        marginLeft: constants.generalUnit * 2
       }
     })
   }
@@ -149,7 +153,8 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
               This website uses cookies that help the website function and track interactions for analytics purposes.
               You have the right to decline our use of cookies. For us to provide a customizable user experience to you,
               please click on the Accept button below.
-              <a className={classes.link}
+              <a
+                className={classes.link}
                 href="https://files.chainsafe.io/privacy-policy"
                 target='_blank'
                 rel='noopener noreferrer'>Learn more
@@ -165,6 +170,7 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
             <Button
               onClick={optInCapturing}
               variant='outline'
+              className={classes.acceptButton}
             >
               <Trans>Accept</Trans>
             </Button>

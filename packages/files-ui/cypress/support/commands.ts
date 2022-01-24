@@ -26,17 +26,16 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import { authenticationPage } from "./page-objects/authenticationPage"
-import { apiTestHelper } from "./utils/apiTestHelper"
+import { apiTestHelper, ClearBucketType } from "./utils/apiTestHelper"
 import { ethers, Wallet } from "ethers"
 import { homePage } from "./page-objects/homePage"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
-import { BucketType } from "@chainsafe/files-api-client"
 import { navigationMenu } from "./page-objects/navigationMenu"
 
-Cypress.Commands.add("clearBucket", (bucketType: BucketType) => {
+Cypress.Commands.add("clearBucket", (bucketType: ClearBucketType) => {
   apiTestHelper.clearBucket(bucketType)
 })
 
@@ -47,6 +46,8 @@ export interface Web3LoginOptions {
   clearCSFBucket?: boolean
   clearTrashBucket?: boolean
   deleteShareBucket?: boolean
+  withNewUser?: boolean
+  deleteCreditCard? : boolean
 }
 
 Cypress.Commands.add(
@@ -56,7 +57,9 @@ Cypress.Commands.add(
     url = localHost,
     clearCSFBucket = false,
     clearTrashBucket = false,
-    deleteShareBucket = false
+    deleteShareBucket = false,
+    withNewUser = true,
+    deleteCreditCard = false
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -64,32 +67,49 @@ Cypress.Commands.add(
         "https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847",
         4
       )
-      const signer = new Wallet(testPrivateKey, provider)
+      const signer = withNewUser
+        ? Wallet.createRandom()
+        : new Wallet(testPrivateKey, provider)
       // inject ethereum object in the global window
       Object.defineProperty(win, "ethereum", {
-        get: () => new CustomizedBridge(signer as any, provider as any)
+        get: () => new CustomizedBridge(signer as any, signer.address, provider as any)
       })
     })
 
-    // with nothing in localstorage (and in session storage)
-    // the whole login flow should kick in
-    cy.session("web3login", () => {
-      cy.visit(url)
-      authenticationPage.web3Button().click()
-      authenticationPage.showMoreButton().click()
-      authenticationPage.detectedWallet().click()
-      authenticationPage.web3SignInButton().safeClick()
-      authenticationPage.loginPasswordButton().click()
-      authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
+    if (withNewUser){
+      cy.session("web3loginNewUser", () => {
+        cy.visit(url)
+        authenticationPage.web3Button().click()
+        authenticationPage.showMoreButton().click()
+        authenticationPage.detectedWallet().click()
+        authenticationPage.web3SignInButton().safeClick()
+        authenticationPage.signInExplainerContinueButton().safeClick()
+        // we are using the testAccount password here, but we could input anything
+        authenticationPage.signInSetupPasswordInput().type(`${testAccountPassword}`)
+        authenticationPage.signInSetupPasswordVerificationInput().type(`${testAccountPassword}{enter}`)
 
-      if (saveBrowser) {
-        // this is taking forever for test accounts
-        authenticationPage.saveBrowserButton().click()
-      } else {
-        authenticationPage.doNotSaveBrowserButton().click()
-      }
-      homePage.appHeaderLabel().should("be.visible")
-    })
+        homePage.appHeaderLabel().should("be.visible")
+      })
+    } else {
+      cy.session("web3loginTestUser", () => {
+        cy.visit(url)
+        authenticationPage.web3Button().click()
+        authenticationPage.showMoreButton().click()
+        authenticationPage.detectedWallet().click()
+        authenticationPage.web3SignInButton().safeClick()
+        authenticationPage.loginPasswordButton().click()
+        authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
+
+        if (saveBrowser) {
+          // this is taking forever for test accounts
+          authenticationPage.saveBrowserButton().click()
+        } else {
+          authenticationPage.doNotSaveBrowserButton().click()
+        }
+        homePage.appHeaderLabel().should("be.visible")
+      })
+    }
+
 
     cy.visit(url)
     homePage.appHeaderLabel().should("be.visible")
@@ -106,6 +126,10 @@ Cypress.Commands.add(
       apiTestHelper.clearBucket("trash")
     }
 
+    if (deleteCreditCard) {
+      apiTestHelper.deleteCreditCards()
+    }
+
     if(clearTrashBucket || clearCSFBucket || deleteShareBucket){
       navigationMenu.binNavButton().click()
       navigationMenu.homeNavButton().click()
@@ -115,8 +139,9 @@ Cypress.Commands.add(
   }
 )
 
-Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
+Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element?: JQuery<HTMLElement>) => {
   const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
+
   return cy
     .wrap($element)
     .should("be.visible")
@@ -124,6 +149,31 @@ Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
     .pipe(click)
     .should($el => expect($el).to.not.be.visible)
 })
+
+Cypress.Commands.add("iframeLoaded", { prevSubject: "element" }, ($iframe?: JQuery<HTMLElement>): any => {
+  const contentWindow = $iframe?.prop("contentWindow")
+  return new Promise(resolve => {
+    if (
+      contentWindow &&
+              contentWindow.document.readyState === "complete"
+    ) {
+      resolve(contentWindow)
+    } else {
+      $iframe?.on("load", () => {
+        resolve(contentWindow)
+      })
+    }
+  })
+})
+
+Cypress.Commands.add("getInDocument", { prevSubject: "document" }, (document: any, selector: keyof HTMLElementTagNameMap) =>
+  Cypress.$(selector, document))
+
+Cypress.Commands.add("getWithinIframe", (targetElement: any, selector: string) =>
+  cy.get(selector || "iframe", { timeout: 10000 })
+    .iframeLoaded()
+    .its("document")
+    .getInDocument(targetElement))
 
 // Must be declared global to be detected by typescript (allows import/export)
 // eslint-disable @typescript/interface-name
@@ -137,9 +187,11 @@ declare global {
        * @param {Boolean} options.clearCSFBucket - (default: false) - whether any file in the csf bucket should be deleted.
        * @param {Boolean} options.clearTrashBucket - (default: false) - whether any file in the trash bucket should be deleted.
        * @param {Boolean} options.deleteShareBucket - (default: false) - whether any shared bucket should be deleted.
+       * @param {Boolean} options.withNewUser - (default: true) - whether to create a new user for this session.
+       * @param {Boolean} options.deleteCreditCard - (default: false) - whether to delete the default credit card associate to the account.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
-      web3Login: (options?: Web3LoginOptions) => Chainable
+      web3Login: (options?: Web3LoginOptions) => void
 
       /**
        * Use this when encountering race condition issues resulting in
@@ -153,8 +205,17 @@ declare global {
        * https://github.com/cypress-io/cypress/issues/7306
        * 
        */
-      safeClick: () => Chainable
+      safeClick: ($element?: JQuery<HTMLElement>) => Chainable
 
+      /**
+       * Clear a bucket.
+       * @param {BucketType} - what bucket type to clear for this user.
+       * @example cy.clearBucket("csf")
+       */
+      clearBucket: (bucketType: ClearBucketType) => void
+      iframeLoaded: ($iframe?: JQuery<HTMLElement>) => any
+      getInDocument: (document: any, selector: keyof HTMLElementTagNameMap) => JQuery<HTMLElement>
+      getWithinIframe: (targetElement: string, selector: string) => Chainable
     }
   }
 }

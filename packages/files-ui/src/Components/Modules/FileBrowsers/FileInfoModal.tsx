@@ -1,7 +1,8 @@
 import {
   createStyles,
   debounce,
-  makeStyles
+  makeStyles,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
@@ -28,29 +29,14 @@ const useStyles = makeStyles(
       modalRoot: {
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {
-          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+          paddingBottom: Number(constants?.mobileButtonHeight)
         }
       },
       modalInner: {
         backgroundColor: constants.fileInfoModal.background,
         color: constants.fileInfoModal.color,
         [breakpoints.down("md")]: {
-          bottom:
-            Number(constants?.mobileButtonHeight) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`
-        }
-      },
-      closeButton: {
-        flex: 1,
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: constants?.mobileButtonHeight,
-          margin: 0
         }
       },
       title: {
@@ -166,9 +152,9 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
   const [loadingFileInfo, setLoadingInfo] = useState(false)
   const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>()
   const { bucket } = useFileBrowser()
+  const { desktop } = useThemeSwitcher()
 
   useEffect(() => {
-
     if (!bucket) return
 
     setLoadingInfo(true)
@@ -240,7 +226,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
           <div className={classes.loadingContainer}>
             <Loading
               size={32}
-              type="inherit"
+              type="initial"
             />
           </div>
         </Grid>
@@ -368,7 +354,8 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       <Trans>CID (Content Identifier)</Trans>
                     </Typography>
                   </Grid>
-                  <div onClick={onCopyCID}
+                  <div
+                    onClick={onCopyCID}
                     className={classes.copyRow}
                   >
                     <Typography
@@ -402,7 +389,8 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       <Trans>Decryption key</Trans>
                     </Typography>
                   </Grid>
-                  <div onClick={onCopyKey}
+                  <div
+                    onClick={onCopyKey}
                     className={classes.copyRow}
                   >
                     <Typography
@@ -437,8 +425,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
             <CustomButton
               onClick={() => close()}
               size="large"
-              className={classes.closeButton}
-              variant="outline"
+              variant={desktop ? "outline" : "gray"}
               type="button"
             >
               <Trans>Close</Trans>

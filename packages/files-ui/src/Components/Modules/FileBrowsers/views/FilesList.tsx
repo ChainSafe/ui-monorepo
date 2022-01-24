@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import {
   Divider,
   PlusIcon,
@@ -21,7 +21,10 @@ import {
   GridIcon,
   TableIcon,
   UploadSvg,
-  PlusCircleSvg
+  PlusCircleSvg,
+  MoreIcon,
+  SortIcon,
+  CheckIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -34,7 +37,6 @@ import { BrowserView, FileOperation, MoveModalMode } from "../types"
 import { FileSystemItem as FileSystemItemType, useFiles } from "../../../../Contexts/FilesContext"
 import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
-
 import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../UploadFileModal"
 import MoveFileModal from "../MoveFileModal"
@@ -52,11 +54,16 @@ import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
+import { ListItemIcon, ListItemText } from "@material-ui/core"
+import { useFilesApi } from "../../../../Contexts/FilesApiContext"
+import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
+import { DragTypes } from "../DragConstants"
+import FolderBreadcrumb from "./FolderBreadcrumb"
 
-const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
+const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
 const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename", "recover"]
-const csfOperations:  FileOperation[] = [...ownerOperations, "share"]
+const csfOperations: FileOperation[] = [...ownerOperations, "share"]
 const writerOperations: FileOperation[] = [...ownerOperations, "report"]
 
 interface IStyleProps {
@@ -72,7 +79,10 @@ const useStyles = makeStyles(
         position: "relative",
         [breakpoints.down("md")]: {
           marginLeft: constants.generalUnit * 2,
-          marginRight: constants.generalUnit * 2
+          marginRight: constants.generalUnit * 2,
+          "&.bottomBanner": {
+            paddingBottom: constants.bottomBannerMobileHeight
+          }
         },
         [breakpoints.up("md")]: {
           border: "1px solid transparent",
@@ -81,6 +91,10 @@ const useStyles = makeStyles(
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.primary.main
+          },
+          "&.bottomBanner": {
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + Number(constants.bottomBannerHeight)}px)`,
+            paddingBottom: constants.bottomBannerHeight
           }
         }
       },
@@ -283,7 +297,7 @@ const useStyles = makeStyles(
         display: "flex",
         justifyContent: "flex-end"
       },
-      focusVisible:{
+      focusVisible: {
         backgroundColor: "transparent !important"
       },
       menuIcon: {
@@ -320,6 +334,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
   const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const { accountRestricted } = useFilesApi()
 
   const {
     heading,
@@ -328,6 +343,7 @@ const FilesList = ({ isShared = false }: Props) => {
     handleUploadOnDrop,
     bulkOperations,
     crumbs,
+    moveItems,
     renameItem: handleRename,
     deleteItems: deleteFiles,
     viewFolder,
@@ -363,7 +379,7 @@ const FilesList = ({ isShared = false }: Props) => {
     let temp = []
 
     switch (column) {
-    // defaults to name sorting
+      // defaults to name sorting
       default: {
         temp = sourceFiles.sort((a, b) => {
           return a.name.localeCompare(b.name, selectedLocale, {
@@ -412,6 +428,14 @@ const FilesList = ({ isShared = false }: Props) => {
       } else {
         setDirection("ascend")
       }
+    }
+  }
+
+  const toggleSortDirection = () => {
+    if (direction === "ascend") {
+      setDirection("descend")
+    } else {
+      setDirection("ascend")
     }
   }
 
@@ -470,7 +494,7 @@ const FilesList = ({ isShared = false }: Props) => {
     }
   }, [selectedItems.length, items])
 
-  const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
+  const [{ isOverBrowserOnlyAndUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any, monitor) => {
       if (monitor.isOver({ shallow: true })) {
@@ -482,10 +506,38 @@ const FilesList = ({ isShared = false }: Props) => {
     },
     collect: (monitor) => ({
       isOverBrowser: monitor.isOver(),
-      isOverUploadable: monitor.isOver({ shallow: true }),
-      canDrop: monitor.canDrop()
+      isOverBrowserOnlyAndUploadable: monitor.isOver({ shallow: true })
     })
   })
+
+  const [{ isOverUploadHomeBreadcrumb }, dropUploadHomeBreadcrumbRef] = useDrop({
+    accept: [NativeTypes.FILE],
+    drop: (item: {
+      files: File[]
+      items:DataTransferItemList
+    }) => {
+      handleUploadOnDrop && handleUploadOnDrop(item.files, item.items, "/")
+    },
+    collect: (monitor) => ({
+      isOverUploadHomeBreadcrumb: monitor.isOver()
+    })
+  })
+
+  const [{ isOverMoveHomeBreadcrumb }, dropMoveHomeBreadcrumbRef] = useDrop({
+    accept: DragTypes.MOVABLE_FILE,
+    canDrop: () => currentPath !== "/",
+    drop: (item: { ids: string[]}) => {
+      moveItems && moveItems(item.ids, "/")
+      setSelectedItems([])
+    },
+    collect: (monitor) => ({
+      isOverMoveHomeBreadcrumb: monitor.isOver() && currentPath !== "/"
+    })
+  })
+
+  const homeBreadcrumbRef  =  useRef<HTMLDivElement>(null)
+  dropMoveHomeBreadcrumbRef(homeBreadcrumbRef)
+  dropUploadHomeBreadcrumbRef(homeBreadcrumbRef)
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
@@ -508,7 +560,7 @@ const FilesList = ({ isShared = false }: Props) => {
 
     if (!!permission && isShared) {
 
-      switch(permission) {
+      switch (permission) {
         case "owner":
           fileOperations = ownerOperations
           break
@@ -641,7 +693,8 @@ const FilesList = ({ isShared = false }: Props) => {
           </span>
         </>
       ),
-      onClick: () => setCreateFolderModalOpen(true)
+      onClick: () => setCreateFolderModalOpen(true),
+      disabled: accountRestricted
     },
     {
       contents: (
@@ -652,10 +705,96 @@ const FilesList = ({ isShared = false }: Props) => {
           </span>
         </>
       ),
-      onClick: () => setIsUploadModalOpen(true)
+      onClick: () => setIsUploadModalOpen(true),
+      disabled: accountRestricted
     }
   ],
-  [classes.menuIcon])
+  [classes.menuIcon, accountRestricted])
+
+  const mobileBulkActions = useMemo(() => {
+    const menuOptions = []
+
+    validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Download as zip</Trans>
+            </span>
+          </>
+        ),
+        onClick: () => {
+          bucket && downloadMultipleFiles(selectedItems, currentPath, bucket.id)
+          resetSelectedItems()
+        }
+      })
+
+    validBulkOps.includes("move") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Move</Trans>
+            </span>
+          </>
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("move")
+        }
+      })
+
+    validBulkOps.includes("recover") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Recover</Trans>
+            </span>
+          </>
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("recover")
+        }
+      })
+
+    validBulkOps.includes("delete") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Delete</Trans>
+            </span>
+          </>
+        ),
+        onClick: handleOpenDeleteDialog
+      })
+    validBulkOps.includes("share") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Share</Trans>
+            </span>
+          </>
+        ),
+        onClick: handleOpenShareDialog
+      })
+
+    return menuOptions
+  }, [
+    validBulkOps,
+    bucket,
+    currentPath,
+    downloadMultipleFiles,
+    handleOpenDeleteDialog,
+    handleOpenMoveFileDialog,
+    handleOpenShareDialog,
+    resetSelectedItems,
+    selectedItems,
+    selectionContainsAFolder
+  ])
 
   const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
     setSelectedItems([fileSystemItem])
@@ -665,8 +804,11 @@ const FilesList = ({ isShared = false }: Props) => {
   return (
     <article
       className={clsx(classes.root, {
-        droppable: isOverUploadable && allowDropUpload
-      })}
+        droppable: isOverBrowserOnlyAndUploadable && allowDropUpload
+      }, {
+        bottomBanner: accountRestricted
+      }
+      )}
       ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
@@ -685,12 +827,29 @@ const FilesList = ({ isShared = false }: Props) => {
       />
       <div
         className={classes.breadCrumbContainer}
-        data-cy="navigation-folder-breadcrumb"
+        data-cy="breadcrumb-folder-navigation"
       >
         {crumbs && moduleRootPath && (
           <Breadcrumb
-            crumbs={crumbs}
+            crumbs={crumbs.map((crumb, i) => ({
+              ...crumb,
+              component: (i < crumbs.length - 1)
+                ? <FolderBreadcrumb
+                  folderName={crumb.text}
+                  onClick={crumb.onClick}
+                  handleMove={(item) => {
+                    moveItems && crumb.path && moveItems(item.ids, crumb.path)
+                    setSelectedItems([])
+                  }}
+                  handleUpload={(item) => handleUploadOnDrop &&
+                  crumb.path &&
+                  handleUploadOnDrop(item.files, item.items, crumb.path)}
+                />
+                : null
+            }))}
             homeOnClick={() => redirect(moduleRootPath)}
+            homeRef={homeBreadcrumbRef}
+            homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
             showDropDown={!desktop}
           />
         )}
@@ -699,14 +858,14 @@ const FilesList = ({ isShared = false }: Props) => {
         <Typography
           variant="h1"
           component="h1"
-          data-cy="files-app-header"
+          data-cy="label-files-app-header"
           className={classes.fileNameHeader}
         >
           {heading}
         </Typography>
         {isShared && bucket && (
           <div className={classes.users}>
-            <SharedUsers bucket={bucket}/>
+            <SharedUsers bucket={bucket} />
           </div>
         )}
         <div className={classes.controls}>
@@ -766,7 +925,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 </Button>
                 <Menu
                   testId='mobileMenu'
-                  icon={<PlusIcon className={classes.dropdownIcon}/>}
+                  icon={<PlusIcon className={classes.dropdownIcon} />}
                   options={mobileMenuItems}
                   style={{ focusVisible: classes.focusVisible }}
                 />
@@ -775,71 +934,72 @@ const FilesList = ({ isShared = false }: Props) => {
           )}
         </div>
       </header>
-      { withSurvey && !isShared && isSurveyBannerVisible
-        ? <SurveyBanner onHide={onHideSurveyBanner}/>
+      {withSurvey && !isShared && isSurveyBannerVisible
+        ? <SurveyBanner onHide={onHideSurveyBanner} />
         : <Divider className={classes.divider} />
       }
-
-      <section className={classes.bulkOperations}>
-        {selectedItems.length > 0 && (
-          <>
-            {validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) && (
-              <Button
-                onClick={() => {
-                  bucket && downloadMultipleFiles(selectedItems, currentPath, bucket.id)
-                  resetSelectedItems()
-                }}
-                variant="outline"
-                testId="download-selected-file"
-              >
-                <Trans>Download as zip</Trans>
-              </Button>
-            )}
-            {validBulkOps.includes("move") && (
-              <Button
-                onClick={(e) => {
-                  handleOpenMoveFileDialog(e)
-                  setMoveModalMode("move")
-                }}
-                variant="outline"
-                testId="move-selected-file"
-              >
-                <Trans>Move selected</Trans>
-              </Button>
-            )}
-            {validBulkOps.includes("recover") && (
-              <Button
-                onClick={(e) => {
-                  handleOpenMoveFileDialog(e)
-                  setMoveModalMode("recover")
-                }}
-                variant="outline"
-                testId="recover-selected-file"
-              >
-                <Trans>Recover selected</Trans>
-              </Button>
-            )}
-            {validBulkOps.includes("delete") && (
-              <Button
-                onClick={handleOpenDeleteDialog}
-                variant="outline"
-                testId="delete-selected-file"
-              >
-                <Trans>Delete selected</Trans>
-              </Button>
-            )}
-            {validBulkOps.includes("share") && (
-              <Button
-                onClick={handleOpenShareDialog}
-                variant="outline"
-                testId="share-selected-file"
-              >
-                <Trans>Share selected</Trans>
-              </Button>
-            )}
-          </>
-        )}
-      </section>
+      {desktop && (
+        <section className={classes.bulkOperations}>
+          {selectedItems.length > 0 &&
+            <>
+              {validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) && (
+                <Button
+                  onClick={() => {
+                    bucket && downloadMultipleFiles(selectedItems, currentPath, bucket.id)
+                    resetSelectedItems()
+                  }}
+                  variant="outline"
+                  testId="download-selected-file"
+                >
+                  <Trans>Download as zip</Trans>
+                </Button>
+              )}
+              {validBulkOps.includes("move") && (
+                <Button
+                  onClick={(e) => {
+                    handleOpenMoveFileDialog(e)
+                    setMoveModalMode("move")
+                  }}
+                  variant="outline"
+                  testId="move-selected-file"
+                >
+                  <Trans>Move selected</Trans>
+                </Button>
+              )}
+              {validBulkOps.includes("recover") && (
+                <Button
+                  onClick={(e) => {
+                    handleOpenMoveFileDialog(e)
+                    setMoveModalMode("recover")
+                  }}
+                  variant="outline"
+                  testId="recover-selected-file"
+                >
+                  <Trans>Recover selected</Trans>
+                </Button>
+              )}
+              {validBulkOps.includes("delete") && (
+                <Button
+                  onClick={handleOpenDeleteDialog}
+                  variant="outline"
+                  testId="delete-selected-file"
+                >
+                  <Trans>Delete selected</Trans>
+                </Button>
+              )}
+              {validBulkOps.includes("share") && (
+                <Button
+                  onClick={handleOpenShareDialog}
+                  variant="outline"
+                  testId="share-selected-file"
+                >
+                  <Trans>Share selected</Trans>
+                </Button>
+              )}
+            </>
+          }
+        </section>
+      )}
       <div
         className={clsx(
           classes.loadingContainer,
@@ -848,7 +1008,7 @@ const FilesList = ({ isShared = false }: Props) => {
       >
         <Loading
           size={24}
-          type="light"
+          type="initial"
         />
         <Typography
           variant="body2"
@@ -864,11 +1024,13 @@ const FilesList = ({ isShared = false }: Props) => {
               classes.noFiles,
               loadingCurrentPath && classes.fadeOutLoading
             )}
-            data-cy="data-state-no-files"
+            data-cy="container-no-files-data-state"
           >
             <EmptySvg />
-            <Typography variant="h4"
-              component="h4">
+            <Typography
+              variant="h4"
+              component="h4"
+            >
               <Trans>No files to show</Trans>
             </Typography>
           </section>
@@ -882,14 +1044,17 @@ const FilesList = ({ isShared = false }: Props) => {
               className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
               testId="home"
             >
-              {desktop && (
+              {desktop ? (
                 <TableHead>
-                  <TableRow type="grid"
-                    className={classes.tableRow}>
+                  <TableRow
+                    type="grid"
+                    className={classes.tableRow}
+                  >
                     <TableHeadCell>
                       <CheckboxInput
                         value={selectedItems.length === items.length}
-                        onChange={() => toggleAll()}
+                        indeterminate={selectedItems.length > 0}
+                        onChange={toggleAll}
                         testId="select-all"
                       />
                     </TableHeadCell>
@@ -928,6 +1093,91 @@ const FilesList = ({ isShared = false }: Props) => {
                     <TableHeadCell>{/* Menu */}</TableHeadCell>
                   </TableRow>
                 </TableHead>
+              ) : (
+                <TableHead>
+                  <TableRow
+                    type="grid"
+                    className={classes.tableRow}
+                  >
+                    <TableHeadCell>
+                      <CheckboxInput
+                        value={selectedItems.length === items.length}
+                        indeterminate={selectedItems.length > 0}
+                        onChange={toggleAll}
+                        testId="select-all"
+                      />
+                    </TableHeadCell>
+                    {selectedItems.length === 0
+                      ? <>
+                        <TableHeadCell
+                          align='left'
+                          onSortChange={toggleSortDirection}
+                          sortButtons
+                          sortDirection={direction}
+                        >
+                          {t`Name`}
+                        </TableHeadCell>
+                        <TableHeadCell align='right'>
+                          <Menu
+                            testId='file-item-kebab'
+                            icon={<SortIcon className={classes.dropdownIcon} />}
+                            options={[{
+                              contents: (
+                                <ListItemText inset>
+                                  <b><Trans>Sort By:</Trans></b>
+                                </ListItemText>
+                              )
+                            }, {
+                              contents: (
+                                <>
+                                  {column === "name" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  <ListItemText inset={column !== "name"}>
+                                    <Trans>Name</Trans>
+                                  </ListItemText>
+                                </>
+                              ),
+                              onClick: () => setColumn("name")
+                            }, {
+                              contents: (
+                                <>
+                                  {column === "date_uploaded" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  <ListItemText inset={column !== "date_uploaded"}>
+                                    <Trans>Date Uploaded</Trans>
+                                  </ListItemText>
+                                </>
+                              ),
+                              onClick: () => setColumn("date_uploaded")
+                            }, {
+                              contents: (
+                                <>
+                                  {column === "size" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  <ListItemText inset={column !== "size"}>
+                                    <Trans>Size</Trans>
+                                  </ListItemText>
+                                </>
+                              ),
+                              onClick: () => setColumn("size")
+                            }]}
+                            style={{ focusVisible: classes.focusVisible }}
+                          />
+                        </TableHeadCell>
+                      </>
+                      : <>
+                        <TableHeadCell align='left'>
+                          <b><Trans>({selectedItems.length}) items selected</Trans></b>
+                        </TableHeadCell>
+                        <TableHeadCell align='right'>
+                          <Menu
+                            testId='bulkActionsDropdown'
+                            icon={<MoreIcon className={classes.dropdownIcon} />}
+                            options={mobileBulkActions}
+                            style={{ focusVisible: classes.focusVisible }}
+                          />
+                        </TableHeadCell>
+                      </>
+                    }
+                  </TableRow>
+                </TableHead>
               )}
               <TableBody>
                 {items.map((file, index) => (
@@ -964,17 +1214,18 @@ const FilesList = ({ isShared = false }: Props) => {
                     }}
                     reportFile={(filePath: string) => {
                       setFilePath(filePath)
-                      setIsReportFileModalOpen(true)}
+                      setIsReportFileModalOpen(true)
+                    }
                     }
                     showFileInfo={(filePath: string) => {
                       setFilePath(filePath)
                       setIsFileInfoModalOpen(true)
                     }}
+                    handleShare={onShare}
                     showPreview={(fileIndex: number) => {
                       setFileIndex(fileIndex)
                       setIsPreviewOpen(true)
                     }}
-                    handleShare={onShare}
                   />
                 ))}
               </TableBody>
@@ -1021,7 +1272,8 @@ const FilesList = ({ isShared = false }: Props) => {
                   browserView="grid"
                   reportFile={(fileInfoPath: string) => {
                     setFilePath(fileInfoPath)
-                    setIsReportFileModalOpen(true)}
+                    setIsReportFileModalOpen(true)
+                  }
                   }
                   showFileInfo={(fileInfoPath: string) => {
                     setFilePath(fileInfoPath)
@@ -1046,8 +1298,8 @@ const FilesList = ({ isShared = false }: Props) => {
             other: `You are about to delete ${selectedCids.length} items.`
           })
         }
-        rejectText = {t`Cancel`}
-        acceptText = {t`Confirm`}
+        rejectText={t`Cancel`}
+        acceptText={t`Confirm`}
         acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
         rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
@@ -1095,7 +1347,7 @@ const FilesList = ({ isShared = false }: Props) => {
           filePath={isSearch && getPath ? getPath(files[fileIndex].cid) : currentPath}
         />
       )}
-      { filePath && isReportFileModalOpen &&
+      {filePath && isReportFileModalOpen &&
         <ReportFileModal
           filePath={filePath}
           close={() => {
@@ -1104,7 +1356,7 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
         />
       }
-      { filePath && isFileInfoModalOpen &&
+      {filePath && isFileInfoModalOpen &&
         <FileInfoModal
           filePath={filePath}
           close={() => {
@@ -1113,7 +1365,7 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
         />
       }
-      { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
+      {!showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
         <ShareModal
           onClose={() => {
             setIsShareModalOpen(false)
@@ -1121,6 +1373,9 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
           fileSystemItems={selectedItems}
         />
+      }
+      {accountRestricted &&
+        <RestrictedModeBanner />
       }
       <SharingExplainerModal
         showModal={showExplainerBeforeShare}

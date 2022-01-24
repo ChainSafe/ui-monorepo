@@ -1,7 +1,8 @@
 import {
   createStyles,
   debounce,
-  makeStyles
+  makeStyles,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
@@ -27,31 +28,19 @@ const useStyles = makeStyles(
       modalRoot: {
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {
-          paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+          paddingBottom: Number(constants?.mobileButtonHeight)
         }
       },
       modalInner: {
         backgroundColor: constants.fileInfoModal.background,
         color: constants.fileInfoModal.color,
         [breakpoints.down("md")]: {
-          bottom:
-            Number(constants?.mobileButtonHeight) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`
         }
       },
       closeButton: {
         flex: 1,
-        marginLeft: constants.generalUnit * 2,
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: constants?.mobileButtonHeight,
-          margin: 0
-        }
+        marginLeft: constants.generalUnit * 2
       },
       title: {
         fontWeight: typography.fontWeight.semibold,
@@ -88,7 +77,10 @@ const useStyles = makeStyles(
       },
       buttonsContainer: {
         display: "flex",
-        padding: `0 ${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`
+        paddingTop: constants.generalUnit * 2,
+        paddingLeft: constants.generalUnit * 4,
+        paddingBottom: constants.generalUnit * 4,
+        paddingRight: constants.generalUnit * 4
       },
       copiedFlag: {
         display: "flex",
@@ -131,11 +123,7 @@ const useStyles = makeStyles(
       copyContainer: {
         position: "relative",
         flexBasis: "75%",
-        color: palette.additional["gray"][9],
-        [breakpoints.down("md")]: {
-          flexBasis: "100%",
-          margin: constants.generalUnit * 2
-        }
+        color: palette.additional["gray"][9]
       },
       decryptionKey: {
         width: "100%",
@@ -195,6 +183,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const { encryptForPublicKey } = useThresholdKey()
   const [copied, setCopied] = useState(false)
   const { filesApiClient } = useFilesApi()
+  const { desktop } = useThemeSwitcher()
 
   useEffect(() => {
     filesApiClient.abuseUser()
@@ -276,7 +265,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
           <div className={classes.loadingContainer}>
             <Loading
               size={32}
-              type="inherit"
+              type="initial"
             />
           </div>
         </Grid>
@@ -393,7 +382,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
             onClick={() => close()}
             size="large"
             className={classes.closeButton}
-            variant="outline"
+            variant={desktop ? "outline" : "gray"}
             type="button"
           >
             <Trans>Close</Trans>

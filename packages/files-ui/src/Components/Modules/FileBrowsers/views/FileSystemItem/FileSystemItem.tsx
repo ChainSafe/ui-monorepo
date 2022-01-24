@@ -36,6 +36,7 @@ import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import CustomButton from "../../../../Elements/CustomButton"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -47,17 +48,11 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
     },
     modalRoot: {
       [breakpoints.down("md")]: {
-        paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+        paddingBottom: Number(constants?.mobileButtonHeight)
       }
     },
     modalInner: {
       [breakpoints.down("md")]: {
-        bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
         maxWidth: `${breakpoints.width("md")}px !important`
       }
     },
@@ -91,15 +86,6 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
     },
     okButton: {
       marginLeft: constants.generalUnit
-    },
-    cancelButton: {
-      [breakpoints.down("md")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: constants?.mobileButtonHeight
-      }
     },
     menuIcon: {
       display: "flex",
@@ -381,17 +367,16 @@ const FileSystemItem = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag(() =>
-    ({
-      type: DragTypes.MOVABLE_FILE,
-      item: () => {
-        if (selectedCids.includes(file.cid)) {
-          return { ids: selectedCids }
-        } else {
-          return { ids: [...selectedCids, file.cid] }
-        }
+  const [, dragMoveRef, preview] = useDrag({
+    type: DragTypes.MOVABLE_FILE,
+    item: () => {
+      if (selectedCids.includes(file.cid)) {
+        return { ids: selectedCids }
+      } else {
+        return { ids: [...selectedCids, file.cid] }
       }
-    }), [selectedCids])
+    }
+  })
 
   useEffect(() => {
     // This gets called after every render, by default
@@ -407,17 +392,18 @@ const FileSystemItem = ({
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
-    canDrop: () => isFolder,
+    canDrop: (item) => isFolder && !item.ids.includes(file.cid),
     drop: (item: { ids: string[]}) => {
       moveItems && moveItems(item.ids, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
-      isOverMove: monitor.isOver()
+      isOverMove: monitor.isOver() && !monitor.getItem<{ids: string[]}>().ids.includes(file.cid)
     })
   })
 
   const [{ isOverUpload }, dropUploadRef] = useDrop({
     accept: [NativeTypes.FILE],
+    canDrop: () => isFolder,
     drop: (item: any) => {
       handleUploadOnDrop &&
         handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
@@ -429,13 +415,12 @@ const FileSystemItem = ({
 
   const fileOrFolderRef = useRef<any>()
 
-  if (!editing && isFolder) {
-    dropMoveRef(fileOrFolderRef)
-    dropUploadRef(fileOrFolderRef)
-  }
-
-  if (!editing && !isFolder) {
-    desktop && dragMoveRef(fileOrFolderRef)
+  if (!editing && desktop) {
+    dragMoveRef(fileOrFolderRef)
+    if (isFolder) {
+      dropMoveRef(fileOrFolderRef)
+      dropUploadRef(fileOrFolderRef)
+    }
   }
 
   const onSingleClick = useCallback(
@@ -562,15 +547,14 @@ const FileSystemItem = ({
                     }
                   </div>
                   <footer className={classes.renameFooter}>
-                    <Button
+                    <CustomButton
                       onClick={() => setEditing("")}
                       size="medium"
-                      className={classes.cancelButton}
-                      variant="outline"
+                      variant={desktop ? "outline" : "gray"}
                       type="button"
                     >
                       <Trans>Cancel</Trans>
-                    </Button>
+                    </CustomButton>
                     <Button
                       variant="primary"
                       size="medium"
