@@ -62,8 +62,7 @@ interface  IInvoiceProps {
 
 const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
   const classes = useStyles()
-  const { invoices } = useBilling()
-  const { filesApiClient } = useFilesApi()
+  const { invoices, downloadInvoice } = useBilling()
   const invoicesToShow = useMemo(() => {
     if (!invoices) return
 
@@ -127,12 +126,12 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
               </Typography>
               {(status === "paid") && (
                 <Button onClick={() => downloadInvoice(uuid)}>
-                  Download
+                  <Trans>Download</Trans>
                 </Button>
               )}
-              {(status === "open" &&  payInvoice) && (
-                <Button onClick={payInvoice}>
-                  Pay invoice
+              {(status === "open") && (
+                <Button onClick={() => console.log("Not implemented")}>
+                  <Trans>Pay invoice</Trans>
                 </Button>
               )}
             </div>

@@ -13,6 +13,9 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "(Awaiting payment)"
+msgstr ""
+
 msgid "({0}) items selected"
 msgstr ""
 
@@ -67,7 +70,7 @@ msgstr "Legg til et brukernavn"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr ""
 
-msgid "Add by sharing address, username or wallet address"
+msgid "Add by sharing address, username, wallet address or ENS"
 msgstr ""
 
 msgid "Add card"
@@ -88,7 +91,7 @@ msgstr ""
 msgid "All invoices"
 msgstr ""
 
-msgid "Allow lookup by sharing key, wallet address or username"
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
 msgid "An error occurred:"
@@ -649,6 +652,9 @@ msgstr "Passord:"
 msgid "Passwords must match"
 msgstr "Passordene må samsvare"
 
+msgid "Pay invoice"
+msgstr ""
+
 msgid "Pay with Crypto"
 msgstr ""
 
@@ -785,6 +791,9 @@ msgid "Search…"
 msgstr ""
 
 msgid "Security"
+msgstr ""
+
+msgid "See payment info"
 msgstr ""
 
 msgid "Select a wallet"

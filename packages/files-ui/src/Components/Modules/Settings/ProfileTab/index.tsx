@@ -480,7 +480,7 @@ const ProfileView = () => {
                   </>
                 }
                 <CheckboxInput
-                  label={t`Allow lookup by sharing key, wallet address or username`}
+                  label={t`Allow lookup by sharing key, wallet address, username or ENS`}
                   value={profile?.lookupConsent || false}
                   onChange={toggleLookupConsent} />
               </div>

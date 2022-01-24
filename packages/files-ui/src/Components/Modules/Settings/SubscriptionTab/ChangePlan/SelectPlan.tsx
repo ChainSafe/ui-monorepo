@@ -161,6 +161,7 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
         <Typography
           component="p"
           variant="h4"
+          data-cy="header-switch-plan"
         >
           <Trans>Switch Plan</Trans>
         </Typography>
@@ -182,19 +183,23 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
             ? (
               <div
                 className={classes.planBox}
+                data-cy="container-plan-box"
                 key={`plan-${plan.id}`}
               >
                 <Typography
                   component="p"
                   variant="body1"
                   className={classes.planTitle}
+                  data-cy="label-plan-title"
                 >
                   {plan.name}
                 </Typography>
                 {monthly && (
                   <Typography
                     component="h4"
-                    variant="h4">
+                    variant="h4"
+                    data-cy={monthly.unit_amount ? "label-monthly-price" : "label-no-charge"}
+                  >
                     {monthly.unit_amount
                       ? <>
                         {monthly.currency.toUpperCase()} {monthly.unit_amount}
@@ -210,6 +215,7 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                     <Typography
                       variant="body2"
                       className={classes.priceYearlyTitle}
+                      data-cy="label-yearly-price"
                     >
                       {yearly.currency.toUpperCase()} {yearly.unit_amount}
                       <span className={classes.priceSubtitle}>
@@ -224,6 +230,7 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                     component="p"
                     variant="body1"
                     className={classes.cannotUpdate}
+                    data-cy="label-storage-capacity-warning"
                   >
                     <Trans>Your content exceeds the {planStorageCapacity} storage capacity for this plan.</Trans>
                   </Typography>
@@ -232,6 +239,7 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                   component="p"
                   variant="body1"
                   className={classes.description}
+                  data-cy="label-storage-capacity-amount"
                 >
                   {
                 monthly?.metadata?.storage_size_bytes
@@ -239,28 +247,14 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                   : plan.description
                   }
                 </Typography>
-                {isPendingInvoice && isCurrentPlan
-                  ? <Button
-                    variant="primary"
-                    onClick={onShowCryptoOutstandingPayment}
-                    className={classes.loader}
-                  >
-                    <>
-                      <Loading
-                        size={12}
-                        type="initial"
-                      />
-                      <Trans>Awaiting payment</Trans>
-                    </>
-                  </Button>
-                  : <Button
-                    variant="primary"
-                    disabled={isCurrentPlan || !isUpdateAllowed || isPendingInvoice}
-                    onClick={() => onSelectPlan(plan)}
-                  >
-                    <Trans>Select plan</Trans>
-                  </Button>
-                }
+                <Button
+                  variant="primary"
+                  disabled={isCurrentPlan || !isUpdateAllowed}
+                  onClick={() => onSelectPlan(plan)}
+                  testId="select-plan"
+                >
+                  <Trans>Select plan</Trans>
+                </Button>
               </div>
             )
             : (
@@ -348,12 +342,13 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
               href={ROUTE_LINKS.DiscordInvite}
               target="_blank"
               rel="noopener noreferrer"
+              data-cy="link-contact-us"
             >
               <Trans>Contact us</Trans>
             </a>
           </Typography>
         )}
-        {!desktop && !isPendingInvoice && (
+        {!desktop && (
           <div className={classes.buttons}>
             <Button
               variant="primary"

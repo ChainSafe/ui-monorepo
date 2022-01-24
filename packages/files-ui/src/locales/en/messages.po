@@ -13,6 +13,9 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "(Awaiting payment)"
+msgstr "(Awaiting payment)"
+
 msgid "({0}) items selected"
 msgstr "({0}) items selected"
 
@@ -67,8 +70,8 @@ msgstr "Add a username"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
-msgid "Add by sharing address, username or wallet address"
-msgstr "Add by sharing address, username or wallet address"
+msgid "Add by sharing address, username, wallet address or ENS"
+msgstr "Add by sharing address, username, wallet address or ENS"
 
 msgid "Add card"
 msgstr "Add card"
@@ -88,8 +91,8 @@ msgstr "Adding you to the shared folder..."
 msgid "All invoices"
 msgstr "All invoices"
 
-msgid "Allow lookup by sharing key, wallet address or username"
-msgstr "Allow lookup by sharing key, wallet address or username"
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
+msgstr "Allow lookup by sharing key, wallet address, username or ENS"
 
 msgid "An error occurred:"
 msgstr "An error occurred:"
@@ -652,6 +655,9 @@ msgstr "Password:"
 msgid "Passwords must match"
 msgstr "Passwords must match"
 
+msgid "Pay invoice"
+msgstr "Pay invoice"
+
 msgid "Pay with Crypto"
 msgstr "Pay with Crypto"
 
@@ -789,6 +795,9 @@ msgstr "Search…"
 
 msgid "Security"
 msgstr "Security"
+
+msgid "See payment info"
+msgstr "See payment info"
 
 msgid "Select a wallet"
 msgstr "Select a wallet"

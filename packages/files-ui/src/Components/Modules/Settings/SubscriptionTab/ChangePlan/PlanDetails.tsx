@@ -93,6 +93,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
         variant="h5"
         component="h4"
         className={classes.heading}
+        data-cy="header-selected-plan"
       >
         {plan.name}
       </Typography>
@@ -100,6 +101,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
         variant="body1"
         component="p"
         className={classes.subheading}
+        data-cy="label-selected-plan-subheader"
       >
         <Trans>You get access to these features right now.</Trans>
       </Typography>
@@ -109,6 +111,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
           variant="body1"
           component="p"
           className={classes.boldText}
+          data-cy="label-features"
         >
           <Trans>Features</Trans>
         </Typography>
@@ -117,6 +120,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
             component="p"
             variant="body1"
             className={classes.featureSeparator}
+            data-cy="label-storage-details"
           >
             <Trans>{currentPlanStorage} of storage</Trans>
           </Typography>
@@ -128,6 +132,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
           component="p"
           variant="body1"
           className={classes.boldText}
+          data-cy="label-billing"
         >
           <Trans>Billing start time</Trans>
         </Typography>
@@ -135,6 +140,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
           <Typography
             variant="body1"
             component="p"
+            data-cy="label-billing-start-date"
           >
             {dayjs().format("DD MMM YYYY")}
           </Typography>
@@ -148,6 +154,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
               component="p"
               variant="body1"
               className={classes.boldText}
+              data-cy={billingPeriod === "monthly" ? "label-monthly-billing" : "label-yearly-billing"}
             >
               {billingPeriod === "monthly"
                 ? <Trans>Monthly billing</Trans>
@@ -158,6 +165,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
               <ToggleSwitch
                 left={{ value: "yearly" }}
                 right={{ value: "monthly" }}
+                testId="duration"
                 onChange={() => setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")}
               />
             </div>
@@ -178,6 +186,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
             variant="body1"
             component="p"
             className={classes.boldText}
+            data-cy="label-total-cost"
           >
             {billingPeriod === "monthly"
               ? `${monthlyPrice?.unit_amount ? monthlyPrice?.currency : ""} ${monthlyPrice?.unit_amount}`
@@ -191,12 +200,14 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
           <Button
             onClick={() => goToSelectPlan()}
             variant="text"
+            testId="go-back-to-plan-selection"
           >
             <Trans>Go back</Trans>
           </Button>
           <Button
             variant="primary"
             onClick={handleSelectPlan}
+            testId="select-this-plan"
           >
             <Trans>Select this plan</Trans>
           </Button>

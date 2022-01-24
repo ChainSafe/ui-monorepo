@@ -29,6 +29,7 @@ interface IBillingContext {
   invoices?: InvoiceResponse[]
   cancelCurrentSubscription: () => Promise<void>
   isPendingInvoice: boolean
+  downloadInvoice: (invoiceId: string) => Promise<void>
 }
 
 const ProductMapping: {[key: string]: {
@@ -215,8 +216,19 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         console.error(error)
         return Promise.reject()
       })
-  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, refreshBuckets]
-  )
+  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, refreshBuckets])
+
+  const downloadInvoice = useCallback(async (invoiceId: string) => {
+    try {
+      const result = await filesApiClient.downloadInvoice(invoiceId)
+      const link = document.createElement("a")
+      link.href = URL.createObjectURL(result.data)
+      link.download = "Chainsafe Files Invoice"
+      link.click()
+    } catch (error) {
+      console.error(error)
+    }
+  }, [filesApiClient])
 
   return (
     <BillingContext.Provider
@@ -231,7 +243,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         updateDefaultCard,
         invoices,
         cancelCurrentSubscription,
-        isPendingInvoice
+        isPendingInvoice,
+        downloadInvoice
       }}
     >
       {children}

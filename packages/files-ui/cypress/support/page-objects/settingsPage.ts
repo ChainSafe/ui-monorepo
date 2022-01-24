@@ -26,6 +26,7 @@ export const settingsPage = {
   defaultCardLabel: () => cy.get("[data-cy=label-default-card]"),
   noCardLabel: () => cy.get("[data-cy=label-no-card]"),
   removeCardLink: () => cy.get("[data-cy=link-remove-card]"),
+  changePlanButton: () => cy.get("[data-cy=button-change-plan]", { timeout: 10000 }),
 
   // helpers
   awaitStripeConfirmation() {
