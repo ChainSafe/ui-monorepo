@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useMemo } from "react"
 import { useFilesApi } from "./FilesApiContext"
 import { ReactNode, useEffect, useState } from "react"
 import { Card, CurrentSubscription, InvoiceResponse, Product } from "@chainsafe/files-api-client"
@@ -28,6 +28,7 @@ interface IBillingContext {
   updateDefaultCard: (id: StripePaymentMethod["id"]) => Promise<void>
   invoices?: InvoiceResponse[]
   cancelCurrentSubscription: () => Promise<void>
+  isPendingInvoice: boolean
   downloadInvoice: (invoiceId: string) => Promise<void>
 }
 
@@ -61,6 +62,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
+  const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update", [currentSubscription])
   const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
   const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
   const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
@@ -68,7 +70,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   useEffect(() => {
     if (!currentSubscription) return
 
-    filesApiClient.getAllInvoices(currentSubscription.id)
+    filesApiClient.getAllInvoices(currentSubscription.id, 100)
       .then(({ invoices }) => {
         setInvoices(invoices
           .filter(i => i.status !== "void")
@@ -241,6 +243,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         updateDefaultCard,
         invoices,
         cancelCurrentSubscription,
+        isPendingInvoice,
         downloadInvoice
       }}
     >
