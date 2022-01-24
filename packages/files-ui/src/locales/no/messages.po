@@ -67,7 +67,7 @@ msgstr "Legg til et brukernavn"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr ""
 
-msgid "Add by sharing address, username or wallet address"
+msgid "Add by sharing address, username, wallet address or ENS"
 msgstr ""
 
 msgid "Add card"
@@ -88,7 +88,7 @@ msgstr ""
 msgid "All invoices"
 msgstr ""
 
-msgid "Allow lookup by sharing key, wallet address or username"
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
 msgid "An error occurred:"
