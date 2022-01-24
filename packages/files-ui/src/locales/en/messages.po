@@ -13,6 +13,9 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "(Awaiting payment)"
+msgstr "(Awaiting payment)"
+
 msgid "({0}) items selected"
 msgstr "({0}) items selected"
 
@@ -787,6 +790,9 @@ msgstr "Search…"
 msgid "Security"
 msgstr "Security"
 
+msgid "See payment info"
+msgstr "See payment info"
+
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
@@ -942,6 +948,9 @@ msgstr "Theme"
 
 msgid "There are no notifications!"
 msgstr "There are no notifications!"
+
+msgid "There was a problem creating a charge {error}"
+msgstr "There was a problem creating a charge {error}"
 
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"

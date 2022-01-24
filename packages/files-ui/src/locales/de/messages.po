@@ -13,6 +13,9 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "(Awaiting payment)"
+msgstr ""
+
 msgid "({0}) items selected"
 msgstr ""
 
@@ -784,6 +787,9 @@ msgstr "Suchen …"
 msgid "Security"
 msgstr "Sicherheit"
 
+msgid "See payment info"
+msgstr ""
+
 msgid "Select a wallet"
 msgstr ""
 
@@ -938,6 +944,9 @@ msgid "Theme"
 msgstr "Farbschema"
 
 msgid "There are no notifications!"
+msgstr ""
+
+msgid "There was a problem creating a charge {error}"
 msgstr ""
 
 msgid "There was an error authenticating"
