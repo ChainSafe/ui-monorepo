@@ -301,7 +301,7 @@ const ConfirmPlan = ({
         <div className={classes.buttons}>
           <Button
             onClick={goToPaymentMethod}
-            variant="secondary"
+            variant="text"
             disabled={loadingChangeSubscription}
           >
             <Trans>Go back</Trans>

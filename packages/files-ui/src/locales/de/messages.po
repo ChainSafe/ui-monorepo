@@ -13,6 +13,9 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "(Awaiting payment)"
+msgstr ""
+
 msgid "({0}) items selected"
 msgstr ""
 
@@ -49,6 +52,9 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
+msgid "Account is restricted"
+msgstr ""
+
 msgid "Active links"
 msgstr ""
 
@@ -64,8 +70,8 @@ msgstr "Einen Benutzernamen hinzufügen"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Fügen Sie mindestens eine weitere Authentifizierungsmethode hinzu, um Ihr Konto zu schützen. Sie bräuchten nur zwei, um sich von jedem Gerät aus bei Files anzumelden."
 
-msgid "Add by sharing address, username or wallet address"
-msgstr "Durch Freigabe der Adresse, des Benutzernamens oder der Brieftaschenadresse hinzufügen"
+msgid "Add by sharing address, username, wallet address or ENS"
+msgstr ""
 
 msgid "Add card"
 msgstr ""
@@ -85,7 +91,7 @@ msgstr ""
 msgid "All invoices"
 msgstr ""
 
-msgid "Allow lookup by sharing key, wallet address or username"
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
 msgid "An error occurred:"
@@ -248,6 +254,9 @@ msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
+
+msgid "Credit Card is expiring soon"
 msgstr ""
 
 msgid "Credit card saved"
@@ -472,6 +481,9 @@ msgstr "Infos"
 msgid "Insufficient balance"
 msgstr ""
 
+msgid "Invoice outstanding"
+msgstr ""
+
 msgid "I’m done saving my backup secret phrase"
 msgstr "Ich bin fertig mit dem Speichern meines Sixherungsgeheimsatzes"
 
@@ -637,6 +649,9 @@ msgstr "Passwort:"
 msgid "Passwords must match"
 msgstr "Passwörter müssen übereinstimmen"
 
+msgid "Pay invoice"
+msgstr ""
+
 msgid "Pay with Crypto"
 msgstr ""
 
@@ -774,6 +789,9 @@ msgstr "Suchen …"
 
 msgid "Security"
 msgstr "Sicherheit"
+
+msgid "See payment info"
+msgstr ""
 
 msgid "Select a wallet"
 msgstr ""
@@ -929,6 +947,9 @@ msgid "Theme"
 msgstr "Farbschema"
 
 msgid "There are no notifications!"
+msgstr ""
+
+msgid "There was a problem creating a charge {error}"
 msgstr ""
 
 msgid "There was an error authenticating"

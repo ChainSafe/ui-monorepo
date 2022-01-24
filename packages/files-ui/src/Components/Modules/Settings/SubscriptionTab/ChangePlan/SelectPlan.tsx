@@ -49,7 +49,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       alignItems: "center",
       borderRadius: 5,
       [breakpoints.down("md")]: {
-        flexDirection: "row",
         padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px `,
         justifyContent: "space-between"
       },
@@ -123,6 +122,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, typography }: C
       color: palette.error.main,
       marginTop: "1rem",
       textAlign: "center"
+    },
+    loader: {
+      "& > svg" : {
+        marginRight: constants.generalUnit
+      },
+      [breakpoints.down("md")]: {
+        width: "100%",
+        marginTop: constants.generalUnit
+      }
+    },
+    priceAndDescription: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      display: "flex",
+      alignItems: "center",
+      width: "100%"
     }
   })
 )
@@ -145,6 +160,7 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
         <Typography
           component="p"
           variant="h4"
+          data-cy="header-switch-plan"
         >
           <Trans>Switch Plan</Trans>
         </Typography>
@@ -165,20 +181,24 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
           return desktop
             ? (
               <div
-                className={clsx(classes.planBox)}
+                className={classes.planBox}
+                data-cy="container-plan-box"
                 key={`plan-${plan.id}`}
               >
                 <Typography
                   component="p"
                   variant="body1"
                   className={classes.planTitle}
+                  data-cy="label-plan-title"
                 >
                   {plan.name}
                 </Typography>
                 {monthly && (
                   <Typography
                     component="h4"
-                    variant="h4">
+                    variant="h4"
+                    data-cy={monthly.unit_amount ? "label-monthly-price" : "label-no-charge"}
+                  >
                     {monthly.unit_amount
                       ? <>
                         {monthly.currency.toUpperCase()} {monthly.unit_amount}
@@ -194,6 +214,7 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
                     <Typography
                       variant="body2"
                       className={classes.priceYearlyTitle}
+                      data-cy="label-yearly-price"
                     >
                       {yearly.currency.toUpperCase()} {yearly.unit_amount}
                       <span className={classes.priceSubtitle}>
@@ -208,6 +229,7 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
                     component="p"
                     variant="body1"
                     className={classes.cannotUpdate}
+                    data-cy="label-storage-capacity-warning"
                   >
                     <Trans>Your content exceeds the {planStorageCapacity} storage capacity for this plan.</Trans>
                   </Typography>
@@ -216,6 +238,7 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
                   component="p"
                   variant="body1"
                   className={classes.description}
+                  data-cy="label-storage-capacity-amount"
                 >
                   {
                 monthly?.metadata?.storage_size_bytes
@@ -227,6 +250,7 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
                   variant="primary"
                   disabled={isCurrentPlan || !isUpdateAllowed}
                   onClick={() => onSelectPlan(plan)}
+                  testId="select-plan"
                 >
                   <Trans>Select plan</Trans>
                 </Button>
@@ -238,50 +262,56 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
                 onClick={() => isUpdateAllowed && !isCurrentPlan && setTempSelectedPlan(plan)}
                 key={`plan-${plan.id}`}
               >
-                <div>
-                  <Typography
-                    component="p"
-                    variant="body1"
-                    className={classes.planTitle}
-                  >
-                    {plan.name}
-                  </Typography>
-                  <Typography
-                    component="p"
-                    variant="body1"
-                    className={classes.description}
-                  >
-                    {
+                <div className={classes.priceAndDescription}>
+                  <div>
+                    <Typography
+                      component="p"
+                      variant="body1"
+                      className={classes.planTitle}
+                    >
+                      {plan.name}
+                    </Typography>
+                    <Typography
+                      component="p"
+                      variant="body1"
+                      className={classes.description}
+                    >
+                      {
                       monthly?.metadata?.storage_size_bytes
                         ? <Trans><b>{planStorageCapacity}</b> of storage</Trans>
                         : plan.description
-                    }
-                  </Typography>
-                </div>
-                <div className={classes.mobilePriceBox}>
-                  {monthly && (
-                    <Typography
-                      component="h4"
-                      variant="h4">
-                      {monthly.unit_amount
-                        ? <>
-                          {monthly.currency.toUpperCase()} {monthly.unit_amount}
-                          <span className={classes.priceSubtitle}>/month</span>
-                        </>
-                        : t`Free`}
+                      }
                     </Typography>
-                  )}
-                  {monthly && yearly
-                    ? (
+                  </div>
+                  <div className={classes.mobilePriceBox}>
+                    {monthly && (
                       <Typography
-                        variant="body2"
-                        className={classes.priceYearlyTitle}>
-                        {yearly.currency.toUpperCase()} {yearly.unit_amount}
-                        <span className={classes.priceSubtitle}>/year</span>
+                        component="h4"
+                        variant="h4">
+                        {monthly.unit_amount
+                          ? <>
+                            {monthly.currency.toUpperCase()} {monthly.unit_amount}
+                            <span className={classes.priceSubtitle}>
+                              <Trans>/month</Trans>
+                            </span>
+                          </>
+                          : t`Free`}
                       </Typography>
-                    )
-                    : <div className={classes.priceSpace} />
-                  }
+                    )}
+                    {monthly && yearly
+                      ? (
+                        <Typography
+                          variant="body2"
+                          className={classes.priceYearlyTitle}>
+                          {yearly.currency.toUpperCase()} {yearly.unit_amount}
+                          <span className={classes.priceSubtitle}>
+                            <Trans>/year</Trans>
+                          </span>
+                        </Typography>
+                      )
+                      : <div className={classes.priceSpace} />
+                    }
+                  </div>
                 </div>
               </div>
             )})}
@@ -297,13 +327,14 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
               href={ROUTE_LINKS.DiscordInvite}
               target="_blank"
               rel="noopener noreferrer"
+              data-cy="link-contact-us"
             >
               <Trans>Contact us</Trans>
             </a>
           </Typography>
         )}
-        <div className={classes.buttons}>
-          {!desktop && (
+        {!desktop && (
+          <div className={classes.buttons}>
             <Button
               variant="primary"
               disabled={!tempSelectedPlan}
@@ -312,8 +343,8 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
             >
               <Trans>Select plan</ Trans>
             </Button>
-          )}
-        </div>
+          </div>
+        )}
       </section>
     </article>
   )

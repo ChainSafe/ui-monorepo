@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
 "PO-Revision-Date: 2022-01-20 22:53+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
-"chainsafe-files-user-interface/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -14,6 +13,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.11-dev\n"
 "Mime-Version: 1.0\n"
+
+msgid "(Awaiting payment)"
+msgstr ""
 
 msgid "({0}) items selected"
 msgstr "({0}) éléments sélectionnés"
@@ -46,12 +48,13 @@ msgid "Accepted currencies"
 msgstr "Devises acceptées"
 
 msgid "Access your billing history in settings or view your"
-msgstr ""
-"Accédez à l'historique de votre facturation dans les paramètres ou "
-"visualisez votre"
+msgstr "Accédez à l'historique de votre facturation dans les paramètres ou visualisez votre"
 
 msgid "Account"
 msgstr "Compte"
+
+msgid "Account is restricted"
+msgstr ""
 
 msgid "Active links"
 msgstr "Liens actifs"
@@ -68,8 +71,8 @@ msgstr "Ajouter un nom d’utilisateur"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Ajoutez au moins une méthode d’authentification pour protéger ce compte. Vous avez besoin de deux méthode pour accéder à Files depuis n’importe quel appareil."
 
-msgid "Add by sharing address, username or wallet address"
-msgstr "Ajouter par adresse de partage, nom d'utilisateur ou adresse de portefeuille"
+msgid "Add by sharing address, username, wallet address or ENS"
+msgstr ""
 
 msgid "Add card"
 msgstr "Ajouter une carte"
@@ -89,8 +92,8 @@ msgstr "Je vous ajoute au dossier partagé…"
 msgid "All invoices"
 msgstr "Toutes les factures"
 
-msgid "Allow lookup by sharing key, wallet address or username"
-msgstr "Permettre la recherche par clé de partage, adresse du portefeuille ou nom d'utilisateur"
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
+msgstr ""
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
@@ -253,6 +256,9 @@ msgstr "Créer un lien"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
+
+msgid "Credit Card is expiring soon"
+msgstr ""
 
 msgid "Credit card saved"
 msgstr "Carte de crédit enregistrée"
@@ -479,6 +485,9 @@ msgstr "Infos"
 msgid "Insufficient balance"
 msgstr ""
 
+msgid "Invoice outstanding"
+msgstr ""
+
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
@@ -644,6 +653,9 @@ msgstr "Mot de passe :"
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
+msgid "Pay invoice"
+msgstr ""
+
 msgid "Pay with Crypto"
 msgstr ""
 
@@ -781,6 +793,9 @@ msgstr "Rechercher…"
 
 msgid "Security"
 msgstr "Sécurité"
+
+msgid "See payment info"
+msgstr ""
 
 msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
@@ -937,6 +952,9 @@ msgstr "Thème"
 
 msgid "There are no notifications!"
 msgstr "Il n'y a aucune notification !"
+
+msgid "There was a problem creating a charge {error}"
+msgstr ""
 
 msgid "There was an error authenticating"
 msgstr "Une erreur s’est produite lors de l’authentification"

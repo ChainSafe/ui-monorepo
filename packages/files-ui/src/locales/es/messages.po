@@ -14,6 +14,9 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "(Awaiting payment)"
+msgstr ""
+
 msgid "({0}) items selected"
 msgstr ""
 
@@ -50,6 +53,9 @@ msgstr ""
 msgid "Account"
 msgstr "Cuenta"
 
+msgid "Account is restricted"
+msgstr ""
+
 msgid "Active links"
 msgstr ""
 
@@ -65,7 +71,7 @@ msgstr ""
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Agregue al menos un método de autenticación más para proteger su cuenta. Solo necesitaría dos para iniciar sesión en Archivos desde cualquier dispositivo."
 
-msgid "Add by sharing address, username or wallet address"
+msgid "Add by sharing address, username, wallet address or ENS"
 msgstr ""
 
 msgid "Add card"
@@ -86,7 +92,7 @@ msgstr ""
 msgid "All invoices"
 msgstr ""
 
-msgid "Allow lookup by sharing key, wallet address or username"
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
 msgid "An error occurred:"
@@ -249,6 +255,9 @@ msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
+
+msgid "Credit Card is expiring soon"
 msgstr ""
 
 msgid "Credit card saved"
@@ -476,6 +485,9 @@ msgstr "Info"
 msgid "Insufficient balance"
 msgstr ""
 
+msgid "Invoice outstanding"
+msgstr ""
+
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
@@ -641,6 +653,9 @@ msgstr "Contraseña:"
 msgid "Passwords must match"
 msgstr "Las contraseñas deben coincidir"
 
+msgid "Pay invoice"
+msgstr ""
+
 msgid "Pay with Crypto"
 msgstr ""
 
@@ -778,6 +793,9 @@ msgstr ""
 
 msgid "Security"
 msgstr "Seguridad"
+
+msgid "See payment info"
+msgstr ""
 
 msgid "Select a wallet"
 msgstr "Seleccione una billetera"
@@ -933,6 +951,9 @@ msgid "Theme"
 msgstr "Tema"
 
 msgid "There are no notifications!"
+msgstr ""
+
+msgid "There was a problem creating a charge {error}"
 msgstr ""
 
 msgid "There was an error authenticating"
