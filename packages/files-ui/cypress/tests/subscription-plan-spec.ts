@@ -138,7 +138,7 @@ describe("Subscription Plan", () => {
     })
 
     it("can select a subscription plan and view plan details", () => {
-      cy.web3Login()
+      cy.web3Login({ resetToFreePlan: true })
 
       // navigate to settings
       navigationMenu.settingsNavButton().click()
