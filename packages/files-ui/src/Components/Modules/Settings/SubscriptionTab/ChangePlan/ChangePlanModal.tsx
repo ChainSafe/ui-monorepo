@@ -12,6 +12,7 @@ import PlanSuccess from "./PlanSuccess"
 import DowngradeDetails from "./DowngradeDetails"
 import { PaymentMethod } from "../../../../../Contexts/BillingContext"
 import CryptoPayment from "./CryptoPayment"
+
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {

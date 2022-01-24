@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Product, ProductPrice } from "@chainsafe/files-api-client"
+import { CheckSubscriptionUpdate, Product, ProductPrice } from "@chainsafe/files-api-client"
 import { Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
@@ -116,6 +116,7 @@ const ConfirmPlan = ({
   const { defaultCard } = useBilling()
   const { currentSubscription } = useBilling()
   const { filesApiClient } = useFilesApi()
+  const [checkSubscriptionUpdate, setCheckSubscriptionUpdate] = useState<CheckSubscriptionUpdate  | undefined>()
   const newPlanStorage = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
 
   const isDowngrade = useMemo(() => {
@@ -128,7 +129,7 @@ const ConfirmPlan = ({
     filesApiClient.checkSubscriptionUpdate(currentSubscription?.id, {
       payment_method: paymentMethod === "creditCard" ? "stripe" : "crypto",
       price_id: planPrice.id
-    }).then(console.log).catch(console.error)
+    }).then(setCheckSubscriptionUpdate).catch(console.error)
   }, [currentSubscription, paymentMethod, filesApiClient, planPrice])
 
   return (
@@ -266,6 +267,25 @@ const ConfirmPlan = ({
           </Typography>
         </div>
       </div>
+      <div className={classes.rowBox}>
+        <Typography
+          component="p"
+          variant="body1"
+        >
+          <Trans>Plan price</Trans>
+        </Typography>
+        <div className={classes.pushRightBox}>
+          <Typography
+            variant="body1"
+            component="p"
+          >
+            {planPrice.unit_amount ? planPrice.currency : ""} {planPrice.unit_amount}
+            <span className={classes.normalWeightText}>
+              {planPrice.recurring.interval === "month" ? t`/month` : t`/year`}
+            </span>
+          </Typography>
+        </div>
+      </div>
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
         <Typography
@@ -273,19 +293,27 @@ const ConfirmPlan = ({
           variant="h5"
           className={classes.boldText}
         >
-          <Trans>Total</Trans>
+          <Trans>Next payment amount</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
-          <Typography
-            variant="body1"
-            component="p"
-            className={classes.boldText}
-          >
-            {planPrice.unit_amount ? planPrice.currency : ""} {planPrice.unit_amount}
-            <span className={classes.normalWeightText}>
-              {planPrice.recurring.interval === "month" ? t`/month` : t`/year`}
-            </span>
-          </Typography>
+          {checkSubscriptionUpdate && <div  className={classes.pushRightBox}>
+            <Typography
+              variant="h5"
+              component="h5"
+              className={classes.boldText}
+            >
+              {planPrice.currency} {checkSubscriptionUpdate.amount_remaining.toFixed(2)}
+            </Typography>
+            {checkSubscriptionUpdate.amount_balance > 0 && <Typography
+              component="p"
+              variant="body2"
+            >
+              (<Trans>Previous balance</Trans> : {planPrice.currency} {checkSubscriptionUpdate.amount_balance.toFixed(2)})
+            </Typography>
+
+            }
+          </div>
+          }
         </div>
       </div>
       {isSubscriptionError &&
@@ -309,7 +337,7 @@ const ConfirmPlan = ({
           <Button
             variant="primary"
             loading={loadingChangeSubscription}
-            disabled={loadingChangeSubscription}
+            disabled={loadingChangeSubscription || !checkSubscriptionUpdate}
             onClick={onChangeSubscription}
           >
             {paymentMethod === "creditCard"
