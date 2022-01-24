@@ -190,9 +190,6 @@ msgstr ""
 msgid "Confirmation"
 msgstr ""
 
-msgid "Connect Wallet"
-msgstr ""
-
 msgid "Connect Wallet to Files"
 msgstr "Wallet mit Dateien verbinden"
 
@@ -298,9 +295,6 @@ msgstr "Löschen"
 msgid "Delete selected"
 msgstr ""
 
-msgid "Destination Address"
-msgstr ""
-
 msgid "Device awaiting confirmation"
 msgstr "Gerät wartet auf Bestätigung"
 
@@ -365,9 +359,6 @@ msgid "Failed to add payment method"
 msgstr ""
 
 msgid "Failed to change subscription"
-msgstr ""
-
-msgid "Failed to create a charge"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -481,9 +472,6 @@ msgstr ""
 msgid "Info"
 msgstr "Infos"
 
-msgid "Insufficient balance"
-msgstr ""
-
 msgid "Invoice outstanding"
 msgstr ""
 
@@ -586,9 +574,6 @@ msgstr ""
 msgid "No folders"
 msgstr "Keine Ordner"
 
-msgid "No invoice found"
-msgstr ""
-
 msgid "No search results for"
 msgstr "Keine Suchergebnisse für"
 
@@ -605,9 +590,6 @@ msgid "OK"
 msgstr ""
 
 msgid "One sec, getting files ready…"
-msgstr ""
-
-msgid "Only send {selectedCurrency} to this address"
 msgstr ""
 
 msgid "Only you can see this."
@@ -652,16 +634,7 @@ msgstr "Passwort:"
 msgid "Passwords must match"
 msgstr "Passwörter müssen übereinstimmen"
 
-msgid "Pay invoice"
-msgstr ""
-
 msgid "Pay with Crypto"
-msgstr ""
-
-msgid "Pay with crypto"
-msgstr ""
-
-msgid "Pay with {0}"
 msgstr ""
 
 msgid "Payment and Subscriptions"
@@ -913,9 +886,6 @@ msgstr ""
 msgid "Subscription Plan"
 msgstr ""
 
-msgid "Switch Network"
-msgstr ""
-
 msgid "Switch Plan"
 msgstr ""
 
@@ -950,9 +920,6 @@ msgid "Theme"
 msgstr "Farbschema"
 
 msgid "There are no notifications!"
-msgstr ""
-
-msgid "There was a problem creating a charge {error}"
 msgstr ""
 
 msgid "There was an error authenticating"
@@ -1004,9 +971,6 @@ msgid "This website uses cookies that help the website function and track intera
 msgstr ""
 
 msgid "Total"
-msgstr ""
-
-msgid "Total Amount"
 msgstr ""
 
 msgid "Try again"
