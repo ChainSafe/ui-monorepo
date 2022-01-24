@@ -375,12 +375,11 @@ describe("File management", () => {
       createFolderModal.errorLabel().should("be.visible")
       createFolderModal.body().should("contain.text", "Please enter a name")
 
-      // ensure a folder can't be created if name exceeds 65 characters
+      // ensure a folder can be created even with a large amount of
       createFolderModal.folderNameInput().type("{selectall}{del}")
       createFolderModal.folderNameInput().type("cgsxffymqivoknhwhqvmnchvjngtwsriovhvkgzgmonmimctcrdytujbtkogngvext")
-      createFolderModal.createButton().should("have.attr", "disabled")
-      createFolderModal.errorLabel().should("be.visible")
-      createFolderModal.body().should("contain.text", "Name too long")
+      createFolderModal.createButton().should("not.have.attr", "disabled")
+      createFolderModal.errorLabel().should("not.be.visible")
     })
 
     it("can see storage space summary updated accordingly", () => {
