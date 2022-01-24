@@ -239,7 +239,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
   const debouncedSwitchCopiedAmount = debounce(() => setCopiedAmount(false), 3000)
   const pendingCryptoInvoice = useMemo(() =>
     invoices?.find((i) => i.payment_method === "crypto" && i.status === "open")
-  , [invoices, isPendingInvoice])
+  , [invoices])
   const currencies = useMemo(() => cryptoPayment?.payment_methods.map(c => c.currency), [cryptoPayment])
   const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
 

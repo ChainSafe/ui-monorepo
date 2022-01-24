@@ -191,6 +191,9 @@ msgstr "Confirmer l'augmentation de la formule"
 msgid "Confirmation"
 msgstr "Confirmation"
 
+msgid "Connect Wallet"
+msgstr ""
+
 msgid "Connect Wallet to Files"
 msgstr "Connecter un wallet à Files"
 
@@ -296,6 +299,9 @@ msgstr "Supprimer"
 msgid "Delete selected"
 msgstr "Supprimer la sélection"
 
+msgid "Destination Address"
+msgstr ""
+
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
@@ -361,6 +367,9 @@ msgstr "Échec de l'ajout d'une méthode de paiement"
 
 msgid "Failed to change subscription"
 msgstr "Échec de changement de souscription"
+
+msgid "Failed to create a charge"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
@@ -476,6 +485,9 @@ msgstr "Si vous pensez que ce fichier n'est pas conforme à nos <0>Conditions de
 msgid "Info"
 msgstr "Infos"
 
+msgid "Insufficient balance"
+msgstr ""
+
 msgid "Invoice outstanding"
 msgstr ""
 
@@ -578,6 +590,9 @@ msgstr "Aucun fichier à afficher"
 msgid "No folders"
 msgstr "Aucun dossier"
 
+msgid "No invoice found"
+msgstr ""
+
 msgid "No search results for"
 msgstr "Aucun fichier à afficher"
 
@@ -595,6 +610,9 @@ msgstr "OK"
 
 msgid "One sec, getting files ready…"
 msgstr "Les fichiers sont presque prêts…"
+
+msgid "Only send {selectedCurrency} to this address"
+msgstr ""
 
 msgid "Only you can see this."
 msgstr "Vous seul(e) pouvez voir ceci."
@@ -638,7 +656,16 @@ msgstr "Mot de passe :"
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
+msgid "Pay invoice"
+msgstr ""
+
 msgid "Pay with Crypto"
+msgstr ""
+
+msgid "Pay with crypto"
+msgstr ""
+
+msgid "Pay with {0}"
 msgstr ""
 
 msgid "Payment and Subscriptions"
@@ -890,6 +917,9 @@ msgstr "Sauvegardé par le mineur"
 msgid "Subscription Plan"
 msgstr "Formule souscrite"
 
+msgid "Switch Network"
+msgstr ""
+
 msgid "Switch Plan"
 msgstr "Changer de formule"
 
@@ -925,6 +955,9 @@ msgstr "Thème"
 
 msgid "There are no notifications!"
 msgstr "Il n'y a aucune notification !"
+
+msgid "There was a problem creating a charge {error}"
+msgstr ""
 
 msgid "There was an error authenticating"
 msgstr "Une erreur s’est produite lors de l’authentification"
@@ -976,6 +1009,9 @@ msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre
 
 msgid "Total"
 msgstr "Total"
+
+msgid "Total Amount"
+msgstr ""
 
 msgid "Try again"
 msgstr "Essayer de nouveau"

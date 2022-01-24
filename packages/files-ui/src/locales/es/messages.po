@@ -191,6 +191,9 @@ msgstr ""
 msgid "Confirmation"
 msgstr ""
 
+msgid "Connect Wallet"
+msgstr ""
+
 msgid "Connect Wallet to Files"
 msgstr "Conectar monedero a archivos"
 
@@ -296,6 +299,9 @@ msgstr "Borrar"
 msgid "Delete selected"
 msgstr ""
 
+msgid "Destination Address"
+msgstr ""
+
 msgid "Device awaiting confirmation"
 msgstr "Dispositivo pendiente de confirmación"
 
@@ -360,6 +366,9 @@ msgid "Failed to add payment method"
 msgstr ""
 
 msgid "Failed to change subscription"
+msgstr ""
+
+msgid "Failed to create a charge"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -476,6 +485,9 @@ msgstr ""
 msgid "Info"
 msgstr "Info"
 
+msgid "Insufficient balance"
+msgstr ""
+
 msgid "Invoice outstanding"
 msgstr ""
 
@@ -578,6 +590,9 @@ msgstr ""
 msgid "No folders"
 msgstr "Sin carpetas"
 
+msgid "No invoice found"
+msgstr ""
+
 msgid "No search results for"
 msgstr "No hay resultados de búsqueda para"
 
@@ -594,6 +609,9 @@ msgid "OK"
 msgstr ""
 
 msgid "One sec, getting files ready…"
+msgstr ""
+
+msgid "Only send {selectedCurrency} to this address"
 msgstr ""
 
 msgid "Only you can see this."
@@ -638,7 +656,16 @@ msgstr "Contraseña:"
 msgid "Passwords must match"
 msgstr "Las contraseñas deben coincidir"
 
+msgid "Pay invoice"
+msgstr ""
+
 msgid "Pay with Crypto"
+msgstr ""
+
+msgid "Pay with crypto"
+msgstr ""
+
+msgid "Pay with {0}"
 msgstr ""
 
 msgid "Payment and Subscriptions"
@@ -890,6 +917,9 @@ msgstr "Almacenado por el minero"
 msgid "Subscription Plan"
 msgstr ""
 
+msgid "Switch Network"
+msgstr ""
+
 msgid "Switch Plan"
 msgstr ""
 
@@ -924,6 +954,9 @@ msgid "Theme"
 msgstr "Tema"
 
 msgid "There are no notifications!"
+msgstr ""
+
+msgid "There was a problem creating a charge {error}"
 msgstr ""
 
 msgid "There was an error authenticating"
@@ -975,6 +1008,9 @@ msgid "This website uses cookies that help the website function and track intera
 msgstr ""
 
 msgid "Total"
+msgstr ""
+
+msgid "Total Amount"
 msgstr ""
 
 msgid "Try again"
