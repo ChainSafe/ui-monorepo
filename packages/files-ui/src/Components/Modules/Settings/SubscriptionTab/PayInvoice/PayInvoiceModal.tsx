@@ -23,10 +23,6 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   })
 )
 
-type PayInvoiceModalModalSlides = "confirmPlan" |
-"planSuccess" |
-"cryptoPayment"
-
 interface IChangeProductModal {
   onClose: () => void
 }
