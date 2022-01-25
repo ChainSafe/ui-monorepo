@@ -107,9 +107,6 @@ msgstr "Accepter"
 msgid "Are you sure? This will delete your default payment method."
 msgstr "Êtes-vous sûr(e) ? Ceci va supprimer votre moyen de paiement par défaut."
 
-msgid "Awaiting payment"
-msgstr ""
-
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
 

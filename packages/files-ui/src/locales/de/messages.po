@@ -106,9 +106,6 @@ msgstr "Genehmigen"
 msgid "Are you sure? This will delete your default payment method."
 msgstr ""
 
-msgid "Awaiting payment"
-msgstr ""
-
 msgid "Backup secret phrase"
 msgstr "Sicherungsgeheimsatz"
 
