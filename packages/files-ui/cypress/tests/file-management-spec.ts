@@ -196,7 +196,7 @@ describe("File management", () => {
     })
 
     it("can rename a file with error handling", () => {
-      const newName = "awesome new name"
+      const newName = "awesome new name that is pretty long and it shouldn't matter that much anyway"
 
       cy.web3Login({ clearCSFBucket: true })
 
@@ -374,13 +374,6 @@ describe("File management", () => {
       createFolderModal.createButton().should("have.attr", "disabled")
       createFolderModal.errorLabel().should("be.visible")
       createFolderModal.body().should("contain.text", "Please enter a name")
-
-      // ensure a folder can't be created if name exceeds 65 characters
-      createFolderModal.folderNameInput().type("{selectall}{del}")
-      createFolderModal.folderNameInput().type("cgsxffymqivoknhwhqvmnchvjngtwsriovhvkgzgmonmimctcrdytujbtkogngvext")
-      createFolderModal.createButton().should("have.attr", "disabled")
-      createFolderModal.errorLabel().should("be.visible")
-      createFolderModal.body().should("contain.text", "Name too long")
     })
 
     it("can see storage space summary updated accordingly", () => {

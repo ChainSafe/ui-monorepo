@@ -6,7 +6,6 @@ export const nameValidator = object().shape({
   name: string()
     .trim()
     .min(1, t`Please enter a name`)
-    .max(65, t`Name too long`)
     .required("A name is required")
     .test(
       "Invalid name",
@@ -19,7 +18,6 @@ export const bucketNameValidator = (bucketNames: Array<string | undefined>) => o
   name: string()
     .trim()
     .min(1, t`Please enter a name`)
-    .max(65, t`Name too long`)
     .required(t`Bucket name is required`)
     .test(
       "Invalid name",
