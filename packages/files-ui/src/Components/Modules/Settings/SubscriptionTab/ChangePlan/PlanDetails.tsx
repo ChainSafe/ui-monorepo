@@ -188,7 +188,8 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
             {billingPeriod === "monthly"
               ? `${monthlyPrice?.unit_amount ? monthlyPrice?.currency : ""} ${monthlyPrice?.unit_amount}`
               : `${yearlyPrice?.unit_amount ? yearlyPrice?.currency : ""} ${yearlyPrice?.unit_amount}`
-            }<span className={classes.normalWeightText}>{billingPeriod === "monthly" ? t`/month` : t`/year`}</span>
+            }
+            <span className={classes.normalWeightText}>{billingPeriod === "monthly" ? t`/month` : t`/year`}</span>
           </Typography>
         </div>
       </div>
