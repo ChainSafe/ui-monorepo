@@ -101,6 +101,7 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
         variant="h5"
         component="h4"
         className={classes.heading}
+        data-cy="header-select-payment"
       >
         <Trans>Select payment method</Trans>
       </Typography>
@@ -121,12 +122,14 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
             checked={paymentMethod === "creditCard"}
             labelClassName={classes.radioLabel}
             disabled={!defaultCard}
+            testId="credit-card"
           />
           <Typography
             variant="body1"
             component="p"
             className={classes.textButton}
             onClick={() => setView("addCard")}
+            data-cy={defaultCard ? "text-button-update-card" : "text-button-add-card"}
           >
             {defaultCard
               ? <Trans>Update credit card</Trans>
@@ -143,6 +146,7 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
           labelClassName={classes.radioLabel}
           // TODO Revert once testing is finished
           disabled={selectedProductPrice.recurring.interval !== "day"}
+          testId="crypto"
         />
       </>
       }
@@ -161,6 +165,7 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
           <Button
             onClick={goBack}
             variant="text"
+            testId="go-back-to-plan-details"
           >
             <Trans>Go back</Trans>
           </Button>
@@ -168,6 +173,7 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
             variant="primary"
             disabled={!paymentMethod || view === "addCard"}
             onClick={() => paymentMethod && onSelectPaymentMethod(paymentMethod)}
+            testId="select-payment-method"
           >
             <Trans>Select payment method</Trans>
           </Button>
