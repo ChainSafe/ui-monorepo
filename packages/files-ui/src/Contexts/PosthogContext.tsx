@@ -130,11 +130,9 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
 
   useEffect(() => {
     if (profile) {
-      console.log("setting posthog user identity: ", profile.userId)
       posthogInitialized && posthog.identify(profile.userId)
       posthogInitialized && posthog.capture("Logged In")
     } else {
-      console.log("resetting posthog")
       posthogInitialized && posthog.reset()
     }
   }, [profile, posthogInitialized])
