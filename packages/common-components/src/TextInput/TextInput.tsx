@@ -138,8 +138,8 @@ const useStyles = makeStyles(
           textAlign: "center",
           padding: `${constants.generalUnit}px`,
           transform: "translateX(-50%)",
-          color: palette.common.white.main,
-          backgroundColor: palette.common.black.main,
+          color: palette.additional["gray"][1],
+          backgroundColor: palette.additional["gray"][8],
           ...typography.body2,
           fontWeight: typography.fontWeight.bold,
           zIndex: zIndex?.layer3,
@@ -151,7 +151,7 @@ const useStyles = makeStyles(
             left: "50%",
             borderWidth: constants.generalUnit,
             borderStyle: "solid",
-            borderColor: ` ${palette.common.black.main} transparent transparent transparent`
+            borderColor: ` ${palette.additional["gray"][8]} transparent transparent transparent`
           },
           "&.error": {
             // backgroundColor: palette.error.main,

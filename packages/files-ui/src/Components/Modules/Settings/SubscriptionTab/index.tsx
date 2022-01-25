@@ -24,12 +24,14 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK || "")
 
 const PlanView: React.FC = () => {
   const classes = useStyles()
-  const { refreshDefaultCard } = useBilling()
+  const { refreshDefaultCard, fetchCurrentSubscription } = useBilling()
 
   useEffect(() => {
     // this is needed for testing when a card is deleted programmatically
     refreshDefaultCard()
-  }, [refreshDefaultCard])
+    // or when a plan is changed programmatically
+    fetchCurrentSubscription()
+  }, [fetchCurrentSubscription, refreshDefaultCard])
 
   return (
     <Elements stripe={stripePromise}>

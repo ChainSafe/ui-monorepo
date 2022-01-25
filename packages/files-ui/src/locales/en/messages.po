@@ -556,9 +556,6 @@ msgstr "My Files"
 msgid "Name"
 msgstr "Name"
 
-msgid "Name too long"
-msgstr "Name too long"
-
 msgid "New folder"
 msgstr "New folder"
 

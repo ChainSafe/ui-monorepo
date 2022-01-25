@@ -48,6 +48,7 @@ export interface Web3LoginOptions {
   deleteShareBucket?: boolean
   withNewUser?: boolean
   deleteCreditCard? : boolean
+  resetToFreePlan?: boolean
 }
 
 Cypress.Commands.add(
@@ -59,7 +60,8 @@ Cypress.Commands.add(
     clearTrashBucket = false,
     deleteShareBucket = false,
     withNewUser = true,
-    deleteCreditCard = false
+    deleteCreditCard = false,
+    resetToFreePlan = false
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -130,6 +132,10 @@ Cypress.Commands.add(
       apiTestHelper.deleteCreditCards()
     }
 
+    if(resetToFreePlan){
+      apiTestHelper.ensureUserIsOnFreePlan()
+    }
+
     if(clearTrashBucket || clearCSFBucket || deleteShareBucket){
       navigationMenu.binNavButton().click()
       navigationMenu.homeNavButton().click()
@@ -189,6 +195,7 @@ declare global {
        * @param {Boolean} options.deleteShareBucket - (default: false) - whether any shared bucket should be deleted.
        * @param {Boolean} options.withNewUser - (default: true) - whether to create a new user for this session.
        * @param {Boolean} options.deleteCreditCard - (default: false) - whether to delete the default credit card associate to the account.
+       * @param {Boolean} options.resetToFreePlan - (default false) - whether to cancel any plan to make sure the user is on the free one.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => void
