@@ -314,20 +314,6 @@ const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPay
                     }
                   </div>
                 </div>
-                {isPendingInvoice && isCurrentPlan && <Button
-                  variant="primary"
-                  onClick={onShowCryptoOutstandingPayment}
-                  className={classes.loader}
-                >
-                  <>
-                    <Loading
-                      size={12}
-                      type="initial"
-                    />
-                    <Trans>Awaiting payment</Trans>
-                  </>
-                </Button>
-                }
               </div>
             )})}
       </section>
