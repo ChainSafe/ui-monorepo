@@ -156,7 +156,8 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
               className={classes.boldText}
               data-cy="label-annual-billing"
             >
-              <Trans>Annual billing</Trans>
+              {/* confirm 40% off when final plans come through */}
+              <Trans>Annual billing (40% off)</Trans>
             </Typography>
             <div className={classes.pushRightBox}>
               <ToggleSwitch
