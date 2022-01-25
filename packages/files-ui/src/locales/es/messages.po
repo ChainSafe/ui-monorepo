@@ -98,7 +98,7 @@ msgstr ""
 msgid "An error occurred:"
 msgstr ""
 
-msgid "Annual billing"
+msgid "Annual billing (40% off)"
 msgstr ""
 
 msgid "Anyone with the link can:"
