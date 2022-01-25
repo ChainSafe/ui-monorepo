@@ -293,7 +293,7 @@ const ConfirmPlan = ({
           variant="h5"
           className={classes.boldText}
         >
-          <Trans>Next payment amount</Trans>
+          <Trans>Payment amount</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           {checkSubscriptionUpdate && <div  className={classes.pushRightBox}>
