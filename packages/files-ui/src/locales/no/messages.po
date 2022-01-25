@@ -658,6 +658,9 @@ msgstr ""
 msgid "Pay with {0}"
 msgstr ""
 
+msgid "Payment amount"
+msgstr ""
+
 msgid "Payment and Subscriptions"
 msgstr ""
 
@@ -665,6 +668,9 @@ msgid "Payment method"
 msgstr ""
 
 msgid "Plan changed successfully"
+msgstr ""
+
+msgid "Plan price"
 msgstr ""
 
 msgid "Please enter a file name"
@@ -690,6 +696,9 @@ msgstr "Forhåndsvis"
 
 msgid "Previous"
 msgstr "Forrige"
+
+msgid "Previous balance"
+msgstr ""
 
 msgid "Privacy Policy"
 msgstr "Personvernspraksis"

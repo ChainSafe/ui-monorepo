@@ -662,6 +662,9 @@ msgstr ""
 msgid "Pay with {0}"
 msgstr ""
 
+msgid "Payment amount"
+msgstr ""
+
 msgid "Payment and Subscriptions"
 msgstr "Paiements et souscriptions"
 
@@ -670,6 +673,9 @@ msgstr "Méthode de paiement"
 
 msgid "Plan changed successfully"
 msgstr "Formule changée"
+
+msgid "Plan price"
+msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"
@@ -694,6 +700,9 @@ msgstr "Aperçu"
 
 msgid "Previous"
 msgstr "Précédent"
+
+msgid "Previous balance"
+msgstr ""
 
 msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
