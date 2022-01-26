@@ -50,11 +50,6 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       display: "block",
       width: "100%",
       textDecoration: "none"
-    },
-    changePlanButton: {
-      "& > svg" : {
-        marginRight: constants.generalUnit
-      }
     }
   })
 )
@@ -112,7 +107,6 @@ const CurrentPlan = ({ className }: ICurrentProduct) => {
             variant="primary"
             onClick={() => setChangeProductModalVisible(true)}
             data-cy="button-change-plan"
-            className={classes.changePlanButton}
           >
             {isPendingInvoice
               ? <Trans>See payment info</Trans>
