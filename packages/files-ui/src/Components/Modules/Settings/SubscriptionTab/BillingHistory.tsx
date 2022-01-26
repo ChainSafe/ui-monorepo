@@ -34,7 +34,7 @@ const BillingHistory = () => {
         <Trans>Billing history</Trans>
       </Typography>
       {isPendingInvoice && <Typography>
-        Please complete payment of the following outstanding invoices in order to avoid account suspension.
+        <Trans>Please complete payment of the following outstanding invoices in order to avoid account suspension</Trans>
       </Typography>}
       <Typography
         variant="body1"
@@ -47,11 +47,12 @@ const BillingHistory = () => {
       </Typography>
       <InvoiceLines
         lineNumber={3}
-        payInvoice={() => setPayInvoiceModalVisible(true)}/>
+        payInvoice={() => setPayInvoiceModalVisible(true)}
+      />
       {
-        isPayInvoiceModalVisible && (<PayInvoiceModal
+        isPayInvoiceModalVisible && <PayInvoiceModal
           onClose={() => setPayInvoiceModalVisible(false)}
-        />)
+        />
       }
     </div>
   )
