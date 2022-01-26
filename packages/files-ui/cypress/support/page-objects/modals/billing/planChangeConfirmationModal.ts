@@ -1,13 +1,10 @@
-export const confirmPlanChangeModal = {
+export const planChangeConfirmationModal = {
   body: () => cy.get("[data-testid=modal-container-confirmPlan]", { timeout: 10000 }),
-
   confirmPlanHeader: () => cy.get("[data-cy=header-confirm-change]"),
-
   selectedPlanLabel: () => cy.get("[data-cy=link-edit-plan]"),
   editPlanLink: () => cy.get("[data-cy=link-edit-plan]"),
   featuresLabel: () => cy.get("[data-cy=label-features-title]"),
   featuresSummaryLabel: () => cy.get("[data-cy=label-features-summary]"),
-
   selectedPaymentMethodLabel: () => cy.get("[data-cy=label-selected-payment-method]"),
   cardNumberLabel: () => cy.get("[data-cy=label-selected-card-number]"),
   editPaymentMethodLink: () => cy.get("[data-cy=link-edit-payment-method]"),

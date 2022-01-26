@@ -6,5 +6,11 @@ export const selectPaymentMethodModal = {
   creditCardRadioInput: () => cy.get("[data-testid=radio-input-credit-card]"),
   cryptoRadioInput: () => cy.get("[data-testid=radio-input-crypto]"),
   selectPaymentButton: () => cy.get("[data-testid=button-select-payment-method]"),
-  goBackButton: () => cy.get("[data-testid=button-go-back-to-plan-details]")
+  goBackButton: () => cy.get("[data-testid=button-go-back-to-plan-details]"),
+
+  // elements only displayed when adding a card
+  cardNumberInput: () => cy.getWithinIframe("[data-elements-stable-field-name=cardNumber]", "#iframe-card-number iframe"),
+  cvcNumberInput: () => cy.getWithinIframe("[data-elements-stable-field-name=cardCvc]", "#iframe-card-cvc iframe"),
+  expiryDateInput: () => cy.getWithinIframe("[data-elements-stable-field-name=cardExpiry]", "#iframe-card-expiry iframe"),
+  useThisCardButton: () => cy.get("[data-testid=button-add-card]")
 }

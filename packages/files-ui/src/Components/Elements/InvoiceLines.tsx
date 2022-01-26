@@ -111,12 +111,18 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
                 {dayjs.unix(period_start).format("MMM D, YYYY")}
               </Typography>
               {(status === "paid") && (
-                <Button onClick={() => downloadInvoice(uuid)}>
+                <Button
+                  onClick={() => downloadInvoice(uuid)}
+                  testId="download-invoice"
+                >
                   <Trans>Download</Trans>
                 </Button>
               )}
               {(status === "open") && (
-                <Button onClick={() => console.log("Not implemented")}>
+                <Button
+                  onClick={() => console.log("Not implemented")}
+                  testId="pay-invoice"
+                >
                   <Trans>Pay invoice</Trans>
                 </Button>
               )}
