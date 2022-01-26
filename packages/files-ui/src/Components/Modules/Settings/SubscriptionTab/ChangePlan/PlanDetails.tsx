@@ -87,6 +87,10 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
     }
   }
 
+  const percentageOff = monthlyPrice && yearlyPrice
+    ? ((((monthlyPrice.unit_amount * 12) - yearlyPrice.unit_amount) * 100) / (monthlyPrice.unit_amount * 12))
+    : null
+
   return (
     <article className={classes.root}>
       <Typography
@@ -157,7 +161,9 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
               data-cy="label-annual-billing"
             >
               {/* confirm 40% off when final plans come through */}
-              <Trans>Annual billing (40% off)</Trans>
+              <Trans>Annual billing
+                {percentageOff && percentageOff > 0 && ` (${Math.round(percentageOff)}% off)`}
+              </Trans>
             </Typography>
             <div className={classes.pushRightBox}>
               <ToggleSwitch

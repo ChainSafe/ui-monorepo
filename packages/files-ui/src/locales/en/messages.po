@@ -97,8 +97,11 @@ msgstr "Allow lookup by sharing key, wallet address, username or ENS"
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
-msgid "Annual billing (40% off)"
-msgstr "Annual billing (40% off)"
+#~ msgid "Annual billing (40% off)"
+#~ msgstr "Annual billing (40% off)"
+
+msgid "Annual billing{0}"
+msgstr "Annual billing{0}"
 
 msgid "Anyone with the link can:"
 msgstr "Anyone with the link can:"
