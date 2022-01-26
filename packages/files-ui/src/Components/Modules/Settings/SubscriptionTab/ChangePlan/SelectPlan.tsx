@@ -146,10 +146,9 @@ interface ISelectPlan {
   className?: string
   plans?: Product[]
   onSelectPlan: (plan: Product) => void
-  onShowCryptoOutstandingPayment: () => void
 }
 
-const SelectPlan = ({ className, onSelectPlan, plans, onShowCryptoOutstandingPayment }: ISelectPlan) => {
+const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
   const classes = useStyles()
   const { currentSubscription, isPendingInvoice } = useBilling()
   const { desktop } = useThemeSwitcher()

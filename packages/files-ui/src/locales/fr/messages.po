@@ -585,7 +585,7 @@ msgid "No folders"
 msgstr "Aucun dossier"
 
 msgid "No invoice found"
-msgstr ""
+msgstr "Aucune facture trouvée"
 
 msgid "No search results for"
 msgstr "Aucun fichier à afficher"
@@ -1005,7 +1005,7 @@ msgid "Total"
 msgstr "Total"
 
 msgid "Total Amount"
-msgstr ""
+msgstr "Montant total"
 
 msgid "Try again"
 msgstr "Essayer de nouveau"

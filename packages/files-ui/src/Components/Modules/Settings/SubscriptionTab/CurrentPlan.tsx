@@ -69,7 +69,6 @@ const CurrentPlan = ({ className }: ICurrentProduct) => {
   const { currentSubscription, isPendingInvoice } = useBilling()
   const [isChangeProductModalVisible, setChangeProductModalVisible] = useState(false)
 
-
   return (<section className={clsx(classes.root, className)}>
     <Typography
       variant="h4"
