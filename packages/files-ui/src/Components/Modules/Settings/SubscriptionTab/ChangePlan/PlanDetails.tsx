@@ -160,7 +160,6 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
               className={classes.boldText}
               data-cy="label-annual-billing"
             >
-              {/* confirm 40% off when final plans come through */}
               <Trans>Annual billing
                 {percentageOff && percentageOff > 0 && ` (${Math.round(percentageOff)}% off)`}
               </Trans>
