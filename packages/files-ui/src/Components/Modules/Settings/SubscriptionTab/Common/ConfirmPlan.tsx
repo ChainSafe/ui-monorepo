@@ -131,8 +131,8 @@ const ConfirmPlan = ({
       payment_method: paymentMethod === "creditCard" ? "stripe" : "crypto",
       price_id: planPrice.id
     })
-    .then(setCheckSubscriptionUpdate)
-    .catch(console.error)
+      .then(setCheckSubscriptionUpdate)
+      .catch(console.error)
   }, [currentSubscription, paymentMethod, filesApiClient, planPrice])
 
   return (
