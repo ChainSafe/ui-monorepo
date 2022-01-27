@@ -126,10 +126,13 @@ const ConfirmPlan = ({
 
   useEffect(() => {
     if (!currentSubscription) return
+
     filesApiClient.checkSubscriptionUpdate(currentSubscription?.id, {
       payment_method: paymentMethod === "creditCard" ? "stripe" : "crypto",
       price_id: planPrice.id
-    }).then(setCheckSubscriptionUpdate).catch(console.error)
+    })
+    .then(setCheckSubscriptionUpdate)
+    .catch(console.error)
   }, [currentSubscription, paymentMethod, filesApiClient, planPrice])
 
   return (
