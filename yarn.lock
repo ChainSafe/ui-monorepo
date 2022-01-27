@@ -20198,10 +20198,10 @@ postcss@^7.0.26:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-posthog-js@^1.13.10:
-  version "1.13.10"
-  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.13.10.tgz#cba84e1c0ccd4df6a2d793eb8f8550ed271ae859"
-  integrity sha512-XbsmDb3w3sPA7DABBDJfbHiXN5wwgUSyiVjz89EzThcX6NEHwJxWq5WThEWUELNUvciBk4JikmCUigCnutZB1Q==
+posthog-js@1.17.3:
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.17.3.tgz#e452a7d0001a1c60ceb5384d955b14a0230107d9"
+  integrity sha512-JRpnRdxHa1kmMhQqF//R+xm/6gpDdA2H7ZUnyiouRYQatShBNPytonvOkzydXQXR9XpU6NaYCLf7f0VL6XAjhg==
   dependencies:
     "@sentry/types" "^6.11.0"
     fflate "^0.4.1"

@@ -56,9 +56,10 @@ const useStyles = makeStyles(
 
 interface  IInvoiceProps {
   lineNumber?: number
+  payInvoice?: () => void
 }
 
-const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
+const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
   const classes = useStyles()
   const { invoices, downloadInvoice } = useBilling()
   const invoicesToShow = useMemo(() => {
@@ -116,7 +117,7 @@ const InvoiceLines = ({ lineNumber }: IInvoiceProps) => {
                 </Button>
               )}
               {(status === "open") && (
-                <Button onClick={() => console.log("Not implemented")}>
+                <Button onClick={payInvoice}>
                   <Trans>Pay invoice</Trans>
                 </Button>
               )}

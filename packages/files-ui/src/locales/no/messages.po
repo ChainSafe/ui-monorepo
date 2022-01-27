@@ -667,6 +667,9 @@ msgstr ""
 msgid "Plan changed successfully"
 msgstr ""
 
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
+msgstr ""
+
 msgid "Please enter a file name"
 msgstr "Skriv inn et filnavn"
 
