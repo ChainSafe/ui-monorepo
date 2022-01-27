@@ -86,6 +86,10 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
     }
   }
 
+  const percentageOff = monthlyPrice && yearlyPrice
+    ? ((((monthlyPrice.unit_amount * 12) - yearlyPrice.unit_amount) * 100) / (monthlyPrice.unit_amount * 12))
+    : null
+
   return (
     <article className={classes.root}>
       <Typography
@@ -153,17 +157,16 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
               component="p"
               variant="body1"
               className={classes.boldText}
-              data-cy={billingPeriod === "monthly" ? "label-monthly-billing" : "label-yearly-billing"}
+              data-cy="label-annual-billing"
             >
-              {billingPeriod === "monthly"
-                ? <Trans>Monthly billing</Trans>
-                : <Trans>Yearly billing</Trans>
-              }
+              <Trans>Annual billing
+                {percentageOff && percentageOff > 0 && ` (${Math.round(percentageOff)}% off)`}
+              </Trans>
             </Typography>
             <div className={classes.pushRightBox}>
               <ToggleSwitch
-                left={{ value: "yearly" }}
-                right={{ value: "monthly" }}
+                left={{ value: "monthly" }}
+                right={{ value: "yearly" }}
                 testId="duration"
                 onChange={() => setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")}
               />
@@ -190,7 +193,8 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
             {billingPeriod === "monthly"
               ? `${monthlyPrice?.unit_amount ? monthlyPrice?.currency : ""} ${monthlyPrice?.unit_amount}`
               : `${yearlyPrice?.unit_amount ? yearlyPrice?.currency : ""} ${yearlyPrice?.unit_amount}`
-            }<span className={classes.normalWeightText}>{billingPeriod ? t`/month` : t`/year`}</span>
+            }
+            <span className={classes.normalWeightText}>{billingPeriod === "monthly" ? t`/month` : t`/year`}</span>
           </Typography>
         </div>
       </div>
