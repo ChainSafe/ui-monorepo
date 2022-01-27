@@ -102,7 +102,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         inner: classes.inner
       }}
       onClose={onClose}
-      testId={`${ slide }`}
+      testId={slide}
     >
       {slide === "select" && (
         <SelectPlan
