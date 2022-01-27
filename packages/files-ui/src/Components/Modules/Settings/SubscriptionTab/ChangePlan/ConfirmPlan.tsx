@@ -313,7 +313,6 @@ const ConfirmPlan = ({
             >
               (<Trans>Previous balance</Trans>: {planPrice.currency} {checkSubscriptionUpdate.amount_balance.toFixed(2)})
             </Typography>
-
             }
           </div>
           }
