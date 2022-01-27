@@ -98,6 +98,9 @@ msgstr ""
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
+msgid "Annual billing{0}"
+msgstr ""
+
 msgid "Anyone with the link can:"
 msgstr "Toute personne ayant le lien peut le faire :"
 
@@ -532,9 +535,6 @@ msgstr "Gérer l’accès"
 
 msgid "Manage Shared Folder"
 msgstr "Gérer le dossier partagé"
-
-msgid "Monthly billing"
-msgstr "Facturation mensuelle"
 
 msgid "Move"
 msgstr "Déplacer"
@@ -1105,9 +1105,6 @@ msgstr "Quelle belle journée."
 
 msgid "What a fine night it is."
 msgstr "Quelle belle nuit."
-
-msgid "Yearly billing"
-msgstr "Paiement annuel"
 
 msgid "Yes, save it"
 msgstr "Oui, l’enregistrer"
