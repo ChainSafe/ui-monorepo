@@ -536,9 +536,6 @@ msgstr "Gérer l’accès"
 msgid "Manage Shared Folder"
 msgstr "Gérer le dossier partagé"
 
-#~ msgid "Monthly billing"
-#~ msgstr "Facturation mensuelle"
-
 msgid "Move"
 msgstr "Déplacer"
 
@@ -679,9 +676,6 @@ msgstr "Formule changée"
 
 msgid "Plan price"
 msgstr ""
-
-#~ msgid "Please complete payment of the following outstanding invoices in order to "
-#~ msgstr ""
 
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr ""
@@ -1120,9 +1114,6 @@ msgstr "Quelle belle journée."
 
 msgid "What a fine night it is."
 msgstr "Quelle belle nuit."
-
-#~ msgid "Yearly billing"
-#~ msgstr "Paiement annuel"
 
 msgid "Yes, save it"
 msgstr "Oui, l’enregistrer"
