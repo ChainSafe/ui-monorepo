@@ -205,8 +205,7 @@ describe("Subscription Plan", () => {
       planDetailsModal.storageDetailsLabel().should("be.visible")
       planDetailsModal.billingLabel().should("be.visible")
       planDetailsModal.billingStartDate().should("be.visible")
-      planDetailsModal.monthlyBillingLabel().should("be.visible")
-      planDetailsModal.yearlyBillingLabel().should("not.exist")
+      planDetailsModal.annualBillingLabel().should("be.visible")
       planDetailsModal.durationToggleSwitch().should("be.visible")
       planDetailsModal.totalCostLabel().should("be.visible")
       planDetailsModal.selectThisPlanButton().should("be.visible")
@@ -215,13 +214,11 @@ describe("Subscription Plan", () => {
       // retrieve monthly plan data as cypress alias for later comparison
       planDetailsModal.totalCostLabel().invoke("text").as("monthlyBillingPrice")
 
-      // toggle to display yearly pay
+      // toggle to enable annual billing
       planDetailsModal.durationToggleSwitch().click()
-      planDetailsModal.monthlyBillingLabel().should("not.exist")
-      planDetailsModal.yearlyBillingLabel().should("be.visible")
       planDetailsModal.totalCostLabel().invoke("text").as("yearlyBillingPrice")
 
-      // price should update when switching to yearly
+      // price should update when switching to annual
       cy.get("@monthlyBillingPrice").then(($monthlyBillingPrice) => {
         cy.get("@yearlyBillingPrice").should("not.equal", $monthlyBillingPrice)
       })
