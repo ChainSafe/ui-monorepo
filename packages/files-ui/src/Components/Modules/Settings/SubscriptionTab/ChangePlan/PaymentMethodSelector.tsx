@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
-import AddCard from "../AddCard/AddCard"
+import AddCard from "../Common/AddCard"
 import { PaymentMethod, useBilling } from "../../../../../Contexts/BillingContext"
 import { ProductPrice } from "@chainsafe/files-api-client"
 
@@ -144,8 +144,7 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
           onChange={() => setPaymentMethod("crypto")}
           checked={paymentMethod === "crypto"}
           labelClassName={classes.radioLabel}
-          // TODO Revert once testing is finished
-          disabled={selectedProductPrice.recurring.interval !== "day"}
+          disabled={selectedProductPrice.recurring.interval !== "year"}
           testId="crypto"
         />
       </>
