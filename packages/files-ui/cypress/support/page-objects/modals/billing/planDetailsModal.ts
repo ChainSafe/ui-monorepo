@@ -6,7 +6,6 @@ export const planDetailsModal = {
   storageDetailsLabel: () => cy.get("[data-cy=label-storage-details]"),
   billingLabel: () => cy.get("[data-cy=label-billing]"),
   billingStartDate: () => cy.get("[data-cy=label-billing-start-date]"),
-  annualBillingLabel: () => cy.get("[data-cy=label-annual-billing]"),
   durationToggleSwitch: () => cy.get("[data-testid=toggle-switch-duration]"),
   totalCostLabel: () => cy.get("[data-cy=label-total-cost]"),
   selectThisPlanButton: () => cy.get("[data-testid=button-select-this-plan]"),
