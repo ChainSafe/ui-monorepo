@@ -15,7 +15,7 @@ msgstr ""
 "Mime-Version: 1.0\n"
 
 msgid "(Awaiting payment)"
-msgstr ""
+msgstr "(Paiement en attente)"
 
 msgid "({0}) items selected"
 msgstr "({0}) éléments sélectionnés"
@@ -54,7 +54,7 @@ msgid "Account"
 msgstr "Compte"
 
 msgid "Account is restricted"
-msgstr ""
+msgstr "Ce compte est limité"
 
 msgid "Active links"
 msgstr "Liens actifs"
@@ -97,6 +97,9 @@ msgstr ""
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
+
+msgid "Annual billing{0}"
+msgstr ""
 
 msgid "Anyone with the link can:"
 msgstr "Toute personne ayant le lien peut le faire :"
@@ -189,7 +192,7 @@ msgid "Confirmation"
 msgstr "Confirmation"
 
 msgid "Connect Wallet"
-msgstr ""
+msgstr "Connecter un portefeuille"
 
 msgid "Connect Wallet to Files"
 msgstr "Connecter un wallet à Files"
@@ -258,7 +261,7 @@ msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
 msgid "Credit Card is expiring soon"
-msgstr ""
+msgstr "La carte de crédit va bientôt expirer"
 
 msgid "Credit card saved"
 msgstr "Carte de crédit enregistrée"
@@ -297,7 +300,7 @@ msgid "Delete selected"
 msgstr "Supprimer la sélection"
 
 msgid "Destination Address"
-msgstr ""
+msgstr "L'adresse de destination"
 
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
@@ -336,7 +339,7 @@ msgid "Drop to upload files"
 msgstr "Déposer pour téléverser un fichier"
 
 msgid "Edit payment"
-msgstr ""
+msgstr "Modifier le paiement"
 
 msgid "Edit payment method"
 msgstr "Modifier les méthodes de paiement"
@@ -483,7 +486,7 @@ msgid "Info"
 msgstr "Infos"
 
 msgid "Insufficient balance"
-msgstr ""
+msgstr "Solde insuffisant"
 
 msgid "Invoice outstanding"
 msgstr ""
@@ -533,8 +536,8 @@ msgstr "Gérer l’accès"
 msgid "Manage Shared Folder"
 msgstr "Gérer le dossier partagé"
 
-msgid "Monthly billing"
-msgstr "Facturation mensuelle"
+#~ msgid "Monthly billing"
+#~ msgstr "Facturation mensuelle"
 
 msgid "Move"
 msgstr "Déplacer"
@@ -606,7 +609,7 @@ msgid "One sec, getting files ready…"
 msgstr "Les fichiers sont presque prêts…"
 
 msgid "Only send {selectedCurrency} to this address"
-msgstr ""
+msgstr "N'envoyer que des {selectedCurrency} à cette adresse"
 
 msgid "Only you can see this."
 msgstr "Vous seul(e) pouvez voir ceci."
@@ -651,16 +654,16 @@ msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
 msgid "Pay invoice"
-msgstr ""
+msgstr "Payer la facture"
 
 msgid "Pay with Crypto"
-msgstr ""
+msgstr "Payer en cryptomonnaie"
 
 msgid "Pay with crypto"
-msgstr ""
+msgstr "Payer en cryptomonnaie"
 
 msgid "Pay with {0}"
-msgstr ""
+msgstr "Payer via {0}"
 
 msgid "Payment amount"
 msgstr ""
@@ -675,6 +678,12 @@ msgid "Plan changed successfully"
 msgstr "Formule changée"
 
 msgid "Plan price"
+msgstr ""
+
+#~ msgid "Please complete payment of the following outstanding invoices in order to "
+#~ msgstr ""
+
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr ""
 
 msgid "Please enter a file name"
@@ -708,7 +717,7 @@ msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
 
 msgid "Proceed to payment"
-msgstr ""
+msgstr "Procéder au paiement"
 
 msgid "Profile and Display"
 msgstr "Profil et affichage"
@@ -801,7 +810,7 @@ msgid "Security"
 msgstr "Sécurité"
 
 msgid "See payment info"
-msgstr ""
+msgstr "Voir les détails du paiement"
 
 msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
@@ -921,7 +930,7 @@ msgid "Subscription Plan"
 msgstr "Formule souscrite"
 
 msgid "Switch Network"
-msgstr ""
+msgstr "Changer de réseau"
 
 msgid "Switch Plan"
 msgstr "Changer de formule"
@@ -1112,8 +1121,8 @@ msgstr "Quelle belle journée."
 msgid "What a fine night it is."
 msgstr "Quelle belle nuit."
 
-msgid "Yearly billing"
-msgstr "Paiement annuel"
+#~ msgid "Yearly billing"
+#~ msgstr "Paiement annuel"
 
 msgid "Yes, save it"
 msgstr "Oui, l’enregistrer"

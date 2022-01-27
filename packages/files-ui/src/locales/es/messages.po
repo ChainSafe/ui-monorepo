@@ -98,6 +98,9 @@ msgstr ""
 msgid "An error occurred:"
 msgstr ""
 
+msgid "Annual billing{0}"
+msgstr ""
+
 msgid "Anyone with the link can:"
 msgstr ""
 
@@ -533,9 +536,6 @@ msgstr ""
 msgid "Manage Shared Folder"
 msgstr ""
 
-msgid "Monthly billing"
-msgstr ""
-
 msgid "Move"
 msgstr "Moverse"
 
@@ -675,6 +675,9 @@ msgid "Plan changed successfully"
 msgstr ""
 
 msgid "Plan price"
+msgstr ""
+
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr ""
 
 msgid "Please enter a file name"
@@ -1111,9 +1114,6 @@ msgstr "Qué buen día es."
 
 msgid "What a fine night it is."
 msgstr "Qué hermosa noche es."
-
-msgid "Yearly billing"
-msgstr ""
 
 msgid "Yes, save it"
 msgstr "Si guárdalo"
