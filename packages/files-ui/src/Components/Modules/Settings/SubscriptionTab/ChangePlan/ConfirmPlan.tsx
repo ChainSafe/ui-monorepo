@@ -339,7 +339,7 @@ const ConfirmPlan = ({
           </Button>
           <Button
             variant="primary"
-            loading={loadingChangeSubscription}
+            loading={loadingChangeSubscription || !checkSubscriptionUpdate}
             disabled={loadingChangeSubscription || !checkSubscriptionUpdate}
             onClick={onChangeSubscription}
           >
