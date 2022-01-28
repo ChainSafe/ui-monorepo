@@ -30,12 +30,13 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: CSFTheme) =>
       height: constants.generalUnit * 4,
       [breakpoints.down("md")]: {
         padding: `0 ${constants.generalUnit}px !important`,
-        backgroundColor: palette.additional["gray"][5]
+        backgroundColor: palette.additional["gray"][3]
       }
     },
     optionsOpen : {
       [breakpoints.down("md")]: {
-        minWidth: "100vw"
+        minWidth: "100vw",
+        backgroundColor: palette.additional["gray"][3]
       }
     }
   })
