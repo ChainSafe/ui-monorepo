@@ -105,7 +105,7 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
               <Typography variant="body1">
                 {product.name} {product.price.recurring.interval_count} {product.price.recurring.interval}
               </Typography>
-              <Typography variant="body2">
+              <Typography variant="body1">
                 {dayjs.unix(period_start).format("MMM D, YYYY")}
               </Typography>
               <Typography
