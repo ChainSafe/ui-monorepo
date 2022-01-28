@@ -677,12 +677,6 @@ msgstr "Méthode de paiement"
 msgid "Plan changed successfully"
 msgstr "Formule changée"
 
-msgid "Plan price"
-msgstr ""
-
-#~ msgid "Please complete payment of the following outstanding invoices in order to "
-#~ msgstr ""
-
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr ""
 
