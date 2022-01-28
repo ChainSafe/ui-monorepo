@@ -127,6 +127,7 @@ const ConfirmPlan = ({
         variant="h5"
         component="h4"
         className={classes.heading}
+        data-cy="header-confirm-change"
       >
         {
           isDowngrade
@@ -139,7 +140,8 @@ const ConfirmPlan = ({
         <Typography
           variant="body1"
           component="p"
-          className={classes.boldText}>
+          className={classes.boldText}
+          data-cy="label-selected-plan">
           {plan.name}
         </Typography>
         <div className={classes.pushRightBox}>
@@ -148,6 +150,7 @@ const ConfirmPlan = ({
             component="p"
             className={classes.textButton}
             onClick={goToSelectPlan}
+            data-cy="link-edit-plan"
           >
             <Trans>Edit plan</Trans>
           </Typography>
@@ -157,6 +160,7 @@ const ConfirmPlan = ({
         <Typography
           variant="body1"
           component="p"
+          data-cy="label-features-title"
         >
           <Trans>Features</Trans>
         </Typography>
@@ -165,6 +169,7 @@ const ConfirmPlan = ({
             component="p"
             variant="body1"
             className={classes.featureSeparator}
+            data-cy="label-features-summary"
           >
             <Trans>{newPlanStorage} of storage</Trans>
           </Typography>
@@ -177,6 +182,7 @@ const ConfirmPlan = ({
             <Typography
               variant="body1"
               component="p"
+              data-cy="label-selected-payment-method"
             >
               <Trans>Payment method</Trans>
             </Typography>
@@ -186,6 +192,7 @@ const ConfirmPlan = ({
                 component="p"
                 className={classes.textButton}
                 onClick={goToPaymentMethod}
+                data-cy="link-edit-payment-method"
               >
                 <Trans>Edit payment method</Trans>
               </Typography>
@@ -193,7 +200,9 @@ const ConfirmPlan = ({
           </div>
           <div className={classes.creditCardRow}>
             <CreditCardIcon className={classes.creditCardIcon} />
-            <Typography>
+            <Typography
+              data-cy="label-selected-card-number"
+            >
               •••• •••• •••• {defaultCard.last_four_digit}
             </Typography>
           </div>
@@ -244,6 +253,7 @@ const ConfirmPlan = ({
         <Typography
           component="p"
           variant="body1"
+          data-cy="label-billing-title"
         >
           <Trans>Billing start time</Trans>
         </Typography>
@@ -251,6 +261,7 @@ const ConfirmPlan = ({
           <Typography
             variant="body1"
             component="p"
+            data-cy="label-billing-start-date"
           >
             {dayjs().format("DD MMM YYYY")}
           </Typography>
@@ -262,6 +273,7 @@ const ConfirmPlan = ({
           component="h5"
           variant="h5"
           className={classes.boldText}
+          data-cy="label-total-title"
         >
           <Trans>Total</Trans>
         </Typography>
@@ -270,6 +282,7 @@ const ConfirmPlan = ({
             variant="body1"
             component="p"
             className={classes.boldText}
+            data-cy="label-total-price"
           >
             {planPrice.unit_amount ? planPrice.currency : ""} {planPrice.unit_amount}
             <span className={classes.normalWeightText}>
@@ -283,6 +296,7 @@ const ConfirmPlan = ({
           component="p"
           variant="body1"
           className={classes.error}
+          data-cy="label-change-plan-error"
         >
           <Trans>Failed to change subscription</Trans>
         </Typography>
@@ -293,6 +307,7 @@ const ConfirmPlan = ({
             onClick={goToPaymentMethod}
             variant="text"
             disabled={loadingChangeSubscription}
+            testId="go-back-to-payment-method"
           >
             <Trans>Go back</Trans>
           </Button>
@@ -301,6 +316,7 @@ const ConfirmPlan = ({
             loading={loadingChangeSubscription}
             disabled={loadingChangeSubscription}
             onClick={onChangeSubscription}
+            testId="confirm-plan-change"
           >
             {paymentMethod === "creditCard"
               ? <Trans>Confirm plan change</Trans>
