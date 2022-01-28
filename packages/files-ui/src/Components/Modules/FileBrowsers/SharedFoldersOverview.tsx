@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import {
   Typography,
   Table,
@@ -17,8 +17,7 @@ import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import CreateOrEditSharedFolderModal from "./CreateOrEditSharedFolderModal"
-import clsx from "clsx"
+import CreateOrManageSharedFolderModal from "./CreateOrManageSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
@@ -26,19 +25,23 @@ import { SharedFolderModalMode } from "./types"
 import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
 import { usePageTrack } from "../../../Contexts/PosthogContext"
+import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
+import clsx from "clsx"
 
-export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
+export const desktopSharedGridSettings = "50px 3fr 90px 140px 140px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette }: CSFTheme) => {
-
     return createStyles({
       root: {
         position: "relative",
         [breakpoints.down("md")]: {
           marginLeft: constants.generalUnit * 2,
-          marginRight: constants.generalUnit * 2
+          marginRight: constants.generalUnit * 2,
+          "&.bottomBanner": {
+            paddingBottom: constants.bottomBannerMobileHeight
+          }
         },
         [breakpoints.up("md")]: {
           border: "1px solid transparent",
@@ -47,6 +50,10 @@ const useStyles = makeStyles(
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.additional["geekblue"][4]
+          },
+          "&.bottomBanner": {
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + Number(constants.bottomBannerHeight)}px)`,
+            paddingBottom: constants.bottomBannerHeight
           }
         }
       },
@@ -99,6 +106,9 @@ const useStyles = makeStyles(
       },
       confirmDeletionDialog: {
         top: "50%"
+      },
+      buttonWrap: {
+        whiteSpace: "nowrap"
       }
     })
   }
@@ -108,7 +118,7 @@ type SortingType = "name" | "size" | "date_uploaded"
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
-  const { filesApiClient } = useFilesApi()
+  const { filesApiClient, accountRestricted } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
   const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
@@ -123,6 +133,10 @@ const SharedFolderOverview = () => {
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
 
   usePageTrack()
+
+  useEffect(() => {
+    refreshBuckets(true)
+  }, [refreshBuckets])
 
   const handleSortToggle = (targetColumn: SortingType) => {
     if (column !== targetColumn) {
@@ -163,7 +177,9 @@ const SharedFolderOverview = () => {
   return (
     <>
       <article
-        className={classes.root}
+        className={clsx(classes.root, {
+          bottomBanner: accountRestricted
+        })}
       >
         <header className={classes.header}>
           <Typography
@@ -180,20 +196,25 @@ const SharedFolderOverview = () => {
                 setBucketToEdit(undefined)
                 setCreateOrEditSharedFolderMode("create")
               }}
+              data-cy="button-create-a-shared-folder"
             >
               <PlusIcon />
-              <Trans>Create a Shared Folder</Trans>
+              <span className={classes.buttonWrap}>
+                <Trans>Create</Trans>
+              </span>
             </Button>
           </div>
         </header>
         {isLoadingBuckets && (
-          <div
-            className={clsx(classes.loadingContainer)}
-          >
-            <Loading size={24}
-              type="light" />
-            <Typography variant="body2"
-              component="p">
+          <div className={classes.loadingContainer}>
+            <Loading
+              size={24}
+              type="light"
+            />
+            <Typography
+              variant="body2"
+              component="p"
+            >
               <Trans>Loading your shared folders…</Trans>
             </Typography>
           </div>
@@ -267,10 +288,10 @@ const SharedFolderOverview = () => {
         )}
       </article>
       <SharingExplainerModal
-        showModal={hasSeenSharingExplainerModal}
+        showModal={!hasSeenSharingExplainerModal}
         onHide={hideModal}
       />
-      <CreateOrEditSharedFolderModal
+      <CreateOrManageSharedFolderModal
         mode={createOrEditSharedFolderMode}
         isModalOpen={!!createOrEditSharedFolderMode}
         onClose={() => {
@@ -292,8 +313,14 @@ const SharedFolderOverview = () => {
         acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder, testId: "confirm-deletion" }}
         rejectButtonProps={{ disabled: isDeletingSharedFolder, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
-        testId="shared-folder-deletion"
+        testId={bucketToDelete?.permission === "owner"
+          ? "shared-folder-deletion"
+          : "shared-folder-leave"
+        }
       />
+      {accountRestricted &&
+        <RestrictedModeBanner />
+      }
     </>
   )
 }

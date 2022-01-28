@@ -25,21 +25,19 @@ const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
-        padding: constants.generalUnit * 4,
+        padding: constants.generalUnit * 3,
         flexDirection: "column"
       },
       modalRoot: {
         zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {}
+        [breakpoints.down("md")]: {
+          paddingBottom: Number(constants?.mobileButtonHeight)
+        }
       },
       modalInner: {
         backgroundColor: constants.createFolder.backgroundColor,
         color: constants.createFolder.color,
         [breakpoints.down("md")]: {
-          bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`
         }
       },
@@ -48,15 +46,6 @@ const useStyles = makeStyles(
       },
       okButton: {
         marginLeft: constants.generalUnit
-      },
-      cancelButton: {
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: constants?.mobileButtonHeight
-        }
       },
       label: {
         fontSize: 14,
@@ -99,12 +88,12 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
         setCreatingFolder(false)
         helpers.resetForm()
         onCancel()
-      } catch (errors: any) {
+      } catch (error: any) {
         setCreatingFolder(false)
-        if (errors[0].message.includes("Entry with such name can")) {
+        if (error?.error?.code === 409) {
           helpers.setFieldError("name", t`Folder name is already in use`)
         } else {
-          helpers.setFieldError("name", errors[0].message)
+          helpers.setFieldError("name", t`There was an error creating the folder ${error?.message}`)
         }
         helpers.setSubmitting(false)
       }
@@ -128,7 +117,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
       maxWidth="sm"
     >
       <FormikProvider value={formik}>
-        <Form data-cy='folder-creation-form'>
+        <Form data-cy='form-folder-creation'>
           <div
             className={classes.root}
             data-cy="modal-create-folder"
@@ -144,7 +133,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
                   variant="h5"
                   component="h5"
                 >
-                  <Trans>Create Folder</Trans>
+                  <Trans>New folder</Trans>
                 </Typography>
               </Grid>
             )}
@@ -173,7 +162,6 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
                 data-cy="button-cancel-create-folder"
                 onClick={onCancel}
                 size="medium"
-                className={classes.cancelButton}
                 variant={desktop ? "outline" : "gray"}
                 type="button"
               >

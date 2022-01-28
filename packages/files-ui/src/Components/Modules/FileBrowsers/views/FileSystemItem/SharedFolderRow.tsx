@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, useDoubleClick, useOnClickOutside } from "@chainsafe/common-theme"
 import {
+  Button,
   CloseCirceSvg,
   DeleteSvg,
   EditSvg,
@@ -25,6 +26,8 @@ import UserBubble from "../../../../Elements/UserBubble"
 import { nameValidator } from "../../../../../Utils/validationSchema"
 import Menu from "../../../../../UI-components/Menu"
 import { getUserDisplayName } from "../../../../../Utils/getUserDisplayName"
+import CustomModal from "../../../../Elements/CustomModal"
+import CustomButton from "../../../../Elements/CustomButton"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -111,6 +114,31 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     focusVisible:{
       backgroundColor: "transparent !important"
+    },
+    modalRoot: {
+      [breakpoints.down("md")]: {
+        paddingBottom: Number(constants?.mobileButtonHeight)
+      }
+    },
+    modalInner: {
+      [breakpoints.down("md")]: {
+        maxWidth: `${breakpoints.width("md")}px !important`
+      }
+    },
+    renameHeader: {
+      textAlign: "center"
+    },
+    renameFooter: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-end"
+    },
+    renameModal: {
+      padding: constants.generalUnit * 4
+    },
+    okButton: {
+      marginLeft: constants.generalUnit
     }
   })
 })
@@ -169,7 +197,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       contents: (
         <>
           <CloseCirceSvg className={classes.menuIcon} />
-          <span data-cy="menu-delete">
+          <span data-cy="menu-leave">
             <Trans>Leave</Trans>
           </span>
         </>
@@ -228,78 +256,135 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
   useOnClickOutside(formRef, stopEditing)
 
   return  (
-    <TableRow
-      data-cy="shared-folder-item-row"
-      className={classes.tableRow}
-      type="grid"
-    >
-      {desktop &&
+    <>
+      <TableRow
+        data-cy="row-shared-folder-item"
+        className={classes.tableRow}
+        type="grid"
+      >
+        {desktop &&
         <TableCell
           className={classes.folderIcon}
           onClick={(e) => onFolderClick(e)}
         >
           <FolderFilledIcon/>
         </TableCell>
-      }
-      <TableCell
-        data-cy="shared-folder-item-name"
-        align="left"
-        className={clsx(classes.filename, desktop && isRenaming && "editing")}
-        onClick={(e) => onFolderClick(e)}
-      >
-        {!isRenaming
-          ? <Typography>{name}</Typography>
-          : (
-            <FormikProvider value={formik}>
-              <Form
-                className={classes.desktopRename}
-                data-cy='rename-form'
-              >
-                <FormikTextInput
-                  className={classes.renameInput}
-                  name="name"
-                  inputVariant="minimal"
-                  onKeyDown={(event) => {
-                    if (event.key === "Escape") {
-                      stopEditing()
-                    }
-                  }}
-                  placeholder = {t`Please enter a folder name`}
-                  autoFocus={isRenaming}
-                />
-              </Form>
-            </FormikProvider>
-          )
         }
-      </TableCell>
-      {desktop &&
+        <TableCell
+          data-cy="cell-shared-folder-item-name"
+          align="left"
+          className={clsx(classes.filename, desktop && isRenaming && "editing")}
+          onClick={(e) => onFolderClick(e)}
+        >
+          {!isRenaming || !desktop
+            ? <Typography>{name}</Typography>
+            : (
+              <FormikProvider value={formik}>
+                <Form
+                  className={classes.desktopRename}
+                  data-cy='form-rename'
+                >
+                  <FormikTextInput
+                    className={classes.renameInput}
+                    data-cy='input-rename-share'
+                    name="name"
+                    inputVariant="minimal"
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        stopEditing()
+                      }
+                    }}
+                    placeholder = {t`Please enter a folder name`}
+                    autoFocus={isRenaming}
+                  />
+                </Form>
+              </FormikProvider>
+            )
+          }
+        </TableCell>
+        {desktop &&
         <TableCell align="left">
           {isOwner
             ? t`me`
             : <UserBubble tooltip={getUserDisplayName(bucket.owners[0])} />}
         </TableCell>
-      }
-      <TableCell
-        data-cy="shared-folder-item-shared-with"
-        align="left"
-        className={classes.sharedUser}
-      >
-        <SharedUsers bucket={bucket}/>
-      </TableCell>
-      {desktop &&
+        }
+        <TableCell
+          data-cy="shared-folder-item-shared-with"
+          align="left"
+          className={classes.sharedUser}
+        >
+          <SharedUsers bucket={bucket}/>
+        </TableCell>
+        {desktop &&
         <TableCell align="left">
           {formatBytes(size, 2)}
         </TableCell>
+        }
+        <TableCell align="right">
+          <Menu
+            testId='file-item-kebab'
+            icon={<MoreIcon className={classes.dropdownIcon}/>}
+            options={menuItems}
+            style={{ focusVisible: classes.focusVisible }}
+          />
+        </TableCell>
+      </TableRow>
+      {
+        isRenaming && !desktop && (
+          <>
+            <CustomModal
+              className={classes.modalRoot}
+              injectedClass={{
+                inner: classes.modalInner
+              }}
+              closePosition="none"
+              active={isRenaming}
+              onClose={() => setIsRenaming(false)}
+            >
+              <FormikProvider value={formik}>
+                <Form className={classes.renameModal}>
+                  <Typography
+                    className={classes.renameHeader}
+                    component="p"
+                    variant="h5"
+                  >
+                    <Trans>Rename shared folder</Trans>
+                  </Typography>
+                  <FormikTextInput
+                    label="Name"
+                    className={classes.renameInput}
+                    name="name"
+                    placeholder={t`Please enter a folder name`}
+                    autoFocus={isRenaming}
+                  />
+                  <footer className={classes.renameFooter}>
+                    <CustomButton
+                      onClick={() => setIsRenaming(false)}
+                      size="medium"
+                      variant={desktop ? "outline" : "gray"}
+                      type="button"
+                    >
+                      <Trans>Cancel</Trans>
+                    </CustomButton>
+                    <Button
+                      variant="primary"
+                      size="medium"
+                      type="submit"
+                      className={classes.okButton}
+                      disabled={!formik.dirty}
+                    >
+                      <Trans>Update</Trans>
+                    </Button>
+                  </footer>
+                </Form>
+              </FormikProvider>
+            </CustomModal>
+            <Typography>{name}</Typography>
+          </>
+        )
       }
-      <TableCell align="right">
-        <Menu
-          testId='fileDropdown'
-          icon={<MoreIcon className={classes.dropdownIcon}/>}
-          options={menuItems}
-          style={{ focusVisible: classes.focusVisible }}
-        />
-      </TableCell>
-    </TableRow>
+    </>
   )
 }
 

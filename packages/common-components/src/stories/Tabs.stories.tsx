@@ -13,7 +13,8 @@ export const TabsDemo = (): React.ReactNode => {
       activeKey={tab}
       onTabSelect={setTab}
     >
-      <TabPane title="tab 1"
+      <TabPane
+        title="tab 1"
         tabKey="1"
       >
         first

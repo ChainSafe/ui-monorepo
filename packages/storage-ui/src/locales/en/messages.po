@@ -178,9 +178,6 @@ msgstr ""
 msgid "File"
 msgstr "File"
 
-msgid "File/Folder already exists"
-msgstr "File/Folder already exists"
-
 msgid "Folder"
 msgstr "Folder"
 
@@ -228,9 +225,6 @@ msgstr "Move to..."
 
 msgid "Name"
 msgstr "Name"
-
-msgid "Name too long"
-msgstr "Name too long"
 
 msgid "New Key"
 msgstr "New Key"
@@ -340,6 +334,9 @@ msgstr "Start Upload"
 msgid "Status"
 msgstr "Status"
 
+msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
+msgstr "System maintenance is scheduled to start at {0}. The system will be unavailable."
+
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
 
@@ -352,14 +349,14 @@ msgstr "The files are already in this folder"
 msgid "The name cannot contain '/' character"
 msgstr "The name cannot contain '/' character"
 
-msgid "The system is undergoing maintenance, thank you for being patient."
-msgstr "The system is undergoing maintenance, thank you for being patient."
-
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
 
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
+
+msgid "There was an error creating the folder {0}"
+msgstr "There was an error creating the folder {0}"
 
 msgid "There was an error deleting this item"
 msgstr "There was an error deleting this item"
@@ -405,6 +402,9 @@ msgstr "Verification code sent!"
 
 msgid "View folder"
 msgstr "View folder"
+
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
+msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 
 msgid "Web3: {0}"
 msgstr "Web3: {0}"

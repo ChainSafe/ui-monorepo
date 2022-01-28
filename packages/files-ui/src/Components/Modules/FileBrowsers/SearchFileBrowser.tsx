@@ -10,6 +10,7 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 import { t } from "@lingui/macro"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
+import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
   const { pathname } = useLocation()
@@ -26,7 +27,8 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
     try {
       if (!searchString || !bucket) return []
 
-      const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
+      const results = (await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString }))
+        .map(se => ({ ...se, content: parseFileContentResponse(se.content) }))
       return results
     } catch (err) {
       addToast({
@@ -84,7 +86,7 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   const getPath = useCallback((cid: string): string => {
     const searchEntry = getSearchEntry(cid)
     // Set like this as look ups should always be using available cids
-    return searchEntry ? searchEntry.path.replace(searchEntry.content.name, '') : ""
+    return searchEntry ? searchEntry.path.replace(searchEntry.content.name, "") : ""
   }, [getSearchEntry])
 
   const pathContents: FileSystemItem[] = useMemo(() =>
@@ -100,20 +102,21 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   }), [])
 
   return (
-    <FileBrowserContext.Provider value={{
-      crumbs: undefined,
-      loadingCurrentPath: loadingSearchResults,
-      showUploadsInTable: false,
-      viewFolder,
-      sourceFiles: pathContents,
-      moduleRootPath: undefined,
-      currentPath: searchTerm,
-      heading: t`Search results`,
-      controls,
-      itemOperations,
-      isSearch: true,
-      getPath
-    }}>
+    <FileBrowserContext.Provider
+      value={{
+        crumbs: undefined,
+        loadingCurrentPath: loadingSearchResults,
+        showUploadsInTable: false,
+        viewFolder,
+        sourceFiles: pathContents,
+        moduleRootPath: undefined,
+        currentPath: searchTerm,
+        heading: t`Search results`,
+        controls,
+        itemOperations,
+        isSearch: true,
+        getPath
+      }}>
       <DragAndDrop>
         <FilesList />
       </DragAndDrop>

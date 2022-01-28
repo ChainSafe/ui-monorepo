@@ -8,7 +8,8 @@ import {
   extractFileBrowserPathFromURL,
   getUrlSafePathWithFile,
   getAbsolutePathsFromCids,
-  pathEndingWithSlash
+  pathEndingWithSlash,
+  joinArrayOfPaths
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
@@ -26,6 +27,7 @@ import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransf
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const { downloadFile, uploadFiles, buckets } = useFiles()
+  const { accountRestricted } = useFilesApi()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -34,6 +36,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const { pathname } = useLocation()
   const currentPath = useMemo(() => extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive("")), [pathname])
   const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
+  const { profile, localStore } = useUser()
+  const [showSurvey, setShowSurvey] = useState(false)
 
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
@@ -50,10 +54,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       }).finally(() => showLoading && setLoadingCurrentPath(false))
   }, [bucket, filesApiClient, currentPath])
 
-  const { profile, localStore, setLocalStore } = useUser()
-
-  const showSurvey = localStore && localStore[DISMISSED_SURVEY_KEY] === "false"
-
   const olderThanOneWeek = useMemo(
     () => profile?.createdAt
       ? dayjs(Date.now()).diff(profile.createdAt, "day") > 7
@@ -62,11 +62,14 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   )
 
   useEffect(() => {
-    const dismissedFlag = localStore && localStore[DISMISSED_SURVEY_KEY]
-    if (dismissedFlag === undefined || dismissedFlag === null) {
-      setLocalStore({ [DISMISSED_SURVEY_KEY]: "false" }, "update")
+    if (!localStore) {
+      return
     }
-  }, [localStore, setLocalStore])
+
+    if (localStore[DISMISSED_SURVEY_KEY] === "false"){
+      setShowSurvey(true)
+    }
+  }, [localStore])
 
   useEffect(() => {
     refreshContents(true)
@@ -143,23 +146,35 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
-  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
-    text: decodeURIComponent(path),
-    onClick: () => {
-      redirect(
-        ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
-      )
-    }
-  })), [arrayOfPaths, redirect])
+  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => {
+    return {
+      text: decodeURIComponent(path),
+      onClick: () => {
+        redirect(
+          ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+        )
+      },
+      path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
+    }}), [arrayOfPaths, redirect])
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
+
+    if (accountRestricted) {
+      addToast({
+        type:"error",
+        title: t`Uploads disabled`,
+        subtitle: t`Oops! You need to pay for this month to upload more content.`
+      })
+      return
+    }
+
     const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
     const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
     paths.forEach(p => {
       uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
     })
-  }, [uploadFiles, bucket])
+  }, [uploadFiles, bucket, accountRestricted, addToast])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
@@ -169,8 +184,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   }, [currentPath, pathContents, redirect])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
-    [CONTENT_TYPES.File]: ["download", "delete", "move"]
+    [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],
+    [CONTENT_TYPES.File]: ["download", "delete", "move", "share"]
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
@@ -180,32 +195,33 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.Pdf]: ["preview"],
     [CONTENT_TYPES.Text]: ["preview"],
     [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
-    [CONTENT_TYPES.Directory]: ["download", "rename", "move", "delete"]
+    [CONTENT_TYPES.Directory]: ["download", "rename", "move", "delete", "share"]
   }), [])
 
   return (
-    <FileBrowserContext.Provider value={{
-      bucket,
-      bulkOperations,
-      crumbs,
-      moduleRootPath: ROUTE_LINKS.Drive("/"),
-      currentPath,
-      refreshContents,
-      deleteItems: moveItemsToBin,
-      downloadFile: handleDownload,
-      moveItems,
-      renameItem: renameItem,
-      viewFolder,
-      handleUploadOnDrop,
-      loadingCurrentPath,
-      showUploadsInTable: true,
-      sourceFiles: pathContents,
-      heading: t`My Files`,
-      controls: true,
-      allowDropUpload: true,
-      itemOperations,
-      withSurvey: showSurvey && olderThanOneWeek
-    }}>
+    <FileBrowserContext.Provider
+      value={{
+        bucket,
+        bulkOperations,
+        crumbs,
+        moduleRootPath: ROUTE_LINKS.Drive("/"),
+        currentPath,
+        refreshContents,
+        deleteItems: moveItemsToBin,
+        downloadFile: handleDownload,
+        moveItems,
+        renameItem: renameItem,
+        viewFolder,
+        handleUploadOnDrop,
+        loadingCurrentPath,
+        showUploadsInTable: true,
+        sourceFiles: pathContents,
+        heading: t`My Files`,
+        controls: true,
+        allowDropUpload: true,
+        itemOperations,
+        withSurvey: showSurvey && olderThanOneWeek
+      }}>
       <DragAndDrop>
         <FilesList />
       </DragAndDrop>

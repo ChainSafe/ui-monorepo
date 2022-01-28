@@ -3,6 +3,9 @@ import { useCallback, useEffect } from "react"
 import { useFilesApi } from "./FilesApiContext"
 import { useState } from "react"
 import { t } from "@lingui/macro"
+import { DISMISSED_SHARING_EXPLAINER_KEY } from "../Components/Modules/FileBrowsers/hooks/useSharingExplainerModalFlag"
+import { DISMISSED_SURVEY_KEY } from "../Components/SurveyBanner"
+import { Details } from "@chainsafe/files-api-client"
 
 type UserContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -16,6 +19,7 @@ export type Profile = {
   email?: string
   createdAt?: Date
   username?: string
+  lookupConsent: boolean
 }
 
 interface ILocalStore {
@@ -36,6 +40,7 @@ interface IUserContext {
   addUsername: (username: string) => Promise<void>
   removeUser(): void
   getProfileTitle(): string
+  toggleLookupConsent(): Promise<void>
 }
 
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
@@ -43,23 +48,19 @@ const UserContext = React.createContext<IUserContext | undefined>(undefined)
 
 const UserProvider = ({ children }: UserContextProps) => {
   const { filesApiClient, isLoggedIn } = useFilesApi()
-
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
   const [localStore, _setLocalStore] = useState<ILocalStore | undefined>()
 
   const setLocalStore = useCallback((newData: ILocalStore, method: "update" | "overwrite" = "update") => {
-    switch (method) {
-      case "update":
-        _setLocalStore({
-          ...localStore,
-          ...newData
-        })
-        break
-      case "overwrite":
-        _setLocalStore(newData)
-        break
-    }
-  }, [localStore])
+    const toStore = method === "update"
+      ? { ...localStore, ...newData }
+      : newData
+
+    filesApiClient.updateUserLocalStore(toStore)
+      .then(_setLocalStore)
+      .catch(console.error)
+
+  }, [filesApiClient, localStore])
 
   const refreshProfile = useCallback(async () => {
     try {
@@ -72,45 +73,54 @@ const UserProvider = ({ children }: UserContextProps) => {
         email: profileApiData.email,
         publicAddress: profileApiData.public_address?.toLowerCase(),
         createdAt: profileApiData.created_at,
-        username: profileApiData.username
+        username: profileApiData.username,
+        lookupConsent: profileApiData.user_lookup_consent || false
       }
       setProfile(profileState)
       return Promise.resolve()
     } catch (error) {
+      console.error(error)
       return Promise.reject("There was an error getting profile.")
     }
   }, [filesApiClient])
 
-  useEffect(() => {
-    const manageAsync = async () => {
-      if (!localStore) {
-        // Fetch
-        try {
-          const fetched = await filesApiClient.getUserLocalStore()
-          if (!fetched) {
-            _setLocalStore({})
-          } else {
-            _setLocalStore(fetched)
-          }
-        } catch(error) {
-          console.error(error)
-          _setLocalStore({})
-        }
-      } else {
-        // Store 
-        await filesApiClient.updateUserLocalStore(localStore)
-      }
+  const initLocalStore = useCallback((apiStore: ILocalStore | undefined) => {
+    let initStore = apiStore || {}
+
+    if (apiStore?.[DISMISSED_SHARING_EXPLAINER_KEY] === undefined) {
+      initStore = { ...initStore, [DISMISSED_SHARING_EXPLAINER_KEY]: "false" }
     }
-    if (isLoggedIn) {
-      manageAsync()
+
+    if (apiStore?.[DISMISSED_SURVEY_KEY] === undefined) {
+      initStore = { ...initStore, [DISMISSED_SURVEY_KEY]: "false" }
     }
-  }, [isLoggedIn, localStore, filesApiClient])
+
+    _setLocalStore(initStore)
+  }, [])
 
   useEffect(() => {
-    if (isLoggedIn) {
-      refreshProfile()
-        .catch(console.error)
+    if (!isLoggedIn) {
+      return
     }
+
+    filesApiClient.getUserLocalStore()
+      .then((apiStore) => {
+        initLocalStore(apiStore)
+      })
+      .catch((e) => {
+        console.error(e)
+        initLocalStore({})
+      })
+  }, [isLoggedIn, filesApiClient, initLocalStore])
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      return
+    }
+
+    refreshProfile()
+      .catch(console.error)
+
   }, [isLoggedIn, refreshProfile])
 
   const updateProfile = async (firstName?: string, lastName?: string) => {
@@ -133,10 +143,11 @@ const UserProvider = ({ children }: UserContextProps) => {
       })
       return Promise.resolve()
     } catch (error: any) {
+      console.error(error)
       return Promise.reject(
-        Array.isArray(error) && error[0]
-          ? error[0].message
-          : "There was an error updating profile."
+        Array.isArray(error.error.details)
+          ? error.error.details.map((e: Details) => e.message).join(",")
+          : t`There was an error when setting username.`
       )
     }
   }
@@ -147,7 +158,7 @@ const UserProvider = ({ children }: UserContextProps) => {
     if (!profile) return Promise.reject("Profile not initialized")
 
     try {
-      await filesApiClient.updateUser({
+      const result = await filesApiClient.updateUser({
         first_name: profile.firstName || "",
         last_name: profile.lastName || "",
         email: profile.email || "",
@@ -156,13 +167,40 @@ const UserProvider = ({ children }: UserContextProps) => {
 
       setProfile({
         ...profile,
-        username
+        username: result.username
       })
       return Promise.resolve()
     } catch (error: any) {
+      console.error(error)
       return Promise.reject(
-        Array.isArray(error) && error[0]
-          ? error[0].message
+        Array.isArray(error.error.details)
+          ? error.error.details.map((e: Details) => e.message).join(",")
+          : t`There was an error when setting username.`
+      )
+    }
+  }
+
+  const toggleLookupConsent = async () => {
+    if (!profile) return Promise.reject("Profile not initialized")
+    try {
+      const result = await filesApiClient.updateUser({
+        first_name: profile.firstName || "",
+        last_name: profile.lastName || "",
+        email: profile.email || "",
+        username: profile.username,
+        lookup_consent_flag: !profile.lookupConsent
+      })
+
+      setProfile({
+        ...profile,
+        lookupConsent: result.user_lookup_consent || false
+      })
+      return Promise.resolve()
+    } catch (error: any) {
+      console.error(error)
+      return Promise.reject(
+        Array.isArray(error.error.details)
+          ? error.error.details.map((e: Details) => e.message).join(",")
           : t`There was an error when setting username.`
       )
     }
@@ -171,7 +209,7 @@ const UserProvider = ({ children }: UserContextProps) => {
   const lookupOnUsername = async (username: string) => {
     if (!profile) return false
     try {
-      const alreadyExists = await filesApiClient.lookupUser({ username })
+      const alreadyExists = await filesApiClient.lookupUser(username)
       return !!alreadyExists
     } catch (error) {
       console.error(error)
@@ -207,7 +245,8 @@ const UserProvider = ({ children }: UserContextProps) => {
         removeUser,
         addUsername,
         lookupOnUsername,
-        getProfileTitle
+        getProfileTitle,
+        toggleLookupConsent
       }}
     >
       {children}

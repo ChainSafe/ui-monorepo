@@ -143,7 +143,7 @@ const useStyles = makeStyles(
 interface ISearchModule {
   className?: string
   searchActive: boolean
-  setSearchActive(searchActive: boolean): void
+  setSearchActive: (searchActive: boolean) => void
 }
 
 const SearchModule: React.FC<ISearchModule> = ({
@@ -186,8 +186,8 @@ const SearchModule: React.FC<ISearchModule> = ({
     try {
       const results = await getSearchResults(searchString)
       setSearchResults({ results, query: searchString })
-    } catch (err) {
-      //
+    } catch (e) {
+      console.error(e)
     }
   }
 
@@ -236,9 +236,7 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   return (
     <section
-      onClick={() => {
-        if (!searchActive) setSearchActive(true)
-      }}
+      onClick={() => { !searchActive && setSearchActive(true)}}
       ref={ref}
       className={clsx(classes.root, className, {
         active: searchActive
@@ -267,17 +265,15 @@ const SearchModule: React.FC<ISearchModule> = ({
           testId = "input-search-bar"
         />
       </form>
-      {searchQuery && searchResults?.query ? (
-        <div
-          className={clsx(classes.resultsContainer, searchActive && "active")}
-        >
+      {searchQuery && searchResults?.query && (
+        <div className={clsx(classes.resultsContainer, searchActive && "active")}>
           <div className={classes.resultsBox}>
-            {searchResults?.query && !searchResults.results.length ? (
+            {searchResults?.query && !searchResults.results.length && (
               <Typography className={classes.noResultsFound}>
                 <Trans>No search results for </Trans>{` ${searchResults.query}`}
               </Typography>
-            ) : null}
-            {searchResultsFiles && searchResultsFiles.length ? (
+            )}
+            {!!searchResultsFiles?.length && (
               <div>
                 <div className={classes.resultHead}>
                   <Typography
@@ -303,8 +299,8 @@ const SearchModule: React.FC<ISearchModule> = ({
                   </div>
                 ))}
               </div>
-            ) : null}
-            {searchResultsFolders && searchResultsFolders.length ? (
+            )}
+            {!!searchResultsFolders?.length && (
               <div>
                 <div className={classes.resultHeadFolder}>
                   <Typography
@@ -330,16 +326,16 @@ const SearchModule: React.FC<ISearchModule> = ({
                   </div>
                 ))}
               </div>
-            ) : null}
+            )}
           </div>
-          {!desktop ? (
+          {!desktop && (
             <div
               className={classes.resultBackDrop}
               onClick={() => setSearchActive(false)}
             />
-          ) : null}
+          )}
         </div>
-      ) : null}
+      )}
     </section>
   )
 }

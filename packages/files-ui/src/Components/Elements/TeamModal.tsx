@@ -53,7 +53,8 @@ const TeamModal = ({ onHide }: Props) => {
       mobileStickyBottom={false}
     >
       <div className={classes.root}>
-        <Typography variant="h2"
+        <Typography
+          variant="h2"
           className={classes.title}
         >
           <Trans>Teams</Trans>

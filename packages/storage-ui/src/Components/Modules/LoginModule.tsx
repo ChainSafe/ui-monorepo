@@ -20,6 +20,7 @@ import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./LoginModule/PasswordlessEmail"
 import { Form, FormikProvider, useFormik } from "formik"
 import { emailValidation } from "../../Utils/validationSchema"
+import dayjs from "dayjs"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSSTheme) =>
@@ -31,7 +32,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         borderRadius: 6,
         [breakpoints.up("md")]:{
-          minHeight: "64vh",
+          minHeight: "72vh",
           justifyContent: "space-between",
           width: 440
         },
@@ -150,6 +151,14 @@ const useStyles = makeStyles(
       },
       secondaryLoginText: {
         paddingTop: constants.generalUnit * 2
+      },
+      maintenanceMessage: {
+        display: "block",
+        textAlign: "justify",
+        width: 240
+      },
+      maintenanceActiveMessage: {
+        color: palette.error.main
       }
     })
 )
@@ -170,7 +179,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
   const { storageApiClient } = useStorageApi()
   const [email, setEmail] = useState("")
   const [errorEmail, setErrorEmail] = useState("")
-
+  const maintenanceWindowTimestamp = Number(process.env.REACT_APP_MAINTENANCE_TIMESTAMP)
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
@@ -203,26 +212,26 @@ const LoginModule = ({ className }: IInitialScreen) => {
     setLoginMode(loginType)
     try {
       await login(loginType)
-    } catch (error) {
+    } catch (error: any) {
       let errorMessage = t`There was an error authenticating`
-      console.log(error)
-      if (Array.isArray(error) && error[0]) {
-        if (
-          error[0].type === "signature" &&
-          error[0].message === "Invalid signature"
-        ) {
-          errorMessage = t`Failed to validate signature.
+
+      // Invalid signature, or contract wallet not deployed
+      if (error?.error?.code === 403 && error?.error?.message?.includes("Invalid signature")) {
+        errorMessage = t`Failed to validate signature.
             If you are using a contract wallet, please make 
             sure you have activated your wallet.`
-        }
       }
-      // WalletConnect be sassy
-      if ((error instanceof Error && error.message === "Just nope") || ((error as any).code === 4001)) {
+
+      // User rejected the signature request (WalletConnect be sassy)
+      if (error?.message === "Just nope" || error?.code === 4001) {
         errorMessage = t`Failed to get signature`
       }
-      if (error instanceof Error && error.message === "user closed popup") {
+
+      // DirectAuth popup was closed
+      if (error?.message === "user closed popup") {
         errorMessage = t`The authentication popup was closed`
       }
+
       setError(errorMessage)
     }
     setIsConnecting(false)
@@ -264,7 +273,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
       <div>
         <section className={classes.buttonSection}>
           <Button
-            data-cy="sign-in-with-web3-button"
+            data-cy="button-sign-in-with-web3"
             onClick={() => {handleLogin("web3")}}
             className={classes.button}
             variant="primary"
@@ -310,7 +319,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
           <Loading
             className={classes.loader}
             size={50}
-            type='inherit'
+            type="initial"
           />
         </>}
       </section>
@@ -384,11 +393,6 @@ const LoginModule = ({ className }: IInitialScreen) => {
         loginMode !== "web3" && loginMode !== "email"
           ? <>
             <section className={classes.buttonSection}>
-              {maintenanceMode && (
-                <Typography>
-                  <Trans>The system is undergoing maintenance, thank you for being patient.</Trans>
-                </Typography>
-              )}
               <FormikProvider value={formik}>
                 <Form>
                   <FormikTextInput
@@ -398,7 +402,8 @@ const LoginModule = ({ className }: IInitialScreen) => {
                     labelClassName={classes.inputLabel}
                   />
                   {!!errorEmail && (
-                    <Typography component="p"
+                    <Typography
+                      component="p"
                       variant="body1"
                       className={classes.error}>{error}</Typography>
                   )}
@@ -422,7 +427,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
                 <Trans>Or using one of the following:</Trans>
               </Typography>
               <Button
-                data-cy="web3"
+                data-cy="button-web3"
                 onClick={() => {
                   setLoginMode("web3")
                   handleSelectWalletAndConnect()
@@ -457,6 +462,29 @@ const LoginModule = ({ className }: IInitialScreen) => {
                 <GoogleLogoIcon className="icon"/>
                 <Trans>Continue with Google</Trans>
               </Button>
+              {maintenanceMode && (
+                <Typography className={clsx(classes.maintenanceMessage, classes.maintenanceActiveMessage)}>
+                  <Trans>We are performing routine maintenance of the system. Service status updates will be posted on the{" "}
+                    <a
+                      href={ROUTE_LINKS.DiscordInvite}
+                      target="_blank"
+                      rel='noreferrer noopener'
+                    >
+                      Files Support Channel
+                    </a>{" "}
+                      on Discord
+                  </Trans>
+                </Typography>
+              )}
+              {!maintenanceMode && !!maintenanceWindowTimestamp && dayjs.unix(maintenanceWindowTimestamp).isAfter(dayjs()) && (
+                <Typography className={classes.maintenanceMessage}>
+                  <Trans>
+                    System maintenance is scheduled to start at{" "}
+                    {dayjs.unix(maintenanceWindowTimestamp).format("YYYY-MM-DD HH:mm")}.{" "}
+                    The system will be unavailable.
+                  </Trans>
+                </Typography>
+              )}
             </section>
             <footer className={classes.footer}>
               <a

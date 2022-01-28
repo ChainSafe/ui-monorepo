@@ -13,6 +13,24 @@ msgstr ""
 "X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "(Awaiting payment)"
+msgstr ""
+
+msgid "({0}) items selected"
+msgstr ""
+
+msgid "/month"
+msgstr ""
+
+msgid "/year"
+msgstr ""
+
+msgid "<0>{currentStorage}</0> of storage"
+msgstr ""
+
+msgid "<0>{planStorageCapacity}</0> of storage"
+msgstr ""
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
@@ -25,8 +43,26 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
+msgid "Accepted currencies"
+msgstr ""
+
+msgid "Access your billing history in settings or view your"
+msgstr ""
+
 msgid "Account"
 msgstr "Konto"
+
+msgid "Account is restricted"
+msgstr ""
+
+msgid "Active links"
+msgstr ""
+
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
 
 msgid "Add a username"
 msgstr "Legg til et brukernavn"
@@ -34,7 +70,13 @@ msgstr "Legg til et brukernavn"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr ""
 
-msgid "Add by sharing address, username or wallet address"
+msgid "Add by sharing address, username, wallet address or ENS"
+msgstr ""
+
+msgid "Add card"
+msgstr ""
+
+msgid "Add credit card"
 msgstr ""
 
 msgid "Add more files"
@@ -43,14 +85,29 @@ msgstr "Legg til flere filer"
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
-msgid "An error occurred while downloading the file"
+msgid "Adding you to the shared folder..."
+msgstr ""
+
+msgid "All invoices"
+msgstr ""
+
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
 msgid "An error occurred:"
 msgstr ""
 
+msgid "Annual billing{0}"
+msgstr ""
+
+msgid "Anyone with the link can:"
+msgstr ""
+
 msgid "Approve"
 msgstr "Godkjenn"
+
+msgid "Are you sure? This will delete your default payment method."
+msgstr ""
 
 msgid "Backup secret phrase"
 msgstr ""
@@ -58,7 +115,16 @@ msgstr ""
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
 
+msgid "Billing history"
+msgstr ""
+
+msgid "Billing start time"
+msgstr ""
+
 msgid "Bin"
+msgstr ""
+
+msgid "Browse {0}"
 msgstr ""
 
 msgid "Browser:"
@@ -79,11 +145,26 @@ msgstr ""
 msgid "Cancel"
 msgstr "Avbryt"
 
+msgid "Card added"
+msgstr ""
+
+msgid "Card inputs invalid"
+msgstr ""
+
+msgid "Card updated"
+msgstr ""
+
 msgid "Change Password"
 msgstr "Endre passord"
 
+msgid "Change Plan"
+msgstr ""
+
 msgid "Change password"
 msgstr "Endre passord"
+
+msgid "Change plan"
+msgstr ""
 
 msgid "Check your inbox! We've sent another email."
 msgstr ""
@@ -100,6 +181,18 @@ msgstr "Bekreft"
 msgid "Confirm Password:"
 msgstr "Bekreft passord:"
 
+msgid "Confirm plan change"
+msgstr ""
+
+msgid "Confirm plan downgrade"
+msgstr ""
+
+msgid "Confirmation"
+msgstr ""
+
+msgid "Connect Wallet"
+msgstr ""
+
 msgid "Connect Wallet to Files"
 msgstr ""
 
@@ -107,6 +200,9 @@ msgid "Connect a new wallet"
 msgstr ""
 
 msgid "Connection failed"
+msgstr ""
+
+msgid "Contact us"
 msgstr ""
 
 msgid "Continue"
@@ -127,9 +223,6 @@ msgstr "Fortsett med Web3-lommebok"
 msgid "Copied!"
 msgstr "Kopiert!"
 
-msgid "Copy CID"
-msgstr "Kopier CID"
-
 msgid "Copy file"
 msgstr ""
 
@@ -142,25 +235,34 @@ msgstr ""
 msgid "Copy to"
 msgstr ""
 
+msgid "Copying files"
+msgstr ""
+
 msgid "Create"
 msgstr "Opprett"
-
-msgid "Create Folder"
-msgstr "Opprett mappe"
 
 msgid "Create Shared Folder"
 msgstr ""
 
-msgid "Create a Shared Folder"
+msgid "Create a sharing link"
 msgstr ""
 
-msgid "Create a new shared folder"
+msgid "Create folder & Copy over"
 msgstr ""
 
-msgid "Create folder"
-msgstr "Opprett mappe"
+msgid "Create folder & Move over"
+msgstr ""
+
+msgid "Create link"
+msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
+
+msgid "Credit Card is expiring soon"
+msgstr ""
+
+msgid "Credit card saved"
 msgstr ""
 
 msgid "Dark Theme"
@@ -178,6 +280,9 @@ msgstr ""
 msgid "Data restored successfully"
 msgstr ""
 
+msgid "Date Uploaded"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Dato opplastet"
 
@@ -191,7 +296,10 @@ msgid "Delete"
 msgstr "Slett"
 
 msgid "Delete selected"
-msgstr "Slett valgte"
+msgstr ""
+
+msgid "Destination Address"
+msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr ""
@@ -227,13 +335,19 @@ msgid "Downloads failed"
 msgstr ""
 
 msgid "Drop to upload files"
-msgstr "Dra for å laste opp filer"
+msgstr ""
+
+msgid "Edit payment"
+msgstr ""
+
+msgid "Edit payment method"
+msgstr ""
+
+msgid "Edit plan"
+msgstr ""
 
 msgid "Email is required"
 msgstr "E-post kreves"
-
-msgid "Encrypting & uploading"
-msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -247,7 +361,13 @@ msgstr "Skriv inn passord:"
 msgid "Enter the verification code:"
 msgstr "Skriv inn bekreftelseskoden:"
 
-msgid "Essentials - Free"
+msgid "Failed to add payment method"
+msgstr ""
+
+msgid "Failed to change subscription"
+msgstr ""
+
+msgid "Failed to create a charge"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -260,6 +380,9 @@ msgid ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
+msgstr ""
+
+msgid "Features"
 msgstr ""
 
 msgid "File Info"
@@ -286,9 +409,6 @@ msgstr "Fornavn"
 msgid "Folder name is already in use"
 msgstr ""
 
-msgid "Folder uploads are not supported currently"
-msgstr ""
-
 msgid "Folders"
 msgstr "Mapper"
 
@@ -296,6 +416,12 @@ msgid "For security reasons, each time you sign in we’ll ask you for one of th
 msgstr ""
 
 msgid "Forget this browser"
+msgstr ""
+
+msgid "Free"
+msgstr ""
+
+msgid "Free plan"
 msgstr ""
 
 msgid "General"
@@ -319,10 +445,22 @@ msgstr ""
 msgid "Give view-only permission to:"
 msgstr ""
 
+msgid "Go  back"
+msgstr ""
+
 msgid "Go back"
 msgstr "Tilbake"
 
+msgid "Go to Payments"
+msgstr ""
+
+msgid "Go to login"
+msgstr ""
+
 msgid "Got it"
+msgstr ""
+
+msgid "Have a question?"
 msgstr ""
 
 msgid "Hello again!"
@@ -343,10 +481,16 @@ msgstr ""
 msgid "Info"
 msgstr "Info"
 
+msgid "Insufficient balance"
+msgstr ""
+
+msgid "Invoice outstanding"
+msgstr ""
+
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
-msgid "Keep original file"
+msgid "Keep original files"
 msgstr ""
 
 msgid "Language"
@@ -379,16 +523,13 @@ msgstr ""
 msgid "Loading your shared folders…"
 msgstr ""
 
-msgid "Loading..."
-msgstr ""
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgid "Manage Access"
 msgstr ""
 
-msgid "Manage Access"
+msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Move"
@@ -398,7 +539,7 @@ msgid "Move over"
 msgstr ""
 
 msgid "Move selected"
-msgstr "Flytt valgte"
+msgstr ""
 
 msgid "Move to…"
 msgstr "Flytt til …"
@@ -409,11 +550,11 @@ msgstr "Mine filer"
 msgid "Name"
 msgstr "Navn"
 
-msgid "Name too long"
-msgstr "Navnet er for langt"
-
 msgid "New folder"
 msgstr "Ny mappe"
+
+msgid "New shared folder name"
+msgstr ""
 
 msgid "Next"
 msgstr "Neste"
@@ -421,14 +562,26 @@ msgstr "Neste"
 msgid "Nice to see you again!"
 msgstr ""
 
+msgid "No Card"
+msgstr ""
+
 msgid "No file to download."
 msgstr ""
 
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
+
 msgid "No files to show"
-msgstr "Ingen filer å vise"
+msgstr ""
 
 msgid "No folders"
 msgstr "Ingen mapper"
+
+msgid "No invoice found"
+msgstr ""
 
 msgid "No search results for"
 msgstr ""
@@ -443,16 +596,28 @@ msgid "Number of copies (Replication Factor)"
 msgstr ""
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "One sec, getting files ready…"
+msgstr ""
+
+msgid "Only send {selectedCurrency} to this address"
 msgstr ""
 
 msgid "Only you can see this."
 msgstr "Kun du kan se dette."
 
+msgid "Oops! You need to pay for this month to upload more content."
+msgstr ""
+
 msgid "Operating system:"
 msgstr "Operativsystem:"
+
+msgid "Or Create a new shared folder"
+msgstr ""
+
+msgid "Or Use an existing shared folder"
+msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
@@ -481,6 +646,30 @@ msgstr "Passord:"
 msgid "Passwords must match"
 msgstr "Passordene må samsvare"
 
+msgid "Pay invoice"
+msgstr ""
+
+msgid "Pay with Crypto"
+msgstr ""
+
+msgid "Pay with crypto"
+msgstr ""
+
+msgid "Pay with {0}"
+msgstr ""
+
+msgid "Payment and Subscriptions"
+msgstr ""
+
+msgid "Payment method"
+msgstr ""
+
+msgid "Plan changed successfully"
+msgstr ""
+
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
+msgstr ""
+
 msgid "Please enter a file name"
 msgstr "Skriv inn et filnavn"
 
@@ -496,6 +685,9 @@ msgstr "Angi et passord"
 msgid "Please select a file to upload"
 msgstr "Velg en fil å laste opp"
 
+msgid "Premium plan"
+msgstr ""
+
 msgid "Preview"
 msgstr "Forhåndsvis"
 
@@ -504,6 +696,9 @@ msgstr "Forrige"
 
 msgid "Privacy Policy"
 msgstr "Personvernspraksis"
+
+msgid "Proceed to payment"
+msgstr ""
 
 msgid "Profile and Display"
 msgstr "Profil og visning"
@@ -518,7 +713,7 @@ msgid "Recover"
 msgstr "Gjenopprett"
 
 msgid "Recover selected"
-msgstr "Gjenoppretting valgt"
+msgstr ""
 
 msgid "Recover to…"
 msgstr ""
@@ -532,6 +727,9 @@ msgstr "Avslå"
 msgid "Reject all"
 msgstr "Avslå alle"
 
+msgid "Remove"
+msgstr ""
+
 msgid "Rename"
 msgstr "Gi nytt navn"
 
@@ -539,6 +737,9 @@ msgid "Rename file"
 msgstr ""
 
 msgid "Rename folder"
+msgstr ""
+
+msgid "Rename shared folder"
 msgstr ""
 
 msgid "Report"
@@ -589,10 +790,22 @@ msgstr ""
 msgid "Security"
 msgstr ""
 
+msgid "See payment info"
+msgstr ""
+
 msgid "Select a wallet"
 msgstr ""
 
 msgid "Select an existing shared folder or your home"
+msgstr ""
+
+msgid "Select payment method"
+msgstr ""
+
+msgid "Select plan"
+msgstr ""
+
+msgid "Select this plan"
 msgstr ""
 
 msgid "Send another email"
@@ -619,10 +832,19 @@ msgstr ""
 msgid "Share file"
 msgstr ""
 
+msgid "Share links to your encrypted folders."
+msgstr ""
+
+msgid "Share selected"
+msgstr ""
+
 msgid "Shared"
 msgstr "Delt"
 
 msgid "Shared Folder Name"
+msgstr ""
+
+msgid "Shared folder name"
 msgstr ""
 
 msgid "Shared folders"
@@ -631,10 +853,7 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing cancelled"
-msgstr ""
-
-msgid "Sharing your file (Downloading)"
+msgid "Sharing files"
 msgstr ""
 
 msgid "Sign Out"
@@ -645,6 +864,9 @@ msgstr "Logg inn"
 
 msgid "Sign in with a different account"
 msgstr "Logg inn med en annen konto"
+
+msgid "Sign in/up to access the shared folder"
+msgstr ""
 
 msgid "Sign me up!"
 msgstr ""
@@ -670,16 +892,34 @@ msgstr "Noe gikk galt."
 msgid "Something went wrong. We couldn't upload your file"
 msgstr ""
 
+msgid "Sort By:"
+msgstr ""
+
+msgid "Standard plan"
+msgstr ""
+
 msgid "Start Upload"
 msgstr ""
 
 msgid "Start a team"
 msgstr ""
 
-msgid "Storage Plan"
+msgid "Stored by miner"
 msgstr ""
 
-msgid "Stored by miner"
+msgid "Subscription Plan"
+msgstr ""
+
+msgid "Switch Network"
+msgstr ""
+
+msgid "Switch Plan"
+msgstr ""
+
+msgid "Switch to Free plan"
+msgstr ""
+
+msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr ""
 
 msgid "Teams"
@@ -697,7 +937,7 @@ msgstr ""
 msgid "The files are already in this folder"
 msgstr ""
 
-msgid "The system is undergoing maintenance, thank you for being patient."
+msgid "The link you typed in looks malformed. Please verify it."
 msgstr ""
 
 msgid "The username is too long"
@@ -706,10 +946,19 @@ msgstr ""
 msgid "Theme"
 msgstr "Drakt"
 
+msgid "There are no notifications!"
+msgstr ""
+
+msgid "There was a problem creating a charge {error}"
+msgstr ""
+
 msgid "There was an error authenticating"
 msgstr ""
 
 msgid "There was an error connecting your wallet"
+msgstr ""
+
+msgid "There was an error creating the folder {0}"
 msgstr ""
 
 msgid "There was an error deleting your data"
@@ -730,11 +979,20 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
-msgid "This username is already taken"
+msgid "This card will become your default payment method"
 msgstr ""
 
-msgid "This username is public"
-msgstr "Dette brukernavnet er offentlig"
+msgid "This is the free product."
+msgstr ""
+
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
+msgstr ""
+
+msgid "This link is not valid any more."
+msgstr ""
+
+msgid "This username is already taken"
+msgstr ""
 
 msgid "This website uses cookies"
 msgstr ""
@@ -742,7 +1000,10 @@ msgstr ""
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
-msgid "Transfer complete"
+msgid "Total"
+msgstr ""
+
+msgid "Total Amount"
 msgstr ""
 
 msgid "Try again"
@@ -754,13 +1015,25 @@ msgstr "Prøv annen metode"
 msgid "Update"
 msgstr "Oppdater"
 
-msgid "Update Shared Folder"
+msgid "Update Card"
+msgstr ""
+
+msgid "Update card"
+msgstr ""
+
+msgid "Update credit card"
+msgstr ""
+
+msgid "Update your credit card"
 msgstr ""
 
 msgid "Upload"
-msgstr "Last opp"
+msgstr ""
 
 msgid "Uploads cancelled"
+msgstr ""
+
+msgid "Uploads disabled"
 msgstr ""
 
 msgid "Use a different login method"
@@ -769,7 +1042,7 @@ msgstr "Bruk en annen innloggingsmetode"
 msgid "Use a saved browser"
 msgstr ""
 
-msgid "Use an existing shared folder"
+msgid "Use this card"
 msgstr ""
 
 msgid "User {0} is both a reader and writer"
@@ -796,6 +1069,9 @@ msgstr ""
 msgid "Verification code sent!"
 msgstr ""
 
+msgid "Verifying the link..."
+msgstr ""
+
 msgid "View folder"
 msgstr "Vis mappe"
 
@@ -803,6 +1079,9 @@ msgid "Wallet address"
 msgstr ""
 
 msgid "Want to help shape this product?"
+msgstr ""
+
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
@@ -835,13 +1114,43 @@ msgstr ""
 msgid "You can't move folders to this path"
 msgstr ""
 
+msgid "You do not have access to this shared folder."
+msgstr ""
+
+msgid "You get access to these features right now."
+msgstr ""
+
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
+
+msgid "You now have:"
+msgstr ""
+
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
+msgid "You would lose the following features:"
+msgstr ""
+
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+msgstr ""
+
+msgid "Your plan"
+msgstr ""
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
+
+msgid "can-edit"
+msgstr ""
+
+msgid "invoices here"
 msgstr ""
 
 msgid "me"
@@ -853,6 +1162,9 @@ msgstr ""
 msgid "unknown"
 msgstr ""
 
+msgid "view-only"
+msgstr ""
+
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr ""
 
@@ -860,4 +1172,37 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} cancelled"
+msgstr ""
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr ""
+
+msgid "{0} complete"
+msgstr ""
+
+msgid "{0} failed"
+msgstr ""
+
+msgid "{0} of {1} used"
+msgstr ""
+
+msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{currentPlanStorage} of storage"
+msgstr ""
+
+msgid "{newPlanCapacity} of storage"
+msgstr ""
+
+msgid "{newPlanStorage} of storage"
+msgstr ""
+
+msgid "{planStorageCapacity} of storage"
+msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
 msgstr ""

@@ -8,6 +8,7 @@ import { SETTINGS_BASE } from "./FilesRoutes"
 import step1Image from "../Media/sharingExplainer/step1.png"
 import step2Image from "../Media/sharingExplainer/step2.png"
 import step3Image from "../Media/sharingExplainer/step3.png"
+import step4Image from "../Media/sharingExplainer/step4.png"
 import { DISMISSED_SHARING_EXPLAINER_KEY } from "./Modules/FileBrowsers/hooks/useSharingExplainerModalFlag"
 import { useUser } from "../Contexts/UserContext"
 
@@ -23,9 +24,6 @@ const useStyles = makeStyles(
       title: {
         textAlign: "center",
         marginBottom: constants.generalUnit * 3
-      },
-      modalInner: {
-        maxWidth: "400px !important"
       },
       buttonLink: {
         outline: "none",
@@ -72,7 +70,7 @@ interface Props {
   onHide: () => void
 }
 
-const STEP_NUMBER = 3
+const STEP_NUMBER = 4
 
 const SharingExplainerModal = ({ showModal, onHide }: Props) => {
   const classes = useStyles()
@@ -95,8 +93,9 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
 
       case 2:
         return <>
-          <div className={classes.title}
-          ><Trans>Add viewers and editors by username, sharing id or Ethereum address.</Trans></div>
+          <div className={classes.title}>
+            <Trans>Add viewers and editors by username, sharing id or Ethereum address.</Trans>
+          </div>
           <div className={classes.imageContainer}>
             <img
               className={classes.image}
@@ -105,8 +104,20 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
             />
           </div>
         </>
-
       case 3:
+        return <>
+          <div className={classes.title}>
+            <Trans>Share links to your encrypted folders.</Trans>
+          </div>
+          <div className={classes.imageContainer}>
+            <img
+              className={classes.image}
+              src={step3Image}
+              alt={"share explainer step 3"}
+            />
+          </div>
+        </>
+      case 4:
         return <>
           <div className={classes.title}>
             <Trans>Create your public username in <Link
@@ -118,8 +129,8 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
           <div className={classes.imageContainer}>
             <img
               className={classes.image}
-              src={step3Image}
-              alt={"share explainer step 3"}
+              src={step4Image}
+              alt={"share explainer step 4"}
             />
           </div>
         </>
@@ -132,9 +143,9 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
       return
     } else {
       switch (next) {
-        case 3:
+        case STEP_NUMBER:
           setLocalStore({ [DISMISSED_SHARING_EXPLAINER_KEY]:  "true" }, "update")
-          setStep(3)
+          setStep(STEP_NUMBER)
           break
         case STEP_NUMBER + 1:
           onHide()
@@ -147,12 +158,11 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
 
   return (
     <CustomModal
-      injectedClass={{ inner: classes.modalInner }}
       active={showModal}
       closePosition="right"
       maxWidth="sm"
       onClose={onHide}
-      mobileStickyBottom={false}
+      testId="sharing-explainer"
     >
       <div className={classes.root}>
         <Typography
@@ -164,6 +174,7 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
           <Button
             className={classes.nextButton}
             onClick={() => onNextStep(step + 1)}
+            data-cy={step === STEP_NUMBER ? "button-got-it" : "button-next"}
           >
             {step === STEP_NUMBER ? t`Got it` : t`Next`}
           </Button>

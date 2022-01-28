@@ -21,7 +21,7 @@ const ConditionalRoute: React.FC<IConditionalRouteProps> = ({
   exact,
   ...rest
 }) => {
-  const { state, pathname } = useLocation<{from?: string} | undefined>()
+  const { state, pathname, hash } = useLocation<{from?: string} | undefined>()
   const from = (state as any)?.from
 
   return <Route
@@ -34,7 +34,8 @@ const ConditionalRoute: React.FC<IConditionalRouteProps> = ({
           ? <Redirect
             to={{
               pathname: redirectToSource && from ? from : redirectPath,
-              state: { from: pathname }
+              state: { from: pathname },
+              hash
             }}
           />
           // this may be converted into loading

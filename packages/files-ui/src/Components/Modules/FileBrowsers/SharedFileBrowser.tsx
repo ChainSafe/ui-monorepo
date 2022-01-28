@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { useToasts, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
+import { useToasts, useHistory, useLocation, Crumb, Typography, ExclamationCircleIcon, Loading } from "@chainsafe/common-components"
 import {
   getArrayOfPaths,
   getURISafePathFromArray,
@@ -11,30 +11,60 @@ import {
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "./types"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
-import { t } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
-import { BucketPermission, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
+import { BucketKeyPermission, BucketPermission, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useUser } from "../../../Contexts/UserContext"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import { CSFTheme } from "../../../Themes/types"
+import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
+
+const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
+  createStyles({
+    messageWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center"
+    },
+    icon : {
+      display: "flex",
+      alignItems: "center",
+      fontSize: constants.generalUnit * 6,
+      "& svg": {
+        fill: palette.additional["gray"][7]
+      }
+    }
+  }))
 
 const SharedFileBrowser = () => {
   const { downloadFile, uploadFiles, buckets, getStorageSummary, refreshBuckets } = useFiles()
-  const { filesApiClient } = useFilesApi()
+  const { filesApiClient, accountRestricted } = useFilesApi()
+  const classes = useStyles()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
   const { pathname } = useLocation()
+  const [bucket, setBucket] = useState<BucketKeyPermission | undefined>()
+  const [isBucketLoaded, setIsBucketLoaded] = useState(false)
 
   const bucketId = useMemo(() =>
     pathname.split("/")[2]
   , [pathname])
 
-  const bucket = useMemo(() => buckets.find(b => b.id === bucketId), [buckets, bucketId])
+  useEffect(() => {
+    if (!buckets.length || !bucketId) return
+
+    const newBuck = buckets.find(b => b.id === bucketId)
+    setBucket(newBuck)
+    setIsBucketLoaded(true)
+  }, [bucketId, buckets])
 
   const currentPath = useMemo(() => {
     return extractSharedFileBrowserPathFromURL(pathname, ROUTE_LINKS.SharedFolderExplorer(bucketId, ""))
@@ -171,26 +201,23 @@ const SharedFileBrowser = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
-    let hasFolder = false
-    for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
-        hasFolder = true
-      }
-    }
-    if (hasFolder) {
+    if (accountRestricted) {
       addToast({
-        title: t`Folder uploads are not supported currently`,
-        type: "error"
+        type:"error",
+        title: t`Uploads disabled`,
+        subtitle: t`Oops! You need to pay for this month to upload more content.`
       })
-    } else {
-      uploadFiles(bucket, files, path)
-        .then(() => refreshContents())
-        .catch(console.error)
+      return
     }
-  }, [addToast, uploadFiles, bucket, refreshContents])
+    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
+    const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
+    paths.forEach(p => {
+      uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
+    })
+  }, [uploadFiles, bucket, accountRestricted, addToast])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
+    [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],
     [CONTENT_TYPES.File]: ["download", "delete", "move", "share"]
   }), [])
 
@@ -204,7 +231,7 @@ const SharedFileBrowser = () => {
           [CONTENT_TYPES.Pdf]: ["preview"],
           [CONTENT_TYPES.Text]: ["preview"],
           [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
-          [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete", "share"]
         }
       case "writer":
         return {
@@ -214,7 +241,7 @@ const SharedFileBrowser = () => {
           [CONTENT_TYPES.Pdf]: ["preview"],
           [CONTENT_TYPES.Text]: ["preview"],
           [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report", "share"],
-          [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete", "share"]
         }
         // case "reader":
       default:
@@ -230,30 +257,57 @@ const SharedFileBrowser = () => {
     }
   }, [access])
 
+  if (!isBucketLoaded) {
+    return (
+      <div className={classes.messageWrapper}>
+        <Loading
+          type="initial"
+          size={48}
+        />
+      </div>
+    )
+  }
+
+  // The bucket is loaded, and it is still undefined
+  if (!bucket) {
+    return (
+      <div className={classes.messageWrapper}>
+        <ExclamationCircleIcon
+          size={48}
+          className={classes.icon}
+        />
+        <Typography variant="h4">
+          <Trans>You do not have access to this shared folder.</Trans>
+        </Typography>
+      </div>
+    )
+  }
+
 
   return (
-    <FileBrowserContext.Provider value={{
-      bucket,
-      bulkOperations,
-      handleUploadOnDrop,
-      crumbs,
-      moduleRootPath: ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", "/"),
-      currentPath,
-      refreshContents,
-      deleteItems,
-      downloadFile: handleDownload,
-      moveItems,
-      renameItem,
-      viewFolder,
-      loadingCurrentPath,
-      showUploadsInTable: false,
-      sourceFiles: pathContents,
-      heading: bucket?.name || t`Shared`,
-      controls: true,
-      allowDropUpload: access === "writer" || access === "owner",
-      itemOperations,
-      withSurvey: false
-    }}>
+    <FileBrowserContext.Provider
+      value={{
+        bucket,
+        bulkOperations,
+        handleUploadOnDrop,
+        crumbs,
+        moduleRootPath: ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", "/"),
+        currentPath,
+        refreshContents,
+        deleteItems,
+        downloadFile: handleDownload,
+        moveItems,
+        renameItem,
+        viewFolder,
+        loadingCurrentPath,
+        showUploadsInTable: false,
+        sourceFiles: pathContents,
+        heading: bucket?.name || t`Shared`,
+        controls: true,
+        allowDropUpload: access === "writer" || access === "owner",
+        itemOperations,
+        withSurvey: false
+      }}>
       <DragAndDrop>
         <FilesList isShared/>
       </DragAndDrop>

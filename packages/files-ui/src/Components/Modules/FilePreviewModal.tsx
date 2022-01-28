@@ -27,7 +27,7 @@ import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 import { useGetFile } from "./FileBrowsers/hooks/useGetFile"
 import { useMemo } from "react"
 import Menu from "../../UI-components/Menu"
-import {getPathWithFile} from "../../Utils/pathUtils"
+import { getPathWithFile } from "../../Utils/pathUtils"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -162,7 +162,7 @@ const useStyles = makeStyles(
           position: "absolute"
         }
       },
-      focusVisible:{
+      focusVisible: {
         backgroundColor: "transparent !important"
       },
       menuWrapper: {
@@ -185,7 +185,7 @@ interface Props {
 const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath }: Props) => {
   const classes = useStyles()
   const { downloadFile } = useFiles()
-  const [fileContent, setFileContent] = useState<Blob |undefined>()
+  const [fileContent, setFileContent] = useState<Blob | undefined>()
   const { bucket } = useFileBrowser()
   const { buckets } = useFiles()
   const { desktop } = useThemeSwitcher()
@@ -214,17 +214,23 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     } else {
       bucketId = bucket.id
     }
-    !!previewRendererKey && getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
-      .then(setFileContent)
-      .catch(console.error)
+
+    setFileContent(undefined)
+    if (previewRendererKey) {
+      getFile({ file, filePath: getPathWithFile(filePath, file.name), bucketId })
+        .then((content) => {
+          setFileContent(content)
+        })
+        .catch(console.error)
+    }
   }, [file, filePath, getFile, bucket, buckets, previewRendererKey])
 
 
 
   const PreviewComponent =
-    content_type &&
-    fileContent &&
-    previewRendererKey &&
+    !!content_type &&
+    !!fileContent &&
+    !!previewRendererKey &&
     SUPPORTED_FILE_TYPES[previewRendererKey]
 
   useHotkeys("Esc,Escape", () => {
@@ -234,16 +240,12 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
   })
 
   useHotkeys("Left,ArrowLeft", () => {
-    if (file && previousFile) {
-      previousFile()
-    }
-  })
+    previousFile && previousFile()
+  }, [previousFile])
 
   useHotkeys("Right,ArrowRight", () => {
-    if (file && nextFile) {
-      nextFile()
-    }
-  })
+    nextFile && nextFile()
+  }, [nextFile])
 
   const handleDownload = useCallback(() => {
     if (!name || !cid || !bucket) return
@@ -294,7 +296,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         </Typography>
         <Menu
           testId='preview-kebab'
-          icon={<MoreIcon className={classes.dropdownIcon}/>}
+          icon={<MoreIcon className={classes.dropdownIcon} />}
           options={menuItems}
           style={{
             focusVisible: classes.focusVisible,
@@ -320,9 +322,11 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
             className={classes.prevNext}
           >
             {previousFile && (
-              <Button onClick={previousFile}
+              <Button
+                onClick={previousFile}
                 className={classes.prevNextButton}
-                data-cy="button-view-previous-file">
+                data-cy="button-view-previous-file"
+              >
                 <ArrowLeftIcon />
               </Button>
             )}
@@ -392,8 +396,11 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
               !error &&
               compatibleFilesMatcher.match(content_type) &&
               fileContent &&
-              PreviewComponent && <PreviewComponent contents={fileContent}
-              contentType={content_type} />}
+              PreviewComponent &&
+              <PreviewComponent
+                contents={fileContent}
+                contentType={content_type} />
+            }
           </div>
         </Grid>
         {desktop && (

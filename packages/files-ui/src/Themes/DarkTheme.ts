@@ -158,7 +158,8 @@ export const darkTheme = createTheme<CsfColors>({
     palette: {
       primary: {
         main: "var(--gray3)",
-        hover: "var(--gray10)"
+        hover: "var(--gray10)",
+        background: "var(--csf-primary)"
       },
       secondary: {
         main: "var(--gray10)",
@@ -332,9 +333,9 @@ export const darkTheme = createTheme<CsfColors>({
       ...UI_CONSTANTS,
       ...({
         menu:{
-          backgroundColor: "var(--gray1)",
+          backgroundColor: "var(--gray2)",
           color: "var(--gray8)",
-          backgroundOptionHover: "var(--gray2)"
+          backgroundOptionHover: "var(--gray3)"
         },
         landing: {
           background: "var(--gray2)",
@@ -379,7 +380,8 @@ export const darkTheme = createTheme<CsfColors>({
           itemColor: "var(--gray9)",
           itemColorHover: "var(--gray9)",
           itemIconColor: "var(--gray9)",
-          itemIconColorHover: "var(--gray9)"
+          itemIconColorHover: "var(--gray9)",
+          profileButtonShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
         },
         createFolder: {
           backgroundColor: "var(--gray2)",
@@ -481,8 +483,20 @@ export const darkTheme = createTheme<CsfColors>({
         surveyBanner: {
           color: "var(--gray9)"
         },
+        addCard: {
+          color: "#DBDBDB",
+          shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
+          placeholderColor: "#595959"
+        },
         cookieBanner: {
           backgroundColor: "var(--gray9)"
+        },
+        changeProduct: {
+          currentBackground: "initial",
+          selectedColor: "var(--csf-primary)",
+          currentTag: {
+            text: "var(--gray10)"
+          }
         }
       } as CsfColors)
     },

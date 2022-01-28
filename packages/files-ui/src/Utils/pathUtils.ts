@@ -23,6 +23,14 @@ export function getArrayOfPaths(path: string): string[] {
 }
 
 // [] -> "/"
+// ["path", "to", "this"] => "/path/to/this"
+export function joinArrayOfPaths(arrayOfPaths: string[]): string {
+  if (!arrayOfPaths.length) return "/"
+  else {
+    return `/${arrayOfPaths.join("/")}`
+  }
+}
+// [] -> "/"
 // ["path", "to", "this"] -> "/path/to/this"
 export function getURISafePathFromArray(arrayOfPaths: string[]): string {
   if (!arrayOfPaths.length) return "/"
@@ -101,6 +109,32 @@ export const isSubFolder = (fold1: string, fold2: string) => {
   })
 
   return result
+}
+
+// get the jwt from /link-sharing/permision/jwt 
+export const getJWT = (pathname?: string) => {
+
+  if(!pathname) return
+
+  const arrayOfPaths =  getArrayOfPaths(pathname)
+
+  if(arrayOfPaths.length !== 3){
+    console.error("JWT extraction error, unexpected path", pathname)
+    return
+  }
+
+  return decodeURIComponent(arrayOfPaths[2])
+}
+
+// return the hash from #hash
+export const getBucketDecryptionFromHash = (hash: string) => {
+
+  if(!hash.startsWith("#")){
+    console.error("Bucket encryption key extraction error, unexpected hash", hash)
+    return
+  }
+
+  return decodeURIComponent(hash.substr(1))
 }
 
 export const getUrlSafePathWithFile = (path: string, fileName: string) => {

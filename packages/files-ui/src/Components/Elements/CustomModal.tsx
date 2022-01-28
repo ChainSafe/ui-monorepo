@@ -13,19 +13,17 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
     },
     inner: {
       backgroundColor: constants.modalDefault.backgroundColor,
-      color: constants.modalDefault.color
+      color: constants.modalDefault.color,
+      width: "100%"
     },
     mobileStickyBottom: {
       [breakpoints.down("md")]: {
+        position: "fixed",
         top: "unset",
         bottom: 0,
         left: 0,
         width: "100% !important",
-        transform: "unset",
-        borderRadiusLeftTop: `${constants.generalUnit * 1.5}px`,
-        borderRadiusRightTop: `${constants.generalUnit * 1.5}px`,
-        borderRadiusLeftBottom: 0,
-        borderRadiusRightBottom: 0
+        transform: "unset"
       }
     },
     closeIcon : {
@@ -51,7 +49,8 @@ const CustomModal = ({ className, children, injectedClass, mobileStickyBottom = 
       className={clsx(classes.root, className)}
       injectedClass={{
         closeIcon: clsx(classes.closeIcon, injectedClass?.closeIcon),
-        inner: clsx(classes.inner, mobileStickyBottom ? classes.mobileStickyBottom : undefined, injectedClass?.inner)
+        inner: clsx(classes.inner, mobileStickyBottom ? classes.mobileStickyBottom : undefined, injectedClass?.inner),
+        subModalInner: injectedClass?.subModalInner
       }}
       {...rest}
     >

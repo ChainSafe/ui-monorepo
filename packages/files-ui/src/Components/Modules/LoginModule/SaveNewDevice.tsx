@@ -102,7 +102,7 @@ const SaveNewDevice = ({ className }: {className: string}) => {
       </Typography>
       <div className={classes.buttonWrapper}>
         <Button
-          data-cy="save-browser-button"
+          data-cy="button-save-browser"
           className={classes.button}
           variant="primary"
           size="large"
@@ -113,7 +113,7 @@ const SaveNewDevice = ({ className }: {className: string}) => {
           <Trans>Yes, save it</Trans>
         </Button>
         <Button
-          data-cy="do-not-save-browser-button"
+          data-cy="button-do-not-save-browser"
           className={classes.button}
           variant="outline"
           size="large"

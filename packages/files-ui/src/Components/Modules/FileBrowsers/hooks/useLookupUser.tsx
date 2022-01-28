@@ -1,4 +1,3 @@
-import { LookupUserRequest } from "@chainsafe/files-api-client"
 import { t } from "@lingui/macro"
 import { useCallback, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
@@ -7,6 +6,7 @@ import { centerEllipsis } from "../../../../Utils/Helpers"
 import { SharedUserTagData, SharedFolderUserPermission } from "../types"
 import { ITagOption, ITagValueType } from "@chainsafe/common-components"
 import { useEffect } from "react"
+import { ethers } from "ethers"
 
 export const useLookupSharedFolderUser = () => {
   const { filesApiClient } = useFilesApi()
@@ -25,8 +25,7 @@ export const useLookupSharedFolderUser = () => {
         ))
 
     if (foundIntersectingUsers.length) {
-      setUsersError(t`User ${
-        centerEllipsis(foundIntersectingUsers[0].label)
+      setUsersError(t`User ${centerEllipsis(foundIntersectingUsers[0].label)
       } is both a reader and writer`)
     } else {
       setUsersError("")
@@ -36,20 +35,33 @@ export const useLookupSharedFolderUser = () => {
   const handleLookupUser = useCallback(async (inputVal: string, permission: SharedFolderUserPermission) => {
     if (inputVal === "") return []
 
-    const lookupBody: LookupUserRequest = {}
+    const lookupBody = {
+      public_address: undefined as string | undefined,
+      identity_public_key: undefined as string | undefined,
+      username: undefined as string | undefined
+    }
     const ethAddressRegex = new RegExp("^0(x|X)[a-fA-F0-9]{40}$") // Eth Address Starting with 0x and 40 HEX chars
     const pubKeyRegex = new RegExp("^0(x|X)[a-fA-F0-9]{66}$") // Compressed public key, 66 chars long
+    const ensRegex = new RegExp("^[A-z0-9\u1F60-\uFFFF]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,7}$") // domain name check
 
     if (ethAddressRegex.test(inputVal)) {
       lookupBody.public_address = inputVal
     } else if (pubKeyRegex.test(inputVal)) {
       lookupBody.identity_public_key = inputVal
+    } else if (ensRegex.test(inputVal)) {
+      const provider = new ethers.providers.InfuraProvider("mainnet")
+      const address = await provider.resolveName(inputVal)
+      if (address) {
+        lookupBody.public_address = address
+      }
     } else {
       lookupBody.username = inputVal
     }
 
+    if (!lookupBody.username && !lookupBody.public_address && !lookupBody.identity_public_key) return []
+
     try {
-      const result = await filesApiClient.lookupUser(lookupBody)
+      const result = await filesApiClient.lookupUser(lookupBody.username, lookupBody.public_address, lookupBody.identity_public_key)
       if (!result) return []
 
       const usersList = permission === "read" ? sharedFolderReaders : sharedFolderWriters

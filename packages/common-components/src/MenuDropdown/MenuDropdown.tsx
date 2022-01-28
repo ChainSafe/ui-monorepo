@@ -1,9 +1,10 @@
-import React, { ReactNode, useRef, useState } from "react"
+import React, { ReactNode, useCallback, useRef, useState } from "react"
 import { makeStyles, createStyles, ITheme, useOnClickOutside } from "@chainsafe/common-theme"
 import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalDownIcon, SvgIcon } from "../Icons"
 import { Paper } from "../Paper"
+import { useOnScroll } from "../Scroll/useOnScroll.hook"
 
 const useStyles = makeStyles(
   ({ constants, animation, typography, palette, overrides }: ITheme) =>
@@ -83,34 +84,64 @@ const useStyles = makeStyles(
         zIndex: 1000,
         padding: 0,
         "&.top-left": {
-          top: 0,
+          "&.up": {
+            bottom: 0
+          },
+          "&.down": {
+            top: 0
+          },
           left: 0,
           ...overrides?.MenuDropdown?.options?.position?.topLeft
         },
         "&.top-center": {
-          top: 0,
+          "&.up": {
+            bottom: 0
+          },
+          "&.down": {
+            top: 0
+          },
           left: "50%",
           transform: "translateX(-50%)",
           ...overrides?.MenuDropdown?.options?.position?.topCenter
         },
         "&.top-right": {
-          top: 0,
+          "&.up": {
+            bottom: 0
+          },
+          "&.down": {
+            top: 0
+          },
           right: 0,
           ...overrides?.MenuDropdown?.options?.position?.topRight
         },
         "&.bottom-left": {
-          top: "100%",
+          "&.up": {
+            bottom: "100%"
+          },
+          "&.down": {
+            top: "100%"
+          },
           left: 0,
           ...overrides?.MenuDropdown?.options?.position?.bottomLeft
         },
         "&.bottom-center": {
-          top: "100%",
+          "&.up": {
+            bottom: "100%"
+          },
+          "&.down": {
+            top: "100%"
+          },
           left: "50%",
           transform: "translateX(-50%)",
           ...overrides?.MenuDropdown?.options?.position?.bottomCenter
         },
         "&.bottom-right": {
-          top: "100%",
+          "&.up": {
+            bottom: "100%"
+          },
+          "&.down": {
+            top: "100%"
+          },
           right: 0,
           ...overrides?.MenuDropdown?.options?.position?.bottomRight
         },
@@ -168,6 +199,7 @@ interface IMenuDropdownProps {
   | "bottom-left"
   | "bottom-center"
   | "bottom-right"
+  dynamicAnchor?: boolean
   menuItems: IMenuItem[]
   title?: string
   classNames?: {
@@ -177,7 +209,10 @@ interface IMenuDropdownProps {
     title?: string
     titleText?: string
   }
+  hideIndicator?: boolean
   testId?: string
+  children?: React.ReactNode
+  dropdown?: React.ReactNode
 }
 
 const MenuDropdown = ({
@@ -189,7 +224,10 @@ const MenuDropdown = ({
   animation = "flip",
   title,
   classNames,
-  testId
+  testId,
+  children,
+  hideIndicator,
+  dropdown
 }: IMenuDropdownProps) => {
   const Icon = indicator
   const classes = useStyles()
@@ -201,6 +239,25 @@ const MenuDropdown = ({
       setOpen(false)
     }
   })
+
+  const [dropDirection, setDropDirection] = useState<"up" | "down">("down")
+
+  const managePosition = useCallback(() => {
+    // TODO: Debounce
+    const { offsetTop } = ref.current as unknown as HTMLDivElement
+
+    if (offsetTop < window.pageYOffset + (window.innerHeight / 2)) {
+      setDropDirection("down")
+    } else {
+      setDropDirection("up")
+    }
+  }, [ref])
+
+
+  useOnScroll({
+    onScroll: managePosition
+  })
+
   return (
     <div
       ref={ref}
@@ -222,19 +279,21 @@ const MenuDropdown = ({
             {title}
           </Typography>
         )}
-        <Icon
+        {children}
+        {!hideIndicator && <Icon
           className={clsx(classes.icon, animation, classNames?.icon, {
             ["open"]: open
           })}
         />
+        }
       </section>
       <Paper
         shadow="shadow2"
-        className={clsx(classes.options, classNames?.options, anchor, {
+        className={clsx(classes.options, classNames?.options, anchor, dropDirection, {
           ["open"]: open
         })}
       >
-        {menuItems.map((item: IMenuItem, index: number) => (
+        {menuItems && menuItems.map((item: IMenuItem, index: number) => (
           <div
             data-testid={`dropdown-item-${testId}`}
             key={`menu-${index}`}
@@ -247,6 +306,7 @@ const MenuDropdown = ({
             {item.contents}
           </div>
         ))}
+        {dropdown}
       </Paper>
     </div>
   )

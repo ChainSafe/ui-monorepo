@@ -94,12 +94,8 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
       await uploadFiles(bucket.id, values.files, currentPath)
       refreshContents && refreshContents()
       helpers.resetForm()
-    } catch (errors: any) {
-      if (errors[0].message.includes("conflict with existing")) {
-        helpers.setFieldError("files", t`File/Folder already exists`)
-      } else {
-        helpers.setFieldError("files", errors[0].message)
-      }
+    } catch (error: any) {
+      console.error(error)
     }
     helpers.setSubmitting(false)
   }, [close, currentPath, uploadFiles, refreshContents, bucket])
@@ -119,7 +115,7 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
         onSubmit={onSubmit}
       >
         <Form
-          data-cy="upload-file-form"
+          data-cy="form-upload-file"
           className={classes.root}
         >
           <FileInput

@@ -47,82 +47,79 @@ const useStyles = makeStyles(
 const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }) => {
   const [imageUrl, setImageUrl] = useState<string | undefined>()
   const [loading, setLoading] = useState(false)
-
   useEffect(() => {
-    if (contentType !== "image/heic") {
+    if (contentType !== "image/heic" && contentType !== "image/heif") {
       setImageUrl(URL.createObjectURL(contents))
     } else {
       setLoading(true)
       contents.arrayBuffer()
         .then(b => heicConvert({
           buffer: Buffer.from(b),
-          format: "PNG"
+          format: "JPEG",
+          quality: 0.5
         }))
         .catch(console.error)
         .then(c => setImageUrl(URL.createObjectURL(new Blob([c]))))
         .finally(() => setLoading(false))
     }
-
-    return () => {
-      imageUrl && URL.revokeObjectURL(imageUrl)
-    }
-    // eslint-disable-next-line
   }, [contents, contentType])
+
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
 
   return (
     <div className={classes.root}>
-      <TransformWrapper
-        options={{
-          limitToBounds: true,
-          limitToWrapper: true,
-          minScale: 0.2
-        }}
-      >
-        {
+      {loading
+        ? <Loading
+          size={50}
+          type="initial"
+        />
+        : <TransformWrapper
+          options={{
+            limitToBounds: true,
+            limitToWrapper: true,
+            minScale: 0.2
+          }}
+        >
+          {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          ({ zoomIn, zoomOut, resetTransform }) => (
-            <>
-              {desktop && (
-                <div className={classes.controlsContainer}>
-                  <Button
-                    onClick={zoomIn}
-                    data-cy="button-zoom-in"
-                  >
-                    <ZoomInIcon />
-                  </Button>
-                  <Button
-                    onClick={zoomOut}
-                    data-cy="button-zoom-out"
-                  >
-                    <ZoomOutIcon />
-                  </Button>
-                  <Button
-                    onClick={resetTransform}
-                    data-cy="button-full-screen"
-                  >
-                    <FullscreenIcon />
-                  </Button>
-                </div>
-              )}
-              {loading
-                ? <Loading
-                  size={50}
-                  type='primary'                  
-                />
-                : <TransformComponent>
+            ({ zoomIn, zoomOut, resetTransform }) => (
+              <>
+                {desktop && (
+                  <div className={classes.controlsContainer}>
+                    <Button
+                      onClick={zoomIn}
+                      data-cy="button-zoom-in"
+                    >
+                      <ZoomInIcon />
+                    </Button>
+                    <Button
+                      onClick={zoomOut}
+                      data-cy="button-zoom-out"
+                    >
+                      <ZoomOutIcon />
+                    </Button>
+                    <Button
+                      onClick={resetTransform}
+                      data-cy="button-full-screen"
+                    >
+                      <FullscreenIcon />
+                    </Button>
+                  </div>
+                )}
+                <TransformComponent>
                   <img
                     src={imageUrl}
                     alt=""
                     className={classes.root}
-                  />
-                </TransformComponent>}
-            </>
-          )
-        }
-      </TransformWrapper>
+                    onLoad={() => imageUrl && URL.revokeObjectURL(imageUrl)} />
+                </TransformComponent>
+              </>
+            )
+          }
+        </TransformWrapper>
+      }
     </div>
   )
 }

@@ -36,6 +36,7 @@ import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import CustomButton from "../../../../Elements/CustomButton"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -43,27 +44,39 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
       width: "100%",
       [breakpoints.up("md")]: {
         margin: 0
-      },
-      [breakpoints.down("md")]: {
-        margin: `${constants.generalUnit * 4.2}px 0`
       }
     },
     modalRoot: {
-      [breakpoints.down("md")]: {}
+      [breakpoints.down("md")]: {
+        paddingBottom: Number(constants?.mobileButtonHeight)
+      }
     },
     modalInner: {
       [breakpoints.down("md")]: {
-        bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
         maxWidth: `${breakpoints.width("md")}px !important`
       }
     },
+    renameModal: {
+      padding: constants.generalUnit * 4
+    },
     renameHeader: {
       textAlign: "center"
+    },
+    renameInputWrapper: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "flex-end",
+      [breakpoints.down("md")]: {
+        margin: `${constants.generalUnit * 4.2}px 0`
+      },
+      "& > span": {
+        display: "block",
+        fontSize: 16,
+        lineHeight: "20px",
+        marginLeft: constants.generalUnit / 2,
+        marginBottom: (constants.generalUnit * 2.50),
+        transform: "translateY(50%)"
+      }
     },
     renameFooter: {
       display: "flex",
@@ -71,20 +84,8 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
       alignItems: "center",
       justifyContent: "flex-end"
     },
-    renameModal: {
-      padding: constants.generalUnit * 4
-    },
     okButton: {
       marginLeft: constants.generalUnit
-    },
-    cancelButton: {
-      [breakpoints.down("md")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: constants?.mobileButtonHeight
-      }
     },
     menuIcon: {
       display: "flex",
@@ -122,7 +123,7 @@ interface IFileSystemItemProps {
   browserView: BrowserView
   reportFile?: (path: string) => void
   showFileInfo?: (path: string) => void
-  share?: (path: string, fileIndex: number) => void
+  handleShare?: (file: FileSystemItemType) => void
   showPreview?: (fileIndex: number) => void
 }
 
@@ -145,25 +146,61 @@ const FileSystemItem = ({
   resetSelectedFiles,
   reportFile,
   showFileInfo,
-  share,
+  handleShare,
   showPreview
 }: IFileSystemItemProps) => {
   const { bucket, downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { downloadMultipleFiles } = useFiles()
   const { cid, name, isFolder, content_type } = file
   const inSharedFolder = useMemo(() => bucket?.type === "share", [bucket])
+
+  const {
+    fileName,
+    extension
+  } = useMemo(() => {
+    if (isFolder) {
+      return {
+        fileName : name,
+        extension: ""
+      }
+    }
+    const split = name.split(".")
+    const extension = `.${split[split.length - 1]}`
+
+    if (split.length === 1) {
+      return {
+        fileName : name,
+        extension: ""
+      }
+    }
+
+    return {
+      fileName: name.slice(0, name.length - extension.length),
+      extension: split[split.length - 1]
+    }
+  }, [name, isFolder])
+
   const formik = useFormik({
     initialValues: {
-      name
+      name: fileName
     },
     validationSchema: nameValidator,
     onSubmit: (values: { name: string }) => {
-      const newName = values.name.trim()
+      const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
-      newName && handleRename && handleRename(file.cid, newName)
+      if (newName !== name) {
+        newName && handleRename && handleRename(file.cid, newName)
+      } else {
+        stopEditing()
+      }
     },
     enableReinitialize: true
   })
+
+  const stopEditing = useCallback(() => {
+    setEditing(undefined)
+    formik.resetForm()
+  }, [formik, setEditing])
 
   let Icon
   if (isFolder) {
@@ -247,7 +284,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => share && share(filePath, files?.indexOf(file))
+      onClick: () => handleShare && handleShare(file)
     },
     info: {
       contents: (
@@ -316,9 +353,8 @@ const FileSystemItem = ({
     currentPath,
     downloadFile,
     moveFile,
-    share,
+    handleShare,
     filePath,
-    files,
     showFileInfo,
     recoverFile,
     onFilePreview,
@@ -331,17 +367,16 @@ const FileSystemItem = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag(() =>
-    ({
-      type: DragTypes.MOVABLE_FILE,
-      item: () => {
-        if (selectedCids.includes(file.cid)) {
-          return { ids: selectedCids }
-        } else {
-          return { ids: [...selectedCids, file.cid] }
-        }
+  const [, dragMoveRef, preview] = useDrag({
+    type: DragTypes.MOVABLE_FILE,
+    item: () => {
+      if (selectedCids.includes(file.cid)) {
+        return { ids: selectedCids }
+      } else {
+        return { ids: [...selectedCids, file.cid] }
       }
-    }), [selectedCids])
+    }
+  })
 
   useEffect(() => {
     // This gets called after every render, by default
@@ -357,17 +392,18 @@ const FileSystemItem = ({
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
-    canDrop: () => isFolder,
+    canDrop: (item) => isFolder && !item.ids.includes(file.cid),
     drop: (item: { ids: string[]}) => {
       moveItems && moveItems(item.ids, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
-      isOverMove: monitor.isOver()
+      isOverMove: monitor.isOver() && !monitor.getItem<{ids: string[]}>().ids.includes(file.cid)
     })
   })
 
   const [{ isOverUpload }, dropUploadRef] = useDrop({
     accept: [NativeTypes.FILE],
+    canDrop: () => isFolder,
     drop: (item: any) => {
       handleUploadOnDrop &&
         handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
@@ -379,13 +415,12 @@ const FileSystemItem = ({
 
   const fileOrFolderRef = useRef<any>()
 
-  if (!editing && isFolder) {
-    dropMoveRef(fileOrFolderRef)
-    dropUploadRef(fileOrFolderRef)
-  }
-
-  if (!editing && !isFolder) {
-    desktop && dragMoveRef(fileOrFolderRef)
+  if (!editing && desktop) {
+    dragMoveRef(fileOrFolderRef)
+    if (isFolder) {
+      dropMoveRef(fileOrFolderRef)
+      dropUploadRef(fileOrFolderRef)
+    }
   }
 
   const onSingleClick = useCallback(
@@ -481,7 +516,7 @@ const FileSystemItem = ({
               }}
               closePosition="none"
               active={editing === cid}
-              onClose={() => setEditing("")}
+              onClose={() => stopEditing()}
             >
               <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>
@@ -495,23 +530,31 @@ const FileSystemItem = ({
                         : <Trans>Rename file</Trans>
                     }
                   </Typography>
-                  <FormikTextInput
-                    label="Name"
-                    className={classes.renameInput}
-                    name="name"
-                    placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
-                    autoFocus={editing === cid}
-                  />
+                  <div className={classes.renameInputWrapper}>
+                    <FormikTextInput
+                      label="Name"
+                      className={classes.renameInput}
+                      name="name"
+                      placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
+                      autoFocus={editing === cid}
+                    />
+                    {
+                      !isFolder && extension !== ""  && (
+                        <Typography component="span">
+                          { `.${extension}` }
+                        </Typography>
+                      )
+                    }
+                  </div>
                   <footer className={classes.renameFooter}>
-                    <Button
+                    <CustomButton
                       onClick={() => setEditing("")}
                       size="medium"
-                      className={classes.cancelButton}
-                      variant="outline"
+                      variant={desktop ? "outline" : "gray"}
                       type="button"
                     >
                       <Trans>Cancel</Trans>
-                    </Button>
+                    </CustomButton>
                     <Button
                       variant="primary"
                       size="medium"

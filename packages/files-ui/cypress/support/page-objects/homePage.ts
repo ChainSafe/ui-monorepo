@@ -8,14 +8,15 @@ export const homePage = {
   ...fileBrowser,
 
   // home page specific file browser elements
+  closeBannerButton: () => cy.get("[data-cy=button-close-banner"),
+  surveyBanner: () => cy.get("[data-cy=banner-survey]"),
   newFolderButton: () => cy.get("[data-cy=button-new-folder]"),
   uploadButton: () => cy.get("[data-cy=button-upload-file]"),
-  moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
-  deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
-  selectAllCheckbox: () => cy.get("[data-testId=checkbox-select-all]"),
-  fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
-  fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
-  fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
+  moveSelectedButton: () => cy.get("[data-testid=button-move-selected-file]"),
+  deleteSelectedButton: () => cy.get("[data-testid=button-delete-selected-file]"),
+  selectAllCheckbox: () => cy.get("[data-testid=checkbox-select-all]"),
+  fileRenameInput: () => cy.get("[data-cy=input-rename-file-or-folder]"),
+  fileRenameErrorLabel: () => cy.get("[data-cy=form-rename] span.minimal.error"),
 
   // kebab menu elements
   previewMenuOption: () => cy.get("[data-cy=menu-preview]"),

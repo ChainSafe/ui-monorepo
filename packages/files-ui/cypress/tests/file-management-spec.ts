@@ -11,6 +11,7 @@ import { moveItemModal } from "../support/page-objects/modals/moveItemModal"
 import { recoverItemModal } from "../support/page-objects/modals/recoverItemModal"
 import { deleteSuccessToast } from "../support/page-objects/toasts/deleteSuccessToast"
 import { moveSuccessToast } from "../support/page-objects/toasts/moveSuccessToast"
+import { recoverSuccessToast } from "../support/page-objects/toasts/recoverSuccessToast"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 
 describe("File management", () => {
@@ -36,7 +37,7 @@ describe("File management", () => {
     it("can add files and cancel modal", () => {
       cy.web3Login()
 
-      // upload a file and see it in the file list
+      // attach a file and see it in the file list
       homePage.uploadButton().click()
       fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
       fileUploadModal.fileList().should("have.length", 1)
@@ -65,6 +66,9 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains(folderName).click()
         moveItemModal.moveButton().safeClick()
+        homePage.awaitBucketRefresh()
+        moveSuccessToast.body().should("be.visible")
+        moveSuccessToast.closeButton().click()
 
         // ensure there is only the folder in the Home directory 
         homePage.fileItemRow().should("have.length", 1)
@@ -84,17 +88,22 @@ describe("File management", () => {
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
         moveItemModal.moveButton().safeClick()
+        homePage.awaitBucketRefresh()
         moveSuccessToast.body().should("be.visible")
         moveSuccessToast.closeButton().click()
 
         // ensure the home root now has the folder and file
         navigationMenu.homeNavButton().click()
-        homePage.fileItemRow().should("have.length", 2)
+        homePage.fileItemRow()
+          .should("be.visible")
+          .should("have.length", 2)
         homePage.fileItemName().should("contain.text", folderName)
         homePage.fileItemName().should("contain.text", $fileName)
 
-        // ensure folder already in the root cannot be moved to Home
-        homePage.fileItemName().contains(`${$fileName}`).click()
+        // ensure file already in the root cannot be moved to Home
+        homePage.fileItemName().contains(`${$fileName}`)
+          .should("be.visible")
+          .click()
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
         moveItemModal.errorLabel().should("be.visible")
@@ -112,8 +121,10 @@ describe("File management", () => {
       // select a parent folder and initiate move action
       homePage.fileItemName().contains("Parent").click()
       homePage.moveSelectedButton().click()
+      moveItemModal.body().should("be.visible")
 
       // ensure folder already in the root cannot be moved to Home
+      moveItemModal.folderList().should("be.visible")
       moveItemModal.folderList().contains("Home").click()
       moveItemModal.body().should("be.visible")
       moveItemModal.errorLabel().should("be.visible")
@@ -185,7 +196,7 @@ describe("File management", () => {
     })
 
     it("can rename a file with error handling", () => {
-      const newName = "awesome new name"
+      const newName = "awesome new name that is pretty long and it shouldn't matter that much anyway"
 
       cy.web3Login({ clearCSFBucket: true })
 
@@ -259,6 +270,8 @@ describe("File management", () => {
       recoverItemModal.folderList().contains("Home").click()
       recoverItemModal.recoverButton().safeClick()
       binPage.fileItemRow().should("not.exist")
+      recoverSuccessToast.body().should("be.visible")
+      recoverSuccessToast.closeButton().click()
 
       // ensure recovered file is correct
       navigationMenu.homeNavButton().click()
@@ -361,13 +374,6 @@ describe("File management", () => {
       createFolderModal.createButton().should("have.attr", "disabled")
       createFolderModal.errorLabel().should("be.visible")
       createFolderModal.body().should("contain.text", "Please enter a name")
-
-      // ensure a folder can't be created if name exceeds 65 characters
-      createFolderModal.folderNameInput().type("{selectall}{del}")
-      createFolderModal.folderNameInput().type("cgsxffymqivoknhwhqvmnchvjngtwsriovhvkgzgmonmimctcrdytujbtkogngvext")
-      createFolderModal.createButton().should("have.attr", "disabled")
-      createFolderModal.errorLabel().should("be.visible")
-      createFolderModal.body().should("contain.text", "Name too long")
     })
 
     it("can see storage space summary updated accordingly", () => {
@@ -379,6 +385,7 @@ describe("File management", () => {
 
       // upload a file and ensure the storage space label adjusts
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      navigationMenu.spaceUsedProgressBar().should("be.visible")
       navigationMenu.spaceUsedLabel().should("not.contain.text", "0 Bytes")
 
       // delete the file from the bin and ensure the storage space label adjusts
@@ -394,6 +401,7 @@ describe("File management", () => {
       deleteFileModal.confirmButton().safeClick()
       deleteSuccessToast.body().should("be.visible")
       deleteSuccessToast.closeButton().click()
+      navigationMenu.spaceUsedProgressBar().should("be.visible")
       navigationMenu.spaceUsedLabel().should("contain.text", "0 Bytes")
     })
 

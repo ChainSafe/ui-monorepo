@@ -216,7 +216,8 @@ const BucketsPage = () => {
         >
           <FormikProvider value={formik}>
             <Form>
-              <Grid item
+              <Grid
+                item
                 xs={12}
                 sm={12}
               >
@@ -228,7 +229,8 @@ const BucketsPage = () => {
                   <Trans>Create Bucket</Trans>
                 </Typography>
               </Grid>
-              <Grid item
+              <Grid
+                item
                 xs={12}
                 sm={12}
                 className={classes.input}
