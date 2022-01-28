@@ -64,8 +64,7 @@ const useStyles = makeStyles(
         }
       },
       searchIcon: {
-        position: "absolute",
-        right: "10px",
+        marginRight: "10px",
         cursor: "pointer",
         "& > svg": {
           fill: constants.header.hamburger
@@ -123,6 +122,12 @@ const useStyles = makeStyles(
       },
       searchBox: {
         flex: 1
+      },
+      rightSection: {
+        display: "flex",
+        alignItems: "center",
+        position: "absolute",
+        right: 0
       }
     })
   }
@@ -218,15 +223,18 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                         variant="h5"
                         className={classes.title}
                       >
-                      Files
+                        Files
                       </Typography>
-                    &nbsp;
+                      &nbsp;
                       <Typography variant="caption">beta</Typography>
                     </Link>
-                    <SearchIcon
-                      className={classes.searchIcon}
-                      onClick={() => setSearchActive(true)}
-                    />
+                    <section className={classes.rightSection}>
+                      <SearchIcon
+                        className={classes.searchIcon}
+                        onClick={() => setSearchActive(true)}
+                      />
+                      <NotificationsDropdown />
+                    </section>
                   </>
                 )}
               </>

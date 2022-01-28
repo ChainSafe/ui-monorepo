@@ -1,10 +1,11 @@
 import React from "react"
 import { Button, BellIcon, MenuDropdown } from "@chainsafe/common-components"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import NotificationList from "./NotificationList"
 import { useNotifications } from "../../../Contexts/NotificationsContext"
+import { CSFTheme } from "../../../Themes/types"
 
-const useStyles = makeStyles(({ palette, constants }: ITheme) =>
+const useStyles = makeStyles(({ palette, constants, breakpoints }: CSFTheme) =>
   createStyles({
     notificationsButton: {
       position: "relative"
@@ -26,7 +27,16 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       transition: "none"
     },
     button: {
-      height: constants.generalUnit * 4
+      height: constants.generalUnit * 4,
+      [breakpoints.down("md")]: {
+        padding: `0 ${constants.generalUnit}px !important`,
+        backgroundColor: palette.additional["gray"][5]
+      }
+    },
+    optionsOpen : {
+      [breakpoints.down("md")]: {
+        minWidth: "100vw"
+      }
     }
   })
 )
@@ -49,6 +59,7 @@ const NotificationsDropdown = () => {
       hideIndicator={true}
       anchor="bottom-right"
       autoclose
+      classNames={{ options: classes.optionsOpen }}
     >
       <Button
         variant="tertiary"
