@@ -159,11 +159,16 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             classes.cardNumberInputs,
             focusElement === "number" && classes.cardInputsFocus
           )}
-          options={{ showIcon: true, style: {
-            base: {
-              color: theme.constants.addCard.color
-            }
-          } }}
+          options={{
+            showIcon: true,
+            style: {
+              base: {
+                color: theme.constants.addCard.color,
+                "::placeholder": {
+                  color: theme.constants.addCard.placeholderColor
+                }
+              }
+            } }}
           onFocus={() => setFocusElement("number")}
           onBlur={() => setFocusElement(undefined)}
           onChange={() => setCardAddError(undefined)}
@@ -178,11 +183,15 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             onFocus={() => setFocusElement("expiry")}
             onBlur={() => setFocusElement(undefined)}
             onChange={() => setCardAddError(undefined)}
-            options={{ style: {
-              base: {
-                color: theme.constants.addCard.color
-              }
-            } }}
+            options={{
+              style: {
+                base: {
+                  color: theme.constants.addCard.color,
+                  "::placeholder": {
+                    color: theme.constants.addCard.placeholderColor
+                  }
+                }
+              } }}
           />
           <CardCvcElement
             id="iframe-card-cvc"
@@ -193,11 +202,15 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             onFocus={() => setFocusElement("cvc")}
             onBlur={() => setFocusElement(undefined)}
             onChange={() => setCardAddError(undefined)}
-            options={{ style: {
-              base: {
-                color: theme.constants.addCard.color
-              }
-            } }}
+            options={{
+              style: {
+                base: {
+                  color: theme.constants.addCard.color,
+                  "::placeholder": {
+                    color: theme.constants.addCard.placeholderColor
+                  }
+                }
+              } }}
           />
         </div>
         {cardAddError && <Typography
