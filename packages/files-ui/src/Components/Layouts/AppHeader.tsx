@@ -12,7 +12,7 @@ import TeamModal from "../Elements/TeamModal"
 import NotificationsDropdown from "../Elements/Notifications/NotificationsDropdown"
 
 const useStyles = makeStyles(
-  ({ animation, breakpoints, constants, zIndex }: CSFTheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         position: "fixed",
@@ -48,6 +48,7 @@ const useStyles = makeStyles(
           justifyContent: "space-between",
           alignItems: "center",
           position: "fixed",
+          backgroundColor: palette.additional["gray"][1],
           "&.active": {
             opacity: 1,
             visibility: "visible",

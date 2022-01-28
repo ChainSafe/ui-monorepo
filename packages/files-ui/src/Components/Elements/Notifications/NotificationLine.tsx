@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       width: 180
     },
     notificationTime: {
-      color: palette.primary.main
+      color: palette.additional["blue"][6]
     }
   })
 )
