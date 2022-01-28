@@ -1,7 +1,6 @@
 import { createStyles, debounce, makeStyles, useOnClickOutside, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { ChangeEvent, useCallback, useMemo, useRef } from "react"
 import {
-  // ArrowLeftIcon, Button,
   SearchBar, Typography, useHistory, useToasts } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
