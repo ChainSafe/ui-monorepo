@@ -212,12 +212,12 @@ const SearchModule: React.FC<ISearchModule> = ({
     redirect(ROUTE_LINKS.Search(encodeURIComponent(searchQuery)))
   }
 
-  const searchResultsFiles = searchResults?.results.filter(
+  const searchResultsFiles = searchResults?.results?.filter(
     (searchResult) =>
       searchResult.content.content_type !== CONTENT_TYPES.Directory
   )
 
-  const searchResultsFolders = searchResults?.results.filter(
+  const searchResultsFolders = searchResults?.results?.filter(
     (searchResult) =>
       searchResult.content.content_type === CONTENT_TYPES.Directory
   )
@@ -268,7 +268,7 @@ const SearchModule: React.FC<ISearchModule> = ({
       {searchQuery && searchResults?.query && (
         <div className={clsx(classes.resultsContainer, searchActive && "active")}>
           <div className={classes.resultsBox}>
-            {searchResults?.query && !searchResults.results.length && (
+            {searchResults?.query && !searchResults.results?.length && (
               <Typography className={classes.noResultsFound}>
                 <Trans>No search results for </Trans>{` ${searchResults.query}`}
               </Typography>
