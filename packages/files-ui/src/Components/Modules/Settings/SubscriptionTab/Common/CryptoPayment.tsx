@@ -239,7 +239,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
   const debouncedSwitchCopiedAmount = debounce(() => setCopiedAmount(false), 3000)
   const pendingCryptoInvoice = useMemo(() =>
     invoices?.find((i) => i.payment_method === "crypto" && i.status === "open")
-  , [invoices])
+    , [invoices])
   const currencies = useMemo(() => cryptoPayment?.payment_methods.map(c => c.currency), [cryptoPayment])
   const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
 
@@ -284,7 +284,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
 
   const selectedPaymentMethod = useMemo(() =>
     cryptoPayment && selectedCurrency && cryptoPayment.payment_methods.find(p => p.currency === selectedCurrency)
-  , [cryptoPayment, selectedCurrency])
+    , [cryptoPayment, selectedCurrency])
 
   const onCopyDestinationAddress = useCallback(() => {
     if (!selectedPaymentMethod) return
@@ -367,7 +367,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
           />
         </div>}
       </div>
-      {(cryptoChargeLoading || (pendingCryptoInvoice && !cryptoPayment)) && <div className={classes.loadingContainer}>
+      {(cryptoChargeLoading || !cryptoPayment) && <div className={classes.loadingContainer}>
         <Loading type='initial' />
       </div>}
       {error &&
