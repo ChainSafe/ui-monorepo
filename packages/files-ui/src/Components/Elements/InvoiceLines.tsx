@@ -117,14 +117,16 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
               {(status === "paid") && (
                 <Button
                   onClick={() => downloadInvoice(uuid)}
-                  variant="link">
+                  variant="link"
+                  testId="download-invoice">
                   <Trans>View PDF</Trans>
                 </Button>
               )}
               {(status === "open") && (
                 <Button
                   onClick={payInvoice}
-                  variant="link">
+                  variant="link"
+                  testId="pay-invoice">
                   <Trans>Pay now</Trans>
                 </Button>
               )}
