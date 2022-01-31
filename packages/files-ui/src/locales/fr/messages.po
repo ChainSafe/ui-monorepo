@@ -597,7 +597,7 @@ msgid "No user found for this query."
 msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
 
 msgid "Notifications"
-msgstr ""
+msgstr "Notifications"
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
