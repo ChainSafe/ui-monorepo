@@ -1,35 +1,66 @@
 import React from "react"
-import { Button, BellIcon, MenuDropdown } from "@chainsafe/common-components"
+import { BellIcon, MenuDropdown } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import NotificationList from "./NotificationList"
 import { useNotifications } from "../../../Contexts/NotificationsContext"
 import { CSFTheme } from "../../../Themes/types"
 
-const useStyles = makeStyles(({ palette, constants, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ animation, palette, constants, breakpoints, overrides }: CSFTheme) =>
   createStyles({
     notificationsButton: {
       position: "relative",
-      transition: "none"
+      transition: "none",
+      height: constants.generalUnit * 4,
+      padding: `0 ${constants.generalUnit}px !important`,
+      backgroundColor: palette.additional["gray"][3],
+      color: palette.common.black.main,
+      borderRadius: `${constants.generalUnit / 4}px`,
+      display: "flex",
+      justifyContent: "center",
+      textAlign: "center",
+      alignItems: "center",
+      textDecoration: "none",
+      cursor: "pointer",
+      transitionDuration: `${animation.transform}ms`,
+      border: "none",
+      outline: "none",
+      ...overrides?.Button?.variants?.tertiary?.root,
+      "& svg": {
+        transitionDuration: `${animation.transform}ms`,
+        margin: `${0}px ${constants.generalUnit / 2}px 0`,
+        fill: palette.common.white.main
+      },
+      "&:hover": {
+        backgroundColor: palette.primary.main,
+        color: palette.common.white.main,
+        ...overrides?.Button?.variants?.tertiary?.hover
+      },
+      "&:focus": {
+        backgroundColor: palette.primary.main,
+        color: palette.common.white.main,
+        ...overrides?.Button?.variants?.tertiary?.focus
+      },
+      "&:active": {
+        backgroundColor: palette.primary.main,
+        color: palette.common.white.main,
+        ...overrides?.Button?.variants?.tertiary?.active
+      },
+      [breakpoints.down("md")]: {
+        backgroundColor: palette.additional["gray"][3]
+      }
     },
     badge: {
       position: "absolute",
       background: palette.additional["volcano"][6],
       color: palette.additional["gray"][1],
-      top: "-2px",
-      left: "13px",
+      top: "0px",
+      right: "5px",
       borderRadius: constants.generalUnit,
       padding: `${constants.generalUnit * 0.25}px ${constants.generalUnit * 0.5}px`,
       fontSize: "10px",
       lineHeight: "11px",
       height: "0.92rem",
       minWidth: "1rem"
-    },
-    button: {
-      height: constants.generalUnit * 4,
-      padding: `0 ${constants.generalUnit}px !important`,
-      [breakpoints.down("md")]: {
-        backgroundColor: palette.additional["gray"][3]
-      }
     },
     optionsOpen: {
       [breakpoints.down("md")]: {
@@ -60,18 +91,13 @@ const NotificationsDropdown = () => {
       autoclose
       classNames={{ options: classes.optionsOpen }}
     >
-      <Button
-        variant="tertiary"
-        className={classes.button}
-      >
-        <div className={classes.notificationsButton}>
-          <BellIcon />
-          {!!notifications.length && <div className={classes.badge}>
-            {notifications.length}
-          </div>
-          }
+      <div className={classes.notificationsButton}>
+        <BellIcon />
+        {!!notifications.length && <div className={classes.badge}>
+          {notifications.length}
         </div>
-      </Button>
+        }
+      </div>
     </MenuDropdown>
   )
 }
