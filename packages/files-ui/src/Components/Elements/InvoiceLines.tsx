@@ -38,18 +38,21 @@ const useStyles = makeStyles(
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          "& > span": {
-            display: "block",
+          "& > *": {
+            width: "100%",
             lineHeight: "16px",
             fontWeight: typography.fontWeight.regular,
             marginLeft: constants.generalUnit,
             marginRight: constants.generalUnit
+          },
+          "& > button": {
+            maxWidth: 100
           }
         }
       },
       unpaidInvoice: {
-        border: "1px solid #D4380D",
-        color: "#D4380D"
+        border: `1px solid ${palette.additional["volcano"][7]}`,
+        color: palette.additional["volcano"][7]
       },
       price: {
         fontWeight: "bold !important" as "bold"
