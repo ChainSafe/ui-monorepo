@@ -367,7 +367,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
           />
         </div>}
       </div>
-      {(cryptoChargeLoading || (pendingCryptoInvoice && !cryptoPayment)) && <div className={classes.loadingContainer}>
+      {(cryptoChargeLoading || !cryptoPayment) && <div className={classes.loadingContainer}>
         <Loading type='initial' />
       </div>}
       {error &&
