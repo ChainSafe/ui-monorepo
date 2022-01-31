@@ -97,6 +97,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
         variant="body1"
         component="p"
         className={classes.headingBadge}
+        data-cy="header-plan-change-success"
       >
         <Trans>Confirmation</Trans>
       </Typography>
@@ -104,6 +105,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
         <Typography
           variant="h5"
           component="h4"
+          data-cy="label-plan-changed-successfully"
         >
           <Trans>Plan changed successfully</Trans>
         </Typography>
@@ -115,6 +117,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
           variant="body1"
           component="p"
           className={classes.featuresTitle}
+          data-cy="label-features-summary-title"
         >
           <Trans>You now have:</Trans>
         </Typography>
@@ -124,6 +127,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
             <Typography
               component="p"
               variant="body1"
+              data-cy="label-new-plan-capacity"
             >
               {planPrice?.metadata?.storage_size_bytes
                 ? <Trans>{newPlanCapacity} of storage</Trans>
@@ -136,6 +140,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
             <Typography
               component="p"
               variant="body1"
+              data-cy="label-new-plan-name"
             >
               {plan.description}
             </Typography>
@@ -147,11 +152,13 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
           component="p"
           variant="body1"
           className={classes.invoiceText}
+          data-cy="label-billing-history-notice"
         >
           <Trans>Access your billing history in settings or view your </Trans>&nbsp;
           <Link
             to={ROUTE_LINKS.BillingHistory}
             className={classes.textLink}
+            data-cy="link-view-invoices"
           >
             <Trans>invoices here</Trans>
           </Link>
@@ -162,6 +169,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
           <Button
             onClick={onClose}
             variant="secondary"
+            testId="close-success-modal"
           >
             <Trans>Close</Trans>
           </Button>

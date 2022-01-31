@@ -112,7 +112,6 @@ Cypress.Commands.add(
       })
     }
 
-
     cy.visit(url)
     homePage.appHeaderLabel().should("be.visible")
 
@@ -181,6 +180,26 @@ Cypress.Commands.add("getWithinIframe", (targetElement: any, selector: string) =
     .its("document")
     .getInDocument(targetElement))
 
+Cypress.Commands.add("awaitStripeElementReady", () => {
+  // this waits for all of the posts from stripe to ensure the element is ready event is received
+  // by waiting for these to complete we can ensure the elements will be ready for interaction
+  cy.intercept("POST", "**/r.stripe.com/*").as("stripeElementActivation")
+  cy.wait("@stripeElementActivation")
+})
+
+Cypress.Commands.add("awaitStripeConfirmation", () => {
+  cy.intercept("POST", "**/setup_intents/*/confirm").as("stripeConfirmation")
+  cy.wait("@stripeConfirmation")
+})
+
+Cypress.Commands.add("awaitDefaultCardRequest", () => {
+  cy.intercept("GET", "**/billing/cards/default").as("defaultCard")
+
+  cy.wait("@defaultCard").its("response.body").should("contain", {
+    type: "credit"
+  })
+})
+
 // Must be declared global to be detected by typescript (allows import/export)
 // eslint-disable @typescript/interface-name
 declare global {
@@ -220,9 +239,23 @@ declare global {
        * @example cy.clearBucket("csf")
        */
       clearBucket: (bucketType: ClearBucketType) => void
+
+      /**
+       * Use when interacting with elements within an iframe eg Stripe
+       */
       iframeLoaded: ($iframe?: JQuery<HTMLElement>) => any
       getInDocument: (document: any, selector: keyof HTMLElementTagNameMap) => JQuery<HTMLElement>
       getWithinIframe: (targetElement: string, selector: string) => Chainable
+
+      /**
+       * Use to wait on specific network responses for reliability:
+       * awaitStripeElementReady - waits for all the api responses that initialize stripe elements
+       * awaitStripeConfirmation - waits for the api response that confirms stripe setup
+       * awaitDefaultCardRequest - waits for the api response containing the default credit card
+       */
+      awaitStripeElementReady: () => void
+      awaitStripeConfirmation: () => void
+      awaitDefaultCardRequest: () => void
     }
   }
 }
