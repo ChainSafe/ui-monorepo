@@ -90,6 +90,7 @@ export interface IRadioInputProps extends React.HTMLProps<HTMLInputElement> {
   disabled?: boolean
   error?: string
   onChange?(e: React.ChangeEvent<HTMLInputElement>): void
+  testId?: string
 }
 
 const RadioInput: React.FC<IRadioInputProps> = ({
@@ -102,6 +103,7 @@ const RadioInput: React.FC<IRadioInputProps> = ({
   disabled,
   onChange,
   error,
+  testId,
   ...props
 }) => {
   const classes = useStyles()
@@ -113,6 +115,7 @@ const RadioInput: React.FC<IRadioInputProps> = ({
         disabled && classes.labelDisabled,
         className
       )}
+      data-testid={`radio-input-${testId}`}
     >
       <input
         type="radio"

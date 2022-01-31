@@ -173,6 +173,7 @@ export interface CsfColors extends IConstants {
   addCard: {
     color: string
     shadow: string
+    placeholderColor: string
   }
   cookieBanner: {
     backgroundColor: string

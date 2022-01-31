@@ -26,19 +26,5 @@ export const settingsPage = {
   defaultCardLabel: () => cy.get("[data-cy=label-default-card]"),
   noCardLabel: () => cy.get("[data-cy=label-no-card]"),
   removeCardLink: () => cy.get("[data-cy=link-remove-card]"),
-  changePlanButton: () => cy.get("[data-cy=button-change-plan]", { timeout: 10000 }),
-
-  // helpers
-  awaitStripeConfirmation() {
-    cy.intercept("POST", "**/setup_intents/*/confirm").as("stripeConfirmation")
-    cy.wait("@stripeConfirmation")
-  },
-
-  awaitDefaultCardRequest() {
-    cy.intercept("GET", "**/billing/cards/default").as("defaultCard")
-
-    cy.wait("@defaultCard").its("response.body").should("contain", {
-      type: "credit"
-    })
-  }
+  changePlanButton: () => cy.get("[data-cy=button-change-plan]", { timeout: 10000 })
 }

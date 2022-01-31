@@ -30,6 +30,7 @@ const BillingHistory = () => {
       <Typography
         variant="h4"
         component="h4"
+        data-cy="header-billing-history"
       >
         <Trans>Billing history</Trans>
       </Typography>
