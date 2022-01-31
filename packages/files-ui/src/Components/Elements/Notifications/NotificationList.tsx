@@ -9,14 +9,16 @@ import NotificationLine from "./NotificationLine"
 
 const useStyles = makeStyles(({ palette, constants }: ITheme) =>
   createStyles({
-    noNotificationBody: {
+    notificationsBody: {
+      backgroundColor: palette.additional["gray"][2]
+    },
+    emptyBody: {
       cursor: "pointer",
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
       padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 1.5}px`,
       color: palette.additional["gray"][7],
-      backgroundColor: palette.additional["gray"][2],
       "& svg>path": {
         stroke: palette.additional["gray"][7]
       }
@@ -59,9 +61,9 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
       maxHeight={300}
       className={classes.scrollContent}
     >
-      <div>
+      <div className={classes.notificationsBody}>
         {notifications.length === 0 && (
-          <div className={classes.noNotificationBody}>
+          <div className={classes.emptyBody}>
             <MoonStarIcon className={classes.icon} />
             <Typography variant="h4" >
               <Trans>There are no notifications!</Trans>
