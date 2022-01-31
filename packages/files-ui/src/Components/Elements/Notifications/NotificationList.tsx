@@ -14,8 +14,9 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
-      padding: `${constants.generalUnit * 3 }px ${constants.generalUnit * 1.5}px`,
+      padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 1.5}px`,
       color: palette.additional["gray"][7],
+      backgroundColor: palette.additional["gray"][2],
       "& svg>path": {
         stroke: palette.additional["gray"][7]
       }
@@ -75,7 +76,7 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
             >
               <Trans>Notifications</Trans>
             </Typography>
-            <Divider/>
+            <Divider />
           </section>
           {!!thisWeeksNotifications.length && <section className={classes.notifs}>
             <Typography
@@ -106,6 +107,7 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
         </>}
       </div>
     </ScrollbarWrapper>
-  )}
+  )
+}
 
 export default NotificationList

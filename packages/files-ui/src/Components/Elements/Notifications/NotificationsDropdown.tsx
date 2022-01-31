@@ -8,7 +8,8 @@ import { CSFTheme } from "../../../Themes/types"
 const useStyles = makeStyles(({ palette, constants, breakpoints }: CSFTheme) =>
   createStyles({
     notificationsButton: {
-      position: "relative"
+      position: "relative",
+      transition: "none"
     },
     badge: {
       position: "absolute",
@@ -23,17 +24,14 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: CSFTheme) =>
       height: "0.92rem",
       minWidth: "1rem"
     },
-    icon: {
-      transition: "none"
-    },
     button: {
       height: constants.generalUnit * 4,
+      padding: `0 ${constants.generalUnit}px !important`,
       [breakpoints.down("md")]: {
-        padding: `0 ${constants.generalUnit}px !important`,
         backgroundColor: palette.additional["gray"][3]
       }
     },
-    optionsOpen : {
+    optionsOpen: {
       [breakpoints.down("md")]: {
         minWidth: "100vw",
         backgroundColor: palette.additional["gray"][3]
@@ -56,7 +54,7 @@ const NotificationsDropdown = () => {
   return (
     <MenuDropdown
       menuItems={[]}
-      dropdown={<NotificationList notifications={notifications}/>}
+      dropdown={<NotificationList notifications={notifications} />}
       hideIndicator={true}
       anchor="bottom-right"
       autoclose
@@ -67,7 +65,7 @@ const NotificationsDropdown = () => {
         className={classes.button}
       >
         <div className={classes.notificationsButton}>
-          <BellIcon className={classes.icon} />
+          <BellIcon />
           {!!notifications.length && <div className={classes.badge}>
             {notifications.length}
           </div>

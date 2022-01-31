@@ -9,7 +9,6 @@ import { useOnScroll } from "../Scroll/useOnScroll.hook"
 const useStyles = makeStyles(
   ({ constants, animation, typography, palette, overrides }: ITheme) =>
     createStyles({
-      // JSS in CSS goes here
       root: {
         display: "inline-block",
         position: "relative",
@@ -160,9 +159,7 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        padding: `${constants.generalUnit * 1.5}px ${
-          constants.generalUnit * 2
-        }px`,
+        padding: `${constants.generalUnit * 1.5}px ${constants.generalUnit * 2}px`,
         color: palette.additional["gray"][7],
         transitionDuration: `${animation.transform}ms`,
         backgroundColor: "initial",
