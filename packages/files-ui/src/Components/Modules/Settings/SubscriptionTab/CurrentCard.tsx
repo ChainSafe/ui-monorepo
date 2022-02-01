@@ -1,13 +1,14 @@
 import React, { useState } from "react"
 import { Typography, CreditCardIcon, Button, Dialog } from "@chainsafe/common-components"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
 import { useBilling } from "../../../../Contexts/BillingContext"
 import AddCardModal from "./AddCard/AddCardModal"
 import clsx from "clsx"
 import dayjs from "dayjs"
+import { CSFTheme } from "../../../../Themes/types"
 
-const useStyles = makeStyles(({ constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
     container: {
       padding: `${constants.generalUnit}px 0`,
@@ -39,7 +40,7 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
       top: "50%"
     },
     link: {
-      color: palette.primary.main,
+      color: constants.settingsPage.linkButton.color,
       paddingRight: "0px !important"
     }
   })
@@ -63,8 +64,6 @@ const CurrentCard: React.FC = () => {
         setIsDeleteCardLoading(false)
       })
   }
-
-  console.log(currentSubscription)
 
   return (
     <>

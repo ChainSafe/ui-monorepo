@@ -6,14 +6,15 @@ import {
   ProgressBar,
   Typography
 } from "@chainsafe/common-components"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { useFiles } from "../../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../Contexts/BillingContext"
 import ChangePlanModal from "./ChangePlan/ChangePlanModal"
+import { CSFTheme } from "../../../../Themes/types"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   createStyles({
     root: {
       padding: `${constants.generalUnit}px 0`,
@@ -56,7 +57,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       }
     },
     link: {
-      color: palette.primary.main,
+      color: constants.settingsPage.linkButton.color,
       paddingRight: "0px !important"
     }
   })
