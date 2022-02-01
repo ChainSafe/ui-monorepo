@@ -656,8 +656,8 @@ msgstr "Mot de passe :"
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
-msgid "Pay invoice"
-msgstr "Payer la facture"
+msgid "Pay now"
+msgstr ""
 
 msgid "Pay with Crypto"
 msgstr "Payer en cryptomonnaie"
@@ -1084,6 +1084,9 @@ msgstr "Code de vérification envoyé !"
 
 msgid "Verifying the link..."
 msgstr "Vérification du lien…"
+
+msgid "View PDF"
+msgstr ""
 
 msgid "View folder"
 msgstr "Voir le dossier"
