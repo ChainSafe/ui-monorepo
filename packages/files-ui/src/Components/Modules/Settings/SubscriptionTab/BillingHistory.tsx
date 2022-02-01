@@ -22,8 +22,8 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
 
 const BillingHistory = () => {
   const classes = useStyles()
-  const [isPayInvoiceModalVisible, setPayInvoiceModalVisible] = useState(false)
-  const { isPendingInvoice } = useBilling()
+  const [invoiceToPay, setInvoiceToPay] = useState<string| undefined>()
+  const { isPendingInvoice, invoices } = useBilling()
 
   return (
     <div className={classes.container}>
@@ -34,7 +34,8 @@ const BillingHistory = () => {
       >
         <Trans>Billing history</Trans>
       </Typography>
-      {isPendingInvoice && <Typography>
+      {(isPendingInvoice || invoices?.find(i => i.status === "open")) &&
+      <Typography>
         <Trans>Please complete payment of the following outstanding invoices in order to avoid account suspension</Trans>
       </Typography>}
       <Typography
@@ -48,13 +49,12 @@ const BillingHistory = () => {
       </Typography>
       <InvoiceLines
         lineNumber={3}
-        payInvoice={() => setPayInvoiceModalVisible(true)}
+        payInvoice={(invoiceId) => setInvoiceToPay(invoiceId)}
       />
-      {
-        isPayInvoiceModalVisible && <PayInvoiceModal
-          onClose={() => setPayInvoiceModalVisible(false)}
-        />
-      }
+      {invoiceToPay && <PayInvoiceModal
+        invoiceId={invoiceToPay}
+        onClose={() => setInvoiceToPay(undefined)}
+      />}
     </div>
   )
 }

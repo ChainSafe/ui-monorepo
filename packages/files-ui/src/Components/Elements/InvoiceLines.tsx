@@ -62,7 +62,7 @@ const useStyles = makeStyles(
 
 interface  IInvoiceProps {
   lineNumber?: number
-  payInvoice?: () => void
+  payInvoice: (invoiceId: string) => void
 }
 
 const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
@@ -127,7 +127,7 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
               )}
               {(status === "open") && (
                 <Button
-                  onClick={payInvoice}
+                  onClick={() => uuid && payInvoice(uuid)}
                   variant="link"
                   testId="pay-invoice">
                   <Trans>Pay now</Trans>
