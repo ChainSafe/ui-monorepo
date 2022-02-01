@@ -361,7 +361,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
         {cryptoPayment && <div className={classes.pushRightBox}>
           <CircularProgressBar
             progress={(timeRemaining?.as("s") || 0) / 3600 * 100}
-            width={100}
+            width={23}
             label={timeRemaining?.format("mm:ss") || ""}
             variant="secondary"
           />
