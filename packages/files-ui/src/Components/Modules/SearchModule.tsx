@@ -169,13 +169,13 @@ const SearchModule: React.FC<ISearchModule> = ({
       if (!searchString || !bucket) return []
 
       const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
-      return results
+      return results || []
     } catch (err) {
       addToast({
         title: t`There was an error getting search results`,
         type: "error"
       })
-      return Promise.reject(err)
+      return []
     }
   }, [addToast, bucket, filesApiClient])
 
