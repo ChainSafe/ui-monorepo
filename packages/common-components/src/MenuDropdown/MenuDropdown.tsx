@@ -255,7 +255,6 @@ const MenuDropdown = ({
     onScroll: managePosition
   })
 
-  console.log("menuItems", menuItems)
 
   return (
     <div
