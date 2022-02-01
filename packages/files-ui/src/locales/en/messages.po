@@ -262,9 +262,6 @@ msgstr "Create your public username in <0>Settings</0>!"
 msgid "Credit Card is expiring soon"
 msgstr "Credit Card is expiring soon"
 
-msgid "Credit card saved"
-msgstr "Credit card saved"
-
 msgid "Dark Theme"
 msgstr "Dark Theme"
 
@@ -562,6 +559,9 @@ msgstr "New shared folder name"
 msgid "Next"
 msgstr "Next"
 
+msgid "Next payment"
+msgstr "Next payment"
+
 msgid "Nice to see you again!"
 msgstr "Nice to see you again!"
 
@@ -663,6 +663,9 @@ msgstr "Pay with {0}"
 
 msgid "Payment and Subscriptions"
 msgstr "Payment and Subscriptions"
+
+msgid "Payment information"
+msgstr "Payment information"
 
 msgid "Payment method"
 msgstr "Payment method"
@@ -1147,14 +1150,14 @@ msgstr "You've got a payment due. Until you've settled up, we've placed your acc
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 
-msgid "Your plan"
-msgstr "Your plan"
-
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
 msgid "can-edit"
 msgstr "can-edit"
+
+msgid "expires"
+msgstr "expires"
 
 msgid "invoices here"
 msgstr "invoices here"
