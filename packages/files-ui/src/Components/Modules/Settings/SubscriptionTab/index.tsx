@@ -12,9 +12,8 @@ import { useBilling } from "../../../../Contexts/BillingContext"
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
     root: {
-      [breakpoints.down("sm")]: {
-        paddingLeft: constants.generalUnit,
-        paddingRight: constants.generalUnit
+      [breakpoints.down("md")]: {
+        padding: constants.generalUnit * 1.5
       }
     }
   })

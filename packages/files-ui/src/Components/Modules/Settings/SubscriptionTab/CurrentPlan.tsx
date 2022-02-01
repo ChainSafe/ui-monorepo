@@ -13,10 +13,10 @@ import clsx from "clsx"
 import { useBilling } from "../../../../Contexts/BillingContext"
 import ChangePlanModal from "./ChangePlan/ChangePlanModal"
 
-const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
   createStyles({
     root: {
-      padding: constants.generalUnit,
+      padding: `${constants.generalUnit}px 0`,
       "& h2, & h5": {
         marginBottom: constants.generalUnit,
         fontWeight: 400
@@ -24,17 +24,26 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       "& h5": {
       }
     },
+    heading: {
+      flex: 1
+    },
+    headline: {
+      display: "flex",
+      justifyContent: "space-between"
+    },
+    alignRight: {
+      display: "flex",
+      justifyContent: "flex-end"
+    },
     spaceUsedBox: {
-      maxWidth: 240,
       [breakpoints.down("md")]: {
         marginBottom: constants.generalUnit,
         width: "inherit"
       }
     },
     usageBar: {
-      maxWidth: "70%",
+      marginTop: constants.generalUnit * 1.5,
       marginBottom: constants.generalUnit,
-      marginTop: constants.generalUnit,
       overflow: "hidden"
     },
     buttons: {
@@ -47,9 +56,8 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       }
     },
     link: {
-      display: "block",
-      width: "100%",
-      textDecoration: "none"
+      color: palette.primary.main,
+      paddingRight: "0px !important"
     }
   })
 )
@@ -65,54 +73,50 @@ const CurrentPlan = ({ className }: ICurrentProduct) => {
   const [isChangeProductModalVisible, setChangeProductModalVisible] = useState(false)
 
   return (<section className={clsx(classes.root, className)}>
-    <Typography
-      variant="h4"
-      component="h2"
-    >
-      <Trans>Your plan</Trans>
-    </Typography>
-    {
-      currentSubscription
-        ?  <Typography
-          variant="h5"
-          component="h5"
+    {currentSubscription
+      ? <div className={classes.headline}>
+        <Typography
+          variant="h4"
+          component="h4"
+          className={classes.heading}
         >
           {currentSubscription?.product.name}{isPendingInvoice && ` ${t`(Awaiting payment)`}`}
         </Typography>
-        : <Loading
-          size={36}
-          type="initial"
-        />
+        <Button
+          variant="link"
+          onClick={() => setChangeProductModalVisible(true)}
+          data-cy="button-change-plan"
+          className={classes.link}
+        >
+          {isPendingInvoice
+            ? <Trans>See payment info</Trans>
+            : <Trans>Change Plan</Trans>
+          }
+        </Button>
+      </div>
+      : <Loading
+        size={36}
+        type="initial"
+      />
     }
     {storageSummary &&
       <>
         <div className={classes.spaceUsedBox}>
-          <Typography
-            variant="body2"
-            component="p"
-          >
-            {t`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
-              storageSummary.total_storage, 2
-            )} used`} ({((storageSummary.used_storage / storageSummary.total_storage) * 100).toFixed(1)}%)
-          </Typography>
           <ProgressBar
             className={classes.usageBar}
             progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
-            size="small"
+            size="medium"
           />
-        </div>
-        <div className={classes.buttons}>
-          <Button
-            fullsize
-            variant="primary"
-            onClick={() => setChangeProductModalVisible(true)}
-            data-cy="button-change-plan"
-          >
-            {isPendingInvoice
-              ? <Trans>See payment info</Trans>
-              : <Trans>Change Plan</Trans>
-            }
-          </Button>
+          <div className={classes.alignRight}>
+            <Typography
+              variant="body1"
+              component="p"
+            >
+              {t`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+                storageSummary.total_storage, 2
+              )} used`} ({((storageSummary.used_storage / storageSummary.total_storage) * 100).toFixed(1)}%)
+            </Typography>
+          </div>
         </div>
         {
           isChangeProductModalVisible && (<ChangePlanModal

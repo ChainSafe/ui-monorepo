@@ -10,7 +10,7 @@ import { useBilling } from "../../../../Contexts/BillingContext"
 const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
     container: {
-      padding: constants.generalUnit,
+      padding: `${constants.generalUnit}px 0`,
       margin: `${constants.generalUnit * 1.5}px 0`
     },
     link: {
