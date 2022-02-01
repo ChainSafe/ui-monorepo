@@ -646,7 +646,7 @@ msgstr "Passwort:"
 msgid "Passwords must match"
 msgstr "Passwörter müssen übereinstimmen"
 
-msgid "Pay invoice"
+msgid "Pay now"
 msgstr ""
 
 msgid "Pay with Crypto"
@@ -1079,6 +1079,9 @@ msgid "Verification code sent!"
 msgstr "Verifizierungscode gesendet!"
 
 msgid "Verifying the link..."
+msgstr ""
+
+msgid "View PDF"
 msgstr ""
 
 msgid "View folder"
