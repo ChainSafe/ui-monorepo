@@ -255,6 +255,8 @@ const MenuDropdown = ({
     onScroll: managePosition
   })
 
+  console.log("menuItems", menuItems)
+
   return (
     <div
       ref={ref}
@@ -303,7 +305,9 @@ const MenuDropdown = ({
             {item.contents}
           </div>
         ))}
-        {dropdown}
+        <div onClick={() => { autoclose && setOpen(false) }}>
+          {dropdown}
+        </div>
       </Paper>
     </div>
   )

@@ -28,7 +28,7 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       marginBottom: 2 * constants.generalUnit
     },
     scrollContent: {
-      minWidth: 300
+      minWidth: 350
     },
     header: {
       padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 3}px`,
@@ -42,6 +42,9 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
     notifs: {
       padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 3}px`,
       paddingTop: 0
+    },
+    timeHeader: {
+      paddingLeft: constants.generalUnit * 1.5
     }
   })
 )
@@ -84,6 +87,7 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
             <Typography
               variant="h5"
               component="p"
+              className={classes.timeHeader}
             >
               <Trans>This week</Trans>
             </Typography>
@@ -97,6 +101,7 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
             <Typography
               variant="h5"
               component="p"
+              className={classes.timeHeader}
             >
               <Trans>Older notifications</Trans>
             </Typography>

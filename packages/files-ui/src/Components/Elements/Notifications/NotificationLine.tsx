@@ -23,7 +23,9 @@ const useStyles = makeStyles(({ palette, constants }: ITheme) =>
       width: 180
     },
     notificationTime: {
-      color: palette.additional["blue"][6]
+      color: palette.additional["blue"][6],
+      width: "100%",
+      textAlign: "right"
     }
   })
 )
