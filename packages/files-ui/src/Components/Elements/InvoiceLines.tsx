@@ -5,6 +5,7 @@ import { Typography, Loading, Button } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../Contexts/BillingContext"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, palette, typography }: CSFTheme) =>
@@ -26,27 +27,32 @@ const useStyles = makeStyles(
           padding: `0 ${constants.generalUnit}px`
         }
       },
-      setOption: {
+      invoiceLine: {
         width: "100%",
         backgroundColor: palette.additional["gray"][4],
         color: palette.additional["gray"][9],
         padding: constants.generalUnit * 1.5,
-        borderRadius: 16,
+        borderRadius: 10,
         marginTop: constants.generalUnit * 1.5,
         "& > div": {
           display: "flex",
           alignItems: "center",
-          "& > span": {
-            display: "block",
+          justifyContent: "space-between",
+          "& > *": {
+            width: "100%",
             lineHeight: "16px",
             fontWeight: typography.fontWeight.regular,
-            "&.receiptDate": {
-              marginLeft: constants.generalUnit,
-              marginRight: constants.generalUnit,
-              flex: "1 1 0"
-            }
+            marginLeft: constants.generalUnit,
+            marginRight: constants.generalUnit
+          },
+          "& > button": {
+            maxWidth: 100
           }
         }
+      },
+      unpaidInvoice: {
+        border: `1px solid ${palette.additional["volcano"][7]}`,
+        color: palette.additional["volcano"][7]
       },
       price: {
         fontWeight: "bold !important" as "bold"
@@ -93,38 +99,38 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
         </div>
       )}
       {!!invoicesToShow?.length && (
-        invoicesToShow.map(({ amount, currency, uuid, period_start, status }) =>
+        invoicesToShow.map(({ amount, currency, uuid, period_start, status, product }) =>
           <section
-            className={classes.setOption}
+            className={clsx(classes.invoiceLine, status === "open" && classes.unpaidInvoice)}
             key={uuid}
           >
             <div>
+              <Typography variant="body1">
+                {product.name} {product.price.recurring.interval_count} {product.price.recurring.interval}
+              </Typography>
+              <Typography variant="body1">
+                {dayjs.unix(period_start).format("MMM D, YYYY")}
+              </Typography>
               <Typography
                 variant="body1"
                 className={classes.price}
               >
-                {amount} {currency}
-              </Typography>
-              <Typography
-                variant="body2"
-                className="receiptDate"
-              >
-                {dayjs.unix(period_start).format("MMM D, YYYY")}
+                {amount.toFixed(2)} {currency.toUpperCase()}
               </Typography>
               {(status === "paid") && (
                 <Button
                   onClick={() => downloadInvoice(uuid)}
-                  testId="download-invoice"
-                >
-                  <Trans>Download</Trans>
+                  variant="link"
+                  testId="download-invoice">
+                  <Trans>View PDF</Trans>
                 </Button>
               )}
               {(status === "open") && (
                 <Button
                   onClick={payInvoice}
-                  testId="pay-invoice"
-                >
-                  <Trans>Pay invoice</Trans>
+                  variant="link"
+                  testId="pay-invoice">
+                  <Trans>Pay now</Trans>
                 </Button>
               )}
             </div>
