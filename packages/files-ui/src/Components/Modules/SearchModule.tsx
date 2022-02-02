@@ -146,16 +146,9 @@ interface ISearchModule {
   setSearchActive: (searchActive: boolean) => void
 }
 
-const SearchModule: React.FC<ISearchModule> = ({
-  className,
-  searchActive,
-  setSearchActive
-}: ISearchModule) => {
+const SearchModule = ({ className, searchActive, setSearchActive }: ISearchModule) => {
   const { themeKey, desktop } = useThemeSwitcher()
-  const classes = useStyles({
-    themeKey
-  })
-
+  const classes = useStyles({ themeKey })
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [searchResults, setSearchResults] = useState<{results: SearchEntry[]; query: string} | undefined>(undefined)
   const ref = useRef(null)
