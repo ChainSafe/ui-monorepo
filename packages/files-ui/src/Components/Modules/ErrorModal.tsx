@@ -12,7 +12,11 @@ interface Props {
 
 const ErrorModal = ({ error, componentStack, resetError }: Props) => {
 
-  const generalStyle = { margin: "1rem" }
+  const generalStyle = {
+    margin: "1rem",
+    backgrounColor: "var(--gray1)",
+    color: "var(--gray9)"
+  }
 
   return <Modal
     active
@@ -56,7 +60,8 @@ const ErrorModal = ({ error, componentStack, resetError }: Props) => {
         ...generalStyle,
         backgroundColor: "ghostwhite",
         padding: "1rem",
-        marginTop: 0
+        marginTop: 0,
+        color: "black"
       }}
       component="p"
     >
