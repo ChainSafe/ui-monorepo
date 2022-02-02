@@ -595,11 +595,17 @@ msgstr "No thanks"
 msgid "No user found for this query."
 msgstr "No user found for this query."
 
+msgid "Notifications"
+msgstr "Notifications"
+
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
 
 msgid "OK"
 msgstr "OK"
+
+msgid "Older notifications"
+msgstr "Older notifications"
 
 msgid "One sec, getting files ready…"
 msgstr "One sec, getting files ready…"
@@ -1005,6 +1011,9 @@ msgstr "This website uses cookies"
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+
+msgid "This week"
+msgstr "This week"
 
 msgid "Total"
 msgstr "Total"

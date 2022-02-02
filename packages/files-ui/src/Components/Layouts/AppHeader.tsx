@@ -1,14 +1,7 @@
 import React, { useCallback, useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import {
-  Link,
-  Typography,
-  ChainsafeFilesLogo,
-  HamburgerMenu,
-  Button,
-  SearchIcon
-} from "@chainsafe/common-components"
+import { Link, Typography, ChainsafeFilesLogo, HamburgerMenu, Button, SearchIcon } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
@@ -55,7 +48,7 @@ const useStyles = makeStyles(
           justifyContent: "space-between",
           alignItems: "center",
           position: "fixed",
-          backgroundColor: palette.additional["gray"][3],
+          backgroundColor: palette.additional["gray"][1],
           "&.active": {
             opacity: 1,
             visibility: "visible",
@@ -71,8 +64,7 @@ const useStyles = makeStyles(
         }
       },
       searchIcon: {
-        position: "absolute",
-        right: "10px",
+        marginRight: "10px",
         cursor: "pointer",
         "& > svg": {
           fill: constants.header.hamburger
@@ -130,6 +122,12 @@ const useStyles = makeStyles(
       },
       searchBox: {
         flex: 1
+      },
+      rightSection: {
+        display: "flex",
+        alignItems: "center",
+        position: "absolute",
+        right: 0
       }
     })
   }
@@ -173,8 +171,8 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
         !isNewDevice &&
         !shouldInitializeAccount && (
         <>
-          {desktop ? (
-            <section className={classes.headerSection}>
+          {desktop
+            ? <section className={classes.headerSection}>
               <section className={classes.searchBox}>
                 <SearchModule
                   className={classes.searchModule}
@@ -206,36 +204,40 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 <NotificationsDropdown />
               </section>
             </section>
-          ) : (
-            <>
-              {!searchActive && (
-                <>
-                  <HamburgerMenu
-                    onClick={() => setNavOpen(!navOpen)}
-                    variant={navOpen ? "active" : "default"}
-                    className={classes.hamburgerMenu}
-                    testId="icon-hamburger-menu"
-                  />
-                  <Link
-                    className={classes.logo}
-                    to={ROUTE_LINKS.Drive("/")}
-                  >
-                    <ChainsafeFilesLogo />
-                    <Typography
-                      variant="h5"
-                      className={classes.title}
+            : <>
+              <>
+                <HamburgerMenu
+                  onClick={() => setNavOpen(!navOpen)}
+                  variant={navOpen ? "active" : "default"}
+                  className={classes.hamburgerMenu}
+                  testId="icon-hamburger-menu"
+                />
+                {!searchActive && (
+                  <>
+                    <Link
+                      className={classes.logo}
+                      to={ROUTE_LINKS.Drive("/")}
                     >
-                      Files
-                    </Typography>
-                    &nbsp;
-                    <Typography variant="caption">beta</Typography>
-                  </Link>
-                  <SearchIcon
-                    className={classes.searchIcon}
-                    onClick={() => setSearchActive(true)}
-                  />
-                </>
-              )}
+                      <ChainsafeFilesLogo />
+                      <Typography
+                        variant="h5"
+                        className={classes.title}
+                      >
+                        Files
+                      </Typography>
+                      &nbsp;
+                      <Typography variant="caption">beta</Typography>
+                    </Link>
+                    <section className={classes.rightSection}>
+                      <SearchIcon
+                        className={classes.searchIcon}
+                        onClick={() => setSearchActive(true)}
+                      />
+                      <NotificationsDropdown />
+                    </section>
+                  </>
+                )}
+              </>
               {searchActive && (
                 <SearchModule
                   className={clsx(classes.searchModule)}
@@ -244,7 +246,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 />
               )}
             </>
-          )}
+          }
         </>
       )}
       {isTeamModalOpen && <TeamModal onHide={() => setIsTeamModalOpen(false)}/>}
