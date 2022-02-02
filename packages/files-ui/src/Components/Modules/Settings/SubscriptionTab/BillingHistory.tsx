@@ -14,8 +14,16 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
       margin: `${constants.generalUnit * 1.5}px 0`
     },
     link: {
-      textAlign: "right",
-      marginBottom: constants.generalUnit
+      textAlign: "right"
+    },
+    spaceBetweenBox: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
+    },
+    billingText: {
+      marginTop: constants.generalUnit,
+      marginBottom: constants.generalUnit * 2
     }
   })
 )
@@ -27,25 +35,31 @@ const BillingHistory = () => {
 
   return (
     <div className={classes.container}>
-      <Typography
-        variant="h4"
-        component="h4"
-        data-cy="header-billing-history"
-      >
-        <Trans>Billing history</Trans>
-      </Typography>
-      {isPendingInvoice && <Typography>
-        <Trans>Please complete payment of the following outstanding invoices in order to avoid account suspension</Trans>
-      </Typography>}
-      <Typography
+      <div className={classes.spaceBetweenBox}>
+        <Typography
+          variant="h4"
+          component="h4"
+          data-cy="header-billing-history"
+        >
+          <Trans>Billing history</Trans>
+        </Typography>
+        <Typography
+          variant="body1"
+          component="p"
+          className={classes.link}
+        >
+          <Link to={ROUTE_LINKS.BillingHistory}>
+            <Trans>All invoices</Trans>
+          </Link>
+        </Typography>
+      </div>
+      {isPendingInvoice && <Typography
         variant="body1"
         component="p"
-        className={classes.link}
+        className={classes.billingText}
       >
-        <Link to={ROUTE_LINKS.BillingHistory}>
-          <Trans>All invoices</Trans>
-        </Link>
-      </Typography>
+        <Trans>Please complete payment of the following outstanding invoices in order to avoid account suspension</Trans>
+      </Typography>}
       <InvoiceLines
         lineNumber={3}
         payInvoice={() => setPayInvoiceModalVisible(true)}

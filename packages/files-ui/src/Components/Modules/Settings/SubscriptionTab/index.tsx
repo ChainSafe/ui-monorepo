@@ -12,6 +12,7 @@ import { useBilling } from "../../../../Contexts/BillingContext"
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
     root: {
+      maxWidth: breakpoints.values["md"],
       [breakpoints.down("md")]: {
         padding: constants.generalUnit * 1.5
       }
@@ -21,7 +22,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK || "")
 
-const PlanView: React.FC = () => {
+const Subscription: React.FC = () => {
   const classes = useStyles()
   const { refreshDefaultCard, fetchCurrentSubscription } = useBilling()
 
@@ -50,4 +51,4 @@ const PlanView: React.FC = () => {
   )
 }
 
-export default PlanView
+export default Subscription

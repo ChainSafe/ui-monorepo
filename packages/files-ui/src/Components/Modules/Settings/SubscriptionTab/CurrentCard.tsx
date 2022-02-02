@@ -91,7 +91,7 @@ const CurrentCard: React.FC = () => {
             }
           </Button>
         </div>
-        {currentSubscription?.expiry_date && <div className={clsx(classes.spaceBetweenBox, classes.cardLineMargins)}>
+        {!!currentSubscription?.expiry_date && <div className={clsx(classes.spaceBetweenBox, classes.cardLineMargins)}>
           <Typography
             variant="body1"
             component="p"
