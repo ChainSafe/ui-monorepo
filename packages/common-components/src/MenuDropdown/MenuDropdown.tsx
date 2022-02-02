@@ -210,6 +210,7 @@ interface IMenuDropdownProps {
   testId?: string
   children?: React.ReactNode
   dropdown?: React.ReactNode
+  onClose?: () => void
 }
 
 const MenuDropdown = ({
@@ -224,17 +225,21 @@ const MenuDropdown = ({
   testId,
   children,
   hideIndicator,
-  dropdown
+  dropdown,
+  onClose
 }: IMenuDropdownProps) => {
   const Icon = indicator
   const classes = useStyles()
-  const [open, setOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false)
+    onClose && onClose()
+  }, [onClose])
 
   const ref = useRef(null)
   useOnClickOutside(ref, () => {
-    if (open) {
-      setOpen(false)
-    }
+    isOpen && handleClose()
   })
 
   const [dropDirection, setDropDirection] = useState<"up" | "down">("down")
@@ -263,9 +268,12 @@ const MenuDropdown = ({
     >
       <section
         data-testid={`dropdown-title-${testId}`}
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          isOpen && onClose && onClose()
+          setIsOpen(!isOpen)
+        }}
         className={clsx(classes.title, classNames?.title, {
-          ["open"]: open
+          ["open"]: isOpen
         })}
       >
         {title && (
@@ -280,7 +288,7 @@ const MenuDropdown = ({
         {children}
         {!hideIndicator && <Icon
           className={clsx(classes.icon, animation, classNames?.icon, {
-            ["open"]: open
+            ["open"]: isOpen
           })}
         />
         }
@@ -288,7 +296,7 @@ const MenuDropdown = ({
       <Paper
         shadow="shadow2"
         className={clsx(classes.options, classNames?.options, anchor, dropDirection, {
-          ["open"]: open
+          ["open"]: isOpen
         })}
       >
         {menuItems && menuItems.map((item: IMenuItem, index: number) => (
@@ -297,14 +305,14 @@ const MenuDropdown = ({
             key={`menu-${index}`}
             className={clsx(classes.item, classNames?.item)}
             onClick={() => {
-              autoclose && setOpen(false)
+              autoclose && handleClose()
               item.onClick && item.onClick()
             }}
           >
             {item.contents}
           </div>
         ))}
-        <div onClick={() => { autoclose && setOpen(false) }}>
+        <div onClick={() => autoclose && handleClose()}>
           {dropdown}
         </div>
       </Paper>

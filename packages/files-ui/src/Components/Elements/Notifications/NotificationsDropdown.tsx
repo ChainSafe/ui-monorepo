@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import { BellIcon, MenuDropdown } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import NotificationList from "./NotificationList"
 import { useNotifications } from "../../../Contexts/NotificationsContext"
 import { CSFTheme } from "../../../Themes/types"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ animation, palette, constants, breakpoints, overrides }: CSFTheme) =>
   createStyles({
@@ -40,7 +41,7 @@ const useStyles = makeStyles(({ animation, palette, constants, breakpoints, over
         color: palette.common.white.main,
         ...overrides?.Button?.variants?.tertiary?.focus
       },
-      "&:active": {
+      "&:active, &.active": {
         backgroundColor: palette.primary.main,
         color: palette.common.white.main,
         ...overrides?.Button?.variants?.tertiary?.active
@@ -81,6 +82,7 @@ export interface Notification {
 const NotificationsDropdown = () => {
   const classes = useStyles()
   const { notifications } = useNotifications()
+  const [isActive, setIsActive] = useState(false)
 
   return (
     <MenuDropdown
@@ -90,8 +92,12 @@ const NotificationsDropdown = () => {
       anchor="bottom-right"
       autoclose
       classNames={{ options: classes.optionsOpen }}
+      onClose={() => setIsActive(false)}
     >
-      <div className={classes.notificationsButton}>
+      <div
+        className={clsx(classes.notificationsButton, isActive && "active")}
+        onClick={() => !isActive && setIsActive(true)}
+      >
         <BellIcon />
         {!!notifications.length && <div className={classes.badge}>
           {notifications.length}
