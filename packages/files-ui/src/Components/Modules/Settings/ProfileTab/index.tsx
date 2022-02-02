@@ -12,12 +12,7 @@ import {
   CheckboxInput,
   Divider
 } from "@chainsafe/common-components"
-import {
-  makeStyles,
-  createStyles,
-  debounce,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles, debounce, useThemeSwitcher } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Form, useFormik, FormikProvider } from "formik"
 import { useUser } from "../../../../Contexts/UserContext"
@@ -90,8 +85,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     },
     button: {
       width: 200,
-      margin: `0px ${constants.generalUnit * 0.5}px ${constants.generalUnit * 4
-      }px`
+      margin: `0px ${constants.generalUnit * 0.5}px ${constants.generalUnit * 4}px`
     },
     icon: {
       fontSize: "20px",
@@ -131,13 +125,17 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       [breakpoints.down("sm")]: {
         width: "100%"
       },
-      cursor: "pointer"
+      cursor: "pointer",
+      "&:last-child": {
+        [breakpoints.up("sm")]: {
+          marginLeft: constants.generalUnit
+        }
+      }
     },
     themeBoxDark: {
       ...constants.settingsPage.darkSwitch
     },
     themeBoxLight: {
-      marginLeft: constants.generalUnit,
       ...constants.settingsPage.lightSwitch
     },
     themeSubtitle: {
