@@ -231,7 +231,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
   const [error, setError] = useState<string | undefined>(undefined)
   const [cryptoChargeLoading, setCryptoChargeLoading] = useState(false)
   const [transferActive, setTransferActive] = useState(false)
-  const [timeRemaining, setTimeRemaining] = useState<string | undefined>()
+  const [timeRemaining, setTimeRemaining] = useState<duration.Duration | undefined>()
   const pageLoadTimestamp = useRef(dayjs().unix())
   const [copiedDestinationAddress, setCopiedDestinationAddress] = useState(false)
   const [copiedAmount, setCopiedAmount] = useState(false)
@@ -273,7 +273,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
   useEffect(() => {
     const timer = setInterval(() => {
       if (cryptoPayment) {
-        setTimeRemaining(dayjs.duration(cryptoPayment.expires_at - dayjs().unix(), "s").format("mm:ss"))
+        setTimeRemaining(dayjs.duration(cryptoPayment.expires_at - dayjs().unix(), "s"))
       }
     }, 1000)
 
@@ -360,9 +360,9 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
         </Typography>
         {cryptoPayment && <div className={classes.pushRightBox}>
           <CircularProgressBar
-            progress={(cryptoPayment.expires_at - dayjs().unix()) / (cryptoPayment.expires_at - pageLoadTimestamp.current) * 100}
+            progress={(timeRemaining?.as("s") || 0) / 3600 * 100}
             width={23}
-            label={timeRemaining}
+            label={timeRemaining?.format("mm:ss") || ""}
             variant="secondary"
           />
         </div>}
