@@ -63,10 +63,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const yearlyPrice = useMemo(() => selectedPlan?.prices.find((price) => price.recurring.interval === "year"), [selectedPlan])
   const [billingPeriod, setBillingPeriod] = useState<ProductPriceRecurringInterval | undefined>()
 
-  console.log("selectedPlan", selectedPlan)
-  console.log("monthlyPrice", monthlyPrice)
-  console.log("billingPeriod", billingPeriod)
-
   useEffect(() => {
     if(selectedPlan && !billingPeriod){
       setBillingPeriod(monthlyPrice ? "month" : "year")
