@@ -1,19 +1,7 @@
-import {
-  createStyles,
-  debounce,
-  makeStyles,
-  useOnClickOutside,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, debounce, makeStyles, useOnClickOutside, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { ChangeEvent, useCallback, useMemo, useRef } from "react"
 import {
-  ArrowLeftIcon,
-  Button,
-  SearchBar,
-  Typography,
-  useHistory,
-  useToasts
-} from "@chainsafe/common-components"
+  SearchBar, Typography, useHistory, useToasts } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../FilesRoutes"
@@ -37,6 +25,7 @@ const useStyles = makeStyles(
         position: "relative",
         [breakpoints.down("md")]: {
           display: "flex",
+          paddingLeft: constants.generalUnit * 5.5,
           "& input": {
             opacity: 0
           },
@@ -235,16 +224,6 @@ const SearchModule = ({ className, searchActive, setSearchActive }: ISearchModul
         active: searchActive
       })}
     >
-      {!desktop && searchActive && (
-        <Button
-          className={classes.backButton}
-          onClick={() => {
-            setSearchActive(false)
-          }}
-        >
-          <ArrowLeftIcon className={classes.backArrow} />
-        </Button>
-      )}
       <form
         className={classes.searchBar}
         onSubmit={onSearchSubmit}
