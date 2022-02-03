@@ -596,10 +596,16 @@ msgstr "No gracias"
 msgid "No user found for this query."
 msgstr ""
 
+msgid "Notifications"
+msgstr ""
+
 msgid "Number of copies (Replication Factor)"
 msgstr "Número de copias (factor de replicación)"
 
 msgid "OK"
+msgstr ""
+
+msgid "Older notifications"
 msgstr ""
 
 msgid "One sec, getting files ready…"
@@ -1002,6 +1008,9 @@ msgid "This website uses cookies"
 msgstr ""
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr ""
+
+msgid "This week"
 msgstr ""
 
 msgid "Total"

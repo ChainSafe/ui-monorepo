@@ -1,53 +1,50 @@
 import React from "react"
-import { Typography, ScrollbarWrapper } from "@chainsafe/common-components"
+import { Typography, ScrollbarWrapper, Divider } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import dayjs from "dayjs"
-import relativeTime from "dayjs/plugin/relativeTime"
 import { Notification } from "./NotificationsDropdown"
 import { Trans } from "@lingui/macro"
 import { MoonStarIcon } from "@chainsafe/common-components"
-import clsx from "clsx"
-dayjs.extend(relativeTime)
+import NotificationLine from "./NotificationLine"
 
 const useStyles = makeStyles(({ palette, constants }: ITheme) =>
   createStyles({
-    notificationBody: {
-      padding: `${constants.generalUnit}px ${constants.generalUnit * 1.5}px`,
+    notificationsBody: {
+      backgroundColor: palette.additional["gray"][2]
+    },
+    emptyBody: {
+      cursor: "pointer",
       display: "flex",
       alignItems: "center",
-      cursor: "pointer",
-      backgroundColor: palette.additional["gray"][2],
-      "&.empty": {
-        display: "flex",
-        flexDirection: "column",
-        padding: `${constants.generalUnit * 3 }px ${constants.generalUnit * 1.5}px`,
-        color: palette.additional["gray"][7]
-      },
-      "&:hover": {
-        backgroundColor: palette.additional["gray"][3]
-      },
+      flexDirection: "column",
+      padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 1.5}px`,
+      color: palette.additional["gray"][7],
       "& svg>path": {
         stroke: palette.additional["gray"][7]
-      },
-      borderBottom: `1px solid ${palette.additional["gray"][5]}`,
-      "&:last-child": {
-        border: "none"
       }
     },
     icon: {
       transition: "none",
       marginBottom: 2 * constants.generalUnit
     },
+    scrollContent: {
+      minWidth: 350
+    },
+    header: {
+      padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 3}px`,
+      paddingBottom: 0
+    },
     notificationTitle: {
       color: palette.additional["gray"][9],
       paddingRight: constants.generalUnit * 1.5,
       width: 180
     },
-    scrollContent: {
-      minWidth: 300
+    notifs: {
+      padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 3}px`,
+      paddingTop: 0
     },
-    notificationTime: {
-      color: palette.additional["blue"][6]
+    timeHeader: {
+      paddingLeft: constants.generalUnit * 1.5
     }
   })
 )
@@ -58,6 +55,8 @@ interface INotificationListProps {
 
 const NotificationList = ({ notifications }: INotificationListProps) => {
   const classes = useStyles()
+  const thisWeeksNotifications = notifications.filter(n => dayjs(Date.now()).diff(dayjs.unix(n.createdAt), "day") <= 7)
+  const olderNotifications = notifications.filter(n => dayjs(Date.now()).diff(dayjs.unix(n.createdAt), "day") > 7)
 
   return (
     <ScrollbarWrapper
@@ -65,39 +64,57 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
       maxHeight={300}
       className={classes.scrollContent}
     >
-      <div>
+      <div className={classes.notificationsBody}>
         {notifications.length === 0 && (
-          <div className={clsx(classes.notificationBody, "empty")}>
+          <div className={classes.emptyBody}>
             <MoonStarIcon className={classes.icon} />
             <Typography variant="h4" >
               <Trans>There are no notifications!</Trans>
             </Typography>
           </div>
         )}
-        {notifications.map((n, i) => (
-          <div
-            key={i}
-            className={classes.notificationBody}
-            onClick={n.onClick}
-          >
+        {notifications.length !== 0 && <>
+          <section className={classes.header}>
             <Typography
-              variant="body2"
-              className={classes.notificationTitle}
+              variant="h3"
               component="p"
             >
-              {n.title}
+              <Trans>Notifications</Trans>
             </Typography>
+            <Divider />
+          </section>
+          {!!thisWeeksNotifications.length && <section className={classes.notifs}>
             <Typography
-              variant="body2"
-              className={classes.notificationTime}
+              variant="h5"
               component="p"
+              className={classes.timeHeader}
             >
-              {dayjs.unix(n.createdAt).fromNow()}
+              <Trans>This week</Trans>
             </Typography>
-          </div>
-        ))}
+            {thisWeeksNotifications.map((n, i) => <NotificationLine
+              key={`${i}-thisWeek`}
+              notification={n}
+            />)}
+          </section>
+          }
+          {!!olderNotifications.length && <section className={classes.notifs}>
+            <Typography
+              variant="h5"
+              component="p"
+              className={classes.timeHeader}
+            >
+              <Trans>Older notifications</Trans>
+            </Typography>
+            {olderNotifications.map((n, i) => <NotificationLine
+              key={`${i}-olderNotifications`}
+              notification={n}
+            />)}
+          </section>
+          }
+        </>}
       </div>
     </ScrollbarWrapper>
-  )}
+  )
+}
 
 export default NotificationList
