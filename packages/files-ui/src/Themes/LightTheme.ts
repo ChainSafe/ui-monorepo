@@ -165,6 +165,9 @@ export const lightTheme = createTheme<CsfColors>({
             color: "var(--gray9)",
             border: "1px solid",
             borderColor: "var(--csf-primary)"
+          },
+          linkButton: {
+            color: "var(--csf-primary)"
           }
         },
         surveyBanner: {
@@ -172,7 +175,8 @@ export const lightTheme = createTheme<CsfColors>({
         },
         addCard: {
           color: "#595959",
-          shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)"
+          shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
+          placeholderColor: "#BFBFBF"
         },
         cookieBanner: {
           backgroundColor: "var(--csf-primary)"

@@ -2,7 +2,6 @@ import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Loading } from "../Spinner"
-import { Typography } from "../Typography"
 
 const useStyles = makeStyles(
   ({ constants, typography, animation, palette, overrides }: ITheme) =>
@@ -47,10 +46,12 @@ const useStyles = makeStyles(
         justifyContent: "center",
         textAlign: "center",
         alignItems: "center",
+        color: "inherit",
         textDecoration: "underline",
         cursor: "pointer",
         transitionDuration: `${animation.transform}ms`,
         border: "none",
+        background: "none",
         outline: "none",
         "& svg": {
           transitionDuration: `${animation.transform}ms`,
@@ -331,19 +332,7 @@ const Button: React.FC<IButtonProps> = ({
 }: IButtonProps) => {
   const classes = useStyles()
 
-  return variant === "link" ? (<Typography
-    className={clsx(
-      classes.root,
-      className,
-      classes[variant],
-      fullsize && classes.fullsize,
-      disabled && classes.disabled,
-      iconButton && classes.icon,
-      `${size}`
-    )}
-  >
-    {loading && loadingText ? loadingText : children}
-  </Typography>) : (
+  return (
     <button
       className={clsx(
         classes.root,

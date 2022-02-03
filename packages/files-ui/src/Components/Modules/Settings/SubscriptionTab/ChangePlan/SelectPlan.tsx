@@ -150,7 +150,7 @@ interface ISelectPlan {
 
 const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
   const classes = useStyles()
-  const { currentSubscription } = useBilling()
+  const { currentSubscription, isPendingInvoice } = useBilling()
   const { desktop } = useThemeSwitcher()
   const [tempSelectedPlan, setTempSelectedPlan] = useState<Product | undefined>()
 
@@ -259,7 +259,7 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
             : (
               <div
                 className={clsx(classes.planBox, tempSelectedPlan?.id === plan.id && !isCurrentPlan && "active")}
-                onClick={() => isUpdateAllowed && !isCurrentPlan && setTempSelectedPlan(plan)}
+                onClick={() => !isPendingInvoice && isUpdateAllowed && !isCurrentPlan && setTempSelectedPlan(plan)}
                 key={`plan-${plan.id}`}
               >
                 <div className={classes.priceAndDescription}>

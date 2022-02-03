@@ -7,8 +7,12 @@ import { mastercardNumber, mastercardExpiry, mastercardCvc } from "../fixtures/c
 import { cardAddedToast } from "../support/page-objects/toasts/cardAddedToast"
 import { cardUpdatedToast } from "../support/page-objects/toasts/cardUpdatedToast"
 import { removeCardModal } from "../support/page-objects/modals/removeCardModal"
-import { selectPlanModal } from "../support/page-objects/modals/selectPlanModal"
-import { planDetailsModal } from "../support/page-objects/modals/planDetailsModal"
+import { selectPlanModal } from "../support/page-objects/modals/billing/selectPlanModal"
+import { planDetailsModal } from "../support/page-objects/modals/billing/planDetailsModal"
+import { selectPaymentMethodModal } from "../support/page-objects/modals/billing/selectPaymentMethodModal"
+import { planChangeConfirmationModal } from "../support/page-objects/modals/billing/planChangeConfirmationModal"
+import { planChangeSuccessModal } from "../support/page-objects/modals/billing/planChangeSuccessModal"
+import { billingHistoryPage } from "../support/page-objects/billingHistoryPage"
 
 describe("Subscription Plan", () => {
 
@@ -27,15 +31,15 @@ describe("Subscription Plan", () => {
         .click()
       addOrUpdateCardModal.body().should("be.visible")
       addOrUpdateCardModal.addCardHeader().should("be.visible")
-      addOrUpdateCardModal.awaitStripeElementReady()
+      cy.awaitStripeElementReady()
       addOrUpdateCardModal.cardNumberInput().type(visaNumber)
       addOrUpdateCardModal.expiryDateInput().type(visaExpiry)
       addOrUpdateCardModal.cvcNumberInput().type(visaCvc)
       addOrUpdateCardModal.addCardButton().click()
 
       // for reliability wait for stripe and default card responses / requests
-      settingsPage.awaitStripeConfirmation()
-      settingsPage.awaitDefaultCardRequest()
+      cy.awaitStripeConfirmation()
+      cy.awaitDefaultCardRequest()
 
       // close toast and ensure a card is now shown on profile
       cardAddedToast.body().should("be.visible")
@@ -50,15 +54,15 @@ describe("Subscription Plan", () => {
       settingsPage.updateCardButton().click()
       addOrUpdateCardModal.body().should("be.visible")
       addOrUpdateCardModal.updateCardHeader().should("be.visible")
-      addOrUpdateCardModal.awaitStripeElementReady()
+      cy.awaitStripeElementReady()
       addOrUpdateCardModal.cardNumberInput().type(mastercardNumber)
       addOrUpdateCardModal.expiryDateInput().type(mastercardExpiry)
       addOrUpdateCardModal.cvcNumberInput().type(mastercardCvc)
       addOrUpdateCardModal.updateCardButton().click()
 
       // for reliability wait for stripe and default card responses / requests
-      settingsPage.awaitStripeConfirmation()
-      settingsPage.awaitDefaultCardRequest()
+      cy.awaitStripeConfirmation()
+      cy.awaitDefaultCardRequest()
 
       // close toast and ensure a card is shown on profile
       cardUpdatedToast.body().should("be.visible")
@@ -94,7 +98,7 @@ describe("Subscription Plan", () => {
         .click()
       addOrUpdateCardModal.body().should("be.visible")
       addOrUpdateCardModal.addCardHeader().should("be.visible")
-      addOrUpdateCardModal.awaitStripeElementReady()
+      cy.awaitStripeElementReady()
       addOrUpdateCardModal.cardNumberInput().type(invalidCardNumber)
       addOrUpdateCardModal.expiryDateInput().type(visaExpiry)
       addOrUpdateCardModal.cvcNumberInput().type(visaCvc)
@@ -138,7 +142,7 @@ describe("Subscription Plan", () => {
     })
 
     it("can select a subscription plan and view plan details", () => {
-      cy.web3Login()
+      cy.web3Login({ resetToFreePlan: true })
 
       // navigate to settings
       navigationMenu.settingsNavButton().click()
@@ -201,30 +205,106 @@ describe("Subscription Plan", () => {
       planDetailsModal.storageDetailsLabel().should("be.visible")
       planDetailsModal.billingLabel().should("be.visible")
       planDetailsModal.billingStartDate().should("be.visible")
-      planDetailsModal.monthlyBillingLabel().should("be.visible")
-      planDetailsModal.yearlyBillingLabel().should("not.exist")
-      planDetailsModal.durationToggleSwitch().should("be.visible")
       planDetailsModal.totalCostLabel().should("be.visible")
       planDetailsModal.selectThisPlanButton().should("be.visible")
       planDetailsModal.goBackButton().should("be.visible")
 
-      // retrieve monthly plan data as cypress alias for later comparison
-      planDetailsModal.totalCostLabel().invoke("text").as("monthlyBillingPrice")
-
-      // toggle to display yearly pay
-      planDetailsModal.durationToggleSwitch().click()
-      planDetailsModal.monthlyBillingLabel().should("not.exist")
-      planDetailsModal.yearlyBillingLabel().should("be.visible")
-      planDetailsModal.totalCostLabel().invoke("text").as("yearlyBillingPrice")
-
-      // price should update when switching to yearly
-      cy.get("@monthlyBillingPrice").then(($monthlyBillingPrice) => {
-        cy.get("@yearlyBillingPrice").should("not.equal", $monthlyBillingPrice)
-      })
-
       // return to plan selection
       planDetailsModal.goBackButton().click()
       selectPlanModal.body().should("be.visible")
+    })
+
+    it("can upgrade the plan via credit card payment", () => {
+      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+
+      // navigate to settings
+      navigationMenu.settingsNavButton().click()
+      settingsPage.subscriptionTabButton().click()
+
+      // initiate a plan change 
+      settingsPage.changePlanButton().click()
+      selectPlanModal.body().should("be.visible")
+      selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
+
+      // create a cypress alias for the premium plan
+      selectPlanModal.planBoxContainer().contains("Premium plan")
+        .should("be.visible")
+        .as("premiumPlanBox")
+
+      // select the premium plan 
+      cy.get("@premiumPlanBox").parent().within(() => {
+        selectPlanModal.selectPlanButton().click()
+      })
+
+      planDetailsModal.selectThisPlanButton().click()
+
+      // add a card
+      selectPaymentMethodModal.body().should("be.visible")
+      selectPaymentMethodModal.addCardTextButton()
+        .should("be.visible")
+        .click()
+      cy.awaitStripeElementReady()
+      selectPaymentMethodModal.cardNumberInput().type(visaNumber)
+      selectPaymentMethodModal.expiryDateInput().type(visaExpiry)
+      selectPaymentMethodModal.cvcNumberInput().type(visaCvc)
+      selectPaymentMethodModal.useThisCardButton().click()
+
+      // for reliability wait for stripe and default card responses / requests
+      cy.awaitStripeConfirmation()
+      cy.awaitDefaultCardRequest()
+
+      selectPaymentMethodModal.selectPaymentButton().click()
+
+      // ensure that details are shown on the confirm plan modal
+      planChangeConfirmationModal.body().should("be.visible")
+      planChangeConfirmationModal.confirmPlanHeader().should("be.visible")
+      planChangeConfirmationModal.selectedPlanLabel().should("be.visible")
+      planChangeConfirmationModal.editPlanLink().should("be.visible")
+      planChangeConfirmationModal.featuresLabel().should("be.visible")
+      planChangeConfirmationModal.featuresSummaryLabel().should("be.visible")
+      planChangeConfirmationModal.selectedPaymentMethodLabel().should("be.visible")
+      planChangeConfirmationModal.cardNumberLabel().should("be.visible")
+      planChangeConfirmationModal.editPaymentMethodLink().should("be.visible")
+      planChangeConfirmationModal.billingLabel().should("be.visible")
+      planChangeConfirmationModal.billingStartDate().should("be.visible")
+      planChangeConfirmationModal.totalLabel().should("be.visible")
+      planChangeConfirmationModal.totalPriceLabel().should("be.visible")
+      planChangeConfirmationModal.goBackButton().should("be.visible")
+      planChangeConfirmationModal.confirmPlanChangeButton().should("be.visible")
+
+      // confirm the plan change
+      planChangeConfirmationModal.confirmPlanChangeButton().click()
+
+      // ensure details are shown on plan change success modal
+      planChangeSuccessModal.body().should("be.visible")
+      planChangeSuccessModal.confirmationHeader().should("be.visible")
+      planChangeSuccessModal.planChangeSuccessSubheader().should("be.visible")
+      planChangeSuccessModal.featuresSummaryLabel().should("be.visible")
+      planChangeSuccessModal.newStorageCapacityLabel().should("be.visible")
+      planChangeSuccessModal.newPlanNameLabel().should("be.visible")
+      planChangeSuccessModal.billingHistoryLabel().should("be.visible")
+      planChangeSuccessModal.invoicesLink().should("be.visible")
+      planChangeSuccessModal.closeButton().should("be.visible")
+
+      // go to billing history from the success modal
+      planChangeSuccessModal.invoicesLink().click()
+      cy.url().should("include", "/billing-history")
+
+      // setup an api intercepter for download requests
+      cy.intercept("GET", "**/billing/invoices/*/download").as("downloadRequest").then(() => {
+        // ensure that the file download does not start until the download button is clicked
+        cy.get("@downloadRequest").then(($request) => {
+          // retrieving the alias (spy) should yield null because posts should not have been made yet
+          expect($request).to.be.null
+        })
+
+        billingHistoryPage.downloadInvoiceButton().first().click()
+
+        // ensure the download request contains pdf content
+        cy.wait("@downloadRequest").its("response.headers").should("contain", {
+          "content-type": "application/pdf"
+        })
+      })
     })
   })
 })

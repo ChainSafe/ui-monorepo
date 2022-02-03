@@ -1,10 +1,11 @@
 import React, { FormEvent, useMemo, useState } from "react"
-import { Button, Grid, Typography, useToasts } from "@chainsafe/common-components"
+import { Button, Typography, useToasts } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useTheme, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import CustomButton from "../../../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import { useStripe,
+import {
+  useStripe,
   useElements,
   CardNumberElement,
   CardExpiryElement,
@@ -61,14 +62,14 @@ const useStyles = makeStyles(
         marginTop: constants.generalUnit * 2,
         color: palette.error.main
       },
-      backButton: {
-        flex: 1,
+      buttons: {
         display: "flex",
-        alignItems: "center"
-      },
-      linkButton: {
-        textDecoration: "underline",
-        cursor: "pointer"
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        "& > *": {
+          marginLeft: constants.generalUnit
+        }
       }
     })
   }
@@ -159,11 +160,17 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             classes.cardNumberInputs,
             focusElement === "number" && classes.cardInputsFocus
           )}
-          options={{ showIcon: true, style: {
-            base: {
-              color: theme.constants.addCard.color
+          options={{
+            showIcon: true,
+            style: {
+              base: {
+                color: theme.constants.addCard.color,
+                "::placeholder": {
+                  color: theme.constants.addCard.placeholderColor
+                }
+              }
             }
-          } }}
+          }}
           onFocus={() => setFocusElement("number")}
           onBlur={() => setFocusElement(undefined)}
           onChange={() => setCardAddError(undefined)}
@@ -178,11 +185,16 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             onFocus={() => setFocusElement("expiry")}
             onBlur={() => setFocusElement(undefined)}
             onChange={() => setCardAddError(undefined)}
-            options={{ style: {
-              base: {
-                color: theme.constants.addCard.color
+            options={{
+              style: {
+                base: {
+                  color: theme.constants.addCard.color,
+                  "::placeholder": {
+                    color: theme.constants.addCard.placeholderColor
+                  }
+                }
               }
-            } }}
+            }}
           />
           <CardCvcElement
             id="iframe-card-cvc"
@@ -193,11 +205,16 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
             onFocus={() => setFocusElement("cvc")}
             onBlur={() => setFocusElement(undefined)}
             onChange={() => setCardAddError(undefined)}
-            options={{ style: {
-              base: {
-                color: theme.constants.addCard.color
+            options={{
+              style: {
+                base: {
+                  color: theme.constants.addCard.color,
+                  "::placeholder": {
+                    color: theme.constants.addCard.placeholderColor
+                  }
+                }
               }
-            } }}
+            }}
           />
         </div>
         {cardAddError && <Typography
@@ -209,23 +226,15 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
           {cardAddError}
         </Typography>
         }
-        <Grid
-          item
-          flexDirection="row"
-          className={footerClassName}
-        >
-          <div className={classes.backButton}>
-            {goBack &&
-              <Typography
-                variant="body1"
-                component="p"
-                onClick={goBack}
-                className={classes.linkButton}
-              >
-                <Trans>Go  back</Trans>
-              </Typography>
-            }
-          </div>
+        <div className={clsx(classes.buttons, footerClassName)} >
+          {goBack &&
+            <Button
+              variant="text"
+              onClick={goBack}
+            >
+              <Trans>Go  back</Trans>
+            </Button>
+          }
           {onClose &&
             <CustomButton
               onClick={onClose}
@@ -249,7 +258,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
           >
             {submitText}
           </Button>
-        </Grid>
+        </div>
       </div>
     </form>
   )

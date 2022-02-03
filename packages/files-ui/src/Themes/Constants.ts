@@ -161,6 +161,9 @@ export interface CsfColors extends IConstants {
       border?: string
       borderColor?: string
     }
+    linkButton: {
+      color: string
+    }
   }
   surveyBanner: {
     color: string
@@ -173,6 +176,7 @@ export interface CsfColors extends IConstants {
   addCard: {
     color: string
     shadow: string
+    placeholderColor: string
   }
   cookieBanner: {
     backgroundColor: string

@@ -47,6 +47,9 @@ const useStyles = makeStyles(
         height: size,
         width: `calc(${size * 2}px - ${PADDING * 2}px)`,
         transitionDuration: `${animation.transform}ms`,
+        "&.active": {
+          backgroundColor: palette.additional["blue"][6]
+        },
         ...overrides?.ToggleSwitch?.background
       }),
       dot: ({ size }: IStyleProps) => ({
@@ -162,7 +165,8 @@ const ToggleSwitch = ({ injectedClasses, disabled, left, right, onChange, value,
       )
     }
     <div className={clsx(classes.background, size, injectedClasses?.background, {
-      "error": !!error
+      "error": !!error,
+      "active": side === "right" && !disabled
     })}>
       <div className={clsx(classes.dot, side, injectedClasses?.dot, {
         "error": !!error

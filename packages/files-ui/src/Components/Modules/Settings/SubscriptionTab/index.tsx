@@ -6,15 +6,15 @@ import { Trans } from "@lingui/macro"
 import BillingHistory from "./BillingHistory"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
-import CurrentProduct from "./CurrentPlan"
+import CurrentPlan from "./CurrentPlan"
 import { useBilling } from "../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
     root: {
-      [breakpoints.down("sm")]: {
-        paddingLeft: constants.generalUnit,
-        paddingRight: constants.generalUnit
+      maxWidth: breakpoints.values["md"],
+      [breakpoints.down("md")]: {
+        padding: constants.generalUnit * 1.5
       }
     }
   })
@@ -22,14 +22,16 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK || "")
 
-const PlanView: React.FC = () => {
+const Subscription: React.FC = () => {
   const classes = useStyles()
-  const { refreshDefaultCard } = useBilling()
+  const { refreshDefaultCard, fetchCurrentSubscription } = useBilling()
 
   useEffect(() => {
     // this is needed for testing when a card is deleted programmatically
     refreshDefaultCard()
-  }, [refreshDefaultCard])
+    // or when a plan is changed programmatically
+    fetchCurrentSubscription()
+  }, [fetchCurrentSubscription, refreshDefaultCard])
 
   return (
     <Elements stripe={stripePromise}>
@@ -41,7 +43,7 @@ const PlanView: React.FC = () => {
           <Trans>Payment and Subscriptions</Trans>
         </Typography>
         <Divider />
-        <CurrentProduct />
+        <CurrentPlan />
         <CurrentCard />
         <BillingHistory />
       </div>
@@ -49,4 +51,4 @@ const PlanView: React.FC = () => {
   )
 }
 
-export default PlanView
+export default Subscription

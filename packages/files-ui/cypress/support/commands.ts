@@ -48,6 +48,7 @@ export interface Web3LoginOptions {
   deleteShareBucket?: boolean
   withNewUser?: boolean
   deleteCreditCard? : boolean
+  resetToFreePlan?: boolean
 }
 
 Cypress.Commands.add(
@@ -59,7 +60,8 @@ Cypress.Commands.add(
     clearTrashBucket = false,
     deleteShareBucket = false,
     withNewUser = true,
-    deleteCreditCard = false
+    deleteCreditCard = false,
+    resetToFreePlan = false
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -110,7 +112,6 @@ Cypress.Commands.add(
       })
     }
 
-
     cy.visit(url)
     homePage.appHeaderLabel().should("be.visible")
 
@@ -128,6 +129,10 @@ Cypress.Commands.add(
 
     if (deleteCreditCard) {
       apiTestHelper.deleteCreditCards()
+    }
+
+    if(resetToFreePlan){
+      apiTestHelper.ensureUserIsOnFreePlan()
     }
 
     if(clearTrashBucket || clearCSFBucket || deleteShareBucket){
@@ -175,6 +180,26 @@ Cypress.Commands.add("getWithinIframe", (targetElement: any, selector: string) =
     .its("document")
     .getInDocument(targetElement))
 
+Cypress.Commands.add("awaitStripeElementReady", () => {
+  // this waits for all of the posts from stripe to ensure the element is ready event is received
+  // by waiting for these to complete we can ensure the elements will be ready for interaction
+  cy.intercept("POST", "**/r.stripe.com/*").as("stripeElementActivation")
+  cy.wait("@stripeElementActivation")
+})
+
+Cypress.Commands.add("awaitStripeConfirmation", () => {
+  cy.intercept("POST", "**/setup_intents/*/confirm").as("stripeConfirmation")
+  cy.wait("@stripeConfirmation")
+})
+
+Cypress.Commands.add("awaitDefaultCardRequest", () => {
+  cy.intercept("GET", "**/billing/cards/default").as("defaultCard")
+
+  cy.wait("@defaultCard").its("response.body").should("contain", {
+    type: "credit"
+  })
+})
+
 // Must be declared global to be detected by typescript (allows import/export)
 // eslint-disable @typescript/interface-name
 declare global {
@@ -189,6 +214,7 @@ declare global {
        * @param {Boolean} options.deleteShareBucket - (default: false) - whether any shared bucket should be deleted.
        * @param {Boolean} options.withNewUser - (default: true) - whether to create a new user for this session.
        * @param {Boolean} options.deleteCreditCard - (default: false) - whether to delete the default credit card associate to the account.
+       * @param {Boolean} options.resetToFreePlan - (default false) - whether to cancel any plan to make sure the user is on the free one.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => void
@@ -213,9 +239,23 @@ declare global {
        * @example cy.clearBucket("csf")
        */
       clearBucket: (bucketType: ClearBucketType) => void
+
+      /**
+       * Use when interacting with elements within an iframe eg Stripe
+       */
       iframeLoaded: ($iframe?: JQuery<HTMLElement>) => any
       getInDocument: (document: any, selector: keyof HTMLElementTagNameMap) => JQuery<HTMLElement>
       getWithinIframe: (targetElement: string, selector: string) => Chainable
+
+      /**
+       * Use to wait on specific network responses for reliability:
+       * awaitStripeElementReady - waits for all the api responses that initialize stripe elements
+       * awaitStripeConfirmation - waits for the api response that confirms stripe setup
+       * awaitDefaultCardRequest - waits for the api response containing the default credit card
+       */
+      awaitStripeElementReady: () => void
+      awaitStripeConfirmation: () => void
+      awaitDefaultCardRequest: () => void
     }
   }
 }

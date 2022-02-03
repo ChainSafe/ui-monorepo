@@ -98,6 +98,9 @@ msgstr ""
 msgid "An error occurred:"
 msgstr ""
 
+msgid "Annual billing{0}"
+msgstr ""
+
 msgid "Anyone with the link can:"
 msgstr ""
 
@@ -258,9 +261,6 @@ msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
 msgid "Credit Card is expiring soon"
-msgstr ""
-
-msgid "Credit card saved"
 msgstr ""
 
 msgid "Dark Theme"
@@ -533,9 +533,6 @@ msgstr ""
 msgid "Manage Shared Folder"
 msgstr ""
 
-msgid "Monthly billing"
-msgstr ""
-
 msgid "Move"
 msgstr "Moverse"
 
@@ -554,9 +551,6 @@ msgstr "Mis Archivos"
 msgid "Name"
 msgstr "Nombre"
 
-msgid "Name too long"
-msgstr ""
-
 msgid "New folder"
 msgstr "Nuevo Folder"
 
@@ -565,6 +559,9 @@ msgstr ""
 
 msgid "Next"
 msgstr "Próximo"
+
+msgid "Next payment"
+msgstr ""
 
 msgid "Nice to see you again!"
 msgstr "Encantado de verte de nuevo!"
@@ -599,10 +596,16 @@ msgstr "No gracias"
 msgid "No user found for this query."
 msgstr ""
 
+msgid "Notifications"
+msgstr ""
+
 msgid "Number of copies (Replication Factor)"
 msgstr "Número de copias (factor de replicación)"
 
 msgid "OK"
+msgstr ""
+
+msgid "Older notifications"
 msgstr ""
 
 msgid "One sec, getting files ready…"
@@ -653,7 +656,7 @@ msgstr "Contraseña:"
 msgid "Passwords must match"
 msgstr "Las contraseñas deben coincidir"
 
-msgid "Pay invoice"
+msgid "Pay now"
 msgstr ""
 
 msgid "Pay with Crypto"
@@ -668,10 +671,16 @@ msgstr ""
 msgid "Payment and Subscriptions"
 msgstr ""
 
+msgid "Payment information"
+msgstr ""
+
 msgid "Payment method"
 msgstr ""
 
 msgid "Plan changed successfully"
+msgstr ""
+
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr ""
 
 msgid "Please enter a file name"
@@ -1004,6 +1013,9 @@ msgstr ""
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
+msgid "This week"
+msgstr ""
+
 msgid "Total"
 msgstr ""
 
@@ -1076,6 +1088,9 @@ msgstr ""
 msgid "Verifying the link..."
 msgstr ""
 
+msgid "View PDF"
+msgstr ""
+
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
 
@@ -1105,9 +1120,6 @@ msgstr "Qué buen día es."
 
 msgid "What a fine night it is."
 msgstr "Qué hermosa noche es."
-
-msgid "Yearly billing"
-msgstr ""
 
 msgid "Yes, save it"
 msgstr "Si guárdalo"
@@ -1148,13 +1160,13 @@ msgstr ""
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr ""
 
-msgid "Your plan"
-msgstr ""
-
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
 msgid "can-edit"
+msgstr ""
+
+msgid "expires"
 msgstr ""
 
 msgid "invoices here"

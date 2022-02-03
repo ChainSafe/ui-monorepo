@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import CustomModal from "../../../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
-import AddCard from "./AddCard"
+import AddCard from "../Common/AddCard"
 import { Typography } from "@chainsafe/common-components"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 

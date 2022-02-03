@@ -15,7 +15,7 @@ msgstr ""
 "Mime-Version: 1.0\n"
 
 msgid "(Awaiting payment)"
-msgstr ""
+msgstr "(Paiement en attente)"
 
 msgid "({0}) items selected"
 msgstr "({0}) éléments sélectionnés"
@@ -54,7 +54,7 @@ msgid "Account"
 msgstr "Compte"
 
 msgid "Account is restricted"
-msgstr ""
+msgstr "Ce compte est limité"
 
 msgid "Active links"
 msgstr "Liens actifs"
@@ -97,6 +97,9 @@ msgstr ""
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
+
+msgid "Annual billing{0}"
+msgstr ""
 
 msgid "Anyone with the link can:"
 msgstr "Toute personne ayant le lien peut le faire :"
@@ -189,7 +192,7 @@ msgid "Confirmation"
 msgstr "Confirmation"
 
 msgid "Connect Wallet"
-msgstr ""
+msgstr "Connecter un portefeuille"
 
 msgid "Connect Wallet to Files"
 msgstr "Connecter un wallet à Files"
@@ -258,10 +261,7 @@ msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
 msgid "Credit Card is expiring soon"
-msgstr ""
-
-msgid "Credit card saved"
-msgstr "Carte de crédit enregistrée"
+msgstr "La carte de crédit va bientôt expirer"
 
 msgid "Dark Theme"
 msgstr "Thème sombre"
@@ -297,7 +297,7 @@ msgid "Delete selected"
 msgstr "Supprimer la sélection"
 
 msgid "Destination Address"
-msgstr ""
+msgstr "L'adresse de destination"
 
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
@@ -336,7 +336,7 @@ msgid "Drop to upload files"
 msgstr "Déposer pour téléverser un fichier"
 
 msgid "Edit payment"
-msgstr ""
+msgstr "Modifier le paiement"
 
 msgid "Edit payment method"
 msgstr "Modifier les méthodes de paiement"
@@ -483,7 +483,7 @@ msgid "Info"
 msgstr "Infos"
 
 msgid "Insufficient balance"
-msgstr ""
+msgstr "Solde insuffisant"
 
 msgid "Invoice outstanding"
 msgstr ""
@@ -533,9 +533,6 @@ msgstr "Gérer l’accès"
 msgid "Manage Shared Folder"
 msgstr "Gérer le dossier partagé"
 
-msgid "Monthly billing"
-msgstr "Facturation mensuelle"
-
 msgid "Move"
 msgstr "Déplacer"
 
@@ -554,9 +551,6 @@ msgstr "Mes Fichiers"
 msgid "Name"
 msgstr "Nom"
 
-msgid "Name too long"
-msgstr "Le nom est trop long"
-
 msgid "New folder"
 msgstr "Nouveau dossier"
 
@@ -565,6 +559,9 @@ msgstr "Nouveau nom de dossier partagé"
 
 msgid "Next"
 msgstr "Suivant"
+
+msgid "Next payment"
+msgstr ""
 
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
@@ -599,17 +596,23 @@ msgstr "Non merci"
 msgid "No user found for this query."
 msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
 
+msgid "Notifications"
+msgstr "Notifications"
+
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
 
 msgid "OK"
 msgstr "OK"
 
+msgid "Older notifications"
+msgstr "Autre notifications"
+
 msgid "One sec, getting files ready…"
 msgstr "Les fichiers sont presque prêts…"
 
 msgid "Only send {selectedCurrency} to this address"
-msgstr ""
+msgstr "N'envoyer que des {selectedCurrency} à cette adresse"
 
 msgid "Only you can see this."
 msgstr "Vous seul(e) pouvez voir ceci."
@@ -653,26 +656,32 @@ msgstr "Mot de passe :"
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
-msgid "Pay invoice"
+msgid "Pay now"
 msgstr ""
 
 msgid "Pay with Crypto"
-msgstr ""
+msgstr "Payer en cryptomonnaie"
 
 msgid "Pay with crypto"
-msgstr ""
+msgstr "Payer en cryptomonnaie"
 
 msgid "Pay with {0}"
-msgstr ""
+msgstr "Payer via {0}"
 
 msgid "Payment and Subscriptions"
 msgstr "Paiements et souscriptions"
+
+msgid "Payment information"
+msgstr ""
 
 msgid "Payment method"
 msgstr "Méthode de paiement"
 
 msgid "Plan changed successfully"
 msgstr "Formule changée"
+
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
+msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"
@@ -702,7 +711,7 @@ msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
 
 msgid "Proceed to payment"
-msgstr ""
+msgstr "Procéder au paiement"
 
 msgid "Profile and Display"
 msgstr "Profil et affichage"
@@ -795,7 +804,7 @@ msgid "Security"
 msgstr "Sécurité"
 
 msgid "See payment info"
-msgstr ""
+msgstr "Voir les détails du paiement"
 
 msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
@@ -915,7 +924,7 @@ msgid "Subscription Plan"
 msgstr "Formule souscrite"
 
 msgid "Switch Network"
-msgstr ""
+msgstr "Changer de réseau"
 
 msgid "Switch Plan"
 msgstr "Changer de formule"
@@ -1004,6 +1013,9 @@ msgstr "Ce site web utilise des cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre les interactions à des fins d'analyse. Vous avez le droit de refuser notre utilisation des cookies. Pour que nous puissions vous offrir une expérience utilisateur personnalisable, veuillez cliquer sur le bouton Accepter ci-dessous.<0>En savoir plus</0>"
 
+msgid "This week"
+msgstr "Cette semaine"
+
 msgid "Total"
 msgstr "Total"
 
@@ -1076,6 +1088,9 @@ msgstr "Code de vérification envoyé !"
 msgid "Verifying the link..."
 msgstr "Vérification du lien…"
 
+msgid "View PDF"
+msgstr ""
+
 msgid "View folder"
 msgstr "Voir le dossier"
 
@@ -1105,9 +1120,6 @@ msgstr "Quelle belle journée."
 
 msgid "What a fine night it is."
 msgstr "Quelle belle nuit."
-
-msgid "Yearly billing"
-msgstr "Paiement annuel"
 
 msgid "Yes, save it"
 msgstr "Oui, l’enregistrer"
@@ -1148,14 +1160,14 @@ msgstr "Vous avez un paiement en retard. Tant qu'il n'a pas été réglé, l'acc
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr "Votre contenu dépasse la capacité de stockage de {planStorageCapacity} de cette formule."
 
-msgid "Your plan"
-msgstr "Votre formule"
-
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération vous permet de récupérer l'accès à votre compte à la place de la phrase secrète."
 
 msgid "can-edit"
 msgstr "peut-modifier"
+
+msgid "expires"
+msgstr ""
 
 msgid "invoices here"
 msgstr "factures ici"

@@ -97,6 +97,9 @@ msgstr "Allow lookup by sharing key, wallet address, username or ENS"
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
+msgid "Annual billing{0}"
+msgstr "Annual billing{0}"
+
 msgid "Anyone with the link can:"
 msgstr "Anyone with the link can:"
 
@@ -258,9 +261,6 @@ msgstr "Create your public username in <0>Settings</0>!"
 
 msgid "Credit Card is expiring soon"
 msgstr "Credit Card is expiring soon"
-
-msgid "Credit card saved"
-msgstr "Credit card saved"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -532,9 +532,6 @@ msgstr "Manage Access"
 msgid "Manage Shared Folder"
 msgstr "Manage Shared Folder"
 
-msgid "Monthly billing"
-msgstr "Monthly billing"
-
 msgid "Move"
 msgstr "Move"
 
@@ -553,9 +550,6 @@ msgstr "My Files"
 msgid "Name"
 msgstr "Name"
 
-msgid "Name too long"
-msgstr "Name too long"
-
 msgid "New folder"
 msgstr "New folder"
 
@@ -564,6 +558,9 @@ msgstr "New shared folder name"
 
 msgid "Next"
 msgstr "Next"
+
+msgid "Next payment"
+msgstr "Next payment"
 
 msgid "Nice to see you again!"
 msgstr "Nice to see you again!"
@@ -598,11 +595,17 @@ msgstr "No thanks"
 msgid "No user found for this query."
 msgstr "No user found for this query."
 
+msgid "Notifications"
+msgstr "Notifications"
+
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
 
 msgid "OK"
 msgstr "OK"
+
+msgid "Older notifications"
+msgstr "Older notifications"
 
 msgid "One sec, getting files ready…"
 msgstr "One sec, getting files ready…"
@@ -652,8 +655,8 @@ msgstr "Password:"
 msgid "Passwords must match"
 msgstr "Passwords must match"
 
-msgid "Pay invoice"
-msgstr "Pay invoice"
+msgid "Pay now"
+msgstr "Pay now"
 
 msgid "Pay with Crypto"
 msgstr "Pay with Crypto"
@@ -667,11 +670,17 @@ msgstr "Pay with {0}"
 msgid "Payment and Subscriptions"
 msgstr "Payment and Subscriptions"
 
+msgid "Payment information"
+msgstr "Payment information"
+
 msgid "Payment method"
 msgstr "Payment method"
 
 msgid "Plan changed successfully"
 msgstr "Plan changed successfully"
+
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
+msgstr "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
@@ -1003,6 +1012,9 @@ msgstr "This website uses cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 
+msgid "This week"
+msgstr "This week"
+
 msgid "Total"
 msgstr "Total"
 
@@ -1075,6 +1087,9 @@ msgstr "Verification code sent!"
 msgid "Verifying the link..."
 msgstr "Verifying the link..."
 
+msgid "View PDF"
+msgstr "View PDF"
+
 msgid "View folder"
 msgstr "View folder"
 
@@ -1104,9 +1119,6 @@ msgstr "What a fine day it is."
 
 msgid "What a fine night it is."
 msgstr "What a fine night it is."
-
-msgid "Yearly billing"
-msgstr "Yearly billing"
 
 msgid "Yes, save it"
 msgstr "Yes, save it"
@@ -1147,14 +1159,14 @@ msgstr "You've got a payment due. Until you've settled up, we've placed your acc
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 
-msgid "Your plan"
-msgstr "Your plan"
-
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
 msgid "can-edit"
 msgstr "can-edit"
+
+msgid "expires"
+msgstr "expires"
 
 msgid "invoices here"
 msgstr "invoices here"

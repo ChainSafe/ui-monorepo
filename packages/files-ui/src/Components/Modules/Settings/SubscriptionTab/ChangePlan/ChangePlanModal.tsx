@@ -5,13 +5,13 @@ import { Modal } from "@chainsafe/common-components"
 import SelectPlan from "./SelectPlan"
 import PlanDetails from "./PlanDetails"
 import PaymentMethodSelector from "./PaymentMethodSelector"
-import ConfirmPlan from "./ConfirmPlan"
+import ConfirmPlan from "../Common/ConfirmPlan"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { Product, ProductPrice, ProductPriceRecurringInterval } from "@chainsafe/files-api-client"
 import PlanSuccess from "./PlanSuccess"
 import DowngradeDetails from "./DowngradeDetails"
 import { PaymentMethod } from "../../../../../Contexts/BillingContext"
-import CryptoPayment from "./CryptoPayment"
+import CryptoPayment from "../Common/CryptoPayment"
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
@@ -102,13 +102,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         inner: classes.inner
       }}
       onClose={onClose}
-      testId={
-        (slide === "select")
-          ? "select-plan"
-          : slide === "downgradeDetails"
-            ? "downgrade-details"
-            : "plan-details"
-      }
+      testId={slide}
     >
       {slide === "select" && (
         <SelectPlan
