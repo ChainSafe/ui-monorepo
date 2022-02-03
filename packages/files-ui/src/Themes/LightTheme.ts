@@ -165,6 +165,9 @@ export const lightTheme = createTheme<CsfColors>({
             color: "var(--gray9)",
             border: "1px solid",
             borderColor: "var(--csf-primary)"
+          },
+          linkButton: {
+            color: "var(--csf-primary)"
           }
         },
         surveyBanner: {

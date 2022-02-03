@@ -161,6 +161,9 @@ export interface CsfColors extends IConstants {
       border?: string
       borderColor?: string
     }
+    linkButton: {
+      color: string
+    }
   }
   surveyBanner: {
     color: string
