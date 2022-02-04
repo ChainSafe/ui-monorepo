@@ -262,9 +262,6 @@ msgstr ""
 msgid "Credit Card is expiring soon"
 msgstr ""
 
-msgid "Credit card saved"
-msgstr ""
-
 msgid "Dark Theme"
 msgstr "Mørk drakt"
 
@@ -559,6 +556,9 @@ msgstr ""
 msgid "Next"
 msgstr "Neste"
 
+msgid "Next payment"
+msgstr ""
+
 msgid "Nice to see you again!"
 msgstr ""
 
@@ -668,6 +668,9 @@ msgid "Payment amount"
 msgstr ""
 
 msgid "Payment and Subscriptions"
+msgstr ""
+
+msgid "Payment information"
 msgstr ""
 
 msgid "Payment method"
@@ -1162,13 +1165,13 @@ msgstr ""
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr ""
 
-msgid "Your plan"
-msgstr ""
-
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
 msgid "can-edit"
+msgstr ""
+
+msgid "expires"
 msgstr ""
 
 msgid "invoices here"

@@ -478,6 +478,9 @@ export const darkTheme = createTheme<CsfColors>({
           lightSwitch: {
             backgroundColor: "var(--gray9)",
             color: "var(--gray1)"
+          },
+          linkButton: {
+            color: "var(--csf-primary)"
           }
         },
         surveyBanner: {
