@@ -608,6 +608,9 @@ msgstr ""
 msgid "Older notifications"
 msgstr ""
 
+msgid "Once you proceed, your account is expected to make a payment within 60min. If no payment is received, your plan will not change."
+msgstr ""
+
 msgid "One sec, getting files ready…"
 msgstr ""
 
