@@ -88,9 +88,6 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
 
-msgid "All invoices"
-msgstr "All invoices"
-
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr "Allow lookup by sharing key, wallet address, username or ENS"
 

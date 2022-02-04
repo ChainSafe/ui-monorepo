@@ -89,9 +89,6 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
 
-msgid "All invoices"
-msgstr "Toutes les factures"
-
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
