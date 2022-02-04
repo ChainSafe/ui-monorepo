@@ -12,6 +12,7 @@ const useStyles = makeStyles(
     createStyles({
       heading: {
         marginBottom: constants.generalUnit * 4,
+        marginTop: constants.generalUnit * 2,
         [breakpoints.down("md")]: {
           marginBottom: constants.generalUnit * 2
         }
@@ -56,6 +57,10 @@ const useStyles = makeStyles(
       },
       price: {
         fontWeight: "bold !important" as "bold"
+      },
+      link: {
+        color: constants.settingsPage.linkButton.color,
+        paddingRight: "0px !important"
       }
     })
 )
@@ -88,10 +93,10 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
         </div>
       )}
       {invoicesToShow && !invoicesToShow.length && (
-        <div className={classes.centered}>
+        <div>
           <Typography
             className={classes.heading}
-            variant="h4"
+            variant="body1"
             component="p"
           >
             <Trans>No invoice found</Trans>
@@ -121,7 +126,9 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
                 <Button
                   onClick={() => downloadInvoice(uuid)}
                   variant="link"
-                  testId="download-invoice">
+                  testId="download-invoice"
+                  className={classes.link}
+                >
                   <Trans>View PDF</Trans>
                 </Button>
               )}
@@ -129,7 +136,9 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
                 <Button
                   onClick={payInvoice}
                   variant="link"
-                  testId="pay-invoice">
+                  testId="pay-invoice"
+                  className={classes.link}
+                >
                   <Trans>Pay now</Trans>
                 </Button>
               )}
