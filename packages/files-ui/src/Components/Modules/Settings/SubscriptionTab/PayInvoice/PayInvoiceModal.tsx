@@ -5,6 +5,7 @@ import { Button, Modal } from "@chainsafe/common-components"
 import CryptoPayment from "../Common/CryptoPayment"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
+import ConfirmPlan from "../Common/ConfirmPlan"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -74,10 +75,21 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
       testId="pay-invoice"
       onClose={onClose}
     >
-      {invoiceToPay?.payment_method === "crypto"
-        ? <CryptoPayment />
-        : <Button onClick={payInvoice}>Pay invoice</Button>
+      {!invoiceToPay
+        ? null
+        : invoiceToPay?.payment_method === "crypto"
+          ? <CryptoPayment />
+          : <ConfirmPlan
+            plan={{ ...invoiceToPay.product, prices: [invoiceToPay?.product.price] }}
+            planPrice={invoiceToPay?.product.price}
+            goToSelectPlan={() => undefined }
+            goToPaymentMethod={() => undefined }
+            onChangeSubscription={payInvoice}
+            loadingChangeSubscription={payingInvoice}
+            isSubscriptionError={!!errorMessage}
+            paymentMethod={invoiceToPay.payment_method === "stripe" ? "creditCard" : "crypto"} />
       }
+
     </Modal>
   )
 }
