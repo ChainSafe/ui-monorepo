@@ -244,6 +244,9 @@ msgstr "Erstellen"
 msgid "Create Shared Folder"
 msgstr ""
 
+msgid "Create a new shared folder"
+msgstr ""
+
 msgid "Create a sharing link"
 msgstr ""
 
@@ -618,12 +621,6 @@ msgstr ""
 
 msgid "Operating system:"
 msgstr "Betriebssystem:"
-
-msgid "Or Create a new shared folder"
-msgstr ""
-
-msgid "Or Use an existing shared folder"
-msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
@@ -1054,6 +1051,9 @@ msgstr "Eine andere Anmeldemethode verwenden"
 msgid "Use a saved browser"
 msgstr "Einen gespeicherten Browser verwenden"
 
+msgid "Use an existing shared folder"
+msgstr ""
+
 msgid "Use this card"
 msgstr ""
 
@@ -1173,6 +1173,9 @@ msgstr "ich"
 
 msgid "on"
 msgstr "am"
+
+msgid "or"
+msgstr ""
 
 msgid "unknown"
 msgstr "unbekannt"

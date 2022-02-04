@@ -344,17 +344,20 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
               )}
           </div>
           {!hasNoSharedBucket && (
-            <div
-              className={classes.buttonLink}
-              onClick={() => setIsUsingExistingBucket(!isUsingExistingBucket)}
-            >
-              <Typography>
-                {
-                  isUsingExistingBucket
-                    ? <Trans>Or Create a new shared folder</Trans>
-                    : <Trans>Or Use an existing shared folder</Trans>
-                }
-              </Typography>
+            <div>
+              <Trans>or</Trans>{" "}
+              <span
+                className={classes.buttonLink}
+                onClick={() => setIsUsingExistingBucket(!isUsingExistingBucket)}
+              >
+                <Typography>
+                  {
+                    isUsingExistingBucket
+                      ? <Trans>Create a new shared folder</Trans>
+                      : <Trans>Use an existing shared folder</Trans>
+                  }
+                </Typography>
+              </span>
             </div>
           )}
           <div className={classes.buttonsArea}>
