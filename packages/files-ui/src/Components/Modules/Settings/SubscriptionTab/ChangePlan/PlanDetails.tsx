@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Product, ProductPrice } from "@chainsafe/files-api-client"
+import { Product, ProductPrice, ProductPriceRecurringInterval } from "@chainsafe/files-api-client"
 import { Button, Divider, formatBytes, ToggleSwitch, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
@@ -67,28 +67,27 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
 interface IPlanDetails {
   plan: Product
   goToSelectPlan: () => void
-  onSelectPlanPrice: (planPrice: ProductPrice) => void
+  onSelectPlanPrice: () => void
+  billingPeriod: ProductPriceRecurringInterval
+  onChangeBillingPeriod: (paymentPeriod: ProductPriceRecurringInterval) => void
+  monthlyPrice?: ProductPrice
+  yearlyPrice?: ProductPrice
 }
 
-const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) => {
+const PlanDetails = ({
+  plan,
+  goToSelectPlan,
+  onSelectPlanPrice,
+  billingPeriod,
+  onChangeBillingPeriod,
+  monthlyPrice,
+  yearlyPrice
+}: IPlanDetails) => {
   const classes = useStyles()
-  const monthlyPrice = plan.prices.find((price) => price.recurring.interval === "month")
-  const yearlyPrice = plan.prices.find((price) => price.recurring.interval === "year")
-  const currentPlanStorage = formatBytes(Number(monthlyPrice?.metadata?.storage_size_bytes), 2)
-
-  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">(monthlyPrice ? "monthly" : "yearly")
-
-  const handleSelectPlan = () => {
-    if(billingPeriod === "monthly" && monthlyPrice) {
-      onSelectPlanPrice(monthlyPrice)
-    } else if (yearlyPrice) {
-      onSelectPlanPrice(yearlyPrice)
-    }
-  }
-
-  const percentageOff = monthlyPrice && yearlyPrice
-    ? ((((monthlyPrice.unit_amount * 12) - yearlyPrice.unit_amount) * 100) / (monthlyPrice.unit_amount * 12))
-    : null
+  const currentPlanStorage = useMemo(() => formatBytes(Number(monthlyPrice?.metadata?.storage_size_bytes), 2), [monthlyPrice])
+  const percentageOff = useMemo(() =>  monthlyPrice && yearlyPrice &&
+    (((monthlyPrice.unit_amount * 12) - yearlyPrice.unit_amount) * 100) / (monthlyPrice.unit_amount * 12)
+  , [monthlyPrice, yearlyPrice])
 
   return (
     <article className={classes.root}>
@@ -165,10 +164,11 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
             </Typography>
             <div className={classes.pushRightBox}>
               <ToggleSwitch
-                left={{ value: "monthly" }}
-                right={{ value: "yearly" }}
+                left={{ value: "month" }}
+                right={{ value: "year" }}
                 testId="duration"
-                onChange={() => setBillingPeriod(billingPeriod === "monthly" ? "yearly" : "monthly")}
+                onChange={onChangeBillingPeriod}
+                value={billingPeriod}
               />
             </div>
           </div>
@@ -190,11 +190,11 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
             className={classes.boldText}
             data-cy="label-total-cost"
           >
-            {billingPeriod === "monthly"
+            {billingPeriod === "month"
               ? `${monthlyPrice?.unit_amount ? monthlyPrice?.currency : ""} ${monthlyPrice?.unit_amount}`
               : `${yearlyPrice?.unit_amount ? yearlyPrice?.currency : ""} ${yearlyPrice?.unit_amount}`
             }
-            <span className={classes.normalWeightText}>{billingPeriod === "monthly" ? t`/month` : t`/year`}</span>
+            <span className={classes.normalWeightText}>{billingPeriod === "month" ? t`/month` : t`/year`}</span>
           </Typography>
         </div>
       </div>
@@ -209,7 +209,7 @@ const PlanDetails = ({ plan, goToSelectPlan, onSelectPlanPrice }: IPlanDetails) 
           </Button>
           <Button
             variant="primary"
-            onClick={handleSelectPlan}
+            onClick={onSelectPlanPrice}
             testId="select-this-plan"
           >
             <Trans>Select this plan</Trans>
