@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Button, Modal } from "@chainsafe/common-components"
+import { Modal } from "@chainsafe/common-components"
 import CryptoPayment from "../Common/CryptoPayment"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
