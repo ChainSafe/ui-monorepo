@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
+import { Button, InfoCircleIcon, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { PaymentMethod, useBilling } from "../../../../../Contexts/BillingContext"
@@ -86,6 +86,17 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     error: {
       marginTop: constants.generalUnit,
       color: palette.error.main
+    },
+    warningText: {
+      marginTop: constants.generalUnit * 2,
+      maxWidth: constants.generalUnit * 56
+    },
+    icon : {
+      verticalAlign: "middle",
+      fill: palette.error.main,
+      "& > svg": {
+        height: constants.generalUnit * 2.25
+      }
     }
   })
 )
@@ -291,6 +302,19 @@ const ConfirmPlan = ({
           </Typography>
         </div>
       </div>
+      {paymentMethod === "crypto" && <div className={classes.rowBox}>
+        <Typography
+          variant="body1"
+          component="p"
+          className={classes.warningText}
+        >
+          <InfoCircleIcon className={classes.icon} />
+          <Trans>
+            Once you proceed, your account is expected to make a payment within 60min. If no payment is received, your plan will not change.
+          </Trans>
+        </Typography>
+      </div>
+      }
       {isSubscriptionError &&
         <Typography
           component="p"
