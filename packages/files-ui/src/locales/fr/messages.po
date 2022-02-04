@@ -263,9 +263,6 @@ msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 msgid "Credit Card is expiring soon"
 msgstr "La carte de crédit va bientôt expirer"
 
-msgid "Credit card saved"
-msgstr "Carte de crédit enregistrée"
-
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
@@ -563,6 +560,9 @@ msgstr "Nouveau nom de dossier partagé"
 msgid "Next"
 msgstr "Suivant"
 
+msgid "Next payment"
+msgstr ""
+
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
 
@@ -596,11 +596,17 @@ msgstr "Non merci"
 msgid "No user found for this query."
 msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
 
+msgid "Notifications"
+msgstr "Notifications"
+
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
 
 msgid "OK"
 msgstr "OK"
+
+msgid "Older notifications"
+msgstr "Autre notifications"
 
 msgid "One sec, getting files ready…"
 msgstr "Les fichiers sont presque prêts…"
@@ -664,6 +670,9 @@ msgstr "Payer via {0}"
 
 msgid "Payment and Subscriptions"
 msgstr "Paiements et souscriptions"
+
+msgid "Payment information"
+msgstr ""
 
 msgid "Payment method"
 msgstr "Méthode de paiement"
@@ -1004,6 +1013,9 @@ msgstr "Ce site web utilise des cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre les interactions à des fins d'analyse. Vous avez le droit de refuser notre utilisation des cookies. Pour que nous puissions vous offrir une expérience utilisateur personnalisable, veuillez cliquer sur le bouton Accepter ci-dessous.<0>En savoir plus</0>"
 
+msgid "This week"
+msgstr "Cette semaine"
+
 msgid "Total"
 msgstr "Total"
 
@@ -1148,14 +1160,14 @@ msgstr "Vous avez un paiement en retard. Tant qu'il n'a pas été réglé, l'acc
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr "Votre contenu dépasse la capacité de stockage de {planStorageCapacity} de cette formule."
 
-msgid "Your plan"
-msgstr "Votre formule"
-
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération vous permet de récupérer l'accès à votre compte à la place de la phrase secrète."
 
 msgid "can-edit"
 msgstr "peut-modifier"
+
+msgid "expires"
+msgstr ""
 
 msgid "invoices here"
 msgstr "factures ici"

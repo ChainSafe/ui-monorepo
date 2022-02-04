@@ -10,12 +10,20 @@ import { useBilling } from "../../../../Contexts/BillingContext"
 const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
     container: {
-      padding: constants.generalUnit,
+      padding: `${constants.generalUnit}px 0`,
       margin: `${constants.generalUnit * 1.5}px 0`
     },
     link: {
-      textAlign: "right",
-      marginBottom: constants.generalUnit
+      textAlign: "right"
+    },
+    spaceBetweenBox: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
+    },
+    billingText: {
+      marginTop: constants.generalUnit,
+      marginBottom: constants.generalUnit * 2
     }
   })
 )
@@ -38,15 +46,6 @@ const BillingHistory = () => {
       <Typography>
         <Trans>Please complete payment of the following outstanding invoices in order to avoid account suspension</Trans>
       </Typography>}
-      <Typography
-        variant="body1"
-        component="p"
-        className={classes.link}
-      >
-        <Link to={ROUTE_LINKS.BillingHistory}>
-          <Trans>All invoices</Trans>
-        </Link>
-      </Typography>
       <InvoiceLines
         lineNumber={3}
         payInvoice={(invoiceId) => setInvoiceToPay(invoiceId)}
