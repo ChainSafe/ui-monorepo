@@ -310,7 +310,8 @@ const ConfirmPlan = ({
         >
           <InfoCircleIcon className={classes.icon} />
           <Trans>
-            Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received, your plan will not change.
+            Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received
+            , your plan will not change.
           </Trans>
         </Typography>
       </div>
