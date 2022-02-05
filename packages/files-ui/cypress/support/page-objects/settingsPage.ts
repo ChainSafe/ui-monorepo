@@ -21,6 +21,7 @@ export const settingsPage = {
 
   // subscription tab
   subscriptionTabButton: () => cy.get("[data-testid=tab-subscription]"),
+  planNameLabel: () => cy.get("[data-cy=label-plan-name]"),
   addCardButton: () => cy.get("[data-testid=button-add-a-card]"),
   updateCardButton: () => cy.get("[data-testid=button-update-a-card]"),
   defaultCardLabel: () => cy.get("[data-cy=label-default-card]"),
