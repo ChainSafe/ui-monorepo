@@ -203,7 +203,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       })
       .catch((error) => {
         console.error(error)
-        return Promise.reject()
+        return Promise.reject(error)
       })
   }, [filesApiClient, currentSubscription, fetchCurrentSubscription, refreshBuckets])
 

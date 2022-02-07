@@ -97,8 +97,8 @@ interface IConfirmPlan {
   goToPaymentMethod: () => void
   onChangeSubscription: () => void
   loadingChangeSubscription: boolean
-  isSubscriptionError: boolean
   paymentMethod: PaymentMethod
+  subscriptionErrorMessage?: string
 }
 
 const ConfirmPlan = ({
@@ -108,8 +108,8 @@ const ConfirmPlan = ({
   goToPaymentMethod,
   onChangeSubscription,
   loadingChangeSubscription,
-  isSubscriptionError,
-  paymentMethod
+  paymentMethod,
+  subscriptionErrorMessage,
 }: IConfirmPlan) => {
   const classes = useStyles()
   const { defaultCard } = useBilling()
@@ -291,14 +291,14 @@ const ConfirmPlan = ({
           </Typography>
         </div>
       </div>
-      {isSubscriptionError &&
+      {subscriptionErrorMessage &&
         <Typography
           component="p"
           variant="body1"
           className={classes.error}
           data-cy="label-change-plan-error"
         >
-          <Trans>Failed to change subscription</Trans>
+          {subscriptionErrorMessage}
         </Typography>
       }
       <section className={classes.bottomSection}>
