@@ -205,6 +205,8 @@ describe("Subscription Plan", () => {
       planDetailsModal.storageDetailsLabel().should("be.visible")
       planDetailsModal.billingLabel().should("be.visible")
       planDetailsModal.billingStartDate().should("be.visible")
+      planDetailsModal.annualBillingLabel().should("be.visible")
+      planDetailsModal.durationToggleSwitch().should("be.visible")
       planDetailsModal.totalCostLabel().should("be.visible")
       planDetailsModal.selectThisPlanButton().should("be.visible")
       planDetailsModal.goBackButton().should("be.visible")
@@ -212,6 +214,67 @@ describe("Subscription Plan", () => {
       // return to plan selection
       planDetailsModal.goBackButton().click()
       selectPlanModal.body().should("be.visible")
+    })
+
+    it("can toggle between monthly and annual billing price", () => {
+      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+      navigationMenu.settingsNavButton().click()
+      settingsPage.subscriptionTabButton().click()
+      settingsPage.changePlanButton().click()
+
+      selectPlanModal.planBoxContainer().contains("Standard plan")
+        .should("be.visible")
+        .as("standardPlanBox")
+
+      cy.get("@standardPlanBox").parent().within(() => {
+        selectPlanModal.selectPlanButton().click()
+      })
+
+      // retrieve the monthly plan data as cypress alias for later comparison
+      planDetailsModal.totalCostLabel().invoke("text").as("monthlyBillingPrice")
+
+      // toggle to enable annual billing
+      planDetailsModal.durationToggleSwitch().click()
+      planDetailsModal.totalCostLabel().invoke("text").as("yearlyBillingPrice")
+
+      // price should update when switching to annual billing
+      cy.get("@monthlyBillingPrice").then(($monthlyBillingPrice) => {
+        cy.get("@yearlyBillingPrice").should("not.equal", $monthlyBillingPrice)
+      })
+    })
+
+    it("can only choose crypto as a payment option for annual billing", () => {
+      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+      navigationMenu.settingsNavButton().click()
+      settingsPage.subscriptionTabButton().click()
+      settingsPage.changePlanButton().click()
+
+      selectPlanModal.planBoxContainer().contains("Standard plan")
+        .should("be.visible")
+        .as("standardPlanBox")
+
+      cy.get("@standardPlanBox").parent().within(() => {
+        selectPlanModal.selectPlanButton().click()
+      })
+
+      // ensure the crypto option cannot be selected for monthly billing
+      planDetailsModal.selectThisPlanButton().click()
+      selectPaymentMethodModal.cryptoRadioInput()
+        .should("be.visible")
+        .click()
+      selectPaymentMethodModal.selectPaymentButton().should("be.disabled")
+      selectPaymentMethodModal.goBackButton().click()
+
+      // toggle to enable annual billing
+      planDetailsModal.durationToggleSwitch().click()
+      planDetailsModal.totalCostLabel().invoke("text").as("yearlyBillingPrice")
+
+      // ensure the crypto option can be selected for annual billing
+      planDetailsModal.selectThisPlanButton().click()
+      selectPaymentMethodModal.cryptoRadioInput()
+        .should("be.visible")
+        .click()
+      selectPaymentMethodModal.selectPaymentButton().should("be.enabled")
     })
 
     it("can upgrade the plan via credit card payment", () => {
