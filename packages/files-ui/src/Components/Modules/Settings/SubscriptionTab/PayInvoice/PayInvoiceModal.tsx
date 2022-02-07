@@ -49,7 +49,7 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
       setErrorMessage(undefined)
       filesApiClient.payInvoice(invoiceToPay.uuid).then(refreshInvoices)
     } catch (error) {
-      if ((error as any).error.code === 400 && (error as any).error.message.contains("declined")) {
+      if ((error as any).error.code === 400 && (error as any).error.message.includes("declined")) {
         setErrorMessage(t`The transaction was declined. Please use a different card or try again.`)
       } else {
         setErrorMessage(t`Failed to update the subscription. Please try again later.`)
