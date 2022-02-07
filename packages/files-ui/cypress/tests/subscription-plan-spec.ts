@@ -13,6 +13,7 @@ import { selectPaymentMethodModal } from "../support/page-objects/modals/billing
 import { planChangeConfirmationModal } from "../support/page-objects/modals/billing/planChangeConfirmationModal"
 import { planChangeSuccessModal } from "../support/page-objects/modals/billing/planChangeSuccessModal"
 import { billingHistoryPage } from "../support/page-objects/billingHistoryPage"
+import { downgradeDetailsModal } from "../support/page-objects/modals/billing/downgradeDetailsModal"
 
 describe("Subscription Plan", () => {
 
@@ -315,6 +316,8 @@ describe("Subscription Plan", () => {
       // for reliability wait for stripe and default card responses / requests
       cy.awaitStripeConfirmation()
       cy.awaitDefaultCardRequest()
+      cardAddedToast.body().should("be.visible")
+      cardAddedToast.closeButton().click()
 
       selectPaymentMethodModal.selectPaymentButton().click()
 
@@ -367,6 +370,91 @@ describe("Subscription Plan", () => {
         cy.wait("@downloadRequest").its("response.headers").should("contain", {
           "content-type": "application/pdf"
         })
+      })
+    })
+
+    it("can downgrade from premium plan to standard plan", () => {
+      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+
+      // upgrade the account first
+      navigationMenu.settingsNavButton().click()
+      settingsPage.subscriptionTabButton().click()
+      settingsPage.changePlanButton().click()
+      selectPlanModal.body().should("be.visible")
+      selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
+      selectPlanModal.planBoxContainer().contains("Premium plan")
+        .should("be.visible")
+        .as("premiumPlanBox")
+      selectPlanModal.planBoxContainer().contains("Standard plan")
+        .should("be.visible")
+        .as("standardPlanBox")
+
+      cy.get("@premiumPlanBox").parent().within(() => {
+        selectPlanModal.selectPlanButton().click()
+      })
+      planDetailsModal.selectThisPlanButton().click()
+      selectPaymentMethodModal.body().should("be.visible")
+      selectPaymentMethodModal.addCardTextButton()
+        .should("be.visible")
+        .click()
+      cy.awaitStripeElementReady()
+      selectPaymentMethodModal.cardNumberInput().type(visaNumber)
+      selectPaymentMethodModal.expiryDateInput().type(visaExpiry)
+      selectPaymentMethodModal.cvcNumberInput().type(visaCvc)
+      selectPaymentMethodModal.useThisCardButton().click()
+      cy.awaitStripeConfirmation()
+      cy.awaitDefaultCardRequest()
+      cardAddedToast.body().should("be.visible")
+      cardAddedToast.closeButton().click()
+      selectPaymentMethodModal.selectPaymentButton().click()
+      planChangeConfirmationModal.confirmPlanChangeButton().click()
+      planChangeSuccessModal.body().should("be.visible")
+      planChangeSuccessModal.closeButton()
+        .should("be.visible")
+        .safeClick()
+
+      // store the upgraded plan name for later comparison
+      settingsPage.planNameLabel()
+        .should("be.visible")
+        .as("upgradedPlanName")
+        .invoke("text").as("upgradedPlanName")
+
+      // initiate the downgrade process
+      settingsPage.changePlanButton().click()
+      selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
+      cy.get("@standardPlanBox").parent().within(() => {
+        selectPlanModal.selectPlanButton().click()
+      })
+
+      // ensure the downgraded plan details are shown
+      downgradeDetailsModal.body().should("be.visible")
+      downgradeDetailsModal.downgradePlanHeader().should("be.visible")
+      downgradeDetailsModal.lostFeaturesSummaryLabel().should("be.visible")
+      downgradeDetailsModal.downgradedStorageLabel().should("be.visible")
+      downgradeDetailsModal.goBackButton().should("be.visible")
+      downgradeDetailsModal.switchToFreePlanButton().should("not.exist")
+
+      // proceed with the switch to downgrade
+      downgradeDetailsModal.switchPlanButton()
+        .should("be.visible")
+        .click()
+      planDetailsModal.selectThisPlanButton().click()
+      selectPaymentMethodModal.selectPaymentButton().click()
+      planChangeConfirmationModal.confirmPlanChangeButton().click()
+      planChangeSuccessModal.body().should("be.visible")
+      planChangeSuccessModal.closeButton()
+        .should("be.visible")
+        .safeClick()
+
+      // store the downgraded plan name for later comparison
+      settingsPage.planNameLabel()
+        .should("be.visible")
+        .as("upgradedPlanName")
+        .invoke("text").as("downgradedPlanName")
+
+      // ensure the downgraded plan name is not the same as the previously upgraded plan
+      cy.get("@upgradedPlanName").then(($upgradedPlanName) => {
+        cy.get("@downgradedPlanName").should("not.equal", $upgradedPlanName)
       })
     })
   })
