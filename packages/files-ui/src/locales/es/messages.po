@@ -362,9 +362,6 @@ msgstr ""
 msgid "Failed to add payment method"
 msgstr ""
 
-msgid "Failed to change subscription"
-msgstr ""
-
 msgid "Failed to create a charge"
 msgstr ""
 
@@ -373,6 +370,9 @@ msgstr "No se pudo obtener la firma"
 
 msgid "Failed to migrate account, please try again."
 msgstr "No se pudo migrar la cuenta. Vuelve a intentarlo."
+
+msgid "Failed to update the subscription. Please try again later."
+msgstr ""
 
 msgid ""
 "Failed to validate signature.\n"
@@ -606,9 +606,6 @@ msgid "OK"
 msgstr ""
 
 msgid "Older notifications"
-msgstr ""
-
-msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
 msgstr ""
 
 msgid "One sec, getting files ready…"
@@ -948,6 +945,9 @@ msgid "The files are already in this folder"
 msgstr ""
 
 msgid "The link you typed in looks malformed. Please verify it."
+msgstr ""
+
+msgid "The transaction was declined. Please use a different card or try again."
 msgstr ""
 
 msgid "The username is too long"
