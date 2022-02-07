@@ -242,6 +242,9 @@ msgstr "Crear"
 msgid "Create Shared Folder"
 msgstr ""
 
+msgid "Create a new shared folder"
+msgstr ""
+
 msgid "Create a sharing link"
 msgstr ""
 
@@ -605,6 +608,9 @@ msgstr ""
 msgid "Older notifications"
 msgstr ""
 
+msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
+msgstr ""
+
 msgid "One sec, getting files ready…"
 msgstr ""
 
@@ -619,12 +625,6 @@ msgstr ""
 
 msgid "Operating system:"
 msgstr "Sistema operativo:"
-
-msgid "Or Create a new shared folder"
-msgstr ""
-
-msgid "Or Use an existing shared folder"
-msgstr ""
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "O confirme iniciando sesión en sus Archivos en cualquier navegador que haya usado antes."
@@ -1055,6 +1055,9 @@ msgstr "Utilice un método de inicio de sesión diferente"
 msgid "Use a saved browser"
 msgstr "Utilice un navegador guardado"
 
+msgid "Use an existing shared folder"
+msgstr ""
+
 msgid "Use this card"
 msgstr ""
 
@@ -1174,6 +1177,9 @@ msgstr ""
 
 msgid "on"
 msgstr "en"
+
+msgid "or"
+msgstr ""
 
 msgid "unknown"
 msgstr ""

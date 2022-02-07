@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Modal } from "@chainsafe/common-components"
@@ -60,6 +60,15 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
   const [subscriptionErrorMessage, setSubscriptionErrorMessage] = useState<string | undefined>()
   const didSelectFreePlan = useMemo(() => !!selectedPlan && getPrice(selectedPlan, "month") === 0, [selectedPlan])
+  const monthlyPrice = useMemo(() => selectedPlan?.prices.find((price) => price.recurring.interval === "month"), [selectedPlan])
+  const yearlyPrice = useMemo(() => selectedPlan?.prices.find((price) => price.recurring.interval === "year"), [selectedPlan])
+  const [billingPeriod, setBillingPeriod] = useState<ProductPriceRecurringInterval | undefined>()
+
+  useEffect(() => {
+    if(selectedPlan && !billingPeriod){
+      setBillingPeriod(monthlyPrice ? "month" : "year")
+    }
+  }, [billingPeriod, monthlyPrice, selectedPlan])
 
   useEffect(() => {
     if(!slide){
@@ -78,7 +87,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
     }
   }, [getAvailablePlans, plans])
 
-  const handleChangeSubscription = () => {
+  const handleChangeSubscription = useCallback(() => {
     if (selectedPrice) {
       setIsLoadingChangeSubscription(true)
       setSubscriptionErrorMessage(undefined)
@@ -95,7 +104,28 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         })
         .finally(() => setIsLoadingChangeSubscription(false))
     }
-  }
+  }, [changeSubscription, selectedPrice])
+
+  const onSelectPlanPrice = useCallback(() => {
+    if(billingPeriod === "month" && monthlyPrice) {
+      setSelectedPrice(monthlyPrice)
+    } else if (yearlyPrice) {
+      setSelectedPrice(yearlyPrice)
+    }
+    setSlide("paymentMethod")
+  }, [billingPeriod, monthlyPrice, yearlyPrice])
+
+  const onSelectPlan = useCallback((plan: Product) => {
+    setSelectedPlan(plan)
+    const currentPrice = currentSubscription?.product?.price?.unit_amount
+    const currentRecurrence = currentSubscription?.product.price.recurring.interval
+    const newPrice = getPrice(plan, currentRecurrence)
+    const isDowngrade = (currentPrice || 0) > newPrice
+
+    isDowngrade
+      ? setSlide("downgradeDetails")
+      : setSlide("planDetails")
+  }, [currentSubscription])
 
   return (
     <Modal
@@ -112,17 +142,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
     >
       {slide === "select" && (
         <SelectPlan
-          onSelectPlan={(plan: Product) => {
-            setSelectedPlan(plan)
-            const currentPrice = currentSubscription?.product?.price?.unit_amount
-            const currentRecurrence = currentSubscription?.product.price.recurring.interval
-            const newPrice = getPrice(plan, currentRecurrence)
-            const isDowngrade = (currentPrice || 0) > newPrice
-
-            isDowngrade
-              ? setSlide("downgradeDetails")
-              : setSlide("planDetails")
-          }}
+          onSelectPlan={onSelectPlan}
           plans={plans}
         />
       )}
@@ -135,14 +155,18 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           onClose={onClose}
         />
       )}
-      {slide === "planDetails" && selectedPlan && (
+      {slide === "planDetails" && selectedPlan && billingPeriod && (
         <PlanDetails
           plan={selectedPlan}
-          goToSelectPlan={() => setSlide("select")}
-          onSelectPlanPrice={(planPrice: ProductPrice) => {
-            setSelectedPrice(planPrice)
-            setSlide("paymentMethod")
+          goToSelectPlan={() => {
+            setBillingPeriod(undefined)
+            setSlide("select")
           }}
+          onSelectPlanPrice={onSelectPlanPrice}
+          onChangeBillingPeriod={setBillingPeriod}
+          billingPeriod={billingPeriod}
+          monthlyPrice={monthlyPrice}
+          yearlyPrice={yearlyPrice}
         />
       )}
       {slide === "paymentMethod" && selectedPrice &&
