@@ -88,6 +88,9 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
+msgid "All invoices"
+msgstr ""
+
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
