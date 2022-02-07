@@ -1,10 +1,11 @@
 import React, { useState } from "react"
-import { Typography } from "@chainsafe/common-components"
+import { Link, Typography } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import InvoiceLines from "../../../Elements/InvoiceLines"
 import PayInvoiceModal from "./PayInvoice/PayInvoiceModal"
 import { useBilling } from "../../../../Contexts/BillingContext"
+import { ROUTE_LINKS } from "../../../FilesRoutes"
 
 const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
@@ -34,13 +35,24 @@ const BillingHistory = () => {
 
   return (
     <div className={classes.container}>
-      <Typography
-        variant="h4"
-        component="h4"
-        data-cy="header-billing-history"
-      >
-        <Trans>Billing history</Trans>
-      </Typography>
+      <div className={classes.spaceBetweenBox}>
+        <Typography
+          variant="h4"
+          component="h4"
+          data-cy="header-billing-history"
+        >
+          <Trans>Billing history</Trans>
+        </Typography>
+        <Typography
+          variant="body1"
+          component="p"
+          className={classes.link}
+        >
+          <Link to={ROUTE_LINKS.BillingHistory}>
+            <Trans>All invoices</Trans>
+          </Link>
+        </Typography>
+      </div >
       {(isPendingInvoice || invoices?.find(i => i.status === "open")) &&
       <Typography>
         <Trans>Please complete payment of the following outstanding invoices in order to avoid account suspension</Trans>
