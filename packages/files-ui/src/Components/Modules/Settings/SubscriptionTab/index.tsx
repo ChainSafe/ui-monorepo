@@ -37,8 +37,8 @@ const Subscription: React.FC = () => {
     <Elements stripe={stripePromise}>
       <div className={classes.root}>
         <Typography
-          variant="h3"
-          component="h3"
+          variant="h4"
+          component="h4"
         >
           <Trans>Payment and Subscriptions</Trans>
         </Typography>

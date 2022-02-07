@@ -323,8 +323,8 @@ const ProfileView = () => {
           >
             <div className={classes.profileBox}>
               <Typography
-                variant="h3"
-                component="h3"
+                variant="h4"
+                component="h4"
               >
                 <Trans>Profile settings</Trans>
               </Typography>
@@ -336,8 +336,8 @@ const ProfileView = () => {
                 >
                   <div className={classes.walletAddressContainer}>
                     <Typography
-                      variant="body1"
-                      className={classes.label}
+                      variant="h4"
+                      component="h4"
                     >
                       <Trans>Wallet address</Trans>
                     </Typography>
@@ -369,8 +369,8 @@ const ProfileView = () => {
                 >
                   <div className={classes.walletAddressContainer}>
                     <Typography
-                      variant="body1"
-                      className={classes.label}
+                      variant="h4"
+                      component="h4"
                     >
                       <Trans>Files sharing key</Trans>
                     </Typography>
@@ -399,8 +399,8 @@ const ProfileView = () => {
                 {profile?.username
                   ? <>
                     <Typography
-                      component="p"
-                      className={classes.label}
+                      variant="h4"
+                      component="h4"
                     >
                       <Trans>Username</Trans>
                     </Typography>
@@ -415,8 +415,8 @@ const ProfileView = () => {
                   </>
                   : <>
                     <Typography
-                      component="p"
-                      className={classes.label}
+                      variant="h4"
+                      component="h4"
                     >
                       <Trans>Username</Trans>
                     </Typography>
@@ -486,8 +486,8 @@ const ProfileView = () => {
                 <Form>
                   <div className={classes.inputBoxContainer}>
                     <Typography
-                      component="p"
-                      className={classes.label}
+                      variant="h4"
+                      component="h4"
                     >
                       <Trans>First name</Trans>
                     </Typography>
@@ -508,9 +508,8 @@ const ProfileView = () => {
                   </div>
                   <div className={classes.inputBoxContainer}>
                     <Typography
-                      variant="body1"
-                      component="p"
-                      className={classes.label}
+                      variant="h4"
+                      component="h4"
                     >
                       <Trans>Last name</Trans>
                     </Typography>

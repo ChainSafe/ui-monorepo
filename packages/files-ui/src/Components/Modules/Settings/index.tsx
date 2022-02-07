@@ -104,6 +104,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       marginRight: 0,
       display: "flex",
       borderBottom: "none",
+      fontSize: constants.generalUnit * 2,
 
       "& .iconRight": {
         flex: 1,
@@ -112,7 +113,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
 
       "&.selected": {
         borderBottom: "none",
-        fontWeight: "normal",
         backgroundColor: palette.additional["gray"][4],
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10

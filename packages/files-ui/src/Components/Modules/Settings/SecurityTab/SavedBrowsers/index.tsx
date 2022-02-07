@@ -18,8 +18,6 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       }
     },
     title: {
-      fontSize: "16px",
-      lineHeight: "24px",
       paddingBottom: constants.generalUnit * 2
     },
     expansionContainer: {
@@ -35,8 +33,8 @@ const SavedBrowsers: React.FC<{isRefreshing: boolean}> = ({ isRefreshing }) => {
   return (
     <div className={classes.root}>
       <Typography
-        component="p"
-        variant="body1"
+        component="h4"
+        variant="h4"
         className={classes.title}
       >
         <Trans>Saved Browsers</Trans> {isRefreshing && <Loading

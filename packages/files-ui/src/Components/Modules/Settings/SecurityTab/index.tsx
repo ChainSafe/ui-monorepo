@@ -30,7 +30,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIn
         alignItems: "center",
         "& > span": {
           display: "block",
-          lineHeight: "16px",
           fontWeight: typography.fontWeight.regular,
           "&:first-child": {
             flex: "1 1 0"
@@ -159,8 +158,8 @@ const Security = ({ className }: SecurityProps) => {
         data-cy="label-security-header"
       >
         <Typography
-          variant="h3"
-          component="h3"
+          variant="h4"
+          component="h4"
         >
           <Trans>Sign-in methods</Trans>
         </Typography>
@@ -216,7 +215,7 @@ const Security = ({ className }: SecurityProps) => {
             >
               <Trans>
                 Add at least one more authentication method to protect your account.
-                You’d only need any two to sign in to Files from any device.
+                You&apos;d only need any two to sign in to Files from any device.
               </Trans>
             </Typography>
           </div>
