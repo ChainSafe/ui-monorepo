@@ -90,7 +90,7 @@ msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
 
 msgid "All invoices"
-msgstr "Toutes les factures"
+msgstr ""
 
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
@@ -365,9 +365,6 @@ msgstr "Entrez le code de vérification :"
 msgid "Failed to add payment method"
 msgstr "Échec de l'ajout d'une méthode de paiement"
 
-msgid "Failed to change subscription"
-msgstr "Échec de changement de souscription"
-
 msgid "Failed to create a charge"
 msgstr ""
 
@@ -376,6 +373,9 @@ msgstr "Échec de l’obtention de la signature"
 
 msgid "Failed to migrate account, please try again."
 msgstr "Échec de la migration du compte, veuillez réessayer."
+
+msgid "Failed to update the subscription. Please try again later."
+msgstr ""
 
 msgid ""
 "Failed to validate signature.\n"
@@ -952,6 +952,9 @@ msgstr "Les fichiers sont déjà dans ce dossier"
 
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr "Le lien que vous avez tapé semble malformé. Veuillez le vérifier."
+
+msgid "The transaction was declined. Please use a different card or try again."
+msgstr ""
 
 msgid "The username is too long"
 msgstr "Le nom d'utilisateur est trop long"
