@@ -302,20 +302,25 @@ const ConfirmPlan = ({
           </Typography>
         </div>
       </div>
-      {paymentMethod === "crypto" && <div className={classes.rowBox}>
+      <div className={classes.rowBox}>
         <Typography
           variant="body1"
           component="p"
           className={classes.warningText}
         >
           <InfoCircleIcon className={classes.icon} />
-          <Trans>
-            Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received
-            , your plan will not change.
-          </Trans>
+          {paymentMethod === "crypto"
+            ? <Trans>
+              Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received
+              , your plan will not change.
+            </Trans>
+            : <Trans>
+              Payments are final and non-refundable. If you wish to change your plan,
+              any extra funds will be applied as credit towards future payments.
+            </Trans>
+          }
         </Typography>
       </div>
-      }
       {subscriptionErrorMessage &&
         <Typography
           component="p"
