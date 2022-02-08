@@ -13,6 +13,7 @@ export const planChangeConfirmationModal = {
   totalLabel: () => cy.get("[data-cy=label-total-title]"),
   totalPriceLabel: () => cy.get("[data-cy=label-total-price]"),
   changePlanErrorLabel: () => cy.get("[data-cy=label-change-plan-error]"),
+  planPaymentWarningLabel: () => cy.get("[data-cy=label-change-plan-payment-warning]"),
   goBackButton: () => cy.get("[data-testid=button-go-back-to-payment-method]"),
   confirmPlanChangeButton: () => cy.get("[data-testid=button-confirm-plan-change]")
 }

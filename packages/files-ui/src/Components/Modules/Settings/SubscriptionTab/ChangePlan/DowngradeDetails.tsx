@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product } from "@chainsafe/files-api-client"
-import {  Button, CrossIcon, formatBytes, Typography } from "@chainsafe/common-components"
+import {  Button, CrossIcon, formatBytes, InfoCircleIcon, Typography } from "@chainsafe/common-components"
 import {  Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../../Contexts/BillingContext"
@@ -87,6 +87,18 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     invoiceText: {
       marginTop: constants.generalUnit * 3,
       marginBottom: constants.generalUnit
+    },
+    warningText: {
+      marginTop: constants.generalUnit * 3,
+      maxWidth: constants.generalUnit * 56,
+      color: palette.additional["gray"][7]
+    },
+    icon : {
+      verticalAlign: "middle",
+      "& > svg": {
+        fill: palette.additional["gray"][7],
+        height: constants.generalUnit * 2.25
+      }
     }
   })
 )
@@ -99,11 +111,18 @@ interface IConfirmDowngrade {
   shouldCancelPlan: boolean
 }
 
-const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onClose }: IConfirmDowngrade) => {
+const DowngradeDetails = ({
+  plan,
+  goBack,
+  goToPlanDetails,
+  shouldCancelPlan,
+  onClose
+}: IConfirmDowngrade) => {
   const classes = useStyles()
-  const { currentSubscription, cancelCurrentSubscription } = useBilling()
+  const { currentSubscription, cancelCurrentSubscription, invoices } = useBilling()
   const currentStorage = formatBytes(Number(currentSubscription?.product?.price.metadata?.storage_size_bytes), 2)
   const [isCancelingPlan, setIsCancellingPlan] = useState(false)
+  const lastInvoicePaymentMethod = invoices && invoices[invoices.length - 1].payment_method
 
   const onCancelPlan = useCallback(() => {
     setIsCancellingPlan(true)
@@ -136,7 +155,7 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
           className={classes.featuresTitle}
           data-cy="label-lost-features-summary"
         >
-          <Trans>You would lose the following features:</Trans>
+          <Trans>By switching plan, you will loose access to:</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           <div className={clsx(classes.middleRowBox, classes.featureTickBox)}>
@@ -163,6 +182,24 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
             </Typography>
           </div>
         </div>
+        <Typography
+          variant="body1"
+          component="p"
+          className={classes.warningText}
+          data-cy="label-downgrade-payment-warning"
+        >
+          <InfoCircleIcon className={classes.icon} />
+          {lastInvoicePaymentMethod === "crypto"
+            ? <Trans>
+              All crypto payments are final and ineligible for credits,
+              exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed.
+            </Trans>
+            : <Trans>
+              Payments are final and non-refundable. If you wish to change your plan,
+              any extra funds will be applied as credit towards future payments.
+            </Trans>
+          }
+        </Typography>
       </div>
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>

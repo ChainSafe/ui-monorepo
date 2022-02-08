@@ -10,6 +10,7 @@ import {
   DaiIcon,
   Divider,
   EthereumIcon,
+  InfoCircleIcon,
   Loading,
   Typography,
   UsdcIcon
@@ -199,6 +200,18 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
       margin: `${constants.generalUnit * 4}px 0`,
       display: "flex",
       justifyContent: "center"
+    },
+    warningText: {
+      marginTop: constants.generalUnit * 3,
+      maxWidth: constants.generalUnit * 56,
+      color: palette.additional["gray"][7]
+    },
+    icon : {
+      verticalAlign: "middle",
+      "& > svg": {
+        fill: palette.additional["gray"][7],
+        height: constants.generalUnit * 2.25
+      }
     }
   })
 )
@@ -457,6 +470,18 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
                   </div>
                 </div>
               </div>
+              <Typography
+                variant="body1"
+                component="p"
+                className={classes.warningText}
+                data-cy="label-crypto-payment-warning"
+              >
+                <InfoCircleIcon className={classes.icon} />
+                <Trans>
+                  All crypto payments are final and ineligible for credits,
+                  exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed.
+                </Trans>
+              </Typography>
             </>
           }
         </>

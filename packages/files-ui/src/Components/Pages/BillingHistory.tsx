@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import InvoiceLines from "../Elements/InvoiceLines"
+import PayInvoiceModal from "../Modules/Settings/SubscriptionTab/PayInvoice/PayInvoiceModal"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints }: CSFTheme) =>
@@ -30,6 +31,7 @@ const useStyles = makeStyles(
 
 const BillingHistory = () => {
   const classes = useStyles()
+  const [invoiceToPay, setInvoiceToPay] = useState<string | undefined>()
 
   return (
     <div className={classes.root}>
@@ -40,7 +42,11 @@ const BillingHistory = () => {
       >
         <Trans>Billing history</Trans>
       </Typography>
-      <InvoiceLines />
+      <InvoiceLines payInvoice={(invoiceId) => setInvoiceToPay(invoiceId)} />
+      {invoiceToPay && <PayInvoiceModal
+        invoiceId={invoiceToPay}
+        onClose={() => setInvoiceToPay(undefined)}
+      />}
     </div>
   )
 }
