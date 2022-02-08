@@ -364,9 +364,6 @@ msgstr "Enter the verification code:"
 msgid "Failed to add payment method"
 msgstr "Failed to add payment method"
 
-msgid "Failed to change subscription"
-msgstr "Failed to change subscription"
-
 msgid "Failed to create a charge"
 msgstr "Failed to create a charge"
 
@@ -375,6 +372,9 @@ msgstr "Failed to get signature"
 
 msgid "Failed to migrate account, please try again."
 msgstr "Failed to migrate account, please try again."
+
+msgid "Failed to update the subscription. Please try again later."
+msgstr "Failed to update the subscription. Please try again later."
 
 msgid ""
 "Failed to validate signature.\n"
@@ -951,6 +951,9 @@ msgstr "The files are already in this folder"
 
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr "The link you typed in looks malformed. Please verify it."
+
+msgid "The transaction was declined. Please use a different card or try again."
+msgstr "The transaction was declined. Please use a different card or try again."
 
 msgid "The username is too long"
 msgstr "The username is too long"

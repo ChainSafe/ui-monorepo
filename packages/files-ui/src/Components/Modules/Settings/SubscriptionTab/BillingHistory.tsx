@@ -1,11 +1,11 @@
 import React, { useState } from "react"
-import { Typography, Link } from "@chainsafe/common-components"
+import { Link, Typography } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
-import { ROUTE_LINKS } from "../../../FilesRoutes"
 import InvoiceLines from "../../../Elements/InvoiceLines"
 import PayInvoiceModal from "./PayInvoice/PayInvoiceModal"
 import { useBilling } from "../../../../Contexts/BillingContext"
+import { ROUTE_LINKS } from "../../../FilesRoutes"
 
 const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
@@ -30,8 +30,8 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
 
 const BillingHistory = () => {
   const classes = useStyles()
-  const [isPayInvoiceModalVisible, setPayInvoiceModalVisible] = useState(false)
-  const { isPendingInvoice } = useBilling()
+  const [invoiceToPay, setInvoiceToPay] = useState<string| undefined>()
+  const { isPendingInvoice, openInvoice } = useBilling()
 
   return (
     <div className={classes.container}>
@@ -52,23 +52,19 @@ const BillingHistory = () => {
             <Trans>All invoices</Trans>
           </Link>
         </Typography>
-      </div>
-      {isPendingInvoice && <Typography
-        variant="body1"
-        component="p"
-        className={classes.billingText}
-      >
+      </div >
+      {(isPendingInvoice || openInvoice) &&
+      <Typography>
         <Trans>Please complete payment of the following outstanding invoices in order to avoid account suspension</Trans>
       </Typography>}
       <InvoiceLines
         lineNumber={3}
-        payInvoice={() => setPayInvoiceModalVisible(true)}
+        payInvoice={(invoiceId) => setInvoiceToPay(invoiceId)}
       />
-      {
-        isPayInvoiceModalVisible && <PayInvoiceModal
-          onClose={() => setPayInvoiceModalVisible(false)}
-        />
-      }
+      {invoiceToPay && <PayInvoiceModal
+        invoiceId={invoiceToPay}
+        onClose={() => setInvoiceToPay(undefined)}
+      />}
     </div>
   )
 }

@@ -12,6 +12,8 @@ import PlanSuccess from "./PlanSuccess"
 import DowngradeDetails from "./DowngradeDetails"
 import { PaymentMethod } from "../../../../../Contexts/BillingContext"
 import CryptoPayment from "../Common/CryptoPayment"
+import { t } from "@lingui/macro"
+
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
@@ -57,7 +59,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const [slide, setSlide] = useState<ChangeModalSlides | undefined>()
   const [plans, setPlans] = useState<Product[] | undefined>()
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
-  const [isSubscriptionError, setIsSubscriptionError] = useState(false)
+  const [subscriptionErrorMessage, setSubscriptionErrorMessage] = useState<string | undefined>()
   const didSelectFreePlan = useMemo(() => !!selectedPlan && getPrice(selectedPlan, "month") === 0, [selectedPlan])
   const monthlyPrice = useMemo(() => selectedPlan?.prices.find((price) => price.recurring.interval === "month"), [selectedPlan])
   const yearlyPrice = useMemo(() => selectedPlan?.prices.find((price) => price.recurring.interval === "year"), [selectedPlan])
@@ -89,12 +91,17 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const handleChangeSubscription = useCallback(() => {
     if (selectedPrice) {
       setIsLoadingChangeSubscription(true)
+      setSubscriptionErrorMessage(undefined)
       changeSubscription(selectedPrice.id)
         .then(() => {
           setSlide("planSuccess")
         })
-        .catch(() => {
-          setIsSubscriptionError(true)
+        .catch((e) => {
+          if (e.error.code === 400 && e.error.message.includes("declined")) {
+            setSubscriptionErrorMessage(t`The transaction was declined. Please use a different card or try again.`)
+          } else {
+            setSubscriptionErrorMessage(t`Failed to update the subscription. Please try again later.`)
+          }
         })
         .finally(() => setIsLoadingChangeSubscription(false))
     }
@@ -182,7 +189,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         goToPaymentMethod={() => setSlide("paymentMethod")}
         loadingChangeSubscription={isLoadingChangeSubscription}
         onChangeSubscription={selectedPaymentMethod === "creditCard" ? handleChangeSubscription : () => setSlide("cryptoPayment")}
-        isSubscriptionError={isSubscriptionError}
+        subscriptionErrorMessage={subscriptionErrorMessage}
         paymentMethod={selectedPaymentMethod}
       />
       }
