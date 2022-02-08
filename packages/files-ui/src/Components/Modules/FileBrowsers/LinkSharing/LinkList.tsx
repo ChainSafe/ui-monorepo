@@ -49,14 +49,19 @@ const useStyles = makeStyles(
       permissionDropdown: {
         padding: `0px ${constants.generalUnit}px`,
         backgroundColor: palette.additional["gray"][1],
-        marginLeft: constants.generalUnit
+        marginLeft: constants.generalUnit,
+        "& p": {
+          fontSize: "16px"
+        }
       },
       rightsText: {
         display: "inline-block"
       },
       createLinkButton: {
-        padding: "0px !important",
-        textDecoration: "none"
+        padding: "0 8px 0 0 !important",
+        textDecoration: "none",
+        fontWeight: "normal",
+        fontSize: "16px"
       },
       dropdownTitle: {
         padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit}px`
@@ -80,7 +85,7 @@ const useStyles = makeStyles(
       generateLinkContainer: {
         display: "flex",
         justifyContent: "space-between",
-        marginTop: constants.generalUnit * 2
+        marginTop: constants.generalUnit
       },
       loader: {
         textAlign: "center"

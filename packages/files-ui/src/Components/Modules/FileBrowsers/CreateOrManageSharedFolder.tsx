@@ -79,12 +79,12 @@ const useStyles = makeStyles(
         color: palette.error.main
       },
       permissionDropdownNoBorder: {
-        padding: `0px ${constants.generalUnit}px`,
+        padding: `0px ${constants.generalUnit * 0.75}px`,
         backgroundColor: palette.additional["gray"][1],
         width: "150px"
       },
       permissionDropDownBorders: {
-        border: `1px solid ${palette.additional["gray"][6]}`,
+        border: `1px solid ${palette.additional["gray"][5]}`,
         width: "inherit",
         marginRight: constants.generalUnit,
         borderRadius: "2px"
@@ -352,6 +352,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
       id: "read",
       onClick: () => {
         if (permission === "write") {
+          setHasPermissionsChanged(true)
           setSharedFolderWriters(sharedFolderWriters.filter((sr) => sr.value !== user.value))
           setSharedFolderReaders([...sharedFolderReaders, user])
         }
@@ -369,6 +370,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
       id: "write",
       onClick: () => {
         if (permission === "read") {
+          setHasPermissionsChanged(true)
           setSharedFolderReaders(sharedFolderReaders.filter((sr) => sr.value !== user.value))
           setSharedFolderWriters([...sharedFolderWriters, user])
         }
@@ -491,6 +493,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
                   setSearchActive(false)
                   setUsernameSearch("")
                   setSuggestedUsers([])
+                  setHasPermissionsChanged(true)
                 }}
               >
                 {u.label}
@@ -549,6 +552,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
               variant="link"
               className={classes.crossButton}
               onClick={() => {
+                setHasPermissionsChanged(true)
                 setSharedFolderReaders(sharedFolderReaders.filter((r) => r.value !== sr.value))
               }}
             >
@@ -592,7 +596,8 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
               variant="link"
               className={classes.crossButton}
               onClick={() => {
-                setSharedFolderReaders(sharedFolderReaders.filter((r) => r.value !== sw.value))
+                setHasPermissionsChanged(true)
+                setSharedFolderWriters(sharedFolderWriters.filter((r) => r.value !== sw.value))
               }}
             >
               <CrossIcon />
