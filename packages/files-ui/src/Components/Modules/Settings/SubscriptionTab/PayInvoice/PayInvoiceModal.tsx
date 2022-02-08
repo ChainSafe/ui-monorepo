@@ -59,9 +59,7 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
     }
   }, [filesApiClient, invoiceToPay, refreshInvoices])
 
-  useEffect(() => {
-    invoiceToPay?.payment_method === "stripe" && payInvoice()
-  }, [invoiceToPay, payInvoice])
+  if (!invoiceToPay) return null
 
   return (
     <Modal
@@ -76,21 +74,18 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
       testId="pay-invoice"
       onClose={onClose}
     >
-      {!invoiceToPay
-        ? null
-        : invoiceToPay?.payment_method === "crypto"
-          ? <CryptoPayment />
-          : <ConfirmPlan
-            plan={{ ...invoiceToPay.product, prices: [invoiceToPay?.product.price] }}
-            planPrice={invoiceToPay?.product.price}
-            goToSelectPlan={() => undefined }
-            goToPaymentMethod={() => undefined }
-            onChangeSubscription={payInvoice}
-            loadingChangeSubscription={payingInvoice}
-            subscriptionErrorMessage={errorMessage}
-            paymentMethod={invoiceToPay.payment_method === "stripe" ? "creditCard" : "crypto"} />
+      {invoiceToPay?.payment_method === "crypto"
+        ? <CryptoPayment />
+        : <ConfirmPlan
+          plan={{ ...invoiceToPay.product, prices: [invoiceToPay?.product.price] }}
+          planPrice={invoiceToPay?.product.price}
+          goToSelectPlan={() => undefined }
+          goToPaymentMethod={() => undefined }
+          onChangeSubscription={payInvoice}
+          loadingChangeSubscription={payingInvoice}
+          subscriptionErrorMessage={errorMessage}
+          paymentMethod={invoiceToPay.payment_method === "stripe" ? "creditCard" : "crypto"} />
       }
-
     </Modal>
   )
 }
