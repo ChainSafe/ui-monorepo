@@ -212,6 +212,9 @@ const useStyles = makeStyles(
           fill: palette.additional["gray"][7]
         }
       },
+      crossIcon: {
+        fontSize: "22px"
+      },
       linksContainer: {
         width: "100%"
       }
@@ -555,7 +558,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
                 setSharedFolderReaders(sharedFolderReaders.filter((r) => r.value !== sr.value))
               }}
             >
-              <CrossIcon />
+              <CrossIcon className={classes.crossIcon} />
             </Button>
           </div>
         </div>
@@ -599,7 +602,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
                 setSharedFolderWriters(sharedFolderWriters.filter((r) => r.value !== sw.value))
               }}
             >
-              <CrossIcon />
+              <CrossIcon className={classes.crossIcon} />
             </Button>
           </div>
         </div>
@@ -640,7 +643,10 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
             className={classes.okButton}
             loading={isCreatingSharedFolder || isEditingSharedFolder}
             onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
-            disabled={mode === "create" ? (!!nameError || !sharedFolderName) : !hasPermissionsChanged}
+            disabled={mode === "create"
+              ? (!!nameError || !sharedFolderName || isCreatingSharedFolder)
+              : (!hasPermissionsChanged || isEditingSharedFolder)
+            }
             data-cy={mode === "create" ? "button-create-shared-folder" : "button-update-shared-folder"}
           >
             {mode === "create"

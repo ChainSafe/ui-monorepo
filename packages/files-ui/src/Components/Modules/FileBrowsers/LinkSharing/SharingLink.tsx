@@ -224,7 +224,7 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
         data-cy="label-permission-type"
       >
         <Typography className={classes.link}>
-          {translatedPermission(nonce.permission)}
+          <b>{translatedPermission(nonce.permission)}</b>
         </Typography>
       </div>
       <div
