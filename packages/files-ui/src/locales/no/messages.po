@@ -88,6 +88,9 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
+msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+msgstr ""
+
 msgid "All invoices"
 msgstr ""
 
@@ -137,6 +140,9 @@ msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <
 msgstr ""
 
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
+msgstr ""
+
+msgid "By switching plan, you will loose access to:"
 msgstr ""
 
 msgid "CID (Content Identifier)"
@@ -673,6 +679,9 @@ msgstr ""
 msgid "Payment method"
 msgstr ""
 
+msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+msgstr ""
+
 msgid "Plan changed successfully"
 msgstr ""
 
@@ -1151,9 +1160,6 @@ msgid "You were added to the shared folder ({0}): {1}"
 msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
-msgstr ""
-
-msgid "You would lose the following features:"
 msgstr ""
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
