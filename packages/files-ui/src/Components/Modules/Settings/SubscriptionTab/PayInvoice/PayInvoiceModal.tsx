@@ -6,7 +6,7 @@ import CryptoPayment from "../Common/CryptoPayment"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
 import ConfirmPlan from "../Common/ConfirmPlan"
-import { t } from "@lingui/macro"
+import { formatSubscriptionError } from "../utils/formatSubscriptionError"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -48,12 +48,9 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
       setPayingInvoice(true)
       setErrorMessage(undefined)
       filesApiClient.payInvoice(invoiceToPay.uuid).then(refreshInvoices)
-    } catch (error) {
-      if ((error as any).error.code === 400 && (error as any).error.message.includes("declined")) {
-        setErrorMessage(t`The transaction was declined. Please use a different card or try again.`)
-      } else {
-        setErrorMessage(t`Failed to update the subscription. Please try again later.`)
-      }
+    } catch (error: any) {
+      const errorMessage = formatSubscriptionError(error)
+      setErrorMessage(errorMessage)
     } finally {
       setPayingInvoice(false)
     }
