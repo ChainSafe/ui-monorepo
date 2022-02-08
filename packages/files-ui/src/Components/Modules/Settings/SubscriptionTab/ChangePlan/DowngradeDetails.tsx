@@ -143,6 +143,7 @@ const DowngradeDetails = ({
         <Typography
           component="p"
           variant="h4"
+          data-cy="header-downgrade-plan"
         >
           <Trans>Change plan</Trans>
         </Typography>
@@ -152,6 +153,7 @@ const DowngradeDetails = ({
           variant="body1"
           component="p"
           className={classes.featuresTitle}
+          data-cy="label-lost-features-summary"
         >
           <Trans>By switching plan, you will loose access to:</Trans>
         </Typography>
@@ -161,6 +163,7 @@ const DowngradeDetails = ({
             <Typography
               component="p"
               variant="body1"
+              data-cy="label-downgraded-storage-description"
             >
               {currentStorage
                 ? <Trans><b>{currentStorage}</b> of storage</Trans >
@@ -173,6 +176,7 @@ const DowngradeDetails = ({
             <Typography
               component="p"
               variant="body1"
+              data-cy="label-downgraded-product-description"
             >
               {currentSubscription?.product.description}
             </Typography>
@@ -202,6 +206,7 @@ const DowngradeDetails = ({
             onClick={goBack}
             variant="text"
             disabled={isCancelingPlan}
+            testId="go-back-to-plan-selection"
           >
             <Trans>Go back</Trans>
           </Button>
@@ -212,12 +217,14 @@ const DowngradeDetails = ({
                 onClick={onCancelPlan}
                 loading={isCancelingPlan}
                 disabled={isCancelingPlan}
+                testId="switch-to-free-plan"
               >
                 <Trans>Switch to Free plan</ Trans>
               </Button>
               : <Button
                 variant="primary"
                 onClick={goToPlanDetails}
+                testId="switch-plan"
               >
                 <Trans>Switch Plan</ Trans>
               </Button>
