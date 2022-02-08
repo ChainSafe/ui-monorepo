@@ -9,25 +9,8 @@ export const useLookupSharedFolderUser = () => {
   const { filesApiClient } = useFilesApi()
   const [sharedFolderReaders, setSharedFolderReaders] = useState<SharedUserData[]>([])
   const [sharedFolderWriters, setSharedFolderWriters] = useState<SharedUserData[]>([])
-  const [usersError, setUsersError] = useState("")
 
   const { profile } = useUser()
-
-  // useEffect(() => {
-  //   // check intersecting users
-  //   const foundIntersectingUsers = sharedFolderReaders
-  //     .filter(
-  //       reader => (
-  //         sharedFolderWriters.some(writer => reader.data.uuid === writer.data.uuid)
-  //       ))
-
-  //   if (foundIntersectingUsers.length) {
-  //     setUsersError(t`User ${centerEllipsis(foundIntersectingUsers[0].label)
-  //     } is both a reader and writer`)
-  //   } else {
-  //     setUsersError("")
-  //   }
-  // }, [sharedFolderReaders, sharedFolderWriters])
 
   const handleLookupUser = useCallback(async (inputVal: string) => {
     if (inputVal === "") return []
@@ -84,7 +67,6 @@ export const useLookupSharedFolderUser = () => {
   const resetUsers = useCallback(() => {
     setSharedFolderReaders([])
     setSharedFolderWriters([])
-    setUsersError("")
   }, [])
 
   return {
@@ -94,8 +76,6 @@ export const useLookupSharedFolderUser = () => {
     setSharedFolderReaders,
     setSharedFolderWriters,
     onAddNewUser,
-    usersError,
-    setUsersError,
     resetUsers
   }
 }

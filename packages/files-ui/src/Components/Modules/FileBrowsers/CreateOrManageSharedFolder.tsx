@@ -246,7 +246,6 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
     setSharedFolderReaders,
     setSharedFolderWriters,
     handleLookupUser,
-    usersError,
     resetUsers
   } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
@@ -620,15 +619,6 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
         alignItems="center"
         className={classes.footer}
       >
-        {!!usersError && (
-          <Typography
-            component="p"
-            variant="body1"
-            className={classes.errorText}
-          >
-            {usersError}
-          </Typography>
-        )}
         <Grid
           item
           flexDirection="row"
@@ -650,7 +640,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
             className={classes.okButton}
             loading={isCreatingSharedFolder || isEditingSharedFolder}
             onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
-            disabled={mode === "create" ? (!!usersError || !!nameError) : !hasPermissionsChanged || !!usersError}
+            disabled={mode === "create" ? (!!nameError || !sharedFolderName) : !hasPermissionsChanged}
             data-cy={mode === "create" ? "button-create-shared-folder" : "button-update-shared-folder"}
           >
             {mode === "create"
