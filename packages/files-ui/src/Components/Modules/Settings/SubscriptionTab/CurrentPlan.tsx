@@ -80,6 +80,7 @@ const CurrentPlan = ({ className }: ICurrentProduct) => {
           variant="h4"
           component="h4"
           className={classes.heading}
+          data-cy="label-plan-name"
         >
           {currentSubscription?.product.name}{isPendingInvoice && ` ${t`(Awaiting payment)`}`}
         </Typography>

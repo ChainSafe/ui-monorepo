@@ -89,8 +89,11 @@ msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisate
 msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
 
+msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+msgstr ""
+
 msgid "All invoices"
-msgstr "Toutes les factures"
+msgstr ""
 
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
@@ -139,6 +142,9 @@ msgstr "En connectant votre portefeuille, vous acceptez nos <0>conditions de ser
 
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
 msgstr "En oubliant ce navigateur, vous ne pourrez pas utiliser la clé de récupération qui lui est associée pour vous connecter."
+
+msgid "By switching plan, you will loose access to:"
+msgstr ""
 
 msgid "CID (Content Identifier)"
 msgstr "CID (Identifiant de contenu)"
@@ -365,9 +371,6 @@ msgstr "Entrez le code de vérification :"
 msgid "Failed to add payment method"
 msgstr "Échec de l'ajout d'une méthode de paiement"
 
-msgid "Failed to change subscription"
-msgstr "Échec de changement de souscription"
-
 msgid "Failed to create a charge"
 msgstr ""
 
@@ -376,6 +379,9 @@ msgstr "Échec de l’obtention de la signature"
 
 msgid "Failed to migrate account, please try again."
 msgstr "Échec de la migration du compte, veuillez réessayer."
+
+msgid "Failed to update the subscription. Please try again later."
+msgstr ""
 
 msgid ""
 "Failed to validate signature.\n"
@@ -677,6 +683,9 @@ msgstr ""
 msgid "Payment method"
 msgstr "Méthode de paiement"
 
+msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+msgstr ""
+
 msgid "Plan changed successfully"
 msgstr "Formule changée"
 
@@ -953,6 +962,9 @@ msgstr "Les fichiers sont déjà dans ce dossier"
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr "Le lien que vous avez tapé semble malformé. Veuillez le vérifier."
 
+msgid "The transaction was declined. Please use a different card or try again."
+msgstr ""
+
 msgid "The username is too long"
 msgstr "Le nom d'utilisateur est trop long"
 
@@ -1153,9 +1165,6 @@ msgstr "Vous avez été ajouté(e) au dossier partagé ({0}) : {1}"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
-
-msgid "You would lose the following features:"
-msgstr "Vous perdriez ces fonctionnalités :"
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr "Vous avez un paiement en retard. Tant qu'il n'a pas été réglé, l'accès à votre compte a été restreint"

@@ -88,6 +88,9 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
 
+msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+msgstr "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+
 msgid "All invoices"
 msgstr "All invoices"
 
@@ -138,6 +141,9 @@ msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and 
 
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
 msgstr "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
+
+msgid "By switching plan, you will loose access to:"
+msgstr "By switching plan, you will loose access to:"
 
 msgid "CID (Content Identifier)"
 msgstr "CID (Content Identifier)"
@@ -364,9 +370,6 @@ msgstr "Enter the verification code:"
 msgid "Failed to add payment method"
 msgstr "Failed to add payment method"
 
-msgid "Failed to change subscription"
-msgstr "Failed to change subscription"
-
 msgid "Failed to create a charge"
 msgstr "Failed to create a charge"
 
@@ -375,6 +378,9 @@ msgstr "Failed to get signature"
 
 msgid "Failed to migrate account, please try again."
 msgstr "Failed to migrate account, please try again."
+
+msgid "Failed to update the subscription. Please try again later."
+msgstr "Failed to update the subscription. Please try again later."
 
 msgid ""
 "Failed to validate signature.\n"
@@ -676,6 +682,9 @@ msgstr "Payment information"
 msgid "Payment method"
 msgstr "Payment method"
 
+msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+msgstr "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+
 msgid "Plan changed successfully"
 msgstr "Plan changed successfully"
 
@@ -952,6 +961,9 @@ msgstr "The files are already in this folder"
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr "The link you typed in looks malformed. Please verify it."
 
+msgid "The transaction was declined. Please use a different card or try again."
+msgstr "The transaction was declined. Please use a different card or try again."
+
 msgid "The username is too long"
 msgstr "The username is too long"
 
@@ -1152,9 +1164,6 @@ msgstr "You were added to the shared folder ({0}): {1}"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
-
-msgid "You would lose the following features:"
-msgstr "You would lose the following features:"
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"

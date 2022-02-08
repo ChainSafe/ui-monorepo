@@ -12,7 +12,9 @@ import PlanSuccess from "./PlanSuccess"
 import DowngradeDetails from "./DowngradeDetails"
 import { PaymentMethod } from "../../../../../Contexts/BillingContext"
 import CryptoPayment from "../Common/CryptoPayment"
-const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
+import { formatSubscriptionError } from "../utils/formatSubscriptionError"
+
+const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
   createStyles({
     root: {
       "&:before": {
@@ -26,6 +28,18 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       },
       [breakpoints.down("sm")]: {
         width: "100%"
+      }
+    },
+    warningText: {
+      marginTop: constants.generalUnit * 3,
+      maxWidth: constants.generalUnit * 56,
+      color: palette.additional["gray"][7]
+    },
+    icon : {
+      verticalAlign: "middle",
+      "& > svg": {
+        fill: palette.additional["gray"][7],
+        height: constants.generalUnit * 2.25
       }
     }
   })
@@ -57,7 +71,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const [slide, setSlide] = useState<ChangeModalSlides | undefined>()
   const [plans, setPlans] = useState<Product[] | undefined>()
   const [isLoadingChangeSubscription, setIsLoadingChangeSubscription] = useState(false)
-  const [isSubscriptionError, setIsSubscriptionError] = useState(false)
+  const [subscriptionErrorMessage, setSubscriptionErrorMessage] = useState<string | undefined>()
   const didSelectFreePlan = useMemo(() => !!selectedPlan && getPrice(selectedPlan, "month") === 0, [selectedPlan])
   const monthlyPrice = useMemo(() => selectedPlan?.prices.find((price) => price.recurring.interval === "month"), [selectedPlan])
   const yearlyPrice = useMemo(() => selectedPlan?.prices.find((price) => price.recurring.interval === "year"), [selectedPlan])
@@ -89,12 +103,14 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
   const handleChangeSubscription = useCallback(() => {
     if (selectedPrice) {
       setIsLoadingChangeSubscription(true)
+      setSubscriptionErrorMessage(undefined)
       changeSubscription(selectedPrice.id)
         .then(() => {
           setSlide("planSuccess")
         })
-        .catch(() => {
-          setIsSubscriptionError(true)
+        .catch((e) => {
+          const errorMessage = formatSubscriptionError(e)
+          setSubscriptionErrorMessage(errorMessage)
         })
         .finally(() => setIsLoadingChangeSubscription(false))
     }
@@ -178,11 +194,17 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       <ConfirmPlan
         plan={selectedPlan}
         planPrice={selectedPrice}
-        goToSelectPlan={() => setSlide("select")}
-        goToPaymentMethod={() => setSlide("paymentMethod")}
+        goToSelectPlan={() => {
+          setSubscriptionErrorMessage(undefined)
+          setSlide("select")}
+        }
+        goToPaymentMethod={() => {
+          setSubscriptionErrorMessage(undefined)
+          setSlide("paymentMethod")
+        }}
         loadingChangeSubscription={isLoadingChangeSubscription}
         onChangeSubscription={selectedPaymentMethod === "creditCard" ? handleChangeSubscription : () => setSlide("cryptoPayment")}
-        isSubscriptionError={isSubscriptionError}
+        subscriptionErrorMessage={subscriptionErrorMessage}
         paymentMethod={selectedPaymentMethod}
       />
       }

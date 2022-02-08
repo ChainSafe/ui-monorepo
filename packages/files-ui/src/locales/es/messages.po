@@ -89,6 +89,9 @@ msgstr ""
 msgid "Adding you to the shared folder..."
 msgstr ""
 
+msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+msgstr ""
+
 msgid "All invoices"
 msgstr ""
 
@@ -139,6 +142,9 @@ msgstr "Al conectar su billetera, acepta nuestras <0> Condiciones de servicio </
 
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
 msgstr "Si olvida este navegador, no podrá utilizar su clave de recuperación asociada para iniciar sesión."
+
+msgid "By switching plan, you will loose access to:"
+msgstr ""
 
 msgid "CID (Content Identifier)"
 msgstr "CID (Identificador de contenido)"
@@ -365,9 +371,6 @@ msgstr ""
 msgid "Failed to add payment method"
 msgstr ""
 
-msgid "Failed to change subscription"
-msgstr ""
-
 msgid "Failed to create a charge"
 msgstr ""
 
@@ -376,6 +379,9 @@ msgstr "No se pudo obtener la firma"
 
 msgid "Failed to migrate account, please try again."
 msgstr "No se pudo migrar la cuenta. Vuelve a intentarlo."
+
+msgid "Failed to update the subscription. Please try again later."
+msgstr ""
 
 msgid ""
 "Failed to validate signature.\n"
@@ -677,6 +683,9 @@ msgstr ""
 msgid "Payment method"
 msgstr ""
 
+msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+msgstr ""
+
 msgid "Plan changed successfully"
 msgstr ""
 
@@ -953,6 +962,9 @@ msgstr ""
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr ""
 
+msgid "The transaction was declined. Please use a different card or try again."
+msgstr ""
+
 msgid "The username is too long"
 msgstr ""
 
@@ -1153,9 +1165,6 @@ msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
-
-msgid "You would lose the following features:"
-msgstr ""
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
