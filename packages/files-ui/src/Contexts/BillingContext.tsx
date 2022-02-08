@@ -29,6 +29,7 @@ interface IBillingContext {
   invoices?: InvoiceResponse[]
   cancelCurrentSubscription: () => Promise<void>
   isPendingInvoice: boolean
+  openInvoice?: InvoiceResponse
   downloadInvoice: (invoiceId: string) => Promise<void>
   refreshInvoices: () => void
 }
@@ -64,6 +65,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
   const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update", [currentSubscription])
+  const openInvoice = useMemo(() => invoices?.find((i) => i.status === "open"), [invoices])
   const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
   const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
   const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
@@ -100,19 +102,18 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
 
   useEffect(() => {
-    const outstandingInvoice = invoices?.find(i => i.status === "open")
-    if (outstandingInvoice && !unpaidInvoiceNotification) {
+    if (!!openInvoice && !unpaidInvoiceNotification) {
       const notif = addNotification({
-        createdAt: outstandingInvoice.period_start,
+        createdAt: openInvoice.period_start,
         title: t`Invoice outstanding`,
         onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
       })
       setUnpaidInvoiceNotification(notif)
-    } else if (!outstandingInvoice && unpaidInvoiceNotification) {
+    } else if (!openInvoice && unpaidInvoiceNotification) {
       removeNotification(unpaidInvoiceNotification)
       setUnpaidInvoiceNotification(undefined)
     }
-  }, [addNotification, invoices, redirect, removeNotification, unpaidInvoiceNotification])
+  }, [addNotification, openInvoice, redirect, removeNotification, unpaidInvoiceNotification])
 
   useEffect(() => {
     if (defaultCard && currentSubscription) {
@@ -249,7 +250,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         cancelCurrentSubscription,
         isPendingInvoice,
         downloadInvoice,
-        refreshInvoices
+        refreshInvoices,
+        openInvoice
       }}
     >
       {children}
