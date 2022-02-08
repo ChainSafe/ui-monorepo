@@ -4,7 +4,6 @@ import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
 import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 import { SharedFolderModalMode } from "./types"
-import LinkList from "./LinkSharing/LinkList"
 import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
 
 const useStyles = makeStyles(
@@ -51,14 +50,8 @@ const CreateOrManageSharedFolderModal = (
       }}
       active={isModalOpen}
       closePosition="none"
-      maxWidth="sm"
+      maxWidth={500}
       testId="create-or-edit-shared-folder"
-      subModal={mode === "edit" && !!bucketToEdit && (
-        <LinkList
-          bucketEncryptionKey={bucketToEdit.encryptionKey}
-          bucketId={bucketToEdit.id}
-        />
-      )}
       mobileStickyBottom={false}
     >
       <CreateOrManageSharedFolder

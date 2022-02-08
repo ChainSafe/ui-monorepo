@@ -14,6 +14,7 @@ import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 import { NonceResponsePermission, LookupUser } from "@chainsafe/files-api-client"
 import clsx from "clsx"
 import { Hashicon } from "@emeraldpay/hashicon-react"
+import LinkList from "./LinkSharing/LinkList"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) => {
@@ -80,7 +81,7 @@ const useStyles = makeStyles(
       permissionDropdownNoBorder: {
         padding: `0px ${constants.generalUnit}px`,
         backgroundColor: palette.additional["gray"][1],
-        width: "140px"
+        width: "150px"
       },
       permissionDropDownBorders: {
         border: `1px solid ${palette.additional["gray"][6]}`,
@@ -210,6 +211,9 @@ const useStyles = makeStyles(
         "& svg": {
           fill: palette.additional["gray"][7]
         }
+      },
+      linksContainer: {
+        width: "100%"
       }
     })
   }
@@ -597,6 +601,13 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
         </div>
         )}
       </div>
+      {mode === "edit" && !!bucketToEdit && <div className={classes.linksContainer}>
+        <LinkList
+          bucketEncryptionKey={bucketToEdit.encryptionKey}
+          bucketId={bucketToEdit.id}
+        />
+      </div>
+      }
       <Grid
         item
         flexDirection="row"
@@ -625,7 +636,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
             type="button"
             data-cy="button-cancel-create-shared-folder"
           >
-            <Trans>Cancel</Trans>
+            <Trans>Close</Trans>
           </CustomButton>
           <Button
             variant="primary"

@@ -1,5 +1,5 @@
 
-import { CopyIcon, DeleteSvg, Loading, MoreIcon, Typography } from "@chainsafe/common-components"
+import { CopyIcon, DeleteSvg, MoreIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, debounce, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponse } from "@chainsafe/files-api-client"
 import { Trans } from "@lingui/macro"
@@ -19,7 +19,7 @@ const useStyles = makeStyles(
         maxWidth: "100%",
         position: "relative",
         "&:not(:first-child)": {
-          marginTop: constants.generalUnit * 2
+          marginTop: constants.generalUnit * 3
         }
       },
       linkWrapper: {
@@ -127,7 +127,7 @@ const useStyles = makeStyles(
 interface Props {
   nonce: NonceResponse
   bucketEncryptionKey: string
-  refreshNonces: () => void
+  refreshNonces: (hideLoading?: boolean) => void
 }
 
 const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
@@ -137,7 +137,6 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
   const [jwt, setJwt] = useState("")
   const { createJWT } = useThresholdKey()
   const [copied, setCopied] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
     if(!nonce?.bucket_id || !nonce?.id) {
@@ -195,30 +194,12 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
   }, [debouncedSwitchCopied, link])
 
   const onDeleteNonce = useCallback(() => {
-    setIsDeleting(true)
     filesApiClient.revokeNonce(nonce.id)
       .catch(console.error)
       .finally(() => {
-        refreshNonces()
-        setIsDeleting(false)
+        refreshNonces(true)
       })
   }, [filesApiClient, nonce, refreshNonces])
-
-  if (isDeleting) {
-    return (
-      <>
-        <Typography
-          component="p"
-          className={classes.loader}
-        >
-          <Loading
-            type="initial"
-            size={24}
-          />
-        </Typography>
-      </>
-    )
-  }
 
   return (
     <div className={classes.root}>

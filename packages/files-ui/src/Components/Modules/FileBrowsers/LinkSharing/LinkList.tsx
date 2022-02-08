@@ -1,4 +1,4 @@
-import { Button, Loading, MenuDropdown, Typography } from "@chainsafe/common-components"
+import { Button, Loading, MenuDropdown, LinkIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-client"
 import { t, Trans } from "@lingui/macro"
@@ -11,7 +11,7 @@ const useStyles = makeStyles(
   ({ constants, palette }: CSFTheme) => {
     return createStyles({
       root: {
-        padding: 2 * constants.generalUnit
+        padding: `${constants.generalUnit * 2}px 0`
       },
       options: {
         backgroundColor: constants.header.optionsBackground,
@@ -49,17 +49,14 @@ const useStyles = makeStyles(
       permissionDropdown: {
         padding: `0px ${constants.generalUnit}px`,
         backgroundColor: palette.additional["gray"][1],
-        marginLeft: constants.generalUnit,
-        borderColor: palette.additional["gray"][5],
-        borderWidth: "1px",
-        borderStyle: "solid",
-        borderRadius: "4px"
+        marginLeft: constants.generalUnit
       },
       rightsText: {
         display: "inline-block"
       },
       createLinkButton: {
-        width: "100%"
+        padding: "0px !important",
+        textDecoration: "none"
       },
       dropdownTitle: {
         padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit}px`
@@ -80,21 +77,21 @@ const useStyles = makeStyles(
         padding: constants.generalUnit * 2,
         flexDirection: "column"
       },
-      creationWrapper: {
+      generateLinkContainer: {
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-        margin: "auto"
-      },
-      rightSelection: {
-        marginBottom: constants.generalUnit
+        justifyContent: "space-between",
+        marginTop: constants.generalUnit * 2
       },
       loader: {
         textAlign: "center"
       },
       activeLinks: {
         marginBottom: constants.generalUnit
+      },
+      linkIcon: {
+        fontSize: "24px",
+        marginRight: constants.generalUnit * 0.5,
+        stroke: palette.additional["gray"][10]
       }
     })
   }
@@ -164,8 +161,8 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
     setNewLinkPermission(displayedItems[0].id)
   }, [displayedItems])
 
-  const refreshNonces = useCallback(() => {
-    setIsLoadingNonces(true)
+  const refreshNonces = useCallback((hideLoading?: boolean) => {
+    !hideLoading && setIsLoadingNonces(true)
     filesApiClient.getAllNonces()
       .then((res) => {
         const noncesForCurrentBucket = res.filter(n => n.bucket_id === bucketId)
@@ -201,15 +198,8 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
     <div className={classes.root}>
       {!!nonces.length && !isLoadingNonces && (
         <div className={classes.activeLinks}>
-          <Typography
-            component="h4"
-            variant="h4"
-            className={classes.heading}
-          >
-            <Trans>Active links</Trans>
-          </Typography>
           <div className={classes.grayWrapper}>
-            { nonces.map((nonce) =>
+            {nonces.map((nonce) =>
               <SharingLink
                 key={nonce.id}
                 refreshNonces={refreshNonces}
@@ -234,47 +224,30 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
       )}
       {nonces.length < MAX_LINKS && (
         <>
-          <Typography
-            component="h4"
-            variant="h4"
-            className={classes.heading}
-          >
-            <Trans>Create a sharing link</Trans>
-          </Typography>
-          <div className={classes.grayWrapper}>
-            <div className={classes.creationWrapper}>
-              <div className={classes.rightSelection}>
-                <Typography
-                  component="h5"
-                  variant="h5"
-                  className={classes.rightsText}
-                >
-                  <Trans>Anyone with the link can: </Trans>
-                </Typography>
-                <MenuDropdown
-                  title={(newLinkPermission && translatedPermission(newLinkPermission)) || ""}
-                  anchor="bottom-right"
-                  className={classes.permissionDropdown}
-                  classNames={{
-                    icon: classes.icon,
-                    options: classes.options,
-                    title: classes.dropdownTitle
-                  }}
-                  testId="permission"
-                  menuItems={displayedItems}
-                />
-              </div>
-              <Button
-                className={classes.createLinkButton}
-                onClick={onCreateNonce}
-                variant="secondary"
-                disabled={isLoadingCreation}
-                loading={isLoadingCreation}
-                data-cy="button-create-link"
-              >
-                <Trans>Create link</Trans>
-              </Button>
-            </div>
+          <div className={classes.generateLinkContainer}>
+            <Button
+              className={classes.createLinkButton}
+              onClick={onCreateNonce}
+              variant="link"
+              disabled={isLoadingCreation}
+              loading={isLoadingCreation}
+              data-cy="button-create-link"
+            >
+              <LinkIcon className={classes.linkIcon} />
+              <Trans>Generate sharing link</Trans>
+            </Button>
+            <MenuDropdown
+              title={(newLinkPermission && translatedPermission(newLinkPermission)) || ""}
+              anchor="bottom-right"
+              className={classes.permissionDropdown}
+              classNames={{
+                icon: classes.icon,
+                options: classes.options,
+                title: classes.dropdownTitle
+              }}
+              testId="permission"
+              menuItems={displayedItems}
+            />
           </div>
         </>
       )}
