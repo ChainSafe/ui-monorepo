@@ -50,7 +50,7 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
       setErrorMessage(undefined)
       filesApiClient.payInvoice(invoiceToPay.uuid).then(refreshInvoices)
     } catch (error: any) {
-      const errorMessage = formatSubscriptionError(e)
+      const errorMessage = formatSubscriptionError(error)
       setErrorMessage(errorMessage)
     } finally {
       setPayingInvoice(false)
