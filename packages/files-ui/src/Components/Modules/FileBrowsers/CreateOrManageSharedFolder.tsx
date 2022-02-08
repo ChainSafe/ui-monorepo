@@ -25,20 +25,16 @@ const useStyles = makeStyles(
         display: "flex",
         alignItems: "center",
         [breakpoints.down("sm")]: {
-          padding: constants.generalUnit
+          padding: constants.generalUnit * 3
         }
       },
       okButton: {
         marginLeft: constants.generalUnit
       },
-      label: {
-        fontSize: 14,
-        lineHeight: "22px"
-      },
       heading: {
         color: constants.modalDefault.color,
         fontWeight: typography.fontWeight.semibold,
-        marginBottom: 10
+        marginBottom: constants.generalUnit * 3
       },
       iconBacking: {
         backgroundColor: constants.modalDefault.iconBackingColor,
@@ -145,7 +141,7 @@ const useStyles = makeStyles(
         padding: constants.generalUnit * 2
       },
       usernameBox: {
-        color: palette.additional["gray"][8],
+        color: palette.additional["gray"][9],
         padding: constants.generalUnit * 2,
         cursor: "pointer",
         ...typography.body1,

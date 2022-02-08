@@ -7,23 +7,14 @@ import { SharedFolderModalMode } from "./types"
 import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, zIndex }: CSFTheme) => {
+  ({ constants, zIndex }: CSFTheme) => {
     return createStyles({
       modalRoot: {
-        zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {
-          paddingBottom: Number(constants?.mobileButtonHeight)
-        }
+        zIndex: zIndex?.blocker
       },
       modalInner: {
         backgroundColor: constants.modalDefault.backgroundColor,
-        color: constants.modalDefault.color,
-        [breakpoints.down("md")]: {
-          maxWidth: `${breakpoints.width("md")}px !important`
-        }
-      },
-      subModal: {
-        width: "100%"
+        color: constants.modalDefault.color
       }
     })
   }
@@ -45,14 +36,12 @@ const CreateOrManageSharedFolderModal = (
     <CustomModal
       className={classes.modalRoot}
       injectedClass={{
-        inner: classes.modalInner,
-        subModalInner: classes.subModal
+        inner: classes.modalInner
       }}
       active={isModalOpen}
       closePosition="none"
       maxWidth={500}
       testId="create-or-edit-shared-folder"
-      mobileStickyBottom={false}
     >
       <CreateOrManageSharedFolder
         onClose={onClose}
