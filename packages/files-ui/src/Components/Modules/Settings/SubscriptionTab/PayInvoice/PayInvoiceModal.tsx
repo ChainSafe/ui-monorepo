@@ -6,7 +6,6 @@ import CryptoPayment from "../Common/CryptoPayment"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
 import ConfirmPlan from "../Common/ConfirmPlan"
-import { t } from "@lingui/macro"
 import { formatSubscriptionError } from "../utils/formatSubscriptionError"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
