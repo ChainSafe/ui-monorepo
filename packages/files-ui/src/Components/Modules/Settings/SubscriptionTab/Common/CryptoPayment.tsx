@@ -474,6 +474,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
                 variant="body1"
                 component="p"
                 className={classes.warningText}
+                data-cy="label-crypto-payment-warning"
               >
                 <InfoCircleIcon className={classes.icon} />
                 <Trans>

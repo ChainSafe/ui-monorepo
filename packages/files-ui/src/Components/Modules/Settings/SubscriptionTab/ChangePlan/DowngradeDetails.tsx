@@ -186,6 +186,7 @@ const DowngradeDetails = ({
           variant="body1"
           component="p"
           className={classes.warningText}
+          data-cy="label-downgrade-payment-warning"
         >
           <InfoCircleIcon className={classes.icon} />
           {lastInvoicePaymentMethod === "crypto"

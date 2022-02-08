@@ -308,6 +308,7 @@ const ConfirmPlan = ({
           variant="body1"
           component="p"
           className={classes.warningText}
+          data-cy="label-change-plan-payment-warning"
         >
           <InfoCircleIcon className={classes.icon} />
           {paymentMethod === "crypto"
