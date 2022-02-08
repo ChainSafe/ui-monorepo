@@ -124,6 +124,7 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
         <Typography
           component="p"
           variant="h4"
+          data-cy="header-downgrade-plan"
         >
           <Trans>Change plan</Trans>
         </Typography>
@@ -133,6 +134,7 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
           variant="body1"
           component="p"
           className={classes.featuresTitle}
+          data-cy="label-lost-features-summary"
         >
           <Trans>You would lose the following features:</Trans>
         </Typography>
@@ -142,6 +144,7 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
             <Typography
               component="p"
               variant="body1"
+              data-cy="label-downgraded-storage-description"
             >
               {currentStorage
                 ? <Trans><b>{currentStorage}</b> of storage</Trans >
@@ -154,6 +157,7 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
             <Typography
               component="p"
               variant="body1"
+              data-cy="label-downgraded-product-description"
             >
               {currentSubscription?.product.description}
             </Typography>
@@ -166,6 +170,7 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
             onClick={goBack}
             variant="text"
             disabled={isCancelingPlan}
+            testId="go-back-to-plan-selection"
           >
             <Trans>Go back</Trans>
           </Button>
@@ -176,12 +181,14 @@ const DowngradeDetails = ({ plan, goBack, goToPlanDetails, shouldCancelPlan, onC
                 onClick={onCancelPlan}
                 loading={isCancelingPlan}
                 disabled={isCancelingPlan}
+                testId="switch-to-free-plan"
               >
                 <Trans>Switch to Free plan</ Trans>
               </Button>
               : <Button
                 variant="primary"
                 onClick={goToPlanDetails}
+                testId="switch-plan"
               >
                 <Trans>Switch Plan</ Trans>
               </Button>
