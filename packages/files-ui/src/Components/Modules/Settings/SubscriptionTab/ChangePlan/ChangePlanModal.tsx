@@ -14,7 +14,7 @@ import { PaymentMethod } from "../../../../../Contexts/BillingContext"
 import CryptoPayment from "../Common/CryptoPayment"
 import { formatSubscriptionError } from "../utils/formatSubscriptionError"
 
-const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
   createStyles({
     root: {
       "&:before": {
@@ -28,6 +28,18 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       },
       [breakpoints.down("sm")]: {
         width: "100%"
+      }
+    },
+    warningText: {
+      marginTop: constants.generalUnit * 3,
+      maxWidth: constants.generalUnit * 56,
+      color: palette.additional["gray"][7]
+    },
+    icon : {
+      verticalAlign: "middle",
+      "& > svg": {
+        fill: palette.additional["gray"][7],
+        height: constants.generalUnit * 2.25
       }
     }
   })
