@@ -154,15 +154,7 @@ describe("Subscription Plan", () => {
       selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
 
       // create cypress aliases for the plans
-      selectPlanModal.planBoxContainer().contains("Free plan")
-        .should("be.visible")
-        .as("freePlanBox")
-      selectPlanModal.planBoxContainer().contains("Standard plan")
-        .should("be.visible")
-        .as("standardPlanBox")
-      selectPlanModal.planBoxContainer().contains("Premium plan")
-        .should("be.visible")
-        .as("premiumPlanBox")
+      selectPlanModal.createPlanCypressAliases()
 
       // ensure all plan boxes contain expected elements and element state
       cy.get("@freePlanBox").parent().within(() => {
@@ -223,9 +215,8 @@ describe("Subscription Plan", () => {
       settingsPage.subscriptionTabButton().click()
       settingsPage.changePlanButton().click()
 
-      selectPlanModal.planBoxContainer().contains("Standard plan")
-        .should("be.visible")
-        .as("standardPlanBox")
+      // create cypress aliases for the plans
+      selectPlanModal.createPlanCypressAliases()
 
       cy.get("@standardPlanBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
@@ -376,48 +367,14 @@ describe("Subscription Plan", () => {
     it("can downgrade from premium plan to standard plan", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
 
-      // upgrade the account first
+      // upgrade to a premium plan first using convenience function
       navigationMenu.settingsNavButton().click()
-      settingsPage.subscriptionTabButton().click()
-      settingsPage.changePlanButton().click()
-      selectPlanModal.body().should("be.visible")
-      selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
-      selectPlanModal.planBoxContainer().contains("Premium plan")
-        .should("be.visible")
-        .as("premiumPlanBox")
-      selectPlanModal.planBoxContainer().contains("Standard plan")
-        .should("be.visible")
-        .as("standardPlanBox")
-
-      cy.get("@premiumPlanBox").parent().within(() => {
-        selectPlanModal.selectPlanButton().click()
-      })
-      planDetailsModal.selectThisPlanButton().click()
-      selectPaymentMethodModal.body().should("be.visible")
-      selectPaymentMethodModal.addCardTextButton()
-        .should("be.visible")
-        .click()
-      cy.awaitStripeElementReady()
-      selectPaymentMethodModal.cardNumberInput().type(visaNumber)
-      selectPaymentMethodModal.expiryDateInput().type(visaExpiry)
-      selectPaymentMethodModal.cvcNumberInput().type(visaCvc)
-      selectPaymentMethodModal.useThisCardButton().click()
-      cy.awaitStripeConfirmation()
-      cy.awaitDefaultCardRequest()
-      cardAddedToast.body().should("be.visible")
-      cardAddedToast.closeButton().click()
-      selectPaymentMethodModal.selectPaymentButton().click()
-      planChangeConfirmationModal.confirmPlanChangeButton().click()
-      planChangeSuccessModal.body().should("be.visible")
-      planChangeSuccessModal.closeButton()
-        .should("be.visible")
-        .safeClick()
+      settingsPage.upgradeSubscription("premium")
 
       // store the upgraded plan name for later comparison
       settingsPage.planNameLabel()
         .should("be.visible")
-        .as("upgradedPlanName")
-        .invoke("text").as("upgradedPlanName")
+        .invoke("text").as("premiumPlanName")
 
       // initiate the downgrade process
       settingsPage.changePlanButton().click()
@@ -449,12 +406,54 @@ describe("Subscription Plan", () => {
       // store the downgraded plan name for later comparison
       settingsPage.planNameLabel()
         .should("be.visible")
-        .as("upgradedPlanName")
-        .invoke("text").as("downgradedPlanName")
+        .invoke("text").as("standardPlanName")
 
       // ensure the downgraded plan name is not the same as the previously upgraded plan
-      cy.get("@upgradedPlanName").then(($upgradedPlanName) => {
-        cy.get("@downgradedPlanName").should("not.equal", $upgradedPlanName)
+      cy.get("@premiumPlanName").then(($premiumPlanName) => {
+        cy.get("@standardPlanName").should("not.equal", $premiumPlanName)
+      })
+    })
+
+    it("can downgrade from standard plan to free plan", () => {
+      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+
+      // upgrade to a standard plan first
+      navigationMenu.settingsNavButton().click()
+      settingsPage.upgradeSubscription("standard")
+
+      // store the standard plan name for later comparison
+      settingsPage.planNameLabel()
+        .should("be.visible")
+        .invoke("text").as("standardPlanName")
+
+      // initiate the downgrade process
+      settingsPage.changePlanButton().click()
+      selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
+      cy.get("@freePlanBox").parent().within(() => {
+        selectPlanModal.selectPlanButton().click()
+      })
+
+      // ensure the downgraded plan details are shown
+      downgradeDetailsModal.body().should("be.visible")
+      downgradeDetailsModal.downgradePlanHeader().should("be.visible")
+      downgradeDetailsModal.lostFeaturesSummaryLabel().should("be.visible")
+      downgradeDetailsModal.downgradedStorageLabel().should("be.visible")
+      downgradeDetailsModal.goBackButton().should("be.visible")
+      downgradeDetailsModal.switchPlanButton().should("not.exist")
+
+      // proceed with the switch to downgrade
+      downgradeDetailsModal.switchToFreePlanButton()
+        .should("be.visible")
+        .click()
+
+      // store the downgraded plan name for later comparison
+      settingsPage.planNameLabel()
+        .should("be.visible")
+        .invoke("text").as("freePlanName")
+
+      // ensure the downgraded plan name is not the same as the previously upgraded plan
+      cy.get("@standardPlanName").then(($standardPlanName) => {
+        cy.get("@freePlanName").should("not.equal", $standardPlanName)
       })
     })
   })
