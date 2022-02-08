@@ -31,7 +31,7 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
 const BillingHistory = () => {
   const classes = useStyles()
   const [invoiceToPay, setInvoiceToPay] = useState<string| undefined>()
-  const { isPendingInvoice, invoices } = useBilling()
+  const { isPendingInvoice, openInvoice } = useBilling()
 
   return (
     <div className={classes.container}>
@@ -53,7 +53,7 @@ const BillingHistory = () => {
           </Link>
         </Typography>
       </div >
-      {(isPendingInvoice || invoices?.find(i => i.status === "open")) &&
+      {(isPendingInvoice || openInvoice) &&
       <Typography>
         <Trans>Please complete payment of the following outstanding invoices in order to avoid account suspension</Trans>
       </Typography>}

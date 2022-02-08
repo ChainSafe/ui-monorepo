@@ -185,8 +185,14 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       <ConfirmPlan
         plan={selectedPlan}
         planPrice={selectedPrice}
-        goToSelectPlan={() => setSlide("select")}
-        goToPaymentMethod={() => setSlide("paymentMethod")}
+        goToSelectPlan={() => {
+          setSubscriptionErrorMessage(undefined)
+          setSlide("select")}
+        }
+        goToPaymentMethod={() => {
+          setSubscriptionErrorMessage(undefined)
+          setSlide("paymentMethod")
+        }}
         loadingChangeSubscription={isLoadingChangeSubscription}
         onChangeSubscription={selectedPaymentMethod === "creditCard" ? handleChangeSubscription : () => setSlide("cryptoPayment")}
         subscriptionErrorMessage={subscriptionErrorMessage}
