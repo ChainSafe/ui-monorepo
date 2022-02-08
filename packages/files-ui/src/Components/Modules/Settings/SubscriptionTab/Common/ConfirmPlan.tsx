@@ -89,11 +89,12 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     },
     warningText: {
       marginTop: constants.generalUnit * 2,
-      maxWidth: constants.generalUnit * 56
+      maxWidth: constants.generalUnit * 56,
+      color: palette.additional["gray"][7]
     },
     icon : {
       verticalAlign: "middle",
-      fill: palette.error.main,
+      fill: palette.additional["gray"][7],
       "& > svg": {
         height: constants.generalUnit * 2.25
       }
