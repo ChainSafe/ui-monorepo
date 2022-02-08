@@ -85,7 +85,7 @@ const useStyles = makeStyles(
       generateLinkContainer: {
         display: "flex",
         justifyContent: "space-between",
-        marginTop: constants.generalUnit
+        marginTop: constants.generalUnit * 1.5
       },
       loader: {
         textAlign: "center"
