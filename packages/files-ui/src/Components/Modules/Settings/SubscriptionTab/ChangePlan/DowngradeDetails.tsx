@@ -5,7 +5,7 @@ import { Product } from "@chainsafe/files-api-client"
 import {  Button, CrossIcon, formatBytes, InfoCircleIcon, Typography } from "@chainsafe/common-components"
 import {  Trans } from "@lingui/macro"
 import clsx from "clsx"
-import { PaymentMethod, useBilling } from "../../../../../Contexts/BillingContext"
+import { useBilling } from "../../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -109,7 +109,6 @@ interface IConfirmDowngrade {
   goBack: () => void
   goToPlanDetails: () => void
   shouldCancelPlan: boolean
-  paymentMethod?: PaymentMethod
 }
 
 const DowngradeDetails = ({

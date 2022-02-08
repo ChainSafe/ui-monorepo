@@ -165,7 +165,6 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           goToPlanDetails={() => setSlide("planDetails")}
           shouldCancelPlan={didSelectFreePlan}
           plan={selectedPlan}
-          paymentMethod={selectedPaymentMethod}
           onClose={onClose}
         />
       )}
