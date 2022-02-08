@@ -9,5 +9,19 @@ export const selectPlanModal = {
   monthlyPriceLabel: () => cy.get("[data-cy=label-monthly-price]"),
   yearlyPriceLabel: () => cy.get("[data-cy=label-yearly-price]"),
   storageDescriptionLabel: () => cy.get("[data-cy=label-storage-capacity-amount]"),
-  storageCapacityWarningLabel: () => cy.get("[data-cy=label-storage-capacity-warning]")
+  storageCapacityWarningLabel: () => cy.get("[data-cy=label-storage-capacity-warning]"),
+
+  // creates a cypress alias for each individual plan.
+  createPlanCypressAliases() {
+    this.planBoxContainer().should("have.length.greaterThan", 0)
+    this.planBoxContainer().contains("Free plan")
+      .should("be.visible")
+      .as("freePlanBox")
+    this.planBoxContainer().contains("Standard plan")
+      .should("be.visible")
+      .as("standardPlanBox")
+    this.planBoxContainer().contains("Premium plan")
+      .should("be.visible")
+      .as("premiumPlanBox")
+  }
 }
