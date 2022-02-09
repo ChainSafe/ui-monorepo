@@ -250,7 +250,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
   const [nameError, setNameError] = useState("")
   const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission>("read")
-  const [usernameSearch, setUsernameSearch] = useState("")
+  const [usernameSearch, setUsernameSearch] = useState<string | undefined>()
   const [suggestedUsers, setSuggestedUsers] = useState<{label: string; value: string; data: LookupUser }[]>([])
   const [loadingUsers, setLoadingUsers] = useState(false)
   const [searchActive, setSearchActive] = useState(false)
@@ -270,15 +270,13 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
       label: getUserDisplayName(reader),
       value: reader.uuid || "",
       data: reader
-    })
-    ) || []
+    }))
 
     const newWriters = bucketToEdit.writers.map((writer) => ({
       label: getUserDisplayName(writer),
       value: writer.uuid || "",
       data: writer
-    })
-    ) || []
+    }))
 
     setSharedFolderReaders(newReaders)
     setSharedFolderWriters(newWriters)
@@ -351,7 +349,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
       onClick: () => {
         if (permission === "write") {
           setHasPermissionsChanged(true)
-          setSharedFolderWriters(sharedFolderWriters.filter((sr) => sr.value !== user.value))
+          setSharedFolderWriters(sharedFolderWriters.filter((sw) => sw.value !== user.value))
           setSharedFolderReaders([...sharedFolderReaders, user])
         }
       },
@@ -384,7 +382,8 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
     }
   ]), [classes.menuItem, setSharedFolderReaders, setSharedFolderWriters, sharedFolderReaders, sharedFolderWriters])
 
-  const onLookupUser = (inputText: string) => {
+  const onLookupUser = (inputText?: string) => {
+    if (!inputText) return
     handleLookupUser(inputText)
       .then(setSuggestedUsers)
       .catch(console.error)
@@ -394,10 +393,10 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedHandleLookupUser = useCallback(debounce(onLookupUser, 400), [handleLookupUser])
 
-  const onUsernameChange = async (v: string) => {
+  const onUsernameChange = (v?: string | number) => {
     setLoadingUsers(true)
-    setUsernameSearch(v)
-    debouncedHandleLookupUser(v)
+    setUsernameSearch(v?.toString())
+    debouncedHandleLookupUser(v?.toString())
   }
 
   const ref = useRef(null)
@@ -463,7 +462,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
             placeholder={t`Username, wallet address or ENS`}
             size="large"
             value={usernameSearch}
-            onChange={(v) => onUsernameChange(v as string)}
+            onChange={onUsernameChange}
             className={classes.usernameTextInput}
             onFocus={() => setSearchActive(true)}
           />
