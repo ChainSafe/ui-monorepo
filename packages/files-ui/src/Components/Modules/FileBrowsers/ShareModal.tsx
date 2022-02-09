@@ -14,16 +14,11 @@ import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
 import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
-import LinkList from "./Sharing/LinkList"
 import { usePosthogContext } from "../../../Contexts/PosthogContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
-interface StyleProps {
-  width: number
-}
-
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
+  ({ constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 3,
@@ -33,14 +28,10 @@ const useStyles = makeStyles(
       modalRoot: {
         zIndex: zIndex?.blocker
       },
-      modalInner: ({ width }: StyleProps) => ({
+      modalInner: {
         backgroundColor: constants.fileInfoModal.background,
-        color: constants.fileInfoModal.color,
-        width,
-        [breakpoints.down("sm")]: {
-          width: "100%"
-        }
-      }),
+        color: constants.fileInfoModal.color
+      },
       topIconContainer: {
         display: "flex",
         flexDirection: "column",
@@ -122,13 +113,7 @@ const useStyles = makeStyles(
       errorText: {
         marginTop: constants.generalUnit * 1,
         color: palette.error.main
-      },
-      subModal: ({ width }: StyleProps) => ({
-        width,
-        [breakpoints.down("sm")]: {
-          width: "100%"
-        }
-      })
+      }
     })
   }
 )
@@ -153,9 +138,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
   const [nameError, setNameError] = useState("")
   const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
 
-  const classes = useStyles({
-    width: bucketToUpload ? 600 : 500
-  })
+  const classes = useStyles()
 
   const isReader = useMemo(() => {
     if (!bucket) return false
@@ -271,19 +254,11 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
     <CustomModal
       className={classes.modalRoot}
       injectedClass={{
-        inner: classes.modalInner,
-        subModalInner: classes.subModal
+        inner: classes.modalInner
       }}
       active={true}
       closePosition="none"
-      maxWidth="sm"
-      mobileStickyBottom={false}
-      subModal={bucketToUpload && (
-        <LinkList
-          bucketEncryptionKey={bucketToUpload.encryptionKey}
-          bucketId={bucketToUpload.id}
-        />
-      )}
+      maxWidth={500}
     >
       {bucketToUpload
         ? <CreateOrManageSharedFolder
