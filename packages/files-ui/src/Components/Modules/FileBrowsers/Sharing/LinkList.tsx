@@ -1,10 +1,11 @@
-import { Button, Loading, MenuDropdown, LinkIcon, Typography } from "@chainsafe/common-components"
+import { Button, Loading, LinkIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-client"
-import { t, Trans } from "@lingui/macro"
-import React, { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
+import {  Trans } from "@lingui/macro"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { CSFTheme } from "../../../../Themes/types"
+import PermissionsDropdown from "./PermissionsDropdown"
 import SharingLink from "./SharingLink"
 
 const useStyles = makeStyles(
@@ -64,7 +65,10 @@ const useStyles = makeStyles(
         fontSize: "16px"
       },
       dropdownTitle: {
-        padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit}px`
+        padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit}px`,
+        "& p": {
+          fontSize: "16px"
+        }
       },
       heading : {
         marginBottom: constants.generalUnit
@@ -109,16 +113,6 @@ interface Props {
   bucketEncryptionKey: string
 }
 
-interface LinkMenuItems {
-  id: NonceResponsePermission
-  onClick: () => void
-  contents: ReactNode
-}
-
-const readRights = t`view-only`
-const editRights = t`can-edit`
-export const translatedPermission = (permission: NonceResponsePermission) => permission === "read" ? readRights : editRights
-
 const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
@@ -127,44 +121,14 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
   const [isLoadingCreation, setIsLoadingCreation] = useState(false)
   const hasAReadNonce = useMemo(() => !!nonces.find(n => n.permission === "read"), [nonces])
   const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission | undefined>(undefined)
-  const menuItems: LinkMenuItems[] = useMemo(() => [
-    {
-      id: "read",
-      onClick: () => setNewLinkPermission("read"),
-      contents: (
-        <div
-          data-cy="menu-read"
-          className={classes.menuItem}
-        >
-          {readRights}
-        </div>
-      )
-    },
-    {
-      id: "write",
-      onClick: () => setNewLinkPermission("write"),
-      contents: (
-        <div
-          data-cy="menu-write"
-          className={classes.menuItem}
-        >
-          {editRights}
-        </div>
-      )
-    }
-  ], [classes.menuItem])
-
-  const displayedItems = useMemo(() => nonces.length === 0
-    ? menuItems
-    : hasAReadNonce
-      ? menuItems.filter(i => i.id === "write")
-      : menuItems.filter(i => i.id === "read")
-  , [hasAReadNonce, menuItems, nonces.length]
-  )
 
   useEffect(() => {
-    setNewLinkPermission(displayedItems[0].id)
-  }, [displayedItems])
+    if (hasAReadNonce) {
+      setNewLinkPermission("write")
+    } else {
+      setNewLinkPermission("read")
+    }
+  }, [nonces, hasAReadNonce])
 
   const refreshNonces = useCallback((hideLoading?: boolean) => {
     !hideLoading && setIsLoadingNonces(true)
@@ -241,17 +205,16 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
               <LinkIcon className={classes.linkIcon} />
               <Trans>Generate sharing link</Trans>
             </Button>
-            <MenuDropdown
-              title={(newLinkPermission && translatedPermission(newLinkPermission)) || ""}
-              anchor="bottom-right"
-              className={classes.permissionDropdown}
-              classNames={{
-                icon: classes.icon,
+            <PermissionsDropdown
+              selectedPermission={newLinkPermission || "read"}
+              permissions={nonces.length === 0 ? ["read", "write"] : hasAReadNonce ? ["write"] : ["read"]}
+              onViewPermissionClick={() => setNewLinkPermission("read")}
+              onEditPermissionClick={() => setNewLinkPermission("write")}
+              withBorders={false}
+              injectedClasses={{
                 options: classes.options,
-                title: classes.dropdownTitle
+                dropdownTitle: classes.dropdownTitle
               }}
-              testId="permission"
-              menuItems={displayedItems}
             />
           </div>
         </>

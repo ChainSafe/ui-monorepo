@@ -14,7 +14,7 @@ import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
 import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
-import LinkList from "./LinkSharing/LinkList"
+import LinkList from "./Sharing/LinkList"
 import { usePosthogContext } from "../../../Contexts/PosthogContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 

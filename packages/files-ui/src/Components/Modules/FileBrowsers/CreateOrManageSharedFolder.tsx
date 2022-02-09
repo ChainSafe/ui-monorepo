@@ -1,12 +1,12 @@
-import { Button, ShareAltSvg, Typography, Grid, TextInput, MenuDropdown, CrossIcon } from "@chainsafe/common-components"
+import { Button, ShareAltSvg, Typography, Grid, TextInput, CrossIcon } from "@chainsafe/common-components"
 import { createStyles, debounce, makeStyles, useOnClickOutside, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { useState, useCallback, useMemo, ReactNode, useRef } from "react"
+import React, { useState, useCallback, useRef } from "react"
 import { CSFTheme } from "../../../Themes/types"
 import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { useEffect } from "react"
-import { SharedFolderModalMode, SharedUserData } from "./types"
+import { SharedFolderModalMode } from "./types"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { nameValidator } from "../../../Utils/validationSchema"
@@ -14,7 +14,8 @@ import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 import { NonceResponsePermission, LookupUser } from "@chainsafe/files-api-client"
 import clsx from "clsx"
 import { Hashicon } from "@emeraldpay/hashicon-react"
-import LinkList from "./LinkSharing/LinkList"
+import LinkList from "./Sharing/LinkList"
+import PermissionsDropdown from "./Sharing/PermissionsDropdown"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) => {
@@ -74,17 +75,6 @@ const useStyles = makeStyles(
         marginLeft: constants.generalUnit * 1.5,
         color: palette.error.main
       },
-      permissionDropdownNoBorder: {
-        padding: `0px ${constants.generalUnit * 0.75}px`,
-        backgroundColor: palette.additional["gray"][1],
-        width: "150px"
-      },
-      permissionDropDownBorders: {
-        border: `1px solid ${palette.additional["gray"][5]}`,
-        width: "inherit",
-        marginRight: constants.generalUnit,
-        borderRadius: "2px"
-      },
       menuIcon: {
         display: "flex",
         justifyContent: "center",
@@ -92,25 +82,6 @@ const useStyles = makeStyles(
         width: 20,
         marginRight: constants.generalUnit * 1.5,
         fill: constants.fileSystemItemRow.menuIcon
-      },
-      menuItem: {
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        color: constants.header.menuItemTextColor,
-        "& svg": {
-          width: constants.generalUnit * 2,
-          height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit,
-          fill: palette.additional["gray"][7],
-          stroke: palette.additional["gray"][7]
-        }
-      },
-      icon: {
-        "& svg": {
-          fill: constants.header.iconColor
-        }
       },
       options: {
         backgroundColor: constants.header.optionsBackground,
@@ -123,6 +94,15 @@ const useStyles = makeStyles(
         "& p": {
           fontSize: "16px"
         }
+      },
+      dropdownTitleWithBorders: {
+        padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit * 2}px`,
+        "& p": {
+          fontSize: "16px"
+        }
+      },
+      permissionsInSuggestion: {
+        minWidth: 110
       },
       userNameSuggest: {
         position: "relative",
@@ -218,21 +198,11 @@ const useStyles = makeStyles(
   }
 )
 
-interface LinkMenuItems {
-  id: NonceResponsePermission
-  onClick: () => void
-  contents: ReactNode
-}
-
 interface ICreateOrManageSharedFolderProps {
   mode?: SharedFolderModalMode
   onClose: () => void
   bucketToEdit?: BucketKeyPermission
 }
-
-const readRights = t`view-only`
-const editRights = t`can-edit`
-export const translatedPermission = (permission: NonceResponsePermission) => permission === "read" ? readRights : editRights
 
 const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrManageSharedFolderProps) => {
   const classes = useStyles()
@@ -315,72 +285,6 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
       .catch(console.error)
       .finally(handleClose)
   }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
-
-  const menuItems: LinkMenuItems[] = useMemo(() => [
-    {
-      id: "read",
-      onClick: () => setNewLinkPermission("read"),
-      contents: (
-        <div
-          data-cy="menu-read"
-          className={classes.menuItem}
-        >
-          {readRights}
-        </div>
-      )
-    },
-    {
-      id: "write",
-      onClick: () => setNewLinkPermission("write"),
-      contents: (
-        <div
-          data-cy="menu-write"
-          className={classes.menuItem}
-        >
-          {editRights}
-        </div>
-      )
-    }
-  ], [classes.menuItem])
-
-  const getUserMenuItems = useCallback((user: SharedUserData, permission: NonceResponsePermission) => ([
-    {
-      id: "read",
-      onClick: () => {
-        if (permission === "write") {
-          setHasPermissionsChanged(true)
-          setSharedFolderWriters(sharedFolderWriters.filter((sw) => sw.value !== user.value))
-          setSharedFolderReaders([...sharedFolderReaders, user])
-        }
-      },
-      contents: (
-        <div
-          data-cy="menu-read"
-          className={classes.menuItem}
-        >
-          {readRights}
-        </div>
-      )
-    },
-    {
-      id: "write",
-      onClick: () => {
-        if (permission === "read") {
-          setHasPermissionsChanged(true)
-          setSharedFolderReaders(sharedFolderReaders.filter((sr) => sr.value !== user.value))
-          setSharedFolderWriters([...sharedFolderWriters, user])
-        }
-      },
-      contents: (
-        <div
-          data-cy="menu-write"
-          className={classes.menuItem}
-        >
-          {editRights}
-        </div>
-      )
-    }
-  ]), [classes.menuItem, setSharedFolderReaders, setSharedFolderWriters, sharedFolderReaders, sharedFolderWriters])
 
   const onLookupUser = (inputText?: string) => {
     if (!inputText) return
@@ -466,17 +370,17 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
             className={classes.usernameTextInput}
             onFocus={() => setSearchActive(true)}
           />
-          <MenuDropdown
-            title={(newLinkPermission && translatedPermission(newLinkPermission)) || ""}
-            anchor="bottom-right"
-            className={classes.permissionDropdownNoBorder}
-            classNames={{
-              icon: classes.icon,
+          <PermissionsDropdown
+            selectedPermission={newLinkPermission}
+            onViewPermissionClick={() => setNewLinkPermission("read")}
+            onEditPermissionClick={() => setNewLinkPermission("write")}
+            permissions={["read", "write"]}
+            injectedClasses={{
+              root: classes.permissionsInSuggestion,
               options: classes.options,
-              title: classes.dropdownTitle
+              dropdownTitle: classes.dropdownTitle
             }}
-            testId="permission"
-            menuItems={menuItems}
+            withBorders={false}
           />
         </div>
         {(!!usernameSearch && searchActive) && <div className={classes.suggestionsDropDown}>
@@ -514,14 +418,17 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
         }
       </div>
       <div className={classes.usersWrapper}>
-        {sharedFolderReaders.map((sr) => <div
-          key={sr.value}
+        {[
+          ...sharedFolderReaders.map((sr) => ({ user: sr, permission: "read" })),
+          ...sharedFolderWriters.map((sw) => ({ user: sw, permission: "write" }))
+        ].map((sharedFolderUser) => <div
+          key={sharedFolderUser.user.value}
           className={classes.addedUserBox}
         >
           <div className={classes.flexContainer}>
             <div className={classes.hashIcon}>
               <Hashicon
-                value={sr.value}
+                value={sharedFolderUser.user.value}
                 size={28}
               />
             </div>
@@ -529,79 +436,45 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
               className={classes.addedUserLabel}
               component="p"
             >
-              {sr.label}
+              {sharedFolderUser.user.label}
             </Typography>
           </div>
           <div className={classes.flexContainer}>
-            <MenuDropdown
-              title={(translatedPermission("read")) || ""}
-              anchor="bottom-right"
-              className={clsx(classes.permissionDropdownNoBorder, classes.permissionDropDownBorders)}
-              classNames={{
-                icon: classes.icon,
-                options: classes.options,
-                title: classes.dropdownTitle
+            <PermissionsDropdown
+              selectedPermission="read"
+              onViewPermissionClick={() => {
+                if (sharedFolderUser.permission === "write") {
+                  setHasPermissionsChanged(true)
+                  setSharedFolderWriters(sharedFolderWriters.filter((user) => sharedFolderUser.user.value !== user.value))
+                  setSharedFolderReaders([...sharedFolderReaders, sharedFolderUser.user])
+                }
               }}
-              testId="permission"
-              menuItems={getUserMenuItems(sr, "read")}
+              onEditPermissionClick={() => {
+                if (sharedFolderUser.permission === "read") {
+                  setHasPermissionsChanged(true)
+                  setSharedFolderReaders(sharedFolderReaders.filter((user) => sharedFolderUser.user.value !== user.value))
+                  setSharedFolderWriters([...sharedFolderWriters, sharedFolderUser.user])
+                }
+              }}
+              injectedClasses={{
+                options: classes.options,
+                dropdownTitle: classes.dropdownTitleWithBorders
+              }}
+              permissions={["read", "write"]}
+              withBorders={true}
             />
             <Button
               variant="link"
               className={classes.crossButton}
               onClick={() => {
                 setHasPermissionsChanged(true)
-                setSharedFolderReaders(sharedFolderReaders.filter((r) => r.value !== sr.value))
+                setSharedFolderReaders(sharedFolderReaders.filter((r) => r.value !== sharedFolderUser.user.value))
               }}
             >
               <CrossIcon className={classes.crossIcon} />
             </Button>
           </div>
-        </div>
-        )}
-        {sharedFolderWriters.map((sw) => <div
-          key={sw.value}
-          className={classes.addedUserBox}
-        >
-          <div className={classes.flexContainer}>
-            <div className={classes.hashIcon}>
-              <Hashicon
-                value={sw.value}
-                size={28}
-              />
-            </div>
-            <Typography
-              className={classes.addedUserLabel}
-              component="p"
-            >
-              {sw.label}
-            </Typography>
-          </div>
-          <div className={classes.flexContainer}>
-            <MenuDropdown
-              title={(translatedPermission("write")) || ""}
-              anchor="bottom-right"
-              className={clsx(classes.permissionDropdownNoBorder, classes.permissionDropDownBorders)}
-              classNames={{
-                icon: classes.icon,
-                options: classes.options,
-                title: classes.dropdownTitle
-              }}
-              testId="permission"
-              menuItems={getUserMenuItems(sw, "write")}
-            />
-            <Button
-              variant="link"
-              className={classes.crossButton}
-              onClick={() => {
-                setHasPermissionsChanged(true)
-                setSharedFolderWriters(sharedFolderWriters.filter((r) => r.value !== sw.value))
-              }}
-            >
-              <CrossIcon className={classes.crossIcon} />
-            </Button>
-          </div>
-        </div>
-        )}
+        </div>)}
       </div>
       {mode === "edit" && !!bucketToEdit && <div className={classes.linksContainer}>
         <LinkList

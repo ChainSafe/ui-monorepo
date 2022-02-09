@@ -9,7 +9,7 @@ import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../../../Themes/types"
 import Menu from "../../../../UI-components/Menu"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
-import { translatedPermission } from "./LinkList"
+import { translatedPermission } from "./PermissionsDropdown"
 
 const useStyles = makeStyles(
   ({ constants, palette, zIndex, animation, typography }: CSFTheme) => {
