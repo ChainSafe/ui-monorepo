@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { CheckSubscriptionUpdate, Product, ProductPrice } from "@chainsafe/files-api-client"
-import { Button, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
+import { Button, InfoCircleIcon, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { PaymentMethod, useBilling } from "../../../../../Contexts/BillingContext"
@@ -87,6 +87,18 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     error: {
       marginTop: constants.generalUnit,
       color: palette.error.main
+    },
+    warningText: {
+      marginTop: constants.generalUnit * 2,
+      maxWidth: constants.generalUnit * 56,
+      color: palette.additional["gray"][7]
+    },
+    icon : {
+      verticalAlign: "middle",
+      fill: palette.additional["gray"][7],
+      "& > svg": {
+        height: constants.generalUnit * 2.25
+      }
     }
   })
 )
@@ -98,8 +110,8 @@ interface IConfirmPlan {
   goToPaymentMethod: () => void
   onChangeSubscription: () => void
   loadingChangeSubscription: boolean
-  isSubscriptionError: boolean
   paymentMethod: PaymentMethod
+  subscriptionErrorMessage?: string
 }
 
 const ConfirmPlan = ({
@@ -109,8 +121,8 @@ const ConfirmPlan = ({
   goToPaymentMethod,
   onChangeSubscription,
   loadingChangeSubscription,
-  isSubscriptionError,
-  paymentMethod
+  paymentMethod,
+  subscriptionErrorMessage
 }: IConfirmPlan) => {
   const classes = useStyles()
   const { defaultCard } = useBilling()
@@ -333,14 +345,34 @@ const ConfirmPlan = ({
           }
         </div>
       </div>
-      {isSubscriptionError &&
+      <div className={classes.rowBox}>
+        <Typography
+          variant="body1"
+          component="p"
+          className={classes.warningText}
+          data-cy="label-change-plan-payment-warning"
+        >
+          <InfoCircleIcon className={classes.icon} />
+          {paymentMethod === "crypto"
+            ? <Trans>
+              Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received
+              , your plan will not change.
+            </Trans>
+            : <Trans>
+              Payments are final and non-refundable. If you wish to change your plan,
+              any extra funds will be applied as credit towards future payments.
+            </Trans>
+          }
+        </Typography>
+      </div>
+      {subscriptionErrorMessage &&
         <Typography
           component="p"
           variant="body1"
           className={classes.error}
           data-cy="label-change-plan-error"
         >
-          <Trans>Failed to change subscription</Trans>
+          {subscriptionErrorMessage}
         </Typography>
       }
       <section className={classes.bottomSection}>
