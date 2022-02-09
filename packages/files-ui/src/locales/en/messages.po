@@ -76,6 +76,9 @@ msgstr "Add credit card"
 msgid "Add more files"
 msgstr "Add more files"
 
+msgid "Add users to shared folder"
+msgstr "Add users to shared folder"
+
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 
