@@ -419,8 +419,8 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
       </div>
       <div className={classes.usersWrapper}>
         {[
-          ...sharedFolderReaders.map((sr) => ({ user: sr, permission: "read" })),
-          ...sharedFolderWriters.map((sw) => ({ user: sw, permission: "write" }))
+          ...sharedFolderReaders.map((sr) => ({ user: sr, permission: "read" as NonceResponsePermission })),
+          ...sharedFolderWriters.map((sw) => ({ user: sw, permission: "write" as NonceResponsePermission }))
         ].map((sharedFolderUser) => <div
           key={sharedFolderUser.user.value}
           className={classes.addedUserBox}
@@ -441,7 +441,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
           </div>
           <div className={classes.flexContainer}>
             <PermissionsDropdown
-              selectedPermission="read"
+              selectedPermission={sharedFolderUser.permission}
               onViewPermissionClick={() => {
                 if (sharedFolderUser.permission === "write") {
                   setHasPermissionsChanged(true)
