@@ -12,9 +12,9 @@ import PlanSuccess from "./PlanSuccess"
 import DowngradeDetails from "./DowngradeDetails"
 import { PaymentMethod } from "../../../../../Contexts/BillingContext"
 import CryptoPayment from "../Common/CryptoPayment"
-import { t } from "@lingui/macro"
+import { formatSubscriptionError } from "../utils/formatSubscriptionError"
 
-const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
   createStyles({
     root: {
       "&:before": {
@@ -28,6 +28,18 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       },
       [breakpoints.down("sm")]: {
         width: "100%"
+      }
+    },
+    warningText: {
+      marginTop: constants.generalUnit * 3,
+      maxWidth: constants.generalUnit * 56,
+      color: palette.additional["gray"][7]
+    },
+    icon : {
+      verticalAlign: "middle",
+      "& > svg": {
+        fill: palette.additional["gray"][7],
+        height: constants.generalUnit * 2.25
       }
     }
   })
@@ -97,11 +109,8 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           setSlide("planSuccess")
         })
         .catch((e) => {
-          if (e.error.code === 400 && e.error.message.includes("declined")) {
-            setSubscriptionErrorMessage(t`The transaction was declined. Please use a different card or try again.`)
-          } else {
-            setSubscriptionErrorMessage(t`Failed to update the subscription. Please try again later.`)
-          }
+          const errorMessage = formatSubscriptionError(e)
+          setSubscriptionErrorMessage(errorMessage)
         })
         .finally(() => setIsLoadingChangeSubscription(false))
     }
@@ -185,8 +194,14 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       <ConfirmPlan
         plan={selectedPlan}
         planPrice={selectedPrice}
-        goToSelectPlan={() => setSlide("select")}
-        goToPaymentMethod={() => setSlide("paymentMethod")}
+        goToSelectPlan={() => {
+          setSubscriptionErrorMessage(undefined)
+          setSlide("select")}
+        }
+        goToPaymentMethod={() => {
+          setSubscriptionErrorMessage(undefined)
+          setSlide("paymentMethod")
+        }}
         loadingChangeSubscription={isLoadingChangeSubscription}
         onChangeSubscription={selectedPaymentMethod === "creditCard" ? handleChangeSubscription : () => setSlide("cryptoPayment")}
         subscriptionErrorMessage={subscriptionErrorMessage}
