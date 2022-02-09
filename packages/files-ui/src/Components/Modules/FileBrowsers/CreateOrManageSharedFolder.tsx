@@ -455,7 +455,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
           className={classes.boldLabel}
           component="p"
         >
-          Add users to shared folder
+          <Trans>Add users to shared folder</Trans>
         </Typography>
         }
         <div className={clsx(classes.usernameDropdownWrapper, searchActive && "focus")}>
