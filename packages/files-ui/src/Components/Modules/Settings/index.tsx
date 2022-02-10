@@ -9,7 +9,8 @@ import {
   useHistory,
   ITabPaneProps,
   CaretRightIcon,
-  LockIcon
+  LockIcon,
+  UserIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { ROUTE_LINKS, SettingsPath } from "../../FilesRoutes"
@@ -18,6 +19,7 @@ import SubscriptionTab from "./SubscriptionTab"
 import { ProfileIcon, SubscriptionPlanIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import SecurityTab from "./SecurityTab"
+import DisplayTab from "./DisplayTab"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -72,7 +74,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     lockIcon : {
       width: "1rem",
-      marginRight: "0.5rem"
+      marginRight: "0.5rem",
+      "& svg": {
+        fill: palette.additional["gray"][9]
+      }
     },
     hideTabPane: {
       display: "none"
@@ -168,9 +173,9 @@ const Settings: React.FC = () => {
           >
             <TabPane
               className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
-              icon={<ProfileIcon className={classes.profileIcon}/>}
+              icon={<UserIcon className={classes.lockIcon}/>}
               iconRight={<CaretRightIcon/>}
-              title={t`Profile and Display`}
+              title={t`Profile`}
               tabKey="profile"
               testId="tab-profile"
             >
@@ -195,6 +200,16 @@ const Settings: React.FC = () => {
               iconRight={<CaretRightIcon/>}
             >
               <SubscriptionTab />
+            </TabPane>
+            <TabPane
+              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+              title={t`Display`}
+              tabKey="display"
+              testId="tab-display"
+              icon={<ProfileIcon className={classes.profileIcon} />}
+              iconRight={<CaretRightIcon/>}
+            >
+              <DisplayTab />
             </TabPane>
           </Tabs>
         </div>

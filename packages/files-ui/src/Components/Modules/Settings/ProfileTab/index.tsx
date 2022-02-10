@@ -6,25 +6,22 @@ import {
   Button,
   Typography,
   useToasts,
-  RadioInput,
   TextInput,
   CheckIcon,
   CheckboxInput,
   Divider
 } from "@chainsafe/common-components"
-import { makeStyles, createStyles, debounce, useThemeSwitcher } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Form, useFormik, FormikProvider } from "formik"
 import { useUser } from "../../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../../Utils/Helpers"
 import { CSFTheme } from "../../../../Themes/types"
-import clsx from "clsx"
-import LanguageSelection from "./LanguageSelection"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import EthCrypto from "eth-crypto"
 
-const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
   createStyles({
     container: {
       [breakpoints.down("md")]: {
@@ -32,18 +29,17 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
         paddingLeft: constants.generalUnit * 2
       }
     },
-    sectionContainer: {
-      borderBottom: `1px solid ${palette.additional["gray"][4]}`,
-      marginBottom: 32,
-      [breakpoints.down("md")]: {
-        borderBottom: "none"
+    boxContainer: {
+      marginBottom: constants.generalUnit * 4,
+      [breakpoints.up("md")]: {
+        marginLeft: constants.generalUnit * 2
       }
     },
-    boxContainer: {
-      marginBottom: constants.generalUnit * 4
-    },
     inputBoxContainer: {
-      marginBottom: constants.generalUnit * 3
+      marginBottom: constants.generalUnit * 3,
+      [breakpoints.up("md")]: {
+        marginLeft: constants.generalUnit * 2
+      }
     },
     labelContainer: {
       marginBottom: constants.generalUnit
@@ -59,8 +55,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       marginBottom: constants.generalUnit
     },
     label: {
-      marginBottom: constants.generalUnit * 1,
-      fontSize: 20
+      marginBottom: constants.generalUnit * 1
     },
     subLabel: {
       marginBottom: constants.generalUnit * 1,
@@ -105,48 +100,13 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       wordBreak: "break-all",
       paddingRight: constants.generalUnit * 2,
       width: "90%",
-      ...typography.body1,
-      [breakpoints.down("md")]: {
-        ...typography.body2
-      }
+      fontSize: 16
     },
     copyText: {
       padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
       backgroundColor: constants.loginModule.flagBg,
       borderRadius: 2,
       color: constants.loginModule.flagText
-    },
-    themeBox: {
-      height: 87,
-      borderRadius: 4,
-      paddingLeft: 20,
-      paddingTop: 14,
-      margin: "6px 0",
-      [breakpoints.down("sm")]: {
-        width: "100%"
-      },
-      cursor: "pointer",
-      "&:last-child": {
-        [breakpoints.up("sm")]: {
-          marginLeft: constants.generalUnit
-        }
-      }
-    },
-    themeBoxDark: {
-      ...constants.settingsPage.darkSwitch
-    },
-    themeBoxLight: {
-      ...constants.settingsPage.lightSwitch
-    },
-    themeSubtitle: {
-      ...typography.body1,
-      color: palette.additional.gray[8]
-    },
-    sectionSubHeading: {
-      ...typography.h5,
-      fontWeight: 400,
-      marginTop: 25,
-      marginBottom: 14
     },
     buttonLink: {
       color: palette.additional["gray"][10],
@@ -169,6 +129,13 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       flex: 1,
       margin: 0,
       paddingRight: constants.generalUnit
+    },
+    mainHeader: {
+      fontSize: 28,
+      marginBottom: constants.generalUnit * 2,
+      [breakpoints.up("md")]: {
+        paddingLeft: constants.generalUnit * 2
+      }
     }
   })
 )
@@ -181,7 +148,6 @@ const profileValidation = yup.object().shape({
 })
 
 const ProfileView = () => {
-  const { themeKey, setTheme } = useThemeSwitcher()
   const { addToast } = useToasts()
   const { profile, updateProfile, addUsername, lookupOnUsername, toggleLookupConsent } = useUser()
   const { publicKey } = useThresholdKey()
@@ -319,16 +285,16 @@ const ProfileView = () => {
         <div className={classes.container}>
           <div
             id="profile"
-            className={classes.sectionContainer}
           >
+            <Typography
+              variant="h3"
+              component="h3"
+              className={classes.mainHeader}
+            >
+              <Trans>Profile</Trans>
+            </Typography>
+            <Divider />
             <div className={classes.profileBox}>
-              <Typography
-                variant="h3"
-                component="h3"
-              >
-                <Trans>Profile settings</Trans>
-              </Typography>
-              <Divider />
               {profile?.publicAddress &&
                 <div
                   className={classes.boxContainer}
@@ -336,7 +302,8 @@ const ProfileView = () => {
                 >
                   <div className={classes.walletAddressContainer}>
                     <Typography
-                      variant="body1"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Wallet address</Trans>
@@ -369,7 +336,8 @@ const ProfileView = () => {
                 >
                   <div className={classes.walletAddressContainer}>
                     <Typography
-                      variant="body1"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Files sharing key</Trans>
@@ -399,7 +367,8 @@ const ProfileView = () => {
                 {profile?.username
                   ? <>
                     <Typography
-                      component="p"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Username</Trans>
@@ -415,7 +384,8 @@ const ProfileView = () => {
                   </>
                   : <>
                     <Typography
-                      component="p"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Username</Trans>
@@ -486,7 +456,8 @@ const ProfileView = () => {
                 <Form>
                   <div className={classes.inputBoxContainer}>
                     <Typography
-                      component="p"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>First name</Trans>
@@ -508,8 +479,8 @@ const ProfileView = () => {
                   </div>
                   <div className={classes.inputBoxContainer}>
                     <Typography
-                      variant="body1"
-                      component="p"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Last name</Trans>
@@ -540,7 +511,7 @@ const ProfileView = () => {
                     size="large"
                     type="submit"
                     loading={updatingProfile}
-                    variant={themeKey === "dark" ? "outline" : "primary"}
+                    variant="primary"
                     loadingText="Saving"
                     data-cy="button-save-changes"
                     disabled={!formik.dirty}
@@ -583,64 +554,6 @@ const ProfileView = () => {
               </Button>
             </div>
           </div> */}
-          <div className={classes.profileBox}>
-            <Typography
-              variant='h4'
-              component='h4'
-            >
-              <Trans>Display Settings</Trans>
-            </Typography>
-            <Typography
-              variant='h5'
-              component='h5'
-              className={classes.sectionSubHeading}
-            >
-              <Trans>Theme</Trans>
-            </Typography>
-            <Grid container>
-              <Grid
-                item
-                xs={12}
-                lg={6}
-              >
-                <label className={clsx(classes.themeBox, classes.themeBoxDark)}>
-                  <RadioInput
-                    value='dark'
-                    label={t`Dark Theme`}
-                    onChange={(e) => setTheme(e.target.value)}
-                    checked={themeKey === "dark"}
-                  />
-                  {themeKey === "dark" && <Typography className={classes.themeSubtitle}>
-                    <Trans>What a fine night it is.</Trans>
-                  </Typography>}
-                </label>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                lg={6}
-              >
-                <label className={clsx(classes.themeBox, classes.themeBoxLight)}>
-                  <RadioInput
-                    value='light'
-                    label={t`Light Theme`}
-                    onChange={(e) => setTheme(e.target.value)}
-                    checked={themeKey === "light"} />
-                  {themeKey === "light" && <Typography className={classes.themeSubtitle}>
-                    <Trans>What a fine day it is.</Trans>
-                  </Typography>}
-                </label>
-              </Grid>
-            </Grid>
-          </div>
-          <Typography
-            variant='h5'
-            component='h5'
-            className={classes.sectionSubHeading}
-          >
-            <Trans>Language</Trans>
-          </Typography>
-          <LanguageSelection />
         </div>
       </Grid>
     </Grid>
