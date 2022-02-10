@@ -126,14 +126,14 @@ const PermissionsDropdown = ({
       className={clsx(withBorders
         ? classes.permissionDropDownBorders
         : classes.permissionDropdownNoBorder,
-        injectedClasses.root)}
+      injectedClasses.root)}
       classNames={{
         icon: classes.icon,
         options: injectedClasses.options,
         title: injectedClasses.dropdownTitle
       }}
-      testId
       menuItems={getMenuItems()}
+      testId={testId}
     />
   )
 }
