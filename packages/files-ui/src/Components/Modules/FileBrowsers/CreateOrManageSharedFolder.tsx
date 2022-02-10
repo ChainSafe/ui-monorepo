@@ -221,7 +221,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
   const [nameError, setNameError] = useState("")
   const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission>("read")
   const [usernameSearch, setUsernameSearch] = useState<string | undefined>()
-  const [suggestedUsers, setSuggestedUsers] = useState<{label: string; value: string; data: LookupUser }[]>([])
+  const [suggestedUsers, setSuggestedUsers] = useState<{ label: string; value: string; data: LookupUser }[]>([])
   const [loadingUsers, setLoadingUsers] = useState(false)
   const [searchActive, setSearchActive] = useState(false)
 
@@ -352,7 +352,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
       <div
         className={classes.userNameSuggest}
         ref={ref}
-        onClick={() => { !searchActive && setSearchActive(true)}}
+        onClick={() => { !searchActive && setSearchActive(true) }}
       >
         {mode === "create" && <Typography
           className={classes.boldLabel}
@@ -369,6 +369,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
             onChange={onUsernameChange}
             className={classes.usernameTextInput}
             onFocus={() => setSearchActive(true)}
+            data-cy="input-edit-permission"
           />
           <PermissionsDropdown
             selectedPermission={newLinkPermission}
@@ -396,6 +397,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
                   setSuggestedUsers([])
                   setHasPermissionsChanged(true)
                 }}
+                data-cy="user-lookup-result"
               >
                 {u.label}
               </div>)
