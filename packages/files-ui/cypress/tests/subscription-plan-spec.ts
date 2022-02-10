@@ -390,6 +390,7 @@ describe("Subscription Plan", () => {
       downgradeDetailsModal.downgradePlanHeader().should("be.visible")
       downgradeDetailsModal.lostFeaturesSummaryLabel().should("be.visible")
       downgradeDetailsModal.downgradedStorageLabel().should("be.visible")
+      downgradeDetailsModal.downgradePaymentWarningLabel().should("be.visible")
       downgradeDetailsModal.goBackButton().should("be.visible")
       downgradeDetailsModal.switchToFreePlanButton().should("not.exist")
 
@@ -440,6 +441,7 @@ describe("Subscription Plan", () => {
       downgradeDetailsModal.downgradePlanHeader().should("be.visible")
       downgradeDetailsModal.lostFeaturesSummaryLabel().should("be.visible")
       downgradeDetailsModal.downgradedStorageLabel().should("be.visible")
+      downgradeDetailsModal.downgradePaymentWarningLabel().should("be.visible")
       downgradeDetailsModal.goBackButton().should("be.visible")
       downgradeDetailsModal.switchPlanButton().should("not.exist")
 
