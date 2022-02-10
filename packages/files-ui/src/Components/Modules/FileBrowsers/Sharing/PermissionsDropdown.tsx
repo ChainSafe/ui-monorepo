@@ -116,7 +116,7 @@ const PermissionsDropdown = ({
       )
     }
     return menuItems
-  }, [classes.menuItem, onViewPermissionClick, onEditPermissionClick, permissions])
+  }, [classes.menuItem, onViewPermissionClick, onEditPermissionClick, permissions, testId])
 
 
   return (
