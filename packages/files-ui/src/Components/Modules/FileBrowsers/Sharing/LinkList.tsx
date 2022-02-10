@@ -1,7 +1,7 @@
 import { Button, Loading, LinkIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-client"
-import {  Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { CSFTheme } from "../../../../Themes/types"
@@ -70,7 +70,7 @@ const useStyles = makeStyles(
           fontSize: "16px"
         }
       },
-      heading : {
+      heading: {
         marginBottom: constants.generalUnit
       },
       loadingContainer: {
@@ -215,6 +215,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                 options: classes.options,
                 dropdownTitle: classes.dropdownTitle
               }}
+              testId="link-permission-dropdown"
             />
           </div>
         </>

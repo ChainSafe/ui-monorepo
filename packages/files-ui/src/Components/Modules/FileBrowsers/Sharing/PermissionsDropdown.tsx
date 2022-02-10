@@ -1,5 +1,5 @@
 
-import {  MenuDropdown, IMenuItem } from "@chainsafe/common-components"
+import { MenuDropdown, IMenuItem } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponsePermission } from "@chainsafe/files-api-client"
 import { t } from "@lingui/macro"
@@ -68,6 +68,7 @@ interface Props {
     dropdownTitle?: string
   }
   permissions: NonceResponsePermission[]
+  testId?: string
 }
 
 const PermissionsDropdown = ({
@@ -76,7 +77,8 @@ const PermissionsDropdown = ({
   selectedPermission,
   withBorders,
   permissions,
-  injectedClasses
+  injectedClasses,
+  testId
 }: Props) => {
 
   const classes = useStyles()
@@ -124,13 +126,13 @@ const PermissionsDropdown = ({
       className={clsx(withBorders
         ? classes.permissionDropDownBorders
         : classes.permissionDropdownNoBorder,
-      injectedClasses.root)}
+        injectedClasses.root)}
       classNames={{
         icon: classes.icon,
         options: injectedClasses.options,
         title: injectedClasses.dropdownTitle
       }}
-      testId="permission"
+      testId
       menuItems={getMenuItems()}
     />
   )

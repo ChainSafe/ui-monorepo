@@ -13,7 +13,7 @@ export const createEditSharedFolderModal = {
   copyLinkButton: () => cy.get("[data-cy=button-copy-link]"),
   linkKebabMenu: () => cy.get("[data-testid=icon-link-kebab]"),
   deleteLinkMenuOption: () => cy.get("[data-cy=menu-delete-active-link]"),
-  permissionTypeDropdown: () => cy.get("[data-testid=dropdown-title-permission]"),
+  linkPermissionDropdown: () => cy.get("[data-testid=link-permission-dropdown]"),
   viewOnlyDropdownOption: () => cy.get("[data-cy=menu-read]"),
   canEditDropdownOption: () => cy.get("[data-cy=menu-write]"),
   createLinkButton: () => cy.get("[data-cy=button-create-link]")
