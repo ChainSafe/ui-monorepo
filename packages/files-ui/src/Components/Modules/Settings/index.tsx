@@ -117,7 +117,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
 
       "&.selected": {
         borderBottom: "none",
-        fontWeight: "normal",
         backgroundColor: palette.additional["gray"][4],
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10
