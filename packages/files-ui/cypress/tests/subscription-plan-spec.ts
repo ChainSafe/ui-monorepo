@@ -327,6 +327,7 @@ describe("Subscription Plan", () => {
       planChangeConfirmationModal.billingStartDate().should("be.visible")
       planChangeConfirmationModal.totalLabel().should("be.visible")
       planChangeConfirmationModal.totalPriceLabel().should("be.visible")
+      planChangeConfirmationModal.finalSaleWarningLabel().should("be.visible")
       planChangeConfirmationModal.goBackButton().should("be.visible")
       planChangeConfirmationModal.confirmPlanChangeButton().should("be.visible")
 
@@ -481,7 +482,7 @@ describe("Subscription Plan", () => {
       planChangeConfirmationModal.payWithCryptoLabel().should("be.visible")
       planChangeConfirmationModal.acceptedCurrenciesLabel().should("be.visible")
       planChangeConfirmationModal.acceptedCryptoTypes().should("be.visible")
-      planChangeConfirmationModal.cryptoFinalSaleWarningLabel().should("be.visible")
+      planChangeConfirmationModal.finalSaleWarningLabel().should("be.visible")
       planChangeConfirmationModal.confirmPlanChangeButton().click()
 
       // ensure default crypto elements are displayed

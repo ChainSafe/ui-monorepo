@@ -530,14 +530,14 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
             </Button>
           }
           {selectedCurrency && selectedCurrency !== "bitcoin" && isReady && network === 1 &&
-              <Button
-                onClick={handlePayment}
-                disabled={!isBalanceSufficient || transferActive}
-                loading={transferActive}>
-                {isBalanceSufficient
-                  ? <Trans>Pay with {wallet?.name}</Trans>
-                  : <Trans>Insufficient balance</Trans>}
-              </Button>
+            <Button
+              onClick={handlePayment}
+              disabled={!isBalanceSufficient || transferActive}
+              loading={transferActive}>
+              {isBalanceSufficient
+                ? <Trans>Pay with {wallet?.name}</Trans>
+                : <Trans>Insufficient balance</Trans>}
+            </Button>
           }
         </div>
       </section>
