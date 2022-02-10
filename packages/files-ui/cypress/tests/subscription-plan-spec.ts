@@ -14,6 +14,7 @@ import { planChangeConfirmationModal } from "../support/page-objects/modals/bill
 import { planChangeSuccessModal } from "../support/page-objects/modals/billing/planChangeSuccessModal"
 import { billingHistoryPage } from "../support/page-objects/billingHistoryPage"
 import { downgradeDetailsModal } from "../support/page-objects/modals/billing/downgradeDetailsModal"
+import { cryptoPaymentModal } from "../support/page-objects/modals/billing/cryptoPaymentModal"
 
 describe("Subscription Plan", () => {
 
@@ -355,7 +356,7 @@ describe("Subscription Plan", () => {
           expect($request).to.be.null
         })
 
-        billingHistoryPage.downloadInvoiceButton().first().click()
+        billingHistoryPage.viewPdfButton().first().click()
 
         // ensure the download request contains pdf content
         cy.wait("@downloadRequest").its("response.headers").should("contain", {
@@ -455,6 +456,68 @@ describe("Subscription Plan", () => {
       cy.get("@standardPlanName").then(($standardPlanName) => {
         cy.get("@freePlanName").should("not.equal", $standardPlanName)
       })
+    })
+
+    it("can initiate and return to a crypto payment flow within 60 minutes", () => {
+      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+      navigationMenu.settingsNavButton().click()
+      settingsPage.subscriptionTabButton().click()
+      settingsPage.changePlanButton().click()
+      selectPlanModal.createPlanCypressAliases()
+      cy.get("@standardPlanBox").parent().within(() => {
+        selectPlanModal.selectPlanButton().click()
+      })
+
+      // choose crypto as payment type
+      planDetailsModal.durationToggleSwitch().click()
+      planDetailsModal.selectThisPlanButton().click()
+      selectPaymentMethodModal.cryptoRadioInput()
+        .should("be.visible")
+        .click()
+      selectPaymentMethodModal.selectPaymentButton().click()
+
+      // ensure crypto payment specific elements are displayed
+      planChangeConfirmationModal.body().should("be.visible")
+      planChangeConfirmationModal.payWithCryptoLabel().should("be.visible")
+      planChangeConfirmationModal.acceptedCurrenciesLabel().should("be.visible")
+      planChangeConfirmationModal.acceptedCryptoTypes().should("be.visible")
+      planChangeConfirmationModal.cryptoFinalSaleWarningLabel().should("be.visible")
+      planChangeConfirmationModal.confirmPlanChangeButton().click()
+
+      // ensure default crypto elements are displayed
+      cryptoPaymentModal.body().should("be.visible")
+      cryptoPaymentModal.payWithCryptoHeader().should("be.visible")
+      cryptoPaymentModal.totalLabel().should("be.visible")
+      cryptoPaymentModal.cryptoPaymentTimer().should("be.visible")
+      cryptoPaymentModal.totalPriceLabel().should("be.visible")
+      cryptoPaymentModal.selectCryptocurrencyLabel().should("be.visible")
+
+      // choose a crypto currency
+      cryptoPaymentModal.cryptoPaymentButton().contains("Ethereum").click()
+
+      // ensure additional modal elements are displayed after crypto type is selected
+      cryptoPaymentModal.receivingQrCodeContainer().should("be.visible")
+      cryptoPaymentModal.currencyTypeWarning().should("be.visible")
+      cryptoPaymentModal.destinationAddressLabelTitle().should("be.visible")
+      cryptoPaymentModal.destinationAddressLabel().should("be.visible")
+      cryptoPaymentModal.cryptoAmountTitleLabel().should("be.visible")
+      cryptoPaymentModal.cryptoAmountLabel().should("be.visible")
+      cryptoPaymentModal.crypoFinalSaleWarningLabel().should("be.visible")
+      cryptoPaymentModal.goBackButton().should("be.visible")
+      cryptoPaymentModal.connectWalletButton().should("be.visible")
+
+      // close modal, ensure we can return to flow via "pay now" on settings page
+      cryptoPaymentModal.closeButton().click()
+      cryptoPaymentModal.body().should("not.exist")
+      settingsPage.payNowButton().click()
+      cryptoPaymentModal.body().should("be.visible")
+
+      // close modal, ensure we can return to flow via "pay now" on billing history page
+      cryptoPaymentModal.closeButton().click()
+      cryptoPaymentModal.body().should("not.exist")
+      settingsPage.allInvoicesLink().click()
+      billingHistoryPage.payNowButton().click()
+      cryptoPaymentModal.body().should("be.visible")
     })
   })
 })

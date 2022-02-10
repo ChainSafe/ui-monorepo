@@ -13,7 +13,12 @@ export const planChangeConfirmationModal = {
   totalLabel: () => cy.get("[data-cy=label-total-title]"),
   totalPriceLabel: () => cy.get("[data-cy=label-total-price]"),
   changePlanErrorLabel: () => cy.get("[data-cy=label-change-plan-error]"),
-  planPaymentWarningLabel: () => cy.get("[data-cy=label-change-plan-payment-warning]"),
   goBackButton: () => cy.get("[data-testid=button-go-back-to-payment-method]"),
-  confirmPlanChangeButton: () => cy.get("[data-testid=button-confirm-plan-change]")
+  confirmPlanChangeButton: () => cy.get("[data-testid=button-confirm-plan-change]"),
+
+  // elements are only displayed if the payment type is crypto
+  payWithCryptoLabel: () => cy.get("[data-cy=label-pay-with-crypto]"),
+  acceptedCurrenciesLabel: () => cy.get("[data-cy=label-accepted-currencies]"),
+  acceptedCryptoTypes: () => cy.get("[data-cy=label-accepted-crypto-types]"),
+  cryptoFinalSaleWarningLabel: () => cy.get("[data-cy=label-crypto-final-sale-warning]")
 }
