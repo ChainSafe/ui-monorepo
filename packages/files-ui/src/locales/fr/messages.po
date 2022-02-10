@@ -314,8 +314,8 @@ msgstr "Appareil en attente de confirmation"
 msgid "Didn't receive the email ?"
 msgstr "Vous n’avez pas reçu de courriel ?"
 
-msgid "Display Settings"
-msgstr "Paramètres d’affichage"
+msgid "Display"
+msgstr ""
 
 msgid "Download"
 msgstr "Télécharger"
@@ -674,9 +674,6 @@ msgstr "Payer en cryptomonnaie"
 msgid "Pay with {0}"
 msgstr "Payer via {0}"
 
-msgid "Payment and Subscriptions"
-msgstr "Paiements et souscriptions"
-
 msgid "Payment information"
 msgstr ""
 
@@ -722,11 +719,8 @@ msgstr "Politique de confidentialité"
 msgid "Proceed to payment"
 msgstr "Procéder au paiement"
 
-msgid "Profile and Display"
-msgstr "Profil et affichage"
-
-msgid "Profile settings"
-msgstr "Paramètres du profil"
+msgid "Profile"
+msgstr ""
 
 msgid "Profile updated"
 msgstr "Profile mis à jour"
@@ -931,6 +925,9 @@ msgstr "Sauvegardé par le mineur"
 
 msgid "Subscription Plan"
 msgstr "Formule souscrite"
+
+msgid "Subscriptions plan"
+msgstr ""
 
 msgid "Switch Network"
 msgstr "Changer de réseau"
