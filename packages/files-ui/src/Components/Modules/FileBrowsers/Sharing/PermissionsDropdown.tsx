@@ -91,7 +91,7 @@ const PermissionsDropdown = ({
           onClick: onViewPermissionClick,
           contents: (
             <div
-              data-cy="menu-read"
+              data-cy={testId && "menu-read"}
               className={classes.menuItem}
             >
               {readRights}
@@ -106,7 +106,7 @@ const PermissionsDropdown = ({
           onClick: onEditPermissionClick,
           contents: (
             <div
-              data-cy="menu-write"
+              data-cy={testId && "menu-write"}
               className={classes.menuItem}
             >
               {editRights}
@@ -126,7 +126,7 @@ const PermissionsDropdown = ({
       className={clsx(withBorders
         ? classes.permissionDropDownBorders
         : classes.permissionDropdownNoBorder,
-      injectedClasses.root)}
+        injectedClasses.root)}
       classNames={{
         icon: classes.icon,
         options: injectedClasses.options,
