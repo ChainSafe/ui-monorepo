@@ -91,7 +91,7 @@ const PermissionsDropdown = ({
           onClick: onViewPermissionClick,
           contents: (
             <div
-              data-testid={`dropdown-permission-${testId}-read`}
+              data-testid={`dropdown-${testId}-read`}
               className={classes.menuItem}
             >
               {readRights}
@@ -106,7 +106,7 @@ const PermissionsDropdown = ({
           onClick: onEditPermissionClick,
           contents: (
             <div
-              data-testid={`dropdown-permission-${testId}-write`}
+              data-testid={`dropdown-${testId}-write`}
               className={classes.menuItem}
             >
               {editRights}

@@ -14,7 +14,7 @@ export const createEditSharedFolderModal = {
   linkKebabMenu: () => cy.get("[data-testid=icon-link-kebab]"),
   deleteLinkMenuOption: () => cy.get("[data-cy=menu-delete-active-link]"),
   linkPermissionDropdown: () => cy.get("[data-testid=dropdown-title-link-permission]"),
-  viewOnlyDropdownOption: () => cy.get("[data-testid=dropdown-permission-link-read]"),
-  canEditDropdownOption: () => cy.get("[data-testid=dropdown-permission-link-write]"),
+  viewOnlyDropdownOption: () => cy.get("[data-testid=dropdown-link-permission-read]"),
+  canEditDropdownOption: () => cy.get("[data-testid=dropdown-link-permission-write]"),
   createLinkButton: () => cy.get("[data-cy=button-create-link]")
 }
