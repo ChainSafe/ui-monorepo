@@ -4,7 +4,6 @@ import UserBubble from "./UserBubble"
 import { BucketKeyPermission, RichUserInfo } from "../../Contexts/FilesContext"
 import { getUserDisplayName } from "../../Utils/getUserDisplayName"
 import { CSFTheme } from "../../Themes/types"
-import { useUser } from "../../Contexts/UserContext"
 
 const useStyles = makeStyles(({ constants }: CSFTheme) => {
   return createStyles({
@@ -18,13 +17,13 @@ const useStyles = makeStyles(({ constants }: CSFTheme) => {
 })
 interface Props {
   bucket: BucketKeyPermission
+  showOwners: boolean
 }
 
-const SharedUsers = ({ bucket }: Props) => {
+const SharedUsers = ({ bucket, showOwners }: Props) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
   const { owners, readers, writers } = bucket
-  const { profile } = useUser()
 
   const getUserLabels = useCallback((users: RichUserInfo[]): string[] => {
     return users.reduce((acc: string[], user): string[] => {
@@ -36,11 +35,11 @@ const SharedUsers = ({ bucket }: Props) => {
 
   const userLabels = useMemo(() =>
     [
-      ...getUserLabels(owners.filter((o) => profile?.userId !== o.uuid)),
+      ...getUserLabels(showOwners ? owners : []),
       ...getUserLabels(readers),
       ...getUserLabels(writers)
     ],
-  [owners, readers, writers, getUserLabels, profile])
+  [readers, writers, getUserLabels, owners, showOwners])
 
   if (!userLabels.length) {
     return null
