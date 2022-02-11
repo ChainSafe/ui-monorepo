@@ -616,7 +616,7 @@ msgstr ""
 msgid "One sec, getting files ready…"
 msgstr ""
 
-msgid "Only send {selectedCurrency} to this address"
+msgid "Only send the exact amount of {0} to this address"
 msgstr ""
 
 msgid "Only you can see this."
