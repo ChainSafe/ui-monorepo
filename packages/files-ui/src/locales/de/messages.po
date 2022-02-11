@@ -52,9 +52,6 @@ msgstr "Konto"
 msgid "Account is restricted"
 msgstr ""
 
-msgid "Active links"
-msgstr ""
-
 msgid "Add Card"
 msgstr ""
 
@@ -67,9 +64,6 @@ msgstr "Einen Benutzernamen hinzufügen"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Fügen Sie mindestens eine weitere Authentifizierungsmethode hinzu, um Ihr Konto zu schützen. Sie bräuchten nur zwei, um sich von jedem Gerät aus bei Files anzumelden."
 
-msgid "Add by sharing address, username, wallet address or ENS"
-msgstr ""
-
 msgid "Add card"
 msgstr ""
 
@@ -78,6 +72,9 @@ msgstr ""
 
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
+
+msgid "Add users to shared folder"
+msgstr ""
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
@@ -94,13 +91,22 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
+msgid "Amount added to credit"
+msgstr ""
+
+msgid "Amount available from last bill"
+msgstr ""
+
+msgid "Amount due"
+msgstr ""
+
+msgid "Amount from credit"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr "Es ist ein Fehler aufgetreten:"
 
 msgid "Annual billing{0}"
-msgstr ""
-
-msgid "Anyone with the link can:"
 msgstr ""
 
 msgid "Approve"
@@ -250,16 +256,10 @@ msgstr ""
 msgid "Create a new shared folder"
 msgstr ""
 
-msgid "Create a sharing link"
-msgstr ""
-
 msgid "Create folder & Copy over"
 msgstr ""
 
 msgid "Create folder & Move over"
-msgstr ""
-
-msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -433,6 +433,9 @@ msgstr "Allgemein"
 msgid "Generate backup secret phrase"
 msgstr "Sicherungsgeheimsatz generieren"
 
+msgid "Generate sharing link"
+msgstr ""
+
 msgid "Generated"
 msgstr ""
 
@@ -441,12 +444,6 @@ msgstr "Wird generiert …"
 
 msgid "Get Started"
 msgstr "Anfangen"
-
-msgid "Give edit permission to:"
-msgstr ""
-
-msgid "Give view-only permission to:"
-msgstr ""
 
 msgid "Go  back"
 msgstr ""
@@ -517,13 +514,13 @@ msgstr "Los geht’s."
 msgid "Light Theme"
 msgstr "Helles Farbschema"
 
-msgid "Loading"
-msgstr ""
-
 msgid "Loading preview"
 msgstr "Vorschau wird geladen"
 
 msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -595,7 +592,7 @@ msgstr "Keine Suchergebnisse für"
 msgid "No thanks"
 msgstr "Nein danke"
 
-msgid "No user found for this query."
+msgid "No users found"
 msgstr ""
 
 msgid "Notifications"
@@ -682,6 +679,9 @@ msgstr ""
 msgid "Plan changed successfully"
 msgstr ""
 
+msgid "Plan price"
+msgstr ""
+
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr ""
 
@@ -708,6 +708,9 @@ msgstr "Vorschau"
 
 msgid "Previous"
 msgstr "Vorherige"
+
+msgid "Pricing details"
+msgstr ""
 
 msgid "Privacy Policy"
 msgstr "Datenschutzrichtlinie"
@@ -806,6 +809,9 @@ msgid "Security"
 msgstr "Sicherheit"
 
 msgid "See payment info"
+msgstr ""
+
+msgid "Select a cryptocurrency"
 msgstr ""
 
 msgid "Select a wallet"
@@ -1060,14 +1066,14 @@ msgstr ""
 msgid "Use this card"
 msgstr ""
 
-msgid "User {0} is both a reader and writer"
-msgstr ""
-
 msgid "Username"
 msgstr "Benutzername"
 
 msgid "Username set successfully"
 msgstr "Benutzername erfolgreich gesetzt"
+
+msgid "Username, wallet address or ENS"
+msgstr ""
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Benutzernamen sind öffentlich und können nach der Erstellung nicht mehr geändert werden."

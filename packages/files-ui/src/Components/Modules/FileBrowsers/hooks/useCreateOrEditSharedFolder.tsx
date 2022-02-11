@@ -1,13 +1,13 @@
 import { useCallback, useState } from "react"
 import { BucketKeyPermission, useFiles } from "../../../../Contexts/FilesContext"
-import { SharedUserTagData } from "../types"
+import { SharedUserData } from "../types"
 
 export const useCreateOrEditSharedFolder = () => {
   const [isCreatingSharedFolder, setIsCreatingSharedFolder] = useState(false)
   const [isEditingSharedFolder, setIsEditingSharedFolder] = useState(false)
   const { createSharedFolder, editSharedFolder } = useFiles()
 
-  const getSharedUsers = (sharedUserTagData: SharedUserTagData[]) => sharedUserTagData.map(su => ({
+  const getSharedUsers = (sharedUserTagData: SharedUserData[]) => sharedUserTagData.map(su => ({
     uuid: su.value,
     pubKey: su.data.identity_pubkey?.slice(2) || "",
     encryption_key: su.data.encryption_key
@@ -15,8 +15,8 @@ export const useCreateOrEditSharedFolder = () => {
 
   const handleCreateSharedFolder = useCallback((
     sharedFolderName: string,
-    sharedFolderReaders: SharedUserTagData[],
-    sharedFolderWriters: SharedUserTagData[]
+    sharedFolderReaders: SharedUserData[],
+    sharedFolderWriters: SharedUserData[]
   ) => {
     const readers = getSharedUsers(sharedFolderReaders)
     const writers = getSharedUsers(sharedFolderWriters)
@@ -34,8 +34,8 @@ export const useCreateOrEditSharedFolder = () => {
 
   const handleEditSharedFolder = useCallback((
     bucketToEdit: BucketKeyPermission,
-    sharedFolderReaders: SharedUserTagData[],
-    sharedFolderWriters: SharedUserTagData[]
+    sharedFolderReaders: SharedUserData[],
+    sharedFolderWriters: SharedUserData[]
   ) => {
     const readers = getSharedUsers(sharedFolderReaders)
     const writers = getSharedUsers(sharedFolderWriters)
