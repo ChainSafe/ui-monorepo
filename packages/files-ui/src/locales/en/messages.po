@@ -97,8 +97,17 @@ msgstr "All invoices"
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr "Allow lookup by sharing key, wallet address, username or ENS"
 
+msgid "Amount added to credit"
+msgstr "Amount added to credit"
+
+msgid "Amount available from last bill"
+msgstr "Amount available from last bill"
+
 msgid "Amount due"
 msgstr "Amount due"
+
+msgid "Amount from credit"
+msgstr "Amount from credit"
 
 msgid "An error occurred:"
 msgstr "An error occurred:"
@@ -273,12 +282,6 @@ msgstr "Create your public username in <0>Settings</0>!"
 
 msgid "Credit Card is expiring soon"
 msgstr "Credit Card is expiring soon"
-
-msgid "Credit available"
-msgstr "Credit available"
-
-msgid "Credit remaining"
-msgstr "Credit remaining"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
