@@ -34,9 +34,6 @@ msgstr "<0>{planStorageCapacity}</0> of storage"
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
-msgid "A better sharing experience is coming soon."
-msgstr "A better sharing experience is coming soon."
-
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
@@ -889,9 +886,6 @@ msgstr "Sign in with a different account"
 msgid "Sign in/up to access the shared folder"
 msgstr "Sign in/up to access the shared folder"
 
-msgid "Sign me up!"
-msgstr "Sign me up!"
-
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
 
@@ -922,9 +916,6 @@ msgstr "Standard plan"
 msgid "Start Upload"
 msgstr "Start Upload"
 
-msgid "Start a team"
-msgstr "Start a team"
-
 msgid "Stored by miner"
 msgstr "Stored by miner"
 
@@ -942,9 +933,6 @@ msgstr "Switch to Free plan"
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr "System maintenance is scheduled to start at {0}. The system will be unavailable."
-
-msgid "Teams"
-msgstr "Teams"
 
 msgid "Technical"
 msgstr "Technical"
