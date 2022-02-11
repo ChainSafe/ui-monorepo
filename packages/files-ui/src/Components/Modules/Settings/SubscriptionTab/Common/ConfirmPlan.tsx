@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       marginBottom: constants.generalUnit * 3
     },
     boldText: {
-      fontWeight: "bold"
+      fontWeight: 600
     },
     normalWeightText: {
       fontWeight: "normal"
@@ -164,8 +164,8 @@ const ConfirmPlan = ({
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
         <Typography
-          variant="body1"
-          component="p"
+          variant="h5"
+          component="h5"
           className={classes.boldText}
           data-cy="label-selected-plan">
           {plan.name}
@@ -206,8 +206,8 @@ const ConfirmPlan = ({
         <>
           <div className={classes.rowBox}>
             <Typography
-              variant="body1"
-              component="p"
+              variant="h5"
+              component="h5"
               data-cy="label-selected-payment-method"
             >
               <Trans>Payment method</Trans>
@@ -293,11 +293,21 @@ const ConfirmPlan = ({
           </Typography>
         </div>
       </div>
+      <Divider className={classes.divider} />
       <div className={classes.rowBox}>
         <Typography
           component="h5"
           variant="h5"
           className={classes.boldText}
+          data-cy="label-total-title"
+        >
+          <Trans>Pricing details</Trans>
+        </Typography>
+      </div>
+      <div className={classes.rowBox}>
+        <Typography
+          component="p"
+          variant="body1"
           data-cy="label-total-title"
         >
           <Trans>Plan price</Trans>
@@ -316,35 +326,65 @@ const ConfirmPlan = ({
           </Typography>
         </div>
       </div>
+      {(!!checkSubscriptionUpdate &&
+        (checkSubscriptionUpdate.amount_from_credit + checkSubscriptionUpdate.amount_unused_from_last_bill > 0)) &&
+        <div className={classes.rowBox}>
+          <Typography
+            component="p"
+            variant="body1"
+            data-cy="label-total-title"
+          >
+            <Trans>Credit available</Trans>
+          </Typography>
+          <div className={classes.pushRightBox}>
+            <Typography
+              variant="body1"
+              component="p"
+              className={classes.boldText}
+              data-cy="label-total-price"
+            >
+              {planPrice.currency}&nbsp;
+              {(checkSubscriptionUpdate.amount_from_credit + checkSubscriptionUpdate.amount_unused_from_last_bill).toFixed(2)}
+            </Typography>
+          </div>
+        </div>
+      }
       <Divider className={classes.divider} />
-      <div className={classes.rowBox}>
+      {!!checkSubscriptionUpdate && <div className={classes.rowBox}>
         <Typography
-          component="h5"
-          variant="h5"
-          className={classes.boldText}
+          component="h4"
+          variant="h4"
         >
-          <Trans>Payment amount</Trans>
+          <Trans>Amount due</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
-          {checkSubscriptionUpdate && <div  className={classes.pushRightBox}>
-            <Typography
-              variant="h5"
-              component="h5"
-              className={classes.boldText}
-            >
-              {planPrice.currency} {checkSubscriptionUpdate.amount_remaining.toFixed(2)}
-            </Typography>
-            {checkSubscriptionUpdate.amount_balance > 0 && <Typography
-              component="p"
-              variant="body2"
-            >
-              (<Trans>Previous balance</Trans>: {planPrice.currency} {checkSubscriptionUpdate.amount_balance.toFixed(2)})
-            </Typography>
-            }
-          </div>
-          }
+          <Typography
+            variant="h4"
+            component="h4"
+          >
+            {planPrice.currency} {checkSubscriptionUpdate?.amount_due.toFixed(2)}
+          </Typography>
         </div>
       </div>
+      }
+      {!!checkSubscriptionUpdate?.amount_credited && <div className={classes.rowBox}>
+        <Typography
+          component="p"
+          variant="body1"
+        >
+          <Trans>Credit remaining</Trans>
+        </Typography>
+        <div className={classes.pushRightBox}>
+          <Typography
+            component="p"
+            variant="body1"
+          >
+            {planPrice.currency}&nbsp;
+            {checkSubscriptionUpdate.amount_credited.toFixed(2)}
+          </Typography>
+        </div>
+      </div>
+      }
       <div className={classes.rowBox}>
         <Typography
           variant="body1"
