@@ -34,9 +34,6 @@ msgstr ""
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
-msgid "A better sharing experience is coming soon."
-msgstr ""
-
 msgid "A file with the same name already exists"
 msgstr ""
 
@@ -886,9 +883,6 @@ msgstr "Logg inn med en annen konto"
 msgid "Sign in/up to access the shared folder"
 msgstr ""
 
-msgid "Sign me up!"
-msgstr ""
-
 msgid "Sign-in methods"
 msgstr "Innloggingsmetoder"
 
@@ -919,9 +913,6 @@ msgstr ""
 msgid "Start Upload"
 msgstr ""
 
-msgid "Start a team"
-msgstr ""
-
 msgid "Stored by miner"
 msgstr ""
 
@@ -941,9 +932,6 @@ msgid "Switch to Free plan"
 msgstr ""
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
-msgstr ""
-
-msgid "Teams"
 msgstr ""
 
 msgid "Technical"

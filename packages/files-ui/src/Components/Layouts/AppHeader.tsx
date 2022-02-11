@@ -8,7 +8,6 @@ import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
-import TeamModal from "../Elements/TeamModal"
 import NotificationsDropdown from "../Elements/Notifications/NotificationsDropdown"
 
 const useStyles = makeStyles(
@@ -144,14 +143,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const [searchActive, setSearchActive] = useState(false)
-  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false)
 
   const onReportBugClick = useCallback(() => {
     window.open(ROUTE_LINKS.DiscordInvite, "_blank")
-  }, [])
-
-  const onStartATeamClick = useCallback(() => {
-    setIsTeamModalOpen(true)
   }, [])
 
   return (
@@ -189,15 +183,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   onClick={onReportBugClick}
                 >
                   <Trans>Report a bug</Trans>
-                </Button>
-                <Button
-                  data-posthog="Start-a-team"
-                  data-cy="button-start-team"
-                  variant="tertiary"
-                  size="small"
-                  onClick={onStartATeamClick}
-                >
-                  <Trans>Start a team</Trans>
                 </Button>
               </section>
               <section>
@@ -249,7 +234,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
           }
         </>
       )}
-      {isTeamModalOpen && <TeamModal onHide={() => setIsTeamModalOpen(false)}/>}
     </header>
   )
 }
