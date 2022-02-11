@@ -326,15 +326,14 @@ const ConfirmPlan = ({
           </Typography>
         </div>
       </div>
-      {(!!checkSubscriptionUpdate &&
-        (checkSubscriptionUpdate.amount_from_credit + checkSubscriptionUpdate.amount_unused_from_last_bill > 0)) &&
+      {!!checkSubscriptionUpdate?.amount_from_credit &&
         <div className={classes.rowBox}>
           <Typography
             component="p"
             variant="body1"
             data-cy="label-total-title"
           >
-            <Trans>Credit available</Trans>
+            <Trans>Amount from credit</Trans>
           </Typography>
           <div className={classes.pushRightBox}>
             <Typography
@@ -344,7 +343,29 @@ const ConfirmPlan = ({
               data-cy="label-total-price"
             >
               {planPrice.currency}&nbsp;
-              {(checkSubscriptionUpdate.amount_from_credit + checkSubscriptionUpdate.amount_unused_from_last_bill).toFixed(2)}
+              {checkSubscriptionUpdate.amount_from_credit.toFixed(2)}
+            </Typography>
+          </div>
+        </div>
+      }
+      {!!checkSubscriptionUpdate?.amount_unused_from_last_bill &&
+        <div className={classes.rowBox}>
+          <Typography
+            component="p"
+            variant="body1"
+            data-cy="label-total-title"
+          >
+            <Trans>Amount available from last bill</Trans>
+          </Typography>
+          <div className={classes.pushRightBox}>
+            <Typography
+              variant="body1"
+              component="p"
+              className={classes.boldText}
+              data-cy="label-total-price"
+            >
+              {planPrice.currency}&nbsp;
+              {checkSubscriptionUpdate.amount_unused_from_last_bill.toFixed(2)}
             </Typography>
           </div>
         </div>
@@ -372,7 +393,7 @@ const ConfirmPlan = ({
           component="p"
           variant="body1"
         >
-          <Trans>Credit remaining</Trans>
+          <Trans>Amount added to credit</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           <Typography
