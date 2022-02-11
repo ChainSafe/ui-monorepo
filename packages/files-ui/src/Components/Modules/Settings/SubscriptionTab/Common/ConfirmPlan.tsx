@@ -1,12 +1,13 @@
-import React, { useMemo } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Product, ProductPrice } from "@chainsafe/files-api-client"
+import { CheckSubscriptionUpdate, Product, ProductPrice } from "@chainsafe/files-api-client"
 import { Button, InfoCircleIcon, CreditCardIcon, Divider, formatBytes, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { PaymentMethod, useBilling } from "../../../../../Contexts/BillingContext"
 import clsx from "clsx"
+import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -22,7 +23,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       marginBottom: constants.generalUnit * 3
     },
     boldText: {
-      fontWeight: "bold"
+      fontWeight: 600
     },
     normalWeightText: {
       fontWeight: "normal"
@@ -126,12 +127,25 @@ const ConfirmPlan = ({
   const classes = useStyles()
   const { defaultCard } = useBilling()
   const { currentSubscription } = useBilling()
+  const { filesApiClient } = useFilesApi()
+  const [checkSubscriptionUpdate, setCheckSubscriptionUpdate] = useState<CheckSubscriptionUpdate  | undefined>()
   const newPlanStorage = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
+
   const isDowngrade = useMemo(() => {
     const currentPrice = currentSubscription?.product?.price?.unit_amount
     return currentPrice && currentPrice > planPrice.unit_amount
-  }, [currentSubscription, planPrice]
-  )
+  }, [currentSubscription, planPrice])
+
+  useEffect(() => {
+    if (!currentSubscription) return
+
+    filesApiClient.checkSubscriptionUpdate(currentSubscription?.id, {
+      payment_method: paymentMethod === "creditCard" ? "stripe" : "crypto",
+      price_id: planPrice.id
+    })
+      .then(setCheckSubscriptionUpdate)
+      .catch(console.error)
+  }, [currentSubscription, paymentMethod, filesApiClient, planPrice])
 
   return (
     <article className={classes.root}>
@@ -150,8 +164,8 @@ const ConfirmPlan = ({
       <Divider className={classes.divider} />
       <div className={classes.rowBox}>
         <Typography
-          variant="body1"
-          component="p"
+          variant="h5"
+          component="h5"
           className={classes.boldText}
           data-cy="label-selected-plan">
           {plan.name}
@@ -192,8 +206,8 @@ const ConfirmPlan = ({
         <>
           <div className={classes.rowBox}>
             <Typography
-              variant="body1"
-              component="p"
+              variant="h5"
+              component="h5"
               data-cy="label-selected-payment-method"
             >
               <Trans>Payment method</Trans>
@@ -290,7 +304,16 @@ const ConfirmPlan = ({
           className={classes.boldText}
           data-cy="label-total-title"
         >
-          <Trans>Total</Trans>
+          <Trans>Pricing details</Trans>
+        </Typography>
+      </div>
+      <div className={classes.rowBox}>
+        <Typography
+          component="p"
+          variant="body1"
+          data-cy="label-total-title"
+        >
+          <Trans>Plan price</Trans>
         </Typography>
         <div className={classes.pushRightBox}>
           <Typography
@@ -306,6 +329,86 @@ const ConfirmPlan = ({
           </Typography>
         </div>
       </div>
+      {!!checkSubscriptionUpdate?.amount_from_credit &&
+        <div className={classes.rowBox}>
+          <Typography
+            component="p"
+            variant="body1"
+            data-cy="label-total-title"
+          >
+            <Trans>Amount from credit</Trans>
+          </Typography>
+          <div className={classes.pushRightBox}>
+            <Typography
+              variant="body1"
+              component="p"
+              className={classes.boldText}
+              data-cy="label-total-price"
+            >
+              {planPrice.currency}&nbsp;
+              {checkSubscriptionUpdate.amount_from_credit.toFixed(2)}
+            </Typography>
+          </div>
+        </div>
+      }
+      {!!checkSubscriptionUpdate?.amount_unused_from_last_bill &&
+        <div className={classes.rowBox}>
+          <Typography
+            component="p"
+            variant="body1"
+            data-cy="label-total-title"
+          >
+            <Trans>Amount available from last bill</Trans>
+          </Typography>
+          <div className={classes.pushRightBox}>
+            <Typography
+              variant="body1"
+              component="p"
+              className={classes.boldText}
+              data-cy="label-total-price"
+            >
+              {planPrice.currency}&nbsp;
+              {checkSubscriptionUpdate.amount_unused_from_last_bill.toFixed(2)}
+            </Typography>
+          </div>
+        </div>
+      }
+      <Divider className={classes.divider} />
+      {!!checkSubscriptionUpdate && <div className={classes.rowBox}>
+        <Typography
+          component="h4"
+          variant="h4"
+        >
+          <Trans>Amount due</Trans>
+        </Typography>
+        <div className={classes.pushRightBox}>
+          <Typography
+            variant="h4"
+            component="h4"
+          >
+            {planPrice.currency} {checkSubscriptionUpdate?.amount_due.toFixed(2)}
+          </Typography>
+        </div>
+      </div>
+      }
+      {!!checkSubscriptionUpdate?.amount_credited && <div className={classes.rowBox}>
+        <Typography
+          component="p"
+          variant="body1"
+        >
+          <Trans>Amount added to credit</Trans>
+        </Typography>
+        <div className={classes.pushRightBox}>
+          <Typography
+            component="p"
+            variant="body1"
+          >
+            {planPrice.currency}&nbsp;
+            {checkSubscriptionUpdate.amount_credited.toFixed(2)}
+          </Typography>
+        </div>
+      </div>
+      }
       <div className={classes.rowBox}>
         <Typography
           variant="body1"
@@ -348,8 +451,8 @@ const ConfirmPlan = ({
           </Button>
           <Button
             variant="primary"
-            loading={loadingChangeSubscription}
-            disabled={loadingChangeSubscription}
+            loading={loadingChangeSubscription || !checkSubscriptionUpdate}
+            disabled={loadingChangeSubscription || !checkSubscriptionUpdate}
             onClick={onChangeSubscription}
             testId="confirm-plan-change"
           >

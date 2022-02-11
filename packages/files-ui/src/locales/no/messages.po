@@ -94,6 +94,18 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
+msgid "Amount added to credit"
+msgstr ""
+
+msgid "Amount available from last bill"
+msgstr ""
+
+msgid "Amount due"
+msgstr ""
+
+msgid "Amount from credit"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr ""
 
@@ -670,6 +682,9 @@ msgstr ""
 msgid "Plan changed successfully"
 msgstr ""
 
+msgid "Plan price"
+msgstr ""
+
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr ""
 
@@ -696,6 +711,9 @@ msgstr "Forhåndsvis"
 
 msgid "Previous"
 msgstr "Forrige"
+
+msgid "Pricing details"
+msgstr ""
 
 msgid "Privacy Policy"
 msgstr "Personvernspraksis"
