@@ -56,6 +56,7 @@ export { default as MastercardCardIcon, MastercardCardSvg } from "./icons/Master
 export { default as MoonIcon, MoonSvg } from "./icons/Moon.icon"
 export { default as MoonStarIcon, MoonStarSvg } from "./icons/MoonStar.icon"
 export { default as MoreIcon, MoreSvg } from "./icons/More.icon"
+export { default as LinkIcon, LinkSvg } from "./icons/Link.icon"
 export { default as LockIcon, LockSvg } from "./icons/Lock.icon"
 export { default as KeyIcon, KeySvg } from "./icons/Key.icon"
 export { default as PaperclipIcon, PaperclipSvg } from "./icons/Paperclip.icon"
