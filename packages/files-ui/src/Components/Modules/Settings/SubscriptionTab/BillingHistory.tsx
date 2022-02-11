@@ -49,7 +49,10 @@ const BillingHistory = () => {
           component="p"
           className={classes.link}
         >
-          <Link to={ROUTE_LINKS.BillingHistory}>
+          <Link
+            to={ROUTE_LINKS.BillingHistory}
+            data-cy="link-all-invoices"
+          >
             <Trans>All invoices</Trans>
           </Link>
         </Typography>
