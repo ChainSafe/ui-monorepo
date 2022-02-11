@@ -817,6 +817,9 @@ msgstr "Security"
 msgid "See payment info"
 msgstr "See payment info"
 
+msgid "Select a cryptocurrency"
+msgstr "Select a cryptocurrency"
+
 msgid "Select a wallet"
 msgstr "Select a wallet"
 

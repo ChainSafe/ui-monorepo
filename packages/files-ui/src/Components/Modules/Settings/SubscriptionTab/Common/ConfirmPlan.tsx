@@ -240,6 +240,7 @@ const ConfirmPlan = ({
             <Typography
               variant="body1"
               component="p"
+              data-cy="label-pay-with-crypto"
             >
               <Trans>Pay with Crypto</Trans>
             </Typography>
@@ -261,6 +262,7 @@ const ConfirmPlan = ({
             <Typography
               component="p"
               variant="body1"
+              data-cy="label-accepted-currencies"
             >
               <Trans>Accepted currencies</Trans>
             </Typography>
@@ -268,6 +270,7 @@ const ConfirmPlan = ({
               <Typography
                 variant="body1"
                 component="p"
+                data-cy="label-accepted-crypto-types"
               >
                 DAI, USDC, ETH or BTC
               </Typography>
@@ -411,7 +414,7 @@ const ConfirmPlan = ({
           variant="body1"
           component="p"
           className={classes.warningText}
-          data-cy="label-change-plan-payment-warning"
+          data-cy="label-final-sale-warning"
         >
           <InfoCircleIcon className={classes.icon} />
           {paymentMethod === "crypto"
