@@ -142,7 +142,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       closePosition="right"
       active={true}
       maxWidth={desktop ? 800 : 480}
-      width={desktop ? "max-content" : "100%"}
+      width={desktop ? "max-content" : "calc(100% - 16px)"}
       className={classes.root}
       injectedClass={{
         inner: classes.inner
