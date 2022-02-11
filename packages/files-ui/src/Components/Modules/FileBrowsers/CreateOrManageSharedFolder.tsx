@@ -1,6 +1,6 @@
-import { Button, ShareAltSvg, TagsInput, Typography, Grid, TextInput } from "@chainsafe/common-components"
-import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { useState, useCallback } from "react"
+import { Button, ShareAltSvg, Typography, Grid, TextInput, CrossIcon } from "@chainsafe/common-components"
+import { createStyles, debounce, makeStyles, useOnClickOutside, useThemeSwitcher } from "@chainsafe/common-theme"
+import React, { useState, useCallback, useRef } from "react"
 import { CSFTheme } from "../../../Themes/types"
 import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 import CustomButton from "../../Elements/CustomButton"
@@ -11,30 +11,31 @@ import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
+import { NonceResponsePermission, LookupUser } from "@chainsafe/files-api-client"
+import clsx from "clsx"
+import { Hashicon } from "@emeraldpay/hashicon-react"
+import LinkList from "./Sharing/LinkList"
+import PermissionsDropdown from "./Sharing/PermissionsDropdown"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, typography, palette }: CSFTheme) => {
+  ({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
-        padding: constants.generalUnit * 2,
+        padding: constants.generalUnit * 3,
         flexDirection: "column",
         display: "flex",
         alignItems: "center",
         [breakpoints.down("sm")]: {
-          padding: constants.generalUnit
+          padding: constants.generalUnit * 3
         }
       },
       okButton: {
         marginLeft: constants.generalUnit
       },
-      label: {
-        fontSize: 14,
-        lineHeight: "22px"
-      },
       heading: {
         color: constants.modalDefault.color,
         fontWeight: typography.fontWeight.semibold,
-        marginBottom: 10
+        marginBottom: constants.generalUnit * 3
       },
       iconBacking: {
         backgroundColor: constants.modalDefault.iconBackingColor,
@@ -56,23 +57,142 @@ const useStyles = makeStyles(
       },
       modalFlexItem: {
         width: "100%",
-        margin: 5
+        marginBottom: constants.generalUnit * 2
       },
       inputLabel: {
         fontSize: 16,
         fontWeight: 600
       },
       shareFolderNameInput: {
-        margin: `0 ${constants.generalUnit * 1.5}px ${constants.generalUnit}px`,
-        display: "block"
+        display: "block",
+        margin: "0px !important"
       },
       footer: {
         width: "100%",
-        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px ${constants.generalUnit}px 0`
+        paddingTop: constants.generalUnit * 2
       },
       errorText: {
         marginLeft: constants.generalUnit * 1.5,
         color: palette.error.main
+      },
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
+        fill: constants.fileSystemItemRow.menuIcon
+      },
+      options: {
+        backgroundColor: constants.header.optionsBackground,
+        color: constants.header.optionsTextColor,
+        border: `1px solid ${constants.header.optionsBorder}`,
+        minWidth: 145
+      },
+      dropdownTitle: {
+        padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit}px`,
+        "& p": {
+          fontSize: "16px"
+        }
+      },
+      dropdownTitleWithBorders: {
+        padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit * 2}px`,
+        "& p": {
+          fontSize: "16px"
+        }
+      },
+      permissionsInSuggestion: {
+        minWidth: 110
+      },
+      userNameSuggest: {
+        position: "relative",
+        width: "100%",
+        margin: 5
+      },
+      suggestionsDropDown: {
+        position: "absolute",
+        width: "100%",
+        backgroundColor: palette.common.white.main,
+        border: `1px solid ${palette.additional["gray"][5]}`,
+        zIndex: zIndex?.layer1
+      },
+      suggestionsBody: {
+        width: "100%",
+        padding: constants.generalUnit * 2
+      },
+      usernameBox: {
+        color: palette.additional["gray"][9],
+        padding: constants.generalUnit * 2,
+        cursor: "pointer",
+        ...typography.body1,
+        fontSize: "16px",
+        "&:hover": {
+          backgroundColor: palette.additional["blue"][1]
+        }
+      },
+      boldLabel: {
+        fontSize: "16px",
+        fontWeight: 600,
+        marginBottom: 2
+      },
+      usernameTextInput: {
+        margin: "0px !important",
+        width: "100%",
+        "& input": {
+          border: "0px",
+          "&:focus": {
+            border: "0px"
+          }
+        }
+      },
+      usernameDropdownWrapper: {
+        display: "flex",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        border: `1px solid ${palette.additional["gray"][6]}`,
+        borderRadius: "2px",
+        "&.focus": {
+          borderColor: palette.primary.border,
+          boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)"
+        }
+      },
+      subtitle: {
+        color: palette.additional["gray"][7]
+      },
+      usersWrapper: {
+        margin: `${constants.generalUnit * 1.5}px 0`,
+        width: "100%"
+      },
+      addedUserBox: {
+        display: "flex",
+        width: "100%",
+        justifyContent: "space-between",
+        padding: `${constants.generalUnit * 0.5}px 0px ${constants.generalUnit * 0.5}px ${constants.generalUnit}px`
+      },
+      addedUserLabel: {
+        fontSize: "16px",
+        fontWeight: 600
+      },
+      hashIcon: {
+        marginRight: constants.generalUnit * 2,
+        marginTop: constants.generalUnit
+      },
+      flexContainer: {
+        display: "flex",
+        alignItems: "center"
+      },
+      crossButton: {
+        padding: "0px !important",
+        "& svg": {
+          fill: palette.additional["gray"][7]
+        }
+      },
+      crossIcon: {
+        fontSize: "22px"
+      },
+      linksContainer: {
+        width: "100%"
       }
     })
   }
@@ -89,9 +209,21 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
   const { desktop } = useThemeSwitcher()
   const { handleCreateSharedFolder, handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const { sharedFolderReaders, sharedFolderWriters, onNewUsers, handleLookupUser, usersError, resetUsers } = useLookupSharedFolderUser()
+  const { sharedFolderReaders,
+    sharedFolderWriters,
+    onAddNewUser,
+    setSharedFolderReaders,
+    setSharedFolderWriters,
+    handleLookupUser,
+    resetUsers
+  } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
   const [nameError, setNameError] = useState("")
+  const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission>("read")
+  const [usernameSearch, setUsernameSearch] = useState<string | undefined>()
+  const [suggestedUsers, setSuggestedUsers] = useState<{ label: string; value: string; data: LookupUser }[]>([])
+  const [loadingUsers, setLoadingUsers] = useState(false)
+  const [searchActive, setSearchActive] = useState(false)
 
   const onReset = useCallback(() => {
     setSharedFolderName("")
@@ -104,23 +236,21 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
 
     if (!bucketToEdit) return
 
-    const newWriters = bucketToEdit.writers.map((writer) => ({
-      label: getUserDisplayName(writer),
-      value: writer.uuid || "",
-      data: writer
-    })
-    ) || []
-
     const newReaders = bucketToEdit.readers.map((reader) => ({
       label: getUserDisplayName(reader),
       value: reader.uuid || "",
       data: reader
-    })
-    ) || []
+    }))
 
-    onNewUsers(newWriters, "write")
-    onNewUsers(newReaders, "read")
-  }, [bucketToEdit, onNewUsers, onReset])
+    const newWriters = bucketToEdit.writers.map((writer) => ({
+      label: getUserDisplayName(writer),
+      value: writer.uuid || "",
+      data: writer
+    }))
+
+    setSharedFolderReaders(newReaders)
+    setSharedFolderWriters(newWriters)
+  }, [bucketToEdit, setSharedFolderReaders, setSharedFolderWriters, onReset])
 
   const onNameChange = useCallback((value?: string | number) => {
     if (value === undefined) return
@@ -156,6 +286,30 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
       .finally(handleClose)
   }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
 
+  const onLookupUser = (inputText?: string) => {
+    if (!inputText) return
+    handleLookupUser(inputText)
+      .then(setSuggestedUsers)
+      .catch(console.error)
+      .finally(() => setLoadingUsers(false))
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedHandleLookupUser = useCallback(debounce(onLookupUser, 400), [handleLookupUser])
+
+  const onUsernameChange = (v?: string | number) => {
+    setLoadingUsers(true)
+    setUsernameSearch(v?.toString())
+    debouncedHandleLookupUser(v?.toString())
+  }
+
+  const ref = useRef(null)
+  useOnClickOutside(ref, () => {
+    if (searchActive) {
+      setSearchActive(false)
+    }
+  })
+
   return (
     <div className={classes.root}>
       <div className={classes.iconBacking}>
@@ -171,80 +325,166 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
         </Typography>
       </div>
       {mode === "create" &&
-          <div className={classes.modalFlexItem}>
-            <TextInput
-              className={classes.shareFolderNameInput}
-              labelClassName={classes.inputLabel}
-              label={t`Shared Folder Name`}
-              value={sharedFolderName}
-              onChange={onNameChange}
-              autoFocus
-              state={nameError ? "error" : "normal"}
-              data-cy="input-shared-folder-name"
-            />
-            {nameError && (
+        <div className={classes.modalFlexItem}>
+          <TextInput
+            className={classes.shareFolderNameInput}
+            labelClassName={classes.inputLabel}
+            placeholder={t`Shared Folder Name`}
+            label={t`Shared Folder Name`}
+            value={sharedFolderName}
+            onChange={onNameChange}
+            autoFocus
+            state={nameError ? "error" : "normal"}
+            data-cy="input-shared-folder-name"
+            size="large"
+          />
+          {nameError && (
+            <Typography
+              component="p"
+              variant="body1"
+              className={classes.errorText}
+            >
+              {nameError}
+            </Typography>
+          )}
+        </div>
+      }
+      <div
+        className={classes.userNameSuggest}
+        ref={ref}
+        onClick={() => { !searchActive && setSearchActive(true) }}
+      >
+        {mode === "create" && <Typography
+          className={classes.boldLabel}
+          component="p"
+        >
+          <Trans>Add users to shared folder</Trans>
+        </Typography>
+        }
+        <div className={clsx(classes.usernameDropdownWrapper, searchActive && "focus")}>
+          <TextInput
+            placeholder={t`Username, wallet address or ENS`}
+            size="large"
+            value={usernameSearch}
+            onChange={onUsernameChange}
+            className={classes.usernameTextInput}
+            onFocus={() => setSearchActive(true)}
+            data-cy="input-edit-permission"
+          />
+          <PermissionsDropdown
+            selectedPermission={newLinkPermission}
+            onViewPermissionClick={() => setNewLinkPermission("read")}
+            onEditPermissionClick={() => setNewLinkPermission("write")}
+            permissions={["read", "write"]}
+            injectedClasses={{
+              root: classes.permissionsInSuggestion,
+              options: classes.options,
+              dropdownTitle: classes.dropdownTitle
+            }}
+            withBorders={false}
+          />
+        </div>
+        {(!!usernameSearch && searchActive) && <div className={classes.suggestionsDropDown}>
+          {suggestedUsers.length
+            ? <div>
+              {suggestedUsers.map((u) => <div
+                key={u.value}
+                className={classes.usernameBox}
+                onClick={() => {
+                  onAddNewUser(u, newLinkPermission)
+                  setSearchActive(false)
+                  setUsernameSearch("")
+                  setSuggestedUsers([])
+                  setHasPermissionsChanged(true)
+                }}
+                data-cy="user-lookup-result"
+              >
+                {u.label}
+              </div>)
+              }
+            </div>
+            : <div className={classes.suggestionsBody}>
               <Typography
                 component="p"
                 variant="body1"
-                className={classes.errorText}
+                className={classes.subtitle}
               >
-                {nameError}
+                {loadingUsers
+                  ? <Trans>Loading...</Trans>
+                  : <Trans>No users found</Trans>
+                }
               </Typography>
-            )}
+            </div>
+          }
+        </div>
+        }
+      </div>
+      <div className={classes.usersWrapper}>
+        {[
+          ...sharedFolderReaders.map((sr) => ({ user: sr, permission: "read" as NonceResponsePermission })),
+          ...sharedFolderWriters.map((sw) => ({ user: sw, permission: "write" as NonceResponsePermission }))
+        ].map((sharedFolderUser) => <div
+          key={sharedFolderUser.user.value}
+          className={classes.addedUserBox}
+        >
+          <div className={classes.flexContainer}>
+            <div className={classes.hashIcon}>
+              <Hashicon
+                value={sharedFolderUser.user.value}
+                size={28}
+              />
+            </div>
+            <Typography
+              className={classes.addedUserLabel}
+              component="p"
+            >
+              {sharedFolderUser.user.label}
+            </Typography>
           </div>
+          <div className={classes.flexContainer}>
+            <PermissionsDropdown
+              selectedPermission={sharedFolderUser.permission}
+              onViewPermissionClick={() => {
+                if (sharedFolderUser.permission === "write") {
+                  setHasPermissionsChanged(true)
+                  setSharedFolderWriters(sharedFolderWriters.filter((user) => sharedFolderUser.user.value !== user.value))
+                  setSharedFolderReaders([...sharedFolderReaders, sharedFolderUser.user])
+                }
+              }}
+              onEditPermissionClick={() => {
+                if (sharedFolderUser.permission === "read") {
+                  setHasPermissionsChanged(true)
+                  setSharedFolderReaders(sharedFolderReaders.filter((user) => sharedFolderUser.user.value !== user.value))
+                  setSharedFolderWriters([...sharedFolderWriters, sharedFolderUser.user])
+                }
+              }}
+              injectedClasses={{
+                options: classes.options,
+                dropdownTitle: classes.dropdownTitleWithBorders
+              }}
+              permissions={["read", "write"]}
+              withBorders={true}
+            />
+            <Button
+              variant="link"
+              className={classes.crossButton}
+              onClick={() => {
+                setHasPermissionsChanged(true)
+                setSharedFolderReaders(sharedFolderReaders.filter((r) => r.value !== sharedFolderUser.user.value))
+              }}
+            >
+              <CrossIcon className={classes.crossIcon} />
+            </Button>
+          </div>
+        </div>)}
+      </div>
+      {mode === "edit" && !!bucketToEdit && <div className={classes.linksContainer}>
+        <LinkList
+          bucketEncryptionKey={bucketToEdit.encryptionKey}
+          bucketId={bucketToEdit.id}
+        />
+      </div>
       }
-      <div
-        className={classes.modalFlexItem}
-        data-cy="input-view-permission"
-      >
-        <TagsInput
-          onChange={(values) => {
-            setHasPermissionsChanged(true)
-            onNewUsers(values, "read")
-          }}
-          label={t`Give view-only permission to:`}
-          labelClassName={classes.inputLabel}
-          value={sharedFolderReaders}
-          fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
-          placeholder={t`Add by sharing address, username, wallet address or ENS`}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              minHeight: 90,
-              alignContent: "start"
-            })
-          }}
-          loadingMessage={t`Loading`}
-          noOptionsMessage={t`No user found for this query.`}
-          data-cy="tag-view-permission-user"
-        />
-      </div>
-      <div
-        className={classes.modalFlexItem}
-        data-cy="input-edit-permission"
-      >
-        <TagsInput
-          onChange={(values) => {
-            setHasPermissionsChanged(true)
-            onNewUsers(values, "write")
-          }}
-          label={t`Give edit permission to:`}
-          labelClassName={classes.inputLabel}
-          value={sharedFolderWriters}
-          fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
-          placeholder={t`Add by sharing address, username, wallet address or ENS`}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              minHeight: 90,
-              alignContent: "start"
-            })
-          }}
-          loadingMessage={t`Loading`}
-          noOptionsMessage={t`No user found for this query.`}
-          data-cy="tag-edit-permission-user"
-        />
-      </div>
       <Grid
         item
         flexDirection="row"
@@ -252,15 +492,6 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
         alignItems="center"
         className={classes.footer}
       >
-        {!!usersError && (
-          <Typography
-            component="p"
-            variant="body1"
-            className={classes.errorText}
-          >
-            {usersError}
-          </Typography>
-        )}
         <Grid
           item
           flexDirection="row"
@@ -268,21 +499,24 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
         >
           <CustomButton
             onClick={handleClose}
-            size="medium"
+            size="large"
             variant={desktop ? "outline" : "gray"}
             type="button"
             data-cy="button-cancel-create-shared-folder"
           >
-            <Trans>Cancel</Trans>
+            <Trans>Close</Trans>
           </CustomButton>
           <Button
             variant="primary"
-            size={desktop ? "medium" : "large"}
+            size="large"
             type="submit"
             className={classes.okButton}
             loading={isCreatingSharedFolder || isEditingSharedFolder}
             onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
-            disabled={mode === "create" ? (!!usersError || !!nameError) : !hasPermissionsChanged || !!usersError}
+            disabled={mode === "create"
+              ? (!!nameError || !sharedFolderName || isCreatingSharedFolder)
+              : (!hasPermissionsChanged || isEditingSharedFolder)
+            }
             data-cy={mode === "create" ? "button-create-shared-folder" : "button-update-shared-folder"}
           >
             {mode === "create"

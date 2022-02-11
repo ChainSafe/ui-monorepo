@@ -1,38 +1,18 @@
-import { t } from "@lingui/macro"
 import { useCallback, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useUser } from "../../../../Contexts/UserContext"
-import { centerEllipsis } from "../../../../Utils/Helpers"
-import { SharedUserTagData, SharedFolderUserPermission } from "../types"
-import { ITagOption, ITagValueType } from "@chainsafe/common-components"
-import { useEffect } from "react"
 import { ethers } from "ethers"
+import { NonceResponsePermission } from "@chainsafe/files-api-client"
+import { SharedUserData } from "../types"
 
 export const useLookupSharedFolderUser = () => {
   const { filesApiClient } = useFilesApi()
-  const [sharedFolderReaders, setSharedFolderReaders] = useState<SharedUserTagData[]>([])
-  const [sharedFolderWriters, setSharedFolderWriters] = useState<SharedUserTagData[]>([])
-  const [usersError, setUsersError] = useState("")
+  const [sharedFolderReaders, setSharedFolderReaders] = useState<SharedUserData[]>([])
+  const [sharedFolderWriters, setSharedFolderWriters] = useState<SharedUserData[]>([])
 
   const { profile } = useUser()
 
-  useEffect(() => {
-    // check intersecting users
-    const foundIntersectingUsers = sharedFolderReaders
-      .filter(
-        reader => (
-          sharedFolderWriters.some(writer => reader.data.uuid === writer.data.uuid)
-        ))
-
-    if (foundIntersectingUsers.length) {
-      setUsersError(t`User ${centerEllipsis(foundIntersectingUsers[0].label)
-      } is both a reader and writer`)
-    } else {
-      setUsersError("")
-    }
-  }, [sharedFolderReaders, sharedFolderWriters])
-
-  const handleLookupUser = useCallback(async (inputVal: string, permission: SharedFolderUserPermission) => {
+  const handleLookupUser = useCallback(async (inputVal: string) => {
     if (inputVal === "") return []
 
     const lookupBody = {
@@ -64,8 +44,7 @@ export const useLookupSharedFolderUser = () => {
       const result = await filesApiClient.lookupUser(lookupBody.username, lookupBody.public_address, lookupBody.identity_public_key)
       if (!result) return []
 
-      const usersList = permission === "read" ? sharedFolderReaders : sharedFolderWriters
-      const currentUsers = usersList.map(su => su.value)
+      const currentUsers = [...sharedFolderReaders, ...sharedFolderWriters].map(su => su.data.uuid)
 
       // prevent the addition of current user since they are the owner
       if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
@@ -77,31 +56,26 @@ export const useLookupSharedFolderUser = () => {
     }
   }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
 
-  const onNewUsers = useCallback((val: ITagValueType<ITagOption, true>, permission: SharedFolderUserPermission) => {
-    const newSharedFolderUsers = val?.map(({ label, value, data }) => ({ label, value, data })) || []
-
+  const onAddNewUser = useCallback((user: SharedUserData, permission: NonceResponsePermission) => {
     if (permission === "read") {
-      // setting readers
-      setSharedFolderReaders(newSharedFolderUsers)
+      setSharedFolderReaders([...sharedFolderReaders, user])
     } else {
-      // setting writers
-      setSharedFolderWriters(newSharedFolderUsers)
+      setSharedFolderWriters([...sharedFolderWriters, user])
     }
-  }, [])
+  }, [sharedFolderReaders, sharedFolderWriters])
 
   const resetUsers = useCallback(() => {
     setSharedFolderReaders([])
     setSharedFolderWriters([])
-    setUsersError("")
   }, [])
 
   return {
     handleLookupUser,
     sharedFolderReaders,
     sharedFolderWriters,
-    onNewUsers,
-    usersError,
-    setUsersError,
+    setSharedFolderReaders,
+    setSharedFolderWriters,
+    onAddNewUser,
     resetUsers
   }
 }
