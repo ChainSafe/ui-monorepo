@@ -55,9 +55,6 @@ msgstr "Account"
 msgid "Account is restricted"
 msgstr "Account is restricted"
 
-msgid "Active links"
-msgstr "Active links"
-
 msgid "Add Card"
 msgstr "Add Card"
 
@@ -70,9 +67,6 @@ msgstr "Add a username"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
-msgid "Add by sharing address, username, wallet address or ENS"
-msgstr "Add by sharing address, username, wallet address or ENS"
-
 msgid "Add card"
 msgstr "Add card"
 
@@ -81,6 +75,9 @@ msgstr "Add credit card"
 
 msgid "Add more files"
 msgstr "Add more files"
+
+msgid "Add users to shared folder"
+msgstr "Add users to shared folder"
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Add viewers and editors by username, sharing id or Ethereum address."
@@ -102,9 +99,6 @@ msgstr "An error occurred:"
 
 msgid "Annual billing{0}"
 msgstr "Annual billing{0}"
-
-msgid "Anyone with the link can:"
-msgstr "Anyone with the link can:"
 
 msgid "Approve"
 msgstr "Approve"
@@ -253,17 +247,11 @@ msgstr "Create Shared Folder"
 msgid "Create a new shared folder"
 msgstr "Create a new shared folder"
 
-msgid "Create a sharing link"
-msgstr "Create a sharing link"
-
 msgid "Create folder & Copy over"
 msgstr "Create folder & Copy over"
 
 msgid "Create folder & Move over"
 msgstr "Create folder & Move over"
-
-msgid "Create link"
-msgstr "Create link"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
@@ -439,6 +427,9 @@ msgstr "General"
 msgid "Generate backup secret phrase"
 msgstr "Generate backup secret phrase"
 
+msgid "Generate sharing link"
+msgstr "Generate sharing link"
+
 msgid "Generated"
 msgstr "Generated"
 
@@ -447,12 +438,6 @@ msgstr "Generating…"
 
 msgid "Get Started"
 msgstr "Get Started"
-
-msgid "Give edit permission to:"
-msgstr "Give edit permission to:"
-
-msgid "Give view-only permission to:"
-msgstr "Give view-only permission to:"
 
 msgid "Go  back"
 msgstr "Go  back"
@@ -523,14 +508,14 @@ msgstr "Let's get you set up."
 msgid "Light Theme"
 msgstr "Light Theme"
 
-msgid "Loading"
-msgstr "Loading"
-
 msgid "Loading preview"
 msgstr "Loading preview"
 
 msgid "Loading your shared folders…"
 msgstr "Loading your shared folders…"
+
+msgid "Loading..."
+msgstr "Loading..."
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -601,8 +586,8 @@ msgstr "No search results for"
 msgid "No thanks"
 msgstr "No thanks"
 
-msgid "No user found for this query."
-msgstr "No user found for this query."
+msgid "No users found"
+msgstr "No users found"
 
 msgid "Notifications"
 msgstr "Notifications"
@@ -1072,14 +1057,14 @@ msgstr "Use an existing shared folder"
 msgid "Use this card"
 msgstr "Use this card"
 
-msgid "User {0} is both a reader and writer"
-msgstr "User {0} is both a reader and writer"
-
 msgid "Username"
 msgstr "Username"
 
 msgid "Username set successfully"
 msgstr "Username set successfully"
+
+msgid "Username, wallet address or ENS"
+msgstr "Username, wallet address or ENS"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Usernames are public and can't be changed after creation."

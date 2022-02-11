@@ -9,7 +9,7 @@ import jwtDecode from "jwt-decode"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { ROUTE_LINKS } from "../FilesRoutes"
-import { translatedPermission } from "./FileBrowsers/LinkSharing/LinkList"
+import { translatedPermission } from "./FileBrowsers/Sharing/PermissionsDropdown"
 import { NonceResponsePermission } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(

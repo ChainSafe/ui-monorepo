@@ -1,17 +1,18 @@
-import { Button, Loading, MenuDropdown, Typography } from "@chainsafe/common-components"
+import { Button, Loading, LinkIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-client"
-import { t, Trans } from "@lingui/macro"
-import React, { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
+import { Trans } from "@lingui/macro"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { CSFTheme } from "../../../../Themes/types"
+import PermissionsDropdown from "./PermissionsDropdown"
 import SharingLink from "./SharingLink"
 
 const useStyles = makeStyles(
   ({ constants, palette }: CSFTheme) => {
     return createStyles({
       root: {
-        padding: 2 * constants.generalUnit
+        padding: `${constants.generalUnit * 2}px 0`
       },
       options: {
         backgroundColor: constants.header.optionsBackground,
@@ -50,21 +51,26 @@ const useStyles = makeStyles(
         padding: `0px ${constants.generalUnit}px`,
         backgroundColor: palette.additional["gray"][1],
         marginLeft: constants.generalUnit,
-        borderColor: palette.additional["gray"][5],
-        borderWidth: "1px",
-        borderStyle: "solid",
-        borderRadius: "4px"
+        "& p": {
+          fontSize: "16px"
+        }
       },
       rightsText: {
         display: "inline-block"
       },
       createLinkButton: {
-        width: "100%"
+        padding: "0 8px 0 0 !important",
+        textDecoration: "none",
+        fontWeight: "normal",
+        fontSize: "16px"
       },
       dropdownTitle: {
-        padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit}px`
+        padding: `${constants.generalUnit * 0.75}px ${constants.generalUnit}px`,
+        "& p": {
+          fontSize: "16px"
+        }
       },
-      heading : {
+      heading: {
         marginBottom: constants.generalUnit
       },
       loadingContainer: {
@@ -80,21 +86,21 @@ const useStyles = makeStyles(
         padding: constants.generalUnit * 2,
         flexDirection: "column"
       },
-      creationWrapper: {
+      generateLinkContainer: {
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-        margin: "auto"
-      },
-      rightSelection: {
-        marginBottom: constants.generalUnit
+        justifyContent: "space-between",
+        marginTop: constants.generalUnit * 1.5
       },
       loader: {
         textAlign: "center"
       },
       activeLinks: {
         marginBottom: constants.generalUnit
+      },
+      linkIcon: {
+        fontSize: "24px",
+        marginRight: constants.generalUnit * 0.5,
+        stroke: palette.additional["gray"][10]
       }
     })
   }
@@ -107,16 +113,6 @@ interface Props {
   bucketEncryptionKey: string
 }
 
-interface LinkMenuItems {
-  id: NonceResponsePermission
-  onClick: () => void
-  contents: ReactNode
-}
-
-const readRights = t`view-only`
-const editRights = t`can-edit`
-export const translatedPermission = (permission: NonceResponsePermission) => permission === "read" ? readRights : editRights
-
 const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
@@ -125,47 +121,17 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
   const [isLoadingCreation, setIsLoadingCreation] = useState(false)
   const hasAReadNonce = useMemo(() => !!nonces.find(n => n.permission === "read"), [nonces])
   const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission | undefined>(undefined)
-  const menuItems: LinkMenuItems[] = useMemo(() => [
-    {
-      id: "read",
-      onClick: () => setNewLinkPermission("read"),
-      contents: (
-        <div
-          data-cy="menu-read"
-          className={classes.menuItem}
-        >
-          {readRights}
-        </div>
-      )
-    },
-    {
-      id: "write",
-      onClick: () => setNewLinkPermission("write"),
-      contents: (
-        <div
-          data-cy="menu-write"
-          className={classes.menuItem}
-        >
-          {editRights}
-        </div>
-      )
-    }
-  ], [classes.menuItem])
-
-  const displayedItems = useMemo(() => nonces.length === 0
-    ? menuItems
-    : hasAReadNonce
-      ? menuItems.filter(i => i.id === "write")
-      : menuItems.filter(i => i.id === "read")
-  , [hasAReadNonce, menuItems, nonces.length]
-  )
 
   useEffect(() => {
-    setNewLinkPermission(displayedItems[0].id)
-  }, [displayedItems])
+    if (hasAReadNonce) {
+      setNewLinkPermission("write")
+    } else {
+      setNewLinkPermission("read")
+    }
+  }, [nonces, hasAReadNonce])
 
-  const refreshNonces = useCallback(() => {
-    setIsLoadingNonces(true)
+  const refreshNonces = useCallback((hideLoading?: boolean) => {
+    !hideLoading && setIsLoadingNonces(true)
     filesApiClient.getAllNonces()
       .then((res) => {
         const noncesForCurrentBucket = res.filter(n => n.bucket_id === bucketId)
@@ -201,15 +167,8 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
     <div className={classes.root}>
       {!!nonces.length && !isLoadingNonces && (
         <div className={classes.activeLinks}>
-          <Typography
-            component="h4"
-            variant="h4"
-            className={classes.heading}
-          >
-            <Trans>Active links</Trans>
-          </Typography>
           <div className={classes.grayWrapper}>
-            { nonces.map((nonce) =>
+            {nonces.map((nonce) =>
               <SharingLink
                 key={nonce.id}
                 refreshNonces={refreshNonces}
@@ -234,47 +193,30 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
       )}
       {nonces.length < MAX_LINKS && (
         <>
-          <Typography
-            component="h4"
-            variant="h4"
-            className={classes.heading}
-          >
-            <Trans>Create a sharing link</Trans>
-          </Typography>
-          <div className={classes.grayWrapper}>
-            <div className={classes.creationWrapper}>
-              <div className={classes.rightSelection}>
-                <Typography
-                  component="h5"
-                  variant="h5"
-                  className={classes.rightsText}
-                >
-                  <Trans>Anyone with the link can: </Trans>
-                </Typography>
-                <MenuDropdown
-                  title={(newLinkPermission && translatedPermission(newLinkPermission)) || ""}
-                  anchor="bottom-right"
-                  className={classes.permissionDropdown}
-                  classNames={{
-                    icon: classes.icon,
-                    options: classes.options,
-                    title: classes.dropdownTitle
-                  }}
-                  testId="permission"
-                  menuItems={displayedItems}
-                />
-              </div>
-              <Button
-                className={classes.createLinkButton}
-                onClick={onCreateNonce}
-                variant="secondary"
-                disabled={isLoadingCreation}
-                loading={isLoadingCreation}
-                data-cy="button-create-link"
-              >
-                <Trans>Create link</Trans>
-              </Button>
-            </div>
+          <div className={classes.generateLinkContainer}>
+            <Button
+              className={classes.createLinkButton}
+              onClick={onCreateNonce}
+              variant="link"
+              disabled={isLoadingCreation}
+              loading={isLoadingCreation}
+              data-cy="button-create-link"
+            >
+              <LinkIcon className={classes.linkIcon} />
+              <Trans>Generate sharing link</Trans>
+            </Button>
+            <PermissionsDropdown
+              selectedPermission={newLinkPermission || "read"}
+              permissions={nonces.length === 0 ? ["read", "write"] : hasAReadNonce ? ["write"] : ["read"]}
+              onViewPermissionClick={() => setNewLinkPermission("read")}
+              onEditPermissionClick={() => setNewLinkPermission("write")}
+              withBorders={false}
+              injectedClasses={{
+                options: classes.options,
+                dropdownTitle: classes.dropdownTitle
+              }}
+              testId="link-permission"
+            />
           </div>
         </>
       )}
