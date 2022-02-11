@@ -56,9 +56,6 @@ msgstr "Compte"
 msgid "Account is restricted"
 msgstr "Ce compte est limité"
 
-msgid "Active links"
-msgstr "Liens actifs"
-
 msgid "Add Card"
 msgstr "Ajouter une carte"
 
@@ -71,9 +68,6 @@ msgstr "Ajouter un nom d’utilisateur"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Ajoutez au moins une méthode d’authentification pour protéger ce compte. Vous avez besoin de deux méthode pour accéder à Files depuis n’importe quel appareil."
 
-msgid "Add by sharing address, username, wallet address or ENS"
-msgstr ""
-
 msgid "Add card"
 msgstr "Ajouter une carte"
 
@@ -82,6 +76,9 @@ msgstr "Ajouter une carte de crédit"
 
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
+
+msgid "Add users to shared folder"
+msgstr ""
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
@@ -98,14 +95,23 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
+msgid "Amount added to credit"
+msgstr ""
+
+msgid "Amount available from last bill"
+msgstr ""
+
+msgid "Amount due"
+msgstr ""
+
+msgid "Amount from credit"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
 msgid "Annual billing{0}"
 msgstr ""
-
-msgid "Anyone with the link can:"
-msgstr "Toute personne ayant le lien peut le faire :"
 
 msgid "Approve"
 msgstr "Accepter"
@@ -254,17 +260,11 @@ msgstr "Créer un dossier partagé"
 msgid "Create a new shared folder"
 msgstr ""
 
-msgid "Create a sharing link"
-msgstr "Créer un lien de partage"
-
 msgid "Create folder & Copy over"
 msgstr "Créer un dossier et le copier"
 
 msgid "Create folder & Move over"
 msgstr "Créer un dossier et le déplacer"
-
-msgid "Create link"
-msgstr "Créer un lien"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
@@ -314,8 +314,8 @@ msgstr "Appareil en attente de confirmation"
 msgid "Didn't receive the email ?"
 msgstr "Vous n’avez pas reçu de courriel ?"
 
-msgid "Display Settings"
-msgstr "Paramètres d’affichage"
+msgid "Display"
+msgstr ""
 
 msgid "Download"
 msgstr "Télécharger"
@@ -440,6 +440,9 @@ msgstr "Général"
 msgid "Generate backup secret phrase"
 msgstr "Créer une phrase de sauvegarde secrète"
 
+msgid "Generate sharing link"
+msgstr ""
+
 msgid "Generated"
 msgstr "Généré"
 
@@ -448,12 +451,6 @@ msgstr "Génération…"
 
 msgid "Get Started"
 msgstr "Commencer"
-
-msgid "Give edit permission to:"
-msgstr "Donner l’autorisation de modifier à :"
-
-msgid "Give view-only permission to:"
-msgstr "Donner l’accès en lecture seule à :"
 
 msgid "Go  back"
 msgstr "Retour"
@@ -524,14 +521,14 @@ msgstr "C’est parti."
 msgid "Light Theme"
 msgstr "Thème clair"
 
-msgid "Loading"
-msgstr "Chargement"
-
 msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
 msgid "Loading your shared folders…"
 msgstr "Chargement de vos dossiers partagés…"
+
+msgid "Loading..."
+msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
@@ -602,8 +599,8 @@ msgstr "Aucun fichier à afficher"
 msgid "No thanks"
 msgstr "Non merci"
 
-msgid "No user found for this query."
-msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
+msgid "No users found"
+msgstr ""
 
 msgid "Notifications"
 msgstr "Notifications"
@@ -674,9 +671,6 @@ msgstr "Payer en cryptomonnaie"
 msgid "Pay with {0}"
 msgstr "Payer via {0}"
 
-msgid "Payment and Subscriptions"
-msgstr "Paiements et souscriptions"
-
 msgid "Payment information"
 msgstr ""
 
@@ -688,6 +682,9 @@ msgstr ""
 
 msgid "Plan changed successfully"
 msgstr "Formule changée"
+
+msgid "Plan price"
+msgstr ""
 
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr ""
@@ -716,17 +713,17 @@ msgstr "Aperçu"
 msgid "Previous"
 msgstr "Précédent"
 
+msgid "Pricing details"
+msgstr ""
+
 msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
 
 msgid "Proceed to payment"
 msgstr "Procéder au paiement"
 
-msgid "Profile and Display"
-msgstr "Profil et affichage"
-
-msgid "Profile settings"
-msgstr "Paramètres du profil"
+msgid "Profile"
+msgstr ""
 
 msgid "Profile updated"
 msgstr "Profile mis à jour"
@@ -814,6 +811,9 @@ msgstr "Sécurité"
 
 msgid "See payment info"
 msgstr "Voir les détails du paiement"
+
+msgid "Select a cryptocurrency"
+msgstr ""
 
 msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
@@ -931,6 +931,9 @@ msgstr "Sauvegardé par le mineur"
 
 msgid "Subscription Plan"
 msgstr "Formule souscrite"
+
+msgid "Subscriptions plan"
+msgstr ""
 
 msgid "Switch Network"
 msgstr "Changer de réseau"
@@ -1076,14 +1079,14 @@ msgstr ""
 msgid "Use this card"
 msgstr "Utiliser cette carte"
 
-msgid "User {0} is both a reader and writer"
-msgstr "L'utilisateur {0} est dans les auteurs et lecteurs"
-
 msgid "Username"
 msgstr "Nom d’utilisateur"
 
 msgid "Username set successfully"
 msgstr "Nom d’utilisateur défini avec succès"
+
+msgid "Username, wallet address or ENS"
+msgstr ""
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Les noms d’utilisateur sont publics et ne peuvent pas être modifiés après leur création."

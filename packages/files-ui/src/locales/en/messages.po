@@ -55,9 +55,6 @@ msgstr "Account"
 msgid "Account is restricted"
 msgstr "Account is restricted"
 
-msgid "Active links"
-msgstr "Active links"
-
 msgid "Add Card"
 msgstr "Add Card"
 
@@ -70,9 +67,6 @@ msgstr "Add a username"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
-msgid "Add by sharing address, username, wallet address or ENS"
-msgstr "Add by sharing address, username, wallet address or ENS"
-
 msgid "Add card"
 msgstr "Add card"
 
@@ -81,6 +75,9 @@ msgstr "Add credit card"
 
 msgid "Add more files"
 msgstr "Add more files"
+
+msgid "Add users to shared folder"
+msgstr "Add users to shared folder"
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Add viewers and editors by username, sharing id or Ethereum address."
@@ -97,14 +94,23 @@ msgstr "All invoices"
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr "Allow lookup by sharing key, wallet address, username or ENS"
 
+msgid "Amount added to credit"
+msgstr "Amount added to credit"
+
+msgid "Amount available from last bill"
+msgstr "Amount available from last bill"
+
+msgid "Amount due"
+msgstr "Amount due"
+
+msgid "Amount from credit"
+msgstr "Amount from credit"
+
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
 msgid "Annual billing{0}"
 msgstr "Annual billing{0}"
-
-msgid "Anyone with the link can:"
-msgstr "Anyone with the link can:"
 
 msgid "Approve"
 msgstr "Approve"
@@ -253,17 +259,11 @@ msgstr "Create Shared Folder"
 msgid "Create a new shared folder"
 msgstr "Create a new shared folder"
 
-msgid "Create a sharing link"
-msgstr "Create a sharing link"
-
 msgid "Create folder & Copy over"
 msgstr "Create folder & Copy over"
 
 msgid "Create folder & Move over"
 msgstr "Create folder & Move over"
-
-msgid "Create link"
-msgstr "Create link"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
@@ -313,8 +313,8 @@ msgstr "Device awaiting confirmation"
 msgid "Didn't receive the email ?"
 msgstr "Didn't receive the email ?"
 
-msgid "Display Settings"
-msgstr "Display Settings"
+msgid "Display"
+msgstr "Display"
 
 msgid "Download"
 msgstr "Download"
@@ -439,6 +439,9 @@ msgstr "General"
 msgid "Generate backup secret phrase"
 msgstr "Generate backup secret phrase"
 
+msgid "Generate sharing link"
+msgstr "Generate sharing link"
+
 msgid "Generated"
 msgstr "Generated"
 
@@ -447,12 +450,6 @@ msgstr "Generating…"
 
 msgid "Get Started"
 msgstr "Get Started"
-
-msgid "Give edit permission to:"
-msgstr "Give edit permission to:"
-
-msgid "Give view-only permission to:"
-msgstr "Give view-only permission to:"
 
 msgid "Go  back"
 msgstr "Go  back"
@@ -523,14 +520,14 @@ msgstr "Let's get you set up."
 msgid "Light Theme"
 msgstr "Light Theme"
 
-msgid "Loading"
-msgstr "Loading"
-
 msgid "Loading preview"
 msgstr "Loading preview"
 
 msgid "Loading your shared folders…"
 msgstr "Loading your shared folders…"
+
+msgid "Loading..."
+msgstr "Loading..."
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -601,8 +598,8 @@ msgstr "No search results for"
 msgid "No thanks"
 msgstr "No thanks"
 
-msgid "No user found for this query."
-msgstr "No user found for this query."
+msgid "No users found"
+msgstr "No users found"
 
 msgid "Notifications"
 msgstr "Notifications"
@@ -673,9 +670,6 @@ msgstr "Pay with crypto"
 msgid "Pay with {0}"
 msgstr "Pay with {0}"
 
-msgid "Payment and Subscriptions"
-msgstr "Payment and Subscriptions"
-
 msgid "Payment information"
 msgstr "Payment information"
 
@@ -687,6 +681,9 @@ msgstr "Payments are final and non-refundable. If you wish to change your plan, 
 
 msgid "Plan changed successfully"
 msgstr "Plan changed successfully"
+
+msgid "Plan price"
+msgstr "Plan price"
 
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr "Please complete payment of the following outstanding invoices in order to avoid account suspension"
@@ -715,17 +712,17 @@ msgstr "Preview"
 msgid "Previous"
 msgstr "Previous"
 
+msgid "Pricing details"
+msgstr "Pricing details"
+
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
 msgid "Proceed to payment"
 msgstr "Proceed to payment"
 
-msgid "Profile and Display"
-msgstr "Profile and Display"
-
-msgid "Profile settings"
-msgstr "Profile settings"
+msgid "Profile"
+msgstr "Profile"
 
 msgid "Profile updated"
 msgstr "Profile updated"
@@ -813,6 +810,9 @@ msgstr "Security"
 
 msgid "See payment info"
 msgstr "See payment info"
+
+msgid "Select a cryptocurrency"
+msgstr "Select a cryptocurrency"
 
 msgid "Select a wallet"
 msgstr "Select a wallet"
@@ -930,6 +930,9 @@ msgstr "Stored by miner"
 
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
+
+msgid "Subscriptions plan"
+msgstr "Subscriptions plan"
 
 msgid "Switch Network"
 msgstr "Switch Network"
@@ -1075,14 +1078,14 @@ msgstr "Use an existing shared folder"
 msgid "Use this card"
 msgstr "Use this card"
 
-msgid "User {0} is both a reader and writer"
-msgstr "User {0} is both a reader and writer"
-
 msgid "Username"
 msgstr "Username"
 
 msgid "Username set successfully"
 msgstr "Username set successfully"
+
+msgid "Username, wallet address or ENS"
+msgstr "Username, wallet address or ENS"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Usernames are public and can't be changed after creation."

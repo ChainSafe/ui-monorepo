@@ -34,14 +34,19 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     linkButton: {
       textDecoration: "underline",
       cursor: "pointer",
-      margin:  `0 ${constants.generalUnit * 2}px`
+      margin:  `0 ${constants.generalUnit * 2}px`,
+      color: palette.additional["gray"][7]
     },
     confirmDeletionDialog: {
       top: "50%"
     },
     link: {
       color: constants.settingsPage.linkButton.color,
-      paddingRight: "0px !important"
+      paddingRight: "0px !important",
+      fontSize: 16
+    },
+    text: {
+      fontSize: 16
     }
   })
 )
@@ -95,12 +100,14 @@ const CurrentCard: React.FC = () => {
           <Typography
             variant="body1"
             component="p"
+            className={classes.text}
           >
             <Trans>Next payment</Trans>
           </Typography>
           <Typography
             variant="body1"
             component="p"
+            className={classes.text}
           >
             {dayjs.unix(currentSubscription.expiry_date).format("MMMM DD, YYYY")}
           </Typography>
@@ -114,13 +121,14 @@ const CurrentCard: React.FC = () => {
                 variant="body1"
                 component="p"
                 data-cy="label-default-card"
+                className={classes.text}
               >
                   •••• •••• •••• {defaultCard.last_four_digit}
               </Typography>
               <Typography
                 variant="body1"
                 component="p"
-                className={classes.linkButton}
+                className={clsx(classes.linkButton, classes.text)}
                 onClick={() => setIsDeleteCardModalOpen(true)}
                 data-cy="link-remove-card"
               >
@@ -130,6 +138,7 @@ const CurrentCard: React.FC = () => {
             <Typography
               variant="body1"
               component="p"
+              className={classes.text}
             >
               <Trans>expires</Trans>&nbsp;{defaultCard.exp_month}/{defaultCard.exp_year.toString().substring(2)}
             </Typography>
@@ -137,7 +146,7 @@ const CurrentCard: React.FC = () => {
           : <Typography
             component="p"
             variant="body1"
-            className={classes.cardLineMargins}
+            className={clsx(classes.cardLineMargins, classes.text)}
             data-cy="label-no-card"
           >
             <Trans>No Card</Trans>

@@ -35,6 +35,9 @@ export const settingsPage = {
   noCardLabel: () => cy.get("[data-cy=label-no-card]"),
   removeCardLink: () => cy.get("[data-cy=link-remove-card]"),
   changePlanButton: () => cy.get("[data-cy=button-change-plan]", { timeout: 10000 }),
+  allInvoicesLink: () => cy.get("[data-cy=link-all-invoices]"),
+  viewPdfButton: () => cy.get("[data-testid=button-download-invoice]"),
+  payNowButton: () => cy.get("[data-testid=button-pay-invoice]"),
 
   // use this convenience function when an upgraded account is required as a test requisite
   upgradeSubscription(plan: "standard" | "premium") {

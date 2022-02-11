@@ -68,7 +68,7 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
       injectedClass={{
         inner: classes.inner
       }}
-      testId="pay-invoice"
+      testId="cryptoPayment"
       onClose={onClose}
     >
       {invoiceToPay?.payment_method === "crypto"

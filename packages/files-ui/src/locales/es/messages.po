@@ -56,9 +56,6 @@ msgstr "Cuenta"
 msgid "Account is restricted"
 msgstr ""
 
-msgid "Active links"
-msgstr ""
-
 msgid "Add Card"
 msgstr ""
 
@@ -71,9 +68,6 @@ msgstr ""
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Agregue al menos un método de autenticación más para proteger su cuenta. Solo necesitaría dos para iniciar sesión en Archivos desde cualquier dispositivo."
 
-msgid "Add by sharing address, username, wallet address or ENS"
-msgstr ""
-
 msgid "Add card"
 msgstr ""
 
@@ -82,6 +76,9 @@ msgstr ""
 
 msgid "Add more files"
 msgstr "Agrega mas archivos"
+
+msgid "Add users to shared folder"
+msgstr ""
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
@@ -98,13 +95,22 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
+msgid "Amount added to credit"
+msgstr ""
+
+msgid "Amount available from last bill"
+msgstr ""
+
+msgid "Amount due"
+msgstr ""
+
+msgid "Amount from credit"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr ""
 
 msgid "Annual billing{0}"
-msgstr ""
-
-msgid "Anyone with the link can:"
 msgstr ""
 
 msgid "Approve"
@@ -254,16 +260,10 @@ msgstr ""
 msgid "Create a new shared folder"
 msgstr ""
 
-msgid "Create a sharing link"
-msgstr ""
-
 msgid "Create folder & Copy over"
 msgstr ""
 
 msgid "Create folder & Move over"
-msgstr ""
-
-msgid "Create link"
 msgstr ""
 
 msgid "Create your public username in <0>Settings</0>!"
@@ -314,8 +314,8 @@ msgstr "Dispositivo pendiente de confirmación"
 msgid "Didn't receive the email ?"
 msgstr ""
 
-msgid "Display Settings"
-msgstr "Configuración de pantalla"
+msgid "Display"
+msgstr ""
 
 msgid "Download"
 msgstr "Descargar"
@@ -440,6 +440,9 @@ msgstr "General"
 msgid "Generate backup secret phrase"
 msgstr ""
 
+msgid "Generate sharing link"
+msgstr ""
+
 msgid "Generated"
 msgstr ""
 
@@ -448,12 +451,6 @@ msgstr ""
 
 msgid "Get Started"
 msgstr "Empezar"
-
-msgid "Give edit permission to:"
-msgstr ""
-
-msgid "Give view-only permission to:"
-msgstr ""
 
 msgid "Go  back"
 msgstr ""
@@ -524,13 +521,13 @@ msgstr "Vamos a configurarlo."
 msgid "Light Theme"
 msgstr "Tema Claro"
 
-msgid "Loading"
-msgstr ""
-
 msgid "Loading preview"
 msgstr "Cargando vista previa"
 
 msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -602,7 +599,7 @@ msgstr "No hay resultados de búsqueda para"
 msgid "No thanks"
 msgstr "No gracias"
 
-msgid "No user found for this query."
+msgid "No users found"
 msgstr ""
 
 msgid "Notifications"
@@ -674,9 +671,6 @@ msgstr ""
 msgid "Pay with {0}"
 msgstr ""
 
-msgid "Payment and Subscriptions"
-msgstr ""
-
 msgid "Payment information"
 msgstr ""
 
@@ -687,6 +681,9 @@ msgid "Payments are final and non-refundable. If you wish to change your plan, a
 msgstr ""
 
 msgid "Plan changed successfully"
+msgstr ""
+
+msgid "Plan price"
 msgstr ""
 
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
@@ -716,16 +713,16 @@ msgstr "Avance"
 msgid "Previous"
 msgstr "Anterior"
 
+msgid "Pricing details"
+msgstr ""
+
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
 
 msgid "Proceed to payment"
 msgstr ""
 
-msgid "Profile and Display"
-msgstr "Perfil y pantalla"
-
-msgid "Profile settings"
+msgid "Profile"
 msgstr ""
 
 msgid "Profile updated"
@@ -813,6 +810,9 @@ msgid "Security"
 msgstr "Seguridad"
 
 msgid "See payment info"
+msgstr ""
+
+msgid "Select a cryptocurrency"
 msgstr ""
 
 msgid "Select a wallet"
@@ -930,6 +930,9 @@ msgid "Stored by miner"
 msgstr "Almacenado por el minero"
 
 msgid "Subscription Plan"
+msgstr ""
+
+msgid "Subscriptions plan"
 msgstr ""
 
 msgid "Switch Network"
@@ -1076,13 +1079,13 @@ msgstr ""
 msgid "Use this card"
 msgstr ""
 
-msgid "User {0} is both a reader and writer"
-msgstr ""
-
 msgid "Username"
 msgstr ""
 
 msgid "Username set successfully"
+msgstr ""
+
+msgid "Username, wallet address or ENS"
 msgstr ""
 
 msgid "Usernames are public and can't be changed after creation."
