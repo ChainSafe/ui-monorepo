@@ -215,7 +215,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                 options: classes.options,
                 dropdownTitle: classes.dropdownTitle
               }}
-              testId="link-permission-dropdown"
+              testId="link-permission"
             />
           </div>
         </>
