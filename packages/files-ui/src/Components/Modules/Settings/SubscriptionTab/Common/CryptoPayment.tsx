@@ -374,7 +374,8 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
         </Typography>
         {cryptoPayment && <div
           className={classes.pushRightBox}
-          data-cy="container-crypto-time-remaining">
+          data-cy="container-crypto-time-remaining"
+        >
           <CircularProgressBar
             progress={(timeRemaining?.as("s") || 0) / 3600 * 100}
             width={23}
@@ -413,7 +414,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
           {!selectedCurrency && currencies &&
             <>
               <Typography data-cy="label-select-cryptocurrency">
-                Select a cryptocurrency
+                <Trans>Select a cryptocurrency</Trans>
               </Typography>
               <div
                 className={classes.availableCurrencies}
