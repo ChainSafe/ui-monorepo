@@ -13,7 +13,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIn
   createStyles({
     root: {
       paddingBottom: constants.generalUnit * 3,
-      maxWidth: breakpoints.values["md"],
       [breakpoints.down("md")]: {
         padding: constants.generalUnit * 2
       }
@@ -118,6 +117,18 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIn
     divider: {
       zIndex: zIndex?.layer1,
       marginTop: constants.generalUnit * 3
+    },
+    mainHeader: {
+      fontSize: 28,
+      marginBottom: constants.generalUnit * 2,
+      [breakpoints.up("md")]: {
+        paddingLeft: constants.generalUnit * 2
+      }    },
+    settingsSection: {
+      maxWidth: breakpoints.values["md"],
+      [breakpoints.up("md")]: {
+        padding: `0 ${constants.generalUnit * 2}px`
+      }
     }
   })
 )
@@ -161,163 +172,174 @@ const Security = ({ className }: SecurityProps) => {
         <Typography
           variant="h3"
           component="h3"
+          className={classes.mainHeader}
         >
-          <Trans>Sign-in methods</Trans>
+          <Trans>Security</Trans>
         </Typography>
         <Divider />
-        {showWarning && (
+        <section className={classes.settingsSection}>
           <Typography
-            variant="body1"
-            className={classes.warningMessage}
+            variant="h4"
+            component="h4"
           >
-            <Trans>
-              Hey! You only have two sign-in methods. If you lose that and have only one left,
-              you will be locked out of your account forever.
-            </Trans>
+            <Trans>Sign-in methods</Trans>
           </Typography>
-        )}
-        {
-          !!loggedinAs && (
-            <section className={classes.setOption}>
-              <div>
-                <Typography variant="h5">
-                  <Trans>
-                    Social Sign-in Wallet
-                  </Trans>
-                </Typography>
-                {
-                  desktop && (
-                    <Typography variant="h5">
-                      { loggedinAs }
-                    </Typography>
-                  )
-                }
-              </div>
-            </section>
-          )
-        }
-        <section className={classes.setOption}>
-          <div>
-            <Typography variant="h5">
-              <Trans>
-                Saved Browser
-              </Trans>
-            </Typography>
-            <Typography variant="h5">
-              {browserShares.length} <Trans>Saved</Trans>{" "}
-            </Typography>
-          </div>
-        </section>
-        {showWarning && (
-          <div>
+          {showWarning && (
             <Typography
               variant="body1"
               className={classes.warningMessage}
             >
               <Trans>
-                Add at least one more authentication method to protect your account.
-                You’d only need any two to sign in to Files from any device.
+              Hey! You only have two sign-in methods. If you lose that and have only one left,
+              you will be locked out of your account forever.
               </Trans>
             </Typography>
-          </div>
-        )}
-        { isChangingPassword
-          ? (
-            <section className={classes.formRoot}>
-              <CloseSvg
-                onClick={onResetPasswordForm}
-                className={classes.close}
-              />
-              <Typography
-                variant="h4"
-                component="h2"
-              >
-                <Trans>
-                  Change password
-                </Trans>
-              </Typography>
-              <PasswordForm
-                setPassword={onSetPassword}
-                buttonLabel={t`Change Password`}
-              />
-            </section>
-          )
-          : (
-            <section className={classes.setOption}>
-              <div>
-                <Typography variant="h5">
-                  <Trans>
-                    Password
-                  </Trans>
-                </Typography>
-                <Typography variant="h5">
-                  {
-                    <span
-                      className={clsx(classes.action, classes.buttonLink, classes.changeButton)}
-                      onClick={() => {setIsChangingPassword(true)}}
-                    >
-                      <Trans>Change Password</Trans>
-                    </span>
-                  }
-                </Typography>
-              </div>
-            </section>
           )}
-        { isSettingBackupPhrase
-          ? (
-            <section className={classes.formRoot}>
-              <Typography
-                variant="h4"
-                component="h2"
-              >
-                <Trans>
-                  Generate backup secret phrase
-                </Trans>
-              </Typography>
-              <Typography component="p">
-                <Trans>
-                  A backup secret phrase will be generated and used for your account.<br/>
-                  We do not store it and <b>it can only be displayed once</b>. Save it somewhere safe!
-                </Trans>
-              </Typography>
-              <MnemonicForm
-                buttonLabel={t`I’m done saving my backup secret phrase`}
-                onComplete={() => setIsSettingBackupPhrase(false)}
-              />
-            </section>
-          )
-          : (<section className={classes.setOption}>
+          {
+            !!loggedinAs && (
+              <section className={classes.setOption}>
+                <div>
+                  <Typography variant="h5">
+                    <Trans>
+                    Social Sign-in Wallet
+                    </Trans>
+                  </Typography>
+                  {
+                    desktop && (
+                      <Typography variant="h5">
+                        { loggedinAs }
+                      </Typography>
+                    )
+                  }
+                </div>
+              </section>
+            )
+          }
+          <section className={classes.setOption}>
             <div>
               <Typography variant="h5">
                 <Trans>
-                  Backup secret phrase
+                  Saved Browser
                 </Trans>
               </Typography>
               <Typography variant="h5">
-                { !hasMnemonicShare
-                  ? (
-                    <span className={classes.action}>
-                      <span
-                        className={classes.buttonLink}
-                        onClick={() => {setIsSettingBackupPhrase(true)}}
-                      >
-                        <Trans>Generate backup secret phrase</Trans>
-                      </span>
-                    </span>
-                  )
-                  : (
-                    <span className={classes.action}>
-                      <Trans>Generated</Trans>
-                    </span>
-                  )
-                }
+                {browserShares.length} <Trans>Saved</Trans>{" "}
               </Typography>
             </div>
-          </section>)
-        }
+          </section>
+          {showWarning && (
+            <div>
+              <Typography
+                variant="body1"
+                className={classes.warningMessage}
+              >
+                <Trans>
+                Add at least one more authentication method to protect your account.
+                You’d only need any two to sign in to Files from any device.
+                </Trans>
+              </Typography>
+            </div>
+          )}
+          { isChangingPassword
+            ? (
+              <section className={classes.formRoot}>
+                <CloseSvg
+                  onClick={onResetPasswordForm}
+                  className={classes.close}
+                />
+                <Typography
+                  variant="h4"
+                  component="h2"
+                >
+                  <Trans>
+                  Change password
+                  </Trans>
+                </Typography>
+                <PasswordForm
+                  setPassword={onSetPassword}
+                  buttonLabel={t`Change Password`}
+                />
+              </section>
+            )
+            : (
+              <section className={classes.setOption}>
+                <div>
+                  <Typography variant="h5">
+                    <Trans>
+                    Password
+                    </Trans>
+                  </Typography>
+                  <Typography variant="h5">
+                    {
+                      <span
+                        className={clsx(classes.action, classes.buttonLink, classes.changeButton)}
+                        onClick={() => {setIsChangingPassword(true)}}
+                      >
+                        <Trans>Change Password</Trans>
+                      </span>
+                    }
+                  </Typography>
+                </div>
+              </section>
+            )}
+          { isSettingBackupPhrase
+            ? (
+              <section className={classes.formRoot}>
+                <Typography
+                  variant="h4"
+                  component="h2"
+                >
+                  <Trans>
+                  Generate backup secret phrase
+                  </Trans>
+                </Typography>
+                <Typography component="p">
+                  <Trans>
+                  A backup secret phrase will be generated and used for your account.<br/>
+                  We do not store it and <b>it can only be displayed once</b>. Save it somewhere safe!
+                  </Trans>
+                </Typography>
+                <MnemonicForm
+                  buttonLabel={t`I’m done saving my backup secret phrase`}
+                  onComplete={() => setIsSettingBackupPhrase(false)}
+                />
+              </section>
+            )
+            : (<section className={classes.setOption}>
+              <div>
+                <Typography variant="h5">
+                  <Trans>
+                  Backup secret phrase
+                  </Trans>
+                </Typography>
+                <Typography variant="h5">
+                  { !hasMnemonicShare
+                    ? (
+                      <span className={classes.action}>
+                        <span
+                          className={classes.buttonLink}
+                          onClick={() => {setIsSettingBackupPhrase(true)}}
+                        >
+                          <Trans>Generate backup secret phrase</Trans>
+                        </span>
+                      </span>
+                    )
+                    : (
+                      <span className={classes.action}>
+                        <Trans>Generated</Trans>
+                      </span>
+                    )
+                  }
+                </Typography>
+              </div>
+            </section>)
+          }
+        </section>
       </div>
       <Divider className={classes.divider} />
-      <SavedBrowsers isRefreshing={isRefreshingMetadata}/>
+      <section className={classes.settingsSection}>
+        <SavedBrowsers isRefreshing={isRefreshingMetadata}/>
+      </section>
     </div>
   )
 }

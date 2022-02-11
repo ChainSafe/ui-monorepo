@@ -1,8 +1,5 @@
 import React from "react"
-import {
-  makeStyles,
-  createStyles
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Loading, Typography } from "@chainsafe/common-components"
 import BrowserPanel from "./BrowserPanel"
@@ -18,12 +15,13 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       }
     },
     title: {
-      fontSize: "16px",
-      lineHeight: "24px",
-      paddingBottom: constants.generalUnit * 2
+      marginBottom: constants.generalUnit * 1.5
     },
     expansionContainer: {
-      marginBottom: constants.generalUnit * 3
+      marginTop: constants.generalUnit * 0.5
+    },
+    loader : {
+      marginLeft: constants.generalUnit
     }
   })
 )
@@ -35,13 +33,15 @@ const SavedBrowsers: React.FC<{isRefreshing: boolean}> = ({ isRefreshing }) => {
   return (
     <div className={classes.root}>
       <Typography
-        component="p"
-        variant="body1"
+        variant="h4"
+        component="h4"
         className={classes.title}
       >
-        <Trans>Saved Browsers</Trans> {isRefreshing && <Loading
+        <Trans>Saved Browsers</Trans>
+        {isRefreshing && <Loading
           size={16}
           type="initial"
+          className={classes.loader}
         />}
       </Typography>
       {browserShares

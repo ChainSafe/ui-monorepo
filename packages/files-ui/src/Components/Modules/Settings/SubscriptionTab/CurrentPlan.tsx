@@ -58,7 +58,12 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
     },
     link: {
       color: constants.settingsPage.linkButton.color,
-      paddingRight: "0px !important"
+      paddingRight: "0px !important",
+      fontSize: 16
+
+    },
+    text: {
+      fontSize: 16
     }
   })
 )
@@ -113,6 +118,7 @@ const CurrentPlan = ({ className }: ICurrentProduct) => {
             <Typography
               variant="body1"
               component="p"
+              className={classes.text}
             >
               {t`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
                 storageSummary.total_storage, 2
@@ -127,7 +133,6 @@ const CurrentPlan = ({ className }: ICurrentProduct) => {
         }
       </>
     }
-
   </section>)
 }
 
