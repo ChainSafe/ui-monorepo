@@ -815,6 +815,9 @@ msgstr "Sécurité"
 msgid "See payment info"
 msgstr "Voir les détails du paiement"
 
+msgid "Select a cryptocurrency"
+msgstr ""
+
 msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
 
