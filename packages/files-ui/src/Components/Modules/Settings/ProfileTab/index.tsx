@@ -12,7 +12,7 @@ import {
   Divider
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
-import { LockIcon, CopyIcon } from "@chainsafe/common-components"
+import { CopyIcon } from "@chainsafe/common-components"
 import { Form, useFormik, FormikProvider } from "formik"
 import { useUser } from "../../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
@@ -80,11 +80,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
     },
     button: {
       width: 200,
-      margin: `0px ${constants.generalUnit * 0.5}px ${constants.generalUnit * 4}px`
-    },
-    icon: {
-      fontSize: "20px",
-      margin: "-2px 2px 0 2px"
+      margin: `0px ${constants.generalUnit * 0.5}px ${constants.generalUnit * 4}px`,
+      [breakpoints.up("md")]: {
+        marginLeft: constants.generalUnit * 2
+      }
     },
     copyIcon: {
       fontSize: "14px",
@@ -505,7 +504,6 @@ const ProfileView = () => {
                       disabled={!profile?.publicAddress}
                     />
                   </div> */}
-
                   <Button
                     className={classes.button}
                     size="large"
@@ -516,8 +514,6 @@ const ProfileView = () => {
                     data-cy="button-save-changes"
                     disabled={!formik.dirty}
                   >
-                    <LockIcon className={classes.icon} />
-                    {"  "}
                     <Typography variant="button">
                       <Trans>Save changes</Trans>
                     </Typography>
