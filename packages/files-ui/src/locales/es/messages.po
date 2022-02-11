@@ -314,8 +314,8 @@ msgstr "Dispositivo pendiente de confirmación"
 msgid "Didn't receive the email ?"
 msgstr ""
 
-msgid "Display Settings"
-msgstr "Configuración de pantalla"
+msgid "Display"
+msgstr ""
 
 msgid "Download"
 msgstr "Descargar"
@@ -671,9 +671,6 @@ msgstr ""
 msgid "Pay with {0}"
 msgstr ""
 
-msgid "Payment and Subscriptions"
-msgstr ""
-
 msgid "Payment information"
 msgstr ""
 
@@ -725,10 +722,7 @@ msgstr "Política de privacidad"
 msgid "Proceed to payment"
 msgstr ""
 
-msgid "Profile and Display"
-msgstr "Perfil y pantalla"
-
-msgid "Profile settings"
+msgid "Profile"
 msgstr ""
 
 msgid "Profile updated"
@@ -936,6 +930,9 @@ msgid "Stored by miner"
 msgstr "Almacenado por el minero"
 
 msgid "Subscription Plan"
+msgstr ""
+
+msgid "Subscriptions plan"
 msgstr ""
 
 msgid "Switch Network"
