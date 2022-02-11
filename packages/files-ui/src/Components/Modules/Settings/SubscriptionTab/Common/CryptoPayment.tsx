@@ -368,15 +368,20 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
           variant="h5"
           component="h4"
           className={classes.heading}
+          data-cy="header-pay-with-crypto"
         >
           <Trans>Pay with crypto</Trans>
         </Typography>
-        {cryptoPayment && <div className={classes.pushRightBox}>
+        {cryptoPayment && <div
+          className={classes.pushRightBox}
+          data-cy="container-crypto-time-remaining"
+        >
           <CircularProgressBar
             progress={(timeRemaining?.as("s") || 0) / 3600 * 100}
             width={23}
             label={timeRemaining?.format("mm:ss") || ""}
             variant="secondary"
+            data-cy="label-select-cryptocurrency"
           />
         </div>}
       </div>
@@ -388,6 +393,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
           component="p"
           variant="body1"
           className={classes.error}
+          data-cy="label-crypto-payment-error"
         >
           <Trans>Failed to create a charge</Trans>
         </Typography>
@@ -395,9 +401,11 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
       {cryptoPayment && pendingCryptoInvoice &&
         <>
           <div className={classes.rowBox}>
-            <Typography>Total</Typography>
+            <Typography data-cy="label-total-crypto-title">
+              Total
+            </Typography>
             <div className={classes.pushRightBox}>
-              <Typography>
+              <Typography data-cy="label-total-crypto-price">
                 {pendingCryptoInvoice.currency?.toUpperCase()} {pendingCryptoInvoice.amount}
               </Typography>
             </div>
@@ -405,8 +413,12 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
           <Divider />
           {!selectedCurrency && currencies &&
             <>
-              <Typography>Select a cryptocurrency</Typography>
-              <div className={classes.availableCurrencies}>
+              <Typography data-cy="label-select-cryptocurrency">
+                <Trans>Select a cryptocurrency</Trans>
+              </Typography>
+              <div
+                className={classes.availableCurrencies}
+                data-cy="container-crypto-payment-option">
                 {currencies.map(c => {
                   const CurrencyIcon = iconMap[c] || null
                   return <Button
@@ -423,23 +435,28 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
           }
           {selectedCurrency && selectedPaymentMethod &&
             <>
-              <div className={classes.qrCode}>
+              <div
+                className={classes.qrCode}
+                data-cy="container-qr-code"
+              >
                 <QRCode
                   value={selectedPaymentMethod.address}
                   size={128}
                 />
               </div>
               <div className={classes.qrCodeLabel}>
-                <Typography>
+                <Typography data-cy="label-currency-type-warning">
                   <Trans>Only send {selectedCurrency} to this address</Trans>
                 </Typography>
               </div>
               <Divider />
-              <Typography><Trans>Destination Address</Trans></Typography>
+              <Typography data-cy="label-destination-address-title">
+                <Trans>Destination Address</Trans>
+              </Typography>
               <div
                 className={clsx(classes.rowBox, classes.copyRow)}
                 onClick={onCopyDestinationAddress}>
-                <Typography>{selectedPaymentMethod.address}</Typography>
+                <Typography data-cy="label-destination-address">{selectedPaymentMethod.address}</Typography>
                 <div className={classes.pushRightBox}>
                   <CopyIcon className={classes.copyIcon} />
                   <div className={clsx(classes.copiedFlag, { "active": copiedDestinationAddress })}>
@@ -451,12 +468,14 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
                   </div>
                 </div>
               </div>
-              <Typography><Trans>Total Amount</Trans></Typography>
+              <Typography data-cy="label-crypto-amount-title">
+                <Trans>Total Amount</Trans>
+              </Typography>
               <div
                 className={clsx(classes.rowBox, classes.copyRow)}
                 onClick={onCopyAmount}
               >
-                <Typography>
+                <Typography data-cy="label-crypto-amount">
                   {selectedPaymentMethod.amount} {symbolMap[selectedCurrency]}
                 </Typography>
                 <div className={classes.pushRightBox}>
@@ -474,7 +493,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
                 variant="body1"
                 component="p"
                 className={classes.warningText}
-                data-cy="label-crypto-payment-warning"
+                data-cy="label-crypto-final-sale-warning"
               >
                 <InfoCircleIcon className={classes.icon} />
                 <Trans>
@@ -491,14 +510,23 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
           {!!selectedCurrency && <Button
             onClick={() => setSelectedCurrency(undefined)}
             variant="text"
+            testId="go-back-to-crypto-selection"
           >
             <Trans>Go back</Trans>
           </Button>}
           {selectedCurrency && selectedCurrency !== "bitcoin" && !isReady &&
-            <Button onClick={selectWallet}><Trans>Connect Wallet</Trans></Button>
+            <Button
+              onClick={selectWallet}
+              testId="connect-wallet"
+            >
+              <Trans>Connect Wallet</Trans>
+            </Button>
           }
           {selectedCurrency && selectedCurrency !== "bitcoin" && isReady && network !== 1 &&
-            <Button onClick={handleSwitchNetwork}>
+            <Button
+              onClick={handleSwitchNetwork}
+              testId="switch-network"
+            >
               <Trans>Switch Network</Trans>
             </Button>
           }

@@ -796,6 +796,9 @@ msgstr ""
 msgid "See payment info"
 msgstr ""
 
+msgid "Select a cryptocurrency"
+msgstr ""
+
 msgid "Select a wallet"
 msgstr ""
 
