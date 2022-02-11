@@ -97,6 +97,9 @@ msgstr ""
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
 
+msgid "Amount due"
+msgstr ""
+
 msgid "An error occurred:"
 msgstr ""
 
@@ -269,6 +272,12 @@ msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
 msgid "Credit Card is expiring soon"
+msgstr ""
+
+msgid "Credit available"
+msgstr ""
+
+msgid "Credit remaining"
 msgstr ""
 
 msgid "Dark Theme"
@@ -670,9 +679,6 @@ msgstr ""
 msgid "Pay with {0}"
 msgstr ""
 
-msgid "Payment amount"
-msgstr ""
-
 msgid "Payment and Subscriptions"
 msgstr ""
 
@@ -718,7 +724,7 @@ msgstr "Forhåndsvis"
 msgid "Previous"
 msgstr "Forrige"
 
-msgid "Previous balance"
+msgid "Pricing details"
 msgstr ""
 
 msgid "Privacy Policy"
