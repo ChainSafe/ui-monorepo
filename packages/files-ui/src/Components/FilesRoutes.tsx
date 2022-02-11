@@ -47,7 +47,7 @@ export const ROUTE_LINKS = {
 }
 
 export const permissionPath = (permission: NonceResponsePermission) => permission === "read" ? "read" : "edit"
-export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
+export const SETTINGS_PATHS = ["profile", "plan", "security", "display"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
