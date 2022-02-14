@@ -308,7 +308,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
             ? t`me`
             : <UserBubble
               tooltip={getUserDisplayName(bucket.owners[0])}
-              showHashIcon={true}
+              showHashIcon
             />}
         </TableCell>
         }
