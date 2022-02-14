@@ -923,7 +923,7 @@ msgstr "Almacenado por el minero"
 msgid "Subscription Plan"
 msgstr ""
 
-msgid "Subscriptions plan"
+msgid "Subscription plan"
 msgstr ""
 
 msgid "Switch Network"

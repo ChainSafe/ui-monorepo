@@ -923,7 +923,7 @@ msgstr "Sauvegardé par le mineur"
 msgid "Subscription Plan"
 msgstr "Formule souscrite"
 
-msgid "Subscriptions plan"
+msgid "Subscription plan"
 msgstr ""
 
 msgid "Switch Network"
