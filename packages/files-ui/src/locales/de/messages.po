@@ -592,7 +592,7 @@ msgstr "Keine Suchergebnisse für"
 msgid "No thanks"
 msgstr "Nein danke"
 
-msgid "No users found"
+msgid "No user found"
 msgstr ""
 
 msgid "Notifications"
