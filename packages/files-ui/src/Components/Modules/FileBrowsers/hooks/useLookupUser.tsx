@@ -4,12 +4,13 @@ import { useUser } from "../../../../Contexts/UserContext"
 import { ethers } from "ethers"
 import { NonceResponsePermission } from "@chainsafe/files-api-client"
 import { SharedUserData } from "../types"
+import { usePosthogContext } from "../../../../Contexts/PosthogContext"
 
 export const useLookupSharedFolderUser = () => {
   const { filesApiClient } = useFilesApi()
   const [sharedFolderReaders, setSharedFolderReaders] = useState<SharedUserData[]>([])
   const [sharedFolderWriters, setSharedFolderWriters] = useState<SharedUserData[]>([])
-
+  const { captureEvent } = usePosthogContext()
   const { profile } = useUser()
 
   const handleLookupUser = useCallback(async (inputVal: string) => {
@@ -57,12 +58,14 @@ export const useLookupSharedFolderUser = () => {
   }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
 
   const onAddNewUser = useCallback((user: SharedUserData, permission: NonceResponsePermission) => {
+    captureEvent("Manually share with user", { permission })
+
     if (permission === "read") {
       setSharedFolderReaders([...sharedFolderReaders, user])
     } else {
       setSharedFolderWriters([...sharedFolderWriters, user])
     }
-  }, [sharedFolderReaders, sharedFolderWriters])
+  }, [captureEvent, sharedFolderReaders, sharedFolderWriters])
 
   const resetUsers = useCallback(() => {
     setSharedFolderReaders([])

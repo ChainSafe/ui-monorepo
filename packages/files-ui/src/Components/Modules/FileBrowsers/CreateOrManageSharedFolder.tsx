@@ -198,6 +198,12 @@ const useStyles = makeStyles(
   }
 )
 
+interface SuggestedUser {
+  label: string
+  value: string
+  data: LookupUser
+}
+
 interface ICreateOrManageSharedFolderProps {
   mode?: SharedFolderModalMode
   onClose: () => void
@@ -219,9 +225,9 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
   } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
   const [nameError, setNameError] = useState("")
-  const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission>("read")
+  const [newUserPermission, setNewUserPermission] = useState<NonceResponsePermission>("read")
   const [usernameSearch, setUsernameSearch] = useState<string | undefined>()
-  const [suggestedUsers, setSuggestedUsers] = useState<{ label: string; value: string; data: LookupUser }[]>([])
+  const [suggestedUsers, setSuggestedUsers] = useState<SuggestedUser[]>([])
   const [loadingUsers, setLoadingUsers] = useState(false)
   const [searchActive, setSearchActive] = useState(false)
 
@@ -310,6 +316,14 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
     }
   })
 
+  const onSuggestedUserClick = useCallback((user: SuggestedUser) => {
+    onAddNewUser(user, newUserPermission)
+    setSearchActive(false)
+    setUsernameSearch("")
+    setSuggestedUsers([])
+    setHasPermissionsChanged(true)
+  }, [newUserPermission, onAddNewUser])
+
   return (
     <div className={classes.root}>
       <div className={classes.iconBacking}>
@@ -372,9 +386,9 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
             data-cy="input-edit-permission"
           />
           <PermissionsDropdown
-            selectedPermission={newLinkPermission}
-            onViewPermissionClick={() => setNewLinkPermission("read")}
-            onEditPermissionClick={() => setNewLinkPermission("write")}
+            selectedPermission={newUserPermission}
+            onViewPermissionClick={() => setNewUserPermission("read")}
+            onEditPermissionClick={() => setNewUserPermission("write")}
             permissions={["read", "write"]}
             injectedClasses={{
               root: classes.permissionsInSuggestion,
@@ -390,13 +404,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
               {suggestedUsers.map((u) => <div
                 key={u.value}
                 className={classes.usernameBox}
-                onClick={() => {
-                  onAddNewUser(u, newLinkPermission)
-                  setSearchActive(false)
-                  setUsernameSearch("")
-                  setSuggestedUsers([])
-                  setHasPermissionsChanged(true)
-                }}
+                onClick={() => {onSuggestedUserClick(u)}}
                 data-cy="user-lookup-result"
               >
                 {u.label}
@@ -411,7 +419,7 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
               >
                 {loadingUsers
                   ? <Trans>Loading...</Trans>
-                  : <Trans>No users found</Trans>
+                  : <Trans>No user found</Trans>
                 }
               </Typography>
             </div>
