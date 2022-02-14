@@ -14,7 +14,8 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
       margin: `${constants.generalUnit * 1.5}px 0`
     },
     link: {
-      textAlign: "right"
+      textAlign: "right",
+      fontSize: 16
     },
     spaceBetweenBox: {
       display: "flex",
@@ -48,7 +49,10 @@ const BillingHistory = () => {
           component="p"
           className={classes.link}
         >
-          <Link to={ROUTE_LINKS.BillingHistory}>
+          <Link
+            to={ROUTE_LINKS.BillingHistory}
+            data-cy="link-all-invoices"
+          >
             <Trans>All invoices</Trans>
           </Link>
         </Typography>

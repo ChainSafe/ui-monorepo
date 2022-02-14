@@ -11,6 +11,7 @@ const useStyles = makeStyles(
   ({ constants, breakpoints, palette, typography }: CSFTheme) =>
     createStyles({
       heading: {
+        fontSize: 16,
         marginBottom: constants.generalUnit * 4,
         marginTop: constants.generalUnit * 2,
         [breakpoints.down("md")]: {
@@ -56,11 +57,16 @@ const useStyles = makeStyles(
         color: palette.additional["volcano"][7]
       },
       price: {
-        fontWeight: "bold !important" as "bold"
+        fontWeight: "bold !important" as "bold",
+        fontSize: 16
       },
       link: {
         color: constants.settingsPage.linkButton.color,
-        paddingRight: "0px !important"
+        paddingRight: "0px !important",
+        fontSize: 16
+      },
+      text: {
+        fontSize: 16
       }
     })
 )
@@ -110,10 +116,16 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
             key={uuid}
           >
             <div>
-              <Typography variant="body1">
+              <Typography
+                variant="body1"
+                className={classes.text}
+              >
                 {product.name} {product.price.recurring.interval_count} {product.price.recurring.interval}
               </Typography>
-              <Typography variant="body1">
+              <Typography
+                variant="body1"
+                className={classes.text}
+              >
                 {dayjs.unix(period_start).format("MMM D, YYYY")}
               </Typography>
               <Typography
