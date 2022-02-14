@@ -66,7 +66,7 @@ const useStyles = makeStyles(({ zIndex, animation, constants, palette }: CSFThem
 interface Props {
   text?: string
   tooltip: string | string[]
-  showHashIcon: boolean
+  showHashIcon?: boolean
   className?: string
 }
 

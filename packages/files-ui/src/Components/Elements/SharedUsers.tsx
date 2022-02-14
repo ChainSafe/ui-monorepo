@@ -51,7 +51,6 @@ const SharedUsers = ({ bucket, showOwners }: Props) => {
         <UserBubble
           text={`+${userLabels.length}`}
           tooltip={userLabels}
-          showHashIcon={false}
         />
       </div>
     )
@@ -62,19 +61,18 @@ const SharedUsers = ({ bucket, showOwners }: Props) => {
       <UserBubble
         tooltip={userLabels[0]}
         className={userLabels.length > 1 ? classes.bubble : undefined}
-        showHashIcon={true}
+        showHashIcon
       />
       {userLabels.length > 2 && (
         <UserBubble
           text={`+${userLabels.length - 1}`}
           tooltip={userLabels.slice(1)}
-          showHashIcon={false}
         />
       )}
       {userLabels.length === 2 && (
         <UserBubble
           tooltip={userLabels[1]}
-          showHashIcon={true}
+          showHashIcon
         />
       )}
     </div>
