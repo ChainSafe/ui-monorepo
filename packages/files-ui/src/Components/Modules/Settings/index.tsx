@@ -10,7 +10,8 @@ import {
   ITabPaneProps,
   CaretRightIcon,
   LockIcon,
-  UserIcon
+  UserIcon,
+  CaretLeftIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { ROUTE_LINKS, SettingsPath } from "../../FilesRoutes"
@@ -28,8 +29,8 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       marginTop: constants.generalUnit,
       cursor: "pointer",
       [breakpoints.down("md")]: {
-        fontSize: 20,
-        lineHeight: "28px",
+        fontSize: 18,
+        lineHeight: "22px",
         margin: `${constants.generalUnit}px 0`
       }
     },
@@ -49,12 +50,21 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       marginTop: constants.generalUnit * 3
     },
     headerContainer: {
+      display: "flex",
+      alignItems: "center",
       marginBottom: constants.generalUnit * 4,
       [breakpoints.down("md")]: {
         padding: `0 ${constants.generalUnit * 2}px`,
         marginTop: constants.generalUnit * 4,
         marginBottom: constants.generalUnit * 2
+      },
+      "& svg": {
+        fill: palette.additional["gray"][9],
+        color: palette.additional["gray"][9]
       }
+    },
+    caretLeft: {
+      marginTop: "2px"
     },
     tabsContainer: {
       borderRadius: 10,
@@ -143,6 +153,7 @@ const Settings: React.FC = () => {
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
+        {!desktop && <CaretLeftIcon className={classes.caretLeft} />}
         <Typography
           variant="h1"
           component="p"
