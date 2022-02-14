@@ -218,6 +218,7 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
 
 interface ICryptoPayment {
   planPrice?: ProductPrice
+  onClose: () => void
 }
 
 const iconMap: { [key: string]: React.FC<any> } = {
@@ -234,7 +235,7 @@ const symbolMap: { [key: string]: string } = {
   usdc: "USDC"
 }
 
-const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
+const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
   const classes = useStyles()
   const { selectWallet } = useFilesApi()
   const { isReady, network, provider, wallet, tokens, switchNetwork, checkIsReady, ethBalance } = useWeb3()
@@ -255,6 +256,14 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
   , [invoices])
   const currencies = useMemo(() => cryptoPayment?.payment_methods.map(c => c.currency), [cryptoPayment])
   const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    // no more time to pay
+    if(timeRemaining && timeRemaining?.asSeconds() <= 0){
+      fetchCurrentSubscription()
+      onClose()
+    }
+  }, [fetchCurrentSubscription, onClose, timeRemaining])
 
   useEffect(() => {
     if (!currentSubscription || !planPrice || isPendingInvoice) return
