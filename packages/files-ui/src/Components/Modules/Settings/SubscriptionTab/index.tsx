@@ -52,7 +52,7 @@ const Subscription: React.FC = () => {
           component="h3"
           className={classes.mainHeader}
         >
-          <Trans>Subscriptions plan</Trans>
+          <Trans>Subscription plan</Trans>
         </Typography>
         <Divider />
         <section className={classes.settingsSection}>

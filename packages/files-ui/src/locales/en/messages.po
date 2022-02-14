@@ -922,8 +922,8 @@ msgstr "Stored by miner"
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
 
-msgid "Subscriptions plan"
-msgstr "Subscriptions plan"
+msgid "Subscription plan"
+msgstr "Subscription plan"
 
 msgid "Switch Network"
 msgstr "Switch Network"
