@@ -59,8 +59,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
         marginBottom: constants.generalUnit * 2
       },
       "& svg": {
-        fill: palette.additional["gray"][9],
-        color: palette.additional["gray"][9]
+        fill: palette.additional["gray"][9]
       }
     },
     caretLeft: {
