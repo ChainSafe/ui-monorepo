@@ -314,7 +314,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           align="left"
           className={classes.sharedUser}
         >
-          <SharedUsers bucket={bucket}/>
+          <SharedUsers
+            bucket={bucket}
+            showOwners={false}
+          />
         </TableCell>
         {desktop &&
         <TableCell align="left">

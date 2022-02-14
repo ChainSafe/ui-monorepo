@@ -865,7 +865,10 @@ const FilesList = ({ isShared = false }: Props) => {
         </Typography>
         {isShared && bucket && (
           <div className={classes.users}>
-            <SharedUsers bucket={bucket} />
+            <SharedUsers
+              bucket={bucket}
+              showOwners={true}
+            />
           </div>
         )}
         <div className={classes.controls}>
