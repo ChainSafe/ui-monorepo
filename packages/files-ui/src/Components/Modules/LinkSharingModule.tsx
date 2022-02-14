@@ -11,6 +11,7 @@ import { CSFTheme } from "../../Themes/types"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { translatedPermission } from "./FileBrowsers/Sharing/PermissionsDropdown"
 import { NonceResponsePermission } from "@chainsafe/files-api-client"
+import { usePosthogContext } from "../../Contexts/PosthogContext"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints }: CSFTheme) =>
@@ -83,6 +84,7 @@ const LinkSharingModule = () => {
   }, [jwt])
   const newBucket = useMemo(() => buckets.find((b) => b.id === bucketId), [bucketId, buckets])
   const [isValidNonce, setIsValidNonce] = useState<boolean | undefined>()
+  const { captureEvent } = usePosthogContext()
 
   useEffect(() => {
     if(!nonce_id) return
@@ -112,9 +114,10 @@ const LinkSharingModule = () => {
         setError(e.error.message)
       })
       .finally(() => {
+        captureEvent("Access shared folder using link")
         refreshBuckets()
       })
-  }, [encryptedEncryptionKey, error, filesApiClient, isValidNonce, jwt, newBucket, refreshBuckets])
+  }, [captureEvent, encryptedEncryptionKey, error, filesApiClient, isValidNonce, jwt, newBucket, refreshBuckets])
 
   const onBrowseBucket = useCallback(() => {
     newBucket && redirect(ROUTE_LINKS.SharedFolderExplorer(newBucket.id, "/"))
