@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2022-01-20 22:53+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
+"PO-Revision-Date: 2022-02-15 23:55+0000\n"
+"Last-Translator: Maxime Leroy <lisacintosh@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
+"chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -75,7 +76,7 @@ msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
 msgid "Add users to shared folder"
-msgstr ""
+msgstr "Ajouter des utilisateurs au dossier partagé"
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
@@ -85,30 +86,35 @@ msgstr "Je vous ajoute au dossier partagé…"
 
 msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
 msgstr ""
+"Tous les paiements via crypto-monnaie sont définitifs et ne peuvent être "
+"crédités, échangés ou remboursés. Si vous souhaitez changer votre formule, "
+"vos fonds ne seront pas remboursés."
 
 msgid "All invoices"
-msgstr ""
+msgstr "Toutes les factures"
 
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
 msgstr ""
+"Autoriser la recherche par la clé partagée, l'adresse du portefeuille, le "
+"nom d'utilisateur, ou l'ENS"
 
 msgid "Amount added to credit"
-msgstr ""
+msgstr "Montant ajouté à la balance"
 
 msgid "Amount available from last bill"
-msgstr ""
+msgstr "La montant disponible de la dernière facture"
 
 msgid "Amount due"
-msgstr ""
+msgstr "Montant dû"
 
 msgid "Amount from credit"
-msgstr ""
+msgstr "Montant du crédit"
 
 msgid "An error occurred:"
 msgstr "Une erreur s'est produite :"
 
 msgid "Annual billing{0}"
-msgstr ""
+msgstr "Facturation annuelle{0}"
 
 msgid "Approve"
 msgstr "Accepter"
@@ -147,7 +153,7 @@ msgid "By forgetting this browser, you will not be able to use its associated re
 msgstr "En oubliant ce navigateur, vous ne pourrez pas utiliser la clé de récupération qui lui est associée pour vous connecter."
 
 msgid "By switching plan, you will loose access to:"
-msgstr ""
+msgstr "En changeant de formule, vous perdrez l'accès à :"
 
 msgid "CID (Content Identifier)"
 msgstr "CID (Identifiant de contenu)"
@@ -255,7 +261,7 @@ msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
 msgid "Create a new shared folder"
-msgstr ""
+msgstr "Créer un nouveau dossier partagé"
 
 msgid "Create folder & Copy over"
 msgstr "Créer un dossier et le copier"
@@ -311,8 +317,9 @@ msgstr "Appareil en attente de confirmation"
 msgid "Didn't receive the email ?"
 msgstr "Vous n’avez pas reçu de courriel ?"
 
+#, fuzzy
 msgid "Display"
-msgstr ""
+msgstr "Afficher"
 
 msgid "Download"
 msgstr "Télécharger"
@@ -369,7 +376,7 @@ msgid "Failed to add payment method"
 msgstr "Échec de l'ajout d'une méthode de paiement"
 
 msgid "Failed to create a charge"
-msgstr ""
+msgstr "Échec de création de la charge"
 
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
@@ -379,6 +386,7 @@ msgstr "Échec de la migration du compte, veuillez réessayer."
 
 msgid "Failed to update the subscription. Please try again later."
 msgstr ""
+"Échec de la mise à jour de la souscription. Veuillez réessayer plus tard."
 
 msgid ""
 "Failed to validate signature.\n"
@@ -438,7 +446,7 @@ msgid "Generate backup secret phrase"
 msgstr "Créer une phrase de sauvegarde secrète"
 
 msgid "Generate sharing link"
-msgstr ""
+msgstr "Générer un lien de partage"
 
 msgid "Generated"
 msgstr "Généré"
@@ -489,7 +497,7 @@ msgid "Insufficient balance"
 msgstr "Solde insuffisant"
 
 msgid "Invoice outstanding"
-msgstr ""
+msgstr "Facture non réglée"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
@@ -525,7 +533,7 @@ msgid "Loading your shared folders…"
 msgstr "Chargement de vos dossiers partagés…"
 
 msgid "Loading..."
-msgstr ""
+msgstr "Chargement..."
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
@@ -564,7 +572,7 @@ msgid "Next"
 msgstr "Suivant"
 
 msgid "Next payment"
-msgstr ""
+msgstr "Prochain paiement"
 
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
@@ -597,7 +605,7 @@ msgid "No thanks"
 msgstr "Non merci"
 
 msgid "No users found"
-msgstr ""
+msgstr "Aucun utilisateur trouvé"
 
 msgid "Notifications"
 msgstr "Notifications"
@@ -613,12 +621,15 @@ msgstr "Autre notifications"
 
 msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
 msgstr ""
+"Une fois activé, il est attendu que votre compte émette un paiement dans les "
+"60 prochaines minutes. Si aucun paiement n'est reçu, votre formule ne "
+"changera pas."
 
 msgid "One sec, getting files ready…"
 msgstr "Les fichiers sont presque prêts…"
 
 msgid "Only send the exact amount of {0} to this address"
-msgstr ""
+msgstr "N'envoyez que la somme exacte de {0} à cette adresse"
 
 msgid "Only you can see this."
 msgstr "Vous seul(e) pouvez voir ceci."
@@ -657,7 +668,7 @@ msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
 msgid "Pay now"
-msgstr ""
+msgstr "Payer maintenant"
 
 msgid "Pay with Crypto"
 msgstr "Payer en cryptomonnaie"
@@ -669,22 +680,27 @@ msgid "Pay with {0}"
 msgstr "Payer via {0}"
 
 msgid "Payment information"
-msgstr ""
+msgstr "Informations de paiement"
 
 msgid "Payment method"
 msgstr "Méthode de paiement"
 
 msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
 msgstr ""
+"Les paiements sont finaux et non remboursables. Si vous souhaitez changer de "
+"formule, les prochains fonds seront crédités pour les futurs paiements."
 
 msgid "Plan changed successfully"
 msgstr "Formule changée"
 
+#, fuzzy
 msgid "Plan price"
-msgstr ""
+msgstr "Prix de la formule"
 
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr ""
+"Veuillez régler les factures non réglées suivantes pour ne pas perdre "
+"l'accès à votre compte"
 
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"
@@ -711,7 +727,7 @@ msgid "Previous"
 msgstr "Précédent"
 
 msgid "Pricing details"
-msgstr ""
+msgstr "Détails du prix"
 
 msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
@@ -720,7 +736,7 @@ msgid "Proceed to payment"
 msgstr "Procéder au paiement"
 
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 msgid "Profile updated"
 msgstr "Profile mis à jour"
@@ -810,7 +826,7 @@ msgid "See payment info"
 msgstr "Voir les détails du paiement"
 
 msgid "Select a cryptocurrency"
-msgstr ""
+msgstr "Sélectionner une crypto-devise"
 
 msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
@@ -924,7 +940,7 @@ msgid "Subscription Plan"
 msgstr "Formule souscrite"
 
 msgid "Subscription plan"
-msgstr ""
+msgstr "Formule de souscription"
 
 msgid "Switch Network"
 msgstr "Changer de réseau"
@@ -955,6 +971,8 @@ msgstr "Le lien que vous avez tapé semble malformé. Veuillez le vérifier."
 
 msgid "The transaction was declined. Please use a different card or try again."
 msgstr ""
+"La transaction a été refusée. Veuillez utiliser une autre carte, ou "
+"réessayer."
 
 msgid "The username is too long"
 msgstr "Le nom d'utilisateur est trop long"
@@ -966,7 +984,7 @@ msgid "There are no notifications!"
 msgstr "Il n'y a aucune notification !"
 
 msgid "There was a problem creating a charge {error}"
-msgstr ""
+msgstr "Échec de la création de la charge {error}"
 
 msgid "There was an error authenticating"
 msgstr "Une erreur s’est produite lors de l’authentification"
@@ -1062,7 +1080,7 @@ msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
 
 msgid "Use an existing shared folder"
-msgstr ""
+msgstr "Utiliser un dossier partagé existant"
 
 msgid "Use this card"
 msgstr "Utiliser cette carte"
@@ -1074,7 +1092,7 @@ msgid "Username set successfully"
 msgstr "Nom d’utilisateur défini avec succès"
 
 msgid "Username, wallet address or ENS"
-msgstr ""
+msgstr "Nom d'utilisateur, adresse du portefeuille, ou ENS"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Les noms d’utilisateur sont publics et ne peuvent pas être modifiés après leur création."
@@ -1095,7 +1113,7 @@ msgid "Verifying the link..."
 msgstr "Vérification du lien…"
 
 msgid "View PDF"
-msgstr ""
+msgstr "Voir le PDF"
 
 msgid "View folder"
 msgstr "Voir le dossier"
@@ -1170,7 +1188,7 @@ msgid "can-edit"
 msgstr "peut-modifier"
 
 msgid "expires"
-msgstr ""
+msgstr "expire"
 
 msgid "invoices here"
 msgstr "factures ici"
@@ -1182,7 +1200,7 @@ msgid "on"
 msgstr "le"
 
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 msgid "unknown"
 msgstr "inconnu"
