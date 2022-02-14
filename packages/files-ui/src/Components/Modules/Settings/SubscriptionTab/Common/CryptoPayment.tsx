@@ -446,7 +446,7 @@ const CryptoPayment = ({ planPrice }: ICryptoPayment) => {
               </div>
               <div className={classes.qrCodeLabel}>
                 <Typography data-cy="label-currency-type-warning">
-                  <Trans>Only send {selectedCurrency} to this address</Trans>
+                  <Trans>Only send the exact amount of {symbolMap[selectedCurrency]} to this address</Trans>
                 </Typography>
               </div>
               <Divider />
