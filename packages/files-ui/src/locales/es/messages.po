@@ -269,6 +269,9 @@ msgstr ""
 msgid "Credit Card is expiring soon"
 msgstr ""
 
+msgid "DAI, USDC, ETH or BTC"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 

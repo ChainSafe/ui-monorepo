@@ -268,6 +268,9 @@ msgstr "Create your public username in <0>Settings</0>!"
 msgid "Credit Card is expiring soon"
 msgstr "Credit Card is expiring soon"
 
+msgid "DAI, USDC, ETH or BTC"
+msgstr "DAI, USDC, ETH or BTC"
+
 msgid "Dark Theme"
 msgstr "Dark Theme"
 
