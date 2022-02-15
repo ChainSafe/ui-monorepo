@@ -67,10 +67,11 @@ interface Props {
   text?: string
   tooltip: string | string[]
   showHashIcon?: boolean
+  hashIconValue?: string
   className?: string
 }
 
-const UserBubble = ({ text, tooltip, showHashIcon, className }: Props) => {
+const UserBubble = ({ text, tooltip, showHashIcon, hashIconValue, className }: Props) => {
   const classes = useStyles()
   const [showTooltip, setShowTooltip] = useState(false)
 
@@ -93,9 +94,9 @@ const UserBubble = ({ text, tooltip, showHashIcon, className }: Props) => {
       <div className={clsx(classes.tooltip, { "active": showTooltip })}>
         {tooltipString}
       </div>
-      {showHashIcon
+      {showHashIcon && !!hashIconValue
         ? <Hashicon
-          value={text || tooltipString}
+          value={hashIconValue}
           size={40}
         />
         : text
