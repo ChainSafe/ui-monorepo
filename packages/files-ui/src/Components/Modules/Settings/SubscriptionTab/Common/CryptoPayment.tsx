@@ -256,14 +256,21 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
   , [invoices])
   const currencies = useMemo(() => cryptoPayment?.payment_methods.map(c => c.currency), [cryptoPayment])
   const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
+  const [isFethingSubscription, setIsFethingSubscription] = useState(false)
 
   useEffect(() => {
-    // no more time to pay
-    if(timeRemaining && timeRemaining?.asSeconds() <= 0){
+    // no more time to pay, this effect will run until there is no more pending subscription
+    if(!isFethingSubscription && timeRemaining && timeRemaining?.asSeconds() <= 0){
+      setIsFethingSubscription(true)
       fetchCurrentSubscription()
-      onClose()
+        .then((subscription) => {
+          if (subscription && subscription.status !== "pending_update"){
+            onClose()
+          }
+        })
+        .finally(() => setIsFethingSubscription(false))
     }
-  }, [fetchCurrentSubscription, onClose, timeRemaining])
+  }, [fetchCurrentSubscription, isFethingSubscription, onClose, timeRemaining])
 
   useEffect(() => {
     if (!currentSubscription || !planPrice || isPendingInvoice) return
