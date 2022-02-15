@@ -955,6 +955,9 @@ msgstr "The files are already in this folder"
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr "The link you typed in looks malformed. Please verify it."
 
+msgid "The time to pay with crypto is up. Updating your plan..."
+msgstr "The time to pay with crypto is up. Updating your plan..."
+
 msgid "The transaction was declined. Please use a different card or try again."
 msgstr "The transaction was declined. Please use a different card or try again."
 
