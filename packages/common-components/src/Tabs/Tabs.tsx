@@ -50,7 +50,7 @@ interface TabInjectedClasses {
 
 export interface ITabsProps<TabKey> {
   className?: string
-  children: React.ReactElement<ITabPaneProps<TabKey>> | React.ReactElement<ITabPaneProps<TabKey>>[]
+  children: React.ReactElement<ITabPaneProps<TabKey>> | Array<React.ReactElement<ITabPaneProps<TabKey>> | null>
   activeKey?: TabKey
   onTabSelect: (key: TabKey) => void
   injectedClass?: TabInjectedClasses
@@ -59,7 +59,7 @@ export interface ITabsProps<TabKey> {
 const Tabs = <TabKey, >({ className, children, activeKey, injectedClass, onTabSelect }: ITabsProps<TabKey>) => {
   const classes = useStyles()
   const selectedChild = Array.isArray(children)
-    ? children.find((child) => activeKey === child.props.tabKey)
+    ? children.find((child) => activeKey === child?.props?.tabKey)
     : children
 
   return (
@@ -67,21 +67,23 @@ const Tabs = <TabKey, >({ className, children, activeKey, injectedClass, onTabSe
       <ul className={clsx(className, classes.tabList, injectedClass?.tabList)}>
         {Array.isArray(children)
           ? children.map((elem, index) => {
-            return (
-              <li
-                data-testid={elem.props.testId}
-                key={index}
-                className={
-                  clsx(
-                    elem.props.tabKey === activeKey && "selected",
-                    classes.tabBar,
+            return (elem !== null)
+              ? (
+                <li
+                  data-testid={elem.props.testId}
+                  key={index}
+                  className={
+                    clsx(
+                      elem.props.tabKey === activeKey && "selected",
+                      classes.tabBar,
                     injectedClass?.tabBar
-                  )}
-                onClick={() => onTabSelect(elem.props.tabKey)}
-              >
-                {elem.props.icon}{elem.props.title}<span className="iconRight">{elem.props.iconRight}</span>
-              </li>
-            )
+                    )}
+                  onClick={() => onTabSelect(elem.props.tabKey)}
+                >
+                  {elem.props.icon}{elem.props.title}<span className="iconRight">{elem.props.iconRight}</span>
+                </li>
+              )
+              : null
           })
           : <li
             className={

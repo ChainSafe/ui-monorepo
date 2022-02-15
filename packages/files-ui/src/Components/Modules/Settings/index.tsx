@@ -20,6 +20,7 @@ import { ProfileIcon, SubscriptionPlanIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import SecurityTab from "./SecurityTab"
 import DisplayTab from "./DisplayTab"
+import { useBilling } from "../../../Contexts/BillingContext"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -135,6 +136,7 @@ const Settings: React.FC = () => {
   const { path = desktop ? "profile" : undefined } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
   const { redirect, history } = useHistory()
+  const { isBillingEnabled } = useBilling()
 
   const onSelectTab = useCallback(
     (key: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(key))
@@ -182,6 +184,16 @@ const Settings: React.FC = () => {
             </TabPane>
             <TabPane
               className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+              title={t`Display`}
+              tabKey="display"
+              testId="tab-display"
+              icon={<ProfileIcon className={classes.profileIcon} />}
+              iconRight={<CaretRightIcon />}
+            >
+              <DisplayTab />
+            </TabPane>
+            <TabPane
+              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
               icon={<LockIcon className={classes.lockIcon}/>}
               iconRight={<CaretRightIcon/>}
               title={t`Security`}
@@ -190,26 +202,18 @@ const Settings: React.FC = () => {
             >
               <SecurityTab />
             </TabPane>
-            <TabPane
-              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
-              title={t`Subscription Plan`}
-              tabKey="plan"
-              testId="tab-subscription"
-              icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
-              iconRight={<CaretRightIcon/>}
-            >
-              <SubscriptionTab />
-            </TabPane>
-            <TabPane
-              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
-              title={t`Display`}
-              tabKey="display"
-              testId="tab-display"
-              icon={<ProfileIcon className={classes.profileIcon} />}
-              iconRight={<CaretRightIcon/>}
-            >
-              <DisplayTab />
-            </TabPane>
+            {isBillingEnabled
+              ? <TabPane
+                className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+                title={t`Subscription Plan`}
+                tabKey="plan"
+                testId="tab-subscription"
+                icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
+                iconRight={<CaretRightIcon/>}
+              >
+                <SubscriptionTab />
+              </TabPane>
+              : null}
           </Tabs>
         </div>
       }
