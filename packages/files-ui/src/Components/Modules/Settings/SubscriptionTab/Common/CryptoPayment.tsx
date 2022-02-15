@@ -199,7 +199,9 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
     loadingContainer: {
       margin: `${constants.generalUnit * 4}px 0`,
       display: "flex",
-      justifyContent: "center"
+      justifyContent: "center",
+      flexDirection: "column",
+      alignItems: "center"
     },
     warningText: {
       marginTop: constants.generalUnit * 3,
@@ -257,10 +259,11 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
   const currencies = useMemo(() => cryptoPayment?.payment_methods.map(c => c.currency), [cryptoPayment])
   const [selectedCurrency, setSelectedCurrency] = useState<string | undefined>(undefined)
   const [isFetchingSubscription, setIsFetchingSubscription] = useState(false)
+  const isTimeUp = useMemo(() => timeRemaining && timeRemaining?.asSeconds() <= 0, [timeRemaining])
 
   useEffect(() => {
     // no more time to pay, this effect will run until there is no more pending subscription
-    if(!isFetchingSubscription && timeRemaining && timeRemaining?.asSeconds() <= 0){
+    if(!isFetchingSubscription && isTimeUp){
       setIsFetchingSubscription(true)
       fetchCurrentSubscription()
         .then((subscription) => {
@@ -270,7 +273,7 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
         })
         .finally(() => setIsFetchingSubscription(false))
     }
-  }, [fetchCurrentSubscription, isFetchingSubscription, onClose, timeRemaining])
+  }, [fetchCurrentSubscription, isFetchingSubscription, isTimeUp, onClose, timeRemaining])
 
   useEffect(() => {
     if (!currentSubscription || !planPrice || isPendingInvoice) return
@@ -388,7 +391,7 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
         >
           <Trans>Pay with crypto</Trans>
         </Typography>
-        {cryptoPayment && <div
+        {cryptoPayment && !isTimeUp && <div
           className={classes.pushRightBox}
           data-cy="container-crypto-time-remaining"
         >
@@ -401,8 +404,11 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
           />
         </div>}
       </div>
-      {(cryptoChargeLoading || !cryptoPayment) && <div className={classes.loadingContainer}>
+      {(cryptoChargeLoading || !cryptoPayment || isTimeUp) && <div className={classes.loadingContainer}>
         <Loading type='initial' />
+        {isTimeUp && <Typography>
+          <Trans>The time to pay with crypto is up. Updating your plan...</Trans>
+        </Typography>}
       </div>}
       {error &&
         <Typography
@@ -414,7 +420,7 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
           <Trans>Failed to create a charge</Trans>
         </Typography>
       }
-      {cryptoPayment && pendingCryptoInvoice &&
+      {cryptoPayment && pendingCryptoInvoice && !isTimeUp &&
         <>
           <div className={classes.rowBox}>
             <Typography data-cy="label-total-crypto-title">
@@ -521,7 +527,7 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
           }
         </>
       }
-      <section className={classes.bottomSection}>
+      {!isTimeUp && <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           {!!selectedCurrency && <Button
             onClick={() => setSelectedCurrency(undefined)}
@@ -557,7 +563,7 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
             </Button>
           }
         </div>
-      </section>
+      </section>}
     </article>
   )
 }
