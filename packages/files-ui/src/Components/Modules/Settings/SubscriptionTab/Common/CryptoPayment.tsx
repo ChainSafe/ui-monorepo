@@ -276,7 +276,7 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
   }, [fetchCurrentSubscription, isFetchingSubscription, isTimeUp, onClose, timeRemaining])
 
   useEffect(() => {
-    if (!currentSubscription || !planPrice || isPendingInvoice) return
+    if (!currentSubscription || !planPrice || isPendingInvoice || isTimeUp) return
 
     setCryptoChargeLoading(true)
 
@@ -289,10 +289,10 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
       console.error(error)
       setError(t`There was a problem creating a charge ${error}`)
     }).finally(() => setCryptoChargeLoading(false))
-  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, isPendingInvoice, planPrice])
+  }, [currentSubscription, fetchCurrentSubscription, filesApiClient, isPendingInvoice, isTimeUp, planPrice])
 
   useEffect(() => {
-    if (!pendingCryptoInvoice) return
+    if (!pendingCryptoInvoice || isTimeUp) return
 
     pendingCryptoInvoice?.uuid && filesApiClient.payInvoice(pendingCryptoInvoice.uuid)
       .then(r => {
@@ -300,7 +300,7 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
         pageLoadTimestamp.current = dayjs().unix()
       })
       .catch(console.error)
-  }, [filesApiClient, pendingCryptoInvoice])
+  }, [filesApiClient, isTimeUp, pendingCryptoInvoice])
 
   useEffect(() => {
     const timer = setInterval(() => {
