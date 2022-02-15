@@ -27,7 +27,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     title: {
       marginTop: constants.generalUnit,
-      cursor: "pointer",
       [breakpoints.down("md")]: {
         fontSize: 18,
         lineHeight: "22px",
@@ -53,7 +52,9 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       display: "flex",
       alignItems: "center",
       marginBottom: constants.generalUnit * 4,
+      width: "fit-content",
       [breakpoints.down("md")]: {
+        cursor: "pointer",
         padding: `0 ${constants.generalUnit * 2}px`,
         marginTop: constants.generalUnit * 4,
         marginBottom: constants.generalUnit * 2
@@ -151,13 +152,15 @@ const Settings: React.FC = () => {
 
   return (
     <div className={classes.container}>
-      <div className={classes.headerContainer}>
-        {!desktop && <CaretLeftIcon className={classes.caretLeft} />}
+      <div
+        className={classes.headerContainer}
+        onClick={() => !desktop && !!path && history.push(ROUTE_LINKS.SettingsDefault)}
+      >
+        {!desktop && !!path && <CaretLeftIcon className={classes.caretLeft} />}
         <Typography
           variant="h1"
           component="p"
           className={classes.title}
-          onClick={() => history.push(ROUTE_LINKS.SettingsDefault)}
         >
           <Trans>Settings</Trans>
         </Typography>
