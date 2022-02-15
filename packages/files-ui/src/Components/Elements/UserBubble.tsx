@@ -66,12 +66,11 @@ const useStyles = makeStyles(({ zIndex, animation, constants, palette }: CSFThem
 interface Props {
   text?: string
   tooltip: string | string[]
-  showHashIcon?: boolean
   hashIconValue?: string
   className?: string
 }
 
-const UserBubble = ({ text, tooltip, showHashIcon, hashIconValue, className }: Props) => {
+const UserBubble = ({ text, tooltip, hashIconValue, className }: Props) => {
   const classes = useStyles()
   const [showTooltip, setShowTooltip] = useState(false)
 
@@ -88,13 +87,13 @@ const UserBubble = ({ text, tooltip, showHashIcon, hashIconValue, className }: P
     <div
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
-      className={clsx(classes.root, !showHashIcon && classes.bubble, className)}
+      className={clsx(classes.root, !hashIconValue && classes.bubble, className)}
       onClick={toggleTooltip}
     >
       <div className={clsx(classes.tooltip, { "active": showTooltip })}>
         {tooltipString}
       </div>
-      {showHashIcon && !!hashIconValue
+      {hashIconValue
         ? <Hashicon
           value={hashIconValue}
           size={40}

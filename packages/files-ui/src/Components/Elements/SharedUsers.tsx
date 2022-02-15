@@ -20,22 +20,27 @@ interface Props {
   showOwners: boolean
 }
 
+interface UserDisplayInfo  {
+  displayName: string
+  uuid: string
+}
+
 const SharedUsers = ({ bucket, showOwners }: Props) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
   const { owners, readers, writers } = bucket
 
-  const getUserLabels = useCallback((users: RichUserInfo[]) => {
+  const getUserDisplayInfo = useCallback((users: RichUserInfo[]) : UserDisplayInfo[] => {
     return users.map((user) => ({ displayName: getUserDisplayName(user), uuid: user.uuid }))
   }, [])
 
   const userLabels = useMemo(() =>
     [
-      ...getUserLabels(showOwners ? owners : []),
-      ...getUserLabels(readers),
-      ...getUserLabels(writers)
+      ...getUserDisplayInfo(showOwners ? owners : []),
+      ...getUserDisplayInfo(readers),
+      ...getUserDisplayInfo(writers)
     ],
-  [readers, writers, getUserLabels, owners, showOwners])
+  [readers, writers, getUserDisplayInfo, owners, showOwners])
 
   if (!userLabels.length) {
     return null
@@ -58,7 +63,6 @@ const SharedUsers = ({ bucket, showOwners }: Props) => {
         tooltip={userLabels[0].displayName}
         className={userLabels.length > 1 ? classes.bubble : undefined}
         hashIconValue={userLabels[0].uuid}
-        showHashIcon
       />
       {userLabels.length > 2 && (
         <UserBubble
@@ -70,7 +74,6 @@ const SharedUsers = ({ bucket, showOwners }: Props) => {
         <UserBubble
           tooltip={userLabels[1].displayName}
           hashIconValue={userLabels[1].uuid}
-          showHashIcon
         />
       )}
     </div>
