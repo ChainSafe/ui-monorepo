@@ -206,10 +206,8 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         onChangeSubscription={selectedPaymentMethod === "creditCard" ? handleChangeSubscription : () => setSlide("cryptoPayment")}
         subscriptionErrorMessage={subscriptionErrorMessage}
         paymentMethod={selectedPaymentMethod}
-      />
-      }
-      {slide === "cryptoPayment" &&
-      <CryptoPayment
+      />}
+      {slide === "cryptoPayment" && <CryptoPayment
         planPrice={selectedPrice}
         onClose={onClose}
       />}
@@ -217,8 +215,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
         onClose={onClose}
         plan={selectedPlan}
         planPrice={selectedPrice}
-      />
-      }
+      />}
     </Modal>
   )
 }
