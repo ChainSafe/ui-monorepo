@@ -2,6 +2,7 @@ import { sharedFolderName } from "../../fixtures/filesTestData"
 import { basePage } from "./basePage"
 import { fileBrowser } from "./fileBrowser"
 import { createSharedFolderModal } from "./modals/createSharedFolderModal"
+import { editSharedFolderModal } from "./modals/editSharedFolderModal"
 
 export const sharedPage = {
   ...basePage,
@@ -25,6 +26,7 @@ export const sharedPage = {
     createSharedFolderModal.body().should("be.visible")
     createSharedFolderModal.folderNameInput().type(sharedFolderName)
     createSharedFolderModal.createButton().safeClick()
+    editSharedFolderModal.cancelButton().safeClick()
     createSharedFolderModal.body().should("not.exist")
     sharedPage.sharedFolderItemRow().should("have.length", 1)
   }
