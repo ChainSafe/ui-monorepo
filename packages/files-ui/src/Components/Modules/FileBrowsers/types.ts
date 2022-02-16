@@ -1,8 +1,6 @@
 import { Crumb } from "@chainsafe/common-components"
 import { BucketType, FileSystemItem } from "../../../Contexts/FilesContext"
 
-export type SharedFolderModalMode = "create" | "edit"
-
 export interface SharedFolderUser {
   uuid?: string
   username?: string
