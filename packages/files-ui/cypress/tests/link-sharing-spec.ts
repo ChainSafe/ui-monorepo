@@ -11,7 +11,7 @@ describe("Link Sharing", () => {
 
   context("desktop", () => {
 
-    it.only("can create, copy and remove links to shared folders", () => {
+    it("can create, copy and remove links to shared folders", () => {
       // intercept and stub the response to ensure the explainer is not displayed
       cy.intercept("GET", "**/user/store", {
         body: { [sharingExplainerKey]: "true" }
