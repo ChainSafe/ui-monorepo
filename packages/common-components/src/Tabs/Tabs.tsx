@@ -76,7 +76,7 @@ const Tabs = <TabKey, >({ className, children, activeKey, injectedClass, onTabSe
                   clsx(
                     elem.props.tabKey === activeKey && "selected",
                     classes.tabBar,
-                      injectedClass?.tabBar
+                    injectedClass?.tabBar
                   )}
                 onClick={() => onTabSelect(elem.props.tabKey)}
               >
