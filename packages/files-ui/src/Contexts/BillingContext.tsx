@@ -32,6 +32,7 @@ interface IBillingContext {
   openInvoice?: InvoiceResponse
   downloadInvoice: (invoiceId: string) => Promise<void>
   refreshInvoices: () => void
+  isBillingEnabled: boolean
 }
 
 const ProductMapping: {[key: string]: {
@@ -69,6 +70,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
   const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
   const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
+  const [isBillingEnabled, setIsBillingEnabled] = useState(false)
 
   const refreshInvoices = useCallback(() => {
     if (!currentSubscription) return
@@ -86,6 +88,14 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   useEffect(() => {
     refreshInvoices()
   }, [refreshInvoices])
+
+  useEffect(() => {
+    if (!isLoggedIn) return
+
+    filesApiClient.getEligibility()
+      .then(res => setIsBillingEnabled(res.is_eligible))
+      .catch(console.error)
+  }, [filesApiClient, isLoggedIn])
 
   useEffect(() => {
     if (accountRestricted && !restrictedNotification) {
@@ -251,7 +261,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         isPendingInvoice,
         downloadInvoice,
         refreshInvoices,
-        openInvoice
+        openInvoice,
+        isBillingEnabled
       }}
     >
       {children}
