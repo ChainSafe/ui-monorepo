@@ -74,9 +74,6 @@ msgstr "Ajouter une carte de crédit"
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
-msgid "Add users to shared folder"
-msgstr "Ajouter des utilisateurs au dossier partagé"
-
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
@@ -859,9 +856,6 @@ msgstr "Partager la sélection"
 
 msgid "Shared"
 msgstr "Partagé"
-
-msgid "Shared Folder Name"
-msgstr "Nom du dossier partagé"
 
 msgid "Shared folder name"
 msgstr "Nom du dossier partagé"
