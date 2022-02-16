@@ -92,7 +92,9 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   useEffect(() => {
     if (!isLoggedIn) return
 
-    filesApiClient.getEligibility().then(res => setIsBillingEnabled(res.is_eligible))
+    filesApiClient.getEligibility()
+      .then(res => setIsBillingEnabled(res.is_eligible))
+      .catch(console.error)
   }, [filesApiClient, isLoggedIn])
 
   useEffect(() => {
