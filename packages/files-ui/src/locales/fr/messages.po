@@ -269,6 +269,9 @@ msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 msgid "Credit Card is expiring soon"
 msgstr "La carte de crédit va bientôt expirer"
 
+msgid "DAI, USDC, ETH or BTC"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
@@ -952,6 +955,9 @@ msgstr "Les fichiers sont déjà dans ce dossier"
 
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr "Le lien que vous avez tapé semble malformé. Veuillez le vérifier."
+
+msgid "The time to pay with crypto is up. Updating your plan..."
+msgstr ""
 
 msgid "The transaction was declined. Please use a different card or try again."
 msgstr "La transaction a été refusée. Veuillez utiliser une autre carte, ou réessayer."
