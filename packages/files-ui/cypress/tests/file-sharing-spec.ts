@@ -31,7 +31,7 @@ describe("File Sharing", () => {
       editSharedFolderModal.editPermissionInput().type(validUsername)
       editSharedFolderModal.userLookupResult().should("exist").click()
       editSharedFolderModal.updateButton().safeClick()
-      createSharedFolderModal.body().should("not.exist")
+      editSharedFolderModal.body().should("not.exist")
       sharedPage.sharedFolderItemRow().should("have.length", 1)
 
       // upload to a shared folder
