@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
 "PO-Revision-Date: 2022-02-15 23:55+0000\n"
 "Last-Translator: Maxime Leroy <lisacintosh@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
-"chainsafe-files-user-interface/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -75,9 +74,6 @@ msgstr "Ajouter une carte de crédit"
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
-msgid "Add users to shared folder"
-msgstr "Ajouter des utilisateurs au dossier partagé"
-
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
@@ -85,18 +81,13 @@ msgid "Adding you to the shared folder..."
 msgstr "Je vous ajoute au dossier partagé…"
 
 msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
-msgstr ""
-"Tous les paiements via crypto-monnaie sont définitifs et ne peuvent être "
-"crédités, échangés ou remboursés. Si vous souhaitez changer votre formule, "
-"vos fonds ne seront pas remboursés."
+msgstr "Tous les paiements via crypto-monnaie sont définitifs et ne peuvent être crédités, échangés ou remboursés. Si vous souhaitez changer votre formule, vos fonds ne seront pas remboursés."
 
 msgid "All invoices"
 msgstr "Toutes les factures"
 
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
-msgstr ""
-"Autoriser la recherche par la clé partagée, l'adresse du portefeuille, le "
-"nom d'utilisateur, ou l'ENS"
+msgstr "Autoriser la recherche par la clé partagée, l'adresse du portefeuille, le nom d'utilisateur, ou l'ENS"
 
 msgid "Amount added to credit"
 msgstr "Montant ajouté à la balance"
@@ -317,7 +308,6 @@ msgstr "Appareil en attente de confirmation"
 msgid "Didn't receive the email ?"
 msgstr "Vous n’avez pas reçu de courriel ?"
 
-#, fuzzy
 msgid "Display"
 msgstr "Afficher"
 
@@ -385,8 +375,7 @@ msgid "Failed to migrate account, please try again."
 msgstr "Échec de la migration du compte, veuillez réessayer."
 
 msgid "Failed to update the subscription. Please try again later."
-msgstr ""
-"Échec de la mise à jour de la souscription. Veuillez réessayer plus tard."
+msgstr "Échec de la mise à jour de la souscription. Veuillez réessayer plus tard."
 
 msgid ""
 "Failed to validate signature.\n"
@@ -620,10 +609,7 @@ msgid "Older notifications"
 msgstr "Autre notifications"
 
 msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
-msgstr ""
-"Une fois activé, il est attendu que votre compte émette un paiement dans les "
-"60 prochaines minutes. Si aucun paiement n'est reçu, votre formule ne "
-"changera pas."
+msgstr "Une fois activé, il est attendu que votre compte émette un paiement dans les 60 prochaines minutes. Si aucun paiement n'est reçu, votre formule ne changera pas."
 
 msgid "One sec, getting files ready…"
 msgstr "Les fichiers sont presque prêts…"
@@ -686,21 +672,16 @@ msgid "Payment method"
 msgstr "Méthode de paiement"
 
 msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
-msgstr ""
-"Les paiements sont finaux et non remboursables. Si vous souhaitez changer de "
-"formule, les prochains fonds seront crédités pour les futurs paiements."
+msgstr "Les paiements sont finaux et non remboursables. Si vous souhaitez changer de formule, les prochains fonds seront crédités pour les futurs paiements."
 
 msgid "Plan changed successfully"
 msgstr "Formule changée"
 
-#, fuzzy
 msgid "Plan price"
 msgstr "Prix de la formule"
 
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
-msgstr ""
-"Veuillez régler les factures non réglées suivantes pour ne pas perdre "
-"l'accès à votre compte"
+msgstr "Veuillez régler les factures non réglées suivantes pour ne pas perdre l'accès à votre compte"
 
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"
@@ -876,9 +857,6 @@ msgstr "Partager la sélection"
 msgid "Shared"
 msgstr "Partagé"
 
-msgid "Shared Folder Name"
-msgstr "Nom du dossier partagé"
-
 msgid "Shared folder name"
 msgstr "Nom du dossier partagé"
 
@@ -970,9 +948,7 @@ msgid "The link you typed in looks malformed. Please verify it."
 msgstr "Le lien que vous avez tapé semble malformé. Veuillez le vérifier."
 
 msgid "The transaction was declined. Please use a different card or try again."
-msgstr ""
-"La transaction a été refusée. Veuillez utiliser une autre carte, ou "
-"réessayer."
+msgstr "La transaction a été refusée. Veuillez utiliser une autre carte, ou réessayer."
 
 msgid "The username is too long"
 msgstr "Le nom d'utilisateur est trop long"
