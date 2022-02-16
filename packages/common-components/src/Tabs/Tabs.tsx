@@ -67,23 +67,22 @@ const Tabs = <TabKey, >({ className, children, activeKey, injectedClass, onTabSe
       <ul className={clsx(className, classes.tabList, injectedClass?.tabList)}>
         {Array.isArray(children)
           ? children.map((elem, index) => {
-            return (elem !== null)
-              ? (
-                <li
-                  data-testid={elem.props.testId}
-                  key={index}
-                  className={
-                    clsx(
-                      elem.props.tabKey === activeKey && "selected",
-                      classes.tabBar,
-                    injectedClass?.tabBar
-                    )}
-                  onClick={() => onTabSelect(elem.props.tabKey)}
-                >
-                  {elem.props.icon}{elem.props.title}<span className="iconRight">{elem.props.iconRight}</span>
-                </li>
-              )
-              : null
+            if (!elem) return null
+            return (
+              <li
+                data-testid={elem.props.testId}
+                key={index}
+                className={
+                  clsx(
+                    elem.props.tabKey === activeKey && "selected",
+                    classes.tabBar,
+                      injectedClass?.tabBar
+                  )}
+                onClick={() => onTabSelect(elem.props.tabKey)}
+              >
+                {elem.props.icon}{elem.props.title}<span className="iconRight">{elem.props.iconRight}</span>
+              </li>
+            )
           })
           : <li
             className={
