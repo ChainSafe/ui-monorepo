@@ -35,7 +35,7 @@ const CreateOrManageSharedFolderModal = ({ isModalOpen, onClose, bucketToEdit }:
       active={isModalOpen}
       closePosition="none"
       maxWidth={500}
-      testId="create-or-edit-shared-folder"
+      testId="edit-shared-folder"
     >
       <ManageSharedFolder
         onClose={onClose}

@@ -151,6 +151,7 @@ const CreateSharedFolderModal = ({ onClose }: ICreateSharedFolderModalProps) => 
       closePosition="none"
       maxWidth={500}
       onClose={onClose}
+      testId="create-shared-folder"
     >
       {bucketToManage
         ? <ManageSharedFolder
@@ -180,6 +181,7 @@ const CreateSharedFolderModal = ({ onClose }: ICreateSharedFolderModalProps) => 
                 autoFocus
                 onChange={onNameChange}
                 state={nameError ? "error" : "normal"}
+                data-cy="input-shared-folder-name"
               />
               {!!nameError && (
                 <Typography
@@ -195,11 +197,12 @@ const CreateSharedFolderModal = ({ onClose }: ICreateSharedFolderModalProps) => 
           <div className={classes.buttonsArea}>
             <div className={classes.buttonsContainer}>
               <Button
-                testId="cancel-upload"
+                testId="cancel-creation"
                 onClick={onClose}
                 className={classes.cancelButton}
                 variant="outline"
                 type="reset"
+                data-cy="button-cancel-create-shared-folder"
               >
                 <Trans>Cancel</Trans>
               </Button>
@@ -209,8 +212,8 @@ const CreateSharedFolderModal = ({ onClose }: ICreateSharedFolderModalProps) => 
                 onClick={handleCreate}
                 className={classes.mainButton}
                 loading={isFolderCreationLoading}
-                disabled={ !sharedFolderName || !!nameError
-                }
+                disabled={ !sharedFolderName || !!nameError}
+                data-cy="button-create-shared-folder"
               >
                 <Trans>Create</Trans>
               </Button>
