@@ -74,9 +74,6 @@ msgstr ""
 msgid "Add more files"
 msgstr "Agrega mas archivos"
 
-msgid "Add users to shared folder"
-msgstr ""
-
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
@@ -861,9 +858,6 @@ msgid "Share selected"
 msgstr ""
 
 msgid "Shared"
-msgstr ""
-
-msgid "Shared Folder Name"
 msgstr ""
 
 msgid "Shared folder name"
