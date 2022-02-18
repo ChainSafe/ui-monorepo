@@ -770,6 +770,9 @@ msgstr "Signaler un fichier"
 msgid "Report a bug"
 msgstr "Signaler une erreur"
 
+msgid "Request access!"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Envoyé par"
 
@@ -1021,9 +1024,6 @@ msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre
 
 msgid "This week"
 msgstr "Cette semaine"
-
-msgid "To Discord!"
-msgstr ""
 
 msgid "Total"
 msgstr "Total"

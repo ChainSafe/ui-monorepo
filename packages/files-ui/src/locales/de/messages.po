@@ -766,6 +766,9 @@ msgstr "Datei melden"
 msgid "Report a bug"
 msgstr "Fehler melden"
 
+msgid "Request access!"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Angefordert von"
 
@@ -1016,9 +1019,6 @@ msgid "This website uses cookies that help the website function and track intera
 msgstr ""
 
 msgid "This week"
-msgstr ""
-
-msgid "To Discord!"
 msgstr ""
 
 msgid "Total"

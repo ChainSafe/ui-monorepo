@@ -770,6 +770,9 @@ msgstr ""
 msgid "Report a bug"
 msgstr ""
 
+msgid "Request access!"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Solicitado a"
 
@@ -1020,9 +1023,6 @@ msgid "This website uses cookies that help the website function and track intera
 msgstr ""
 
 msgid "This week"
-msgstr ""
-
-msgid "To Discord!"
 msgstr ""
 
 msgid "Total"
