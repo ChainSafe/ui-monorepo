@@ -48,7 +48,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       "& svg": {
         width: constants.generalUnit * 2.5,
         fill: constants.fileSystemItemRow.icon,
-        stroke: constants.fileSystemItemRow.icon
+        // stroke: constants.fileSystemItemRow.icon
       }
     },
     folderIcon: {

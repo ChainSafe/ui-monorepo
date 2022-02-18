@@ -69,17 +69,24 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         width: "100%",
-        height: constants.generalUnit * 8
+        height: constants.generalUnit * 8,
+        "& > *":{
+          margin: "0px 10px"
+        },
+        "& > *:first-child": {
+          marginLeft: "24px"
+        }
       },
       closePreviewButton: {
         marginRight: constants.generalUnit * 2,
-        marginLeft: constants.generalUnit * 2,
-        fill: constants.previewModal.closeButtonColor,
-        cursor: "pointer"
+        cursor: "pointer",
+        "& > * > svg":{
+          stroke: constants.previewModal.closeButtonColor
+        }
       },
-      // fileOperationsMenu: {
-      //   fill: constants.previewModal.fileOpsColor
-      // },
+      downloadIcon: {
+        fill: constants.previewModal.closeButtonColor
+      },
       fileName: {
         width: "100%",
         whiteSpace: "nowrap",
@@ -172,7 +179,6 @@ const useStyles = makeStyles(
         justifyContent: "center",
         "& svg": {
           width: constants.generalUnit * 2.5,
-          fill: constants.fileSystemItemRow.icon,
           stroke: constants.fileSystemItemRow.icon
         }
       }
@@ -284,11 +290,12 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         <Button
           onClick={handleDownload}
           variant='text'>
-          <DownloadIcon />
+          <DownloadIcon className={classes.downloadIcon}/>
         </Button>
         <Button
           onClick={closePreview}
-          variant='text'>
+          variant='text'
+          className={classes.closePreviewButton}>
           <CloseIcon />
         </Button>
       </div>

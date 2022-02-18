@@ -18,7 +18,7 @@ import {
 } from "@chainsafe/common-components"
 
 const useStyles = makeStyles(
-  ({ constants, palette, zIndex, breakpoints }: ITheme) =>
+  ({ palette, zIndex, breakpoints }: ITheme) =>
     createStyles({
       root: {
         maxHeight: "100vh",
@@ -32,14 +32,19 @@ const useStyles = makeStyles(
         zIndex: zIndex?.layer1,
         display: "flex",
         flexDirection: "row",
-        top: 0,
-        right: 0,
-        height: constants.generalUnit * 8,
-        backgroundColor: palette.additional["gray"][9],
+        bottom: 34,
+        left: "50%",
+        transform: "translate(-50%)",
+        height: 39,
+        backgroundColor: palette.additional["gray"][8],
         color: palette.additional["gray"][3],
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: palette.additional["gray"][8]
+        borderColor: palette.additional["gray"][8],
+        borderRadius: 2
+      },
+      imageControlButton: {
+        borderRadius: 0
       }
     })
 )
@@ -91,18 +96,24 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
                     <Button
                       onClick={zoomIn}
                       data-cy="button-zoom-in"
+                      size="small"
+                      className={classes.imageControlButton}
                     >
                       <ZoomInIcon />
                     </Button>
                     <Button
                       onClick={zoomOut}
                       data-cy="button-zoom-out"
+                      size="small"
+                      className={classes.imageControlButton}
                     >
                       <ZoomOutIcon />
                     </Button>
                     <Button
                       onClick={resetTransform}
                       data-cy="button-full-screen"
+                      size="small"
+                      className={classes.imageControlButton}
                     >
                       <FullscreenIcon />
                     </Button>
