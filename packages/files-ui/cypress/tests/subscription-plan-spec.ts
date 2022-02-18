@@ -221,13 +221,6 @@ describe("Subscription Plan", () => {
       navigationMenu.settingsNavButton().click()
       settingsPage.upgradeSubscription("premium")
 
-      // setup intercepter, stub the used storage value to be higher
-      cy.intercept("GET", "**/buckets/summary", (req) => {
-        req.on("response", (res) => {
-          res.body.used_storage = "9704775608"
-        })
-      })
-
       // setup intercepter, stub the used products response to disallow update
       cy.intercept("GET", "**/billing/products", (req) => {
         req.on("response", (res) => {
