@@ -35,9 +35,6 @@ msgstr "<0>{planStorageCapacity}</0> de stockage"
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce compte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être affichée qu’une seule fois</1>. Gardez-la dans un endroit sûr !"
 
-msgid "A better sharing experience is coming soon."
-msgstr "Une meilleure expérience de partage sera bientôt disponible."
-
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
 
@@ -452,6 +449,9 @@ msgstr "Génération…"
 msgid "Get Started"
 msgstr "Commencer"
 
+msgid "Get more storage"
+msgstr ""
+
 msgid "Go  back"
 msgstr "Retour"
 
@@ -496,6 +496,12 @@ msgstr "Facture non réglée"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
+
+msgid "Join our beta testers by requesting access in the \"Files-support\" channel on Discord."
+msgstr ""
+
+msgid "Join the beta"
+msgstr ""
 
 msgid "Keep original files"
 msgstr "Conserver les fichiers originaux"
@@ -887,9 +893,6 @@ msgstr "Se connecter avec un autre compte"
 msgid "Sign in/up to access the shared folder"
 msgstr "Se connecter/s'inscrire pour accéder au dossier partagé"
 
-msgid "Sign me up!"
-msgstr "S'inscrire !"
-
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
 
@@ -920,9 +923,6 @@ msgstr "Formule standard"
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
 
-msgid "Start a team"
-msgstr "Créer une équipe"
-
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
 
@@ -943,9 +943,6 @@ msgstr "Passer à la formule gratuite"
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr "Une maintenance du système est prévue pour démarrer à {0}. Le système sera indisponible."
-
-msgid "Teams"
-msgstr "Équipes"
 
 msgid "Technical"
 msgstr "Technique"
@@ -1030,6 +1027,9 @@ msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre
 
 msgid "This week"
 msgstr "Cette semaine"
+
+msgid "To Discord!"
+msgstr ""
 
 msgid "Total"
 msgstr "Total"
