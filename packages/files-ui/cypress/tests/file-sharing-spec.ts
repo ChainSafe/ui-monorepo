@@ -1,4 +1,4 @@
-import { createEditSharedFolderModal } from "../support/page-objects/modals/createSharedFolderModal"
+import { createSharedFolderModal } from "../support/page-objects/modals/createSharedFolderModal"
 import { deleteSharedFolderModal } from "../support/page-objects/modals/deleteSharedFolderModal"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
@@ -8,6 +8,7 @@ import { uploadCompleteToast } from "../support/page-objects/toasts/uploadComple
 import { viewOnlyShareLink } from "../fixtures/linkData"
 import { leaveSharedFolderModal } from "../support/page-objects/modals/leaveSharedFolderModal"
 import { linkSharingConfirmation } from "../support/page-objects/linkSharingConfirmation"
+import { editSharedFolderModal } from "../support/page-objects/modals/editSharedFolderModal"
 
 describe("File Sharing", () => {
 
@@ -24,12 +25,13 @@ describe("File Sharing", () => {
       // create a shared folder
       navigationMenu.sharedNavButton().click()
       sharedPage.createSharedFolderButton().click()
-      createEditSharedFolderModal.body().should("be.visible")
-      createEditSharedFolderModal.folderNameInput().type(sharedFolderName)
-      createEditSharedFolderModal.editPermissionInput().type(validUsername)
-      createEditSharedFolderModal.userLookupResult().should("exist").click()
-      createEditSharedFolderModal.createButton().safeClick()
-      createEditSharedFolderModal.body().should("not.exist")
+      createSharedFolderModal.body().should("be.visible")
+      createSharedFolderModal.folderNameInput().type(sharedFolderName)
+      createSharedFolderModal.createButton().safeClick()
+      editSharedFolderModal.editPermissionInput().type(validUsername)
+      editSharedFolderModal.userLookupResult().should("exist").click()
+      editSharedFolderModal.updateButton().safeClick()
+      editSharedFolderModal.body().should("not.exist")
       sharedPage.sharedFolderItemRow().should("have.length", 1)
 
       // upload to a shared folder

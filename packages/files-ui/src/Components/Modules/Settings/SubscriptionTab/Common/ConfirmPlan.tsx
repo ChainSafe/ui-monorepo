@@ -272,7 +272,7 @@ const ConfirmPlan = ({
                 component="p"
                 data-cy="label-accepted-crypto-types"
               >
-                DAI, USDC, ETH or BTC
+                <Trans>DAI, USDC, ETH or BTC</Trans>
               </Typography>
             </div>
           </div>

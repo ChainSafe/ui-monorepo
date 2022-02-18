@@ -13,7 +13,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
-import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
+import ManageSharedFolder from "./ManageSharedFolder"
 import { usePosthogContext } from "../../../Contexts/PosthogContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
@@ -118,12 +118,12 @@ const useStyles = makeStyles(
   }
 )
 
-interface IShareFileProps {
+interface IShareModalProps {
   fileSystemItems: FileSystemItem[]
   onClose: () => void
 }
 
-const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
+const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const { accountRestricted } = useFilesApi()
   const [sharedFolderName, setSharedFolderName] = useState("")
@@ -261,9 +261,8 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
       maxWidth={500}
     >
       {bucketToUpload
-        ? <CreateOrManageSharedFolder
+        ? <ManageSharedFolder
           onClose={onClose}
-          mode="edit"
           bucketToEdit={bucketToUpload}
         />
         : <div className={classes.root}>

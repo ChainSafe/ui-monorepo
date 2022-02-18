@@ -17,7 +17,11 @@ import { downgradeDetailsModal } from "../support/page-objects/modals/billing/do
 import { cryptoPaymentModal } from "../support/page-objects/modals/billing/cryptoPaymentModal"
 
 describe("Subscription Plan", () => {
-
+  beforeEach(() => {
+    cy.intercept("GET", "**/billing/eligibilities", {
+      body: { is_eligible: true }
+    })
+  })
   context("desktop", () => {
 
     it("can add, update and remove a credit card for billing", () => {

@@ -73,9 +73,6 @@ msgstr ""
 msgid "Add more files"
 msgstr "Legg til flere filer"
 
-msgid "Add users to shared folder"
-msgstr ""
-
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
@@ -266,6 +263,9 @@ msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
 msgid "Credit Card is expiring soon"
+msgstr ""
+
+msgid "DAI, USDC, ETH or BTC"
 msgstr ""
 
 msgid "Dark Theme"
@@ -856,9 +856,6 @@ msgstr ""
 msgid "Shared"
 msgstr "Delt"
 
-msgid "Shared Folder Name"
-msgstr ""
-
 msgid "Shared folder name"
 msgstr ""
 
@@ -947,6 +944,9 @@ msgid "The files are already in this folder"
 msgstr ""
 
 msgid "The link you typed in looks malformed. Please verify it."
+msgstr ""
+
+msgid "The time to pay with crypto is up. Updating your plan..."
 msgstr ""
 
 msgid "The transaction was declined. Please use a different card or try again."
