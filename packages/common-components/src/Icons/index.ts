@@ -8,6 +8,8 @@ export { default as ArrowRightIcon, ArrowRightSvg } from "./icons/ArrowRight.ico
 export { default as BellIcon, BellSvg } from "./icons/Bell.icon"
 export { default as BitcoinIcon, BitcoinSvg } from "./icons/Bitcoin.icon"
 export { default as BulbIcon, BulbSvg } from "./icons/Bulb.icon"
+export { default as CaretCircleLeftIcon, CaretCircleLeftSvg } from "./icons/CaretCircleLeft.icon"
+export { default as CaretCircleRightIcon, CaretCircleRightSvg } from "./icons/CaretCircleRight.icon"
 export { default as CaretDownIcon, CaretDownSvg } from "./icons/CaretDown.icon"
 export { default as CaretLeftIcon, CaretLeftSvg } from "./icons/CaretLeft.icon"
 export { default as CaretUpIcon, CaretUpSvg } from "./icons/CaretUp.icon"

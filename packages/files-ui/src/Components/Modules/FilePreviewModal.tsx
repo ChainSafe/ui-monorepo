@@ -148,21 +148,6 @@ const useStyles = makeStyles(
       item: {
         color: constants.previewModal.menuItemTextColor
       },
-      dropdownIcon: {
-        width: 14,
-        height: 14,
-        padding: 0,
-        position: "relative",
-        fontSize: "unset",
-        "& svg": {
-          fill: constants.previewModal.fileOpsColor,
-          top: "50%",
-          left: 0,
-          width: 14,
-          height: 14,
-          position: "absolute"
-        }
-      },
       focusVisible: {
         backgroundColor: "transparent !important"
       },
@@ -179,7 +164,7 @@ const useStyles = makeStyles(
         justifyContent: "center",
         "& svg": {
           width: constants.generalUnit * 2.5,
-          stroke: constants.fileSystemItemRow.icon
+          fill: constants.previewModal.fileNameColor
         }
       }
     })
