@@ -38,7 +38,7 @@ interface Props {
 const BetaModal = ({ onHide }: Props) => {
   const classes = useStyles()
 
-  const onDiscordButtonClick = useCallback(() => {
+  const onFormdButtonClick = useCallback(() => {
     window.open(ROUTE_LINKS.DiscordInvite, "_blank")
     onHide()
   }, [onHide])
@@ -60,15 +60,18 @@ const BetaModal = ({ onHide }: Props) => {
           <Trans>Need more storage?</Trans>
         </Typography>
         <Typography variant="h4">
-          <Trans>We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage.</Trans>
+          <Trans>
+            We are rolling out our subscription plans to a limited number of users.
+            Request access to be able to upgrade to a plan with more storage.
+          </Trans>
         </Typography>
         <div className={classes.buttonContainer}>
           <Button
             data-posthog="Subscription-whitelist-form"
             className={classes.nextButton}
-            onClick={onDiscordButtonClick}
+            onClick={onFormdButtonClick}
           >
-            <Trans>To Discord!</Trans>
+            <Trans>Request access!</Trans>
           </Button>
         </div>
       </div>
