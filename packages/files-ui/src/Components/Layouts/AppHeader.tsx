@@ -196,7 +196,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   size="small"
                   onClick={onJoinBetaClick}
                 >
-                  <Trans>Get more storage</Trans>
+                  <Trans>Need more storage?</Trans>
                 </Button>
               </section>
               <section>

@@ -57,14 +57,14 @@ const BetaModal = ({ onHide }: Props) => {
           variant="h2"
           className={classes.title}
         >
-          <Trans>Join the beta</Trans>
+          <Trans>Need more storage?</Trans>
         </Typography>
         <Typography variant="h4">
-          <Trans>Join our beta testers by requesting access in the &quot;Files-support&quot; channel on Discord.</Trans>
+          <Trans>We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage.</Trans>
         </Typography>
         <div className={classes.buttonContainer}>
           <Button
-            data-posthog="Beta-test-discord"
+            data-posthog="Subscription-whitelist-form"
             className={classes.nextButton}
             onClick={onDiscordButtonClick}
           >
