@@ -449,9 +449,6 @@ msgstr "Génération…"
 msgid "Get Started"
 msgstr "Commencer"
 
-msgid "Get more storage"
-msgstr ""
-
 msgid "Go  back"
 msgstr "Retour"
 
@@ -496,12 +493,6 @@ msgstr "Facture non réglée"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
-
-msgid "Join our beta testers by requesting access in the \"Files-support\" channel on Discord."
-msgstr ""
-
-msgid "Join the beta"
-msgstr ""
 
 msgid "Keep original files"
 msgstr "Conserver les fichiers originaux"
@@ -562,6 +553,9 @@ msgstr "Mes Fichiers"
 
 msgid "Name"
 msgstr "Nom"
+
+msgid "Need more storage?"
+msgstr ""
 
 msgid "New folder"
 msgstr "Nouveau dossier"
@@ -1120,6 +1114,9 @@ msgstr "Vous voulez participer à l'élaboration de ce produit ?"
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr "Nous effectuons une maintenance de routine du système. Les mises à jour de l'état du service seront postées sur le canal <0>Files Support<0> sur Discord"
+
+msgid "We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage."
+msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "Nous ne pouvons pas chiffrer les fichiers de plus de 2 Go. Certains éléments ne pourront pas être téléversés"

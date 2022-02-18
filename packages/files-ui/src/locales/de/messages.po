@@ -445,9 +445,6 @@ msgstr "Wird generiert …"
 msgid "Get Started"
 msgstr "Anfangen"
 
-msgid "Get more storage"
-msgstr ""
-
 msgid "Go  back"
 msgstr ""
 
@@ -492,12 +489,6 @@ msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Ich bin fertig mit dem Speichern meines Sixherungsgeheimsatzes"
-
-msgid "Join our beta testers by requesting access in the \"Files-support\" channel on Discord."
-msgstr ""
-
-msgid "Join the beta"
-msgstr ""
 
 msgid "Keep original files"
 msgstr ""
@@ -558,6 +549,9 @@ msgstr "Meine Dateien"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Need more storage?"
+msgstr ""
 
 msgid "New folder"
 msgstr "Neuer Ordner"
@@ -1115,6 +1109,9 @@ msgid "Want to help shape this product?"
 msgstr ""
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
+msgstr ""
+
+msgid "We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage."
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"

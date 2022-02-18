@@ -445,9 +445,6 @@ msgstr ""
 msgid "Get Started"
 msgstr "Begynn"
 
-msgid "Get more storage"
-msgstr ""
-
 msgid "Go  back"
 msgstr ""
 
@@ -491,12 +488,6 @@ msgid "Invoice outstanding"
 msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
-msgstr ""
-
-msgid "Join our beta testers by requesting access in the \"Files-support\" channel on Discord."
-msgstr ""
-
-msgid "Join the beta"
 msgstr ""
 
 msgid "Keep original files"
@@ -558,6 +549,9 @@ msgstr "Mine filer"
 
 msgid "Name"
 msgstr "Navn"
+
+msgid "Need more storage?"
+msgstr ""
 
 msgid "New folder"
 msgstr "Ny mappe"
@@ -1115,6 +1109,9 @@ msgid "Want to help shape this product?"
 msgstr ""
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
+msgstr ""
+
+msgid "We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage."
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"

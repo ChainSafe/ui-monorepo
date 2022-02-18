@@ -448,9 +448,6 @@ msgstr "Generating…"
 msgid "Get Started"
 msgstr "Get Started"
 
-msgid "Get more storage"
-msgstr "Get more storage"
-
 msgid "Go  back"
 msgstr "Go  back"
 
@@ -495,12 +492,6 @@ msgstr "Invoice outstanding"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
-
-msgid "Join our beta testers by requesting access in the \"Files-support\" channel on Discord."
-msgstr "Join our beta testers by requesting access in the \"Files-support\" channel on Discord."
-
-msgid "Join the beta"
-msgstr "Join the beta"
 
 msgid "Keep original files"
 msgstr "Keep original files"
@@ -561,6 +552,9 @@ msgstr "My Files"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Need more storage?"
+msgstr "Need more storage?"
 
 msgid "New folder"
 msgstr "New folder"
@@ -1119,6 +1113,9 @@ msgstr "Want to help shape this product?"
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
+
+msgid "We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage."
+msgstr "We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage."
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "We can't encrypt files larger than 2GB. Some items will not be uploaded"
