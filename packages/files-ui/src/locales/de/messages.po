@@ -400,9 +400,6 @@ msgstr "Dateien"
 msgid "Files sharing key"
 msgstr "Dateifreigabeschlüssel"
 
-msgid "First name"
-msgstr "Vorname"
-
 msgid "Folder name is already in use"
 msgstr ""
 
@@ -489,9 +486,6 @@ msgstr ""
 
 msgid "Language"
 msgstr "Sprache"
-
-msgid "Last name"
-msgstr "Nachname"
 
 msgid "Learn more"
 msgstr "Mehr erfahren"
@@ -610,9 +604,6 @@ msgstr ""
 msgid "Only send the exact amount of {0} to this address"
 msgstr ""
 
-msgid "Only you can see this."
-msgstr "Nur Sie können dies sehen."
-
 msgid "Oops! You need to pay for this month to upload more content."
 msgstr ""
 
@@ -712,9 +703,6 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-msgid "Profile updated"
-msgstr "Profil aktualisiert"
-
 msgid "Recover"
 msgstr "Wiederherstellen"
 
@@ -765,9 +753,6 @@ msgstr "Ressourcen"
 
 msgid "Restore with backup secret phrase"
 msgstr "Mit Sicherungsgeheimsatz wiederherstellen"
-
-msgid "Save changes"
-msgstr "Änderungen speichern"
 
 msgid "Save this browser for next time?"
 msgstr "Diesen Browser für das nächste Mal speichern?"

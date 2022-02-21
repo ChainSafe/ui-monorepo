@@ -400,9 +400,6 @@ msgstr "Filer"
 msgid "Files sharing key"
 msgstr ""
 
-msgid "First name"
-msgstr "Fornavn"
-
 msgid "Folder name is already in use"
 msgstr ""
 
@@ -489,9 +486,6 @@ msgstr ""
 
 msgid "Language"
 msgstr "Språk"
-
-msgid "Last name"
-msgstr "Etternavn"
 
 msgid "Learn more"
 msgstr "Lær mer"
@@ -610,9 +604,6 @@ msgstr ""
 msgid "Only send the exact amount of {0} to this address"
 msgstr ""
 
-msgid "Only you can see this."
-msgstr "Kun du kan se dette."
-
 msgid "Oops! You need to pay for this month to upload more content."
 msgstr ""
 
@@ -712,9 +703,6 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-msgid "Profile updated"
-msgstr "Profil oppdatert"
-
 msgid "Recover"
 msgstr "Gjenopprett"
 
@@ -765,9 +753,6 @@ msgstr "Ressurser"
 
 msgid "Restore with backup secret phrase"
 msgstr ""
-
-msgid "Save changes"
-msgstr "Lagre endringer"
 
 msgid "Save this browser for next time?"
 msgstr ""
