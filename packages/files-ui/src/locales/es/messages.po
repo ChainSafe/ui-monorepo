@@ -707,9 +707,6 @@ msgstr ""
 msgid "Preview"
 msgstr "Avance"
 
-msgid "Previous"
-msgstr "Anterior"
-
 msgid "Pricing details"
 msgstr ""
 

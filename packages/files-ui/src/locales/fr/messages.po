@@ -707,9 +707,6 @@ msgstr "Formule premium"
 msgid "Preview"
 msgstr "Aperçu"
 
-msgid "Previous"
-msgstr "Précédent"
-
 msgid "Pricing details"
 msgstr "Détails du prix"
 

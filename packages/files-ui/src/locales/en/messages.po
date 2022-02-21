@@ -706,9 +706,6 @@ msgstr "Premium plan"
 msgid "Preview"
 msgstr "Preview"
 
-msgid "Previous"
-msgstr "Previous"
-
 msgid "Pricing details"
 msgstr "Pricing details"
 
