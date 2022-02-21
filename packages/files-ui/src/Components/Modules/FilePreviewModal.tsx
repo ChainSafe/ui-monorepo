@@ -69,6 +69,7 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         width: "100%",
+        backgroundColor: "rgba(0,0,0, 0.4)",
         height: constants.generalUnit * 8,
         "& > *":{
           margin: "0px 10px"

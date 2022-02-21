@@ -3,7 +3,6 @@ import { IPreviewRendererProps } from "../FilePreviewModal"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Document, Page, pdfjs } from "react-pdf"
 import { Button, CaretCircleLeftIcon, CaretCircleRightIcon, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
 
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js"
 

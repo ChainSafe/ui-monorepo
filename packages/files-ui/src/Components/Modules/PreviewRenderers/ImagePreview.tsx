@@ -33,8 +33,9 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         bottom: 34,
-        alignItems: "center",
         height: 39,
+        left: "50%",
+        transform: "translate(-50%)",
         backgroundColor: palette.additional["gray"][8],
         color: palette.additional["gray"][3],
         borderWidth: 1,
@@ -97,6 +98,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
                       data-cy="button-zoom-in"
                       size="small"
                       className={classes.imageControlButton}
+                      variant='secondary'
                     >
                       <ZoomInIcon />
                     </Button>
@@ -105,6 +107,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
                       data-cy="button-zoom-out"
                       size="small"
                       className={classes.imageControlButton}
+                      variant='secondary'
                     >
                       <ZoomOutIcon />
                     </Button>
@@ -113,6 +116,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents, contentType }
                       data-cy="button-full-screen"
                       size="small"
                       className={classes.imageControlButton}
+                      variant='secondary'
                     >
                       <FullscreenIcon />
                     </Button>
