@@ -74,9 +74,6 @@ msgstr "Ajouter une carte de crédit"
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
-msgid "Add users to shared folder"
-msgstr "Ajouter des utilisateurs au dossier partagé"
-
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
@@ -269,6 +266,9 @@ msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 msgid "Credit Card is expiring soon"
 msgstr "La carte de crédit va bientôt expirer"
 
+msgid "DAI, USDC, ETH or BTC"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
@@ -309,7 +309,7 @@ msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
 msgid "Didn't receive the email ?"
-msgstr "Vous n’avez pas reçu de courriel ?"
+msgstr "Vous n’avez pas reçu de courriel ?"
 
 msgid "Display"
 msgstr "Afficher"
@@ -860,9 +860,6 @@ msgstr "Partager la sélection"
 msgid "Shared"
 msgstr "Partagé"
 
-msgid "Shared Folder Name"
-msgstr "Nom du dossier partagé"
-
 msgid "Shared folder name"
 msgstr "Nom du dossier partagé"
 
@@ -952,6 +949,9 @@ msgstr "Les fichiers sont déjà dans ce dossier"
 
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr "Le lien que vous avez tapé semble malformé. Veuillez le vérifier."
+
+msgid "The time to pay with crypto is up. Updating your plan..."
+msgstr ""
 
 msgid "The transaction was declined. Please use a different card or try again."
 msgstr "La transaction a été refusée. Veuillez utiliser une autre carte, ou réessayer."
