@@ -47,8 +47,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
-        fill: constants.fileSystemItemRow.icon,
-        // stroke: constants.fileSystemItemRow.icon
+        fill: constants.fileSystemItemRow.icon
       }
     },
     folderIcon: {
