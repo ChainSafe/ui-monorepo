@@ -276,14 +276,16 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         <Button
           onClick={handleDownload}
           variant="text"
-          data-cy="button-download-previewed-file">
+          data-cy="button-download-previewed-file"
+        >
           <DownloadIcon className={classes.downloadIcon}/>
         </Button>
         <Button
           onClick={closePreview}
           variant='text'
           className={classes.closePreviewButton}
-          data-cy="button-close-preview">
+          data-cy="button-close-preview"
+        >
           <CloseIcon />
         </Button>
       </div>
