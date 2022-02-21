@@ -254,12 +254,6 @@ msgstr ""
 msgid "Create a new shared folder"
 msgstr ""
 
-msgid "Create folder & Copy over"
-msgstr ""
-
-msgid "Create folder & Move over"
-msgstr ""
-
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 

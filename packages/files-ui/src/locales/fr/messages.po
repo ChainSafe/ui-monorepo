@@ -254,12 +254,6 @@ msgstr "Créer un dossier partagé"
 msgid "Create a new shared folder"
 msgstr "Créer un nouveau dossier partagé"
 
-msgid "Create folder & Copy over"
-msgstr "Créer un dossier et le copier"
-
-msgid "Create folder & Move over"
-msgstr "Créer un dossier et le déplacer"
-
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
