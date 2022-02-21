@@ -1,7 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react"
-import * as yup from "yup"
 import {
-  FormikTextInput,
   Grid,
   Button,
   Typography,
@@ -13,13 +11,14 @@ import {
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
 import { CopyIcon } from "@chainsafe/common-components"
-import { Form, useFormik, FormikProvider } from "formik"
 import { useUser } from "../../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../../Utils/Helpers"
 import { CSFTheme } from "../../../../Themes/types"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import EthCrypto from "eth-crypto"
+// import { Form, useFormik, FormikProvider } from "formik"
+// import * as yup from "yup"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
   createStyles({
@@ -139,48 +138,48 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
   })
 )
 
-const profileValidation = yup.object().shape({
-  // email: yup.string().email("Email is invalid").required("Email is required"),
-  firstName: yup.string(),
-  lastName: yup.string(),
-  username: yup.string()
-})
+// const profileValidation = yup.object().shape({
+//   email: yup.string().email("Email is invalid").required("Email is required"),
+//   firstName: yup.string(),
+//   lastName: yup.string(),
+//   username: yup.string()
+// })
 
 const ProfileView = () => {
   const { addToast } = useToasts()
-  const { profile, updateProfile, addUsername, lookupOnUsername, toggleLookupConsent } = useUser()
+  const { profile, addUsername, lookupOnUsername, toggleLookupConsent } = useUser()
   const { publicKey } = useThresholdKey()
-  const [updatingProfile, setUpdatingProfile] = useState(false)
   const [showUsernameForm, setShowUsernameForm] = useState(false)
   const [username, setUsername] = useState("")
   const [usernameData, setUsernameData] = useState({ error: "", loading: false })
-  const formik = useFormik({
-    initialValues: {
-      firstName: profile?.firstName || "",
-      lastName: profile?.lastName || ""
-      // email: profile?.email || ""
-    },
-    onSubmit: (values) => {
-      onUpdateProfile(
-        values.firstName || "",
-        values.lastName || ""
-        // values.email || ""
-      )
-    },
-    validationSchema: profileValidation,
-    validateOnChange: false
-  })
-  const onUpdateProfile = async (firstName: string, lastName: string) => {
-    try {
-      setUpdatingProfile(true)
-      await updateProfile(firstName, lastName)
-      addToast({ title: t`Profile updated`, type: "success", testId: "profile-update-success" })
-      setUpdatingProfile(false)
-    } catch (error) {
-      error instanceof Error && addToast({ title: error.message, type: "error" })
-      setUpdatingProfile(false)
-    }
-  }
+  // const [updatingProfile, setUpdatingProfile] = useState(false)
+  // const formik = useFormik({
+  //   initialValues: {
+  //     firstName: profile?.firstName || "",
+  //     lastName: profile?.lastName || ""
+  //     email: profile?.email || ""
+  //   },
+  //   onSubmit: (values) => {
+  //     onUpdateProfile(
+  //       values.firstName || "",
+  //       values.lastName || ""
+  //       values.email || ""
+  //     )
+  //   },
+  //   validationSchema: profileValidation,
+  //   validateOnChange: false
+  // })
+  // const onUpdateProfile = async (firstName: string, lastName: string) => {
+  //   try {
+  //     setUpdatingProfile(true)
+  //     await updateProfile(firstName, lastName)
+  //     addToast({ title: t`Profile updated`, type: "success", testId: "profile-update-success" })
+  //     setUpdatingProfile(false)
+  //   } catch (error) {
+  //     error instanceof Error && addToast({ title: error.message, type: "error" })
+  //     setUpdatingProfile(false)
+  //   }
+  // }
 
   const classes = useStyles()
 
@@ -451,7 +450,7 @@ const ProfileView = () => {
                   value={profile?.lookupConsent || false}
                   onChange={toggleLookupConsent} />
               </div>
-              <FormikProvider value={formik}>
+              {/* <FormikProvider value={formik}>
                 <Form>
                   <div className={classes.inputBoxContainer}>
                     <Typography
@@ -493,7 +492,7 @@ const ProfileView = () => {
                       data-cy="input-profile-lastname"
                     />
                   </div>
-                  {/* <div className={classes.boxContainer}>
+                  <div className={classes.boxContainer}>
                     <FormikTextInput
                       placeholder="Email"
                       name="email"
@@ -503,7 +502,7 @@ const ProfileView = () => {
                       label="Email"
                       disabled={!profile?.publicAddress}
                     />
-                  </div> */}
+                  </div>
                   <Button
                     className={classes.button}
                     size="large"
@@ -519,7 +518,7 @@ const ProfileView = () => {
                     </Typography>
                   </Button>
                 </Form>
-              </FormikProvider>
+              </FormikProvider> */}
             </div>
           </div>
           {/* <div id="deletion" className={classes.sectionContainer}>
