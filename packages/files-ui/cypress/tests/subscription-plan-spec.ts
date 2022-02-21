@@ -214,6 +214,33 @@ describe("Subscription Plan", () => {
       selectPlanModal.body().should("be.visible")
     })
 
+    it("cannot downgrade if used storage exceeds plan allowance", () => {
+      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+
+      // upgrade to a premium plan first
+      navigationMenu.settingsNavButton().click()
+      settingsPage.upgradeSubscription("premium")
+
+      // setup intercepter, stub the used products response to disallow update
+      cy.intercept("GET", "**/billing/products", (req) => {
+        req.on("response", (res) => {
+          res.body = [{ "prices": [{ "is_update_allowed": false }] }]
+        })
+      })
+
+      settingsPage.changePlanButton().click()
+      selectPlanModal.body().should("be.visible")
+      selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
+
+      // ensure warning is shown and the free plan is not selectable
+      cy.get("@freePlanBox").parent().within(() => {
+        selectPlanModal.storageCapacityWarningLabel().should("be.visible")
+        selectPlanModal.selectPlanButton()
+          .should("be.visible")
+          .should("be.disabled")
+      })
+    })
+
     it("can toggle between monthly and annual billing price", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
       navigationMenu.settingsNavButton().click()
