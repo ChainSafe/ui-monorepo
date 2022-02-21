@@ -410,9 +410,6 @@ msgstr "Fichiers"
 msgid "Files sharing key"
 msgstr "Clé de partage des fichiers"
 
-msgid "First name"
-msgstr "Prénom"
-
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
 
@@ -499,9 +496,6 @@ msgstr "Conserver les fichiers originaux"
 
 msgid "Language"
 msgstr "Langue"
-
-msgid "Last name"
-msgstr "Nom"
 
 msgid "Learn more"
 msgstr "En savoir plus"
@@ -623,9 +617,6 @@ msgstr "Les fichiers sont presque prêts…"
 msgid "Only send the exact amount of {0} to this address"
 msgstr "N'envoyez que la somme exacte de {0} à cette adresse"
 
-msgid "Only you can see this."
-msgstr "Vous seul(e) pouvez voir ceci."
-
 msgid "Oops! You need to pay for this month to upload more content."
 msgstr "Oups ! Vous devez payer pour ce mois-ci pour ajouter plus de contenu."
 
@@ -725,9 +716,6 @@ msgstr "Procéder au paiement"
 msgid "Profile"
 msgstr "Profil"
 
-msgid "Profile updated"
-msgstr "Profile mis à jour"
-
 msgid "Recover"
 msgstr "Récupérer"
 
@@ -781,9 +769,6 @@ msgstr "Ressources"
 
 msgid "Restore with backup secret phrase"
 msgstr "Récupérer avec la phrase de sauvegarde secrète"
-
-msgid "Save changes"
-msgstr "Enregistrer"
 
 msgid "Save this browser for next time?"
 msgstr "Enregistrer ce navigateur ?"
