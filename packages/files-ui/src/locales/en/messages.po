@@ -409,9 +409,6 @@ msgstr "Files"
 msgid "Files sharing key"
 msgstr "Files sharing key"
 
-msgid "First name"
-msgstr "First name"
-
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
@@ -498,9 +495,6 @@ msgstr "Keep original files"
 
 msgid "Language"
 msgstr "Language"
-
-msgid "Last name"
-msgstr "Last name"
 
 msgid "Learn more"
 msgstr "Learn more"
@@ -619,9 +613,6 @@ msgstr "One sec, getting files ready…"
 msgid "Only send the exact amount of {0} to this address"
 msgstr "Only send the exact amount of {0} to this address"
 
-msgid "Only you can see this."
-msgstr "Only you can see this."
-
 msgid "Oops! You need to pay for this month to upload more content."
 msgstr "Oops! You need to pay for this month to upload more content."
 
@@ -718,9 +709,6 @@ msgstr "Proceed to payment"
 msgid "Profile"
 msgstr "Profile"
 
-msgid "Profile updated"
-msgstr "Profile updated"
-
 msgid "Recover"
 msgstr "Recover"
 
@@ -771,9 +759,6 @@ msgstr "Resources"
 
 msgid "Restore with backup secret phrase"
 msgstr "Restore with backup secret phrase"
-
-msgid "Save changes"
-msgstr "Save changes"
 
 msgid "Save this browser for next time?"
 msgstr "Save this browser for next time?"
