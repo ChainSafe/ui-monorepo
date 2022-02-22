@@ -61,8 +61,7 @@ const BetaModal = ({ onHide }: Props) => {
         </Typography>
         <Typography variant="h4">
           <Trans>
-            We are rolling out our subscription plans to a limited number of users.
-            Request access to be able to upgrade to a plan with more storage.
+            Join our new limited-access subscription plans to upgrade to a plan with more storage.
           </Trans>
         </Typography>
         <div className={classes.buttonContainer}>
