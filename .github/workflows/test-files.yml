@@ -8,6 +8,7 @@ on:
     - package.json
     - .eslintrc.json
     - tsconfig.json
+    - yarn.lock
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
