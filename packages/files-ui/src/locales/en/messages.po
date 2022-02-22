@@ -484,6 +484,9 @@ msgstr "Invoice outstanding"
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
 
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+
 msgid "Keep original files"
 msgstr "Keep original files"
 
@@ -1092,9 +1095,6 @@ msgstr "Want to help shape this product?"
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
-
-msgid "We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage."
-msgstr "We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage."
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "We can't encrypt files larger than 2GB. Some items will not be uploaded"

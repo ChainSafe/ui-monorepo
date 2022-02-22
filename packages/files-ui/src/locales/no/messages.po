@@ -481,6 +481,9 @@ msgstr ""
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr ""
+
 msgid "Keep original files"
 msgstr ""
 
@@ -1088,9 +1091,6 @@ msgid "Want to help shape this product?"
 msgstr ""
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
-msgstr ""
-
-msgid "We are rolling out our subscription plans to a limited number of users. Request access to be able to upgrade to a plan with more storage."
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
