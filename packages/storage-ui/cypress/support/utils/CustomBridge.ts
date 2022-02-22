@@ -1,8 +1,15 @@
 import { Eip1193Bridge } from "@ethersproject/experimental/lib/eip1193-bridge"
+import { ethers } from "ethers"
 import { toUtf8String } from "ethers/lib/utils"
-import { testAddress } from "../../fixtures/loginData"
 
 export class CustomizedBridge extends Eip1193Bridge {
+  expectedAddress = ""
+
+  constructor(signer: ethers.Signer, address: string, provider?: ethers.providers.Provider) {
+    super(signer as any, provider as any)
+    this.expectedAddress = address
+  }
+
   async sendAsync(...args: Array<any>) {
     return this.send(...args)
   }
@@ -30,17 +37,17 @@ export class CustomizedBridge extends Eip1193Bridge {
       const message = params[0]
 
       if (
-        (addr as string).toLowerCase() !== testAddress.toLowerCase()
+        (addr as string).toLowerCase() !== this.expectedAddress.toLowerCase()
       ) {
         return Promise.reject(
-          `Wrong address, expected ${testAddress}, but got ${addr}`
+          `Wrong address, expected ${this.expectedAddress}, but got ${addr}`
         )
       }
 
       try {
         const sig = await this.signer.signMessage(toUtf8String(message))
         return sig
-      } catch (e) {
+      } catch (e: any) {
         return Promise.reject(
           `Error in CustomizedBridge for personal_sign: ${e.message}`
         )
@@ -49,9 +56,9 @@ export class CustomizedBridge extends Eip1193Bridge {
 
     if (method === "eth_requestAccounts" || method === "eth_accounts") {
       if (isCallbackForm) {
-        callback({ result: [testAddress] })
+        callback({ result: [this.expectedAddress] })
       } else {
-        return Promise.resolve([testAddress])
+        return Promise.resolve([this.expectedAddress])
       }
     }
 

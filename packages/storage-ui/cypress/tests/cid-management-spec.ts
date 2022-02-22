@@ -6,7 +6,7 @@ describe("CID management", () => {
 
   context("desktop", () => {
 
-    it.skip("can pin a CID", () => {
+    it("can pin a CID", () => {
       cy.web3Login({ clearPins: true })
       navigationMenu.cidsNavButton().click()
 
@@ -22,7 +22,7 @@ describe("CID management", () => {
       cidsPage.pinCidForm().should("not.exist")
     })
 
-    it.skip("can unpin a cid", () => {
+    it("can unpin a cid", () => {
       cy.web3Login({ clearPins: true })
 
       // pin and then unpin a CID
