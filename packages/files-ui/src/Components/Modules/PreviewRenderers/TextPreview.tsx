@@ -38,17 +38,18 @@ const useStyles = makeStyles(({ palette, constants, typography, zIndex }: CSFThe
       zIndex: zIndex?.layer1,
       display: "flex",
       flexDirection: "row",
-      top: 0,
-      right: 0,
-      height: constants.generalUnit * 8,
+      bottom: 34,
+      height: 39,
+      left: "50%",
+      transform: "translate(-50%)",
       backgroundColor: palette.additional["gray"][9],
       color: palette.additional["gray"][3],
       borderWidth: 1,
       borderStyle: "solid",
       borderColor: palette.additional["gray"][8]
     },
-    pageButton: {
-      width: 80
+    controlButton: {
+      borderRadius: 0
     }
   })
 )
@@ -82,14 +83,20 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
         <Button
           disabled={fontSize <= LOWEST_FONT_SIZE}
           onClick={onZoomOut}
-          className={classes.pageButton}
+          className={classes.controlButton}
+          data-cy="button-decrease-text-size"
+          size="small"
+          variant='secondary'
         >
           <ZoomOutIcon fontSize="medium" />
         </Button>
         <Button
           disabled={fontSize >= HIGHEST_FONT_SIZE}
           onClick={onZoomIn}
-          className={classes.pageButton}
+          className={classes.controlButton}
+          data-cy="button-increase-text-size"
+          size="small"
+          variant='secondary'
         >
           <ZoomInIcon fontSize="medium" />
         </Button>
