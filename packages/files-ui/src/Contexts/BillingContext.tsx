@@ -40,16 +40,16 @@ const ProductMapping: {[key: string]: {
   description: string
 }} = {
   prod_JwRu6Ph25b1f2O: {
-    name: t`Free plan`,
-    description: t`This is the free product.`
+    name: t`Free`,
+    description: ""
   },
   prod_JwS49Qfnr6vD3K: {
-    name: t`Standard plan`,
-    description: t`Standard plan`
+    name: t`Pro`,
+    description: ""
   },
   prod_JwSGHB8qFx7rRM: {
-    name: t`Premium plan`,
-    description: t`Premium plan`
+    name: t`Max`,
+    description: ""
   }
 }
 
