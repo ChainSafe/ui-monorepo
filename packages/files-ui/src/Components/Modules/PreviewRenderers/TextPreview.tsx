@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { Button, ZoomInIcon, ZoomOutIcon, ScrollbarWrapper } from "@chainsafe/common-components"
 
@@ -74,33 +74,37 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     setFontSize(fontSize - 2)
   }, [fontSize])
 
+  const { desktop } = useThemeSwitcher()
+
   return (
     <div className={classes.root}>
       <ScrollbarWrapper className={classes.filePreview}>
         {contentText}
       </ScrollbarWrapper>
-      <div className={classes.controlsContainer}>
-        <Button
-          disabled={fontSize <= LOWEST_FONT_SIZE}
-          onClick={onZoomOut}
-          className={classes.controlButton}
-          data-cy="button-decrease-text-size"
-          size="small"
-          variant='secondary'
-        >
-          <ZoomOutIcon fontSize="medium" />
-        </Button>
-        <Button
-          disabled={fontSize >= HIGHEST_FONT_SIZE}
-          onClick={onZoomIn}
-          className={classes.controlButton}
-          data-cy="button-increase-text-size"
-          size="small"
-          variant='secondary'
-        >
-          <ZoomInIcon fontSize="medium" />
-        </Button>
-      </div>
+      {desktop && (
+        <div className={classes.controlsContainer}>
+          <Button
+            disabled={fontSize <= LOWEST_FONT_SIZE}
+            onClick={onZoomOut}
+            className={classes.controlButton}
+            data-cy="button-decrease-text-size"
+            size="small"
+            variant='secondary'
+          >
+            <ZoomOutIcon fontSize="medium" />
+          </Button>
+          <Button
+            disabled={fontSize >= HIGHEST_FONT_SIZE}
+            onClick={onZoomIn}
+            className={classes.controlButton}
+            data-cy="button-increase-text-size"
+            size="small"
+            variant='secondary'
+          >
+            <ZoomInIcon fontSize="medium" />
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
