@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       }
     },
     progressBar: (props: IStyleProps) => ({
-      strokeLinecap: "round",
-      strokeDasharray: `${props.circumference}px ${props.circumference}px`,
+      strokeDasharray: `${props.circumference}px`,
       strokeDashoffset: `${
         ((100 - props.progress) / 100) * props.circumference
       }px`,
@@ -95,18 +94,16 @@ const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
   label
 }) => {
   const strokeWidth = size === "small" ? 2 : size === "medium" ? 3 : 4
-  const radius = width
-  const finalRadius = radius - strokeWidth
-  const finalWidth = finalRadius + strokeWidth
+  const finalRadius = width - strokeWidth
   const pathDescription = `
-  M ${finalWidth},${finalWidth} m 0,-${finalRadius}
+  M ${finalRadius},${finalRadius} m 0,-${finalRadius}
   a ${finalRadius},${finalRadius} 0 1 1 0,${2 * finalRadius}
   a ${finalRadius},${finalRadius} 0 1 1 0,-${2 * finalRadius}
   `
-  const diameter = 2 * radius
-  const circumference = Math.PI * 2 * radius
+  const circumference = Math.PI * 2 * finalRadius
 
   const progressValue = progress < 0 ? 0 : progress > 100 ? 100 : progress
+  const totalWidth = width * 2
 
   const classes = useStyles({
     progress: progressValue,
@@ -118,25 +115,27 @@ const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
       {label && <span className={classes.label}>{label}</span>}
       <svg
         className={className}
-        viewBox={`0 0 ${diameter} ${diameter}`}
-        width={diameter}
-        height={diameter}
+        viewBox={`0 0 ${totalWidth} ${totalWidth}`}
+        width={totalWidth}
+        height={totalWidth}
       >
-        {showBackdrop && (
+        <g transform={`translate(${strokeWidth},${strokeWidth})`}>
+          {showBackdrop && (
+            <path
+              d={pathDescription}
+              strokeWidth={strokeWidth}
+              fillOpacity={0}
+              className={classes.backdrop}
+            />
+          )}
+
           <path
             d={pathDescription}
             strokeWidth={strokeWidth}
             fillOpacity={0}
-            className={classes.backdrop}
+            className={clsx(classes.progressBar, size, classes[state], variant)}
           />
-        )}
-
-        <path
-          d={pathDescription}
-          strokeWidth={strokeWidth}
-          fillOpacity={0}
-          className={clsx(classes.progressBar, size, classes[state], variant)}
-        />
+        </g>
       </svg>
     </div>
   )
