@@ -8,10 +8,10 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   Typography,
-  DownloadSvg,
-  MoreIcon,
   CloseCircleIcon,
-  ProgressBar
+  ProgressBar,
+  DownloadIcon,
+  CloseIcon
 } from "@chainsafe/common-components"
 import ImagePreview from "./PreviewRenderers/ImagePreview"
 import { useSwipeable } from "react-swipeable"
@@ -26,8 +26,8 @@ import { CSFTheme } from "../../Themes/types"
 import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 import { useGetFile } from "./FileBrowsers/hooks/useGetFile"
 import { useMemo } from "react"
-import Menu from "../../UI-components/Menu"
 import { getPathWithFile } from "../../Utils/pathUtils"
+import { getIconForItem } from "../../Utils/getItemIcon"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -48,7 +48,7 @@ const compatibleFilesMatcher = new MimeMatcher(
 )
 
 const useStyles = makeStyles(
-  ({ constants, palette, zIndex, breakpoints }: CSFTheme) =>
+  ({ constants, palette, zIndex }: CSFTheme) =>
     createStyles({
       root: {
         height: "100%",
@@ -69,23 +69,25 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         width: "100%",
-        maxWidth: breakpoints.values["md"] - 200,
+        backgroundColor: "rgba(0,0,0, 0.4)",
         height: constants.generalUnit * 8,
-        backgroundColor: constants.previewModal.controlsBackground,
-        color: constants.previewModal.controlsColor,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: palette.additional["gray"][8]
+        "& > *":{
+          margin: "0px 10px"
+        },
+        "& > *:first-child": {
+          marginLeft: "24px"
+        }
       },
       closePreviewButton: {
         marginRight: constants.generalUnit * 2,
-        marginLeft: constants.generalUnit * 2,
-        fill: constants.previewModal.closeButtonColor,
-        cursor: "pointer"
+        cursor: "pointer",
+        "& > * > svg":{
+          stroke: constants.previewModal.closeButtonColor
+        }
       },
-      // fileOperationsMenu: {
-      //   fill: constants.previewModal.fileOpsColor
-      // },
+      downloadIcon: {
+        fill: constants.previewModal.closeButtonColor
+      },
       fileName: {
         width: "100%",
         whiteSpace: "nowrap",
@@ -147,21 +149,6 @@ const useStyles = makeStyles(
       item: {
         color: constants.previewModal.menuItemTextColor
       },
-      dropdownIcon: {
-        width: 14,
-        height: 14,
-        padding: 0,
-        position: "relative",
-        fontSize: "unset",
-        "& svg": {
-          fill: constants.previewModal.fileOpsColor,
-          top: "50%",
-          left: 0,
-          width: 14,
-          height: 14,
-          position: "absolute"
-        }
-      },
       focusVisible: {
         backgroundColor: "transparent !important"
       },
@@ -170,6 +157,16 @@ const useStyles = makeStyles(
       },
       menuRoot: {
         zIndex: "2000 !important" as any
+      },
+      fileIcon: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        "& svg": {
+          width: constants.generalUnit * 2.5,
+          fill: constants.previewModal.fileNameColor
+        }
       }
     })
 )
@@ -225,7 +222,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     }
   }, [file, filePath, getFile, bucket, buckets, previewRendererKey])
 
-
+  const Icon = useMemo(() => getIconForItem(file), [file])
 
   const PreviewComponent =
     !!content_type &&
@@ -260,20 +257,6 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     }
   }, [bucket, cid, downloadFile, file, fileContent, filePath, name])
 
-  const menuItems = useMemo(() => [
-    {
-      contents: (
-        <>
-          <DownloadSvg className={classes.menuIcon} />
-          <span data-cy="button-download-previewed-file">
-            <Trans>Download</Trans>
-          </span>
-        </>
-      ),
-      onClick: handleDownload
-    }
-  ], [classes.menuIcon, handleDownload])
-
   if (!name || !cid || !content_type) {
     return null
   }
@@ -281,11 +264,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
   return (
     <div className={classes.root}>
       <div className={classes.previewModalControls}>
-        <ArrowLeftIcon
-          onClick={closePreview}
-          className={classes.closePreviewButton}
-          data-cy="button-close-preview"
-        />
+        <Icon className={classes.fileIcon} />
         <Typography
           variant={desktop ? "h4" : "h5"}
           component="h1"
@@ -294,16 +273,21 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         >
           {name}
         </Typography>
-        <Menu
-          testId='preview-kebab'
-          icon={<MoreIcon className={classes.dropdownIcon} />}
-          options={menuItems}
-          style={{
-            focusVisible: classes.focusVisible,
-            menuWrapper: classes.menuWrapper,
-            root: classes.menuRoot
-          }}
-        />
+        <Button
+          onClick={handleDownload}
+          variant="text"
+          data-cy="button-download-previewed-file"
+        >
+          <DownloadIcon className={classes.downloadIcon}/>
+        </Button>
+        <Button
+          onClick={closePreview}
+          variant='text'
+          className={classes.closePreviewButton}
+          data-cy="button-close-preview"
+        >
+          <CloseIcon />
+        </Button>
       </div>
       <Grid
         container
@@ -315,7 +299,6 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         {desktop && (
           <Grid
             item
-            sm={1}
             md={1}
             lg={1}
             xl={1}

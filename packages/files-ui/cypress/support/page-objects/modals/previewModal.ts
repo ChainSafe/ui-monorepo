@@ -7,7 +7,6 @@ export const previewModal = {
   fileNameLabel: () => cy.get("[data-cy=label-previewed-file-name]"),
   fullScreenButton: () => cy.get("[data-cy=button-full-screen]"),
   nextFileButton: () => cy.get("[data-cy=button-view-next-file]"),
-  previewKebabButton: () => cy.get("[data-testid=icon-preview-kebab]"),
   previousFileButton: () => cy.get("[data-cy=button-view-previous-file]"),
   unsupportedFileLabel: () => cy.get("[data-cy=label-unsupported-file-message]", { timeout: 10000 }),
   ZoomInButton: () => cy.get("[data-cy=button-zoom-in]"),
