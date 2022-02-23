@@ -538,7 +538,7 @@ const FileSystemItem = ({
                     <CustomButton
                       onClick={() => setEditing("")}
                       size="medium"
-                      variant={desktop ? "outline" : "gray"}
+                      variant="gray"
                       type="button"
                     >
                       <Trans>Cancel</Trans>
