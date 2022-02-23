@@ -29,7 +29,7 @@ describe("CID management", () => {
       cidsPage.addPinnedCid()
       cidsPage.cidRowKebabButton().click()
       cidsPage.unpinMenuOption().click()
-      cidsPage.cidItemRow().should("not.exist")
+      cidsPage.cidItemRow().should("contain.text", "queued")
     })
   })
 })

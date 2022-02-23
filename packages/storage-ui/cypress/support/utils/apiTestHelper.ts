@@ -24,7 +24,8 @@ export const apiTestHelper = {
         })
         .then((tokens) => {
           apiClient.setToken(tokens.access_token.token)
-          apiClient.listPins(undefined, undefined, ["queued", "pinning", "pinned", "failed"])
+          // The ones in "queued" and "pinning" status can't be deleted 
+          apiClient.listPins(undefined, undefined, ["pinned", "failed"])
             .then((pins) =>
               pins.results?.forEach(ps => apiClient.deletePin(ps.requestid)
               ))
