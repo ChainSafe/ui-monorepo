@@ -368,7 +368,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                     <CustomButton
                       onClick={() => setIsRenaming(false)}
                       size="medium"
-                      variant={desktop ? "outline" : "gray"}
+                      variant="gray"
                       type="button"
                     >
                       <Trans>Cancel</Trans>

@@ -688,9 +688,6 @@ msgstr ""
 msgid "Preview"
 msgstr "Forhåndsvis"
 
-msgid "Previous"
-msgstr "Forrige"
-
 msgid "Pricing details"
 msgstr ""
 
