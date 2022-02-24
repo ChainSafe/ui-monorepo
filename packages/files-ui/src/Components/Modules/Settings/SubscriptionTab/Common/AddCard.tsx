@@ -231,7 +231,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
               variant="text"
               onClick={goBack}
             >
-              <Trans>Go  back</Trans>
+              <Trans>Go back</Trans>
             </Button>
           }
           {onClose &&

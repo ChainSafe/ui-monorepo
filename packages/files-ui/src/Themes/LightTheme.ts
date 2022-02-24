@@ -81,7 +81,7 @@ export const lightTheme = createTheme<CsfColors>({
         previewModal: {
           controlsBackground: "var(--gray9)",
           controlsColor: "var(--gray8)",
-          closeButtonColor: "var(--gray2)",
+          buttonColor: "var(--gray2)",
           fileOpsColor: "var(--gray2)",
           fileNameColor: "var(--gray1)",
           optionsBackground: "var(--gray1)",

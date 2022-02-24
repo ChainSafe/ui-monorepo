@@ -80,13 +80,12 @@ const useStyles = makeStyles(
       },
       closePreviewButton: {
         marginRight: constants.generalUnit * 2,
-        cursor: "pointer",
-        "& > * > svg":{
-          stroke: constants.previewModal.closeButtonColor
+        "& svg":{
+          stroke: constants.previewModal.buttonColor
         }
       },
       downloadIcon: {
-        fill: constants.previewModal.closeButtonColor
+        fill: constants.previewModal.buttonColor
       },
       fileName: {
         width: "100%",
@@ -277,8 +276,9 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
           onClick={handleDownload}
           variant="text"
           data-cy="button-download-previewed-file"
+          className={classes.downloadIcon}
         >
-          <DownloadIcon className={classes.downloadIcon}/>
+          <DownloadIcon />
         </Button>
         <Button
           onClick={closePreview}

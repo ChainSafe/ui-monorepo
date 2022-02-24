@@ -19,7 +19,6 @@ const useStyles = makeStyles(
         border: "none",
         outline: "none",
         "& svg": {
-          transitionDuration: `${animation.transform}ms`,
           margin: `${0}px ${constants.generalUnit / 2}px 0`
         },
         "&.large": {
@@ -49,12 +48,10 @@ const useStyles = makeStyles(
         color: "inherit",
         textDecoration: "underline",
         cursor: "pointer",
-        transitionDuration: `${animation.transform}ms`,
         border: "none",
         background: "none",
         outline: "none",
         "& svg": {
-          transitionDuration: `${animation.transform}ms`,
           margin: `${0}px ${constants.generalUnit / 2}px 0`
         }
       },
