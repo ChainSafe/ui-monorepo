@@ -425,7 +425,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
             <CustomButton
               onClick={() => close()}
               size="large"
-              variant={desktop ? "outline" : "gray"}
+              variant="outline"
               type="button"
             >
               <Trans>Close</Trans>
