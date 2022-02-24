@@ -1,19 +1,7 @@
-import {
-  createStyles,
-  debounce,
-  makeStyles,
-  useOnClickOutside,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, debounce, makeStyles, useOnClickOutside, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { ChangeEvent, useCallback, useMemo, useRef } from "react"
 import {
-  ArrowLeftIcon,
-  Button,
-  SearchBar,
-  Typography,
-  useHistory,
-  useToasts
-} from "@chainsafe/common-components"
+  SearchBar, Typography, useHistory, useToasts } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../FilesRoutes"
@@ -37,6 +25,7 @@ const useStyles = makeStyles(
         position: "relative",
         [breakpoints.down("md")]: {
           display: "flex",
+          paddingLeft: constants.generalUnit * 5.5,
           "& input": {
             opacity: 0
           },
@@ -146,16 +135,9 @@ interface ISearchModule {
   setSearchActive: (searchActive: boolean) => void
 }
 
-const SearchModule: React.FC<ISearchModule> = ({
-  className,
-  searchActive,
-  setSearchActive
-}: ISearchModule) => {
+const SearchModule = ({ className, searchActive, setSearchActive }: ISearchModule) => {
   const { themeKey, desktop } = useThemeSwitcher()
-  const classes = useStyles({
-    themeKey
-  })
-
+  const classes = useStyles({ themeKey })
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [searchResults, setSearchResults] = useState<{results: SearchEntry[]; query: string} | undefined>(undefined)
   const ref = useRef(null)
@@ -169,13 +151,13 @@ const SearchModule: React.FC<ISearchModule> = ({
       if (!searchString || !bucket) return []
 
       const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
-      return results
+      return results || []
     } catch (err) {
       addToast({
         title: t`There was an error getting search results`,
         type: "error"
       })
-      return Promise.reject(err)
+      return []
     }
   }, [addToast, bucket, filesApiClient])
 
@@ -212,12 +194,12 @@ const SearchModule: React.FC<ISearchModule> = ({
     redirect(ROUTE_LINKS.Search(encodeURIComponent(searchQuery)))
   }
 
-  const searchResultsFiles = searchResults?.results.filter(
+  const searchResultsFiles = searchResults?.results?.filter(
     (searchResult) =>
       searchResult.content.content_type !== CONTENT_TYPES.Directory
   )
 
-  const searchResultsFolders = searchResults?.results.filter(
+  const searchResultsFolders = searchResults?.results?.filter(
     (searchResult) =>
       searchResult.content.content_type === CONTENT_TYPES.Directory
   )
@@ -242,16 +224,6 @@ const SearchModule: React.FC<ISearchModule> = ({
         active: searchActive
       })}
     >
-      {!desktop && searchActive && (
-        <Button
-          className={classes.backButton}
-          onClick={() => {
-            setSearchActive(false)
-          }}
-        >
-          <ArrowLeftIcon className={classes.backArrow} />
-        </Button>
-      )}
       <form
         className={classes.searchBar}
         onSubmit={onSearchSubmit}
@@ -268,7 +240,7 @@ const SearchModule: React.FC<ISearchModule> = ({
       {searchQuery && searchResults?.query && (
         <div className={clsx(classes.resultsContainer, searchActive && "active")}>
           <div className={classes.resultsBox}>
-            {searchResults?.query && !searchResults.results.length && (
+            {searchResults?.query && !searchResults.results?.length && (
               <Typography className={classes.noResultsFound}>
                 <Trans>No search results for </Trans>{` ${searchResults.query}`}
               </Typography>

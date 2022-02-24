@@ -48,18 +48,18 @@ interface TabInjectedClasses {
   tabBar?: string
 }
 
-export interface ITabsProps {
+export interface ITabsProps<TabKey> {
   className?: string
-  children: React.ReactElement<ITabPaneProps> | React.ReactElement<ITabPaneProps>[]
-  activeKey: string
-  onTabSelect: (key: string) => void
+  children: React.ReactElement<ITabPaneProps<TabKey>> | Array<React.ReactElement<ITabPaneProps<TabKey>> | null>
+  activeKey?: TabKey
+  onTabSelect: (key: TabKey) => void
   injectedClass?: TabInjectedClasses
 }
 
-const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, injectedClass, onTabSelect }: ITabsProps) => {
+const Tabs = <TabKey, >({ className, children, activeKey, injectedClass, onTabSelect }: ITabsProps<TabKey>) => {
   const classes = useStyles()
   const selectedChild = Array.isArray(children)
-    ? children.find((child) => activeKey === child.props.tabKey)
+    ? children.find((child) => activeKey === child?.props?.tabKey)
     : children
 
   return (
@@ -67,6 +67,7 @@ const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, injectedCl
       <ul className={clsx(className, classes.tabList, injectedClass?.tabList)}>
         {Array.isArray(children)
           ? children.map((elem, index) => {
+            if (!elem) return null
             return (
               <li
                 data-testid={elem.props.testId}

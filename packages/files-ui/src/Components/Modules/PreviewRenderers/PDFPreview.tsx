@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Document, Page, pdfjs } from "react-pdf"
-import { Button, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { Button, CaretCircleLeftIcon, CaretCircleRightIcon, Typography } from "@chainsafe/common-components"
 
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js"
 
-const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
+const useStyles = makeStyles(({ constants, zIndex }: ITheme) =>
   createStyles({
     controlsContainer: {
       position: "absolute",
@@ -15,19 +14,23 @@ const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      bottom: 0,
-      backgroundColor: palette.additional["gray"][9],
-      color: palette.additional["gray"][3],
+      bottom: 34,
+      backgroundColor: "#262626",
+      color: "#D9D9D9",
       borderWidth: 1,
       borderStyle: "solid",
-      borderColor: palette.additional["gray"][8]
+      borderColor: "#595959",
+      borderRadius: 2
     },
     pageButton: {
-      width: 80
+      borderRadius: 0,
+      backgroundColor: "#262626",
+      border: "none"
     },
     paginationInfo: {
       paddingLeft: constants.generalUnit * 2,
-      paddingRight: constants.generalUnit * 2
+      paddingRight: constants.generalUnit * 2,
+      color: "#D9D9D9"
     }
   })
 )
@@ -73,7 +76,7 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
           onClick={prevPage}
           className={classes.pageButton}
         >
-          <Trans>Previous</Trans>
+          <CaretCircleLeftIcon />
         </Button>
         <Typography className={classes.paginationInfo}>
           {pageNumber} of {numPages}
@@ -82,7 +85,7 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
           onClick={nextPage}
           className={classes.pageButton}
         >
-          <Trans>Next</Trans>
+          <CaretCircleRightIcon />
         </Button>
       </div>
     </>

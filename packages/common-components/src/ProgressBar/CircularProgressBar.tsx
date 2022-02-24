@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       }
     },
     progressBar: (props: IStyleProps) => ({
-      strokeLinecap: "round",
-      strokeDasharray: `${props.circumference}px ${props.circumference}px`,
+      strokeDasharray: `${props.circumference}px`,
       strokeDashoffset: `${
         ((100 - props.progress) / 100) * props.circumference
       }px`,
@@ -50,6 +49,21 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     error: {
       stroke: theme.palette.error.main
+    },
+    label: {
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      position: "absolute",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 12
+    },
+    wrapper: {
+      position: "relative",
+      display: "inline-flex"
     }
   })
 )
@@ -60,6 +74,7 @@ export type ProgressBarVariant = "primary" | "secondary"
 
 export interface ICircularProgressBarProps {
   className?: string
+  label?: string
   progress: number
   size?: ProgressBarSize
   variant?: ProgressBarVariant
@@ -75,21 +90,20 @@ const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
   variant,
   showBackdrop = true,
   width,
-  className
+  className,
+  label
 }) => {
   const strokeWidth = size === "small" ? 2 : size === "medium" ? 3 : 4
-  const radius = width
-  const finalRadius = radius - strokeWidth
-  const finalWidth = finalRadius + strokeWidth
+  const finalRadius = width - strokeWidth
   const pathDescription = `
-  M ${finalWidth},${finalWidth} m 0,-${finalRadius}
+  M ${finalRadius},${finalRadius} m 0,-${finalRadius}
   a ${finalRadius},${finalRadius} 0 1 1 0,${2 * finalRadius}
   a ${finalRadius},${finalRadius} 0 1 1 0,-${2 * finalRadius}
   `
-  const diameter = 2 * radius
-  const circumference = Math.PI * 2 * radius
+  const circumference = Math.PI * 2 * finalRadius
 
   const progressValue = progress < 0 ? 0 : progress > 100 ? 100 : progress
+  const totalWidth = width * 2
 
   const classes = useStyles({
     progress: progressValue,
@@ -97,28 +111,33 @@ const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
   })
 
   return (
-    <svg
-      className={className}
-      viewBox={`0 0 ${diameter} ${diameter}`}
-      width={diameter}
-      height={diameter}
-    >
-      {showBackdrop && (
-        <path
-          d={pathDescription}
-          strokeWidth={strokeWidth}
-          fillOpacity={0}
-          className={classes.backdrop}
-        />
-      )}
+    <div className={classes.wrapper}>
+      {label && <span className={classes.label}>{label}</span>}
+      <svg
+        className={className}
+        viewBox={`0 0 ${totalWidth} ${totalWidth}`}
+        width={totalWidth}
+        height={totalWidth}
+      >
+        <g transform={`translate(${strokeWidth},${strokeWidth})`}>
+          {showBackdrop && (
+            <path
+              d={pathDescription}
+              strokeWidth={strokeWidth}
+              fillOpacity={0}
+              className={classes.backdrop}
+            />
+          )}
 
-      <path
-        d={pathDescription}
-        strokeWidth={strokeWidth}
-        fillOpacity={0}
-        className={clsx(classes.progressBar, size, classes[state], variant)}
-      />
-    </svg>
+          <path
+            d={pathDescription}
+            strokeWidth={strokeWidth}
+            fillOpacity={0}
+            className={clsx(classes.progressBar, size, classes[state], variant)}
+          />
+        </g>
+      </svg>
+    </div>
   )
 }
 

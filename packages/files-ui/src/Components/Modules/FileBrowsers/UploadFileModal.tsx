@@ -123,7 +123,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
         onSubmit={onSubmit}
       >
         <Form
-          data-cy="upload-file-form"
+          data-cy="form-upload-file"
           className={classes.root}
         >
           <FileInput

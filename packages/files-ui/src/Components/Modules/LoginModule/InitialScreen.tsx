@@ -314,7 +314,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
       <div className={classes.connectWalletRoot}>
         <section className={classes.buttonSection}>
           <Button
-            data-cy="sign-in-with-web3-button"
+            data-cy="button-sign-in-with-web3"
             onClick={() => {handleLogin("web3")}}
             className={classes.button}
             variant="primary"
@@ -426,8 +426,12 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           className={classes.headerText}
         >
           {isSharing && status !== "logging in"
-            ? <Trans>Sign in/up to access the shared folder</Trans>
-            : <Trans>Get Started</Trans>
+            ? <span data-cy="label-sign-in-to-access-share" >
+              <Trans>Sign in/up to access the shared folder</Trans>
+            </span>
+            : <span data-cy="label-get-started" >
+              <Trans>Get Started</Trans>
+            </span>
           }
         </Typography>
       )}
@@ -447,7 +451,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     <Typography
                       component="p"
                       variant="body1"
-                      className={classes.error}>{error}</Typography>
+                      className={classes.error}
+                    >
+                      {error}
+                    </Typography>
                   )}
                   <Button
                     className={clsx(classes.button)}
@@ -469,7 +476,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <Trans>Or using one of the following:</Trans>
               </Typography>
               <Button
-                data-cy="web3"
+                data-cy="button-web3"
                 onClick={() => {
                   setLoginMode("web3")
                   handleSelectWalletAndConnect()
@@ -578,8 +585,12 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           <ExclamationCircleIcon
             className={classes.exclamationIcon}
             size={48}
+            data-cy="icon-link-error"
           />
-          <Typography variant='h2'>
+          <Typography
+            variant='h2'
+            data-cy="label-invalid-link"
+          >
             <Trans>This link is not valid any more.</Trans>
           </Typography>
           <Button
@@ -588,6 +599,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
               resetLogin()
               redirect("/")
             }}
+            data-cy="button-go-to-login"
           >
             <Trans>Go to login</Trans>
           </Button>

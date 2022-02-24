@@ -482,6 +482,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }
     } catch (error) {
       if (axios.isCancel(error)) {
+        // Do not propogate cancellation up the stack to ensure that the next
+        // download starts correctly
         return Promise.reject()
       } else {
         console.error(error)

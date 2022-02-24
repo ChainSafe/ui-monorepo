@@ -27,6 +27,7 @@ import { nameValidator } from "../../../../../Utils/validationSchema"
 import Menu from "../../../../../UI-components/Menu"
 import { getUserDisplayName } from "../../../../../Utils/getUserDisplayName"
 import CustomModal from "../../../../Elements/CustomModal"
+import CustomButton from "../../../../Elements/CustomButton"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -116,17 +117,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     modalRoot: {
       [breakpoints.down("md")]: {
-        paddingBottom: Number(constants?.mobileButtonHeight) + constants.generalUnit
+        paddingBottom: Number(constants?.mobileButtonHeight)
       }
     },
     modalInner: {
       [breakpoints.down("md")]: {
-        bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
         maxWidth: `${breakpoints.width("md")}px !important`
       }
     },
@@ -144,15 +139,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     okButton: {
       marginLeft: constants.generalUnit
-    },
-    cancelButton: {
-      [breakpoints.down("md")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: constants?.mobileButtonHeight
-      }
     }
   })
 })
@@ -272,7 +258,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
   return  (
     <>
       <TableRow
-        data-cy="shared-folder-item-row"
+        data-cy="row-shared-folder-item"
         className={classes.tableRow}
         type="grid"
       >
@@ -285,7 +271,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         </TableCell>
         }
         <TableCell
-          data-cy="shared-folder-item-name"
+          data-cy="cell-shared-folder-item-name"
           align="left"
           className={clsx(classes.filename, desktop && isRenaming && "editing")}
           onClick={(e) => onFolderClick(e)}
@@ -296,7 +282,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
               <FormikProvider value={formik}>
                 <Form
                   className={classes.desktopRename}
-                  data-cy='rename-form'
+                  data-cy='form-rename'
                 >
                   <FormikTextInput
                     className={classes.renameInput}
@@ -320,7 +306,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         <TableCell align="left">
           {isOwner
             ? t`me`
-            : <UserBubble tooltip={getUserDisplayName(bucket.owners[0])} />}
+            : <UserBubble
+              tooltip={getUserDisplayName(bucket.owners[0])}
+              hashIconValue={bucket.owners[0].uuid}
+            />}
         </TableCell>
         }
         <TableCell
@@ -328,7 +317,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           align="left"
           className={classes.sharedUser}
         >
-          <SharedUsers bucket={bucket}/>
+          <SharedUsers
+            bucket={bucket}
+            showOwners={false}
+          />
         </TableCell>
         {desktop &&
         <TableCell align="left">
@@ -337,7 +329,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         }
         <TableCell align="right">
           <Menu
-            testId='fileDropdown'
+            testId='file-item-kebab'
             icon={<MoreIcon className={classes.dropdownIcon}/>}
             options={menuItems}
             style={{ focusVisible: classes.focusVisible }}
@@ -373,15 +365,14 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                     autoFocus={isRenaming}
                   />
                   <footer className={classes.renameFooter}>
-                    <Button
+                    <CustomButton
                       onClick={() => setIsRenaming(false)}
                       size="medium"
-                      className={classes.cancelButton}
-                      variant="outline"
+                      variant="gray"
                       type="button"
                     >
                       <Trans>Cancel</Trans>
-                    </Button>
+                    </CustomButton>
                     <Button
                       variant="primary"
                       size="medium"

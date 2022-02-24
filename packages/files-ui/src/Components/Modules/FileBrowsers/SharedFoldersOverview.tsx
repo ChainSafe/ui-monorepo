@@ -17,14 +17,16 @@ import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import CreateOrManageSharedFolderModal from "./CreateOrManageSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
-import { SharedFolderModalMode } from "./types"
 import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
 import { usePageTrack } from "../../../Contexts/PosthogContext"
+import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
+import clsx from "clsx"
+import CreateSharedFolderModal from "./CreateSharedFolderModal"
+import CreateOrManageSharedFolderModal from "./ManageSharedFolderModal"
 
 export const desktopSharedGridSettings = "50px 3fr 90px 140px 140px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -36,7 +38,10 @@ const useStyles = makeStyles(
         position: "relative",
         [breakpoints.down("md")]: {
           marginLeft: constants.generalUnit * 2,
-          marginRight: constants.generalUnit * 2
+          marginRight: constants.generalUnit * 2,
+          "&.bottomBanner": {
+            paddingBottom: constants.bottomBannerMobileHeight
+          }
         },
         [breakpoints.up("md")]: {
           border: "1px solid transparent",
@@ -45,6 +50,10 @@ const useStyles = makeStyles(
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.additional["geekblue"][4]
+          },
+          "&.bottomBanner": {
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + Number(constants.bottomBannerHeight)}px)`,
+            paddingBottom: constants.bottomBannerHeight
           }
         }
       },
@@ -109,10 +118,8 @@ type SortingType = "name" | "size" | "date_uploaded"
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
-  const { filesApiClient } = useFilesApi()
+  const { filesApiClient, accountRestricted } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
-  const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
-  const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<SortingType>("name")
   const { redirect } = useHistory()
@@ -122,6 +129,8 @@ const SharedFolderOverview = () => {
   const [isDeletingSharedFolder, setIsDeletingSharedFolder] = useState(false)
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share" && b.status !== "deleting"), [buckets])
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
+  const [isSharedFolderCreationModalOpen, setIsSharedFolderCreationModalOpen] = useState(false)
+  const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
 
   usePageTrack()
 
@@ -165,11 +174,12 @@ const SharedFolderOverview = () => {
   const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
-
   return (
     <>
       <article
-        className={classes.root}
+        className={clsx(classes.root, {
+          bottomBanner: accountRestricted
+        })}
       >
         <header className={classes.header}>
           <Typography
@@ -182,10 +192,7 @@ const SharedFolderOverview = () => {
           <div className={classes.controls}>
             <Button
               variant='outline'
-              onClick={() => {
-                setBucketToEdit(undefined)
-                setCreateOrEditSharedFolderMode("create")
-              }}
+              onClick={() => setIsSharedFolderCreationModalOpen(true)}
               data-cy="button-create-a-shared-folder"
             >
               <PlusIcon />
@@ -263,10 +270,7 @@ const SharedFolderOverview = () => {
                   bucket={bucket}
                   handleRename={handleRename}
                   openSharedFolder={openSharedFolder}
-                  onEditSharedFolder={() => {
-                    setBucketToEdit(bucket)
-                    setCreateOrEditSharedFolderMode("edit")
-                  }}
+                  onEditSharedFolder={() => setBucketToEdit(bucket)}
                   handleDeleteSharedFolder={() => {
                     setBucketToDelete(bucket)
                     setIsDeleteBucketModalOpen(true)
@@ -281,15 +285,13 @@ const SharedFolderOverview = () => {
         showModal={!hasSeenSharingExplainerModal}
         onHide={hideModal}
       />
+      {isSharedFolderCreationModalOpen && <CreateSharedFolderModal onClose={() => setIsSharedFolderCreationModalOpen(false)}/>}
       <CreateOrManageSharedFolderModal
-        mode={createOrEditSharedFolderMode}
-        isModalOpen={!!createOrEditSharedFolderMode}
-        onClose={() => {
-          setBucketToEdit(undefined)
-          setCreateOrEditSharedFolderMode(undefined)
-        }}
+        onClose={() => setBucketToEdit(undefined)}
         bucketToEdit={bucketToEdit}
+        isModalOpen={!!bucketToEdit}
       />
+
       <Dialog
         active={isDeleteBucketModalOpen}
         reject={() => setIsDeleteBucketModalOpen(false)}
@@ -303,8 +305,14 @@ const SharedFolderOverview = () => {
         acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder, testId: "confirm-deletion" }}
         rejectButtonProps={{ disabled: isDeletingSharedFolder, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
-        testId="shared-folder-deletion"
+        testId={bucketToDelete?.permission === "owner"
+          ? "shared-folder-deletion"
+          : "shared-folder-leave"
+        }
       />
+      {accountRestricted &&
+        <RestrictedModeBanner />
+      }
     </>
   )
 }

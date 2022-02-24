@@ -1,10 +1,14 @@
-import { createEditSharedFolderModal } from "../support/page-objects/modals/createSharedFolderModal"
+import { createSharedFolderModal } from "../support/page-objects/modals/createSharedFolderModal"
 import { deleteSharedFolderModal } from "../support/page-objects/modals/deleteSharedFolderModal"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { sharingExplainerKey, sharedFolderName, sharedFolderEditedName, validUsername } from "../fixtures/filesTestData"
 import { sharedPage } from "../support/page-objects/sharedPage"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
+import { viewOnlyShareLink } from "../fixtures/linkData"
+import { leaveSharedFolderModal } from "../support/page-objects/modals/leaveSharedFolderModal"
+import { linkSharingConfirmation } from "../support/page-objects/linkSharingConfirmation"
+import { editSharedFolderModal } from "../support/page-objects/modals/editSharedFolderModal"
 
 describe("File Sharing", () => {
 
@@ -21,11 +25,13 @@ describe("File Sharing", () => {
       // create a shared folder
       navigationMenu.sharedNavButton().click()
       sharedPage.createSharedFolderButton().click()
-      createEditSharedFolderModal.body().should("be.visible")
-      createEditSharedFolderModal.folderNameInput().type(sharedFolderName)
-      createEditSharedFolderModal.editPermissionInput().type(validUsername).type("{enter}")
-      createEditSharedFolderModal.createButton().safeClick()
-      createEditSharedFolderModal.body().should("not.exist")
+      createSharedFolderModal.body().should("be.visible")
+      createSharedFolderModal.folderNameInput().type(sharedFolderName)
+      createSharedFolderModal.createButton().safeClick()
+      editSharedFolderModal.editPermissionInput().type(validUsername)
+      editSharedFolderModal.userLookupResult().should("exist").click()
+      editSharedFolderModal.updateButton().safeClick()
+      editSharedFolderModal.body().should("not.exist")
       sharedPage.sharedFolderItemRow().should("have.length", 1)
 
       // upload to a shared folder
@@ -58,6 +64,26 @@ describe("File Sharing", () => {
       deleteSharedFolderModal.confirmButton().safeClick()
       deleteSharedFolderModal.body().should("not.exist")
       sharedPage.sharedFolderItemRow().should("not.exist")
+    })
+
+    it("can leave a shared folder", () => {
+      cy.intercept("GET", "**/user/store", {
+        body: { [sharingExplainerKey]: "true" }
+      })
+
+      cy.web3Login({ deleteShareBucket: true })
+      cy.visit(viewOnlyShareLink)
+      linkSharingConfirmation.viewAccessConfirmationLabel().should("be.visible")
+      navigationMenu.sharedNavButton().click()
+
+      // leave the shared folder
+      sharedPage.fileItemKebabButton().click()
+      sharedPage.leaveMenuOption().click()
+      leaveSharedFolderModal.body().should("be.visible")
+      leaveSharedFolderModal.confirmButton().safeClick()
+
+      // ensure the shared folder is no longer shown on the main share page
+      sharedPage.sharedFolderItemRow().should("have.length", 0)
     })
   })
 })

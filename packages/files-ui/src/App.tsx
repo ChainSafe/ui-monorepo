@@ -1,9 +1,9 @@
-import React, { useCallback } from "react"
-import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
+import React from "react"
+import { init as initSentry, ErrorBoundary } from "@sentry/react"
 import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
-import { Button, CssBaseline, Modal, Router, ToastProvider, Typography } from "@chainsafe/common-components"
+import { CssBaseline, Router, ToastProvider } from "@chainsafe/common-components"
 import { FilesProvider } from "./Contexts/FilesContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
@@ -16,6 +16,15 @@ import { FilesApiProvider }  from "./Contexts/FilesApiContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
 import { PosthogProvider } from "./Contexts/PosthogContext"
+import { NotificationsProvider } from "./Contexts/NotificationsContext"
+import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
+import ErrorModal from "./Components/Modules/ErrorModal"
+
+// making material and jss use one className generator
+const generateClassName = createGenerateClassName({
+  productionPrefix: "c",
+  disableGlobal: true
+})
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -69,79 +78,64 @@ const App = () => {
   // This will default to testnet unless mainnet is specifically set in the ENV
   const directAuthNetwork = (process.env.REACT_APP_DIRECT_AUTH_NETWORK === "mainnet") ? "mainnet" : "testnet"
 
-  const fallBack = useCallback(({ error, componentStack, eventId, resetError }) => (
-    <Modal
-      active
-      closePosition="none"
-      onClose={resetError}
-    >
-      <Typography>
-        An error occurred and has been logged. If you would like to
-        provide additional info to help us debug and resolve the issue,
-        click the `&quot;`Provide Additional Details`&quot;` button
-      </Typography>
-      <Typography>{error?.message.toString()}</Typography>
-      <Typography>{componentStack}</Typography>
-      <Typography>{eventId}</Typography>
-      <Button
-        onClick={() => showReportDialog({ eventId: eventId || "" })}
-      >
-        Provide Additional Details
-      </Button>
-      <Button onClick={resetError}>Reset error</Button>
-    </Modal>
-  ), [])
-
   return (
-
-    <ThemeSwitcher
-      storageKey="csf.themeKey"
-      themes={{ light: lightTheme, dark: darkTheme }}
-    >
-      <ErrorBoundary
-        fallback={fallBack}
-        onReset={() => window.location.reload()}
+    <StylesProvider generateClassName={generateClassName}>
+      <ThemeSwitcher
+        storageKey="csf.themeKey"
+        themes={{ light: lightTheme, dark: darkTheme }}
       >
-        <CssBaseline />
-        <LanguageProvider availableLanguages={availableLanguages}>
-          <ToastProvider
-            autoDismiss
-            defaultPosition="bottomRight"
-          >
-            <Web3Provider
-              onboardConfig={onboardConfig}
-              checkNetwork={false}
-              cacheWalletSelection={canUseLocalStorage}
+        <ErrorBoundary
+          fallback={ErrorModal}
+          onReset={() => window.location.reload()}
+        >
+          <CssBaseline />
+          <LanguageProvider availableLanguages={availableLanguages}>
+            <ToastProvider
+              autoDismiss
+              defaultPosition="bottomRight"
             >
-              <FilesApiProvider
-                apiUrl={apiUrl}
-                withLocalStorage={false}
+              <Web3Provider
+                onboardConfig={onboardConfig}
+                checkNetwork={false}
+                cacheWalletSelection={canUseLocalStorage}
+                tokensToWatch={{
+                  1: [
+                    { address: "0x6b175474e89094c44da98b954eedeac495271d0f" },
+                    { address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }
+                  ]
+                }}
               >
-                <ThresholdKeyProvider
-                  enableLogging={directAuthNetwork !== "mainnet"}
-                  network={directAuthNetwork}
+                <FilesApiProvider
+                  apiUrl={apiUrl}
+                  withLocalStorage={false}
                 >
-                  <UserProvider>
-                    <FilesProvider>
-                      <BillingProvider>
-                        <Router>
-                          <PosthogProvider>
-                            <AppWrapper>
-                              <FilesRoutes />
-                            </AppWrapper>
-                          </PosthogProvider>
-                        </Router>
-                      </BillingProvider>
-                    </FilesProvider>
-                  </UserProvider>
-                </ThresholdKeyProvider>
-              </FilesApiProvider>
-            </Web3Provider>
-          </ToastProvider>
-        </LanguageProvider>
-      </ErrorBoundary>
-    </ThemeSwitcher>
-
+                  <ThresholdKeyProvider
+                    enableLogging={directAuthNetwork !== "mainnet"}
+                    network={directAuthNetwork}
+                  >
+                    <Router>
+                      <NotificationsProvider>
+                        <UserProvider>
+                          <FilesProvider>
+                            <BillingProvider>
+                              <PosthogProvider>
+                                <AppWrapper>
+                                  <FilesRoutes />
+                                </AppWrapper>
+                              </PosthogProvider>
+                            </BillingProvider>
+                          </FilesProvider>
+                        </UserProvider>
+                      </NotificationsProvider>
+                    </Router>
+                  </ThresholdKeyProvider>
+                </FilesApiProvider>
+              </Web3Provider>
+            </ToastProvider>
+          </LanguageProvider>
+        </ErrorBoundary>
+      </ThemeSwitcher>
+    </StylesProvider>
   )
 }
 

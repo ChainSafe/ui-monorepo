@@ -10,7 +10,8 @@ export const lightTheme = createTheme<CsfColors>({
   themeConfig: {
     palette: {
       primary: {
-        main: "var(--csf-primary)"
+        main: "var(--csf-primary)",
+        background: "var(--csf-primary)"
       },
       secondary: {
       }
@@ -66,7 +67,8 @@ export const lightTheme = createTheme<CsfColors>({
           itemColor: "inherit",
           itemColorHover: "var(--gray7)",
           itemIconColor: "inherit",
-          itemIconColorHover: "var(--gray7)"
+          itemIconColorHover: "var(--gray7)",
+          profileButtonShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
         },
         createFolder: {
           backgroundColor: "var(--gray1)",
@@ -163,13 +165,28 @@ export const lightTheme = createTheme<CsfColors>({
             color: "var(--gray9)",
             border: "1px solid",
             borderColor: "var(--csf-primary)"
+          },
+          linkButton: {
+            color: "var(--csf-primary)"
           }
         },
         surveyBanner: {
           color: "var(--gray1)"
         },
+        addCard: {
+          color: "#595959",
+          shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
+          placeholderColor: "#BFBFBF"
+        },
         cookieBanner: {
           backgroundColor: "var(--csf-primary)"
+        },
+        changeProduct: {
+          currentBackground: "#ECEFFF",
+          selectedColor: "var(--csf-primary)",
+          currentTag: {
+            text: "var(--gray1)"
+          }
         }
       } as CsfColors)
     },

@@ -18,15 +18,12 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
     },
     mobileStickyBottom: {
       [breakpoints.down("md")]: {
+        position: "fixed",
         top: "unset",
         bottom: 0,
         left: 0,
         width: "100% !important",
-        transform: "unset",
-        borderRadiusLeftTop: `${constants.generalUnit * 1.5}px`,
-        borderRadiusRightTop: `${constants.generalUnit * 1.5}px`,
-        borderRadiusLeftBottom: 0,
-        borderRadiusRightBottom: 0
+        transform: "unset"
       }
     },
     closeIcon : {

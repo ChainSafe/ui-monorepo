@@ -6,6 +6,7 @@ import { homePage } from "../page-objects/homePage"
 
 const API_BASE_USE = "https://stage.imploy.site/api/v1"
 const REFRESH_TOKEN_KEY = "csf.refreshToken"
+const FREE_PLAN_ID = "prod_JwRu6Ph25b1f2O"
 
 export type ClearBucketType = Exclude<BucketType, "share" | "pinning" | "fps">
 const getApiClient = () => {
@@ -31,6 +32,54 @@ export const apiTestHelper = {
             await apiClient.removeBucket(bucket.id)
           })
           cy.log("Done deleting shared buckets.")
+          resolve()
+        })
+    })
+  },
+  ensureUserIsOnFreePlan () {
+    const apiClient = getApiClient()
+
+    return new Cypress.Promise(async (resolve, reject) => {
+      cy.window()
+        .then(async (win) => {
+          try {
+            const tokens = await apiClient.getRefreshToken({ refresh: win.sessionStorage.getItem(REFRESH_TOKEN_KEY) || "" })
+            await apiClient.setToken(tokens.access_token.token)
+
+            const subscription = await apiClient.getCurrentSubscription()
+
+            // if they are not on the free plan, cancel the current plan
+            if(subscription.product.id !== FREE_PLAN_ID) {
+              await apiClient.cancelSubscription(subscription.id)
+              cy.log("Done canceling subscription")
+            }
+
+            resolve()
+          } catch (e){
+            cy.log("Something wrong happened during the subscription cancelation")
+            console.log(e)
+            reject(e)
+          }
+        })
+    })
+
+  },
+  deleteCreditCards() {
+    const apiClient = getApiClient()
+
+    return new Cypress.Promise(async (resolve) => {
+      cy.window()
+        .then(async (win) => {
+          const tokens = await apiClient.getRefreshToken({ refresh: win.sessionStorage.getItem(REFRESH_TOKEN_KEY) || "" })
+
+          await apiClient.setToken(tokens.access_token.token)
+          try {
+            const card = await apiClient.getDefaultCard()
+            apiClient.deleteCard(card.id)
+          } catch {
+            cy.log("There's no card to delete")
+          }
+          cy.log("Done deleting the default card")
           resolve()
         })
     })

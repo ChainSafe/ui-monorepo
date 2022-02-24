@@ -1,25 +1,15 @@
 import React, { useCallback, useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import {
-  Link,
-  Typography,
-  ChainsafeFilesLogo,
-  HamburgerMenu,
-  MenuDropdown,
-  PowerDownSvg,
-  useHistory,
-  Button,
-  SearchIcon
-} from "@chainsafe/common-components"
+import { Link, Typography, ChainsafeFilesLogo, HamburgerMenu, Button, SearchIcon } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
-import { useUser } from "../../Contexts/UserContext"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
-import TeamModal from "../Elements/TeamModal"
+import BetaModal from "../Elements/BetaModal"
+import NotificationsDropdown from "../Elements/Notifications/NotificationsDropdown"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
@@ -58,7 +48,7 @@ const useStyles = makeStyles(
           justifyContent: "space-between",
           alignItems: "center",
           position: "fixed",
-          backgroundColor: palette.additional["gray"][3],
+          backgroundColor: palette.additional["gray"][1],
           "&.active": {
             opacity: 1,
             visibility: "visible",
@@ -74,8 +64,7 @@ const useStyles = makeStyles(
         }
       },
       searchIcon: {
-        position: "absolute",
-        right: "10px",
+        marginRight: "10px",
         cursor: "pointer",
         "& > svg": {
           fill: constants.header.hamburger
@@ -103,47 +92,12 @@ const useStyles = makeStyles(
           }
         }
       },
-      accountControls: {
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        flexDirection: "row",
-
-        "& > *:first-child": {
-          marginRight: constants.generalUnit * 2
-        }
-      },
       searchModule: {
         [breakpoints.down("md")]: {
           height: constants.mobileHeaderHeight,
           position: "absolute",
           width: "100%",
           zIndex: zIndex?.background
-        }
-      },
-      options: {
-        backgroundColor: constants.header.optionsBackground,
-        color: constants.header.optionsTextColor,
-        border: `1px solid ${constants.header.optionsBorder}`,
-        minWidth: 145
-      },
-      menuItem: {
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        color: constants.header.menuItemTextColor,
-        "& svg": {
-          width: constants.generalUnit * 2,
-          height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit,
-          fill: palette.additional["gray"][7],
-          stroke: palette.additional["gray"][7]
-        }
-      },
-      icon: {
-        "& svg": {
-          fill: constants.header.iconColor
         }
       },
       title : {
@@ -161,6 +115,19 @@ const useStyles = makeStyles(
             marginLeft: constants.generalUnit * 2
           }
         }
+      },
+      headerSection: {
+        display: "flex",
+        alignItems: "center"
+      },
+      searchBox: {
+        flex: 1
+      },
+      rightSection: {
+        display: "flex",
+        alignItems: "center",
+        position: "absolute",
+        right: 0
       }
     })
   }
@@ -175,28 +142,16 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const { isLoggedIn, secured } = useFilesApi()
-  const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
-  const { getProfileTitle, removeUser } = useUser()
+  const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const [searchActive, setSearchActive] = useState(false)
-  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false)
-  const { history } = useHistory()
-
-  const signOut = useCallback(async () => {
-    logout()
-      .catch(console.error)
-      .finally(() => {
-        removeUser()
-        history.replace("/", {})
-      })
-
-  }, [logout, removeUser, history])
+  const [isBetaModalOpen, setIsBetaModalOpen] = useState(false)
 
   const onReportBugClick = useCallback(() => {
     window.open(ROUTE_LINKS.DiscordInvite, "_blank")
   }, [])
 
-  const onStartATeamClick = useCallback(() => {
-    setIsTeamModalOpen(true)
+  const onJoinBetaClick = useCallback(() => {
+    setIsBetaModalOpen(true)
   }, [])
 
   return (
@@ -216,9 +171,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
         !isNewDevice &&
         !shouldInitializeAccount && (
         <>
-          {desktop ? (
-            <>
-              <section>
+          {desktop
+            ? <section className={classes.headerSection}>
+              <section className={classes.searchBox}>
                 <SearchModule
                   className={classes.searchModule}
                   searchActive={searchActive}
@@ -236,73 +191,52 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   <Trans>Report a bug</Trans>
                 </Button>
                 <Button
-                  data-posthog="Start-a-team"
-                  data-cy="button-start-team"
+                  data-posthog="Join-beta"
                   variant="tertiary"
                   size="small"
-                  onClick={onStartATeamClick}
+                  onClick={onJoinBetaClick}
                 >
-                  <Trans>Start a team</Trans>
+                  <Trans>Need more storage?</Trans>
                 </Button>
               </section>
-              <section className={classes.accountControls}>
-                <MenuDropdown
-                  title={getProfileTitle()}
-                  anchor="bottom-right"
-                  classNames={{
-                    icon: classes.icon,
-                    options: classes.options
-                  }}
-                  testId="sign-out"
-                  menuItems={[
-                    {
-                      onClick: () => signOut(),
-                      contents: (
-                        <div
-                          data-cy="menu-sign-out"
-                          className={classes.menuItem}
-                        >
-                          <PowerDownSvg />
-                          <Typography>
-                            <Trans>Sign Out</Trans>
-                          </Typography>
-                        </div>
-                      )
-                    }
-                  ]}
-                />
+              <section>
+                <NotificationsDropdown />
               </section>
-            </>
-          ) : (
-            <>
-              {!searchActive && (
-                <>
-                  <HamburgerMenu
-                    onClick={() => setNavOpen(!navOpen)}
-                    variant={navOpen ? "active" : "default"}
-                    className={classes.hamburgerMenu}
-                    testId="hamburger-menu"
-                  />
-                  <Link
-                    className={classes.logo}
-                    to={ROUTE_LINKS.Drive("/")}
-                  >
-                    <ChainsafeFilesLogo />
-                    <Typography
-                      variant="h5"
-                      className={classes.title}
+            </section>
+            : <>
+              <>
+                <HamburgerMenu
+                  onClick={() => setNavOpen(!navOpen)}
+                  variant={navOpen ? "active" : "default"}
+                  className={classes.hamburgerMenu}
+                  testId="icon-hamburger-menu"
+                />
+                {!searchActive && (
+                  <>
+                    <Link
+                      className={classes.logo}
+                      to={ROUTE_LINKS.Drive("/")}
                     >
-                      Files
-                    </Typography>
-                    &nbsp;
-                    <Typography variant="caption">beta</Typography>
-                  </Link>
-                  <SearchIcon
-                    className={classes.searchIcon}
-                    onClick={() => setSearchActive(true)}
-                  />
-                </>
-              )}
+                      <ChainsafeFilesLogo />
+                      <Typography
+                        variant="h5"
+                        className={classes.title}
+                      >
+                        Files
+                      </Typography>
+                      &nbsp;
+                      <Typography variant="caption">beta</Typography>
+                    </Link>
+                    <section className={classes.rightSection}>
+                      <SearchIcon
+                        className={classes.searchIcon}
+                        onClick={() => setSearchActive(true)}
+                      />
+                      <NotificationsDropdown />
+                    </section>
+                  </>
+                )}
+              </>
               {searchActive && (
                 <SearchModule
                   className={clsx(classes.searchModule)}
@@ -311,10 +245,10 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 />
               )}
             </>
-          )}
+          }
         </>
       )}
-      {isTeamModalOpen && <TeamModal onHide={() => setIsTeamModalOpen(false)}/>}
+      {isBetaModalOpen && <BetaModal onHide={() => setIsBetaModalOpen(false)}/>}
     </header>
   )
 }
