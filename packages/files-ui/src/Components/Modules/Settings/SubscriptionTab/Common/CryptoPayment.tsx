@@ -110,11 +110,16 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
       display: "flex",
       justifyContent: "center"
     },
+    qrCodeInside: {
+      padding: 2,
+      backgroundColor: "white",
+      height: 132
+    },
     qrCodeLabel: {
       display: "flex",
       justifyContent: "center",
       textAlign: "center",
-      color: "#AFAFAF"
+      color: palette.additional["gray"][8]
     },
     availableCurrencies: {
       display: "flex",
@@ -124,19 +129,19 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
     },
     currencyButton: {
       width: "calc(50% - 8px)",
-      backgroundColor: "var(--gray4)",
-      color: "var(--gray10)",
+      backgroundColor: palette.additional["gray"][4],
+      color: palette.additional["gray"][10],
       borderRadius: 10,
       marginTop: 4,
       marginBottom: 4,
       "&:hover": {
-        backgroundColor: "var(--gray4)",
-        color: "var(--gray10)"
+        backgroundColor: palette.additional["gray"][4],
+        color: palette.additional["gray"][10]
       }
     },
     currencyIcon: {
       "& > svg": {
-        fill: "var(--gray10)",
+        fill: palette.additional["gray"][10],
         height: 16
       }
     },
@@ -187,7 +192,7 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
       position: "relative",
       cursor: "pointer",
       borderRadius: 10,
-      backgroundColor: "var(--gray4)",
+      backgroundColor: palette.additional["gray"][4],
       padding: "5px 10px",
       "& > span": {
         width: "100%",
@@ -206,7 +211,7 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
     warningText: {
       marginTop: constants.generalUnit * 3,
       maxWidth: constants.generalUnit * 56,
-      color: palette.additional["gray"][7]
+      color: palette.additional["gray"][8]
     },
     icon : {
       verticalAlign: "middle",
@@ -461,10 +466,12 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
                 className={classes.qrCode}
                 data-cy="container-qr-code"
               >
-                <QRCode
-                  value={selectedPaymentMethod.address}
-                  size={128}
-                />
+                <div className={classes.qrCodeInside}>
+                  <QRCode
+                    value={selectedPaymentMethod.address}
+                    size={128}
+                  />
+                </div>
               </div>
               <div className={classes.qrCodeLabel}>
                 <Typography data-cy="label-currency-type-warning">
