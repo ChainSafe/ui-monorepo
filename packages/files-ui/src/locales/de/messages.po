@@ -694,9 +694,6 @@ msgstr ""
 msgid "Preview"
 msgstr "Vorschau"
 
-msgid "Previous"
-msgstr "Vorherige"
-
 msgid "Pricing details"
 msgstr ""
 
