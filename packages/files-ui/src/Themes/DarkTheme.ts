@@ -165,14 +165,6 @@ export const darkTheme = createTheme<CsfColors>({
         main: "var(--gray10)",
         hover: "#000"
       },
-      common: {
-        black: {
-          main: "var(--gray1)"
-        },
-        white: {
-          main: "var(--gray10)"
-        }
-      },
       additional: {
         blue: {
           1: "var(--blue1)",
@@ -397,7 +389,7 @@ export const darkTheme = createTheme<CsfColors>({
         previewModal: {
           controlsBackground: "var(--gray1)",
           controlsColor: "var(--gray10)",
-          buttonColor: "var(--gray10)",
+          buttonColor: "#DBDBDB",
           fileOpsColor: "var(--gray9)",
           fileNameColor: "var(--gray9)",
           optionsBackground: "var(--gray2)",
@@ -670,6 +662,29 @@ export const darkTheme = createTheme<CsfColors>({
             },
             focus: {
               backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            }
+          },
+          secondary: {
+            active: {
+              backgroundColor: "var(--gray2)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            hover: {
+              backgroundColor: "var(--gray2)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            focus: {
+              backgroundColor: "var(--gray2)",
               color: "var(--gray9)",
               "& svg": {
                 fill: "var(--gray9)"

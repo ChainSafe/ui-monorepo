@@ -103,13 +103,13 @@ const useStyles = makeStyles(
         alignItems: "center"
       },
       prevNextButton: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main,
+        backgroundColor: palette.additional["gray"][10],
+        color: constants.previewModal.buttonColor,
         padding: `${constants.generalUnit * 2}px !important`,
         borderRadius: constants.generalUnit * 4,
         border: "none",
         "& svg": {
-          fill: palette.common.white.main
+          fill: constants.previewModal.buttonColor
         }
       },
       previewContent: {
