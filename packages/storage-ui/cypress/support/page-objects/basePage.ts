@@ -4,5 +4,5 @@ export const basePage = {
   signOutDropdown: () => cy.get("[data-testid=dropdown-title-sign-out]"),
   signOutMenuOption: () => cy.get("[data-cy=menu-sign-out]"),
   // Mobile view only element
-  hamburgerMenuButton: () => cy.get("[data-testId=hamburger-menu]")
+  hamburgerMenuButton: () => cy.get("[data-testid=icon-hamburger-menu]")
 }

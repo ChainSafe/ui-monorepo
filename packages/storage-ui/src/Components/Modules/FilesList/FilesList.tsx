@@ -757,7 +757,8 @@ const FilesList = () => {
           <EmptySvg />
           <Typography
             variant="h4"
-            component="h4">
+            component="h4"
+          >
             <Trans>No files to show</Trans>
           </Typography>
         </section>

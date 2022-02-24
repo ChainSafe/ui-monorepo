@@ -70,15 +70,17 @@ const useStyles = makeStyles(
         position: "absolute",
         zIndex: 2,
         "& svg": {
-          stroke: palette.common?.black.main
+          stroke: "var(--gray10)"
         },
         "&.right": {
           transform: "translate(-50%, 50%)",
-          right: 0,
+          top: 4,
+          right: 4,
           ...overrides?.Modal?.closeIcon?.right
         },
         "&.left": {
-          left: 0,
+          left: 4,
+          top: 4,
           transform: "translate(50%, -50%)",
           ...overrides?.Modal?.closeIcon?.left
         },
@@ -138,6 +140,7 @@ interface IModalProps {
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number
+  width?: string
   onModalBodyClick?: (e: React.MouseEvent) => void
   onClickOutside?: (e?: React.MouseEvent) => void
   testId?: string
@@ -172,6 +175,7 @@ const Modal = ({
   injectedClass,
   active = false,
   maxWidth = "sm",
+  width,
   onModalBodyClick,
   testId,
   onClose,
@@ -210,7 +214,7 @@ const Modal = ({
         style={
           maxWidth && typeof maxWidth == "number"
             ? {
-              width: "100%",
+              width: width || "100%",
               maxWidth: maxWidth
             }
             : {}
@@ -219,6 +223,7 @@ const Modal = ({
       >
         {closePosition !== "none" && (
           <div
+            data-testid={`button-close-modal-${testId}`}
             onClick={handleClose}
             className={clsx(classes.closeIcon, injectedClass?.closeIcon, closePosition)}
           >

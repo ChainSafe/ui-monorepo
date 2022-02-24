@@ -9,7 +9,6 @@ import { useOnScroll } from "../Scroll/useOnScroll.hook"
 const useStyles = makeStyles(
   ({ constants, animation, typography, palette, overrides }: ITheme) =>
     createStyles({
-      // JSS in CSS goes here
       root: {
         display: "inline-block",
         position: "relative",
@@ -160,9 +159,7 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        padding: `${constants.generalUnit * 1.5}px ${
-          constants.generalUnit * 2
-        }px`,
+        padding: `${constants.generalUnit * 1.5}px ${constants.generalUnit * 2}px`,
         color: palette.additional["gray"][7],
         transitionDuration: `${animation.transform}ms`,
         backgroundColor: "initial",
@@ -209,7 +206,11 @@ interface IMenuDropdownProps {
     title?: string
     titleText?: string
   }
+  hideIndicator?: boolean
   testId?: string
+  children?: React.ReactNode
+  dropdown?: React.ReactNode
+  onClose?: () => void
 }
 
 const MenuDropdown = ({
@@ -221,17 +222,24 @@ const MenuDropdown = ({
   animation = "flip",
   title,
   classNames,
-  testId
+  testId,
+  children,
+  hideIndicator,
+  dropdown,
+  onClose
 }: IMenuDropdownProps) => {
   const Icon = indicator
   const classes = useStyles()
-  const [open, setOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false)
+    onClose && onClose()
+  }, [onClose])
 
   const ref = useRef(null)
   useOnClickOutside(ref, () => {
-    if (open) {
-      setOpen(false)
-    }
+    isOpen && handleClose()
   })
 
   const [dropDirection, setDropDirection] = useState<"up" | "down">("down")
@@ -252,6 +260,7 @@ const MenuDropdown = ({
     onScroll: managePosition
   })
 
+
   return (
     <div
       ref={ref}
@@ -259,9 +268,12 @@ const MenuDropdown = ({
     >
       <section
         data-testid={`dropdown-title-${testId}`}
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          isOpen && onClose && onClose()
+          setIsOpen(!isOpen)
+        }}
         className={clsx(classes.title, classNames?.title, {
-          ["open"]: open
+          ["open"]: isOpen
         })}
       >
         {title && (
@@ -273,31 +285,36 @@ const MenuDropdown = ({
             {title}
           </Typography>
         )}
-        <Icon
+        {children}
+        {!hideIndicator && <Icon
           className={clsx(classes.icon, animation, classNames?.icon, {
-            ["open"]: open
+            ["open"]: isOpen
           })}
         />
+        }
       </section>
       <Paper
         shadow="shadow2"
         className={clsx(classes.options, classNames?.options, anchor, dropDirection, {
-          ["open"]: open
+          ["open"]: isOpen
         })}
       >
-        {menuItems.map((item: IMenuItem, index: number) => (
+        {menuItems && menuItems.map((item: IMenuItem, index: number) => (
           <div
             data-testid={`dropdown-item-${testId}`}
             key={`menu-${index}`}
             className={clsx(classes.item, classNames?.item)}
             onClick={() => {
-              autoclose && setOpen(false)
+              autoclose && handleClose()
               item.onClick && item.onClick()
             }}
           >
             {item.contents}
           </div>
         ))}
+        <div onClick={() => autoclose && handleClose()}>
+          {dropdown}
+        </div>
       </Paper>
     </div>
   )

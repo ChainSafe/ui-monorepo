@@ -13,14 +13,26 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "(Awaiting payment)"
+msgstr "(Awaiting payment)"
+
 msgid "({0}) items selected"
 msgstr "({0}) items selected"
 
+msgid "/month"
+msgstr "/month"
+
+msgid "/year"
+msgstr "/year"
+
+msgid "<0>{currentStorage}</0> of storage"
+msgstr "<0>{currentStorage}</0> of storage"
+
+msgid "<0>{planStorageCapacity}</0> of storage"
+msgstr "<0>{planStorageCapacity}</0> of storage"
+
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-
-msgid "A better sharing experience is coming soon."
-msgstr "A better sharing experience is coming soon."
 
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
@@ -28,11 +40,23 @@ msgstr "A file with the same name already exists"
 msgid "Accept"
 msgstr "Accept"
 
+msgid "Accepted currencies"
+msgstr "Accepted currencies"
+
+msgid "Access your billing history in settings or view your"
+msgstr "Access your billing history in settings or view your"
+
 msgid "Account"
 msgstr "Account"
 
-msgid "Active links"
-msgstr "Active links"
+msgid "Account is restricted"
+msgstr "Account is restricted"
+
+msgid "Add Card"
+msgstr "Add Card"
+
+msgid "Add a credit card"
+msgstr "Add a credit card"
 
 msgid "Add a username"
 msgstr "Add a username"
@@ -40,8 +64,11 @@ msgstr "Add a username"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
-msgid "Add by sharing address, username or wallet address"
-msgstr "Add by sharing address, username or wallet address"
+msgid "Add card"
+msgstr "Add card"
+
+msgid "Add credit card"
+msgstr "Add credit card"
 
 msgid "Add more files"
 msgstr "Add more files"
@@ -52,23 +79,50 @@ msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 msgid "Adding you to the shared folder..."
 msgstr "Adding you to the shared folder..."
 
-msgid "Allow lookup by sharing key, wallet address or username"
-msgstr "Allow lookup by sharing key, wallet address or username"
+msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+msgstr "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+
+msgid "All invoices"
+msgstr "All invoices"
+
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
+msgstr "Allow lookup by sharing key, wallet address, username or ENS"
+
+msgid "Amount added to credit"
+msgstr "Amount added to credit"
+
+msgid "Amount available from last bill"
+msgstr "Amount available from last bill"
+
+msgid "Amount due"
+msgstr "Amount due"
+
+msgid "Amount from credit"
+msgstr "Amount from credit"
 
 msgid "An error occurred:"
 msgstr "An error occurred:"
 
-msgid "Anyone with the link can:"
-msgstr "Anyone with the link can:"
+msgid "Annual billing{0}"
+msgstr "Annual billing{0}"
 
 msgid "Approve"
 msgstr "Approve"
+
+msgid "Are you sure? This will delete your default payment method."
+msgstr "Are you sure? This will delete your default payment method."
 
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
+
+msgid "Billing history"
+msgstr "Billing history"
+
+msgid "Billing start time"
+msgstr "Billing start time"
 
 msgid "Bin"
 msgstr "Bin"
@@ -88,17 +142,35 @@ msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and 
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
 msgstr "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
 
+msgid "By switching plan, you will loose access to:"
+msgstr "By switching plan, you will loose access to:"
+
 msgid "CID (Content Identifier)"
 msgstr "CID (Content Identifier)"
 
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Card added"
+msgstr "Card added"
+
+msgid "Card inputs invalid"
+msgstr "Card inputs invalid"
+
+msgid "Card updated"
+msgstr "Card updated"
+
 msgid "Change Password"
 msgstr "Change Password"
 
+msgid "Change Plan"
+msgstr "Change Plan"
+
 msgid "Change password"
 msgstr "Change password"
+
+msgid "Change plan"
+msgstr "Change plan"
 
 msgid "Check your inbox! We've sent another email."
 msgstr "Check your inbox! We've sent another email."
@@ -115,6 +187,18 @@ msgstr "Confirm"
 msgid "Confirm Password:"
 msgstr "Confirm Password:"
 
+msgid "Confirm plan change"
+msgstr "Confirm plan change"
+
+msgid "Confirm plan downgrade"
+msgstr "Confirm plan downgrade"
+
+msgid "Confirmation"
+msgstr "Confirmation"
+
+msgid "Connect Wallet"
+msgstr "Connect Wallet"
+
 msgid "Connect Wallet to Files"
 msgstr "Connect Wallet to Files"
 
@@ -123,6 +207,9 @@ msgstr "Connect a new wallet"
 
 msgid "Connection failed"
 msgstr "Connection failed"
+
+msgid "Contact us"
+msgstr "Contact us"
 
 msgid "Continue"
 msgstr "Continue"
@@ -163,20 +250,17 @@ msgstr "Create"
 msgid "Create Shared Folder"
 msgstr "Create Shared Folder"
 
-msgid "Create a sharing link"
-msgstr "Create a sharing link"
-
-msgid "Create folder & Copy over"
-msgstr "Create folder & Copy over"
-
-msgid "Create folder & Move over"
-msgstr "Create folder & Move over"
-
-msgid "Create link"
-msgstr "Create link"
+msgid "Create a new shared folder"
+msgstr "Create a new shared folder"
 
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
+
+msgid "Credit Card is expiring soon"
+msgstr "Credit Card is expiring soon"
+
+msgid "DAI, USDC, ETH or BTC"
+msgstr "DAI, USDC, ETH or BTC"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -211,14 +295,17 @@ msgstr "Delete"
 msgid "Delete selected"
 msgstr "Delete selected"
 
+msgid "Destination Address"
+msgstr "Destination Address"
+
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
 msgid "Didn't receive the email ?"
 msgstr "Didn't receive the email ?"
 
-msgid "Display Settings"
-msgstr "Display Settings"
+msgid "Display"
+msgstr "Display"
 
 msgid "Download"
 msgstr "Download"
@@ -247,6 +334,15 @@ msgstr "Downloads failed"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Edit payment"
+msgstr "Edit payment"
+
+msgid "Edit payment method"
+msgstr "Edit payment method"
+
+msgid "Edit plan"
+msgstr "Edit plan"
+
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -262,14 +358,20 @@ msgstr "Enter password:"
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
 
-msgid "Essentials - Free"
-msgstr "Essentials - Free"
+msgid "Failed to add payment method"
+msgstr "Failed to add payment method"
+
+msgid "Failed to create a charge"
+msgstr "Failed to create a charge"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
 
 msgid "Failed to migrate account, please try again."
 msgstr "Failed to migrate account, please try again."
+
+msgid "Failed to update the subscription. Please try again later."
+msgstr "Failed to update the subscription. Please try again later."
 
 msgid ""
 "Failed to validate signature.\n"
@@ -279,6 +381,9 @@ msgstr ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
+
+msgid "Features"
+msgstr "Features"
 
 msgid "File Info"
 msgstr "File Info"
@@ -298,14 +403,8 @@ msgstr "Files"
 msgid "Files sharing key"
 msgstr "Files sharing key"
 
-msgid "First name"
-msgstr "First name"
-
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
-
-msgid "Folder uploads are not supported currently"
-msgstr "Folder uploads are not supported currently"
 
 msgid "Folders"
 msgstr "Folders"
@@ -316,11 +415,20 @@ msgstr "For security reasons, each time you sign in we’ll ask you for one of t
 msgid "Forget this browser"
 msgstr "Forget this browser"
 
+msgid "Free"
+msgstr "Free"
+
+msgid "Free plan"
+msgstr "Free plan"
+
 msgid "General"
 msgstr "General"
 
 msgid "Generate backup secret phrase"
 msgstr "Generate backup secret phrase"
+
+msgid "Generate sharing link"
+msgstr "Generate sharing link"
 
 msgid "Generated"
 msgstr "Generated"
@@ -331,20 +439,23 @@ msgstr "Generating…"
 msgid "Get Started"
 msgstr "Get Started"
 
-msgid "Give edit permission to:"
-msgstr "Give edit permission to:"
-
-msgid "Give view-only permission to:"
-msgstr "Give view-only permission to:"
+msgid "Go  back"
+msgstr "Go  back"
 
 msgid "Go back"
 msgstr "Go back"
+
+msgid "Go to Payments"
+msgstr "Go to Payments"
 
 msgid "Go to login"
 msgstr "Go to login"
 
 msgid "Got it"
 msgstr "Got it"
+
+msgid "Have a question?"
+msgstr "Have a question?"
 
 msgid "Hello again!"
 msgstr "Hello again!"
@@ -364,17 +475,23 @@ msgstr "If you think this file does not comply with our <0>Terms of Service</0>,
 msgid "Info"
 msgstr "Info"
 
+msgid "Insufficient balance"
+msgstr "Insufficient balance"
+
+msgid "Invoice outstanding"
+msgstr "Invoice outstanding"
+
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
+
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr "Join our new limited-access subscription plans to upgrade to a plan with more storage."
 
 msgid "Keep original files"
 msgstr "Keep original files"
 
 msgid "Language"
 msgstr "Language"
-
-msgid "Last name"
-msgstr "Last name"
 
 msgid "Learn more"
 msgstr "Learn more"
@@ -391,20 +508,17 @@ msgstr "Let's get you set up."
 msgid "Light Theme"
 msgstr "Light Theme"
 
-msgid "Loading"
-msgstr "Loading"
-
 msgid "Loading preview"
 msgstr "Loading preview"
 
 msgid "Loading your shared folders…"
 msgstr "Loading your shared folders…"
 
+msgid "Loading..."
+msgstr "Loading..."
+
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
-
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Manage Access"
 msgstr "Manage Access"
@@ -430,8 +544,8 @@ msgstr "My Files"
 msgid "Name"
 msgstr "Name"
 
-msgid "Name too long"
-msgstr "Name too long"
+msgid "Need more storage?"
+msgstr "Need more storage?"
 
 msgid "New folder"
 msgstr "New folder"
@@ -442,8 +556,14 @@ msgstr "New shared folder name"
 msgid "Next"
 msgstr "Next"
 
+msgid "Next payment"
+msgstr "Next payment"
+
 msgid "Nice to see you again!"
 msgstr "Nice to see you again!"
+
+msgid "No Card"
+msgstr "No Card"
 
 msgid "No file to download."
 msgstr "No file to download."
@@ -460,14 +580,20 @@ msgstr "No files to show"
 msgid "No folders"
 msgstr "No folders"
 
+msgid "No invoice found"
+msgstr "No invoice found"
+
 msgid "No search results for"
 msgstr "No search results for"
 
 msgid "No thanks"
 msgstr "No thanks"
 
-msgid "No user found for this query."
-msgstr "No user found for this query."
+msgid "No users found"
+msgstr "No users found"
+
+msgid "Notifications"
+msgstr "Notifications"
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
@@ -475,20 +601,23 @@ msgstr "Number of copies (Replication Factor)"
 msgid "OK"
 msgstr "OK"
 
+msgid "Older notifications"
+msgstr "Older notifications"
+
+msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
+msgstr "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
+
 msgid "One sec, getting files ready…"
 msgstr "One sec, getting files ready…"
 
-msgid "Only you can see this."
-msgstr "Only you can see this."
+msgid "Only send the exact amount of {0} to this address"
+msgstr "Only send the exact amount of {0} to this address"
+
+msgid "Oops! You need to pay for this month to upload more content."
+msgstr "Oops! You need to pay for this month to upload more content."
 
 msgid "Operating system:"
 msgstr "Operating system:"
-
-msgid "Or Create a new shared folder"
-msgstr "Or Create a new shared folder"
-
-msgid "Or Use an existing shared folder"
-msgstr "Or Use an existing shared folder"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
@@ -517,6 +646,36 @@ msgstr "Password:"
 msgid "Passwords must match"
 msgstr "Passwords must match"
 
+msgid "Pay now"
+msgstr "Pay now"
+
+msgid "Pay with Crypto"
+msgstr "Pay with Crypto"
+
+msgid "Pay with crypto"
+msgstr "Pay with crypto"
+
+msgid "Pay with {0}"
+msgstr "Pay with {0}"
+
+msgid "Payment information"
+msgstr "Payment information"
+
+msgid "Payment method"
+msgstr "Payment method"
+
+msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+msgstr "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+
+msgid "Plan changed successfully"
+msgstr "Plan changed successfully"
+
+msgid "Plan price"
+msgstr "Plan price"
+
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
+msgstr "Please complete payment of the following outstanding invoices in order to avoid account suspension"
+
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
 
@@ -532,23 +691,23 @@ msgstr "Please provide a password"
 msgid "Please select a file to upload"
 msgstr "Please select a file to upload"
 
+msgid "Premium plan"
+msgstr "Premium plan"
+
 msgid "Preview"
 msgstr "Preview"
 
-msgid "Previous"
-msgstr "Previous"
+msgid "Pricing details"
+msgstr "Pricing details"
 
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
-msgid "Profile and Display"
-msgstr "Profile and Display"
+msgid "Proceed to payment"
+msgstr "Proceed to payment"
 
-msgid "Profile settings"
-msgstr "Profile settings"
-
-msgid "Profile updated"
-msgstr "Profile updated"
+msgid "Profile"
+msgstr "Profile"
 
 msgid "Recover"
 msgstr "Recover"
@@ -567,6 +726,9 @@ msgstr "Reject"
 
 msgid "Reject all"
 msgstr "Reject all"
+
+msgid "Remove"
+msgstr "Remove"
 
 msgid "Rename"
 msgstr "Rename"
@@ -589,6 +751,9 @@ msgstr "Report a File"
 msgid "Report a bug"
 msgstr "Report a bug"
 
+msgid "Request access!"
+msgstr "Request access!"
+
 msgid "Requested from"
 msgstr "Requested from"
 
@@ -597,9 +762,6 @@ msgstr "Resources"
 
 msgid "Restore with backup secret phrase"
 msgstr "Restore with backup secret phrase"
-
-msgid "Save changes"
-msgstr "Save changes"
 
 msgid "Save this browser for next time?"
 msgstr "Save this browser for next time?"
@@ -628,11 +790,26 @@ msgstr "Search…"
 msgid "Security"
 msgstr "Security"
 
+msgid "See payment info"
+msgstr "See payment info"
+
+msgid "Select a cryptocurrency"
+msgstr "Select a cryptocurrency"
+
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
 msgid "Select an existing shared folder or your home"
 msgstr "Select an existing shared folder or your home"
+
+msgid "Select payment method"
+msgstr "Select payment method"
+
+msgid "Select plan"
+msgstr "Select plan"
+
+msgid "Select this plan"
+msgstr "Select this plan"
 
 msgid "Send another email"
 msgstr "Send another email"
@@ -658,14 +835,14 @@ msgstr "Share"
 msgid "Share file"
 msgstr "Share file"
 
+msgid "Share links to your encrypted folders."
+msgstr "Share links to your encrypted folders."
+
 msgid "Share selected"
 msgstr "Share selected"
 
 msgid "Shared"
 msgstr "Shared"
-
-msgid "Shared Folder Name"
-msgstr "Shared Folder Name"
 
 msgid "Shared folder name"
 msgstr "Shared folder name"
@@ -691,9 +868,6 @@ msgstr "Sign in with a different account"
 msgid "Sign in/up to access the shared folder"
 msgstr "Sign in/up to access the shared folder"
 
-msgid "Sign me up!"
-msgstr "Sign me up!"
-
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
 
@@ -718,23 +892,32 @@ msgstr "Something went wrong. We couldn't upload your file"
 msgid "Sort By:"
 msgstr "Sort By:"
 
+msgid "Standard plan"
+msgstr "Standard plan"
+
 msgid "Start Upload"
 msgstr "Start Upload"
-
-msgid "Start a team"
-msgstr "Start a team"
-
-msgid "Storage Plan"
-msgstr "Storage Plan"
 
 msgid "Stored by miner"
 msgstr "Stored by miner"
 
+msgid "Subscription Plan"
+msgstr "Subscription Plan"
+
+msgid "Subscription plan"
+msgstr "Subscription plan"
+
+msgid "Switch Network"
+msgstr "Switch Network"
+
+msgid "Switch Plan"
+msgstr "Switch Plan"
+
+msgid "Switch to Free plan"
+msgstr "Switch to Free plan"
+
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr "System maintenance is scheduled to start at {0}. The system will be unavailable."
-
-msgid "Teams"
-msgstr "Teams"
 
 msgid "Technical"
 msgstr "Technical"
@@ -751,11 +934,23 @@ msgstr "The files are already in this folder"
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr "The link you typed in looks malformed. Please verify it."
 
+msgid "The time to pay with crypto is up. Updating your plan..."
+msgstr "The time to pay with crypto is up. Updating your plan..."
+
+msgid "The transaction was declined. Please use a different card or try again."
+msgstr "The transaction was declined. Please use a different card or try again."
+
 msgid "The username is too long"
 msgstr "The username is too long"
 
 msgid "Theme"
 msgstr "Theme"
+
+msgid "There are no notifications!"
+msgstr "There are no notifications!"
+
+msgid "There was a problem creating a charge {error}"
+msgstr "There was a problem creating a charge {error}"
 
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
@@ -784,6 +979,12 @@ msgstr "There was an error restoring your data"
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
 
+msgid "This card will become your default payment method"
+msgstr "This card will become your default payment method"
+
+msgid "This is the free product."
+msgstr "This is the free product."
+
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr "This link is marlformed. Please verify that you copy/pasted it correctly."
 
@@ -799,6 +1000,15 @@ msgstr "This website uses cookies"
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 
+msgid "This week"
+msgstr "This week"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Total Amount"
+msgstr "Total Amount"
+
 msgid "Try again"
 msgstr "Try again"
 
@@ -808,8 +1018,17 @@ msgstr "Try another method"
 msgid "Update"
 msgstr "Update"
 
-msgid "Update Shared Folder"
-msgstr "Update Shared Folder"
+msgid "Update Card"
+msgstr "Update Card"
+
+msgid "Update card"
+msgstr "Update card"
+
+msgid "Update credit card"
+msgstr "Update credit card"
+
+msgid "Update your credit card"
+msgstr "Update your credit card"
 
 msgid "Upload"
 msgstr "Upload"
@@ -817,20 +1036,29 @@ msgstr "Upload"
 msgid "Uploads cancelled"
 msgstr "Uploads cancelled"
 
+msgid "Uploads disabled"
+msgstr "Uploads disabled"
+
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
 msgid "Use a saved browser"
 msgstr "Use a saved browser"
 
-msgid "User {0} is both a reader and writer"
-msgstr "User {0} is both a reader and writer"
+msgid "Use an existing shared folder"
+msgstr "Use an existing shared folder"
+
+msgid "Use this card"
+msgstr "Use this card"
 
 msgid "Username"
 msgstr "Username"
 
 msgid "Username set successfully"
 msgstr "Username set successfully"
+
+msgid "Username, wallet address or ENS"
+msgstr "Username, wallet address or ENS"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Usernames are public and can't be changed after creation."
@@ -849,6 +1077,9 @@ msgstr "Verification code sent!"
 
 msgid "Verifying the link..."
 msgstr "Verifying the link..."
+
+msgid "View PDF"
+msgstr "View PDF"
 
 msgid "View folder"
 msgstr "View folder"
@@ -895,8 +1126,14 @@ msgstr "You can't move folders to this path"
 msgid "You do not have access to this shared folder."
 msgstr "You do not have access to this shared folder."
 
+msgid "You get access to these features right now."
+msgstr "You get access to these features right now."
+
 msgid "You haven't set a username yet."
 msgstr "You haven't set a username yet."
+
+msgid "You now have:"
+msgstr "You now have:"
 
 msgid "You were added to the shared folder ({0}): {1}"
 msgstr "You were added to the shared folder ({0}): {1}"
@@ -904,17 +1141,32 @@ msgstr "You were added to the shared folder ({0}): {1}"
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+msgstr "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
 msgid "can-edit"
 msgstr "can-edit"
 
+msgid "expires"
+msgstr "expires"
+
+msgid "invoices here"
+msgstr "invoices here"
+
 msgid "me"
 msgstr "me"
 
 msgid "on"
 msgstr "on"
+
+msgid "or"
+msgstr "or"
 
 msgid "unknown"
 msgstr "unknown"
@@ -943,8 +1195,23 @@ msgstr "{0} complete"
 msgid "{0} failed"
 msgstr "{0} failed"
 
+msgid "{0} of {1} used"
+msgstr "{0} of {1} used"
+
 msgid "{0} {fileProgress} - {1}"
 msgstr "{0} {fileProgress} - {1}"
+
+msgid "{currentPlanStorage} of storage"
+msgstr "{currentPlanStorage} of storage"
+
+msgid "{newPlanCapacity} of storage"
+msgstr "{newPlanCapacity} of storage"
+
+msgid "{newPlanStorage} of storage"
+msgstr "{newPlanStorage} of storage"
+
+msgid "{planStorageCapacity} of storage"
+msgstr "{planStorageCapacity} of storage"
 
 msgid "{successCount} files transferred successfully, {0} failed"
 msgstr "{successCount} files transferred successfully, {0} failed"

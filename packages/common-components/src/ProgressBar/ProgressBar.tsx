@@ -37,11 +37,11 @@ const useStyles = makeStyles((theme: ITheme) =>
         borderRadius: theme.constants.generalUnit
       },
       "&.medium": {
-        height: theme.constants.generalUnit * 2,
+        height: theme.constants.generalUnit * 1.5,
         borderRadius: theme.constants.generalUnit * 2
       },
       "&.large": {
-        height: theme.constants.generalUnit * 3,
+        height: theme.constants.generalUnit * 2,
         borderRadius: theme.constants.generalUnit * 3
       }
     },
@@ -61,11 +61,11 @@ const useStyles = makeStyles((theme: ITheme) =>
         borderRadius: theme.constants.generalUnit
       },
       "&.medium": {
-        height: theme.constants.generalUnit * 2,
+        height: theme.constants.generalUnit * 1.5,
         borderRadius: theme.constants.generalUnit * 2
       },
       "&.large": {
-        height: theme.constants.generalUnit * 3,
+        height: theme.constants.generalUnit * 2,
         borderRadius: theme.constants.generalUnit * 3
       }
     },
@@ -78,11 +78,11 @@ const useStyles = makeStyles((theme: ITheme) =>
         borderRadius: theme.constants.generalUnit
       },
       "&.medium": {
-        height: theme.constants.generalUnit * 2,
+        height: theme.constants.generalUnit * 1.5,
         borderRadius: theme.constants.generalUnit * 2
       },
       "&.large": {
-        height: theme.constants.generalUnit * 3,
+        height: theme.constants.generalUnit * 2,
         borderRadius: theme.constants.generalUnit * 3
       }
     },
@@ -100,11 +100,11 @@ const useStyles = makeStyles((theme: ITheme) =>
         borderRadius: theme.constants.generalUnit
       },
       "&.medium": {
-        height: theme.constants.generalUnit * 2,
+        height: theme.constants.generalUnit * 1.5,
         borderRadius: theme.constants.generalUnit * 2
       },
       "&.large": {
-        height: theme.constants.generalUnit * 3,
+        height: theme.constants.generalUnit * 2,
         borderRadius: theme.constants.generalUnit * 3
       },
       "&.inc": {
@@ -126,10 +126,10 @@ const useStyles = makeStyles((theme: ITheme) =>
         borderRadius: theme.constants.generalUnit
       },
       "&.medium": {
-        borderRadius: theme.constants.generalUnit * 2
+        borderRadius: theme.constants.generalUnit * 1.5
       },
       "&.large": {
-        borderRadius: theme.constants.generalUnit * 3
+        borderRadius: theme.constants.generalUnit * 2
       }
     }),
     progress: {

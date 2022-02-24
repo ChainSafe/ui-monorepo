@@ -273,7 +273,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
       <div>
         <section className={classes.buttonSection}>
           <Button
-            data-cy="sign-in-with-web3-button"
+            data-cy="button-sign-in-with-web3"
             onClick={() => {handleLogin("web3")}}
             className={classes.button}
             variant="primary"
@@ -427,7 +427,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
                 <Trans>Or using one of the following:</Trans>
               </Typography>
               <Button
-                data-cy="web3"
+                data-cy="button-web3"
                 onClick={() => {
                   setLoginMode("web3")
                   handleSelectWalletAndConnect()
@@ -468,7 +468,10 @@ const LoginModule = ({ className }: IInitialScreen) => {
                     <a
                       href={ROUTE_LINKS.DiscordInvite}
                       target="_blank"
-                      rel='noreferrer noopener'>Files Support Channel</a>{" "}
+                      rel='noreferrer noopener'
+                    >
+                      Files Support Channel
+                    </a>{" "}
                       on Discord
                   </Trans>
                 </Typography>

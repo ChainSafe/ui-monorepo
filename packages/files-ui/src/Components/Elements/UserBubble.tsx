@@ -1,22 +1,25 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { Typography, UserIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { useCallback } from "react"
+import { Hashicon } from "@emeraldpay/hashicon-react"
 
 const useStyles = makeStyles(({ zIndex, animation, constants, palette }: CSFTheme) => {
   return createStyles({
-    bubble: {
+    root: {
       position: "relative",
-      borderRadius: "50%",
-      backgroundColor: palette.additional["gray"][6],
-      color: palette.common.white.main,
       width: constants.generalUnit * 5,
       height: constants.generalUnit * 5,
       display: "flex",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "center"
+    },
+    bubble: {
+      borderRadius: "50%",
+      backgroundColor: palette.additional["gray"][6],
+      color: palette.common.white.main,
       "& svg": {
         fill: palette.common.white.main
       }
@@ -63,10 +66,11 @@ const useStyles = makeStyles(({ zIndex, animation, constants, palette }: CSFThem
 interface Props {
   text?: string
   tooltip: string | string[]
+  hashIconValue?: string
   className?: string
 }
 
-const UserBubble = ({ text, tooltip, className }: Props) => {
+const UserBubble = ({ text, tooltip, hashIconValue, className }: Props) => {
   const classes = useStyles()
   const [showTooltip, setShowTooltip] = useState(false)
 
@@ -74,28 +78,34 @@ const UserBubble = ({ text, tooltip, className }: Props) => {
     setShowTooltip(!showTooltip)
   }, [showTooltip])
 
+  const tooltipString = useMemo(() => Array.isArray(tooltip)
+    ? tooltip.join("\n")
+    : tooltip
+  , [tooltip])
+
   return (
     <div
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
-      className={clsx(classes.bubble, className)}
+      className={clsx(classes.root, !hashIconValue && classes.bubble, className)}
       onClick={toggleTooltip}
     >
       <div className={clsx(classes.tooltip, { "active": showTooltip })}>
-        {
-          Array.isArray(tooltip)
-            ? tooltip.map((user) => <div key={user}>{user}</div>)
-            : tooltip
-        }
+        {tooltipString}
       </div>
-      {text
-        ? <Typography
-          variant="h4"
-          className={classes.text}
-        >
-          {text}
-        </Typography>
-        : <UserIcon/>
+      {hashIconValue
+        ? <Hashicon
+          value={hashIconValue}
+          size={40}
+        />
+        : text
+          ? <Typography
+            variant="h4"
+            className={classes.text}
+          >
+            {text}
+          </Typography>
+          : <UserIcon/>
       }
     </div>
   )

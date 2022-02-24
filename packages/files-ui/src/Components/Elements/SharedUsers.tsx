@@ -17,28 +17,30 @@ const useStyles = makeStyles(({ constants }: CSFTheme) => {
 })
 interface Props {
   bucket: BucketKeyPermission
+  showOwners: boolean
 }
 
-const SharedUsers = ({ bucket }: Props) => {
+interface UserDisplayInfo  {
+  displayName: string
+  uuid: string
+}
+
+const SharedUsers = ({ bucket, showOwners }: Props) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
   const { owners, readers, writers } = bucket
 
-  const getUserLabels = useCallback((users: RichUserInfo[]): string[] => {
-    return users.reduce((acc: string[], user): string[] => {
-      const displayName = getUserDisplayName(user)
-
-      return [...acc, displayName]
-    }, [] as string[])
+  const getUserDisplayInfo = useCallback((users: RichUserInfo[]) : UserDisplayInfo[] => {
+    return users.map((user) => ({ displayName: getUserDisplayName(user), uuid: user.uuid }))
   }, [])
 
   const userLabels = useMemo(() =>
     [
-      ...getUserLabels(owners),
-      ...getUserLabels(readers),
-      ...getUserLabels(writers)
+      ...getUserDisplayInfo(showOwners ? owners : []),
+      ...getUserDisplayInfo(readers),
+      ...getUserDisplayInfo(writers)
     ],
-  [owners, readers, writers, getUserLabels])
+  [readers, writers, getUserDisplayInfo, owners, showOwners])
 
   if (!userLabels.length) {
     return null
@@ -49,7 +51,7 @@ const SharedUsers = ({ bucket }: Props) => {
       <div className={classes.root}>
         <UserBubble
           text={`+${userLabels.length}`}
-          tooltip={userLabels}
+          tooltip={userLabels.map((userLabel) => userLabel.displayName)}
         />
       </div>
     )
@@ -58,18 +60,20 @@ const SharedUsers = ({ bucket }: Props) => {
   return (
     <div className={classes.root}>
       <UserBubble
-        tooltip={userLabels[0]}
+        tooltip={userLabels[0].displayName}
         className={userLabels.length > 1 ? classes.bubble : undefined}
+        hashIconValue={userLabels[0].uuid}
       />
       {userLabels.length > 2 && (
         <UserBubble
           text={`+${userLabels.length - 1}`}
-          tooltip={userLabels.slice(1)}
+          tooltip={userLabels.slice(1).map((userLabel) => userLabel.displayName)}
         />
       )}
       {userLabels.length === 2 && (
         <UserBubble
-          tooltip={userLabels[1]}
+          tooltip={userLabels[1].displayName}
+          hashIconValue={userLabels[1].uuid}
         />
       )}
     </div>
