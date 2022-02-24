@@ -12,8 +12,6 @@ export const lightTheme = createTheme<CsfColors>({
       primary: {
         main: "var(--csf-primary)",
         background: "var(--csf-primary)"
-      },
-      secondary: {
       }
     },
     constants: {
@@ -81,7 +79,7 @@ export const lightTheme = createTheme<CsfColors>({
         previewModal: {
           controlsBackground: "var(--gray9)",
           controlsColor: "var(--gray8)",
-          buttonColor: "var(--gray2)",
+          buttonColor: "var(--gray1)",
           fileOpsColor: "var(--gray2)",
           fileNameColor: "var(--gray1)",
           optionsBackground: "var(--gray1)",

@@ -104,8 +104,13 @@ const useStyles = makeStyles(
       },
       prevNextButton: {
         backgroundColor: palette.common.black.main,
+        color: palette.common.white.main,
         padding: `${constants.generalUnit * 2}px !important`,
-        borderRadius: constants.generalUnit * 4
+        borderRadius: constants.generalUnit * 4,
+        border: "none",
+        "& svg": {
+          fill: palette.common.white.main
+        }
       },
       previewContent: {
         color: constants.previewModal.message,
@@ -309,6 +314,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
                 onClick={previousFile}
                 className={classes.prevNextButton}
                 data-cy="button-view-previous-file"
+                variant="outline"
               >
                 <ArrowLeftIcon />
               </Button>
@@ -399,6 +405,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
                 onClick={nextFile}
                 className={classes.prevNextButton}
                 data-cy="button-view-next-file"
+                variant="outline"
               >
                 <ArrowRightIcon />
               </Button>

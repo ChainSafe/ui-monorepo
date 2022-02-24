@@ -90,7 +90,7 @@ const useStyles = makeStyles(
       suggestionsDropDown: {
         position: "absolute",
         width: "100%",
-        backgroundColor: palette.common.white.main,
+        backgroundColor: palette.additional["gray"][1],
         border: `1px solid ${palette.additional["gray"][5]}`,
         zIndex: zIndex?.layer1
       },
