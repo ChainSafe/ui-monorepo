@@ -485,6 +485,9 @@ msgstr "Facture non réglée"
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr ""
+
 msgid "Keep original files"
 msgstr "Conserver les fichiers originaux"
 
@@ -541,6 +544,9 @@ msgstr "Mes Fichiers"
 
 msgid "Name"
 msgstr "Nom"
+
+msgid "Need more storage?"
+msgstr ""
 
 msgid "New folder"
 msgstr "Nouveau dossier"
@@ -745,6 +751,9 @@ msgstr "Signaler un fichier"
 
 msgid "Report a bug"
 msgstr "Signaler une erreur"
+
+msgid "Request access!"
+msgstr ""
 
 msgid "Requested from"
 msgstr "Envoyé par"
