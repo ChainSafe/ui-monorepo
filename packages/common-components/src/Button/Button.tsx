@@ -114,12 +114,15 @@ const useStyles = makeStyles(
         backgroundColor: "transparent",
         color: palette.additional["gray"][9],
         "&:hover": {
+          color: palette.primary.main,
           ...overrides?.Button?.variants?.text?.hover
         },
         "&:focus": {
+          color: palette.primary.main,
           ...overrides?.Button?.variants?.text?.focus
         },
         "&:active": {
+          color: palette.primary.main,
           ...overrides?.Button?.variants?.text?.active
         },
         ...overrides?.Button?.variants?.text?.root
