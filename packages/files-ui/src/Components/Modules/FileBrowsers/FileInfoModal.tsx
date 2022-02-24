@@ -1,9 +1,4 @@
-import {
-  createStyles,
-  debounce,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, debounce, makeStyles } from "@chainsafe/common-theme"
 import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
@@ -152,7 +147,6 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
   const [loadingFileInfo, setLoadingInfo] = useState(false)
   const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>()
   const { bucket } = useFileBrowser()
-  const { desktop } = useThemeSwitcher()
 
   useEffect(() => {
     if (!bucket) return

@@ -119,9 +119,9 @@ const useStyles = makeStyles(
         }
       },
       downloadButton: {
-        // borderColor: palette.additional["gray"][3],
-        // borderWidth: 1,
-        // borderStyle: "solid"
+        borderColor: palette.additional["gray"][3],
+        borderWidth: 1,
+        borderStyle: "solid"
       },
       swipeContainer: {
         width: "100%",
