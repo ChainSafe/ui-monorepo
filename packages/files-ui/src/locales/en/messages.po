@@ -439,9 +439,6 @@ msgstr "Generating…"
 msgid "Get Started"
 msgstr "Get Started"
 
-msgid "Go  back"
-msgstr "Go  back"
-
 msgid "Go back"
 msgstr "Go back"
 
