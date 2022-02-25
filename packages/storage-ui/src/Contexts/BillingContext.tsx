@@ -39,17 +39,17 @@ const ProductMapping: {[key: string]: {
   name: string
   description: string
 }} = {
-  prod_JwRu6Ph25b1f2O: {
+  prod_JqS5E5vEhu95YG: {
     name: t`Free plan`,
     description: t`This is the free product.`
   },
-  prod_JwS49Qfnr6vD3K: {
-    name: t`Standard plan`,
-    description: t`Standard plan`
+  prod_L7wbvnjEoUQyat: {
+    name: t`Storage Pro`,
+    description: t`Storage Pro`
   },
-  prod_JwSGHB8qFx7rRM: {
-    name: t`Premium plan`,
-    description: t`Premium plan`
+  prod_LAqDoc8N18IOyp: {
+    name: t`Storage Max`,
+    description: t`Storage Max`
   }
 }
 
