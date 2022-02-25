@@ -74,7 +74,10 @@ export interface CsfColors extends IConstants {
   previewModal: {
     controlsBackground: string
     controlsColor: string
-    buttonColor: string
+    headerButtonColor: string
+    controlsButtonColor: string
+    controlsBackgroundColor: string
+    controlsBackgroundHoverColor: string
     fileOpsColor: string
     fileNameColor: string
     optionsBackground: string

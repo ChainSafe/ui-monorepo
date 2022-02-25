@@ -81,11 +81,11 @@ const useStyles = makeStyles(
       closePreviewButton: {
         marginRight: constants.generalUnit * 2,
         "& svg":{
-          stroke: constants.previewModal.buttonColor
+          stroke: constants.previewModal.headerButtonColor
         }
       },
       downloadIcon: {
-        fill: constants.previewModal.buttonColor
+        fill: constants.previewModal.headerButtonColor
       },
       fileName: {
         width: "100%",
@@ -103,13 +103,31 @@ const useStyles = makeStyles(
         alignItems: "center"
       },
       prevNextButton: {
-        backgroundColor: palette.additional["gray"][10],
-        color: constants.previewModal.buttonColor,
+        backgroundColor: constants.previewModal.controlsBackgroundColor,
+        color: constants.previewModal.controlsButtonColor,
         padding: `${constants.generalUnit * 2}px !important`,
         borderRadius: constants.generalUnit * 4,
         border: "none",
         "& svg": {
-          fill: constants.previewModal.buttonColor
+          fill: constants.previewModal.controlsButtonColor
+        },
+        "&:hover": {
+          backgroundColor: constants.previewModal.controlsBackgroundHoverColor,
+          "& svg": {
+            fill: constants.previewModal.controlsButtonColor
+          }
+        },
+        "&:active": {
+          backgroundColor: constants.previewModal.controlsBackgroundHoverColor,
+          "& svg": {
+            fill: constants.previewModal.controlsButtonColor
+          }
+        },
+        "&:focus": {
+          backgroundColor: constants.previewModal.controlsBackgroundHoverColor,
+          "& svg": {
+            fill: constants.previewModal.controlsButtonColor
+          }
         }
       },
       previewContent: {
@@ -314,7 +332,6 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
                 onClick={previousFile}
                 className={classes.prevNextButton}
                 data-cy="button-view-previous-file"
-                variant="outline"
               >
                 <ArrowLeftIcon />
               </Button>
@@ -405,7 +422,6 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
                 onClick={nextFile}
                 className={classes.prevNextButton}
                 data-cy="button-view-next-file"
-                variant="outline"
               >
                 <ArrowRightIcon />
               </Button>
