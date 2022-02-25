@@ -73,9 +73,6 @@ msgstr "Add credit card"
 msgid "Add more files"
 msgstr "Add more files"
 
-msgid "Add users to shared folder"
-msgstr "Add users to shared folder"
-
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Add viewers and editors by username, sharing id or Ethereum address."
 
@@ -256,17 +253,14 @@ msgstr "Create Shared Folder"
 msgid "Create a new shared folder"
 msgstr "Create a new shared folder"
 
-msgid "Create folder & Copy over"
-msgstr "Create folder & Copy over"
-
-msgid "Create folder & Move over"
-msgstr "Create folder & Move over"
-
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
 
 msgid "Credit Card is expiring soon"
 msgstr "Credit Card is expiring soon"
+
+msgid "DAI, USDC, ETH or BTC"
+msgstr "DAI, USDC, ETH or BTC"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -409,9 +403,6 @@ msgstr "Files"
 msgid "Files sharing key"
 msgstr "Files sharing key"
 
-msgid "First name"
-msgstr "First name"
-
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
@@ -493,14 +484,14 @@ msgstr "Invoice outstanding"
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
 
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+
 msgid "Keep original files"
 msgstr "Keep original files"
 
 msgid "Language"
 msgstr "Language"
-
-msgid "Last name"
-msgstr "Last name"
 
 msgid "Learn more"
 msgstr "Learn more"
@@ -552,6 +543,9 @@ msgstr "My Files"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Need more storage?"
+msgstr "Need more storage?"
 
 msgid "New folder"
 msgstr "New folder"
@@ -618,9 +612,6 @@ msgstr "One sec, getting files ready…"
 
 msgid "Only send the exact amount of {0} to this address"
 msgstr "Only send the exact amount of {0} to this address"
-
-msgid "Only you can see this."
-msgstr "Only you can see this."
 
 msgid "Oops! You need to pay for this month to upload more content."
 msgstr "Oops! You need to pay for this month to upload more content."
@@ -706,9 +697,6 @@ msgstr "Premium plan"
 msgid "Preview"
 msgstr "Preview"
 
-msgid "Previous"
-msgstr "Previous"
-
 msgid "Pricing details"
 msgstr "Pricing details"
 
@@ -720,9 +708,6 @@ msgstr "Proceed to payment"
 
 msgid "Profile"
 msgstr "Profile"
-
-msgid "Profile updated"
-msgstr "Profile updated"
 
 msgid "Recover"
 msgstr "Recover"
@@ -766,6 +751,9 @@ msgstr "Report a File"
 msgid "Report a bug"
 msgstr "Report a bug"
 
+msgid "Request access!"
+msgstr "Request access!"
+
 msgid "Requested from"
 msgstr "Requested from"
 
@@ -774,9 +762,6 @@ msgstr "Resources"
 
 msgid "Restore with backup secret phrase"
 msgstr "Restore with backup secret phrase"
-
-msgid "Save changes"
-msgstr "Save changes"
 
 msgid "Save this browser for next time?"
 msgstr "Save this browser for next time?"
@@ -859,9 +844,6 @@ msgstr "Share selected"
 msgid "Shared"
 msgstr "Shared"
 
-msgid "Shared Folder Name"
-msgstr "Shared Folder Name"
-
 msgid "Shared folder name"
 msgstr "Shared folder name"
 
@@ -922,8 +904,8 @@ msgstr "Stored by miner"
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
 
-msgid "Subscriptions plan"
-msgstr "Subscriptions plan"
+msgid "Subscription plan"
+msgstr "Subscription plan"
 
 msgid "Switch Network"
 msgstr "Switch Network"
@@ -951,6 +933,9 @@ msgstr "The files are already in this folder"
 
 msgid "The link you typed in looks malformed. Please verify it."
 msgstr "The link you typed in looks malformed. Please verify it."
+
+msgid "The time to pay with crypto is up. Updating your plan..."
+msgstr "The time to pay with crypto is up. Updating your plan..."
 
 msgid "The transaction was declined. Please use a different card or try again."
 msgstr "The transaction was declined. Please use a different card or try again."

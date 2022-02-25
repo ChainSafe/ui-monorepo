@@ -3,8 +3,7 @@ import React from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
 import { BucketKeyPermission } from "../../../Contexts/FilesContext"
-import { SharedFolderModalMode } from "./types"
-import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
+import ManageSharedFolder from "./ManageSharedFolder"
 
 const useStyles = makeStyles(
   ({ constants, zIndex }: CSFTheme) => {
@@ -21,31 +20,25 @@ const useStyles = makeStyles(
 )
 
 interface ICreateOrManageSharedFolderModalProps {
-  mode?: SharedFolderModalMode
   isModalOpen: boolean
   onClose: () => void
   bucketToEdit?: BucketKeyPermission
 }
 
-const CreateOrManageSharedFolderModal = (
-  { mode, isModalOpen, onClose, bucketToEdit }: ICreateOrManageSharedFolderModalProps
-) => {
+const CreateOrManageSharedFolderModal = ({ isModalOpen, onClose, bucketToEdit }: ICreateOrManageSharedFolderModalProps) => {
   const classes = useStyles()
 
   return (
     <CustomModal
       className={classes.modalRoot}
-      injectedClass={{
-        inner: classes.modalInner
-      }}
+      injectedClass={{ inner: classes.modalInner }}
       active={isModalOpen}
       closePosition="none"
       maxWidth={500}
-      testId="create-or-edit-shared-folder"
+      testId="edit-shared-folder"
     >
-      <CreateOrManageSharedFolder
+      <ManageSharedFolder
         onClose={onClose}
-        mode={mode}
         bucketToEdit={bucketToEdit}
       />
     </CustomModal>

@@ -1,7 +1,8 @@
 import { sharedFolderName } from "../../fixtures/filesTestData"
 import { basePage } from "./basePage"
 import { fileBrowser } from "./fileBrowser"
-import { createEditSharedFolderModal } from "./modals/createSharedFolderModal"
+import { createSharedFolderModal } from "./modals/createSharedFolderModal"
+import { editSharedFolderModal } from "./modals/editSharedFolderModal"
 
 export const sharedPage = {
   ...basePage,
@@ -22,10 +23,11 @@ export const sharedPage = {
   // helpers and convenience functions
   createSharedFolder() {
     sharedPage.createSharedFolderButton().click()
-    createEditSharedFolderModal.body().should("be.visible")
-    createEditSharedFolderModal.folderNameInput().type(sharedFolderName)
-    createEditSharedFolderModal.createButton().safeClick()
-    createEditSharedFolderModal.body().should("not.exist")
+    createSharedFolderModal.body().should("be.visible")
+    createSharedFolderModal.folderNameInput().type(sharedFolderName)
+    createSharedFolderModal.createButton().safeClick()
+    editSharedFolderModal.cancelButton().safeClick()
+    editSharedFolderModal.body().should("not.exist")
     sharedPage.sharedFolderItemRow().should("have.length", 1)
   }
 }

@@ -6,10 +6,8 @@ import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { useEffect } from "react"
-import { SharedFolderModalMode } from "./types"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
-import { nameValidator } from "../../../Utils/validationSchema"
 import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 import { NonceResponsePermission, LookupUser } from "@chainsafe/files-api-client"
 import clsx from "clsx"
@@ -55,33 +53,13 @@ const useStyles = makeStyles(
           left: "50%"
         }
       },
-      modalFlexItem: {
-        width: "100%",
-        marginBottom: constants.generalUnit * 2
-      },
       inputLabel: {
         fontSize: 16,
         fontWeight: 600
       },
-      shareFolderNameInput: {
-        display: "block",
-        margin: "0px !important"
-      },
       footer: {
         width: "100%",
         paddingTop: constants.generalUnit * 2
-      },
-      errorText: {
-        marginLeft: constants.generalUnit * 1.5,
-        color: palette.error.main
-      },
-      menuIcon: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 20,
-        marginRight: constants.generalUnit * 1.5,
-        fill: constants.fileSystemItemRow.menuIcon
       },
       options: {
         backgroundColor: constants.header.optionsBackground,
@@ -129,11 +107,6 @@ const useStyles = makeStyles(
         "&:hover": {
           backgroundColor: palette.additional["blue"][1]
         }
-      },
-      boldLabel: {
-        fontSize: "16px",
-        fontWeight: 600,
-        marginBottom: 2
       },
       usernameTextInput: {
         margin: "0px !important",
@@ -205,16 +178,14 @@ interface SuggestedUser {
 }
 
 interface ICreateOrManageSharedFolderProps {
-  mode?: SharedFolderModalMode
   onClose: () => void
   bucketToEdit?: BucketKeyPermission
 }
 
-const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrManageSharedFolderProps) => {
+const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFolderProps) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { handleCreateSharedFolder, handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
-  const [sharedFolderName, setSharedFolderName] = useState("")
+  const { handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
   const { sharedFolderReaders,
     sharedFolderWriters,
     onAddNewUser,
@@ -224,7 +195,6 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
     resetUsers
   } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
-  const [nameError, setNameError] = useState("")
   const [newUserPermission, setNewUserPermission] = useState<NonceResponsePermission>("read")
   const [usernameSearch, setUsernameSearch] = useState<string | undefined>()
   const [suggestedUsers, setSuggestedUsers] = useState<SuggestedUser[]>([])
@@ -232,7 +202,6 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
   const [searchActive, setSearchActive] = useState(false)
 
   const onReset = useCallback(() => {
-    setSharedFolderName("")
     setHasPermissionsChanged(false)
     resetUsers()
   }, [resetUsers])
@@ -258,32 +227,10 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
     setSharedFolderWriters(newWriters)
   }, [bucketToEdit, setSharedFolderReaders, setSharedFolderWriters, onReset])
 
-  const onNameChange = useCallback((value?: string | number) => {
-    if (value === undefined) return
-
-    const name = value.toString()
-    setSharedFolderName(name)
-
-    nameValidator
-      .validate({ name })
-      .then(() => {
-        setNameError("")
-      })
-      .catch((e: Error) => {
-        setNameError(e.message)
-      })
-  }, [])
-
   const handleClose = useCallback(() => {
     onReset()
     onClose()
   }, [onClose, onReset])
-
-  const onCreateSharedFolder = useCallback(() => {
-    handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
-      .catch(console.error)
-      .finally(handleClose)
-  }, [handleCreateSharedFolder, sharedFolderName, sharedFolderWriters, sharedFolderReaders, handleClose])
 
   const onEditSharedFolder = useCallback(() => {
     if (!bucketToEdit) return
@@ -331,50 +278,14 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
       </div>
       <div className={classes.heading}>
         <Typography className={classes.inputLabel}>
-          {mode === "create"
-            ? <Trans>Create Shared Folder</Trans>
-            : <Trans>Manage Shared Folder</Trans>
-          }
-
+          <Trans>Manage Shared Folder</Trans>
         </Typography>
       </div>
-      {mode === "create" &&
-        <div className={classes.modalFlexItem}>
-          <TextInput
-            className={classes.shareFolderNameInput}
-            labelClassName={classes.inputLabel}
-            placeholder={t`Shared Folder Name`}
-            label={t`Shared Folder Name`}
-            value={sharedFolderName}
-            onChange={onNameChange}
-            autoFocus
-            state={nameError ? "error" : "normal"}
-            data-cy="input-shared-folder-name"
-            size="large"
-          />
-          {nameError && (
-            <Typography
-              component="p"
-              variant="body1"
-              className={classes.errorText}
-            >
-              {nameError}
-            </Typography>
-          )}
-        </div>
-      }
       <div
         className={classes.userNameSuggest}
         ref={ref}
         onClick={() => { !searchActive && setSearchActive(true) }}
       >
-        {mode === "create" && <Typography
-          className={classes.boldLabel}
-          component="p"
-        >
-          <Trans>Add users to shared folder</Trans>
-        </Typography>
-        }
         <div className={clsx(classes.usernameDropdownWrapper, searchActive && "focus")}>
           <TextInput
             placeholder={t`Username, wallet address or ENS`}
@@ -486,13 +397,12 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
           </div>
         </div>)}
       </div>
-      {mode === "edit" && !!bucketToEdit && <div className={classes.linksContainer}>
+      {!!bucketToEdit && <div className={classes.linksContainer}>
         <LinkList
           bucketEncryptionKey={bucketToEdit.encryptionKey}
           bucketId={bucketToEdit.id}
         />
-      </div>
-      }
+      </div>}
       <Grid
         item
         flexDirection="row"
@@ -520,17 +430,11 @@ const CreateOrManageSharedFolder = ({ mode, onClose, bucketToEdit }: ICreateOrMa
             type="submit"
             className={classes.okButton}
             loading={isCreatingSharedFolder || isEditingSharedFolder}
-            onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
-            disabled={mode === "create"
-              ? (!!nameError || !sharedFolderName || isCreatingSharedFolder)
-              : (!hasPermissionsChanged || isEditingSharedFolder)
-            }
-            data-cy={mode === "create" ? "button-create-shared-folder" : "button-update-shared-folder"}
+            onClick={onEditSharedFolder}
+            disabled={!hasPermissionsChanged || isEditingSharedFolder}
+            data-cy="button-update-shared-folder"
           >
-            {mode === "create"
-              ? <Trans>Create</Trans>
-              : <Trans>Update</Trans>
-            }
+            <Trans>Update</Trans>
           </Button>
         </Grid>
       </Grid>

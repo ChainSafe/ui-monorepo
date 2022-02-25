@@ -73,9 +73,6 @@ msgstr ""
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
 
-msgid "Add users to shared folder"
-msgstr ""
-
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
@@ -256,16 +253,13 @@ msgstr ""
 msgid "Create a new shared folder"
 msgstr ""
 
-msgid "Create folder & Copy over"
-msgstr ""
-
-msgid "Create folder & Move over"
-msgstr ""
-
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
 msgid "Credit Card is expiring soon"
+msgstr ""
+
+msgid "DAI, USDC, ETH or BTC"
 msgstr ""
 
 msgid "Dark Theme"
@@ -406,9 +400,6 @@ msgstr "Dateien"
 msgid "Files sharing key"
 msgstr "Dateifreigabeschlüssel"
 
-msgid "First name"
-msgstr "Vorname"
-
 msgid "Folder name is already in use"
 msgstr ""
 
@@ -490,14 +481,14 @@ msgstr ""
 msgid "I’m done saving my backup secret phrase"
 msgstr "Ich bin fertig mit dem Speichern meines Sixherungsgeheimsatzes"
 
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr ""
+
 msgid "Keep original files"
 msgstr ""
 
 msgid "Language"
 msgstr "Sprache"
-
-msgid "Last name"
-msgstr "Nachname"
 
 msgid "Learn more"
 msgstr "Mehr erfahren"
@@ -549,6 +540,9 @@ msgstr "Meine Dateien"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Need more storage?"
+msgstr ""
 
 msgid "New folder"
 msgstr "Neuer Ordner"
@@ -615,9 +609,6 @@ msgstr ""
 
 msgid "Only send the exact amount of {0} to this address"
 msgstr ""
-
-msgid "Only you can see this."
-msgstr "Nur Sie können dies sehen."
 
 msgid "Oops! You need to pay for this month to upload more content."
 msgstr ""
@@ -703,9 +694,6 @@ msgstr ""
 msgid "Preview"
 msgstr "Vorschau"
 
-msgid "Previous"
-msgstr "Vorherige"
-
 msgid "Pricing details"
 msgstr ""
 
@@ -717,9 +705,6 @@ msgstr ""
 
 msgid "Profile"
 msgstr ""
-
-msgid "Profile updated"
-msgstr "Profil aktualisiert"
 
 msgid "Recover"
 msgstr "Wiederherstellen"
@@ -763,6 +748,9 @@ msgstr "Datei melden"
 msgid "Report a bug"
 msgstr "Fehler melden"
 
+msgid "Request access!"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Angefordert von"
 
@@ -771,9 +759,6 @@ msgstr "Ressourcen"
 
 msgid "Restore with backup secret phrase"
 msgstr "Mit Sicherungsgeheimsatz wiederherstellen"
-
-msgid "Save changes"
-msgstr "Änderungen speichern"
 
 msgid "Save this browser for next time?"
 msgstr "Diesen Browser für das nächste Mal speichern?"
@@ -856,9 +841,6 @@ msgstr ""
 msgid "Shared"
 msgstr "Geteilt"
 
-msgid "Shared Folder Name"
-msgstr ""
-
 msgid "Shared folder name"
 msgstr ""
 
@@ -919,7 +901,7 @@ msgstr ""
 msgid "Subscription Plan"
 msgstr ""
 
-msgid "Subscriptions plan"
+msgid "Subscription plan"
 msgstr ""
 
 msgid "Switch Network"
@@ -947,6 +929,9 @@ msgid "The files are already in this folder"
 msgstr ""
 
 msgid "The link you typed in looks malformed. Please verify it."
+msgstr ""
+
+msgid "The time to pay with crypto is up. Updating your plan..."
 msgstr ""
 
 msgid "The transaction was declined. Please use a different card or try again."

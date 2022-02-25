@@ -22,7 +22,7 @@ interface IBillingContext {
   refreshDefaultCard: () => void
   currentSubscription: CurrentSubscription | undefined
   changeSubscription: (newPriceId: string) => Promise<void>
-  fetchCurrentSubscription: () => void
+  fetchCurrentSubscription: () => Promise<void | CurrentSubscription>
   getAvailablePlans: () => Promise<Product[]>
   deleteCard: (card: Card) => Promise<void>
   updateDefaultCard: (id: StripePaymentMethod["id"]) => Promise<void>
@@ -32,6 +32,7 @@ interface IBillingContext {
   openInvoice?: InvoiceResponse
   downloadInvoice: (invoiceId: string) => Promise<void>
   refreshInvoices: () => void
+  isBillingEnabled: boolean
 }
 
 const ProductMapping: {[key: string]: {
@@ -69,6 +70,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
   const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
   const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
+  const [isBillingEnabled, setIsBillingEnabled] = useState(false)
 
   const refreshInvoices = useCallback(() => {
     if (!currentSubscription) return
@@ -86,6 +88,14 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   useEffect(() => {
     refreshInvoices()
   }, [refreshInvoices])
+
+  useEffect(() => {
+    if (!isLoggedIn) return
+
+    filesApiClient.getEligibility()
+      .then(res => setIsBillingEnabled(res.is_eligible))
+      .catch(console.error)
+  }, [filesApiClient, isLoggedIn])
 
   useEffect(() => {
     if (accountRestricted && !restrictedNotification) {
@@ -154,15 +164,14 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   }, [refreshDefaultCard, isLoggedIn, filesApiClient])
 
   const fetchCurrentSubscription = useCallback(() => {
-    filesApiClient.getCurrentSubscription()
+    return filesApiClient.getCurrentSubscription()
       .then((subscription) => {
         subscription.product.name = ProductMapping[subscription.product.id].name
         subscription.product.description = ProductMapping[subscription.product.id].description
         setCurrentSubscription(subscription)
+        return subscription
       })
-      .catch((error: any) => {
-        console.error(error)
-      })
+      .catch(console.error)
   }, [filesApiClient])
 
   useEffect(() => {
@@ -251,7 +260,8 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         isPendingInvoice,
         downloadInvoice,
         refreshInvoices,
-        openInvoice
+        openInvoice,
+        isBillingEnabled
       }}
     >
       {children}

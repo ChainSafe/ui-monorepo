@@ -306,7 +306,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         <TableCell align="left">
           {isOwner
             ? t`me`
-            : <UserBubble tooltip={getUserDisplayName(bucket.owners[0])} />}
+            : <UserBubble
+              tooltip={getUserDisplayName(bucket.owners[0])}
+              hashIconValue={bucket.owners[0].uuid}
+            />}
         </TableCell>
         }
         <TableCell
@@ -314,7 +317,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           align="left"
           className={classes.sharedUser}
         >
-          <SharedUsers bucket={bucket}/>
+          <SharedUsers
+            bucket={bucket}
+            showOwners={false}
+          />
         </TableCell>
         {desktop &&
         <TableCell align="left">
@@ -362,7 +368,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                     <CustomButton
                       onClick={() => setIsRenaming(false)}
                       size="medium"
-                      variant={desktop ? "outline" : "gray"}
+                      variant="gray"
                       type="button"
                     >
                       <Trans>Cancel</Trans>

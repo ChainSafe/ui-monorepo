@@ -8,6 +8,7 @@ import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
+import BetaModal from "../Elements/BetaModal"
 import NotificationsDropdown from "../Elements/Notifications/NotificationsDropdown"
 
 const useStyles = makeStyles(
@@ -143,9 +144,14 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const [searchActive, setSearchActive] = useState(false)
+  const [isBetaModalOpen, setIsBetaModalOpen] = useState(false)
 
   const onReportBugClick = useCallback(() => {
     window.open(ROUTE_LINKS.DiscordInvite, "_blank")
+  }, [])
+
+  const onJoinBetaClick = useCallback(() => {
+    setIsBetaModalOpen(true)
   }, [])
 
   return (
@@ -183,6 +189,14 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   onClick={onReportBugClick}
                 >
                   <Trans>Report a bug</Trans>
+                </Button>
+                <Button
+                  data-posthog="Join-beta"
+                  variant="tertiary"
+                  size="small"
+                  onClick={onJoinBetaClick}
+                >
+                  <Trans>Need more storage?</Trans>
                 </Button>
               </section>
               <section>
@@ -234,6 +248,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
           }
         </>
       )}
+      {isBetaModalOpen && <BetaModal onHide={() => setIsBetaModalOpen(false)}/>}
     </header>
   )
 }

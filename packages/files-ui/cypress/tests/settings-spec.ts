@@ -1,7 +1,7 @@
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { settingsPage } from "../support/page-objects/settingsPage"
 import { homePage } from "../support/page-objects/homePage"
-import { profileUpdateSuccessToast } from "../support/page-objects/toasts/profileUpdateSuccessToast"
+// import { profileUpdateSuccessToast } from "../support/page-objects/toasts/profileUpdateSuccessToast"
 
 describe("Settings", () => {
   context("desktop", () => {
@@ -18,26 +18,26 @@ describe("Settings", () => {
       settingsPage.profileTabHeader().should("be.visible")
     })
 
-    it("save changes button should be disabled without first and last name", () => {
-      settingsPage.signOutDropdown().should("be.visible")
-      settingsPage.firstNameInput().clear()
-      settingsPage.lastNameInput().clear()
+    // it("save changes button should be disabled without first and last name", () => {
+    //   settingsPage.signOutDropdown().should("be.visible")
+    //   settingsPage.firstNameInput().clear()
+    //   settingsPage.lastNameInput().clear()
 
-      settingsPage.saveChangesButton().should("be.disabled")
-    })
+    //   settingsPage.saveChangesButton().should("be.disabled")
+    // })
 
-    it("can add/edit firstname and lastname", () => {
-      settingsPage.signOutDropdown().should("be.visible")
-      const newFirstName = "test first name"
-      const newLastName = "test last name"
+    // it("can add/edit firstname and lastname", () => {
+    //   settingsPage.signOutDropdown().should("be.visible")
+    //   const newFirstName = "test first name"
+    //   const newLastName = "test last name"
 
-      settingsPage.firstNameInput().type(newFirstName)
-      settingsPage.lastNameInput().type(`${newLastName}{enter}`)
+    //   settingsPage.firstNameInput().type(newFirstName)
+    //   settingsPage.lastNameInput().type(`${newLastName}{enter}`)
 
-      profileUpdateSuccessToast.body().should("be.visible")
-      settingsPage.firstNameInput().should("have.value", newFirstName)
-      settingsPage.lastNameInput().should("have.value", newLastName)
-    })
+    //   profileUpdateSuccessToast.body().should("be.visible")
+    //   settingsPage.firstNameInput().should("have.value", newFirstName)
+    //   settingsPage.lastNameInput().should("have.value", newLastName)
+    // })
 
     // username from date
     const newUserName = Date.now().toString()
