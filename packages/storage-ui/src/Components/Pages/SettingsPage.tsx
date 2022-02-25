@@ -129,13 +129,14 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
 
 const SettingsPage: React.FC = () => {
   const { desktop } = useThemeSwitcher()
-  const { path = desktop ? "apiKeys" : "" } = useParams<{path: SettingsPath}>()
+  const { path = desktop ? "apiKeys" : undefined } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
   const { redirect } = useHistory()
   // const { isBillingEnabled } = useBilling()
 
+  console.log("path", path)
   const onSelectTab = useCallback(
-    (path: string) => redirect(ROUTE_LINKS.Settings(path as SettingsPath))
+    (path: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(path))
     , [redirect])
 
   return (
@@ -177,18 +178,16 @@ const SettingsPage: React.FC = () => {
             >
               <ApiKeys />
             </TabPane>
-            {Number(1) === 1
-              ? <TabPane
-                className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
-                title={t`Subscription Plan`}
-                tabKey="plan"
-                testId="tab-subscription"
-                icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
-                iconRight={<CaretRightIcon/>}
-              >
-                <SubscriptionTab />
-              </TabPane>
-              : null}
+            <TabPane
+              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+              title={t`Subscription Plan`}
+              tabKey="plan"
+              testId="tab-subscription"
+              icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
+              iconRight={<CaretRightIcon/>}
+            >
+              <SubscriptionTab />
+            </TabPane>
           </Tabs>
         </div>
       }
