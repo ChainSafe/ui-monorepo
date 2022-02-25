@@ -213,19 +213,6 @@ export const lightTheme = createTheme<CsfColors>({
           cursor: "pointer"
         }
       },
-      Button: {
-        variants: {
-          primary: {
-            focus: {
-              color: "none",
-              backgroundColor: "none",
-              "& svg": {
-                fill: "none"
-              }
-            }
-          }
-        }
-      },
       ToggleHiddenText: {
         icon: {
           stroke: "var(--gray9)"
