@@ -6,13 +6,16 @@ import { Tabs,
   useHistory,
   ITabPaneProps,
   CaretRightIcon,
-  LockIcon
+  LockIcon,
+  SubscriptionPlanIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { ROUTE_LINKS, SettingsPath } from "../StorageRoutes"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import ApiKeys from "../Modules/ApiKeys"
+// import { useBilling } from "../../Contexts/BillingContext"
+import SubscriptionTab from "../Modules/SubscriptionTab"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -129,7 +132,7 @@ const SettingsPage: React.FC = () => {
   const { path = desktop ? "apiKeys" : "" } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
   const { redirect } = useHistory()
-
+  // const { isBillingEnabled } = useBilling()
 
   const onSelectTab = useCallback(
     (path: string) => redirect(ROUTE_LINKS.Settings(path as SettingsPath))
@@ -174,6 +177,18 @@ const SettingsPage: React.FC = () => {
             >
               <ApiKeys />
             </TabPane>
+            {Number(1) === 1
+              ? <TabPane
+                className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+                title={t`Subscription Plan`}
+                tabKey="plan"
+                testId="tab-subscription"
+                icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
+                iconRight={<CaretRightIcon/>}
+              >
+                <SubscriptionTab />
+              </TabPane>
+              : null}
           </Tabs>
         </div>
       }
