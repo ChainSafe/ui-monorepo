@@ -374,16 +374,12 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
           utils.parseUnits(selectedPaymentMethod.amount, token.decimals)
         )).wait(5)
       }
-      console.log("payment success")
       await fetchCurrentSubscription()
-      console.log("subscription refreshed")
       transferSuccess = true
     } catch (error) {
       console.error(error)
     } finally {
-      console.log("in finally")
       setTransferActive(false)
-      console.log("transferSuccess: ", transferSuccess)
       transferSuccess && onClose()
     }
   }, [fetchCurrentSubscription, onClose, provider, selectedCurrency, selectedPaymentMethod, tokens])
