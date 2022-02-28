@@ -440,9 +440,6 @@ msgstr "Génération…"
 msgid "Get Started"
 msgstr "Commencer"
 
-msgid "Go  back"
-msgstr "Retour"
-
 msgid "Go back"
 msgstr "Retour"
 

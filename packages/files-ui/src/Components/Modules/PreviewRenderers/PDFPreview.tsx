@@ -25,7 +25,11 @@ const useStyles = makeStyles(({ constants, zIndex }: ITheme) =>
     pageButton: {
       borderRadius: 0,
       backgroundColor: "#262626",
-      border: "none"
+      color: "#D9D9D9",
+      border: "none",
+      "& svg": {
+        fill: "#D9D9D9"
+      }
     },
     paginationInfo: {
       paddingLeft: constants.generalUnit * 2,
@@ -75,6 +79,7 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
         <Button
           onClick={prevPage}
           className={classes.pageButton}
+          variant="secondary"
         >
           <CaretCircleLeftIcon />
         </Button>
@@ -84,6 +89,7 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
         <Button
           onClick={nextPage}
           className={classes.pageButton}
+          variant="secondary"
         >
           <CaretCircleRightIcon />
         </Button>

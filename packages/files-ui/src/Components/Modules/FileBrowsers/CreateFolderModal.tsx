@@ -162,7 +162,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
                 data-cy="button-cancel-create-folder"
                 onClick={onCancel}
                 size="medium"
-                variant={desktop ? "outline" : "gray"}
+                variant="outline"
                 type="button"
               >
                 <Trans>Cancel</Trans>

@@ -1,9 +1,4 @@
-import {
-  createStyles,
-  debounce,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, debounce, makeStyles } from "@chainsafe/common-theme"
 import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
@@ -183,7 +178,6 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const { encryptForPublicKey } = useThresholdKey()
   const [copied, setCopied] = useState(false)
   const { filesApiClient } = useFilesApi()
-  const { desktop } = useThemeSwitcher()
 
   useEffect(() => {
     filesApiClient.abuseUser()
@@ -382,7 +376,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
             onClick={() => close()}
             size="large"
             className={classes.closeButton}
-            variant={desktop ? "outline" : "gray"}
+            variant="outline"
             type="button"
           >
             <Trans>Close</Trans>

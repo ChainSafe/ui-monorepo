@@ -243,7 +243,7 @@ const MoveFileModule = ({ filesToMove, onClose, onCancel, mode }: IMoveFileModul
           <CustomButton
             onClick={onCancel}
             size="medium"
-            variant={desktop ? "outline" : "gray"}
+            variant="outline"
             type="button"
             data-cy={isInBin ? "button-cancel-recovery" : "button-cancel-move"}
           >
