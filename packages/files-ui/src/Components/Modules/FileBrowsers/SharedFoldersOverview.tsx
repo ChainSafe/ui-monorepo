@@ -27,6 +27,7 @@ import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
 import CreateOrManageSharedFolderModal from "./ManageSharedFolderModal"
+import { useLanguageContext } from "../../../Contexts/LanguageContext"
 
 export const desktopSharedGridSettings = "50px 3fr 90px 140px 140px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -114,7 +115,7 @@ const useStyles = makeStyles(
   }
 )
 
-type SortingType = "name" | "size" | "date_uploaded"
+type SortingType = "name" | "size"
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
@@ -131,6 +132,31 @@ const SharedFolderOverview = () => {
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
   const [isSharedFolderCreationModalOpen, setIsSharedFolderCreationModalOpen] = useState(false)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
+  const { selectedLocale } = useLanguageContext()
+  const sortedBuckets = useMemo(() => {
+    let temp: BucketKeyPermission[]
+
+    switch (column) {
+      case "size": {
+        temp = bucketsToShow.sort((a, b) => (a.size < b.size ? -1 : 1))
+        break
+      }
+      // defaults to name sorting
+      default: {
+        temp = bucketsToShow.sort((a, b) => {
+          if(!a.name || !b.name) return 0
+
+          return a.name.localeCompare(b.name, selectedLocale, {
+            sensitivity: "base"
+          })
+        })
+      }
+    }
+
+    return direction === "descend"
+      ? temp.reverse()
+      : temp
+  }, [bucketsToShow, column, direction, selectedLocale])
 
   usePageTrack()
 
@@ -138,7 +164,7 @@ const SharedFolderOverview = () => {
     refreshBuckets(true)
   }, [refreshBuckets])
 
-  const handleSortToggle = (targetColumn: SortingType) => {
+  const handleSortToggle = useCallback((targetColumn: SortingType) => {
     if (column !== targetColumn) {
       setColumn(targetColumn)
       setDirection("descend")
@@ -149,7 +175,7 @@ const SharedFolderOverview = () => {
         setDirection("ascend")
       }
     }
-  }
+  }, [column, direction])
 
   const handleRename = useCallback((bucket: BucketKeyPermission, newName: string) => {
     filesApiClient.updateBucket(bucket.id, {
@@ -264,7 +290,7 @@ const SharedFolderOverview = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {bucketsToShow.map((bucket) =>
+              {sortedBuckets.map((bucket) =>
                 <SharedFolderRow
                   key={bucket.id}
                   bucket={bucket}
