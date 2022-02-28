@@ -60,7 +60,7 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
       fontSize: 14
     },
     textButton: {
-      color: palette.primary.background,
+      color: palette.primary.main,
       cursor: "pointer"
     },
     linkButton: {

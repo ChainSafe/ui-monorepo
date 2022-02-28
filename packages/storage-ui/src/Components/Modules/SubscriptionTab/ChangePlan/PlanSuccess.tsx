@@ -65,7 +65,7 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
       marginBottom: constants.generalUnit
     },
     textLink: {
-      color: palette.primary.background
+      color: palette.primary.main
     },
     checkCircleIcon:  {
       fill: palette.additional["gray"][7],

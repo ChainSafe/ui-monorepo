@@ -60,7 +60,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) =>
       color: palette.primary.main,
       paddingRight: "0px !important",
       fontSize: 16
-
     },
     text: {
       fontSize: 16
