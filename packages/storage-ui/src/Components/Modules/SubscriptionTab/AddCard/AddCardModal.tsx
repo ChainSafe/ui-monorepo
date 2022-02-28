@@ -20,6 +20,7 @@ const useStyles = makeStyles(
       modalInner: {
         backgroundColor: constants.createFolder.backgroundColor,
         color: constants.createFolder.color,
+        width: "100%",
         [breakpoints.down("md")]: {
           maxWidth: `${breakpoints.width("md")}px !important`
         }
