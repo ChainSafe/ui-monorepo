@@ -6,6 +6,7 @@ import {  Button, CheckCircleIcon, CheckIcon, Divider, formatBytes, Link, Typogr
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../../FilesRoutes"
 import clsx from "clsx"
+import { PaymentMethod } from "../../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -84,10 +85,11 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 interface IPlanSuccess {
   plan: Product
   planPrice: ProductPrice
+  paymentMethod: PaymentMethod
   onClose: () => void
 }
 
-const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
+const PlanSuccess = ({ plan, onClose, planPrice, paymentMethod }: IPlanSuccess) => {
   const classes = useStyles()
   const newPlanCapacity = formatBytes(Number(planPrice?.metadata?.storage_size_bytes), 2)
 
@@ -164,6 +166,11 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
           </Link>
         </Typography>
       </div>
+      {paymentMethod === "crypto" &&
+        <div className={classes.rowBox}>
+          <Typography>Crypto payments may take a few minutes to be processed. Your subscription will be updated after logging out</Typography>
+        </div>
+      }
       <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Modal } from "@chainsafe/common-components"
@@ -27,6 +27,10 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   })
 )
 
+type PayInvoiceModalSlides = "confirmPlan" |
+"planSuccess" |
+"cryptoPayment"
+
 interface IChangeProductModal {
   invoiceId: string
   onClose: () => void
@@ -40,6 +44,7 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
   const invoiceToPay = useMemo(() => invoices?.find(i => i.uuid === invoiceId), [invoices, invoiceId])
   const [payingInvoice, setPayingInvoice] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | undefined>()
+  const [slide, setSlide] = useState<PayInvoiceModalSlides | undefined>()
 
   const payInvoice = useCallback(() => {
     if (!invoiceToPay) return
@@ -56,7 +61,17 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
     }
   }, [filesApiClient, invoiceToPay, refreshInvoices])
 
+  useEffect(() => {
+    if (!slide) {
+      setSlide(invoiceToPay?.payment_method === "crypto"
+        ? "cryptoPayment"
+        : "confirmPlan"
+      )
+    }
+  }, [invoiceToPay, slide])
+
   if (!invoiceToPay) return null
+
 
   return (
     <Modal
@@ -72,7 +87,10 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
       onClose={onClose}
     >
       {invoiceToPay?.payment_method === "crypto"
-        ? <CryptoPayment onClose={onClose}/>
+        ? <CryptoPayment 
+          onClose={onClose} 
+          onSuccess={() => setSlide("planSuccess")}
+        />
         : <ConfirmPlan
           plan={{ ...invoiceToPay.product, prices: [invoiceToPay?.product.price] }}
           planPrice={invoiceToPay?.product.price}
