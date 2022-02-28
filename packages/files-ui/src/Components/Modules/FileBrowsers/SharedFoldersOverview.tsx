@@ -134,7 +134,7 @@ const SharedFolderOverview = () => {
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
   const { selectedLocale } = useLanguageContext()
   const sortedBuckets = useMemo(() => {
-    let temp = bucketsToShow
+    let temp: BucketKeyPermission[]
 
     switch (column) {
       case "size": {
