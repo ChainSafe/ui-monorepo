@@ -155,6 +155,11 @@ export interface CsSColors extends IConstants {
       borderColor?: string
     }
   }
+  addCard: {
+    color: string
+    shadow: string
+    placeholderColor: string
+  }
   surveyBanner: {
     color: string
   }
