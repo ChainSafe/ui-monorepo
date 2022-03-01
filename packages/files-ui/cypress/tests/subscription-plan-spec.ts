@@ -217,9 +217,9 @@ describe("Subscription Plan", () => {
     it("cannot downgrade if used storage exceeds plan allowance", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
 
-      // upgrade to a premium plan first
+      // upgrade to a Max plan first
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("premium")
+      settingsPage.upgradeSubscription("max")
 
       // setup intercepter, stub the used products response to disallow update
       cy.intercept("GET", "**/billing/products", (req) => {
@@ -313,12 +313,12 @@ describe("Subscription Plan", () => {
       selectPlanModal.body().should("be.visible")
       selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
 
-      // create a cypress alias for the premium plan
-      selectPlanModal.planBoxContainer().contains("Premium plan")
+      // create a cypress alias for the Max plan
+      selectPlanModal.planBoxContainer().contains("Files Max")
         .should("be.visible")
         .as("filesMaxBox")
 
-      // select the premium plan 
+      // select the Max plan 
       cy.get("@filesMaxBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
@@ -400,9 +400,9 @@ describe("Subscription Plan", () => {
     it("can downgrade from Max plan to Pro plan", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
 
-      // upgrade to a premium plan first using convenience function
+      // upgrade to a max plan first using convenience function
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("premium")
+      settingsPage.upgradeSubscription("max")
 
       // store the upgraded plan name for later comparison
       settingsPage.planNameLabel()
@@ -453,7 +453,7 @@ describe("Subscription Plan", () => {
 
       // upgrade to a Pro plan first
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("standard")
+      settingsPage.upgradeSubscription("pro")
 
       // store the Pro plan name for later comparison
       settingsPage.planNameLabel()
