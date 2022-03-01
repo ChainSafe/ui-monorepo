@@ -3,10 +3,6 @@ import {
   FormikTextInput,
   Typography,
   Button,
-  FileImageSvg,
-  FilePdfSvg,
-  FileTextSvg,
-  FolderFilledSvg,
   DownloadSvg,
   DeleteSvg,
   EditSvg,
@@ -37,6 +33,7 @@ import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
 import CustomButton from "../../../../Elements/CustomButton"
+import { getIconForItem } from "../../../../../Utils/getItemIcon"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -151,7 +148,7 @@ const FileSystemItem = ({
 }: IFileSystemItemProps) => {
   const { bucket, downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { downloadMultipleFiles } = useFiles()
-  const { cid, name, isFolder, content_type } = file
+  const { cid, name, isFolder } = file
   const inSharedFolder = useMemo(() => bucket?.type === "share", [bucket])
 
   const {
@@ -201,17 +198,6 @@ const FileSystemItem = ({
     setEditing(undefined)
     formik.resetForm()
   }, [formik, setEditing])
-
-  let Icon
-  if (isFolder) {
-    Icon = FolderFilledSvg
-  } else if (content_type.includes("image")) {
-    Icon = FileImageSvg
-  } else if (content_type.includes("pdf")) {
-    Icon = FilePdfSvg
-  } else {
-    Icon = FileTextSvg
-  }
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
@@ -478,6 +464,8 @@ const FileSystemItem = ({
     }
   }
 
+  const Icon = getIconForItem(file)
+
   const itemProps = {
     ref: fileOrFolderRef,
     owners,
@@ -550,7 +538,7 @@ const FileSystemItem = ({
                     <CustomButton
                       onClick={() => setEditing("")}
                       size="medium"
-                      variant={desktop ? "outline" : "gray"}
+                      variant="gray"
                       type="button"
                     >
                       <Trans>Cancel</Trans>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Button,
@@ -114,10 +114,18 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
 
 const BucketsPage = () => {
   const classes = useStyles()
-  const { storageBuckets, createBucket } = useStorage()
+  const { storageBuckets, createBucket, refreshBuckets } = useStorage()
   const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
+  const bucketsToShow = useMemo(() =>     storageBuckets.filter(b => b.status === "created"), [storageBuckets])
+  const bucketNameValidationSchema = useMemo(
+    () => bucketNameValidator(bucketsToShow.map(b => b.name))
+    , [bucketsToShow]
+  )
 
-  const bucketNameValidationSchema = useMemo(() => bucketNameValidator(storageBuckets.map(b => b.name)), [storageBuckets])
+  useEffect(() => {
+    // this is needed for tests
+    refreshBuckets()
+  }, [refreshBuckets])
 
   const formik = useFormik({
     initialValues:{
@@ -194,12 +202,13 @@ const BucketsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {storageBuckets.map((bucket) =>
-            <BucketRow
-              bucket={bucket}
-              key={bucket.id}
-            />
-          )}
+          {bucketsToShow
+            .map((bucket) =>
+              <BucketRow
+                bucket={bucket}
+                key={bucket.id}
+              />
+            )}
         </TableBody>
       </Table>
       <CustomModal

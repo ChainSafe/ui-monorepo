@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2022-02-15 23:55+0000\n"
-"Last-Translator: Maxime Leroy <lisacintosh@gmail.com>\n"
+"PO-Revision-Date: 2022-02-28 19:31+0000\n"
+"Last-Translator: Thibaut <weblate@thib.top>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.11.1-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "(Awaiting payment)"
@@ -261,7 +261,7 @@ msgid "Credit Card is expiring soon"
 msgstr "La carte de crédit va bientôt expirer"
 
 msgid "DAI, USDC, ETH or BTC"
-msgstr ""
+msgstr "DAI, USDC, ETH ou BTC"
 
 msgid "Dark Theme"
 msgstr "Thème sombre"
@@ -401,6 +401,15 @@ msgstr "Taille"
 msgid "Files"
 msgstr "Fichiers"
 
+msgid "Files Free"
+msgstr ""
+
+msgid "Files Max"
+msgstr ""
+
+msgid "Files Pro"
+msgstr ""
+
 msgid "Files sharing key"
 msgstr "Clé de partage des fichiers"
 
@@ -419,9 +428,6 @@ msgstr "Oublier ce navigateur"
 msgid "Free"
 msgstr "Gratuit"
 
-msgid "Free plan"
-msgstr "Formule gratuite"
-
 msgid "General"
 msgstr "Général"
 
@@ -439,9 +445,6 @@ msgstr "Génération…"
 
 msgid "Get Started"
 msgstr "Commencer"
-
-msgid "Go  back"
-msgstr "Retour"
 
 msgid "Go back"
 msgstr "Retour"
@@ -484,6 +487,9 @@ msgstr "Facture non réglée"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
+
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr "Inscrivez-vous à nos nouvelles offres d'abonnement à accès limité pour passer à une offre contenant plus de stockage."
 
 msgid "Keep original files"
 msgstr "Conserver les fichiers originaux"
@@ -541,6 +547,9 @@ msgstr "Mes Fichiers"
 
 msgid "Name"
 msgstr "Nom"
+
+msgid "Need more storage?"
+msgstr "Plus d'espace de stockage ?"
 
 msgid "New folder"
 msgstr "Nouveau dossier"
@@ -686,14 +695,8 @@ msgstr "Merci de donner un mot de passe"
 msgid "Please select a file to upload"
 msgstr "Merci de sélectionner un fichier à téléverser"
 
-msgid "Premium plan"
-msgstr "Formule premium"
-
 msgid "Preview"
 msgstr "Aperçu"
-
-msgid "Previous"
-msgstr "Précédent"
 
 msgid "Pricing details"
 msgstr "Détails du prix"
@@ -748,6 +751,9 @@ msgstr "Signaler un fichier"
 
 msgid "Report a bug"
 msgstr "Signaler une erreur"
+
+msgid "Request access!"
+msgstr "Demandez l'accès !"
 
 msgid "Requested from"
 msgstr "Envoyé par"
@@ -887,9 +893,6 @@ msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichi
 msgid "Sort By:"
 msgstr "Trier par :"
 
-msgid "Standard plan"
-msgstr "Formule standard"
-
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
 
@@ -930,7 +933,7 @@ msgid "The link you typed in looks malformed. Please verify it."
 msgstr "Le lien que vous avez tapé semble malformé. Veuillez le vérifier."
 
 msgid "The time to pay with crypto is up. Updating your plan..."
-msgstr ""
+msgstr "Temps imparti pour payer en crypto dépassé. Mise à jour votre offre…"
 
 msgid "The transaction was declined. Please use a different card or try again."
 msgstr "La transaction a été refusée. Veuillez utiliser une autre carte, ou réessayer."
@@ -976,9 +979,6 @@ msgstr "Une erreur s'est produite lors de la définition du nom d'utilisateur."
 
 msgid "This card will become your default payment method"
 msgstr "Cette carte deviendra votre méthode de paiement par défaut"
-
-msgid "This is the free product."
-msgstr "Ceci est la version gratuite."
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr "Ce lien est marlformé. Veuillez vérifier que vous l'avez copié/collé correctement."

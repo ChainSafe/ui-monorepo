@@ -43,7 +43,8 @@ export const ROUTE_LINKS = {
     const adjustedRawCurrentPath = !rawCurrentPath ? "/" : rawCurrentPath
     return `/shared/${bucketId}${adjustedRawCurrentPath}`
   },
-  DiscordInvite: "https://discord.gg/zAEY37fNb2"
+  DiscordInvite: "https://discord.gg/zAEY37fNb2",
+  SubscriptionWhitelistForm: "https://chainsafe.typeform.com/to/unZ0veao"
 }
 
 export const permissionPath = (permission: NonceResponsePermission) => permission === "read" ? "read" : "edit"

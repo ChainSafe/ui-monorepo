@@ -1,5 +1,5 @@
 import { Button, ShareAltSvg, Typography, Grid, TextInput, CrossIcon } from "@chainsafe/common-components"
-import { createStyles, debounce, makeStyles, useOnClickOutside, useThemeSwitcher } from "@chainsafe/common-theme"
+import { createStyles, debounce, makeStyles, useOnClickOutside } from "@chainsafe/common-theme"
 import React, { useState, useCallback, useRef } from "react"
 import { CSFTheme } from "../../../Themes/types"
 import { BucketKeyPermission } from "../../../Contexts/FilesContext"
@@ -90,7 +90,7 @@ const useStyles = makeStyles(
       suggestionsDropDown: {
         position: "absolute",
         width: "100%",
-        backgroundColor: palette.common.white.main,
+        backgroundColor: palette.additional["gray"][1],
         border: `1px solid ${palette.additional["gray"][5]}`,
         zIndex: zIndex?.layer1
       },
@@ -178,7 +178,6 @@ interface ICreateOrManageSharedFolderProps {
 
 const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFolderProps) => {
   const classes = useStyles()
-  const { desktop } = useThemeSwitcher()
   const { handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
   const { sharedFolderReaders,
     sharedFolderWriters,
@@ -410,7 +409,7 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
           <CustomButton
             onClick={handleClose}
             size="large"
-            variant={desktop ? "outline" : "gray"}
+            variant="outline"
             type="button"
             data-cy="button-cancel-create-shared-folder"
           >

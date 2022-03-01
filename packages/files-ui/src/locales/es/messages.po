@@ -401,6 +401,15 @@ msgstr "Tamaño del archivo"
 msgid "Files"
 msgstr "Archivos"
 
+msgid "Files Free"
+msgstr ""
+
+msgid "Files Max"
+msgstr ""
+
+msgid "Files Pro"
+msgstr ""
+
 msgid "Files sharing key"
 msgstr ""
 
@@ -417,9 +426,6 @@ msgid "Forget this browser"
 msgstr "Olvida este navegador"
 
 msgid "Free"
-msgstr ""
-
-msgid "Free plan"
 msgstr ""
 
 msgid "General"
@@ -439,9 +445,6 @@ msgstr ""
 
 msgid "Get Started"
 msgstr "Empezar"
-
-msgid "Go  back"
-msgstr ""
 
 msgid "Go back"
 msgstr "Regresar"
@@ -483,6 +486,9 @@ msgid "Invoice outstanding"
 msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
+msgstr ""
+
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
 msgstr ""
 
 msgid "Keep original files"
@@ -541,6 +547,9 @@ msgstr "Mis Archivos"
 
 msgid "Name"
 msgstr "Nombre"
+
+msgid "Need more storage?"
+msgstr ""
 
 msgid "New folder"
 msgstr "Nuevo Folder"
@@ -686,14 +695,8 @@ msgstr "Por favor ingrese una contraseña"
 msgid "Please select a file to upload"
 msgstr ""
 
-msgid "Premium plan"
-msgstr ""
-
 msgid "Preview"
 msgstr "Avance"
-
-msgid "Previous"
-msgstr "Anterior"
 
 msgid "Pricing details"
 msgstr ""
@@ -747,6 +750,9 @@ msgid "Report a File"
 msgstr ""
 
 msgid "Report a bug"
+msgstr ""
+
+msgid "Request access!"
 msgstr ""
 
 msgid "Requested from"
@@ -887,9 +893,6 @@ msgstr "Algo salió mal. No pudimos subir tu archivo"
 msgid "Sort By:"
 msgstr ""
 
-msgid "Standard plan"
-msgstr ""
-
 msgid "Start Upload"
 msgstr "Iniciar la subida"
 
@@ -975,9 +978,6 @@ msgid "There was an error when setting username."
 msgstr ""
 
 msgid "This card will become your default payment method"
-msgstr ""
-
-msgid "This is the free product."
 msgstr ""
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
