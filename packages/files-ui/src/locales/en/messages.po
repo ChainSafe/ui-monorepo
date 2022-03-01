@@ -439,9 +439,6 @@ msgstr "Generating…"
 msgid "Get Started"
 msgstr "Get Started"
 
-msgid "Go  back"
-msgstr "Go  back"
-
 msgid "Go back"
 msgstr "Go back"
 
@@ -483,6 +480,9 @@ msgstr "Invoice outstanding"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
+
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr "Join our new limited-access subscription plans to upgrade to a plan with more storage."
 
 msgid "Keep original files"
 msgstr "Keep original files"
@@ -540,6 +540,9 @@ msgstr "My Files"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Need more storage?"
+msgstr "Need more storage?"
 
 msgid "New folder"
 msgstr "New folder"
@@ -691,9 +694,6 @@ msgstr "Premium plan"
 msgid "Preview"
 msgstr "Preview"
 
-msgid "Previous"
-msgstr "Previous"
-
 msgid "Pricing details"
 msgstr "Pricing details"
 
@@ -747,6 +747,9 @@ msgstr "Report a File"
 
 msgid "Report a bug"
 msgstr "Report a bug"
+
+msgid "Request access!"
+msgstr "Request access!"
 
 msgid "Requested from"
 msgstr "Requested from"

@@ -436,9 +436,6 @@ msgstr "Wird generiert …"
 msgid "Get Started"
 msgstr "Anfangen"
 
-msgid "Go  back"
-msgstr ""
-
 msgid "Go back"
 msgstr "Zurück"
 
@@ -480,6 +477,9 @@ msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Ich bin fertig mit dem Speichern meines Sixherungsgeheimsatzes"
+
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr ""
 
 msgid "Keep original files"
 msgstr ""
@@ -537,6 +537,9 @@ msgstr "Meine Dateien"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Need more storage?"
+msgstr ""
 
 msgid "New folder"
 msgstr "Neuer Ordner"
@@ -688,9 +691,6 @@ msgstr ""
 msgid "Preview"
 msgstr "Vorschau"
 
-msgid "Previous"
-msgstr "Vorherige"
-
 msgid "Pricing details"
 msgstr ""
 
@@ -744,6 +744,9 @@ msgstr "Datei melden"
 
 msgid "Report a bug"
 msgstr "Fehler melden"
+
+msgid "Request access!"
+msgstr ""
 
 msgid "Requested from"
 msgstr "Angefordert von"

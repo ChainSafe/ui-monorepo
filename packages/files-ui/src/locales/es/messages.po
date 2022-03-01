@@ -440,9 +440,6 @@ msgstr ""
 msgid "Get Started"
 msgstr "Empezar"
 
-msgid "Go  back"
-msgstr ""
-
 msgid "Go back"
 msgstr "Regresar"
 
@@ -483,6 +480,9 @@ msgid "Invoice outstanding"
 msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
+msgstr ""
+
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
 msgstr ""
 
 msgid "Keep original files"
@@ -541,6 +541,9 @@ msgstr "Mis Archivos"
 
 msgid "Name"
 msgstr "Nombre"
+
+msgid "Need more storage?"
+msgstr ""
 
 msgid "New folder"
 msgstr "Nuevo Folder"
@@ -692,9 +695,6 @@ msgstr ""
 msgid "Preview"
 msgstr "Avance"
 
-msgid "Previous"
-msgstr "Anterior"
-
 msgid "Pricing details"
 msgstr ""
 
@@ -747,6 +747,9 @@ msgid "Report a File"
 msgstr ""
 
 msgid "Report a bug"
+msgstr ""
+
+msgid "Request access!"
 msgstr ""
 
 msgid "Requested from"

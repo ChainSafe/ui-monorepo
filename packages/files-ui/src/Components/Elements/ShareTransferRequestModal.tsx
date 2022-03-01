@@ -1,5 +1,5 @@
 import { Button, Loading, Typography } from "@chainsafe/common-components"
-import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
@@ -49,7 +49,6 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
 
 const ShareTransferRequestModal = ({ requests }: Props) => {
   const { approveShareTransferRequest, rejectShareTransferRequest, clearShareTransferRequests } = useThresholdKey()
-  const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const [isLoadingApprove, setIsLoadingApprove] = useState(false)
   const [isLoadingReject, setIsLoadingReject] = useState(false)
@@ -103,7 +102,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
         <div className={classes.buttonWrapper}>
           <Button
             className={classes.button}
-            variant={desktop ? "primary" : "outline"}
+            variant="primary"
             size="large"
             loading={isLoadingApprove}
             disabled={isLoadingReject || isLoadingApprove || isClearing}
@@ -112,7 +111,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
           </Button>
           <Button
             className={classes.button}
-            variant={desktop ? "primary" : "outline"}
+            variant="outline"
             size="large"
             loading={isLoadingReject}
             disabled={isLoadingApprove || isLoadingReject || isClearing}

@@ -14,7 +14,7 @@ const useStyles = makeStyles(({ animation, palette, constants, breakpoints, over
       height: constants.generalUnit * 4,
       padding: `0 ${constants.generalUnit}px !important`,
       backgroundColor: palette.additional["gray"][3],
-      color: palette.common.black.main,
+      color: palette.additional["gray"][10],
       borderRadius: `${constants.generalUnit / 4}px`,
       display: "flex",
       justifyContent: "center",
