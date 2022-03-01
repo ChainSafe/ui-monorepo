@@ -28,9 +28,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   })
 )
 
-type PayInvoiceModalSlides = "confirmPlan" |
-"planSuccess" |
-"cryptoPayment"
+type PayInvoiceModalSlides = "confirmPlan" | "planSuccess" | "cryptoPayment"
 
 interface IChangeProductModal {
   invoiceId: string
@@ -53,7 +51,11 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
     try {
       setPayingInvoice(true)
       setErrorMessage(undefined)
-      filesApiClient.payInvoice(invoiceToPay.uuid).then(refreshInvoices).then(() => setSlide("planSuccess"))
+      filesApiClient.payInvoice(invoiceToPay.uuid)
+        .then(() => {
+          setSlide("planSuccess")
+          refreshInvoices()
+        )
 
     } catch (error: any) {
       const errorMessage = formatSubscriptionError(error)
@@ -73,7 +75,6 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
   }, [invoiceToPay, slide])
 
   if (!invoiceToPay) return null
-
 
   return (
     <Modal
