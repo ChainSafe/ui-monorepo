@@ -15,14 +15,14 @@ export const selectPlanModal = {
   // creates a cypress alias for each individual plan.
   createPlanCypressAliases() {
     this.planBoxContainer().should("have.length.greaterThan", 0)
-    this.planBoxContainer().contains("Free plan")
+    this.planBoxContainer().contains("Files Free")
       .should("be.visible")
-      .as("freePlanBox")
-    this.planBoxContainer().contains("Standard plan")
+      .as("filesFreeBox")
+    this.planBoxContainer().contains("Files Pro")
       .should("be.visible")
-      .as("standardPlanBox")
-    this.planBoxContainer().contains("Premium plan")
+      .as("filesProBox")
+    this.planBoxContainer().contains("Files Max")
       .should("be.visible")
-      .as("premiumPlanBox")
+      .as("filesMaxBox")
   }
 }

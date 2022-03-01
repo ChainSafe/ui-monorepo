@@ -41,7 +41,7 @@ export const settingsPage = {
 
   // use this convenience function when an upgraded account is required as a test requisite
   upgradeSubscription(plan: "standard" | "premium") {
-    const planContainer = plan === "standard" ? "@standardPlanBox" : "@premiumPlanBox"
+    const planContainer = plan === "standard" ? "@filesProBox" : "@filesMaxBox"
 
     this.subscriptionTabButton().click()
     this.changePlanButton().click()
