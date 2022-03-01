@@ -7,6 +7,7 @@ import { useBilling } from "../../../../../Contexts/BillingContext"
 import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
 import ConfirmPlan from "../Common/ConfirmPlan"
 import { formatSubscriptionError } from "../utils/formatSubscriptionError"
+import PlanSuccess from "../Common/PlanSuccess"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -52,7 +53,8 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
     try {
       setPayingInvoice(true)
       setErrorMessage(undefined)
-      filesApiClient.payInvoice(invoiceToPay.uuid).then(refreshInvoices)
+      filesApiClient.payInvoice(invoiceToPay.uuid).then(refreshInvoices).then(() => setSlide("planSuccess"))
+
     } catch (error: any) {
       const errorMessage = formatSubscriptionError(error)
       setErrorMessage(errorMessage)
@@ -86,21 +88,25 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
       testId="cryptoPayment"
       onClose={onClose}
     >
-      {invoiceToPay?.payment_method === "crypto"
-        ? <CryptoPayment 
-          onClose={onClose} 
-          onSuccess={() => setSlide("planSuccess")}
-        />
-        : <ConfirmPlan
-          plan={{ ...invoiceToPay.product, prices: [invoiceToPay?.product.price] }}
-          planPrice={invoiceToPay?.product.price}
-          goToSelectPlan={() => undefined }
-          goToPaymentMethod={() => undefined }
-          onChangeSubscription={payInvoice}
-          loadingChangeSubscription={payingInvoice}
-          subscriptionErrorMessage={errorMessage}
-          paymentMethod={invoiceToPay.payment_method === "stripe" ? "creditCard" : "crypto"}
-        />
+      {slide === "cryptoPayment" && <CryptoPayment
+        onClose={onClose}
+        onSuccess={() => setSlide("planSuccess")}
+      />}
+      {slide === "confirmPlan" && <ConfirmPlan
+        plan={{ ...invoiceToPay.product, prices: [invoiceToPay.product.price] }}
+        planPrice={invoiceToPay.product.price}
+        goToSelectPlan={() => undefined }
+        goToPaymentMethod={() => undefined }
+        onChangeSubscription={payInvoice}
+        loadingChangeSubscription={payingInvoice}
+        subscriptionErrorMessage={errorMessage}
+        paymentMethod={invoiceToPay.payment_method === "stripe" ? "creditCard" : "crypto"}
+      />}
+      {slide === "planSuccess" && <PlanSuccess
+        plan={{ ...invoiceToPay.product, prices: [invoiceToPay.product.price] }}
+        planPrice={invoiceToPay.product.price}
+        onClose={onClose}
+        paymentMethod={invoiceToPay.payment_method === "stripe" ? "creditCard" : "crypto"}/>
       }
     </Modal>
   )
