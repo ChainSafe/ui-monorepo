@@ -55,7 +55,7 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
         .then(() => {
           setSlide("planSuccess")
           refreshInvoices()
-        )
+        })
 
     } catch (error: any) {
       const errorMessage = formatSubscriptionError(error)
