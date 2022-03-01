@@ -980,6 +980,9 @@ msgstr "Une erreur s'est produite lors de la définition du nom d'utilisateur."
 msgid "This card will become your default payment method"
 msgstr "Cette carte deviendra votre méthode de paiement par défaut"
 
+msgid "This is the free product."
+msgstr "Ceci est la version gratuite."
+
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr "Ce lien est marlformé. Veuillez vérifier que vous l'avez copié/collé correctement."
 
