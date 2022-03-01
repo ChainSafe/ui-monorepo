@@ -13,6 +13,21 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "(Awaiting payment)"
+msgstr "(Awaiting payment)"
+
+msgid "/month"
+msgstr "/month"
+
+msgid "/year"
+msgstr "/year"
+
+msgid "<0>{currentStorage}</0> of storage"
+msgstr "<0>{currentStorage}</0> of storage"
+
+msgid "<0>{planStorageCapacity}</0> of storage"
+msgstr "<0>{planStorageCapacity}</0> of storage"
+
 msgid "A bucket with this name already exists"
 msgstr "A bucket with this name already exists"
 
@@ -22,20 +37,68 @@ msgstr "A file with the same name already exists"
 msgid "API Keys"
 msgstr "API Keys"
 
+msgid "Accepted currencies"
+msgstr "Accepted currencies"
+
+msgid "Access your billing history in settings or view your"
+msgstr "Access your billing history in settings or view your"
+
 msgid "Add API Key"
 msgstr "Add API Key"
+
+msgid "Add Card"
+msgstr "Add Card"
 
 msgid "Add S3 Key"
 msgstr "Add S3 Key"
 
+msgid "Add a credit card"
+msgstr "Add a credit card"
+
+msgid "Add card"
+msgstr "Add card"
+
+msgid "Add credit card"
+msgstr "Add credit card"
+
 msgid "Add more files"
 msgstr "Add more files"
+
+msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+msgstr "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+
+msgid "All invoices"
+msgstr "All invoices"
+
+msgid "Amount added to credit"
+msgstr "Amount added to credit"
+
+msgid "Amount available from last bill"
+msgstr "Amount available from last bill"
+
+msgid "Amount due"
+msgstr "Amount due"
+
+msgid "Amount from credit"
+msgstr "Amount from credit"
+
+msgid "Annual billing{0}"
+msgstr "Annual billing{0}"
 
 msgid "Api Keys"
 msgstr "Api Keys"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Are we on the right track? Let us know in less than 1 minute."
+
+msgid "Are you sure? This will delete your default payment method."
+msgstr "Are you sure? This will delete your default payment method."
+
+msgid "Billing history"
+msgstr "Billing history"
+
+msgid "Billing start time"
+msgstr "Billing start time"
 
 msgid "Bucket name"
 msgstr "Bucket name"
@@ -49,6 +112,9 @@ msgstr "Buckets"
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 
+msgid "By switching plan, you will loose access to:"
+msgstr "By switching plan, you will loose access to:"
+
 msgid "CID invalid"
 msgstr "CID invalid"
 
@@ -61,8 +127,23 @@ msgstr "CIDs"
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Card added"
+msgstr "Card added"
+
+msgid "Card inputs invalid"
+msgstr "Card inputs invalid"
+
+msgid "Card updated"
+msgstr "Card updated"
+
 msgid "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network."
 msgstr "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network."
+
+msgid "Change Plan"
+msgstr "Change Plan"
+
+msgid "Change plan"
+msgstr "Change plan"
 
 msgid "Check your inbox! We've sent another email."
 msgstr "Check your inbox! We've sent another email."
@@ -76,8 +157,23 @@ msgstr "Cids"
 msgid "Click or drag to upload files"
 msgstr "Click or drag to upload files"
 
+msgid "Close"
+msgstr "Close"
+
 msgid "Confirm"
 msgstr "Confirm"
+
+msgid "Confirm plan change"
+msgstr "Confirm plan change"
+
+msgid "Confirm plan downgrade"
+msgstr "Confirm plan downgrade"
+
+msgid "Confirmation"
+msgstr "Confirmation"
+
+msgid "Connect Wallet"
+msgstr "Connect Wallet"
 
 msgid "Connect Wallet to Storage"
 msgstr "Connect Wallet to Storage"
@@ -87,6 +183,9 @@ msgstr "Connect a new wallet"
 
 msgid "Connection failed"
 msgstr "Connection failed"
+
+msgid "Contact us"
+msgstr "Contact us"
 
 msgid "Continue"
 msgstr "Continue"
@@ -124,6 +223,9 @@ msgstr "Created"
 msgid "Created At"
 msgstr "Created At"
 
+msgid "DAI, USDC, ETH or BTC"
+msgstr "DAI, USDC, ETH or BTC"
+
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
@@ -142,6 +244,9 @@ msgstr "Delete selected"
 msgid "Deletion successful"
 msgstr "Deletion successful"
 
+msgid "Destination Address"
+msgstr "Destination Address"
+
 msgid "Didn't receive the email ?"
 msgstr "Didn't receive the email ?"
 
@@ -157,14 +262,32 @@ msgstr "Download complete"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Edit payment"
+msgstr "Edit payment"
+
+msgid "Edit payment method"
+msgstr "Edit payment method"
+
+msgid "Edit plan"
+msgstr "Edit plan"
+
 msgid "Email is required"
 msgstr "Email is required"
 
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
 
+msgid "Failed to add payment method"
+msgstr "Failed to add payment method"
+
+msgid "Failed to create a charge"
+msgstr "Failed to create a charge"
+
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
+
+msgid "Failed to update the subscription. Please try again later."
+msgstr "Failed to update the subscription. Please try again later."
 
 msgid ""
 "Failed to validate signature.\n"
@@ -174,6 +297,9 @@ msgstr ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
+
+msgid "Features"
+msgstr "Features"
 
 msgid "File"
 msgstr "File"
@@ -190,11 +316,23 @@ msgstr "Folder name is already in use"
 msgid "Folder uploads are currently not supported"
 msgstr "Folder uploads are currently not supported"
 
+msgid "Free"
+msgstr "Free"
+
+msgid "Free plan"
+msgstr "Free plan"
+
 msgid "Get Started"
 msgstr "Get Started"
 
+msgid "Go  back"
+msgstr "Go  back"
+
 msgid "Go back"
 msgstr "Go back"
+
+msgid "Have a question?"
+msgstr "Have a question?"
 
 msgid "Hold on, we are logging you in…"
 msgstr "Hold on, we are logging you in…"
@@ -204,6 +342,9 @@ msgstr "Id"
 
 msgid "Info"
 msgstr "Info"
+
+msgid "Insufficient balance"
+msgstr "Insufficient balance"
 
 msgid "Key ID"
 msgstr "Key ID"
@@ -232,17 +373,32 @@ msgstr "New Key"
 msgid "New folder"
 msgstr "New folder"
 
+msgid "Next payment"
+msgstr "Next payment"
+
+msgid "No Card"
+msgstr "No Card"
+
 msgid "No files to show"
 msgstr "No files to show"
 
 msgid "No folders"
 msgstr "No folders"
 
+msgid "No invoice found"
+msgstr "No invoice found"
+
 msgid "OK"
 msgstr "OK"
 
+msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
+msgstr "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
+
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
+
+msgid "Only send the exact amount of {0} to this address"
+msgstr "Only send the exact amount of {0} to this address"
 
 msgid "Open on Gateway"
 msgstr "Open on Gateway"
@@ -253,11 +409,41 @@ msgstr "Or using one of the following:"
 msgid "Paste the CID to pin it with ChainSafe Storage"
 msgstr "Paste the CID to pin it with ChainSafe Storage"
 
+msgid "Pay now"
+msgstr "Pay now"
+
+msgid "Pay with Crypto"
+msgstr "Pay with Crypto"
+
+msgid "Pay with crypto"
+msgstr "Pay with crypto"
+
+msgid "Pay with {0}"
+msgstr "Pay with {0}"
+
+msgid "Payment information"
+msgstr "Payment information"
+
+msgid "Payment method"
+msgstr "Payment method"
+
+msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+msgstr "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+
 msgid "Pin"
 msgstr "Pin"
 
 msgid "Pin CID"
 msgstr "Pin CID"
+
+msgid "Plan changed successfully"
+msgstr "Plan changed successfully"
+
+msgid "Plan price"
+msgstr "Plan price"
+
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
+msgstr "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
@@ -274,14 +460,23 @@ msgstr "Please select a file to upload"
 msgid "Preview"
 msgstr "Preview"
 
+msgid "Pricing details"
+msgstr "Pricing details"
+
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
+
+msgid "Proceed to payment"
+msgstr "Proceed to payment"
 
 msgid "Recover"
 msgstr "Recover"
 
 msgid "Recover selected"
 msgstr "Recover selected"
+
+msgid "Remove"
+msgstr "Remove"
 
 msgid "Rename"
 msgstr "Rename"
@@ -295,8 +490,23 @@ msgstr "Rename folder"
 msgid "Secret"
 msgstr "Secret"
 
+msgid "See payment info"
+msgstr "See payment info"
+
+msgid "Select a cryptocurrency"
+msgstr "Select a cryptocurrency"
+
 msgid "Select a wallet"
 msgstr "Select a wallet"
+
+msgid "Select payment method"
+msgstr "Select payment method"
+
+msgid "Select plan"
+msgstr "Select plan"
+
+msgid "Select this plan"
+msgstr "Select this plan"
 
 msgid "Send another email"
 msgstr "Send another email"
@@ -334,6 +544,27 @@ msgstr "Start Upload"
 msgid "Status"
 msgstr "Status"
 
+msgid "Storage Max"
+msgstr "Storage Max"
+
+msgid "Storage Pro"
+msgstr "Storage Pro"
+
+msgid "Subscription Plan"
+msgstr "Subscription Plan"
+
+msgid "Subscription plan"
+msgstr "Subscription plan"
+
+msgid "Switch Network"
+msgstr "Switch Network"
+
+msgid "Switch Plan"
+msgstr "Switch Plan"
+
+msgid "Switch to Free plan"
+msgstr "Switch to Free plan"
+
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
 msgstr "System maintenance is scheduled to start at {0}. The system will be unavailable."
 
@@ -348,6 +579,15 @@ msgstr "The files are already in this folder"
 
 msgid "The name cannot contain '/' character"
 msgstr "The name cannot contain '/' character"
+
+msgid "The time to pay with crypto is up. Updating your plan..."
+msgstr "The time to pay with crypto is up. Updating your plan..."
+
+msgid "The transaction was declined. Please use a different card or try again."
+msgstr "The transaction was declined. Please use a different card or try again."
+
+msgid "There was a problem creating a charge {error}"
+msgstr "There was a problem creating a charge {error}"
 
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
@@ -364,6 +604,18 @@ msgstr "There was an error deleting this item"
 msgid "There was an error moving this"
 msgstr "There was an error moving this"
 
+msgid "This card will become your default payment method"
+msgstr "This card will become your default payment method"
+
+msgid "This is the free product."
+msgstr "This is the free product."
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Total Amount"
+msgstr "Total Amount"
+
 msgid "Try again"
 msgstr "Try again"
 
@@ -375,6 +627,18 @@ msgstr "Unpin"
 
 msgid "Update"
 msgstr "Update"
+
+msgid "Update Card"
+msgstr "Update Card"
+
+msgid "Update card"
+msgstr "Update card"
+
+msgid "Update credit card"
+msgstr "Update credit card"
+
+msgid "Update your credit card"
+msgstr "Update your credit card"
 
 msgid "Upload"
 msgstr "Upload"
@@ -388,6 +652,9 @@ msgstr "Uploading {0} files"
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
+msgid "Use this card"
+msgstr "Use this card"
+
 msgid "Using an email:"
 msgstr "Using an email:"
 
@@ -399,6 +666,9 @@ msgstr "Verification code not correct!"
 
 msgid "Verification code sent!"
 msgstr "Verification code sent!"
+
+msgid "View PDF"
+msgstr "View PDF"
 
 msgid "View folder"
 msgstr "View folder"
@@ -415,8 +685,20 @@ msgstr "We’ve sent an email to {email}. It contains a verification code that�
 msgid "You can't move folders to this path"
 msgstr "You can't move folders to this path"
 
+msgid "You get access to these features right now."
+msgstr "You get access to these features right now."
+
+msgid "You now have:"
+msgstr "You now have:"
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+msgstr "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+
+msgid "expires"
+msgstr "expires"
 
 msgid "file"
 msgstr "file"
@@ -424,11 +706,29 @@ msgstr "file"
 msgid "folder"
 msgstr "folder"
 
+msgid "invoices here"
+msgstr "invoices here"
+
 msgid "moved successfully"
 msgstr "moved successfully"
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
+msgid "{0} of {1} used"
+msgstr "{0} of {1} used"
+
+msgid "{currentPlanStorage} of storage"
+msgstr "{currentPlanStorage} of storage"
+
+msgid "{newPlanCapacity} of storage"
+msgstr "{newPlanCapacity} of storage"
+
+msgid "{newPlanStorage} of storage"
+msgstr "{newPlanStorage} of storage"
+
 msgid "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
+
+msgid "{planStorageCapacity} of storage"
+msgstr "{planStorageCapacity} of storage"
