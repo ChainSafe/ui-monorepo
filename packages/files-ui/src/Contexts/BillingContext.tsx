@@ -37,33 +37,26 @@ interface IBillingContext {
 
 const ProductMapping: {[key: string]: {
   name: string
-  description: string
 }} = {
   // Staging Product Ids
   prod_JwRu6Ph25b1f2O: {
-    name: t`Files Free`,
-    description: ""
+    name: t`Files Free`
   },
   prod_JwS49Qfnr6vD3K: {
-    name: t`Files Pro`,
-    description: ""
+    name: t`Files Pro`
   },
   prod_JwSGHB8qFx7rRM: {
-    name: t`Files Max`,
-    description: ""
+    name: t`Files Max`
   },
   // Production Product Ids
   prod_KRAq3CngQMKebw: {
-    name: t`Files Free`,
-    description: ""
+    name: t`Files Free`
   },
   prod_LDXtKgrbAoZvIB: {
-    name: t`Files Pro`,
-    description: ""
+    name: t`Files Pro`
   },
   prod_LDXtBLuzjVxMzg: {
-    name: t`Files Max`,
-    description: ""
+    name: t`Files Max`
   }
 }
 
