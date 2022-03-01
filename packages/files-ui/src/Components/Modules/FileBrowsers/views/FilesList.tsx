@@ -316,6 +316,9 @@ const useStyles = makeStyles(
       },
       buttonWrap: {
         whiteSpace: "nowrap"
+      },
+      checkIcon: {
+        fill: palette.additional.gray[8]
       }
     })
   }
@@ -1133,7 +1136,7 @@ const FilesList = ({ isShared = false }: Props) => {
                             }, {
                               contents: (
                                 <>
-                                  {column === "name" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  {column === "name" && <ListItemIcon><CheckIcon className={classes.checkIcon} /></ListItemIcon>}
                                   <ListItemText inset={column !== "name"}>
                                     <Trans>Name</Trans>
                                   </ListItemText>
@@ -1143,7 +1146,7 @@ const FilesList = ({ isShared = false }: Props) => {
                             }, {
                               contents: (
                                 <>
-                                  {column === "date_uploaded" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  {column === "date_uploaded" && <ListItemIcon><CheckIcon className={classes.checkIcon} /></ListItemIcon>}
                                   <ListItemText inset={column !== "date_uploaded"}>
                                     <Trans>Date Uploaded</Trans>
                                   </ListItemText>
@@ -1153,7 +1156,7 @@ const FilesList = ({ isShared = false }: Props) => {
                             }, {
                               contents: (
                                 <>
-                                  {column === "size" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  {column === "size" && <ListItemIcon><CheckIcon className={classes.checkIcon} /></ListItemIcon>}
                                   <ListItemText inset={column !== "size"}>
                                     <Trans>Size</Trans>
                                   </ListItemText>
