@@ -2,14 +2,14 @@ import React from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import {  Button, CheckCircleIcon, CheckIcon, Divider, formatBytes, Link, Typography } from "@chainsafe/common-components"
+import { Button, CheckCircleIcon, CheckIcon, Divider, formatBytes, Link, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../../FilesRoutes"
 import clsx from "clsx"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
-    root:  {
+    root: {
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     headingBadge: {
@@ -67,7 +67,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     textLink: {
       color: palette.primary.background
     },
-    checkCircleIcon:  {
+    checkCircleIcon: {
       fill: palette.additional["gray"][7],
       marginLeft: constants.generalUnit
     },
@@ -133,16 +133,6 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
                 ? <Trans>{newPlanCapacity} of storage</Trans>
                 : plan.description
               }
-            </Typography>
-          </div>
-          <div className={classes.middleRowBox}>
-            <CheckIcon className={classes.tickIcon} />
-            <Typography
-              component="p"
-              variant="body1"
-              data-cy="label-new-plan-name"
-            >
-              {plan.description}
             </Typography>
           </div>
         </div>

@@ -371,7 +371,6 @@ describe("Subscription Plan", () => {
       planChangeSuccessModal.planChangeSuccessSubheader().should("be.visible")
       planChangeSuccessModal.featuresSummaryLabel().should("be.visible")
       planChangeSuccessModal.newStorageCapacityLabel().should("be.visible")
-      planChangeSuccessModal.newPlanNameLabel().should("be.visible")
       planChangeSuccessModal.billingHistoryLabel().should("be.visible")
       planChangeSuccessModal.invoicesLink().should("be.visible")
       planChangeSuccessModal.closeButton().should("be.visible")
@@ -440,11 +439,11 @@ describe("Subscription Plan", () => {
       // store the downgraded plan name for later comparison
       settingsPage.planNameLabel()
         .should("be.visible")
-        .invoke("text").as("standardPlanName")
+        .invoke("text").as("proPlanName")
 
       // ensure the downgraded plan name is not the same as the previously upgraded plan
       cy.get("@premiumPlanName").then(($premiumPlanName) => {
-        cy.get("@standardPlanName").should("not.equal", $premiumPlanName)
+        cy.get("@proPlanName").should("not.equal", $premiumPlanName)
       })
     })
 
@@ -487,7 +486,7 @@ describe("Subscription Plan", () => {
         .invoke("text").as("freePlanName")
 
       // ensure the downgraded plan name is not the same as the previously upgraded plan
-      cy.get("@standardPlanName").then(($standardPlanName) => {
+      cy.get("@proPlanName").then(($standardPlanName) => {
         cy.get("@freePlanName").should("not.equal", $standardPlanName)
       })
     })
