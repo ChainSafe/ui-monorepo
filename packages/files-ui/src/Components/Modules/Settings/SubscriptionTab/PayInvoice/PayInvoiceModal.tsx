@@ -95,8 +95,6 @@ const PayInvoiceModal = ({ onClose, invoiceId }: IChangeProductModal) => {
       {slide === "confirmPlan" && <ConfirmPlan
         plan={{ ...invoiceToPay.product, prices: [invoiceToPay.product.price] }}
         planPrice={invoiceToPay.product.price}
-        goToSelectPlan={() => undefined }
-        goToPaymentMethod={() => undefined }
         onChangeSubscription={payInvoice}
         loadingChangeSubscription={payingInvoice}
         subscriptionErrorMessage={errorMessage}
