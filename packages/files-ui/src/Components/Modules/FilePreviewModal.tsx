@@ -80,13 +80,12 @@ const useStyles = makeStyles(
       },
       closePreviewButton: {
         marginRight: constants.generalUnit * 2,
-        cursor: "pointer",
-        "& > * > svg":{
-          stroke: constants.previewModal.closeButtonColor
+        "& svg":{
+          stroke: constants.previewModal.headerButtonColor
         }
       },
       downloadIcon: {
-        fill: constants.previewModal.closeButtonColor
+        fill: constants.previewModal.headerButtonColor
       },
       fileName: {
         width: "100%",
@@ -104,9 +103,32 @@ const useStyles = makeStyles(
         alignItems: "center"
       },
       prevNextButton: {
-        backgroundColor: palette.common.black.main,
+        backgroundColor: constants.previewModal.controlsBackgroundColor,
+        color: constants.previewModal.controlsButtonColor,
         padding: `${constants.generalUnit * 2}px !important`,
-        borderRadius: constants.generalUnit * 4
+        borderRadius: constants.generalUnit * 4,
+        border: "none",
+        "& svg": {
+          fill: constants.previewModal.controlsButtonColor
+        },
+        "&:hover": {
+          backgroundColor: constants.previewModal.controlsBackgroundHoverColor,
+          "& svg": {
+            fill: constants.previewModal.controlsButtonColor
+          }
+        },
+        "&:active": {
+          backgroundColor: constants.previewModal.controlsBackgroundHoverColor,
+          "& svg": {
+            fill: constants.previewModal.controlsButtonColor
+          }
+        },
+        "&:focus": {
+          backgroundColor: constants.previewModal.controlsBackgroundHoverColor,
+          "& svg": {
+            fill: constants.previewModal.controlsButtonColor
+          }
+        }
       },
       previewContent: {
         color: constants.previewModal.message,
@@ -277,8 +299,9 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
           onClick={handleDownload}
           variant="text"
           data-cy="button-download-previewed-file"
+          className={classes.downloadIcon}
         >
-          <DownloadIcon className={classes.downloadIcon}/>
+          <DownloadIcon />
         </Button>
         <Button
           onClick={closePreview}

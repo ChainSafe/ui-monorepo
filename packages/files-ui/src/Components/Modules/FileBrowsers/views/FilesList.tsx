@@ -214,7 +214,7 @@ const useStyles = makeStyles(
         zIndex: zIndex?.layer4,
         bottom: 0,
         transform: "translateX(-50%)",
-        backgroundColor: palette.common.black.main,
+        backgroundColor: palette.additional["gray"][10],
         color: constants.filesTable.uploadText,
         opacity: 0,
         visibility: "hidden",
@@ -329,6 +329,8 @@ interface Props {
   isShared?: boolean
 }
 
+type SortByType = "name" | "size" | "date_uploaded"
+
 const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
@@ -362,7 +364,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
-  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
+  const [column, setColumn] = useState<SortByType>("name")
   const [selectedItems, setSelectedItems] = useState<FileSystemItemType[]>([])
   const [fileIndex, setFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
@@ -416,9 +418,7 @@ const FilesList = ({ isShared = false }: Props) => {
     selectedItems.some((item) => !!item.isFolder)
   , [selectedItems])
 
-  const handleSortToggle = (
-    targetColumn: "name" | "size" | "date_uploaded"
-  ) => {
+  const handleSortToggle = useCallback((targetColumn: SortByType) => {
     if (column !== targetColumn) {
       setColumn(targetColumn)
       setDirection("descend")
@@ -429,7 +429,7 @@ const FilesList = ({ isShared = false }: Props) => {
         setDirection("ascend")
       }
     }
-  }
+  }, [column, direction])
 
   const toggleSortDirection = () => {
     if (direction === "ascend") {

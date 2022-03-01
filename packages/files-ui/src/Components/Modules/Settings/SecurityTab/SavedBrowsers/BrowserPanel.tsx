@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Button, ExpansionPanel, Typography } from "@chainsafe/common-components"
 import clsx from "clsx"
@@ -105,7 +105,6 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
   const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
   const [loadingDownloadKey, setLoadingDownloadKey] = useState(false)
   const [isModalConfirmationOpen, setIsModalConfirmationOpen] = useState(false)
-  const { desktop } = useThemeSwitcher()
 
   const onDeleteShare = useCallback(() => {
     setLoadingDeleteShare(true)
@@ -211,7 +210,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
                   </Typography>
                   <div className={classes.modalFooter}>
                     <CustomButton
-                      variant={desktop ? "outline" : "gray"}
+                      variant="outline"
                       onClick={() => setIsModalConfirmationOpen(false)}
                       className={classes.cancelButton}
                       disabled={loadingDeleteShare}

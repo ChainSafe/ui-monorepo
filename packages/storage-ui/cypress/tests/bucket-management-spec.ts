@@ -7,8 +7,8 @@ describe("Bucket management", () => {
 
   context("desktop", () => {
 
-    it.skip("can create a bucket", () => {
-      cy.web3Login({ clearPins: true })
+    it("can create a bucket", () => {
+      cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
 
       // create a bucket and see it in the bucket table
       navigationMenu.bucketsNavButton().click()
@@ -24,16 +24,17 @@ describe("Bucket management", () => {
       bucketsPage.createBucketForm().should("not.exist")
     })
 
-    it.skip("can delete a bucket", () => {
-      cy.web3Login({ clearPins: true })
+    it("can delete a bucket", () => {
+      cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
 
-      // delete a bucket and ensure it's row is removed
+      // delete a bucket and ensure its row is removed
       navigationMenu.bucketsNavButton().click()
-      bucketsPage.createBucket(bucketName)
+      // creating a bucket with a unique name
+      bucketsPage.createBucket(`${bucketName}_${Date.now()}`)
       bucketsPage.bucketRowKebabButton().first().click()
       bucketsPage.deleteBucketMenuOption().first().click()
-      bucketsPage.bucketItemRow().should("not.be.visible")
-      bucketsPage.bucketItemName().should("not.be.visible")
+      bucketsPage.bucketItemRow().should("not.exist")
+      bucketsPage.bucketItemName().should("not.exist")
     })
   })
 })

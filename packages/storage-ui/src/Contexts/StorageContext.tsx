@@ -66,6 +66,7 @@ type StorageContext = {
   storageBuckets: Bucket[]
   createBucket: (name: string) => Promise<void>
   removeBucket: (id: string) => void
+  refreshBuckets: () => void
 }
 
 // This represents a File or Folder on the
@@ -357,7 +358,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         downloadFile,
         createBucket,
         removeBucket,
-        uploadFiles
+        uploadFiles,
+        refreshBuckets
       }}
     >
       {children}

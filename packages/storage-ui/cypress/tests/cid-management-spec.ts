@@ -6,7 +6,7 @@ describe("CID management", () => {
 
   context("desktop", () => {
 
-    it.skip("can pin a CID", () => {
+    it("can pin a CID", () => {
       cy.web3Login({ clearPins: true })
       navigationMenu.cidsNavButton().click()
 
@@ -22,6 +22,8 @@ describe("CID management", () => {
       cidsPage.pinCidForm().should("not.exist")
     })
 
+    // this is unreliable since the pin from the previous 
+    // test is still in the "queued" state while being unpinned.
     it.skip("can unpin a cid", () => {
       cy.web3Login({ clearPins: true })
 
@@ -29,7 +31,7 @@ describe("CID management", () => {
       cidsPage.addPinnedCid()
       cidsPage.cidRowKebabButton().click()
       cidsPage.unpinMenuOption().click()
-      cidsPage.cidItemRow().should("not.exist")
+      cidsPage.cidItemRow().should("contain.text", "queued")
     })
   })
 })
