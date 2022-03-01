@@ -190,7 +190,7 @@ describe("Subscription Plan", () => {
           .should("be.enabled")
       })
 
-      // select the standard plan 
+      // select the Files Pro 
       cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
@@ -273,7 +273,7 @@ describe("Subscription Plan", () => {
       settingsPage.subscriptionTabButton().click()
       settingsPage.changePlanButton().click()
 
-      selectPlanModal.planBoxContainer().contains("Standard plan")
+      selectPlanModal.planBoxContainer().contains("Files Pro")
         .should("be.visible")
         .as("filesProBox")
 
@@ -397,7 +397,7 @@ describe("Subscription Plan", () => {
       })
     })
 
-    it("can downgrade from premium plan to standard plan", () => {
+    it("can downgrade from Max plan to Pro plan", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
 
       // upgrade to a premium plan first using convenience function
@@ -448,17 +448,17 @@ describe("Subscription Plan", () => {
       })
     })
 
-    it("can downgrade from standard plan to free plan", () => {
+    it("can downgrade from Pro plan to free plan", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
 
-      // upgrade to a standard plan first
+      // upgrade to a Pro plan first
       navigationMenu.settingsNavButton().click()
       settingsPage.upgradeSubscription("standard")
 
-      // store the standard plan name for later comparison
+      // store the Pro plan name for later comparison
       settingsPage.planNameLabel()
         .should("be.visible")
-        .invoke("text").as("standardPlanName")
+        .invoke("text").as("proPlanName")
 
       // initiate the downgrade process
       settingsPage.changePlanButton().click()
