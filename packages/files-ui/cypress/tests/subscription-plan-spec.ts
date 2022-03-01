@@ -250,7 +250,7 @@ describe("Subscription Plan", () => {
       // create cypress aliases for the plans
       selectPlanModal.createPlanCypressAliases()
 
-      cy.get("@fileProBox").parent().within(() => {
+      cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
@@ -275,9 +275,9 @@ describe("Subscription Plan", () => {
 
       selectPlanModal.planBoxContainer().contains("Standard plan")
         .should("be.visible")
-        .as("fileProBox")
+        .as("filesProBox")
 
-      cy.get("@fileProBox").parent().within(() => {
+      cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
@@ -412,7 +412,7 @@ describe("Subscription Plan", () => {
       // initiate the downgrade process
       settingsPage.changePlanButton().click()
       selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
-      cy.get("@fileProBox").parent().within(() => {
+      cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
