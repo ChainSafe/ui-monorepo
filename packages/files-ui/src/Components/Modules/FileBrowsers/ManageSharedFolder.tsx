@@ -385,7 +385,6 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
                 }
                 else if (sharedFolderUser.permission === "write") {
                   setSharedFolderWriters(sharedFolderWriters.filter((w) => w.value !== sharedFolderUser.user.value))
-
                 }
               }}
             >
