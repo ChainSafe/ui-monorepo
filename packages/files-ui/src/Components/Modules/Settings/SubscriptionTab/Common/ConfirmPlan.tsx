@@ -454,7 +454,7 @@ const ConfirmPlan = ({
           <Button
             variant="primary"
             loading={loadingChangeSubscription || !checkSubscriptionUpdate}
-            disabled={loadingChangeSubscription || !checkSubscriptionUpdate}
+            disabled={loadingChangeSubscription || !checkSubscriptionUpdate || (paymentMethod === "creditCard" && !defaultCard)}
             onClick={onChangeSubscription}
             testId="confirm-plan-change"
           >
