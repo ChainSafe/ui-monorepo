@@ -65,8 +65,8 @@ type FilesContext = {
   ) => Promise<BucketKeyPermission | void>
   editSharedFolder: (
     bucket: BucketKeyPermission,
-    writers?: LookupUser[],
-    readers?: LookupUser[]
+    writers: LookupUser[],
+    readers: LookupUser[]
   ) => Promise<void>
   transferFileBetweenBuckets: (
     sourceBucket: BucketKeyPermission,
@@ -717,7 +717,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   }, [encryptForPublicKey, filesApiClient, getKeyForBucket, getPermissionForBucket, getUsersWithEncryptionKey, publicKey, refreshBuckets])
 
   const editSharedFolder = useCallback(
-    async (bucket: BucketKeyPermission, writerUsers?: LookupUser[], readerUsers?: LookupUser[]) => {
+    async (bucket: BucketKeyPermission, writerUsers: LookupUser[], readerUsers: LookupUser[]) => {
       if (!publicKey) return
 
       if (!readerUsers || !writerUsers) return
