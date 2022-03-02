@@ -380,7 +380,13 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
               className={classes.crossButton}
               onClick={() => {
                 setHasPermissionsChanged(true)
-                setSharedFolderReaders(sharedFolderReaders.filter((r) => r.value !== sharedFolderUser.user.value))
+                if (sharedFolderUser.permission === "read") {
+                  setSharedFolderReaders(sharedFolderReaders.filter((r) => r.value !== sharedFolderUser.user.value))
+                }
+                else if (sharedFolderUser.permission === "write") {
+                  setSharedFolderWriters(sharedFolderWriters.filter((w) => w.value !== sharedFolderUser.user.value))
+
+                }
               }}
             >
               <CrossIcon className={classes.crossIcon} />
