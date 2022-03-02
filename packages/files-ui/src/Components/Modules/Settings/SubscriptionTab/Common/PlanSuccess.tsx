@@ -169,8 +169,10 @@ const PlanSuccess = ({ plan, onClose, planPrice, paymentMethod }: IPlanSuccess) 
       {paymentMethod === "crypto" &&
         <div className={classes.rowBox}>
           <Typography>
-            <Trans>Crypto payments may take a few minutes to be processed.
-            Your subscription will be updated after logging out</Trans>
+            <Trans>
+              Crypto payments may take a few minutes to be processed.
+              The subscription update will reflect on next login.
+            </Trans>
           </Typography>
         </div>
       }
