@@ -259,8 +259,8 @@ msgstr "Create your public username in <0>Settings</0>!"
 msgid "Credit Card is expiring soon"
 msgstr "Credit Card is expiring soon"
 
-msgid "Crypto payments may take a few minutes to be processed. Your subscription will be updated after logging out"
-msgstr "Crypto payments may take a few minutes to be processed. Your subscription will be updated after logging out"
+msgid "Crypto payments may take a few minutes to be processed. The subscription update will reflect on next login."
+msgstr "Crypto payments may take a few minutes to be processed. The subscription update will reflect on next login."
 
 msgid "DAI, USDC, ETH or BTC"
 msgstr "DAI, USDC, ETH or BTC"
