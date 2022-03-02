@@ -6,7 +6,7 @@ import { Button, CaretCircleLeftIcon, CaretCircleRightIcon, Typography } from "@
 
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js"
 
-const useStyles = makeStyles(({ constants, zIndex }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, zIndex }: ITheme) =>
   createStyles({
     controlsContainer: {
       position: "absolute",
@@ -35,6 +35,19 @@ const useStyles = makeStyles(({ constants, zIndex }: ITheme) =>
       paddingLeft: constants.generalUnit * 2,
       paddingRight: constants.generalUnit * 2,
       color: "#D9D9D9"
+    },
+    pdfWrapper: {
+      "& canvas": {
+        maxHeight: "calc(100vh - 64px)",
+        width: "inherit !important",
+        [breakpoints.down("sm")]: {
+          width: "100% !important",
+          height: "auto !important"
+        }
+      }
+    },
+    document: {
+      marginTop: "64px"
     }
   })
 )
@@ -69,12 +82,15 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
 
   return (
     <>
-      <Document
-        file={pdfUrl}
-        onLoadSuccess={onDocumentLoadSuccess}
-      >
-        <Page pageNumber={pageNumber} />
-      </Document>
+      <div className={classes.pdfWrapper}>
+        <Document
+          file={pdfUrl}
+          onLoadSuccess={onDocumentLoadSuccess}
+          className={classes.document}
+        >
+          <Page pageNumber={pageNumber} />
+        </Document>
+      </div>
       <div className={classes.controlsContainer}>
         <Button
           onClick={prevPage}
