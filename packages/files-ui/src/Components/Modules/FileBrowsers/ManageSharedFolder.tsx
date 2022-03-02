@@ -7,12 +7,12 @@ import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
-import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 import { NonceResponsePermission, LookupUser } from "@chainsafe/files-api-client"
 import clsx from "clsx"
 import { Hashicon } from "@emeraldpay/hashicon-react"
 import LinkList from "./Sharing/LinkList"
 import PermissionsDropdown from "./Sharing/PermissionsDropdown"
+import { UserName } from "../../Elements/UserName"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) => {
@@ -180,7 +180,7 @@ interface ICreateOrManageSharedFolderProps {
   bucketToEdit?: BucketKeyPermission
 }
 
-const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFolderProps) => {
+const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFolderProps) => {
   const classes = useStyles()
   const { handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
   const { sharedFolderReaders,
@@ -194,7 +194,7 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
   const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission>("read")
   const [usernameSearch, setUsernameSearch] = useState<string | undefined>()
-  const [suggestedUsers, setSuggestedUsers] = useState<{ label: string; value: string; data: LookupUser }[]>([])
+  const [suggestedUsers, setSuggestedUsers] = useState<LookupUser[]>([])
   const [loadingUsers, setLoadingUsers] = useState(false)
   const [searchActive, setSearchActive] = useState(false)
 
@@ -290,10 +290,10 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
           {suggestedUsers.length
             ? <div>
               {suggestedUsers.map((u) => <div
-                key={u.value}
+                key={u.uuid}
                 className={classes.usernameBox}
                 onClick={() => {
-                  onAddNewUser(u.data, newLinkPermission)
+                  onAddNewUser(u, newLinkPermission)
                   setSearchActive(false)
                   setUsernameSearch("")
                   setSuggestedUsers([])
@@ -301,7 +301,7 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
                 }}
                 data-cy="user-lookup-result"
               >
-                {u.label}
+                <UserName user={u}/>
               </div>)
               }
             </div>
@@ -340,7 +340,7 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
               className={classes.addedUserLabel}
               component="p"
             >
-              {getUserDisplayName(sharedFolderUser.user)}
+              <UserName user={sharedFolderUser.user}/>
             </Typography>
           </div>
           <div className={classes.flexContainer}>
@@ -425,4 +425,4 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
   )
 }
 
-export default CreateOrManageSharedFolder
+export default ManageSharedFolder

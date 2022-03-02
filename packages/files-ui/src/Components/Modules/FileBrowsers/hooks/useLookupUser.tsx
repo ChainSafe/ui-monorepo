@@ -11,7 +11,7 @@ export const useLookupSharedFolderUser = () => {
 
   const { profile } = useUser()
 
-  const handleLookupUser = useCallback(async (inputVal: string) => {
+  const handleLookupUser = useCallback(async (inputVal: string): Promise<LookupUser[]> => {
     if (inputVal === "") return []
 
     const lookupBody = {
@@ -48,7 +48,7 @@ export const useLookupSharedFolderUser = () => {
       // prevent the addition of current user since they are the owner
       if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
 
-      return [{ label: inputVal, value: result.uuid, data: result }]
+      return [result]
     } catch (e) {
       console.error("No user found", e)
       return Promise.resolve([])
