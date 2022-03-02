@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import UserBubble from "./UserBubble"
 import { BucketKeyPermission, RichUserInfo } from "../../Contexts/FilesContext"
@@ -29,20 +29,26 @@ const SharedUsers = ({ bucket, showOwners }: Props) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
   const { owners, readers, writers } = bucket
+  const [usersDisplayInfo, setUsersDisplayInfo] = useState<UserDisplayInfo[]>([])
 
-  const getUserDisplayInfo = useCallback((users: RichUserInfo[]) : UserDisplayInfo[] => {
-    return users.map((user) => ({ displayName: getUserDisplayName(user), uuid: user.uuid }))
+  const getUserDisplayInfo = useCallback(async (users: RichUserInfo[]) : Promise<UserDisplayInfo[]> => {
+    return Promise.all(users.map(async (user) => ({ displayName: await getUserDisplayName(user), uuid: user.uuid })))
   }, [])
 
-  const userLabels = useMemo(() =>
-    [
-      ...getUserDisplayInfo(showOwners ? owners : []),
-      ...getUserDisplayInfo(readers),
-      ...getUserDisplayInfo(writers)
-    ],
+  useEffect(() => {
+    Promise.all(
+      [
+        getUserDisplayInfo(showOwners ? owners : []),
+        getUserDisplayInfo(readers),
+        getUserDisplayInfo(writers)
+      ])
+      .then(([owners, readers, writers]) =>
+        setUsersDisplayInfo([...owners, ...readers, ...writers])
+      )
+  },
   [readers, writers, getUserDisplayInfo, owners, showOwners])
 
-  if (!userLabels.length) {
+  if (!usersDisplayInfo.length) {
     return null
   }
 
@@ -50,8 +56,8 @@ const SharedUsers = ({ bucket, showOwners }: Props) => {
     return (
       <div className={classes.root}>
         <UserBubble
-          text={`+${userLabels.length}`}
-          tooltip={userLabels.map((userLabel) => userLabel.displayName)}
+          text={`+${usersDisplayInfo.length}`}
+          tooltip={usersDisplayInfo.map((userLabel) => userLabel.displayName)}
         />
       </div>
     )
@@ -60,20 +66,20 @@ const SharedUsers = ({ bucket, showOwners }: Props) => {
   return (
     <div className={classes.root}>
       <UserBubble
-        tooltip={userLabels[0].displayName}
-        className={userLabels.length > 1 ? classes.bubble : undefined}
-        hashIconValue={userLabels[0].uuid}
+        tooltip={usersDisplayInfo[0].displayName}
+        className={usersDisplayInfo.length > 1 ? classes.bubble : undefined}
+        hashIconValue={usersDisplayInfo[0].uuid}
       />
-      {userLabels.length > 2 && (
+      {usersDisplayInfo.length > 2 && (
         <UserBubble
-          text={`+${userLabels.length - 1}`}
-          tooltip={userLabels.slice(1).map((userLabel) => userLabel.displayName)}
+          text={`+${usersDisplayInfo.length - 1}`}
+          tooltip={usersDisplayInfo.slice(1).map((userLabel) => userLabel.displayName)}
         />
       )}
-      {userLabels.length === 2 && (
+      {usersDisplayInfo.length === 2 && (
         <UserBubble
-          tooltip={userLabels[1].displayName}
-          hashIconValue={userLabels[1].uuid}
+          tooltip={usersDisplayInfo[1].displayName}
+          hashIconValue={usersDisplayInfo[1].uuid}
         />
       )}
     </div>
