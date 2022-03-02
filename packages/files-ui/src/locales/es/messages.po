@@ -260,7 +260,7 @@ msgstr ""
 msgid "Credit Card is expiring soon"
 msgstr ""
 
-msgid "Crypto payments may take a few minutes to be processed. Your subscription will be updated after logging out"
+msgid "Crypto payments may take a few minutes to be processed. The subscription update will reflect on next login."
 msgstr ""
 
 msgid "DAI, USDC, ETH or BTC"
