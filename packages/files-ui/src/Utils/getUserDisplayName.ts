@@ -14,7 +14,13 @@ export const getUserDisplayName = async (user: LookupUser) => {
   try {
     // at this point the user have no username, and a public address hence maybe an ens
     const provider = new ethers.providers.InfuraProvider("mainnet")
-    return await provider.lookupAddress(user.public_address)
+    const lookupName = await provider.lookupAddress(user.public_address)
+    const lookupAddress = await provider.resolveName(lookupName)
+
+    // double check that the lookup name actually resolves to the same address
+    return user.public_address === lookupAddress
+      ? lookupName
+      : centerEllipsis(user.public_address.toLowerCase())
   } catch {
     // there is no reverse lookup for this address
     return centerEllipsis(user.public_address.toLowerCase())
