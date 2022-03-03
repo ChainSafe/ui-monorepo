@@ -174,7 +174,6 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     return filesApiClient.getCurrentSubscription()
       .then((subscription) => {
         subscription.product.name = ProductMapping[subscription.product.id].name
-        subscription.product.description = ProductMapping[subscription.product.id].description
         setCurrentSubscription(subscription)
         return subscription
       })
@@ -194,7 +193,6 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       .then((products) => {
         return products.map(product => {
           product.name = ProductMapping[product.id].name
-          product.description = ProductMapping[product.id].description
           return product
         })
       })
