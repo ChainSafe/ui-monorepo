@@ -1160,9 +1160,6 @@ msgstr "expire"
 msgid "invoices here"
 msgstr "factures ici"
 
-msgid "me"
-msgstr "moi"
-
 msgid "on"
 msgstr "le"
 

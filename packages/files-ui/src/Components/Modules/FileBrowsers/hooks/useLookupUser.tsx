@@ -2,17 +2,16 @@ import { useCallback, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useUser } from "../../../../Contexts/UserContext"
 import { ethers } from "ethers"
-import { NonceResponsePermission } from "@chainsafe/files-api-client"
-import { SharedUserData } from "../types"
+import { LookupUser, NonceResponsePermission } from "@chainsafe/files-api-client"
 
 export const useLookupSharedFolderUser = () => {
   const { filesApiClient } = useFilesApi()
-  const [sharedFolderReaders, setSharedFolderReaders] = useState<SharedUserData[]>([])
-  const [sharedFolderWriters, setSharedFolderWriters] = useState<SharedUserData[]>([])
+  const [sharedFolderReaders, setSharedFolderReaders] = useState<LookupUser[]>([])
+  const [sharedFolderWriters, setSharedFolderWriters] = useState<LookupUser[]>([])
 
   const { profile } = useUser()
 
-  const handleLookupUser = useCallback(async (inputVal: string) => {
+  const handleLookupUser = useCallback(async (inputVal: string): Promise<LookupUser[]> => {
     if (inputVal === "") return []
 
     const lookupBody = {
@@ -44,19 +43,19 @@ export const useLookupSharedFolderUser = () => {
       const result = await filesApiClient.lookupUser(lookupBody.username, lookupBody.public_address, lookupBody.identity_public_key)
       if (!result) return []
 
-      const currentUsers = [...sharedFolderReaders, ...sharedFolderWriters].map(su => su.data.uuid)
+      const currentUsers = [...sharedFolderReaders, ...sharedFolderWriters].map(su => su.uuid)
 
       // prevent the addition of current user since they are the owner
       if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
 
-      return [{ label: inputVal, value: result.uuid, data: result }]
+      return [result]
     } catch (e) {
       console.error("No user found", e)
       return Promise.resolve([])
     }
   }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
 
-  const onAddNewUser = useCallback((user: SharedUserData, permission: NonceResponsePermission) => {
+  const onAddNewUser = useCallback((user: LookupUser, permission: NonceResponsePermission) => {
     if (permission === "read") {
       setSharedFolderReaders([...sharedFolderReaders, user])
     } else {
