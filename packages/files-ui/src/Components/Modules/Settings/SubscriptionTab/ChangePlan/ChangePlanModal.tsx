@@ -8,7 +8,7 @@ import PaymentMethodSelector from "./PaymentMethodSelector"
 import ConfirmPlan from "../Common/ConfirmPlan"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 import { Product, ProductPrice, ProductPriceRecurringInterval } from "@chainsafe/files-api-client"
-import PlanSuccess from "./PlanSuccess"
+import PlanSuccess from "../Common/PlanSuccess"
 import DowngradeDetails from "./DowngradeDetails"
 import { PaymentMethod } from "../../../../../Contexts/BillingContext"
 import CryptoPayment from "../Common/CryptoPayment"
@@ -156,7 +156,7 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
           plans={plans}
         />
       )}
-      { slide === "downgradeDetails" && selectedPlan && (
+      {slide === "downgradeDetails" && selectedPlan && (
         <DowngradeDetails
           goBack={() => {setSlide("select")}}
           goToPlanDetails={() => setSlide("planDetails")}
@@ -209,12 +209,14 @@ const ChangeProductModal = ({ onClose }: IChangeProductModal) => {
       />}
       {slide === "cryptoPayment" && <CryptoPayment
         planPrice={selectedPrice}
+        onSuccess={() => setSlide("planSuccess")}
         onClose={onClose}
       />}
-      {slide === "planSuccess" && selectedPlan && selectedPrice && <PlanSuccess
+      {slide === "planSuccess" && selectedPlan && selectedPrice && selectedPaymentMethod && <PlanSuccess
         onClose={onClose}
         plan={selectedPlan}
         planPrice={selectedPrice}
+        paymentMethod={selectedPaymentMethod}
       />}
     </Modal>
   )
