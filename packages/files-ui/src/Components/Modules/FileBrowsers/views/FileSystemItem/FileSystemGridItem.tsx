@@ -100,8 +100,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     gridFolderName: {
       textAlign: "center",
-      wordBreak: "break-all",
-      overflowWrap: "break-word",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+      overflow: "hidden",
       padding: constants.generalUnit
     },
     gridViewIconNameBox: {
