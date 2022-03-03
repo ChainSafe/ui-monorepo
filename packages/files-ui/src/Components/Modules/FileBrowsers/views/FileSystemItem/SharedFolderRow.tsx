@@ -283,6 +283,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                 <Form
                   className={classes.desktopRename}
                   data-cy='form-rename'
+                  ref={formRef}
                 >
                   <FormikTextInput
                     className={classes.renameInput}
