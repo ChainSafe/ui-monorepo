@@ -226,6 +226,7 @@ const useStyles = makeStyles(({ constants, palette, zIndex, animation, breakpoin
 interface ICryptoPayment {
   planPrice?: ProductPrice
   onClose: () => void
+  onSuccess: () => void
 }
 
 const iconMap: { [key: string]: React.FC<any> } = {
@@ -242,7 +243,7 @@ const symbolMap: { [key: string]: string } = {
   usdc: "USDC"
 }
 
-const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
+const CryptoPayment = ({ planPrice, onClose, onSuccess }: ICryptoPayment) => {
   const classes = useStyles()
   const { selectWallet } = useFilesApi()
   const { isReady, network, provider, wallet, tokens, switchNetwork, checkIsReady, ethBalance } = useWeb3()
@@ -358,27 +359,32 @@ const CryptoPayment = ({ planPrice, onClose }: ICryptoPayment) => {
     if (!provider || !selectedCurrency || !selectedPaymentMethod) return
 
     const signer = provider.getSigner()
+    let transferSuccess = false
     try {
       setTransferActive(true)
       if (selectedCurrency === "ethereum") {
         await (await signer.sendTransaction({
           to: selectedPaymentMethod.address,
           value: utils.parseEther(selectedPaymentMethod.amount)
-        })).wait(1)
+        })).wait(5)
       } else {
         const token = Object.values(tokens).find(t => t.symbol?.toLowerCase() === selectedCurrency)
         if (!token || !token.transfer) return
         await (await token.transfer(
           selectedPaymentMethod.address,
           utils.parseUnits(selectedPaymentMethod.amount, token.decimals)
-        )).wait(1)
+        )).wait(5)
       }
+      await fetchCurrentSubscription()
+      transferSuccess = true
+      onSuccess()
     } catch (error) {
       console.error(error)
     } finally {
       setTransferActive(false)
+      transferSuccess && onClose()
     }
-  }, [provider, selectedCurrency, selectedPaymentMethod, tokens])
+  }, [fetchCurrentSubscription, onClose, onSuccess, provider, selectedCurrency, selectedPaymentMethod, tokens])
 
   const handleSwitchNetwork = useCallback(async () => {
     await switchNetwork(1)
