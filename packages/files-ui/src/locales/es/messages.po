@@ -1154,9 +1154,6 @@ msgstr ""
 msgid "invoices here"
 msgstr ""
 
-msgid "me"
-msgstr ""
-
 msgid "on"
 msgstr "en"
 

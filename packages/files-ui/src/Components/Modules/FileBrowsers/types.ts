@@ -1,20 +1,6 @@
 import { Crumb } from "@chainsafe/common-components"
 import { BucketType, FileSystemItem } from "../../../Contexts/FilesContext"
 
-export interface SharedFolderUser {
-  uuid?: string
-  username?: string
-  identity_pubkey?: string
-  public_address?: string
-  encryption_key?: string
-}
-
-export interface SharedUserData {
-  label: string
-  value: string
-  data: SharedFolderUser
-}
-
 export type FileOperation =
   | "rename"
   | "delete"

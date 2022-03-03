@@ -1153,9 +1153,6 @@ msgstr "expires"
 msgid "invoices here"
 msgstr "invoices here"
 
-msgid "me"
-msgstr "me"
-
 msgid "on"
 msgstr "on"
 

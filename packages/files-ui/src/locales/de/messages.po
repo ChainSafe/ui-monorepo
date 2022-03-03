@@ -1150,9 +1150,6 @@ msgstr ""
 msgid "invoices here"
 msgstr ""
 
-msgid "me"
-msgstr "ich"
-
 msgid "on"
 msgstr "am"
 
