@@ -436,9 +436,6 @@ msgstr "Wird generiert …"
 msgid "Get Started"
 msgstr "Anfangen"
 
-msgid "Go  back"
-msgstr ""
-
 msgid "Go back"
 msgstr "Zurück"
 
@@ -1155,9 +1152,6 @@ msgstr ""
 
 msgid "invoices here"
 msgstr ""
-
-msgid "me"
-msgstr "ich"
 
 msgid "on"
 msgstr "am"

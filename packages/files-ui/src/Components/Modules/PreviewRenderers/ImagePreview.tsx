@@ -44,7 +44,13 @@ const useStyles = makeStyles(
         borderRadius: 2
       },
       imageControlButton: {
-        borderRadius: 0
+        borderRadius: 0,
+        backgroundColor: "#262626",
+        color: "#D9D9D9",
+        border: "none",
+        "& svg": {
+          fill: "#D9D9D9"
+        }
       }
     })
 )

@@ -14,6 +14,7 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { StorageApiProvider }  from "./Contexts/StorageApiContext"
 import { StorageProvider } from "./Contexts/StorageContext"
 import { UserProvider } from "./Contexts/UserContext"
+import { BillingProvider } from "./Contexts/BillingContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -117,11 +118,13 @@ const App = () => {
               >
                 <UserProvider>
                   <StorageProvider>
-                    <Router>
-                      <AppWrapper>
-                        <StorageRoutes />
-                      </AppWrapper>
-                    </Router>
+                    <BillingProvider>
+                      <Router>
+                        <AppWrapper>
+                          <StorageRoutes />
+                        </AppWrapper>
+                      </Router>
+                    </BillingProvider>
                   </StorageProvider>
                 </UserProvider>
               </StorageApiProvider>

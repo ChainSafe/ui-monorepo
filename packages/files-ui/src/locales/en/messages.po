@@ -439,9 +439,6 @@ msgstr "Generating…"
 msgid "Get Started"
 msgstr "Get Started"
 
-msgid "Go  back"
-msgstr "Go  back"
-
 msgid "Go back"
 msgstr "Go back"
 
@@ -1158,9 +1155,6 @@ msgstr "expires"
 
 msgid "invoices here"
 msgstr "invoices here"
-
-msgid "me"
-msgstr "me"
 
 msgid "on"
 msgstr "on"

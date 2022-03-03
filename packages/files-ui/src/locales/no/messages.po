@@ -436,9 +436,6 @@ msgstr ""
 msgid "Get Started"
 msgstr "Begynn"
 
-msgid "Go  back"
-msgstr ""
-
 msgid "Go back"
 msgstr "Tilbake"
 
@@ -1154,9 +1151,6 @@ msgid "expires"
 msgstr ""
 
 msgid "invoices here"
-msgstr ""
-
-msgid "me"
 msgstr ""
 
 msgid "on"
