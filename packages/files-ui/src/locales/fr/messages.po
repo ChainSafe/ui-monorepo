@@ -263,6 +263,9 @@ msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 msgid "Credit Card is expiring soon"
 msgstr "La carte de crédit va bientôt expirer"
 
+msgid "Crypto payments may take a few minutes to be processed. The subscription update will reflect on next login."
+msgstr ""
+
 msgid "DAI, USDC, ETH or BTC"
 msgstr "DAI, USDC, ETH ou BTC"
 
