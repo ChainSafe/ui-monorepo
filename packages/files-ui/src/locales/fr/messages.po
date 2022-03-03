@@ -53,6 +53,9 @@ msgstr "Compte"
 msgid "Account is restricted"
 msgstr "Ce compte est limité"
 
+msgid "Account visibility"
+msgstr ""
+
 msgid "Add Card"
 msgstr "Ajouter une carte"
 
