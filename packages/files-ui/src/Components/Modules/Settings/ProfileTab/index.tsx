@@ -6,8 +6,8 @@ import {
   useToasts,
   TextInput,
   CheckIcon,
-  CheckboxInput,
-  Divider
+  Divider,
+  ToggleSwitch
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
 import { CopyIcon } from "@chainsafe/common-components"
@@ -46,6 +46,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
     walletAddressContainer: {
       display: "flex",
       justifyContent: "space-between",
+      alignItems: "center",
       marginBottom: constants.generalUnit * 0.5
     },
     input: {
@@ -283,6 +284,7 @@ const ProfileView = () => {
         <div className={classes.container}>
           <div
             id="profile"
+            data-cy="label-profile-header"
           >
             <Typography
               variant="h3"
@@ -293,11 +295,31 @@ const ProfileView = () => {
             </Typography>
             <Divider />
             <div className={classes.profileBox}>
-              {profile?.publicAddress &&
-                <div
-                  className={classes.boxContainer}
-                  data-cy="label-profile-header"
+              <div className={classes.boxContainer}>
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  className={classes.label}
                 >
+                  <Trans>Account visibility</Trans>
+                </Typography>
+                <div className={classes.walletAddressContainer}>
+                  <ToggleSwitch
+                    left={{ value: false }}
+                    right={{ value: true }}
+                    testId="address-lookup"
+                    onChange={toggleLookupConsent}
+                    value={profile?.lookupConsent || false}
+                  />
+                  <Typography>
+                    <Trans>
+                  Allow lookup by sharing key, wallet address, username or ENS
+                    </Trans>
+                  </Typography>
+                </div>
+              </div>
+              {profile?.publicAddress &&
+                <div className={classes.boxContainer}>
                   <div className={classes.walletAddressContainer}>
                     <Typography
                       variant="h4"
@@ -445,10 +467,6 @@ const ProfileView = () => {
                     }
                   </>
                 }
-                <CheckboxInput
-                  label={t`Allow lookup by sharing key, wallet address, username or ENS`}
-                  value={profile?.lookupConsent || false}
-                  onChange={toggleLookupConsent} />
               </div>
               {/* <FormikProvider value={formik}>
                 <Form>
