@@ -135,6 +135,9 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
       [breakpoints.up("md")]: {
         paddingLeft: constants.generalUnit * 2
       }
+    },
+    lookupText: {
+      paddingLeft: constants.generalUnit
     }
   })
 )
@@ -311,9 +314,9 @@ const ProfileView = () => {
                     onChange={toggleLookupConsent}
                     value={profile?.lookupConsent || false}
                   />
-                  <Typography>
+                  <Typography className={classes.lookupText}>
                     <Trans>
-                  Allow lookup by sharing key, wallet address, username or ENS
+                      Allow lookup by sharing key, wallet address, username or ENS
                     </Trans>
                   </Typography>
                 </div>

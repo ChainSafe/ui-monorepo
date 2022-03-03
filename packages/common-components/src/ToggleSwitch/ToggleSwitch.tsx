@@ -118,7 +118,7 @@ const ToggleSwitch = ({ injectedClasses, disabled, left, right, onChange, value,
     }
   }, [size])
   const classes = useStyles({ size: resolvedSize })
-  const [side, setSide] = useState<"left" | "right">(value && right.value === value ?  "right" : "left")
+  const [side, setSide] = useState<"left" | "right">(value && right.value === value ? "right" : "left")
 
   useEffect(() => {
     setSide(value && right.value === value ?  "right" : "left")
