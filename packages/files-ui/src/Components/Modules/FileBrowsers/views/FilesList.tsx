@@ -267,19 +267,19 @@ const useStyles = makeStyles(
       },
       gridRoot: {
         display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr",
+        gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)",
         gridColumnGap: constants.generalUnit * 2,
         gridRowGap: constants.generalUnit * 2,
         marginBottom: constants.generalUnit * 4,
         marginTop: constants.generalUnit * 4,
         [breakpoints.down("lg")]: {
-          gridTemplateColumns: "1fr 1fr 1fr 1fr"
+          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)"
         },
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 4}px 0`
         },
         [breakpoints.down("sm")]: {
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
           margin: `${constants.generalUnit * 2}px 0`
         }
       },
