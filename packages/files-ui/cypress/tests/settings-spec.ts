@@ -10,7 +10,7 @@ describe("Settings", () => {
       navigationMenu.settingsNavButton().click()
     })
 
-    it.only("can navigate to settings profile page", () => {
+    it("can navigate to settings profile page", () => {
       settingsPage.profileTabHeader().should("be.visible")
       cy.url().should("include", "/settings")
       settingsPage.profileTabButton().click()
