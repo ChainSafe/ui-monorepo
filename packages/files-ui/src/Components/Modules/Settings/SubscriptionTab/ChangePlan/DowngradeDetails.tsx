@@ -2,14 +2,14 @@ import React, { useCallback, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Product } from "@chainsafe/files-api-client"
-import {  Button, CrossIcon, formatBytes, InfoCircleIcon, Typography } from "@chainsafe/common-components"
-import {  Trans } from "@lingui/macro"
+import { Button, CrossIcon, formatBytes, InfoCircleIcon, Typography } from "@chainsafe/common-components"
+import { Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { useBilling } from "../../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
-    root:  {
+    root: {
       position: "relative",
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
@@ -75,7 +75,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
     textLink: {
       color: palette.primary.background
     },
-    checkCircleIcon:  {
+    checkCircleIcon: {
       fill: palette.additional["gray"][7],
       marginLeft: constants.generalUnit
     },
@@ -93,7 +93,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       maxWidth: constants.generalUnit * 56,
       color: palette.additional["gray"][7]
     },
-    icon : {
+    icon: {
       verticalAlign: "middle",
       "& > svg": {
         fill: palette.additional["gray"][7],
@@ -169,16 +169,6 @@ const DowngradeDetails = ({
                 ? <Trans><b>{currentStorage}</b> of storage</Trans >
                 : plan.description
               }
-            </Typography>
-          </div>
-          <div className={classes.middleRowBox}>
-            <CrossIcon className={classes.crossIcon} />
-            <Typography
-              component="p"
-              variant="body1"
-              data-cy="label-downgraded-product-description"
-            >
-              {currentSubscription?.product.description}
             </Typography>
           </div>
         </div>
