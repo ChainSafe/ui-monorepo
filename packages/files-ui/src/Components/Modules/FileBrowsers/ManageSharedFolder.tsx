@@ -15,7 +15,7 @@ import PermissionsDropdown from "./Sharing/PermissionsDropdown"
 import { UserName } from "../../Elements/UserName"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) => {
+  ({ breakpoints, constants, typography, palette }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 3,
@@ -91,7 +91,7 @@ const useStyles = makeStyles(
         width: "100%",
         backgroundColor: palette.additional["gray"][1],
         border: `1px solid ${palette.additional["gray"][5]}`,
-        zIndex: zIndex?.layer1
+        zIndex: 100
       },
       suggestionsBody: {
         width: "100%",

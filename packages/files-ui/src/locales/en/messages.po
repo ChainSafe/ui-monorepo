@@ -52,6 +52,9 @@ msgstr "Account"
 msgid "Account is restricted"
 msgstr "Account is restricted"
 
+msgid "Account visibility"
+msgstr "Account visibility"
+
 msgid "Add Card"
 msgstr "Add Card"
 

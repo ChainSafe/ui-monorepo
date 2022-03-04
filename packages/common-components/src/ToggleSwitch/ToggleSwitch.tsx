@@ -1,6 +1,6 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import React, { ReactNode, useCallback, useMemo, useState } from "react"
+import React, { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Typography } from "../Typography"
 
 interface IStyleProps {
@@ -119,6 +119,10 @@ const ToggleSwitch = ({ injectedClasses, disabled, left, right, onChange, value,
   }, [size])
   const classes = useStyles({ size: resolvedSize })
   const [side, setSide] = useState<"left" | "right">(value && right.value === value ? "right" : "left")
+
+  useEffect(() => {
+    setSide(value && right.value === value ?  "right" : "left")
+  }, [right.value, value])
 
   const onToggle = useCallback(() => {
     if (disabled) return
