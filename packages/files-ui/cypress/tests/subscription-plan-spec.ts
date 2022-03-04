@@ -162,7 +162,7 @@ describe("Subscription Plan", () => {
       selectPlanModal.createPlanCypressAliases()
 
       // ensure all plan boxes contain expected elements and element state
-      cy.get("@freePlanBox").parent().within(() => {
+      cy.get("@filesFreeBox").parent().within(() => {
         selectPlanModal.planTitleLabel().should("be.visible")
         selectPlanModal.FreePriceLabel().should("be.visible")
         selectPlanModal.storageDescriptionLabel().should("be.visible")
@@ -172,7 +172,7 @@ describe("Subscription Plan", () => {
           .should("be.disabled")
       })
 
-      cy.get("@standardPlanBox").parent().within(() => {
+      cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.planTitleLabel().should("be.visible")
         selectPlanModal.monthlyPriceLabel().should("be.visible")
         selectPlanModal.storageDescriptionLabel().should("be.visible")
@@ -181,7 +181,7 @@ describe("Subscription Plan", () => {
           .should("be.enabled")
       })
 
-      cy.get("@premiumPlanBox").parent().within(() => {
+      cy.get("@filesMaxBox").parent().within(() => {
         selectPlanModal.planTitleLabel().should("be.visible")
         selectPlanModal.monthlyPriceLabel().should("be.visible")
         selectPlanModal.storageDescriptionLabel().should("be.visible")
@@ -190,8 +190,8 @@ describe("Subscription Plan", () => {
           .should("be.enabled")
       })
 
-      // select the standard plan 
-      cy.get("@standardPlanBox").parent().within(() => {
+      // select the Files Pro 
+      cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
@@ -217,9 +217,9 @@ describe("Subscription Plan", () => {
     it("cannot downgrade if used storage exceeds plan allowance", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
 
-      // upgrade to a premium plan first
+      // upgrade to a Max plan first
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("premium")
+      settingsPage.upgradeSubscription("max")
 
       // setup intercepter, stub the used products response to disallow update
       cy.intercept("GET", "**/billing/products", (req) => {
@@ -233,7 +233,7 @@ describe("Subscription Plan", () => {
       selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
 
       // ensure warning is shown and the free plan is not selectable
-      cy.get("@freePlanBox").parent().within(() => {
+      cy.get("@filesFreeBox").parent().within(() => {
         selectPlanModal.storageCapacityWarningLabel().should("be.visible")
         selectPlanModal.selectPlanButton()
           .should("be.visible")
@@ -250,7 +250,7 @@ describe("Subscription Plan", () => {
       // create cypress aliases for the plans
       selectPlanModal.createPlanCypressAliases()
 
-      cy.get("@standardPlanBox").parent().within(() => {
+      cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
@@ -273,11 +273,11 @@ describe("Subscription Plan", () => {
       settingsPage.subscriptionTabButton().click()
       settingsPage.changePlanButton().click()
 
-      selectPlanModal.planBoxContainer().contains("Standard plan")
+      selectPlanModal.planBoxContainer().contains("Files Pro")
         .should("be.visible")
-        .as("standardPlanBox")
+        .as("filesProBox")
 
-      cy.get("@standardPlanBox").parent().within(() => {
+      cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
@@ -313,13 +313,13 @@ describe("Subscription Plan", () => {
       selectPlanModal.body().should("be.visible")
       selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
 
-      // create a cypress alias for the premium plan
-      selectPlanModal.planBoxContainer().contains("Premium plan")
+      // create a cypress alias for the Max plan
+      selectPlanModal.planBoxContainer().contains("Files Max")
         .should("be.visible")
-        .as("premiumPlanBox")
+        .as("filesMaxBox")
 
-      // select the premium plan 
-      cy.get("@premiumPlanBox").parent().within(() => {
+      // select the Max plan 
+      cy.get("@filesMaxBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
@@ -371,7 +371,6 @@ describe("Subscription Plan", () => {
       planChangeSuccessModal.planChangeSuccessSubheader().should("be.visible")
       planChangeSuccessModal.featuresSummaryLabel().should("be.visible")
       planChangeSuccessModal.newStorageCapacityLabel().should("be.visible")
-      planChangeSuccessModal.newPlanNameLabel().should("be.visible")
       planChangeSuccessModal.billingHistoryLabel().should("be.visible")
       planChangeSuccessModal.invoicesLink().should("be.visible")
       planChangeSuccessModal.closeButton().should("be.visible")
@@ -397,12 +396,12 @@ describe("Subscription Plan", () => {
       })
     })
 
-    it("can downgrade from premium plan to standard plan", () => {
+    it("can downgrade from Max plan to Pro plan", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
 
-      // upgrade to a premium plan first using convenience function
+      // upgrade to a max plan first using convenience function
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("premium")
+      settingsPage.upgradeSubscription("max")
 
       // store the upgraded plan name for later comparison
       settingsPage.planNameLabel()
@@ -412,7 +411,7 @@ describe("Subscription Plan", () => {
       // initiate the downgrade process
       settingsPage.changePlanButton().click()
       selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
-      cy.get("@standardPlanBox").parent().within(() => {
+      cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
@@ -440,30 +439,30 @@ describe("Subscription Plan", () => {
       // store the downgraded plan name for later comparison
       settingsPage.planNameLabel()
         .should("be.visible")
-        .invoke("text").as("standardPlanName")
+        .invoke("text").as("proPlanName")
 
       // ensure the downgraded plan name is not the same as the previously upgraded plan
       cy.get("@premiumPlanName").then(($premiumPlanName) => {
-        cy.get("@standardPlanName").should("not.equal", $premiumPlanName)
+        cy.get("@proPlanName").should("not.equal", $premiumPlanName)
       })
     })
 
-    it("can downgrade from standard plan to free plan", () => {
+    it("can downgrade from Pro plan to free plan", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
 
-      // upgrade to a standard plan first
+      // upgrade to a Pro plan first
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("standard")
+      settingsPage.upgradeSubscription("pro")
 
-      // store the standard plan name for later comparison
+      // store the Pro plan name for later comparison
       settingsPage.planNameLabel()
         .should("be.visible")
-        .invoke("text").as("standardPlanName")
+        .invoke("text").as("proPlanName")
 
       // initiate the downgrade process
       settingsPage.changePlanButton().click()
       selectPlanModal.planBoxContainer().should("have.length.greaterThan", 0)
-      cy.get("@freePlanBox").parent().within(() => {
+      cy.get("@filesFreeBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
@@ -487,7 +486,7 @@ describe("Subscription Plan", () => {
         .invoke("text").as("freePlanName")
 
       // ensure the downgraded plan name is not the same as the previously upgraded plan
-      cy.get("@standardPlanName").then(($standardPlanName) => {
+      cy.get("@proPlanName").then(($standardPlanName) => {
         cy.get("@freePlanName").should("not.equal", $standardPlanName)
       })
     })
@@ -498,7 +497,7 @@ describe("Subscription Plan", () => {
       settingsPage.subscriptionTabButton().click()
       settingsPage.changePlanButton().click()
       selectPlanModal.createPlanCypressAliases()
-      cy.get("@standardPlanBox").parent().within(() => {
+      cy.get("@filesProBox").parent().within(() => {
         selectPlanModal.selectPlanButton().click()
       })
 
