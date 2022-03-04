@@ -163,7 +163,8 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
 
   useEffect(() => {
     if (isOwner) {
-      setOwnerName("me")
+      // we will show "me" instead of the icon
+      // if we are the owner
       return
     }
 
@@ -317,10 +318,14 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         </TableCell>
         {desktop &&
         <TableCell align="left">
-          <UserBubble
-            tooltip={ownerName}
-            hashIconValue={bucket.owners[0].uuid}
-          />
+          {
+            isOwner
+              ? t`me`
+              : <UserBubble
+                tooltip={ownerName}
+                hashIconValue={bucket.owners[0].uuid}
+              />
+          }
         </TableCell>
         }
         <TableCell
