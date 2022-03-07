@@ -359,32 +359,29 @@ const CryptoPayment = ({ planPrice, onClose, onSuccess }: ICryptoPayment) => {
     if (!provider || !selectedCurrency || !selectedPaymentMethod) return
 
     const signer = provider.getSigner()
-    let transferSuccess = false
     try {
       setTransferActive(true)
       if (selectedCurrency === "ethereum") {
         await (await signer.sendTransaction({
           to: selectedPaymentMethod.address,
           value: utils.parseEther(selectedPaymentMethod.amount)
-        })).wait(5)
+        })).wait(1)
       } else {
         const token = Object.values(tokens).find(t => t.symbol?.toLowerCase() === selectedCurrency)
         if (!token || !token.transfer) return
         await (await token.transfer(
           selectedPaymentMethod.address,
           utils.parseUnits(selectedPaymentMethod.amount, token.decimals)
-        )).wait(5)
+        )).wait(1)
       }
       await fetchCurrentSubscription()
-      transferSuccess = true
       onSuccess()
     } catch (error) {
       console.error(error)
     } finally {
       setTransferActive(false)
-      transferSuccess && onClose()
     }
-  }, [fetchCurrentSubscription, onClose, onSuccess, provider, selectedCurrency, selectedPaymentMethod, tokens])
+  }, [fetchCurrentSubscription, onSuccess, provider, selectedCurrency, selectedPaymentMethod, tokens])
 
   const handleSwitchNetwork = useCallback(async () => {
     await switchNetwork(1)
