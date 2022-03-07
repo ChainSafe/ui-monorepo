@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react"
-import DirectAuthSdk, { createHandler, ILoginHandler, LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
+import DirectAuthSdk, { createHandler, ILoginHandler, LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/customauth"
 import ThresholdKey from "@tkey/default"
 import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
 import SecurityQuestionsModule, { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
@@ -181,7 +181,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         setStatus("logging in")
         const tKeyJson = JSON.parse(tkeySerialized)
         const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey })
-        const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging, hostUrl: "https://metadata.tor.us" })
+        const storageLayer = new TorusStorageLayer({ enableLogging, hostUrl: "https://metadata.tor.us" })
         tkey = await ThresholdKey.fromJSON(tKeyJson, { modules, serviceProvider, storageLayer })
 
         if (tKeyJson.modules) {
@@ -254,7 +254,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
         // identified through the nonce. Manually refreshing the metadata cache solves this problem
         if (error.message.includes("nonce")) {
-          await TKeySdk.updateMetadata()
+          await TKeySdk.updateSDK()
           const { privKey } = await TKeySdk.reconstructKey(false)
           const privKeyString = privKey.toString("hex")
           if (privKeyString.length < 64) {
@@ -442,6 +442,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const loginResponse: TorusLoginResponse = {
         privateKey: torusKey.privateKey,
         publicAddress: torusKey.publicAddress,
+        typeOfUser: torusKey.typeOfUser,
         metadataNonce: "",
         userInfo: {
           idToken: identityToken.token,
@@ -480,7 +481,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         console.log("privKey", privKey)
       } else {
         console.log("Existing key")
-        await TKeySdk.initialize({ input: metadata as ShareStore })
+        await TKeySdk.initialize({ withShare: metadata as ShareStore })
         try {
           console.log("Trying to load device share")
           const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
@@ -526,7 +527,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
         if (!connected || !provider) throw new Error("Unable to connect to wallet.")
       }
-
 
       const signer = provider.getSigner()
       if (!signer) throw new Error("Signer undefined")
@@ -663,7 +663,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
     try {
       const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
-      await TKeySdk.updateMetadata()
+      await TKeySdk.updateSDK()
       const newDeviceShare = await TKeySdk.generateNewShare()
       const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
 
@@ -683,7 +683,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     try {
       const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
       await shareTransferModule.approveRequest(encPubKeyX)
-      await TKeySdk.syncShareMetadata()
+      await TKeySdk._syncShareMetadata()
       const newKeyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(newKeyDetails)
     } catch (e) {
@@ -697,7 +697,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     try {
       const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
       await shareTransferModule.deleteShareTransferStore(encPubKey)
-      await TKeySdk.syncShareMetadata()
+      await TKeySdk._syncShareMetadata()
     } catch (e) {
       console.error(e)
     }
@@ -709,7 +709,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     try {
       const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
       await shareTransferModule.resetShareTransferStore()
-      await TKeySdk.syncShareMetadata()
+      await TKeySdk._syncShareMetadata()
     } catch (e) {
       console.error(e)
     }
@@ -805,14 +805,14 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const refreshTKeyMeta = useCallback(async () => {
     if (!TKeySdk) return
     try {
-      await TKeySdk.syncShareMetadata()
+      await TKeySdk._syncShareMetadata()
       const newKeyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(newKeyDetails)
       return
     } catch (error: any) {
       if (error.message.includes("nonce")) {
-        await TKeySdk.updateMetadata()
-        await TKeySdk.syncShareMetadata()
+        await TKeySdk.updateSDK()
+        await TKeySdk._syncShareMetadata()
         const newKeyDetails = await TKeySdk.getKeyDetails()
         setKeyDetails(newKeyDetails)
       } else {
