@@ -403,6 +403,15 @@ msgstr "Dateigröße"
 msgid "Files"
 msgstr "Dateien"
 
+msgid "Files Free"
+msgstr ""
+
+msgid "Files Max"
+msgstr ""
+
+msgid "Files Pro"
+msgstr ""
+
 msgid "Files sharing key"
 msgstr "Dateifreigabeschlüssel"
 
@@ -419,9 +428,6 @@ msgid "Forget this browser"
 msgstr "Diesen Browser vergessen"
 
 msgid "Free"
-msgstr ""
-
-msgid "Free plan"
 msgstr ""
 
 msgid "General"
@@ -691,9 +697,6 @@ msgstr "Bitte geben Sie ein Passwort an"
 msgid "Please select a file to upload"
 msgstr "Bitte wählen Sie eine Datei zum Hochladen"
 
-msgid "Premium plan"
-msgstr ""
-
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -892,9 +895,6 @@ msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"
 msgid "Sort By:"
 msgstr ""
 
-msgid "Standard plan"
-msgstr ""
-
 msgid "Start Upload"
 msgstr "Hochladen starten"
 
@@ -980,9 +980,6 @@ msgid "There was an error when setting username."
 msgstr ""
 
 msgid "This card will become your default payment method"
-msgstr ""
-
-msgid "This is the free product."
 msgstr ""
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."

@@ -37,19 +37,26 @@ interface IBillingContext {
 
 const ProductMapping: {[key: string]: {
   name: string
-  description: string
 }} = {
+  // Staging Product Ids
   prod_JwRu6Ph25b1f2O: {
-    name: t`Free plan`,
-    description: t`This is the free product.`
+    name: t`Files Free`
   },
   prod_JwS49Qfnr6vD3K: {
-    name: t`Standard plan`,
-    description: t`Standard plan`
+    name: t`Files Pro`
   },
   prod_JwSGHB8qFx7rRM: {
-    name: t`Premium plan`,
-    description: t`Premium plan`
+    name: t`Files Max`
+  },
+  // Production Product Ids
+  prod_KRAq3CngQMKebw: {
+    name: t`Files Free`
+  },
+  prod_LDXtKgrbAoZvIB: {
+    name: t`Files Pro`
+  },
+  prod_LDXtBLuzjVxMzg: {
+    name: t`Files Max`
   }
 }
 
@@ -167,7 +174,6 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     return filesApiClient.getCurrentSubscription()
       .then((subscription) => {
         subscription.product.name = ProductMapping[subscription.product.id].name
-        subscription.product.description = ProductMapping[subscription.product.id].description
         setCurrentSubscription(subscription)
         return subscription
       })
@@ -187,7 +193,6 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       .then((products) => {
         return products.map(product => {
           product.name = ProductMapping[product.id].name
-          product.description = ProductMapping[product.id].description
           return product
         })
       })

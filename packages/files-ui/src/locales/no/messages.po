@@ -403,6 +403,15 @@ msgstr "Filstørrelse"
 msgid "Files"
 msgstr "Filer"
 
+msgid "Files Free"
+msgstr ""
+
+msgid "Files Max"
+msgstr ""
+
+msgid "Files Pro"
+msgstr ""
+
 msgid "Files sharing key"
 msgstr ""
 
@@ -419,9 +428,6 @@ msgid "Forget this browser"
 msgstr ""
 
 msgid "Free"
-msgstr ""
-
-msgid "Free plan"
 msgstr ""
 
 msgid "General"
@@ -691,9 +697,6 @@ msgstr "Angi et passord"
 msgid "Please select a file to upload"
 msgstr "Velg en fil å laste opp"
 
-msgid "Premium plan"
-msgstr ""
-
 msgid "Preview"
 msgstr "Forhåndsvis"
 
@@ -892,9 +895,6 @@ msgstr ""
 msgid "Sort By:"
 msgstr ""
 
-msgid "Standard plan"
-msgstr ""
-
 msgid "Start Upload"
 msgstr ""
 
@@ -980,9 +980,6 @@ msgid "There was an error when setting username."
 msgstr ""
 
 msgid "This card will become your default payment method"
-msgstr ""
-
-msgid "This is the free product."
 msgstr ""
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."

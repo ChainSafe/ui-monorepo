@@ -406,6 +406,15 @@ msgstr "File size"
 msgid "Files"
 msgstr "Files"
 
+msgid "Files Free"
+msgstr "Files Free"
+
+msgid "Files Max"
+msgstr "Files Max"
+
+msgid "Files Pro"
+msgstr "Files Pro"
+
 msgid "Files sharing key"
 msgstr "Files sharing key"
 
@@ -423,9 +432,6 @@ msgstr "Forget this browser"
 
 msgid "Free"
 msgstr "Free"
-
-msgid "Free plan"
-msgstr "Free plan"
 
 msgid "General"
 msgstr "General"
@@ -694,9 +700,6 @@ msgstr "Please provide a password"
 msgid "Please select a file to upload"
 msgstr "Please select a file to upload"
 
-msgid "Premium plan"
-msgstr "Premium plan"
-
 msgid "Preview"
 msgstr "Preview"
 
@@ -895,9 +898,6 @@ msgstr "Something went wrong. We couldn't upload your file"
 msgid "Sort By:"
 msgstr "Sort By:"
 
-msgid "Standard plan"
-msgstr "Standard plan"
-
 msgid "Start Upload"
 msgstr "Start Upload"
 
@@ -984,9 +984,6 @@ msgstr "There was an error when setting username."
 
 msgid "This card will become your default payment method"
 msgstr "This card will become your default payment method"
-
-msgid "This is the free product."
-msgstr "This is the free product."
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr "This link is marlformed. Please verify that you copy/pasted it correctly."

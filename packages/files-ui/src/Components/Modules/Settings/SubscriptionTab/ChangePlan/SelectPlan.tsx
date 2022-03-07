@@ -240,10 +240,9 @@ const SelectPlan = ({ className, onSelectPlan, plans }: ISelectPlan) => {
                   className={classes.description}
                   data-cy="label-storage-capacity-amount"
                 >
-                  {
-                monthly?.metadata?.storage_size_bytes
-                  ? <Trans>{planStorageCapacity} of storage</Trans>
-                  : plan.description
+                  {monthly?.metadata?.storage_size_bytes
+                    ? <Trans>{planStorageCapacity} of storage</Trans>
+                    : plan.description
                   }
                 </Typography>
                 <Button
