@@ -254,7 +254,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
         // identified through the nonce. Manually refreshing the metadata cache solves this problem
         if (error.message.includes("nonce")) {
-          await TKeySdk.updateSDK()
+          await TKeySdk._syncShareMetadata()
           const { privKey } = await TKeySdk.reconstructKey(false)
           const privKeyString = privKey.toString("hex")
           if (privKeyString.length < 64) {
@@ -361,6 +361,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         shareEncPubKeyX = currentEncPubKeyX
         await shareTransferModule.startRequestStatusCheck(currentEncPubKeyX, true)
         const resultKey = await TKeySdk?.getKeyDetails()
+        await TKeySdk.syncLocalMetadataTransitions()
         setKeyDetails(resultKey)
         shareEncPubKeyX = undefined
       } catch (error) {
@@ -663,7 +664,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
     try {
       const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
-      await TKeySdk.updateSDK()
+      await TKeySdk._syncShareMetadata()
       const newDeviceShare = await TKeySdk.generateNewShare()
       const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
 
@@ -674,6 +675,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       setKeyDetails(newKeyDetails)
     } catch (e) {
       console.error(e)
+      throw e
     }
   }
 
@@ -811,7 +813,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       return
     } catch (error: any) {
       if (error.message.includes("nonce")) {
-        await TKeySdk.updateSDK()
         await TKeySdk._syncShareMetadata()
         const newKeyDetails = await TKeySdk.getKeyDetails()
         setKeyDetails(newKeyDetails)
