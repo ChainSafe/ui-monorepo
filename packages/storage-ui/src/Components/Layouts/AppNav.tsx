@@ -28,7 +28,8 @@ const useStyles = makeStyles(
     return createStyles({
       root: {
         width: 0,
-        overflow: "scroll",
+        overflowX: "hidden",
+        overflowY: "auto",
         transitionDuration: `${animation.translate}ms`,
         display: "flex",
         flexDirection: "column",
