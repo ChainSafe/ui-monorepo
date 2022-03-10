@@ -328,9 +328,13 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
         ].map((sharedFolderUser) => <div
           key={sharedFolderUser.user.uuid}
           className={classes.addedUserBox}
+          data-cy="container-added-user"
         >
           <div className={classes.flexContainer}>
-            <div className={classes.hashIcon}>
+            <div
+              className={classes.hashIcon}
+              data-cy="container-user-icon"
+            >
               <Hashicon
                 value={sharedFolderUser.user.uuid}
                 size={28}
@@ -339,12 +343,14 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             <Typography
               className={classes.addedUserLabel}
               component="p"
+              data-cy="label-added-user"
             >
               <UserName user={sharedFolderUser.user}/>
             </Typography>
           </div>
           <div className={classes.flexContainer}>
             <PermissionsDropdown
+              testId="user-permission"
               selectedPermission={sharedFolderUser.permission}
               onViewPermissionClick={() => {
                 if (sharedFolderUser.permission === "write") {
@@ -370,6 +376,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             <Button
               variant="link"
               className={classes.crossButton}
+              testId="remove-user-from-share"
               onClick={() => {
                 setHasPermissionsChanged(true)
                 if (sharedFolderUser.permission === "read") {
