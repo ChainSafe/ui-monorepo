@@ -12,3 +12,6 @@ Submission checklist:
 #### Theme
 - [ ] Components / elements inspected in light mode 
 - [ ] Components / elements inspected in dark mode 
+
+#### Billing
+- [ ] Change applied to both Files UI and Storage UI
