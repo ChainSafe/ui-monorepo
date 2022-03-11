@@ -53,6 +53,9 @@ msgstr "Cuenta"
 msgid "Account is restricted"
 msgstr ""
 
+msgid "Account visibility"
+msgstr ""
+
 msgid "Add Card"
 msgstr ""
 
@@ -404,6 +407,15 @@ msgstr "Tamaño del archivo"
 msgid "Files"
 msgstr "Archivos"
 
+msgid "Files Free"
+msgstr ""
+
+msgid "Files Max"
+msgstr ""
+
+msgid "Files Pro"
+msgstr ""
+
 msgid "Files sharing key"
 msgstr ""
 
@@ -420,9 +432,6 @@ msgid "Forget this browser"
 msgstr "Olvida este navegador"
 
 msgid "Free"
-msgstr ""
-
-msgid "Free plan"
 msgstr ""
 
 msgid "General"
@@ -692,9 +701,6 @@ msgstr "Por favor ingrese una contraseña"
 msgid "Please select a file to upload"
 msgstr ""
 
-msgid "Premium plan"
-msgstr ""
-
 msgid "Preview"
 msgstr "Avance"
 
@@ -893,9 +899,6 @@ msgstr "Algo salió mal. No pudimos subir tu archivo"
 msgid "Sort By:"
 msgstr ""
 
-msgid "Standard plan"
-msgstr ""
-
 msgid "Start Upload"
 msgstr "Iniciar la subida"
 
@@ -981,9 +984,6 @@ msgid "There was an error when setting username."
 msgstr ""
 
 msgid "This card will become your default payment method"
-msgstr ""
-
-msgid "This is the free product."
 msgstr ""
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."

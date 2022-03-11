@@ -53,6 +53,9 @@ msgstr "Compte"
 msgid "Account is restricted"
 msgstr "Ce compte est limité"
 
+msgid "Account visibility"
+msgstr ""
+
 msgid "Add Card"
 msgstr "Ajouter une carte"
 
@@ -404,6 +407,15 @@ msgstr "Taille"
 msgid "Files"
 msgstr "Fichiers"
 
+msgid "Files Free"
+msgstr ""
+
+msgid "Files Max"
+msgstr ""
+
+msgid "Files Pro"
+msgstr ""
+
 msgid "Files sharing key"
 msgstr "Clé de partage des fichiers"
 
@@ -421,9 +433,6 @@ msgstr "Oublier ce navigateur"
 
 msgid "Free"
 msgstr "Gratuit"
-
-msgid "Free plan"
-msgstr "Formule gratuite"
 
 msgid "General"
 msgstr "Général"
@@ -692,9 +701,6 @@ msgstr "Merci de donner un mot de passe"
 msgid "Please select a file to upload"
 msgstr "Merci de sélectionner un fichier à téléverser"
 
-msgid "Premium plan"
-msgstr "Formule premium"
-
 msgid "Preview"
 msgstr "Aperçu"
 
@@ -893,9 +899,6 @@ msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichi
 msgid "Sort By:"
 msgstr "Trier par :"
 
-msgid "Standard plan"
-msgstr "Formule standard"
-
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
 
@@ -982,9 +985,6 @@ msgstr "Une erreur s'est produite lors de la définition du nom d'utilisateur."
 
 msgid "This card will become your default payment method"
 msgstr "Cette carte deviendra votre méthode de paiement par défaut"
-
-msgid "This is the free product."
-msgstr "Ceci est la version gratuite."
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
 msgstr "Ce lien est marlformé. Veuillez vérifier que vous l'avez copié/collé correctement."

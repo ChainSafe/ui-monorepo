@@ -4,7 +4,6 @@ export const planChangeSuccessModal = {
   planChangeSuccessSubheader: () => cy.get("[data-cy=label-plan-changed-successfully]"),
   featuresSummaryLabel: () => cy.get("[data-cy=label-features-summary-title]"),
   newStorageCapacityLabel: () => cy.get("[data-cy=label-new-plan-capacity]"),
-  newPlanNameLabel: () => cy.get("[data-cy=label-new-plan-name]"),
   billingHistoryLabel: () => cy.get("[data-cy=label-billing-history-notice]"),
   invoicesLink: () => cy.get("[data-cy=link-view-invoices]"),
   closeButton: () => cy.get("[data-testid=button-close-success-modal]")

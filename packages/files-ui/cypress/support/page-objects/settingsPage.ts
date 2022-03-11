@@ -40,8 +40,8 @@ export const settingsPage = {
   payNowButton: () => cy.get("[data-testid=button-pay-invoice]"),
 
   // use this convenience function when an upgraded account is required as a test requisite
-  upgradeSubscription(plan: "standard" | "premium") {
-    const planContainer = plan === "standard" ? "@standardPlanBox" : "@premiumPlanBox"
+  upgradeSubscription(plan: "pro" | "max") {
+    const planContainer = plan === "pro" ? "@filesProBox" : "@filesMaxBox"
 
     this.subscriptionTabButton().click()
     this.changePlanButton().click()
