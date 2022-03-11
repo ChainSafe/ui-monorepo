@@ -12,9 +12,20 @@ import { useBilling } from "../../../../Contexts/BillingContext"
 const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
     root: {
-      [breakpoints.down("sm")]: {
-        paddingLeft: constants.generalUnit,
-        paddingRight: constants.generalUnit
+      [breakpoints.down("md")]: {
+        padding: constants.generalUnit * 1.5
+      }
+    },
+    mainHeader: {
+      fontSize: 28,
+      marginBottom: constants.generalUnit * 2,
+      [breakpoints.up("md")]: {
+        paddingLeft: constants.generalUnit * 2
+      }    },
+    settingsSection: {
+      maxWidth: breakpoints.values["md"],
+      [breakpoints.up("md")]: {
+        padding: `0 ${constants.generalUnit * 2}px`
       }
     }
   })
@@ -22,7 +33,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK || "")
 
-const PlanView: React.FC = () => {
+const Subscription: React.FC = () => {
   const classes = useStyles()
   const { refreshDefaultCard, fetchCurrentSubscription } = useBilling()
 
@@ -39,16 +50,25 @@ const PlanView: React.FC = () => {
         <Typography
           variant="h3"
           component="h3"
+          className={classes.mainHeader}
         >
-          <Trans>Payment and Subscriptions</Trans>
+          <Trans>Subscription plan</Trans>
         </Typography>
         <Divider />
-        <CurrentPlan />
-        <CurrentCard />
-        <BillingHistory />
+        <section className={classes.settingsSection}>
+          <CurrentPlan />
+        </section>
+        <Divider />
+        <section className={classes.settingsSection}>
+          <CurrentCard />
+        </section>
+        <Divider />
+        <section className={classes.settingsSection}>
+          <BillingHistory />
+        </section>
       </div>
     </Elements>
   )
 }
 
-export default PlanView
+export default Subscription

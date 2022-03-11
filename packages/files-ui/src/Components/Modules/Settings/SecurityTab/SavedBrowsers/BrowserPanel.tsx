@@ -1,9 +1,5 @@
 import React, { useCallback, useState } from "react"
-import {
-  makeStyles,
-  createStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import { Button, ExpansionPanel, Typography } from "@chainsafe/common-components"
 import clsx from "clsx"
@@ -13,16 +9,15 @@ import { BrowserShare, useThresholdKey } from "../../../../../Contexts/Threshold
 import CustomModal from "../../../../Elements/CustomModal"
 import CustomButton from "../../../../Elements/CustomButton"
 
-const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ palette, constants, breakpoints }: CSFTheme) =>
   createStyles({
     panelHeading: {
       backgroundColor: palette.additional["gray"][4],
-      borderRadius: "10px",
+      borderRadius: "16px",
       padding: `${constants.generalUnit}px 0 ${constants.generalUnit}px ${constants.generalUnit * 2}px`,
-      transition: `border-radius ${animation.transform}ms`,
-      "&.active": {
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0
+      "& > span":{
+        fontWeight: 400,
+        fontSize: 16
       }
     },
     panelBody: {
@@ -30,7 +25,7 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
       padding: 0,
       borderBottomLeftRadius: "10px",
       borderBottomRightRadius: "10px",
-      marginTop: `-${constants.generalUnit}px`
+      marginTop: constants.generalUnit
     },
     panelContent: {
       marginTop: constants.generalUnit,
@@ -110,7 +105,6 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
   const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
   const [loadingDownloadKey, setLoadingDownloadKey] = useState(false)
   const [isModalConfirmationOpen, setIsModalConfirmationOpen] = useState(false)
-  const { desktop } = useThemeSwitcher()
 
   const onDeleteShare = useCallback(() => {
     setLoadingDeleteShare(true)
@@ -216,7 +210,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
                   </Typography>
                   <div className={classes.modalFooter}>
                     <CustomButton
-                      variant={desktop ? "outline" : "gray"}
+                      variant="outline"
                       onClick={() => setIsModalConfirmationOpen(false)}
                       className={classes.cancelButton}
                       disabled={loadingDeleteShare}

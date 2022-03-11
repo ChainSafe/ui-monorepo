@@ -44,11 +44,11 @@ export const ROUTE_LINKS = {
     return `/shared/${bucketId}${adjustedRawCurrentPath}`
   },
   DiscordInvite: "https://discord.gg/zAEY37fNb2",
-  TeamSignup: "https://shrl.ink/cgQy"
+  SubscriptionWhitelistForm: "https://chainsafe.typeform.com/to/unZ0veao"
 }
 
 export const permissionPath = (permission: NonceResponsePermission) => permission === "read" ? "read" : "edit"
-export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
+export const SETTINGS_PATHS = ["profile", "plan", "security", "display"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {

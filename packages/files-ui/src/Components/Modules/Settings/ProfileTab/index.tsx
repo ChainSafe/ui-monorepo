@@ -1,35 +1,26 @@
 import React, { useState, useCallback, useMemo } from "react"
-import * as yup from "yup"
 import {
-  FormikTextInput,
   Grid,
   Button,
   Typography,
   useToasts,
-  RadioInput,
   TextInput,
   CheckIcon,
-  CheckboxInput,
-  Divider
+  Divider,
+  ToggleSwitch
 } from "@chainsafe/common-components"
-import {
-  makeStyles,
-  createStyles,
-  debounce,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
-import { LockIcon, CopyIcon } from "@chainsafe/common-components"
-import { Form, useFormik, FormikProvider } from "formik"
+import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
+import { CopyIcon } from "@chainsafe/common-components"
 import { useUser } from "../../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../../Utils/Helpers"
 import { CSFTheme } from "../../../../Themes/types"
-import clsx from "clsx"
-import LanguageSelection from "./LanguageSelection"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import EthCrypto from "eth-crypto"
+// import { Form, useFormik, FormikProvider } from "formik"
+// import * as yup from "yup"
 
-const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette }: CSFTheme) =>
   createStyles({
     container: {
       [breakpoints.down("md")]: {
@@ -37,18 +28,17 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
         paddingLeft: constants.generalUnit * 2
       }
     },
-    sectionContainer: {
-      borderBottom: `1px solid ${palette.additional["gray"][4]}`,
-      marginBottom: 32,
-      [breakpoints.down("md")]: {
-        borderBottom: "none"
+    boxContainer: {
+      marginBottom: constants.generalUnit * 4,
+      [breakpoints.up("md")]: {
+        marginLeft: constants.generalUnit * 2
       }
     },
-    boxContainer: {
-      marginBottom: constants.generalUnit * 4
-    },
     inputBoxContainer: {
-      marginBottom: constants.generalUnit * 3
+      marginBottom: constants.generalUnit * 3,
+      [breakpoints.up("md")]: {
+        marginLeft: constants.generalUnit * 2
+      }
     },
     labelContainer: {
       marginBottom: constants.generalUnit
@@ -56,6 +46,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     walletAddressContainer: {
       display: "flex",
       justifyContent: "space-between",
+      alignItems: "center",
       marginBottom: constants.generalUnit * 0.5
     },
     input: {
@@ -64,8 +55,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       marginBottom: constants.generalUnit
     },
     label: {
-      marginBottom: constants.generalUnit * 1,
-      fontSize: 20
+      marginBottom: constants.generalUnit * 1
     },
     subLabel: {
       marginBottom: constants.generalUnit * 1,
@@ -90,12 +80,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     },
     button: {
       width: 200,
-      margin: `0px ${constants.generalUnit * 0.5}px ${constants.generalUnit * 4
-      }px`
-    },
-    icon: {
-      fontSize: "20px",
-      margin: "-2px 2px 0 2px"
+      margin: `0px ${constants.generalUnit * 0.5}px ${constants.generalUnit * 4}px`,
+      [breakpoints.up("md")]: {
+        marginLeft: constants.generalUnit * 2
+      }
     },
     copyIcon: {
       fontSize: "14px",
@@ -111,44 +99,13 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       wordBreak: "break-all",
       paddingRight: constants.generalUnit * 2,
       width: "90%",
-      ...typography.body1,
-      [breakpoints.down("md")]: {
-        ...typography.body2
-      }
+      fontSize: 16
     },
     copyText: {
       padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
       backgroundColor: constants.loginModule.flagBg,
       borderRadius: 2,
       color: constants.loginModule.flagText
-    },
-    themeBox: {
-      height: 87,
-      borderRadius: 4,
-      paddingLeft: 20,
-      paddingTop: 14,
-      margin: "6px 0",
-      [breakpoints.down("sm")]: {
-        width: "100%"
-      },
-      cursor: "pointer"
-    },
-    themeBoxDark: {
-      ...constants.settingsPage.darkSwitch
-    },
-    themeBoxLight: {
-      marginLeft: constants.generalUnit,
-      ...constants.settingsPage.lightSwitch
-    },
-    themeSubtitle: {
-      ...typography.body1,
-      color: palette.additional.gray[8]
-    },
-    sectionSubHeading: {
-      ...typography.h5,
-      fontWeight: 400,
-      marginTop: 25,
-      marginBottom: 14
     },
     buttonLink: {
       color: palette.additional["gray"][10],
@@ -171,53 +128,62 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       flex: 1,
       margin: 0,
       paddingRight: constants.generalUnit
+    },
+    mainHeader: {
+      fontSize: 28,
+      marginBottom: constants.generalUnit * 2,
+      [breakpoints.up("md")]: {
+        paddingLeft: constants.generalUnit * 2
+      }
+    },
+    lookupText: {
+      paddingLeft: constants.generalUnit
     }
   })
 )
 
-const profileValidation = yup.object().shape({
-  // email: yup.string().email("Email is invalid").required("Email is required"),
-  firstName: yup.string(),
-  lastName: yup.string(),
-  username: yup.string()
-})
+// const profileValidation = yup.object().shape({
+//   email: yup.string().email("Email is invalid").required("Email is required"),
+//   firstName: yup.string(),
+//   lastName: yup.string(),
+//   username: yup.string()
+// })
 
 const ProfileView = () => {
-  const { themeKey, setTheme } = useThemeSwitcher()
   const { addToast } = useToasts()
-  const { profile, updateProfile, addUsername, lookupOnUsername, toggleLookupConsent } = useUser()
+  const { profile, addUsername, lookupOnUsername, toggleLookupConsent } = useUser()
   const { publicKey } = useThresholdKey()
-  const [updatingProfile, setUpdatingProfile] = useState(false)
   const [showUsernameForm, setShowUsernameForm] = useState(false)
   const [username, setUsername] = useState("")
   const [usernameData, setUsernameData] = useState({ error: "", loading: false })
-  const formik = useFormik({
-    initialValues: {
-      firstName: profile?.firstName || "",
-      lastName: profile?.lastName || ""
-      // email: profile?.email || ""
-    },
-    onSubmit: (values) => {
-      onUpdateProfile(
-        values.firstName || "",
-        values.lastName || ""
-        // values.email || ""
-      )
-    },
-    validationSchema: profileValidation,
-    validateOnChange: false
-  })
-  const onUpdateProfile = async (firstName: string, lastName: string) => {
-    try {
-      setUpdatingProfile(true)
-      await updateProfile(firstName, lastName)
-      addToast({ title: t`Profile updated`, type: "success", testId: "profile-update-success" })
-      setUpdatingProfile(false)
-    } catch (error) {
-      error instanceof Error && addToast({ title: error.message, type: "error" })
-      setUpdatingProfile(false)
-    }
-  }
+  // const [updatingProfile, setUpdatingProfile] = useState(false)
+  // const formik = useFormik({
+  //   initialValues: {
+  //     firstName: profile?.firstName || "",
+  //     lastName: profile?.lastName || ""
+  //     email: profile?.email || ""
+  //   },
+  //   onSubmit: (values) => {
+  //     onUpdateProfile(
+  //       values.firstName || "",
+  //       values.lastName || ""
+  //       values.email || ""
+  //     )
+  //   },
+  //   validationSchema: profileValidation,
+  //   validateOnChange: false
+  // })
+  // const onUpdateProfile = async (firstName: string, lastName: string) => {
+  //   try {
+  //     setUpdatingProfile(true)
+  //     await updateProfile(firstName, lastName)
+  //     addToast({ title: t`Profile updated`, type: "success", testId: "profile-update-success" })
+  //     setUpdatingProfile(false)
+  //   } catch (error) {
+  //     error instanceof Error && addToast({ title: error.message, type: "error" })
+  //     setUpdatingProfile(false)
+  //   }
+  // }
 
   const classes = useStyles()
 
@@ -321,24 +287,46 @@ const ProfileView = () => {
         <div className={classes.container}>
           <div
             id="profile"
-            className={classes.sectionContainer}
+            data-cy="label-profile-header"
           >
+            <Typography
+              variant="h3"
+              component="h3"
+              className={classes.mainHeader}
+            >
+              <Trans>Profile</Trans>
+            </Typography>
+            <Divider />
             <div className={classes.profileBox}>
-              <Typography
-                variant="h3"
-                component="h3"
-              >
-                <Trans>Profile settings</Trans>
-              </Typography>
-              <Divider />
-              {profile?.publicAddress &&
-                <div
-                  className={classes.boxContainer}
-                  data-cy="label-profile-header"
+              <div className={classes.boxContainer}>
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  className={classes.label}
                 >
+                  <Trans>Account visibility</Trans>
+                </Typography>
+                <div className={classes.walletAddressContainer}>
+                  <ToggleSwitch
+                    left={{ value: false }}
+                    right={{ value: true }}
+                    testId="address-lookup"
+                    onChange={toggleLookupConsent}
+                    value={profile?.lookupConsent || false}
+                  />
+                  <Typography className={classes.lookupText}>
+                    <Trans>
+                      Allow lookup by sharing key, wallet address, username or ENS
+                    </Trans>
+                  </Typography>
+                </div>
+              </div>
+              {profile?.publicAddress &&
+                <div className={classes.boxContainer}>
                   <div className={classes.walletAddressContainer}>
                     <Typography
-                      variant="body1"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Wallet address</Trans>
@@ -371,7 +359,8 @@ const ProfileView = () => {
                 >
                   <div className={classes.walletAddressContainer}>
                     <Typography
-                      variant="body1"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Files sharing key</Trans>
@@ -401,7 +390,8 @@ const ProfileView = () => {
                 {profile?.username
                   ? <>
                     <Typography
-                      component="p"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Username</Trans>
@@ -417,7 +407,8 @@ const ProfileView = () => {
                   </>
                   : <>
                     <Typography
-                      component="p"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Username</Trans>
@@ -479,16 +470,13 @@ const ProfileView = () => {
                     }
                   </>
                 }
-                <CheckboxInput
-                  label={t`Allow lookup by sharing key, wallet address, username or ENS`}
-                  value={profile?.lookupConsent || false}
-                  onChange={toggleLookupConsent} />
               </div>
-              <FormikProvider value={formik}>
+              {/* <FormikProvider value={formik}>
                 <Form>
                   <div className={classes.inputBoxContainer}>
                     <Typography
-                      component="p"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>First name</Trans>
@@ -510,8 +498,8 @@ const ProfileView = () => {
                   </div>
                   <div className={classes.inputBoxContainer}>
                     <Typography
-                      variant="body1"
-                      component="p"
+                      variant="h4"
+                      component="h4"
                       className={classes.label}
                     >
                       <Trans>Last name</Trans>
@@ -525,7 +513,7 @@ const ProfileView = () => {
                       data-cy="input-profile-lastname"
                     />
                   </div>
-                  {/* <div className={classes.boxContainer}>
+                  <div className={classes.boxContainer}>
                     <FormikTextInput
                       placeholder="Email"
                       name="email"
@@ -535,26 +523,23 @@ const ProfileView = () => {
                       label="Email"
                       disabled={!profile?.publicAddress}
                     />
-                  </div> */}
-
+                  </div>
                   <Button
                     className={classes.button}
                     size="large"
                     type="submit"
                     loading={updatingProfile}
-                    variant={themeKey === "dark" ? "outline" : "primary"}
+                    variant="primary"
                     loadingText="Saving"
                     data-cy="button-save-changes"
                     disabled={!formik.dirty}
                   >
-                    <LockIcon className={classes.icon} />
-                    {"  "}
                     <Typography variant="button">
                       <Trans>Save changes</Trans>
                     </Typography>
                   </Button>
                 </Form>
-              </FormikProvider>
+              </FormikProvider> */}
             </div>
           </div>
           {/* <div id="deletion" className={classes.sectionContainer}>
@@ -585,64 +570,6 @@ const ProfileView = () => {
               </Button>
             </div>
           </div> */}
-          <div className={classes.profileBox}>
-            <Typography
-              variant='h4'
-              component='h4'
-            >
-              <Trans>Display Settings</Trans>
-            </Typography>
-            <Typography
-              variant='h5'
-              component='h5'
-              className={classes.sectionSubHeading}
-            >
-              <Trans>Theme</Trans>
-            </Typography>
-            <Grid container>
-              <Grid
-                item
-                xs={12}
-                lg={6}
-              >
-                <label className={clsx(classes.themeBox, classes.themeBoxDark)}>
-                  <RadioInput
-                    value='dark'
-                    label={t`Dark Theme`}
-                    onChange={(e) => setTheme(e.target.value)}
-                    checked={themeKey === "dark"}
-                  />
-                  {themeKey === "dark" && <Typography className={classes.themeSubtitle}>
-                    <Trans>What a fine night it is.</Trans>
-                  </Typography>}
-                </label>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                lg={6}
-              >
-                <label className={clsx(classes.themeBox, classes.themeBoxLight)}>
-                  <RadioInput
-                    value='light'
-                    label={t`Light Theme`}
-                    onChange={(e) => setTheme(e.target.value)}
-                    checked={themeKey === "light"} />
-                  {themeKey === "light" && <Typography className={classes.themeSubtitle}>
-                    <Trans>What a fine day it is.</Trans>
-                  </Typography>}
-                </label>
-              </Grid>
-            </Grid>
-          </div>
-          <Typography
-            variant='h5'
-            component='h5'
-            className={classes.sectionSubHeading}
-          >
-            <Trans>Language</Trans>
-          </Typography>
-          <LanguageSelection />
         </div>
       </Grid>
     </Grid>

@@ -1,4 +1,4 @@
-import { createEditSharedFolderModal } from "../support/page-objects/modals/createSharedFolderModal"
+import { editSharedFolderModal } from "../support/page-objects/modals/editSharedFolderModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { sharingExplainerKey } from "../fixtures/filesTestData"
 import { sharedPage } from "../support/page-objects/sharedPage"
@@ -26,56 +26,56 @@ describe("Link Sharing", () => {
         .should("be.visible")
         .click()
       sharedPage.manageAccessMenuOption().click()
-      createEditSharedFolderModal.body().should("be.visible")
+      editSharedFolderModal.body().should("be.visible")
 
       // ensure default state of displayed elements is correct
-      createEditSharedFolderModal.activeShareLink().should("not.exist")
-      createEditSharedFolderModal.labelPermissionType().should("not.exist")
-      createEditSharedFolderModal.copyLinkButton().should("not.exist")
-      createEditSharedFolderModal.linkKebabMenu().should("not.exist")
-      createEditSharedFolderModal.permissionTypeDropdown().should("be.visible")
-      createEditSharedFolderModal.createLinkButton().should("be.visible")
+      editSharedFolderModal.activeShareLink().should("not.exist")
+      editSharedFolderModal.labelPermissionType().should("not.exist")
+      editSharedFolderModal.copyLinkButton().should("not.exist")
+      editSharedFolderModal.linkKebabMenu().should("not.exist")
+      editSharedFolderModal.linkPermissionDropdown().should("be.visible")
+      editSharedFolderModal.createLinkButton().should("be.visible")
 
       // ensure "view-only" and "can-edit" options are present
-      createEditSharedFolderModal.permissionTypeDropdown().click()
-      createEditSharedFolderModal.viewOnlyDropdownOption()
+      editSharedFolderModal.linkPermissionDropdown().click()
+      editSharedFolderModal.viewOnlyDropdownOption()
         .scrollIntoView()
         .should("be.visible")
-      createEditSharedFolderModal.canEditDropdownOption()
+      editSharedFolderModal.canEditDropdownOption()
         .scrollIntoView()
         .should("be.visible")
 
       // create a "view-only" link
-      createEditSharedFolderModal.viewOnlyDropdownOption().click()
-      createEditSharedFolderModal.createLinkButton().click()
-      createEditSharedFolderModal.activeShareLink().should("have.length", 1)
-      createEditSharedFolderModal.labelPermissionType().should("have.length", 1)
-      createEditSharedFolderModal.copyLinkButton().should("have.length", 1)
+      editSharedFolderModal.viewOnlyDropdownOption().click()
+      editSharedFolderModal.createLinkButton().click()
+      editSharedFolderModal.activeShareLink().should("have.length", 1)
+      editSharedFolderModal.labelPermissionType().should("have.length", 1)
+      editSharedFolderModal.copyLinkButton().should("have.length", 1)
 
       // ensure only the can-edit option is present if a "view-only" link exists
-      createEditSharedFolderModal.permissionTypeDropdown().click()
-      createEditSharedFolderModal.viewOnlyDropdownOption().should("not.exist")
-      createEditSharedFolderModal.canEditDropdownOption()
+      editSharedFolderModal.linkPermissionDropdown().click()
+      editSharedFolderModal.viewOnlyDropdownOption().should("not.exist")
+      editSharedFolderModal.canEditDropdownOption()
         .scrollIntoView()
         .should("be.visible")
 
       // create a "can-edit" link
-      createEditSharedFolderModal.canEditDropdownOption().click()
-      createEditSharedFolderModal.createLinkButton().click()
-      createEditSharedFolderModal.activeShareLink().should("have.length", 2)
-      createEditSharedFolderModal.labelPermissionType().should("have.length", 2)
-      createEditSharedFolderModal.copyLinkButton().should("have.length", 2)
+      editSharedFolderModal.canEditDropdownOption().click()
+      editSharedFolderModal.createLinkButton().click()
+      editSharedFolderModal.activeShareLink().should("have.length", 2)
+      editSharedFolderModal.labelPermissionType().should("have.length", 2)
+      editSharedFolderModal.copyLinkButton().should("have.length", 2)
 
       // ensure create button and drop down are not shown if links exist
-      createEditSharedFolderModal.permissionTypeDropdown().should("not.exist")
-      createEditSharedFolderModal.createLinkButton().should("not.exist")
+      editSharedFolderModal.linkPermissionDropdown().should("not.exist")
+      editSharedFolderModal.createLinkButton().should("not.exist")
 
       // delete one of the links
-      createEditSharedFolderModal.linkKebabMenu().first().click()
-      createEditSharedFolderModal.deleteLinkMenuOption().first()
+      editSharedFolderModal.linkKebabMenu().first().click()
+      editSharedFolderModal.deleteLinkMenuOption().first()
         .scrollIntoView()
         .click()
-      createEditSharedFolderModal.activeShareLink().should("have.length", 1)
+      editSharedFolderModal.activeShareLink().should("have.length", 1)
     })
 
     it("can join a share from link with view-only access", () => {

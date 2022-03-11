@@ -74,7 +74,10 @@ export interface CsfColors extends IConstants {
   previewModal: {
     controlsBackground: string
     controlsColor: string
-    closeButtonColor: string
+    headerButtonColor: string
+    controlsButtonColor: string
+    controlsBackgroundColor: string
+    controlsBackgroundHoverColor: string
     fileOpsColor: string
     fileNameColor: string
     optionsBackground: string
@@ -160,6 +163,9 @@ export interface CsfColors extends IConstants {
       color: string
       border?: string
       borderColor?: string
+    }
+    linkButton: {
+      color: string
     }
   }
   surveyBanner: {

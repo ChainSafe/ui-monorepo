@@ -6,8 +6,10 @@ import CidsPage from "./Pages/CidsPage"
 import BucketsPage from "./Pages/BucketsPage"
 import SettingsPage from "./Pages/SettingsPage"
 import BucketPage from "./Pages/BucketPage"
+import BillingHistory from "./Pages/BillingHistory"
 
-export const SETTINGS_PATHS = ["apiKeys"] as const
+export const SETTINGS_BASE = "/settings"
+export const SETTINGS_PATHS = ["apiKeys", "plan"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 export const ROUTE_LINKS = {
@@ -15,7 +17,10 @@ export const ROUTE_LINKS = {
   Cids: "/cids",
   Buckets: "/buckets",
   SettingsRoot: "/settings",
-  Settings: (path: SettingsPath) => `/settings/${path}`,
+  Settings: `${SETTINGS_BASE}/:path`,
+  SettingsDefault: `${SETTINGS_BASE}`,
+  SettingsPath: (settingsPath: SettingsPath) => `${SETTINGS_BASE}/${settingsPath}`,
+  BillingHistory: "/billing-history",
   UserSurvey: "https://blocksurvey.io/survey/1K4bjDmqwtyAsehm1r4KbsdzRRDVyRCDoe/1541a8c4-275a-4e22-9547-570e94c5a55f",
   PrivacyPolicy: "https://storage.chainsafe.io/privacy-policy",
   Terms: "https://storage.chainsafe.io/terms-of-service",
@@ -32,9 +37,9 @@ const StorageRoutes = () => {
     <Switch>
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.Cids}
+        path={ROUTE_LINKS.BillingHistory}
         isAuthorized={isLoggedIn}
-        component={CidsPage}
+        component={BillingHistory}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
@@ -58,12 +63,20 @@ const StorageRoutes = () => {
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
-        path={ROUTE_LINKS.SettingsRoot}
+        exact
+        path={ROUTE_LINKS.SettingsDefault}
         isAuthorized={isLoggedIn}
         component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
+        path={ROUTE_LINKS.Settings}
+        isAuthorized={isLoggedIn}
+        component={SettingsPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
         path={ROUTE_LINKS.Landing}
         isAuthorized={!isLoggedIn}
         component={LoginPage}

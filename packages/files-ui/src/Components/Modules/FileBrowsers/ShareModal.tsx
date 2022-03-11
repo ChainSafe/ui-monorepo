@@ -13,17 +13,12 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
-import CreateOrManageSharedFolder from "./CreateOrManageSharedFolder"
-import LinkList from "./LinkSharing/LinkList"
+import ManageSharedFolder from "./ManageSharedFolder"
 import { usePosthogContext } from "../../../Contexts/PosthogContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
-interface StyleProps {
-  width: number
-}
-
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
+  ({ constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 3,
@@ -33,14 +28,10 @@ const useStyles = makeStyles(
       modalRoot: {
         zIndex: zIndex?.blocker
       },
-      modalInner: ({ width }: StyleProps) => ({
+      modalInner: {
         backgroundColor: constants.fileInfoModal.background,
-        color: constants.fileInfoModal.color,
-        width,
-        [breakpoints.down("sm")]: {
-          width: "100%"
-        }
-      }),
+        color: constants.fileInfoModal.color
+      },
       topIconContainer: {
         display: "flex",
         flexDirection: "column",
@@ -52,19 +43,15 @@ const useStyles = makeStyles(
         flexDirection: "column"
       },
       checkboxContainer: {
-        display: "flex",
-        justifyContent: "center",
         marginTop: constants.generalUnit * 4
       },
       buttonsContainer: {
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        marginTop: constants.generalUnit * 2
+        marginTop: constants.generalUnit * 2,
+        justifyContent: "flex-end"
       },
       mainButton: {
-        width: 240,
-        marginBottom: constants.generalUnit * 0.5
+        marginLeft: constants.generalUnit
       },
       cancelButton: {
         maxWidth: 100
@@ -98,7 +85,7 @@ const useStyles = makeStyles(
       },
       modalFlexItem: {
         width: "100%",
-        marginBottom: constants.generalUnit * 2
+        marginBottom: constants.generalUnit
       },
       newFolderInput: {
         margin: 0,
@@ -122,23 +109,17 @@ const useStyles = makeStyles(
       errorText: {
         marginTop: constants.generalUnit * 1,
         color: palette.error.main
-      },
-      subModal: ({ width }: StyleProps) => ({
-        width,
-        [breakpoints.down("sm")]: {
-          width: "100%"
-        }
-      })
+      }
     })
   }
 )
 
-interface IShareFileProps {
+interface IShareModalProps {
   fileSystemItems: FileSystemItem[]
   onClose: () => void
 }
 
-const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
+const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const { accountRestricted } = useFilesApi()
   const [sharedFolderName, setSharedFolderName] = useState("")
@@ -153,9 +134,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
   const [nameError, setNameError] = useState("")
   const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
 
-  const classes = useStyles({
-    width: bucketToUpload ? 600 : 500
-  })
+  const classes = useStyles()
 
   const isReader = useMemo(() => {
     if (!bucket) return false
@@ -271,24 +250,15 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
     <CustomModal
       className={classes.modalRoot}
       injectedClass={{
-        inner: classes.modalInner,
-        subModalInner: classes.subModal
+        inner: classes.modalInner
       }}
       active={true}
       closePosition="none"
-      maxWidth="sm"
-      mobileStickyBottom={false}
-      subModal={bucketToUpload && (
-        <LinkList
-          bucketEncryptionKey={bucketToUpload.encryptionKey}
-          bucketId={bucketToUpload.id}
-        />
-      )}
+      maxWidth={500}
     >
       {bucketToUpload
-        ? <CreateOrManageSharedFolder
+        ? <ManageSharedFolder
           onClose={onClose}
-          mode="edit"
           bucketToEdit={bucketToUpload}
         />
         : <div className={classes.root}>
@@ -344,17 +314,20 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
               )}
           </div>
           {!hasNoSharedBucket && (
-            <div
-              className={classes.buttonLink}
-              onClick={() => setIsUsingExistingBucket(!isUsingExistingBucket)}
-            >
-              <Typography>
-                {
-                  isUsingExistingBucket
-                    ? <Trans>Or Create a new shared folder</Trans>
-                    : <Trans>Or Use an existing shared folder</Trans>
-                }
-              </Typography>
+            <div>
+              <Trans>or</Trans>{" "}
+              <span
+                className={classes.buttonLink}
+                onClick={() => setIsUsingExistingBucket(!isUsingExistingBucket)}
+              >
+                <Typography>
+                  {
+                    isUsingExistingBucket
+                      ? <Trans>Create a new shared folder</Trans>
+                      : <Trans>Use an existing shared folder</Trans>
+                  }
+                </Typography>
+              </span>
             </div>
           )}
           <div className={classes.buttonsArea}>
@@ -372,8 +345,14 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
             )}
             <div className={classes.buttonsContainer}>
               <Button
+                variant="outline"
+                onClick={onClose}
+                className={classes.cancelButton}
+              >
+                <Trans>Cancel</Trans>
+              </Button>
+              <Button
                 type="submit"
-                size="large"
                 variant="primary"
                 onClick={handleShare}
                 className={classes.mainButton}
@@ -383,21 +362,10 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareFileProps) => {
                   : !sharedFolderName || !!nameError
                 }
               >
-                {isUsingExistingBucket ? keepOriginalFile
+                {keepOriginalFile
                   ? <Trans>Copy over</Trans>
                   : <Trans>Move over</Trans>
-                  : keepOriginalFile
-                    ? <Trans>Create folder &amp; Copy over</Trans>
-                    : <Trans>Create folder &amp; Move over</Trans>
                 }
-              </Button>
-              <Button
-                size="large"
-                variant="text"
-                onClick={onClose}
-                className={classes.cancelButton}
-              >
-                <Trans>Close</Trans>
               </Button>
             </div>
           </div>

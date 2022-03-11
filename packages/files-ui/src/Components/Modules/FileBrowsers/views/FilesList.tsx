@@ -214,7 +214,7 @@ const useStyles = makeStyles(
         zIndex: zIndex?.layer4,
         bottom: 0,
         transform: "translateX(-50%)",
-        backgroundColor: palette.common.black.main,
+        backgroundColor: palette.additional["gray"][10],
         color: constants.filesTable.uploadText,
         opacity: 0,
         visibility: "hidden",
@@ -267,19 +267,19 @@ const useStyles = makeStyles(
       },
       gridRoot: {
         display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr",
+        gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)",
         gridColumnGap: constants.generalUnit * 2,
         gridRowGap: constants.generalUnit * 2,
         marginBottom: constants.generalUnit * 4,
         marginTop: constants.generalUnit * 4,
         [breakpoints.down("lg")]: {
-          gridTemplateColumns: "1fr 1fr 1fr 1fr"
+          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)"
         },
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 4}px 0`
         },
         [breakpoints.down("sm")]: {
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
           margin: `${constants.generalUnit * 2}px 0`
         }
       },
@@ -316,6 +316,9 @@ const useStyles = makeStyles(
       },
       buttonWrap: {
         whiteSpace: "nowrap"
+      },
+      checkIcon: {
+        fill: palette.additional.gray[8]
       }
     })
   }
@@ -328,6 +331,8 @@ const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
 interface Props {
   isShared?: boolean
 }
+
+type SortByType = "name" | "size" | "date_uploaded"
 
 const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
@@ -362,7 +367,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
-  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
+  const [column, setColumn] = useState<SortByType>("name")
   const [selectedItems, setSelectedItems] = useState<FileSystemItemType[]>([])
   const [fileIndex, setFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
@@ -416,9 +421,7 @@ const FilesList = ({ isShared = false }: Props) => {
     selectedItems.some((item) => !!item.isFolder)
   , [selectedItems])
 
-  const handleSortToggle = (
-    targetColumn: "name" | "size" | "date_uploaded"
-  ) => {
+  const handleSortToggle = useCallback((targetColumn: SortByType) => {
     if (column !== targetColumn) {
       setColumn(targetColumn)
       setDirection("descend")
@@ -429,7 +432,7 @@ const FilesList = ({ isShared = false }: Props) => {
         setDirection("ascend")
       }
     }
-  }
+  }, [column, direction])
 
   const toggleSortDirection = () => {
     if (direction === "ascend") {
@@ -865,7 +868,10 @@ const FilesList = ({ isShared = false }: Props) => {
         </Typography>
         {isShared && bucket && (
           <div className={classes.users}>
-            <SharedUsers bucket={bucket} />
+            <SharedUsers
+              bucket={bucket}
+              showOwners={true}
+            />
           </div>
         )}
         <div className={classes.controls}>
@@ -1130,7 +1136,7 @@ const FilesList = ({ isShared = false }: Props) => {
                             }, {
                               contents: (
                                 <>
-                                  {column === "name" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  {column === "name" && <ListItemIcon><CheckIcon className={classes.checkIcon} /></ListItemIcon>}
                                   <ListItemText inset={column !== "name"}>
                                     <Trans>Name</Trans>
                                   </ListItemText>
@@ -1140,7 +1146,7 @@ const FilesList = ({ isShared = false }: Props) => {
                             }, {
                               contents: (
                                 <>
-                                  {column === "date_uploaded" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  {column === "date_uploaded" && <ListItemIcon><CheckIcon className={classes.checkIcon} /></ListItemIcon>}
                                   <ListItemText inset={column !== "date_uploaded"}>
                                     <Trans>Date Uploaded</Trans>
                                   </ListItemText>
@@ -1150,7 +1156,7 @@ const FilesList = ({ isShared = false }: Props) => {
                             }, {
                               contents: (
                                 <>
-                                  {column === "size" && <ListItemIcon><CheckIcon /></ListItemIcon>}
+                                  {column === "size" && <ListItemIcon><CheckIcon className={classes.checkIcon} /></ListItemIcon>}
                                   <ListItemText inset={column !== "size"}>
                                     <Trans>Size</Trans>
                                   </ListItemText>

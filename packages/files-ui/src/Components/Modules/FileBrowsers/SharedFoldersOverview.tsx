@@ -17,16 +17,17 @@ import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import CreateOrManageSharedFolderModal from "./CreateOrManageSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
-import { SharedFolderModalMode } from "./types"
 import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
 import { usePageTrack } from "../../../Contexts/PosthogContext"
 import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 import clsx from "clsx"
+import CreateSharedFolderModal from "./CreateSharedFolderModal"
+import CreateOrManageSharedFolderModal from "./ManageSharedFolderModal"
+import { useLanguageContext } from "../../../Contexts/LanguageContext"
 
 export const desktopSharedGridSettings = "50px 3fr 90px 140px 140px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -114,14 +115,12 @@ const useStyles = makeStyles(
   }
 )
 
-type SortingType = "name" | "size" | "date_uploaded"
+type SortingType = "name" | "size"
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
   const { filesApiClient, accountRestricted } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
-  const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
-  const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<SortingType>("name")
   const { redirect } = useHistory()
@@ -131,6 +130,33 @@ const SharedFolderOverview = () => {
   const [isDeletingSharedFolder, setIsDeletingSharedFolder] = useState(false)
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share" && b.status !== "deleting"), [buckets])
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
+  const [isSharedFolderCreationModalOpen, setIsSharedFolderCreationModalOpen] = useState(false)
+  const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
+  const { selectedLocale } = useLanguageContext()
+  const sortedBuckets = useMemo(() => {
+    let temp: BucketKeyPermission[]
+
+    switch (column) {
+      case "size": {
+        temp = bucketsToShow.sort((a, b) => (a.size < b.size ? -1 : 1))
+        break
+      }
+      // defaults to name sorting
+      default: {
+        temp = bucketsToShow.sort((a, b) => {
+          if(!a.name || !b.name) return 0
+
+          return a.name.localeCompare(b.name, selectedLocale, {
+            sensitivity: "base"
+          })
+        })
+      }
+    }
+
+    return direction === "descend"
+      ? temp.reverse()
+      : temp
+  }, [bucketsToShow, column, direction, selectedLocale])
 
   usePageTrack()
 
@@ -138,7 +164,7 @@ const SharedFolderOverview = () => {
     refreshBuckets(true)
   }, [refreshBuckets])
 
-  const handleSortToggle = (targetColumn: SortingType) => {
+  const handleSortToggle = useCallback((targetColumn: SortingType) => {
     if (column !== targetColumn) {
       setColumn(targetColumn)
       setDirection("descend")
@@ -149,7 +175,7 @@ const SharedFolderOverview = () => {
         setDirection("ascend")
       }
     }
-  }
+  }, [column, direction])
 
   const handleRename = useCallback((bucket: BucketKeyPermission, newName: string) => {
     filesApiClient.updateBucket(bucket.id, {
@@ -192,10 +218,7 @@ const SharedFolderOverview = () => {
           <div className={classes.controls}>
             <Button
               variant='outline'
-              onClick={() => {
-                setBucketToEdit(undefined)
-                setCreateOrEditSharedFolderMode("create")
-              }}
+              onClick={() => setIsSharedFolderCreationModalOpen(true)}
               data-cy="button-create-a-shared-folder"
             >
               <PlusIcon />
@@ -209,7 +232,7 @@ const SharedFolderOverview = () => {
           <div className={classes.loadingContainer}>
             <Loading
               size={24}
-              type="light"
+              type="initial"
             />
             <Typography
               variant="body2"
@@ -267,16 +290,13 @@ const SharedFolderOverview = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {bucketsToShow.map((bucket) =>
+              {sortedBuckets.map((bucket) =>
                 <SharedFolderRow
                   key={bucket.id}
                   bucket={bucket}
                   handleRename={handleRename}
                   openSharedFolder={openSharedFolder}
-                  onEditSharedFolder={() => {
-                    setBucketToEdit(bucket)
-                    setCreateOrEditSharedFolderMode("edit")
-                  }}
+                  onEditSharedFolder={() => setBucketToEdit(bucket)}
                   handleDeleteSharedFolder={() => {
                     setBucketToDelete(bucket)
                     setIsDeleteBucketModalOpen(true)
@@ -291,15 +311,13 @@ const SharedFolderOverview = () => {
         showModal={!hasSeenSharingExplainerModal}
         onHide={hideModal}
       />
+      {isSharedFolderCreationModalOpen && <CreateSharedFolderModal onClose={() => setIsSharedFolderCreationModalOpen(false)}/>}
       <CreateOrManageSharedFolderModal
-        mode={createOrEditSharedFolderMode}
-        isModalOpen={!!createOrEditSharedFolderMode}
-        onClose={() => {
-          setBucketToEdit(undefined)
-          setCreateOrEditSharedFolderMode(undefined)
-        }}
+        onClose={() => setBucketToEdit(undefined)}
         bucketToEdit={bucketToEdit}
+        isModalOpen={!!bucketToEdit}
       />
+
       <Dialog
         active={isDeleteBucketModalOpen}
         reject={() => setIsDeleteBucketModalOpen(false)}

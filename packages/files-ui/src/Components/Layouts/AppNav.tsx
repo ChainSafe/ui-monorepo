@@ -204,6 +204,7 @@ const useStyles = makeStyles(
         marginBottom: constants.generalUnit
       },
       profileButton: {
+        maxWidth: 144,
         borderRadius: 4,
         display: "flex",
         alignItems: "center",
@@ -229,6 +230,11 @@ const useStyles = makeStyles(
       },
       menuTitle: {
         padding: `${constants.generalUnit * 1.5}px 0`
+      },
+      profileLabel: {
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis"
       }
     })
   }
@@ -318,6 +324,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                     <Typography
                       variant="body1"
                       component="p"
+                      className={classes.profileLabel}
                     >
                       {profileTitle}
                     </Typography>

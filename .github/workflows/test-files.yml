@@ -8,6 +8,7 @@ on:
     - package.json
     - .eslintrc.json
     - tsconfig.json
+    - yarn.lock
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -23,7 +24,7 @@ jobs:
             **/node_modules
             ~/.cache/Cypress
             **/build
-          key: ${{ runner.os }}-node_modules-files-build-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node_modules-files-build-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
 

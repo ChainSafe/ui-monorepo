@@ -80,7 +80,7 @@ const SaveNewDevice = ({ className }: {className: string}) => {
   const onSave = useCallback(() => {
     setIsAccepted(true)
     addNewDeviceShareAndSave()
-      .catch(console.error)
+      .catch(() => setIsAccepted(false))
   }, [addNewDeviceShareAndSave])
 
   const onDeny = useCallback(() => {

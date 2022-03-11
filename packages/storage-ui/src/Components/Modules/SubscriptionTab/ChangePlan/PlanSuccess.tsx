@@ -1,15 +1,15 @@
 import React from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../../../Themes/types"
+import { CSSTheme } from "../../../../Themes/types"
 import { Product, ProductPrice } from "@chainsafe/files-api-client"
-import {  Button, CheckCircleIcon, CheckIcon, Divider, formatBytes, Link, Typography } from "@chainsafe/common-components"
+import { Button, CheckCircleIcon, CheckIcon, Divider, formatBytes, Link, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
-import { ROUTE_LINKS } from "../../../../FilesRoutes"
+import { ROUTE_LINKS } from "../../../StorageRoutes"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
   createStyles({
-    root:  {
+    root: {
       margin: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
     },
     headingBadge: {
@@ -65,9 +65,9 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
       marginBottom: constants.generalUnit
     },
     textLink: {
-      color: palette.primary.background
+      color: palette.primary.main
     },
-    checkCircleIcon:  {
+    checkCircleIcon: {
       fill: palette.additional["gray"][7],
       marginLeft: constants.generalUnit
     },
@@ -97,6 +97,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
         variant="body1"
         component="p"
         className={classes.headingBadge}
+        data-cy="header-plan-change-success"
       >
         <Trans>Confirmation</Trans>
       </Typography>
@@ -104,6 +105,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
         <Typography
           variant="h5"
           component="h4"
+          data-cy="label-plan-changed-successfully"
         >
           <Trans>Plan changed successfully</Trans>
         </Typography>
@@ -115,6 +117,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
           variant="body1"
           component="p"
           className={classes.featuresTitle}
+          data-cy="label-features-summary-title"
         >
           <Trans>You now have:</Trans>
         </Typography>
@@ -124,20 +127,12 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
             <Typography
               component="p"
               variant="body1"
+              data-cy="label-new-plan-capacity"
             >
               {planPrice?.metadata?.storage_size_bytes
                 ? <Trans>{newPlanCapacity} of storage</Trans>
                 : plan.description
               }
-            </Typography>
-          </div>
-          <div className={classes.middleRowBox}>
-            <CheckIcon className={classes.tickIcon} />
-            <Typography
-              component="p"
-              variant="body1"
-            >
-              {plan.description}
             </Typography>
           </div>
         </div>
@@ -147,11 +142,13 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
           component="p"
           variant="body1"
           className={classes.invoiceText}
+          data-cy="label-billing-history-notice"
         >
           <Trans>Access your billing history in settings or view your </Trans>&nbsp;
           <Link
             to={ROUTE_LINKS.BillingHistory}
             className={classes.textLink}
+            data-cy="link-view-invoices"
           >
             <Trans>invoices here</Trans>
           </Link>
@@ -162,6 +159,7 @@ const PlanSuccess = ({ plan, onClose, planPrice }: IPlanSuccess) => {
           <Button
             onClick={onClose}
             variant="secondary"
+            testId="close-success-modal"
           >
             <Trans>Close</Trans>
           </Button>

@@ -23,7 +23,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       alignItems: "center",
       justifyContent: "center",
       "& svg": {
-        width: constants.generalUnit * 2.5,
         fill: constants.fileSystemItemRow.icon
       }
     },
@@ -40,8 +39,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       maxWidth: constants.generalUnit * 24,
       border: `1px solid ${palette.additional["gray"][6]}`,
       boxShadow: constants.filesTable.gridItemShadow,
+      "& span": {
+        fontSize: "32px"
+      },
       "& svg": {
-        width: "30%"
+        fontSize: "32px"
       },
       [breakpoints.down("lg")]: {
         height: constants.generalUnit * 16
@@ -98,14 +100,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     gridFolderName: {
       textAlign: "center",
-      wordBreak: "break-all",
-      overflowWrap: "break-word",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
       padding: constants.generalUnit
     },
     gridViewIconNameBox: {
       display: "flex",
       flexDirection: "column",
-      width: "100%"
+      minWidth: "90%"
     },
     menuTitleGrid: {
       padding: `0 ${constants.generalUnit * 0.5}px`,

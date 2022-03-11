@@ -22,31 +22,41 @@ interface IBillingContext {
   refreshDefaultCard: () => void
   currentSubscription: CurrentSubscription | undefined
   changeSubscription: (newPriceId: string) => Promise<void>
-  fetchCurrentSubscription: () => void
+  fetchCurrentSubscription: () => Promise<void | CurrentSubscription>
   getAvailablePlans: () => Promise<Product[]>
   deleteCard: (card: Card) => Promise<void>
   updateDefaultCard: (id: StripePaymentMethod["id"]) => Promise<void>
   invoices?: InvoiceResponse[]
   cancelCurrentSubscription: () => Promise<void>
   isPendingInvoice: boolean
+  openInvoice?: InvoiceResponse
   downloadInvoice: (invoiceId: string) => Promise<void>
+  refreshInvoices: () => void
+  isBillingEnabled: boolean
 }
 
 const ProductMapping: {[key: string]: {
   name: string
-  description: string
 }} = {
+  // Staging Product Ids
   prod_JwRu6Ph25b1f2O: {
-    name: t`Free plan`,
-    description: t`This is the free product.`
+    name: t`Files Free`
   },
   prod_JwS49Qfnr6vD3K: {
-    name: t`Standard plan`,
-    description: t`Standard plan`
+    name: t`Files Pro`
   },
   prod_JwSGHB8qFx7rRM: {
-    name: t`Premium plan`,
-    description: t`Premium plan`
+    name: t`Files Max`
+  },
+  // Production Product Ids
+  prod_KRAq3CngQMKebw: {
+    name: t`Files Free`
+  },
+  prod_LDXtKgrbAoZvIB: {
+    name: t`Files Pro`
+  },
+  prod_LDXtBLuzjVxMzg: {
+    name: t`Files Max`
   }
 }
 
@@ -63,23 +73,36 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
   const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update", [currentSubscription])
+  const openInvoice = useMemo(() => invoices?.find((i) => i.status === "open"), [invoices])
   const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
   const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
   const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
+  const [isBillingEnabled, setIsBillingEnabled] = useState(false)
 
-  useEffect(() => {
+  const refreshInvoices = useCallback(() => {
     if (!currentSubscription) return
 
     filesApiClient.getAllInvoices(currentSubscription.id, 100)
       .then(({ invoices }) => {
-        setInvoices(invoices
-          .filter(i => i.status !== "void")
+        setInvoices(invoices.filter(i => i.status !== "void")
           .sort((a, b) => b.period_start - a.period_start))
-      }).catch((e: any) => {
-        console.error(e)
+      }).catch((err) => {
+        console.error(err)
         setInvoices([])
       })
   }, [currentSubscription, filesApiClient])
+
+  useEffect(() => {
+    refreshInvoices()
+  }, [refreshInvoices])
+
+  useEffect(() => {
+    if (!isLoggedIn) return
+
+    filesApiClient.getEligibility()
+      .then(res => setIsBillingEnabled(res.is_eligible))
+      .catch(console.error)
+  }, [filesApiClient, isLoggedIn])
 
   useEffect(() => {
     if (accountRestricted && !restrictedNotification) {
@@ -96,19 +119,18 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
 
   useEffect(() => {
-    const outstandingInvoice = invoices?.find(i => i.status === "open")
-    if (outstandingInvoice && !unpaidInvoiceNotification) {
+    if (!!openInvoice && !unpaidInvoiceNotification) {
       const notif = addNotification({
-        createdAt: outstandingInvoice.period_start,
+        createdAt: openInvoice.period_start,
         title: t`Invoice outstanding`,
         onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
       })
       setUnpaidInvoiceNotification(notif)
-    } else if (!outstandingInvoice && unpaidInvoiceNotification) {
+    } else if (!openInvoice && unpaidInvoiceNotification) {
       removeNotification(unpaidInvoiceNotification)
       setUnpaidInvoiceNotification(undefined)
     }
-  }, [addNotification, invoices, redirect, removeNotification, unpaidInvoiceNotification])
+  }, [addNotification, openInvoice, redirect, removeNotification, unpaidInvoiceNotification])
 
   useEffect(() => {
     if (defaultCard && currentSubscription) {
@@ -149,15 +171,13 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   }, [refreshDefaultCard, isLoggedIn, filesApiClient])
 
   const fetchCurrentSubscription = useCallback(() => {
-    filesApiClient.getCurrentSubscription()
+    return filesApiClient.getCurrentSubscription()
       .then((subscription) => {
         subscription.product.name = ProductMapping[subscription.product.id].name
-        subscription.product.description = ProductMapping[subscription.product.id].description
         setCurrentSubscription(subscription)
+        return subscription
       })
-      .catch((error: any) => {
-        console.error(error)
-      })
+      .catch(console.error)
   }, [filesApiClient])
 
   useEffect(() => {
@@ -173,7 +193,6 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       .then((products) => {
         return products.map(product => {
           product.name = ProductMapping[product.id].name
-          product.description = ProductMapping[product.id].description
           return product
         })
       })
@@ -199,7 +218,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       })
       .catch((error) => {
         console.error(error)
-        return Promise.reject()
+        return Promise.reject(error)
       })
   }, [filesApiClient, currentSubscription, fetchCurrentSubscription, refreshBuckets])
 
@@ -244,7 +263,10 @@ const BillingProvider = ({ children }: BillingContextProps) => {
         invoices,
         cancelCurrentSubscription,
         isPendingInvoice,
-        downloadInvoice
+        downloadInvoice,
+        refreshInvoices,
+        openInvoice,
+        isBillingEnabled
       }}
     >
       {children}

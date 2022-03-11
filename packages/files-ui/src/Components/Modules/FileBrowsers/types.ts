@@ -1,23 +1,6 @@
 import { Crumb } from "@chainsafe/common-components"
 import { BucketType, FileSystemItem } from "../../../Contexts/FilesContext"
 
-export type SharedFolderUserPermission = "read" | "write"
-export type SharedFolderModalMode = "create" | "edit"
-
-export interface SharedFolderUser {
-  uuid?: string
-  username?: string
-  identity_pubkey?: string
-  public_address?: string
-  encryption_key?: string
-}
-
-export interface SharedUserTagData {
-  label: string
-  value: string
-  data: SharedFolderUser
-}
-
 export type FileOperation =
   | "rename"
   | "delete"

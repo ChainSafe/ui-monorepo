@@ -86,7 +86,7 @@ interface IPaymentMethodProps {
 const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMethod }: IPaymentMethodProps) => {
   const classes = useStyles()
   const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
-  const [view, setView] = useState<"selectPaymentMethod" | "addCard">("selectPaymentMethod")
+  const [isCardFormOpen, setIsCardFormOpen] = useState(false)
   const { defaultCard } = useBilling()
 
   useEffect(() => {
@@ -101,6 +101,7 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
         variant="h5"
         component="h4"
         className={classes.heading}
+        data-cy="header-select-payment"
       >
         <Trans>Select payment method</Trans>
       </Typography>
@@ -109,10 +110,10 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
         component="p"
         className={classes.subHeading}
       >
-        {view === "addCard" && <Trans>This card will become your default payment method</Trans>}
+        {isCardFormOpen && <Trans>This card will become your default payment method</Trans>}
       </Typography>
       <Divider className={classes.divider} />
-      {view === "selectPaymentMethod" && <>
+      {!isCardFormOpen && <>
         <div className={classes.rowBox}>
           <RadioInput
             label={defaultCard ? `•••• •••• •••• ${defaultCard.last_four_digit}` : "Credit card"}
@@ -121,12 +122,14 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
             checked={paymentMethod === "creditCard"}
             labelClassName={classes.radioLabel}
             disabled={!defaultCard}
+            testId="credit-card"
           />
           <Typography
             variant="body1"
             component="p"
             className={classes.textButton}
-            onClick={() => setView("addCard")}
+            onClick={() => setIsCardFormOpen(true)}
+            data-cy={defaultCard ? "text-button-update-card" : "text-button-add-card"}
           >
             {defaultCard
               ? <Trans>Update credit card</Trans>
@@ -142,36 +145,38 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
           checked={paymentMethod === "crypto"}
           labelClassName={classes.radioLabel}
           disabled={selectedProductPrice.recurring.interval !== "year"}
+          testId="crypto"
         />
       </>
       }
-      {view === "addCard" && <div className={classes.addCardWrapper}>
+      {isCardFormOpen && <div className={classes.addCardWrapper}>
         <AddCard
           submitText={t`Use this card`}
           footerClassName={classes.footer}
-          onCardAdd={() => setView("selectPaymentMethod")}
-          goBack={() => setView("selectPaymentMethod")}
+          onCardAdd={() => setIsCardFormOpen(false)}
+          goBack={() => setIsCardFormOpen(false)}
         />
       </div>
       }
-      <Divider className={classes.divider} />
-      <section className={classes.bottomSection}>
+      {!isCardFormOpen && <section className={classes.bottomSection}>
         <div className={classes.buttons}>
           <Button
             onClick={goBack}
             variant="text"
+            testId="go-back-to-plan-details"
           >
             <Trans>Go back</Trans>
           </Button>
           <Button
             variant="primary"
-            disabled={!paymentMethod || view === "addCard"}
+            disabled={!paymentMethod}
             onClick={() => paymentMethod && onSelectPaymentMethod(paymentMethod)}
+            testId="select-payment-method"
           >
             <Trans>Select payment method</Trans>
           </Button>
         </div>
-      </section>
+      </section>}
     </article>
   )
 }

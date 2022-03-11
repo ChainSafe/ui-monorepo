@@ -5,12 +5,15 @@ import { Typography, Loading, Button } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { useBilling } from "../../Contexts/BillingContext"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, palette, typography }: CSFTheme) =>
     createStyles({
       heading: {
+        fontSize: 16,
         marginBottom: constants.generalUnit * 4,
+        marginTop: constants.generalUnit * 2,
         [breakpoints.down("md")]: {
           marginBottom: constants.generalUnit * 2
         }
@@ -26,37 +29,51 @@ const useStyles = makeStyles(
           padding: `0 ${constants.generalUnit}px`
         }
       },
-      setOption: {
+      invoiceLine: {
         width: "100%",
         backgroundColor: palette.additional["gray"][4],
         color: palette.additional["gray"][9],
         padding: constants.generalUnit * 1.5,
-        borderRadius: 16,
+        borderRadius: 10,
         marginTop: constants.generalUnit * 1.5,
         "& > div": {
           display: "flex",
           alignItems: "center",
-          "& > span": {
-            display: "block",
+          justifyContent: "space-between",
+          "& > *": {
+            width: "100%",
             lineHeight: "16px",
             fontWeight: typography.fontWeight.regular,
-            "&.receiptDate": {
-              marginLeft: constants.generalUnit,
-              marginRight: constants.generalUnit,
-              flex: "1 1 0"
-            }
+            marginLeft: constants.generalUnit,
+            marginRight: constants.generalUnit
+          },
+          "& > button": {
+            maxWidth: 100
           }
         }
       },
+      unpaidInvoice: {
+        border: `1px solid ${palette.additional["volcano"][7]}`,
+        color: palette.additional["volcano"][7]
+      },
       price: {
-        fontWeight: "bold !important" as "bold"
+        fontWeight: "bold !important" as "bold",
+        fontSize: 16
+      },
+      link: {
+        color: constants.settingsPage.linkButton.color,
+        paddingRight: "0px !important",
+        fontSize: 16
+      },
+      text: {
+        fontSize: 16
       }
     })
 )
 
 interface  IInvoiceProps {
   lineNumber?: number
-  payInvoice?: () => void
+  payInvoice: (invoiceId: string) => void
 }
 
 const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
@@ -82,10 +99,10 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
         </div>
       )}
       {invoicesToShow && !invoicesToShow.length && (
-        <div className={classes.centered}>
+        <div>
           <Typography
             className={classes.heading}
-            variant="h4"
+            variant="body1"
             component="p"
           >
             <Trans>No invoice found</Trans>
@@ -93,32 +110,48 @@ const InvoiceLines = ({ lineNumber, payInvoice }: IInvoiceProps) => {
         </div>
       )}
       {!!invoicesToShow?.length && (
-        invoicesToShow.map(({ amount, currency, uuid, period_start, status }) =>
+        invoicesToShow.map(({ amount, currency, uuid, period_start, status, product }) =>
           <section
-            className={classes.setOption}
+            className={clsx(classes.invoiceLine, status === "open" && classes.unpaidInvoice)}
             key={uuid}
           >
             <div>
               <Typography
                 variant="body1"
-                className={classes.price}
+                className={classes.text}
               >
-                {amount} {currency}
+                {product.name} {product.price.recurring.interval_count} {product.price.recurring.interval}
               </Typography>
               <Typography
-                variant="body2"
-                className="receiptDate"
+                variant="body1"
+                className={classes.text}
               >
                 {dayjs.unix(period_start).format("MMM D, YYYY")}
               </Typography>
+              <Typography
+                variant="body1"
+                className={classes.price}
+              >
+                {amount.toFixed(2)} {currency.toUpperCase()}
+              </Typography>
               {(status === "paid") && (
-                <Button onClick={() => downloadInvoice(uuid)}>
-                  <Trans>Download</Trans>
+                <Button
+                  onClick={() => downloadInvoice(uuid)}
+                  variant="link"
+                  testId="download-invoice"
+                  className={classes.link}
+                >
+                  <Trans>View PDF</Trans>
                 </Button>
               )}
               {(status === "open") && (
-                <Button onClick={payInvoice}>
-                  <Trans>Pay invoice</Trans>
+                <Button
+                  onClick={() => uuid && payInvoice(uuid)}
+                  variant="link"
+                  testId="pay-invoice"
+                  className={classes.link}
+                >
+                  <Trans>Pay now</Trans>
                 </Button>
               )}
             </div>

@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Document, Page, pdfjs } from "react-pdf"
-import { Button, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { Button, CaretCircleLeftIcon, CaretCircleRightIcon, Typography } from "@chainsafe/common-components"
 
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js"
 
-const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, zIndex }: ITheme) =>
   createStyles({
     controlsContainer: {
       position: "absolute",
@@ -15,19 +14,40 @@ const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      bottom: 0,
-      backgroundColor: palette.additional["gray"][9],
-      color: palette.additional["gray"][3],
+      bottom: 34,
+      backgroundColor: "#262626",
+      color: "#D9D9D9",
       borderWidth: 1,
       borderStyle: "solid",
-      borderColor: palette.additional["gray"][8]
+      borderColor: "#595959",
+      borderRadius: 2
     },
     pageButton: {
-      width: 80
+      borderRadius: 0,
+      backgroundColor: "#262626",
+      color: "#D9D9D9",
+      border: "none",
+      "& svg": {
+        fill: "#D9D9D9"
+      }
     },
     paginationInfo: {
       paddingLeft: constants.generalUnit * 2,
-      paddingRight: constants.generalUnit * 2
+      paddingRight: constants.generalUnit * 2,
+      color: "#D9D9D9"
+    },
+    pdfWrapper: {
+      "& canvas": {
+        maxHeight: "calc(100vh - 64px)",
+        width: "inherit !important",
+        [breakpoints.down("sm")]: {
+          width: "100% !important",
+          height: "auto !important"
+        }
+      }
+    },
+    document: {
+      marginTop: "64px"
     }
   })
 )
@@ -62,18 +82,22 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
 
   return (
     <>
-      <Document
-        file={pdfUrl}
-        onLoadSuccess={onDocumentLoadSuccess}
-      >
-        <Page pageNumber={pageNumber} />
-      </Document>
+      <div className={classes.pdfWrapper}>
+        <Document
+          file={pdfUrl}
+          onLoadSuccess={onDocumentLoadSuccess}
+          className={classes.document}
+        >
+          <Page pageNumber={pageNumber} />
+        </Document>
+      </div>
       <div className={classes.controlsContainer}>
         <Button
           onClick={prevPage}
           className={classes.pageButton}
+          variant="secondary"
         >
-          <Trans>Previous</Trans>
+          <CaretCircleLeftIcon />
         </Button>
         <Typography className={classes.paginationInfo}>
           {pageNumber} of {numPages}
@@ -81,8 +105,9 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
         <Button
           onClick={nextPage}
           className={classes.pageButton}
+          variant="secondary"
         >
-          <Trans>Next</Trans>
+          <CaretCircleRightIcon />
         </Button>
       </div>
     </>

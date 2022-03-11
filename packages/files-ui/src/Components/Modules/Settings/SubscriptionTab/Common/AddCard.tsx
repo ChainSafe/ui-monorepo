@@ -1,10 +1,11 @@
 import React, { FormEvent, useMemo, useState } from "react"
-import { Button, Grid, Typography, useToasts } from "@chainsafe/common-components"
-import { createStyles, makeStyles, useTheme, useThemeSwitcher } from "@chainsafe/common-theme"
+import { Button, Typography, useToasts } from "@chainsafe/common-components"
+import { createStyles, makeStyles, useTheme } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../../Themes/types"
 import CustomButton from "../../../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import { useStripe,
+import {
+  useStripe,
   useElements,
   CardNumberElement,
   CardExpiryElement,
@@ -61,14 +62,14 @@ const useStyles = makeStyles(
         marginTop: constants.generalUnit * 2,
         color: palette.error.main
       },
-      backButton: {
-        flex: 1,
+      buttons: {
         display: "flex",
-        alignItems: "center"
-      },
-      linkButton: {
-        textDecoration: "underline",
-        cursor: "pointer"
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        "& > *": {
+          marginLeft: constants.generalUnit
+        }
       }
     })
   }
@@ -94,7 +95,6 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
   const [cardAddError, setCardAddError] = useState<string | undefined>(undefined)
   const theme: CSFTheme = useTheme()
   const isUpdate = useMemo(() => !!defaultCard, [defaultCard])
-  const { desktop } = useThemeSwitcher()
 
   const [loadingPaymentMethodAdd, setLoadingPaymentMethodAdd] = useState(false)
 
@@ -168,7 +168,8 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
                   color: theme.constants.addCard.placeholderColor
                 }
               }
-            } }}
+            }
+          }}
           onFocus={() => setFocusElement("number")}
           onBlur={() => setFocusElement(undefined)}
           onChange={() => setCardAddError(undefined)}
@@ -191,7 +192,8 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
                     color: theme.constants.addCard.placeholderColor
                   }
                 }
-              } }}
+              }
+            }}
           />
           <CardCvcElement
             id="iframe-card-cvc"
@@ -210,7 +212,8 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
                     color: theme.constants.addCard.placeholderColor
                   }
                 }
-              } }}
+              }
+            }}
           />
         </div>
         {cardAddError && <Typography
@@ -222,28 +225,20 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
           {cardAddError}
         </Typography>
         }
-        <Grid
-          item
-          flexDirection="row"
-          className={footerClassName}
-        >
-          <div className={classes.backButton}>
-            {goBack &&
-              <Typography
-                variant="body1"
-                component="p"
-                onClick={goBack}
-                className={classes.linkButton}
-              >
-                <Trans>Go  back</Trans>
-              </Typography>
-            }
-          </div>
+        <div className={clsx(classes.buttons, footerClassName)} >
+          {goBack &&
+            <Button
+              variant="text"
+              onClick={goBack}
+            >
+              <Trans>Go back</Trans>
+            </Button>
+          }
           {onClose &&
             <CustomButton
               onClick={onClose}
               size="medium"
-              variant={desktop ? "outline" : "gray"}
+              variant="outline"
               type="button"
               disabled={loadingPaymentMethodAdd}
               data-cy="button-cancel-add-card"
@@ -262,7 +257,7 @@ const AddCard = ({ onClose, onCardAdd, footerClassName, submitText, goBack }: IA
           >
             {submitText}
           </Button>
-        </Grid>
+        </div>
       </div>
     </form>
   )

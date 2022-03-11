@@ -35,11 +35,11 @@ interface Props {
   onHide: () => void
 }
 
-const TeamModal = ({ onHide }: Props) => {
+const BetaModal = ({ onHide }: Props) => {
   const classes = useStyles()
 
-  const onSignupTeamClick = useCallback(() => {
-    window.open(ROUTE_LINKS.TeamSignup, "_blank")
+  const onFormdButtonClick = useCallback(() => {
+    window.open(ROUTE_LINKS.SubscriptionWhitelistForm, "_blank")
     onHide()
   }, [onHide])
 
@@ -57,22 +57,24 @@ const TeamModal = ({ onHide }: Props) => {
           variant="h2"
           className={classes.title}
         >
-          <Trans>Teams</Trans>
+          <Trans>Need more storage?</Trans>
         </Typography>
         <Typography variant="h4">
-          <Trans>A better sharing experience is coming soon.</Trans>
+          <Trans>
+            Join our new limited-access subscription plans to upgrade to a plan with more storage.
+          </Trans>
         </Typography>
         <div className={classes.buttonContainer}>
           <Button
-            data-posthog="Sign-me-up"
+            data-posthog="Subscription-whitelist-form"
             className={classes.nextButton}
-            onClick={onSignupTeamClick}
+            onClick={onFormdButtonClick}
           >
-            <Trans>Sign me up!</Trans>
+            <Trans>Request access!</Trans>
           </Button>
         </div>
       </div>
     </CustomModal>
   )}
 
-export default TeamModal
+export default BetaModal
