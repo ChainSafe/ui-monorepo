@@ -14,5 +14,5 @@ Submission checklist:
 - [ ] Components / elements inspected in dark mode
 
 #### Billing
-- [ ] Change applied to both files ui and storage ui
+- [ ] Change applied to both files-ui and storage-ui
  
