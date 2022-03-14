@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { BellIcon, MenuDropdown } from "@chainsafe/common-components"
-import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import NotificationList from "./NotificationList"
 // import { useNotifications } from "../../../Contexts/NotificationsContext"
 import { CSSTheme } from "../../../Themes/types"

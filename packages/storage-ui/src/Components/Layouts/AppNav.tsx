@@ -23,7 +23,6 @@ import { Trans } from "@lingui/macro"
 import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { useStorage } from "../../Contexts/StorageContext"
-import NotificationsDropdown from "../Elements/Notifications/NotificationsDropdown"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSSTheme) => {
