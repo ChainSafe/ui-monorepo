@@ -11,7 +11,7 @@ import {
   Typography,
   Pagination
 } from "@chainsafe/common-components"
-import { useStorage, PINS_PAGE_SIZE } from "../../Contexts/StorageContext"
+import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
@@ -70,7 +70,7 @@ type SortDirection = "ascend" | "descend"
 
 const CidsPage = () => {
   const classes = useStyles()
-  const { pins, pinsCount, pinsPageNumber, onFetchNextPins, onFetchPreviousPins } = useStorage()
+  const { pins, onFetchNextPins, isNextPins, isPreviousPins } = useStorage()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
   const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
   const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
@@ -195,13 +195,13 @@ const CidsPage = () => {
           </TableBody>
         </Table>
       </div>
-      {!!pinsCount &&
+      {!!pins.length &&
         <div className={classes.pagination}>
           <Pagination
-            pageNo={pinsPageNumber}
-            totalPages={Math.ceil(pinsCount / PINS_PAGE_SIZE)}
+            showPageNumbers={false}
             onNextClick={onFetchNextPins}
-            onPreviousClick={onFetchPreviousPins}
+            isNextDisabled={!isNextPins}
+            isPreviousDisabled={!isPreviousPins}
           />
         </div>
       }

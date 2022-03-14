@@ -56,7 +56,7 @@ const Pagination: React.FC<IPaginationProps> = ({
         loading={loadingPrevious}
         onClick={onPreviousClick}
         size="medium"
-        disabled={isPreviousDisabled || !!pageNo && pageNo <= 1}
+        disabled={isPreviousDisabled || (showPageNumbers && !!pageNo && pageNo <= 1)}
         className={classes.previousButton}
       >
         <CaretLeftIcon className={classes.icons} />
@@ -73,7 +73,7 @@ const Pagination: React.FC<IPaginationProps> = ({
         variant="outline"
         loading={loadingNext}
         size="medium"
-        disabled={isNextDisabled || pageNo === totalPages}
+        disabled={isNextDisabled || (showPageNumbers && pageNo === totalPages)}
         onClick={onNextClick}
         className={classes.nextButton}
       >

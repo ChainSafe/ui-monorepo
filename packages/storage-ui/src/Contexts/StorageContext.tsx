@@ -59,8 +59,8 @@ interface GetFileContentParams {
 
 type StorageContext = {
   pins: PinStatus[]
-  pinsCount?: number
-  pinsPageNumber: number
+  isNextPins: boolean
+  isPreviousPins: boolean
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   storageSummary: BucketSummaryResponse | undefined
@@ -68,10 +68,8 @@ type StorageContext = {
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   addPin: (cid: string) => Promise<PinStatus>
-  fetchFirstPageOfPins: (after: Date, before: Date) => void
-  onFetchNextPins: () => void
-  onFetchPreviousPins: () => void
   unpin: (requestId: string) => void
+  onFetchNextPins: () => void
   storageBuckets: Bucket[]
   createBucket: (name: string) => Promise<void>
   removeBucket: (id: string) => void
@@ -87,19 +85,19 @@ type FileSystemItem = IFileSystemItem
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const PIN_STATUSES_TO_FETCH: Status[] = ["queued", "pinning", "pinned", "failed"]
 export const PINS_PAGE_SIZE = 2
-const TIME_RANGE_MULTIPLIER = 3
-// // 1 year
-// const TIME_DIFF_LIMIT = 31536000000
+// const TIME_RANGE_MULTIPLIER = 3
+// // // 1 year
+// // const TIME_DIFF_LIMIT = 31536000000
+// // // 3 months
+// // const INITIAL_TIME_INTERVAL = 2628000000
+
+// // 1 month
+// const TIME_DIFF_LIMIT = 3153600000
 // // 3 months
-// const INITIAL_TIME_INTERVAL = 2628000000
+// const INITIAL_TIME_INTERVAL = 10000000000
 
-// 1 month
-const TIME_DIFF_LIMIT = 3153600000
-// 3 months
-const INITIAL_TIME_INTERVAL = 10000000000
-
-const GET_INITIAL_BEFORE = () => new Date()
-const GET_INITIAL_AFTER = () => dayjs().subtract(INITIAL_TIME_INTERVAL).toDate()
+// const GET_INITIAL_BEFORE = () => new Date()
+// const GET_INITIAL_AFTER = () => dayjs().subtract(INITIAL_TIME_INTERVAL).toDate()
 
 
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
@@ -109,12 +107,13 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse | undefined>()
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const [pins, setPins] = useState<PinStatus[]>([])
-  const [pinsPageNumber, setPinsPageNumber] = useState(1)
-  const [pinsCount, setPinsCount] = useState<number | undefined>()
-  const [pinsRange, setPinsRange] = useState<{before: Date; after: Date}>(
+  // const [pinsPageNumber, setPinsPageNumber] = useState(1)
+  const [isNextPins, setIsNextPins] = useState<boolean>(false)
+  const [isPreviousPins, setIsPreviousPins] = useState<boolean>(false)
+  const [pinsRange, setPinsRange] = useState<{before: Date | undefined; after: Date | undefined}>(
     {
       before: new Date(),
-      after: dayjs().subtract(INITIAL_TIME_INTERVAL).toDate()
+      after: undefined
     }
   )
 
@@ -127,153 +126,62 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [storageApiClient])
 
-  const fetchFirstPins = useCallback(() => {
+  const refreshPins = useCallback(() => {
     storageApiClient.listPins(
       undefined,
       undefined,
       PIN_STATUSES_TO_FETCH,
-      undefined,
-      new Date(),
+      pinsRange.after,
+      pinsRange.before,
       PINS_PAGE_SIZE
     ).then((pinsResult) => {
       setPins(pinsResult.results || [])
-      setPinsCount(pinsResult.count)
+      if (pinsRange.before) {
+        // next click or first fetch
+        if (
+          !pinsResult.results?.length ||
+          !pinsResult.count ||
+          pinsResult.results.length === pinsResult.count
+        ) {
+          // no result or all results are in
+          setIsNextPins(false)
+        }
+        else {
+          // there are more results next
+          setIsNextPins(true)
+        }
+      } else {
+        // previous click
+        if (
+          !pinsResult.results?.length ||
+          !pinsResult.count ||
+          pinsResult.results.length === pinsResult.count
+        ) {
+          // no result
+          setIsPreviousPins(false)
+        } else {
+          setIsPreviousPins(true)
+        }
+      }
     }).catch(console.error)
-  }, [storageApiClient])
-
-  const fetchFirstPageOfPins = useCallback((after: Date, before: Date) => {
-    storageApiClient.listPins(
-      undefined,
-      undefined,
-      PIN_STATUSES_TO_FETCH,
-      after,
-      before,
-      PINS_PAGE_SIZE
-    ).then((pinsResult) => {
-      if (
-        pinsResult.count && pinsResult.results &&
-        pinsResult.results.length < PINS_PAGE_SIZE &&
-        pinsResult.count > pinsResult.results.length
-      ) {
-        // there are more pins we can show on first page
-        const timeRangeDiff = dayjs(before).diff(after)
-        // get pins at TIME_RANGE_MULTIPLIER times the time interval used
-        const newAfter = dayjs(after).subtract(timeRangeDiff * TIME_RANGE_MULTIPLIER).toDate()
-        fetchFirstPageOfPins(newAfter, new Date())
-      } else {
-        setPins(pinsResult.results || [])
-        setPinsCount(pinsResult.count)
-        if (pinsResult.results?.length) {
-          setPinsRange({
-            before: pinsResult.results[pinsResult.results.length - 1].created,
-            after: pinsResult.results[0].created
-          })
-        }
-      }
-    })
-
-  }, [storageApiClient])
-
-
-  const fetchNextPageOfPins = useCallback((after: Date, before: Date) => {
-    storageApiClient.listPins(
-      undefined,
-      undefined,
-      PIN_STATUSES_TO_FETCH,
-      after,
-      before,
-      PINS_PAGE_SIZE
-    ).then((pinsResult) => {
-      if (
-        pinsResult.count && pinsResult.results &&
-        pinsResult.results.length < PINS_PAGE_SIZE &&
-        pinsResult.count > (pinsResult.results.length + (PINS_PAGE_SIZE * pinsPageNumber))
-      ) {
-        // there are more pins we can show on next page
-        const timeRangeDiff = dayjs(before).diff(after)
-        // if TIME_DIFF_LIMIT in history limit reached set pins 
-        if (timeRangeDiff > TIME_DIFF_LIMIT) {
-          setPins(pinsResult.results || [])
-          setPinsCount(pinsResult.count)
-          setPinsPageNumber(pinsPageNumber + 1)
-          if (pinsResult.results.length) {
-            setPinsRange({
-              before: pinsResult.results[0].created,
-              after: pinsResult.results[pinsResult.results.length - 1].created
-            })
-          }
-          return
-        }
-        // get pins at TIME_RANGE_MULTIPLIER times the time interval used
-        const newAfter = dayjs(after).subtract(timeRangeDiff * TIME_RANGE_MULTIPLIER).toDate()
-        fetchNextPageOfPins(newAfter, before)
-      } else {
-        setPins(pinsResult.results || [])
-        setPinsCount(pinsResult.count)
-        setPinsPageNumber(pinsPageNumber + 1)
-        if (pinsResult.results?.length) {
-          setPinsRange({
-            before: pinsResult.results[0].created,
-            after: pinsResult.results[pinsResult.results.length - 1].created
-          })
-        }
-      }
-    })
-  }, [storageApiClient, pinsPageNumber])
+  }, [storageApiClient, pinsRange])
 
   const onFetchNextPins = useCallback(() => {
-    // fetch next at previous INITIAL_TIME_INTERVAL interval 
-    fetchNextPageOfPins(
-      dayjs(pinsRange.after).subtract(INITIAL_TIME_INTERVAL).toDate(),
-      pinsRange.after
-    )
-  }, [pinsRange, fetchNextPageOfPins])
-
-  const fetchPreviousPageOfPins = useCallback((after: Date, before: Date) => {
-    storageApiClient.listPins(
-      undefined,
-      undefined,
-      PIN_STATUSES_TO_FETCH,
-      after,
-      before,
-      PINS_PAGE_SIZE
-    ).then((pinsResult) => {
-      if (
-        pinsResult.count && pinsResult.results &&
-        pinsResult.results.length < PINS_PAGE_SIZE &&
-        pinsResult.count > PINS_PAGE_SIZE
-      ) {
-        // there are more pins we can show on previous page
-        const timeRangeDiff = dayjs(before).diff(after)
-        // if before date is after current time stamp show first page
-        if (dayjs(before).isSameOrAfter(dayjs())) {
-          fetchFirstPageOfPins(GET_INITIAL_AFTER(), GET_INITIAL_BEFORE())
-          return
-        }
-        // get pins at TIME_RANGE_MULTIPLIER times the time interval used
-        const newBefore = dayjs(before).add(timeRangeDiff * TIME_RANGE_MULTIPLIER).toDate()
-        fetchPreviousPageOfPins(after, newBefore)
-      } else {
-        setPins(pinsResult.results || [])
-        setPinsCount(pinsResult.count)
-        setPinsPageNumber(pinsPageNumber + 1)
-        if (pinsResult.results?.length) {
-          setPinsRange({
-            before: pinsResult.results[0].created,
-            after: pinsResult.results[pinsResult.results.length - 1].created
-          })
-        }
-      }
+    setPinsRange({
+      before: pins[pins.length - 1].created,
+      after: undefined
     })
-  }, [storageApiClient, pinsPageNumber, fetchFirstPageOfPins])
-
-  const onFetchPreviousPins = useCallback(() => {
-    // fetch previous at next INITIAL_TIME_INTERVAL interval 
-    fetchPreviousPageOfPins(
-      dayjs(pinsRange.before).add(INITIAL_TIME_INTERVAL).toDate(),
-      pinsRange.before
-    )
-  }, [pinsRange, fetchPreviousPageOfPins])
+    // storageApiClient.listPins(
+    //   undefined,
+    //   undefined,
+    //   PIN_STATUSES_TO_FETCH,
+    //   pinsRange.after,
+    //   pinsRange.before,
+    //   PINS_PAGE_SIZE
+    // ).then((pinsResult) => {
+    //   console.log(pinsResult)
+    // })
+  }, [pins])
 
   const refreshBuckets = useCallback(() => {
     storageApiClient.listBuckets()
@@ -283,9 +191,15 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   }, [storageApiClient, getStorageSummary])
 
   useEffect(() => {
-    isLoggedIn && fetchFirstPins()
-    isLoggedIn && refreshBuckets()
-  }, [isLoggedIn, fetchFirstPins, refreshBuckets])
+    // isLoggedIn && refreshBuckets()
+    isLoggedIn && refreshPins()
+  }, [isLoggedIn, refreshPins, refreshBuckets])
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getStorageSummary()
+    }
+  }, [isLoggedIn, getStorageSummary])
 
   const unpin = useCallback((requestId: string) => {
     storageApiClient.deletePin(requestId)
@@ -294,13 +208,6 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       })
       .catch(console.error)
   }, [storageApiClient])
-
-  // Space used counter
-  useEffect(() => {
-    if (isLoggedIn) {
-      getStorageSummary()
-    }
-  }, [isLoggedIn, getStorageSummary])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -517,17 +424,15 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     <StorageContext.Provider
       value={{
         addPin,
-        pinsCount,
-        pinsPageNumber,
         uploadsInProgress,
         storageSummary,
         getStorageSummary,
         downloadsInProgress,
+        isNextPins,
+        isPreviousPins,
         pins,
-        fetchFirstPageOfPins,
-        onFetchNextPins,
-        onFetchPreviousPins,
         unpin,
+        onFetchNextPins,
         storageBuckets,
         downloadFile,
         createBucket,
