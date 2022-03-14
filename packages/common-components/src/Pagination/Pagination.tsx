@@ -1,9 +1,9 @@
 import React from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import { ArrowLeftIcon, ArrowRightIcon, Typography } from "@chainsafe/common-components"
-import clsx from "clsx"
+import { CaretLeftIcon, CaretRightIcon } from "../Icons"
 import { ITheme } from "@chainsafe/common-theme"
 import { Button } from "../Button"
+import { Typography } from "../Typography"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) => {
   return createStyles({
@@ -12,18 +12,14 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) => {
       alignItems: "center",
       margin: `${constants.generalUnit}px 0`
     },
-    icons: {
-      fill: palette.text.primary,
-      fontSize: 12,
-      cursor: "pointer",
-      padding: constants.generalUnit,
-      color: palette.additional["gray"][9]
+    nextButton: {
+      marginLeft: constants.generalUnit
     },
-    leftIcon: {
+    previousButton: {
       marginRight: constants.generalUnit
     },
-    rightIcon: {
-      marginLeft: constants.generalUnit
+    icons: {
+      fill: palette.additional["gray"][9]
     }
   })
 })
@@ -59,9 +55,11 @@ const Pagination: React.FC<IPaginationProps> = ({
         variant="outline"
         loading={loadingPrevious}
         onClick={onPreviousClick}
+        size="medium"
         disabled={isPreviousDisabled || !!pageNo && pageNo <= 1}
+        className={classes.previousButton}
       >
-        <ArrowLeftIcon className={clsx(classes.icons, classes.leftIcon)} />
+        <CaretLeftIcon className={classes.icons} />
       </Button>
       {!!showPageNumbers && pageNo && totalPages &&
         <Typography
@@ -74,10 +72,12 @@ const Pagination: React.FC<IPaginationProps> = ({
       <Button
         variant="outline"
         loading={loadingNext}
+        size="medium"
         disabled={isNextDisabled || pageNo === totalPages}
         onClick={onNextClick}
+        className={classes.nextButton}
       >
-        <ArrowRightIcon className={clsx(classes.icons, classes.rightIcon)} />
+        <CaretRightIcon className={classes.icons} />
       </Button>
     </div>
   )
