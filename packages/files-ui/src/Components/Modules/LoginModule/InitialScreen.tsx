@@ -94,7 +94,7 @@ const useStyles = makeStyles(
         textAlign: "center",
         [breakpoints.up("md")]: {
           paddingTop: constants.generalUnit * 4,
-          paddingBottom: constants.generalUnit * 8
+          paddingBottom: constants.generalUnit * 5
         },
         [breakpoints.down("md")]: {
           paddingTop: constants.generalUnit * 3,

@@ -33,7 +33,6 @@ const useStyles = makeStyles(
         borderRadius: 6,
         [breakpoints.up("md")]:{
           minHeight: "72vh",
-          justifyContent: "space-between",
           width: 440
         },
         [breakpoints.down("md")]: {
@@ -43,17 +42,11 @@ const useStyles = makeStyles(
         }
       },
       buttonSection: {
-        [breakpoints.up("md")]: {
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)"
-        },
-        [breakpoints.down("md")]: {
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly"
-        }
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: constants.generalUnit * 2,
+        alignItems: "center",
+        flex: 1
       },
       connectingWallet: {
         textAlign: "center",
@@ -92,7 +85,7 @@ const useStyles = makeStyles(
       headerText: {
         [breakpoints.up("md")]: {
           paddingTop: constants.generalUnit * 4,
-          paddingBottom: constants.generalUnit * 8
+          paddingBottom: constants.generalUnit * 5
         },
         [breakpoints.down("md")]: {
           paddingTop: constants.generalUnit * 3,
@@ -159,6 +152,11 @@ const useStyles = makeStyles(
       },
       maintenanceActiveMessage: {
         color: palette.error.main
+      },
+      connectWalletRoot: {
+        display: "flex",
+        flexDirection: "column",
+        flex: 1
       }
     })
 )
@@ -270,7 +268,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
     }
 
     return (
-      <div>
+      <div className={classes.connectWalletRoot}>
         <section className={classes.buttonSection}>
           <Button
             data-cy="button-sign-in-with-web3"
