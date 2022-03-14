@@ -1,7 +1,17 @@
 import React, { useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography, Pagination } from "@chainsafe/common-components"
-import { useStorage } from "../../Contexts/StorageContext"
+import {
+  Button,
+  PlusIcon,
+  Table,
+  TableBody,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+  Typography,
+  Pagination
+} from "@chainsafe/common-components"
+import { useStorage, PINS_PAGE_SIZE } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
@@ -60,7 +70,7 @@ type SortDirection = "ascend" | "descend"
 
 const CidsPage = () => {
   const classes = useStyles()
-  const { pins } = useStorage()
+  const { pins, pinsCount, pinsPageNumber, onFetchNextPins, onFetchPreviousPins } = useStorage()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
   const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
   const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
@@ -185,14 +195,16 @@ const CidsPage = () => {
           </TableBody>
         </Table>
       </div>
-      <div className={classes.pagination}>
-        <Pagination
-          pageNo={1}
-          totalPages={3}
-          onNextClick={() => undefined}
-          onPreviousClick={() => undefined}
-        />
-      </div>
+      {!!pinsCount &&
+        <div className={classes.pagination}>
+          <Pagination
+            pageNo={pinsPageNumber}
+            totalPages={Math.ceil(pinsCount / PINS_PAGE_SIZE)}
+            onNextClick={onFetchNextPins}
+            onPreviousClick={onFetchPreviousPins}
+          />
+        </div>
+      }
       <AddCIDModal
         close={() => setAddCIDOpen(false)}
         modalOpen={addCIDOpen}

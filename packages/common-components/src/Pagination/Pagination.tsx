@@ -3,12 +3,12 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { ArrowLeftIcon, ArrowRightIcon, Typography } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { ITheme } from "@chainsafe/common-theme"
+import { Button } from "../Button"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) => {
   return createStyles({
     root: {
       display: "flex",
-      color: palette.text.primary,
       alignItems: "center",
       margin: `${constants.generalUnit}px 0`
     },
@@ -16,7 +16,8 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) => {
       fill: palette.text.primary,
       fontSize: 12,
       cursor: "pointer",
-      padding: constants.generalUnit
+      padding: constants.generalUnit,
+      color: palette.additional["gray"][9]
     },
     leftIcon: {
       marginRight: constants.generalUnit
@@ -28,36 +29,56 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) => {
 })
 
 export interface IPaginationProps {
-  pageNo: number
-  totalPages: number
+  pageNo?: number
+  totalPages?: number
   onNextClick?: () => void
   onPreviousClick?: () => void
+  loadingNext?: boolean
+  loadingPrevious?: boolean
+  showPageNumbers?: boolean
+  isNextDisabled?: boolean
+  isPreviousDisabled?: boolean
 }
 
 const Pagination: React.FC<IPaginationProps> = ({
   pageNo,
   totalPages,
   onNextClick,
-  onPreviousClick
+  onPreviousClick,
+  loadingNext,
+  loadingPrevious,
+  showPageNumbers,
+  isNextDisabled,
+  isPreviousDisabled
 }) => {
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
-      <ArrowLeftIcon
+      <Button
+        variant="outline"
+        loading={loadingPrevious}
         onClick={onPreviousClick}
-        disabled={pageNo <= 1}
-        className={clsx(classes.icons, classes.leftIcon)}
-      />
-      <Typography component="p"
-        variant="body1">
-        Page {pageNo} of {totalPages}
-      </Typography>
-      <ArrowRightIcon
+        disabled={isPreviousDisabled || !!pageNo && pageNo <= 1}
+      >
+        <ArrowLeftIcon className={clsx(classes.icons, classes.leftIcon)} />
+      </Button>
+      {!!showPageNumbers && pageNo && totalPages &&
+        <Typography
+          component="p"
+          variant="body1"
+        >
+          Page {pageNo} of {totalPages}
+        </Typography>
+      }
+      <Button
+        variant="outline"
+        loading={loadingNext}
+        disabled={isNextDisabled || pageNo === totalPages}
         onClick={onNextClick}
-        disabled={pageNo === totalPages}
-        className={clsx(classes.icons, classes.rightIcon)}
-      />
+      >
+        <ArrowRightIcon className={clsx(classes.icons, classes.rightIcon)} />
+      </Button>
     </div>
   )
 }

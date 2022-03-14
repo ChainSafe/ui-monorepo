@@ -63,7 +63,7 @@ interface IAddCIDModuleProps {
 
 const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const classes = useStyles()
-  const { addPin, refreshPins } = useStorage()
+  const { addPin } = useStorage()
   const inputRef = useRef<any>(null)
   const [accessingCID, setAccessingCID] = useState(false)
 
@@ -80,11 +80,11 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
         console.error(e)
       })
       .finally(() => {
-        refreshPins()
+        // refreshPins()
         setAccessingCID(false)
         helpers.setSubmitting(false)
       })
-  }, [addPin, close, refreshPins])
+  }, [addPin, close])
 
   return (
     <CustomModal
