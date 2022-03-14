@@ -118,15 +118,16 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       undefined,
       ["queued", "pinning", "pinned", "failed"],
       pinsRange.after,
-      pinsRange.before
+      pinsRange.before,
+      PINS_PAGE_SIZE
     ).then((pinsResult) => {
+      setPins(pinsResult.results || [])
       if (pinsRange.before) {
         // next pins
-        setPins(pinsResult.results?.slice(0, PINS_PAGE_SIZE) || [])
         if (
           pinsResult.results?.length &&
           pinsResult.count &&
-          pinsResult.results.length > PINS_PAGE_SIZE
+          pinsResult.results.length < pinsResult.count
         ) {
           setIsNextPins(true)
         } else {
@@ -134,11 +135,10 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         }
       } else {
         // previous pins
-        setPins(pinsResult.results?.slice(-PINS_PAGE_SIZE) || [])
         if (
           pinsResult.results?.length &&
           pinsResult.count &&
-          pinsResult.results.length > PINS_PAGE_SIZE
+          pinsResult.results.length < pinsResult.count
         ) {
           setIsPreviousPins(true)
         } else {
