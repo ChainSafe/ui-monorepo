@@ -62,7 +62,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     tabPane: {
       flex: 1,
-      padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`,
+      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`,
       "&.apiKeysPane": {
         [breakpoints.down("lg")]: {
           paddingLeft: constants.generalUnit,
@@ -110,15 +110,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       marginRight: 0,
       display: "flex",
       borderBottom: "none",
-
       "& .iconRight": {
         flex: 1,
         textAlign: "right"
       },
-
       "&.selected": {
         borderBottom: "none",
-        fontWeight: "normal",
         backgroundColor: palette.additional["gray"][4],
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10
@@ -134,7 +131,6 @@ const SettingsPage: React.FC = () => {
   const { redirect } = useHistory()
   const { isBillingEnabled } = useBilling()
 
-  console.log("path", path)
   const onSelectTab = useCallback(
     (path: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(path))
     , [redirect])
@@ -172,7 +168,7 @@ const SettingsPage: React.FC = () => {
               className={clsx(classes.tabPane, "apiKeysPane", (!desktop && !path) ? classes.hideTabPane : "")}
               icon={<LockIcon className={classes.lockIcon}/>}
               iconRight={<CaretRightIcon/>}
-              title={t`Api Keys`}
+              title={t`API Keys`}
               tabKey="apiKeys"
               testId="apiKeys-tab"
             >
