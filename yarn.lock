@@ -2065,6 +2065,14 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
+"@emeraldpay/hashicon-react@0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@emeraldpay/hashicon-react/-/hashicon-react-0.5.2.tgz#81e05e710d928d1b55f8d077f8bdb2b33e97e002"
+  integrity sha512-XCoYKpq8QQOniiSZf5ouzdvXbKfG6q4ICHRqCO/GNofiF0Ra+LR/7+tomHlXVcLPBS9sDAoZQQw/Sr24KRAbJg==
+  dependencies:
+    "@emeraldpay/hashicon" "^0.5.2"
+    react "^16.8.0"
+
 "@emeraldpay/hashicon-react@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@emeraldpay/hashicon-react/-/hashicon-react-0.5.1.tgz#975c57fdad22b8f043ad24004a620eb1012ba728"
@@ -2081,6 +2089,14 @@
     "@stablelib/blake2s" "^1.0.0"
     js-sha3 "^0.8.0"
     text-encoding "^0.7.0"
+
+"@emeraldpay/hashicon@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@emeraldpay/hashicon/-/hashicon-0.5.2.tgz#10c4e1ccb6f02b8de59f12d96600182af7c7b7e7"
+  integrity sha512-MNsjV+Vik+ofOYmGPcdAQW4CoSSrTE2Iq2xYNS8PxV84QrgOLTsC/pV6EWb1N/dTY9ndMV/RAAzGh6cmrZf4zA==
+  dependencies:
+    "@stablelib/blake2s" "^1.0.0"
+    js-sha3 "^0.8.0"
 
 "@emotion/cache@^10.0.27", "@emotion/cache@^10.0.9":
   version "10.0.29"
