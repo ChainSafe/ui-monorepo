@@ -56,6 +56,7 @@ export interface CsSColors extends IConstants {
     itemColorHover: string
     itemIconColor: string
     itemIconColorHover: string
+    profileButtonShadow: string
   }
   createFolder: {
     backgroundColor: string

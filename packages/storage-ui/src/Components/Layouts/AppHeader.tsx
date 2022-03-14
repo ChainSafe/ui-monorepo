@@ -160,7 +160,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         padding: constants.generalUnit,
         background: palette.additional["gray"][1],
-        // boxShadow: constants.nav.profileButtonShadow
+        boxShadow: constants.nav.profileButtonShadow
       }
     })
   }
