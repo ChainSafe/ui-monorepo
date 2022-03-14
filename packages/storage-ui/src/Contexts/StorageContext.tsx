@@ -5,8 +5,7 @@ import {
   SearchEntry,
   Bucket,
   PinStatus,
-  BucketSummaryResponse,
-  Status
+  BucketSummaryResponse
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -22,7 +21,6 @@ import axios, { CancelToken } from "axios"
 import { getPathWithFile } from "../Utils/pathUtils"
 import dayjs from "dayjs"
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
-
 dayjs.extend(isSameOrAfter)
 
 type StorageContextProps = {
@@ -49,6 +47,8 @@ export type DownloadProgress = {
   complete: boolean
 }
 
+const PINS_PAGE_SIZE = 4
+
 interface GetFileContentParams {
   cid: string
   cancelToken?: CancelToken
@@ -59,8 +59,6 @@ interface GetFileContentParams {
 
 type StorageContext = {
   pins: PinStatus[]
-  isNextPins: boolean
-  isPreviousPins: boolean
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   storageSummary: BucketSummaryResponse | undefined
@@ -68,8 +66,13 @@ type StorageContext = {
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   addPin: (cid: string) => Promise<PinStatus>
+  isNextPins: boolean
+  isPreviousPins: boolean
+  isLoadingPins: boolean
+  onNextPins: () => void
+  onPreviousPins: () => void
+  refreshPins: () => void
   unpin: (requestId: string) => void
-  onFetchNextPins: () => void
   storageBuckets: Bucket[]
   createBucket: (name: string) => Promise<void>
   removeBucket: (id: string) => void
@@ -83,22 +86,6 @@ interface IFileSystemItem extends FileContentResponse {
 
 type FileSystemItem = IFileSystemItem
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
-const PIN_STATUSES_TO_FETCH: Status[] = ["queued", "pinning", "pinned", "failed"]
-export const PINS_PAGE_SIZE = 2
-// const TIME_RANGE_MULTIPLIER = 3
-// // // 1 year
-// // const TIME_DIFF_LIMIT = 31536000000
-// // // 3 months
-// // const INITIAL_TIME_INTERVAL = 2628000000
-
-// // 1 month
-// const TIME_DIFF_LIMIT = 3153600000
-// // 3 months
-// const INITIAL_TIME_INTERVAL = 10000000000
-
-// const GET_INITIAL_BEFORE = () => new Date()
-// const GET_INITIAL_AFTER = () => dayjs().subtract(INITIAL_TIME_INTERVAL).toDate()
-
 
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
@@ -107,15 +94,13 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse | undefined>()
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const [pins, setPins] = useState<PinStatus[]>([])
-  // const [pinsPageNumber, setPinsPageNumber] = useState(1)
-  const [isNextPins, setIsNextPins] = useState<boolean>(false)
-  const [isPreviousPins, setIsPreviousPins] = useState<boolean>(false)
-  const [pinsRange, setPinsRange] = useState<{before: Date | undefined; after: Date | undefined}>(
-    {
-      before: new Date(),
-      after: undefined
-    }
-  )
+  const [pinsRange, setPinsRange] = useState<{
+    before?: Date
+    after?: Date
+  }>({ before: new Date() })
+  const [isPreviousPins, setIsPreviousPins] = useState(false)
+  const [isNextPins, setIsNextPins] = useState(false)
+  const [isLoadingPins, setIsLoadingPins] = useState(false)
 
   const getStorageSummary = useCallback(async () => {
     try {
@@ -127,60 +112,59 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   }, [storageApiClient])
 
   const refreshPins = useCallback(() => {
+    setIsLoadingPins(true)
     storageApiClient.listPins(
       undefined,
       undefined,
-      PIN_STATUSES_TO_FETCH,
+      ["queued", "pinning", "pinned", "failed"],
       pinsRange.after,
-      pinsRange.before,
-      PINS_PAGE_SIZE
+      pinsRange.before
     ).then((pinsResult) => {
-      setPins(pinsResult.results || [])
       if (pinsRange.before) {
-        // next click or first fetch
+        // next pins
+        setPins(pinsResult.results?.slice(0, PINS_PAGE_SIZE) || [])
         if (
-          !pinsResult.results?.length ||
-          !pinsResult.count ||
-          pinsResult.results.length === pinsResult.count
+          pinsResult.results?.length &&
+          pinsResult.count &&
+          pinsResult.results.length > PINS_PAGE_SIZE
         ) {
-          // no result or all results are in
+          setIsNextPins(true)
+        } else {
           setIsNextPins(false)
         }
-        else {
-          // there are more results next
-          setIsNextPins(true)
-        }
       } else {
-        // previous click
+        // previous pins
+        setPins(pinsResult.results?.slice(-PINS_PAGE_SIZE) || [])
         if (
-          !pinsResult.results?.length ||
-          !pinsResult.count ||
-          pinsResult.results.length === pinsResult.count
+          pinsResult.results?.length &&
+          pinsResult.count &&
+          pinsResult.results.length > PINS_PAGE_SIZE
         ) {
-          // no result
-          setIsPreviousPins(false)
-        } else {
           setIsPreviousPins(true)
+        } else {
+          setIsPreviousPins(false)
         }
       }
     }).catch(console.error)
+      .finally(() => {
+        setIsLoadingPins(false)
+      })
   }, [storageApiClient, pinsRange])
 
-  const onFetchNextPins = useCallback(() => {
+  const onNextPins = useCallback(() => {
+    if (!pins.length) return
+    setIsPreviousPins(true)
     setPinsRange({
-      before: pins[pins.length - 1].created,
-      after: undefined
+      before: new Date(pins[pins.length - 1].created)
     })
-    // storageApiClient.listPins(
-    //   undefined,
-    //   undefined,
-    //   PIN_STATUSES_TO_FETCH,
-    //   pinsRange.after,
-    //   pinsRange.before,
-    //   PINS_PAGE_SIZE
-    // ).then((pinsResult) => {
-    //   console.log(pinsResult)
-    // })
+  }, [pins])
+
+  const onPreviousPins = useCallback(() => {
+    if (!pins.length) return
+    setIsNextPins(true)
+    setPinsRange({
+      after: new Date(pins[0].created)
+    })
   }, [pins])
 
   const refreshBuckets = useCallback(() => {
@@ -191,23 +175,22 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   }, [storageApiClient, getStorageSummary])
 
   useEffect(() => {
-    // isLoggedIn && refreshBuckets()
     isLoggedIn && refreshPins()
+    isLoggedIn && refreshBuckets()
   }, [isLoggedIn, refreshPins, refreshBuckets])
 
+  const unpin = useCallback((requestId: string) => {
+    storageApiClient.deletePin(requestId)
+      .then(() => refreshPins())
+      .catch(console.error)
+  }, [storageApiClient, refreshPins])
+
+  // Space used counter
   useEffect(() => {
     if (isLoggedIn) {
       getStorageSummary()
     }
   }, [isLoggedIn, getStorageSummary])
-
-  const unpin = useCallback((requestId: string) => {
-    storageApiClient.deletePin(requestId)
-      .then(() => {
-        // refreshPins()
-      })
-      .catch(console.error)
-  }, [storageApiClient])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -428,11 +411,14 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         storageSummary,
         getStorageSummary,
         downloadsInProgress,
+        pins,
+        refreshPins,
         isNextPins,
         isPreviousPins,
-        pins,
+        isLoadingPins,
+        onNextPins,
+        onPreviousPins,
         unpin,
-        onFetchNextPins,
         storageBuckets,
         downloadFile,
         createBucket,

@@ -70,7 +70,14 @@ type SortDirection = "ascend" | "descend"
 
 const CidsPage = () => {
   const classes = useStyles()
-  const { pins, onFetchNextPins, isNextPins, isPreviousPins } = useStorage()
+  const {
+    pins,
+    onNextPins,
+    onPreviousPins,
+    isNextPins,
+    isPreviousPins,
+    isLoadingPins
+  } = useStorage()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
   const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
   const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
@@ -199,9 +206,12 @@ const CidsPage = () => {
         <div className={classes.pagination}>
           <Pagination
             showPageNumbers={false}
-            onNextClick={onFetchNextPins}
+            onNextClick={onNextPins}
+            onPreviousClick={onPreviousPins}
             isNextDisabled={!isNextPins}
             isPreviousDisabled={!isPreviousPins}
+            loadingNext={isLoadingPins}
+            loadingPrevious={isLoadingPins}
           />
         </div>
       }
