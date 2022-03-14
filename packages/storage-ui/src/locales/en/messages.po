@@ -85,9 +85,6 @@ msgstr "Amount from credit"
 msgid "Annual billing{0}"
 msgstr "Annual billing{0}"
 
-msgid "Api Keys"
-msgstr "Api Keys"
-
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Are we on the right track? Let us know in less than 1 minute."
 
