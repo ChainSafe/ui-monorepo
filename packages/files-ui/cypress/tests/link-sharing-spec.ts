@@ -38,15 +38,15 @@ describe("Link Sharing", () => {
 
       // ensure "view-only" and "can-edit" options are present
       editSharedFolderModal.linkPermissionDropdown().click()
-      editSharedFolderModal.viewOnlyDropdownOption()
+      editSharedFolderModal.linkViewOnlyDropdownOption()
         .scrollIntoView()
         .should("be.visible")
-      editSharedFolderModal.canEditDropdownOption()
+      editSharedFolderModal.linkCanEditDropdownOption()
         .scrollIntoView()
         .should("be.visible")
 
       // create a "view-only" link
-      editSharedFolderModal.viewOnlyDropdownOption().click()
+      editSharedFolderModal.linkViewOnlyDropdownOption().click()
       editSharedFolderModal.createLinkButton().click()
       editSharedFolderModal.activeShareLink().should("have.length", 1)
       editSharedFolderModal.labelPermissionType().should("have.length", 1)
@@ -54,13 +54,13 @@ describe("Link Sharing", () => {
 
       // ensure only the can-edit option is present if a "view-only" link exists
       editSharedFolderModal.linkPermissionDropdown().click()
-      editSharedFolderModal.viewOnlyDropdownOption().should("not.exist")
-      editSharedFolderModal.canEditDropdownOption()
+      editSharedFolderModal.linkViewOnlyDropdownOption().should("not.exist")
+      editSharedFolderModal.linkCanEditDropdownOption()
         .scrollIntoView()
         .should("be.visible")
 
       // create a "can-edit" link
-      editSharedFolderModal.canEditDropdownOption().click()
+      editSharedFolderModal.linkCanEditDropdownOption().click()
       editSharedFolderModal.createLinkButton().click()
       editSharedFolderModal.activeShareLink().should("have.length", 2)
       editSharedFolderModal.labelPermissionType().should("have.length", 2)
