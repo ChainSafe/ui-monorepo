@@ -15,6 +15,7 @@ import { StorageApiProvider }  from "./Contexts/StorageApiContext"
 import { StorageProvider } from "./Contexts/StorageContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
+import { NotificationsProvider } from "./Contexts/NotificationsContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -118,13 +119,15 @@ const App = () => {
               >
                 <UserProvider>
                   <StorageProvider>
-                    <BillingProvider>
-                      <Router>
-                        <AppWrapper>
-                          <StorageRoutes />
-                        </AppWrapper>
-                      </Router>
-                    </BillingProvider>
+                    <Router>
+                      <NotificationsProvider>
+                        <BillingProvider>
+                          <AppWrapper>
+                            <StorageRoutes />
+                          </AppWrapper>
+                        </BillingProvider>
+                      </NotificationsProvider>
+                    </Router>
                   </StorageProvider>
                 </UserProvider>
               </StorageApiProvider>
