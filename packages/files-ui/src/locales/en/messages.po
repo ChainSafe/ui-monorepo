@@ -598,8 +598,8 @@ msgstr "No search results for"
 msgid "No thanks"
 msgstr "No thanks"
 
-msgid "No users found"
-msgstr "No users found"
+msgid "No user found"
+msgstr "No user found"
 
 msgid "Notifications"
 msgstr "Notifications"

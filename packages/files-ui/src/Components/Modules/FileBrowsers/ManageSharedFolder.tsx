@@ -192,7 +192,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
     resetUsers
   } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
-  const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission>("read")
+  const [newUserPermission, setNewUserPermission] = useState<NonceResponsePermission>("read")
   const [usernameSearch, setUsernameSearch] = useState<string | undefined>()
   const [suggestedUsers, setSuggestedUsers] = useState<LookupUser[]>([])
   const [loadingUsers, setLoadingUsers] = useState(false)
@@ -248,6 +248,14 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
     }
   })
 
+  const onSuggestedUserClick = useCallback((user: LookupUser) => {
+    onAddNewUser(user, newUserPermission)
+    setSearchActive(false)
+    setUsernameSearch("")
+    setSuggestedUsers([])
+    setHasPermissionsChanged(true)
+  }, [newUserPermission, onAddNewUser])
+
   return (
     <div className={classes.root}>
       <div className={classes.iconBacking}>
@@ -274,9 +282,9 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             data-cy="input-edit-permission"
           />
           <PermissionsDropdown
-            selectedPermission={newLinkPermission}
-            onViewPermissionClick={() => setNewLinkPermission("read")}
-            onEditPermissionClick={() => setNewLinkPermission("write")}
+            selectedPermission={newUserPermission}
+            onViewPermissionClick={() => setNewUserPermission("read")}
+            onEditPermissionClick={() => setNewUserPermission("write")}
             permissions={["read", "write"]}
             injectedClasses={{
               root: classes.permissionsInSuggestion,
@@ -292,13 +300,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
               {suggestedUsers.map((u) => <div
                 key={u.uuid}
                 className={classes.usernameBox}
-                onClick={() => {
-                  onAddNewUser(u, newLinkPermission)
-                  setSearchActive(false)
-                  setUsernameSearch("")
-                  setSuggestedUsers([])
-                  setHasPermissionsChanged(true)
-                }}
+                onClick={() => {onSuggestedUserClick(u)}}
                 data-cy="user-lookup-result"
               >
                 <UserName user={u}/>
@@ -313,7 +315,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
               >
                 {loadingUsers
                   ? <Trans>Loading...</Trans>
-                  : <Trans>No users found</Trans>
+                  : <Trans>No user found</Trans>
                 }
               </Typography>
             </div>

@@ -595,7 +595,7 @@ msgstr ""
 msgid "No thanks"
 msgstr "Nei takk"
 
-msgid "No users found"
+msgid "No user found"
 msgstr ""
 
 msgid "Notifications"
