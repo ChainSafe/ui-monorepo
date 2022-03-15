@@ -4,7 +4,7 @@ import { capitalize } from "../utils/stringUtils"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 
 const useStyles = makeStyles(
-  ({ animation, palette, constants, overrides }: ITheme) =>
+  ({  palette, constants, overrides }: ITheme) =>
     createStyles({
       root: {
         userSelect: "none",
@@ -12,7 +12,6 @@ const useStyles = makeStyles(
         height: "1em",
         display: "inline-block",
         fontSize: "1.5em",
-        transition: `all ${animation.transform}ms`,
         ...overrides?.Icons?.root
       },
       colorPrimary: {

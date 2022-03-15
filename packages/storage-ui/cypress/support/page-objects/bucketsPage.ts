@@ -14,7 +14,7 @@ export const bucketsPage = {
   nameTableHeader: () => cy.get("[data-cy=table-header-name]"),
   sizeTableHeader: () => cy.get("[data-cy=table-header-size]"),
   bucketItemName: () => cy.get("[data-cy=cell-bucket-name]"),
-  bucketRowKebabButton: () => cy.get("[data-testid=dropdown-title-bucket-kebab]"),
+  bucketRowKebabButton: () => cy.get("[data-testid=dropdown-title-bucket-kebab]", { timeout: 10000 }),
 
   // create bucket modal elements
   createBucketForm: () => cy.get("[data-testid=form-create-bucket]", { timeout: 10000 }),

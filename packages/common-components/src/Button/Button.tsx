@@ -19,7 +19,6 @@ const useStyles = makeStyles(
         border: "none",
         outline: "none",
         "& svg": {
-          transitionDuration: `${animation.transform}ms`,
           margin: `${0}px ${constants.generalUnit / 2}px 0`
         },
         "&.large": {
@@ -49,12 +48,10 @@ const useStyles = makeStyles(
         color: "inherit",
         textDecoration: "underline",
         cursor: "pointer",
-        transitionDuration: `${animation.transform}ms`,
         border: "none",
         background: "none",
         outline: "none",
         "& svg": {
-          transitionDuration: `${animation.transform}ms`,
           margin: `${0}px ${constants.generalUnit / 2}px 0`
         }
       },
@@ -94,7 +91,7 @@ const useStyles = makeStyles(
           fill: palette.common.white.main
         },
         "&:hover": {
-          backgroundColor: palette.primary.hover,
+          backgroundColor: palette.primary.main,
           color: palette.common.white.main,
           ...overrides?.Button?.variants?.secondary?.hover
         },
@@ -114,12 +111,15 @@ const useStyles = makeStyles(
         backgroundColor: "transparent",
         color: palette.additional["gray"][9],
         "&:hover": {
+          color: palette.primary.main,
           ...overrides?.Button?.variants?.text?.hover
         },
         "&:focus": {
+          color: palette.primary.main,
           ...overrides?.Button?.variants?.text?.focus
         },
         "&:active": {
+          color: palette.primary.main,
           ...overrides?.Button?.variants?.text?.active
         },
         ...overrides?.Button?.variants?.text?.root

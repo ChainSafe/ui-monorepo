@@ -49,7 +49,13 @@ const useStyles = makeStyles(({ palette, constants, typography, zIndex }: CSFThe
       borderColor: palette.additional["gray"][8]
     },
     controlButton: {
-      borderRadius: 0
+      borderRadius: 0,
+      backgroundColor: "#262626",
+      color: "#D9D9D9",
+      border: "none",
+      "& svg": {
+        fill: "#D9D9D9"
+      }
     }
   })
 )

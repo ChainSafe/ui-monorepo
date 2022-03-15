@@ -100,14 +100,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     gridFolderName: {
       textAlign: "center",
-      wordBreak: "break-all",
-      overflowWrap: "break-word",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
       padding: constants.generalUnit
     },
     gridViewIconNameBox: {
       display: "flex",
       flexDirection: "column",
-      width: "100%"
+      minWidth: "90%"
     },
     menuTitleGrid: {
       padding: `0 ${constants.generalUnit * 0.5}px`,

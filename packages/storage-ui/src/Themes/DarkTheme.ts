@@ -471,6 +471,11 @@ export const darkTheme = createTheme<CsSColors>({
         },
         surveyBanner: {
           color: "var(--gray9)"
+        },
+        addCard: {
+          color: "#DBDBDB",
+          shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
+          placeholderColor: "#595959"
         }
       } as CsSColors)
     },

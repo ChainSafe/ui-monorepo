@@ -39,7 +39,7 @@ const BetaModal = ({ onHide }: Props) => {
   const classes = useStyles()
 
   const onFormdButtonClick = useCallback(() => {
-    window.open(ROUTE_LINKS.DiscordInvite, "_blank")
+    window.open(ROUTE_LINKS.SubscriptionWhitelistForm, "_blank")
     onHide()
   }, [onHide])
 

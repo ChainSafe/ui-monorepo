@@ -1,22 +1,21 @@
 import { Button, ShareAltSvg, Typography, Grid, TextInput, CrossIcon } from "@chainsafe/common-components"
-import { createStyles, debounce, makeStyles, useOnClickOutside, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { useState, useCallback, useRef } from "react"
+import { createStyles, debounce, makeStyles, useOnClickOutside } from "@chainsafe/common-theme"
+import React, { useState, useCallback, useRef, useEffect } from "react"
 import { CSFTheme } from "../../../Themes/types"
 import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import { useEffect } from "react"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
-import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 import { NonceResponsePermission, LookupUser } from "@chainsafe/files-api-client"
 import clsx from "clsx"
 import { Hashicon } from "@emeraldpay/hashicon-react"
 import LinkList from "./Sharing/LinkList"
 import PermissionsDropdown from "./Sharing/PermissionsDropdown"
+import { UserName } from "../../Elements/UserName"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) => {
+  ({ breakpoints, constants, typography, palette }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 3,
@@ -90,9 +89,9 @@ const useStyles = makeStyles(
       suggestionsDropDown: {
         position: "absolute",
         width: "100%",
-        backgroundColor: palette.common.white.main,
+        backgroundColor: palette.additional["gray"][1],
         border: `1px solid ${palette.additional["gray"][5]}`,
-        zIndex: zIndex?.layer1
+        zIndex: 100
       },
       suggestionsBody: {
         width: "100%",
@@ -104,6 +103,8 @@ const useStyles = makeStyles(
         cursor: "pointer",
         ...typography.body1,
         fontSize: "16px",
+        textOverflow: "ellipsis",
+        overflow: "hidden",
         "&:hover": {
           backgroundColor: palette.additional["blue"][1]
         }
@@ -145,7 +146,9 @@ const useStyles = makeStyles(
       },
       addedUserLabel: {
         fontSize: "16px",
-        fontWeight: 600
+        fontWeight: 600,
+        overflow: "hidden",
+        textOverflow: "ellipsis"
       },
       hashIcon: {
         marginRight: constants.generalUnit * 2,
@@ -153,7 +156,8 @@ const useStyles = makeStyles(
       },
       flexContainer: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        maxWidth: "calc(100% - 150px)"
       },
       crossButton: {
         padding: "0px !important",
@@ -171,20 +175,13 @@ const useStyles = makeStyles(
   }
 )
 
-interface SuggestedUser {
-  label: string
-  value: string
-  data: LookupUser
-}
-
 interface ICreateOrManageSharedFolderProps {
   onClose: () => void
   bucketToEdit?: BucketKeyPermission
 }
 
-const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFolderProps) => {
+const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFolderProps) => {
   const classes = useStyles()
-  const { desktop } = useThemeSwitcher()
   const { handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
   const { sharedFolderReaders,
     sharedFolderWriters,
@@ -197,7 +194,7 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
   const [newUserPermission, setNewUserPermission] = useState<NonceResponsePermission>("read")
   const [usernameSearch, setUsernameSearch] = useState<string | undefined>()
-  const [suggestedUsers, setSuggestedUsers] = useState<SuggestedUser[]>([])
+  const [suggestedUsers, setSuggestedUsers] = useState<LookupUser[]>([])
   const [loadingUsers, setLoadingUsers] = useState(false)
   const [searchActive, setSearchActive] = useState(false)
 
@@ -211,20 +208,8 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
 
     if (!bucketToEdit) return
 
-    const newReaders = bucketToEdit.readers.map((reader) => ({
-      label: getUserDisplayName(reader),
-      value: reader.uuid || "",
-      data: reader
-    }))
-
-    const newWriters = bucketToEdit.writers.map((writer) => ({
-      label: getUserDisplayName(writer),
-      value: writer.uuid || "",
-      data: writer
-    }))
-
-    setSharedFolderReaders(newReaders)
-    setSharedFolderWriters(newWriters)
+    setSharedFolderReaders(bucketToEdit.readers)
+    setSharedFolderWriters(bucketToEdit.writers)
   }, [bucketToEdit, setSharedFolderReaders, setSharedFolderWriters, onReset])
 
   const handleClose = useCallback(() => {
@@ -263,7 +248,7 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
     }
   })
 
-  const onSuggestedUserClick = useCallback((user: SuggestedUser) => {
+  const onSuggestedUserClick = useCallback((user: LookupUser) => {
     onAddNewUser(user, newUserPermission)
     setSearchActive(false)
     setUsernameSearch("")
@@ -313,12 +298,12 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
           {suggestedUsers.length
             ? <div>
               {suggestedUsers.map((u) => <div
-                key={u.value}
+                key={u.uuid}
                 className={classes.usernameBox}
                 onClick={() => {onSuggestedUserClick(u)}}
                 data-cy="user-lookup-result"
               >
-                {u.label}
+                <UserName user={u}/>
               </div>)
               }
             </div>
@@ -343,13 +328,13 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
           ...sharedFolderReaders.map((sr) => ({ user: sr, permission: "read" as NonceResponsePermission })),
           ...sharedFolderWriters.map((sw) => ({ user: sw, permission: "write" as NonceResponsePermission }))
         ].map((sharedFolderUser) => <div
-          key={sharedFolderUser.user.value}
+          key={sharedFolderUser.user.uuid}
           className={classes.addedUserBox}
         >
           <div className={classes.flexContainer}>
             <div className={classes.hashIcon}>
               <Hashicon
-                value={sharedFolderUser.user.value}
+                value={sharedFolderUser.user.uuid}
                 size={28}
               />
             </div>
@@ -357,7 +342,7 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
               className={classes.addedUserLabel}
               component="p"
             >
-              {sharedFolderUser.user.label}
+              <UserName user={sharedFolderUser.user}/>
             </Typography>
           </div>
           <div className={classes.flexContainer}>
@@ -366,14 +351,14 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
               onViewPermissionClick={() => {
                 if (sharedFolderUser.permission === "write") {
                   setHasPermissionsChanged(true)
-                  setSharedFolderWriters(sharedFolderWriters.filter((user) => sharedFolderUser.user.value !== user.value))
+                  setSharedFolderWriters(sharedFolderWriters.filter((user) => sharedFolderUser.user.uuid !== user.uuid))
                   setSharedFolderReaders([...sharedFolderReaders, sharedFolderUser.user])
                 }
               }}
               onEditPermissionClick={() => {
                 if (sharedFolderUser.permission === "read") {
                   setHasPermissionsChanged(true)
-                  setSharedFolderReaders(sharedFolderReaders.filter((user) => sharedFolderUser.user.value !== user.value))
+                  setSharedFolderReaders(sharedFolderReaders.filter((user) => sharedFolderUser.user.uuid !== user.uuid))
                   setSharedFolderWriters([...sharedFolderWriters, sharedFolderUser.user])
                 }
               }}
@@ -389,7 +374,12 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
               className={classes.crossButton}
               onClick={() => {
                 setHasPermissionsChanged(true)
-                setSharedFolderReaders(sharedFolderReaders.filter((r) => r.value !== sharedFolderUser.user.value))
+                if (sharedFolderUser.permission === "read") {
+                  setSharedFolderReaders(sharedFolderReaders.filter((r) => r.uuid !== sharedFolderUser.user.uuid))
+                }
+                else if (sharedFolderUser.permission === "write") {
+                  setSharedFolderWriters(sharedFolderWriters.filter((w) => w.uuid !== sharedFolderUser.user.uuid))
+                }
               }}
             >
               <CrossIcon className={classes.crossIcon} />
@@ -418,7 +408,7 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
           <CustomButton
             onClick={handleClose}
             size="large"
-            variant={desktop ? "outline" : "gray"}
+            variant="outline"
             type="button"
             data-cy="button-cancel-create-shared-folder"
           >
@@ -442,4 +432,4 @@ const CreateOrManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSh
   )
 }
 
-export default CreateOrManageSharedFolder
+export default ManageSharedFolder

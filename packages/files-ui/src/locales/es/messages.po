@@ -53,6 +53,9 @@ msgstr "Cuenta"
 msgid "Account is restricted"
 msgstr ""
 
+msgid "Account visibility"
+msgstr ""
+
 msgid "Add Card"
 msgstr ""
 
@@ -260,6 +263,9 @@ msgstr ""
 msgid "Credit Card is expiring soon"
 msgstr ""
 
+msgid "Crypto payments may take a few minutes to be processed. The subscription update will reflect on next login."
+msgstr ""
+
 msgid "DAI, USDC, ETH or BTC"
 msgstr ""
 
@@ -401,6 +407,15 @@ msgstr "Tamaño del archivo"
 msgid "Files"
 msgstr "Archivos"
 
+msgid "Files Free"
+msgstr ""
+
+msgid "Files Max"
+msgstr ""
+
+msgid "Files Pro"
+msgstr ""
+
 msgid "Files sharing key"
 msgstr ""
 
@@ -417,9 +432,6 @@ msgid "Forget this browser"
 msgstr "Olvida este navegador"
 
 msgid "Free"
-msgstr ""
-
-msgid "Free plan"
 msgstr ""
 
 msgid "General"
@@ -439,9 +451,6 @@ msgstr ""
 
 msgid "Get Started"
 msgstr "Empezar"
-
-msgid "Go  back"
-msgstr ""
 
 msgid "Go back"
 msgstr "Regresar"
@@ -692,9 +701,6 @@ msgstr "Por favor ingrese una contraseña"
 msgid "Please select a file to upload"
 msgstr ""
 
-msgid "Premium plan"
-msgstr ""
-
 msgid "Preview"
 msgstr "Avance"
 
@@ -893,9 +899,6 @@ msgstr "Algo salió mal. No pudimos subir tu archivo"
 msgid "Sort By:"
 msgstr ""
 
-msgid "Standard plan"
-msgstr ""
-
 msgid "Start Upload"
 msgstr "Iniciar la subida"
 
@@ -981,9 +984,6 @@ msgid "There was an error when setting username."
 msgstr ""
 
 msgid "This card will become your default payment method"
-msgstr ""
-
-msgid "This is the free product."
 msgstr ""
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
@@ -1158,9 +1158,6 @@ msgid "expires"
 msgstr ""
 
 msgid "invoices here"
-msgstr ""
-
-msgid "me"
 msgstr ""
 
 msgid "on"

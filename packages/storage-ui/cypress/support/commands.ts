@@ -33,26 +33,31 @@ import { testPrivateKey, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
+import { BucketType } from "@chainsafe/files-api-client"
+import { navigationMenu } from "./page-objects/navigationMenu"
 
 export type Storage = Record<string, string>[];
 
 export interface Web3LoginOptions {
   url?: string
-  apiUrlBase?: string
-  saveBrowser?: boolean
+  withNewUser?: boolean
   clearPins?: boolean
+  deleteFpsBuckets?: boolean
 }
 
-Cypress.Commands.add("clearPins", (apiUrlBase: string) => {
-  apiTestHelper.clearPins(apiUrlBase)
+Cypress.Commands.add("clearPins", apiTestHelper.clearPins)
+
+Cypress.Commands.add("deleteBuckets", (type: BucketType | BucketType[]) => {
+  apiTestHelper.deleteBuckets(type)
 })
 
 Cypress.Commands.add(
   "web3Login",
   ({
     url = localHost,
-    apiUrlBase = "https://stage.imploy.site/api/v1",
-    clearPins = false
+    clearPins = false,
+    withNewUser = true,
+    deleteFpsBuckets = false
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -60,16 +65,18 @@ Cypress.Commands.add(
         "https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847",
         4
       )
-      const signer = new Wallet(testPrivateKey, provider)
+      const signer = withNewUser
+        ? Wallet.createRandom()
+        : new Wallet(testPrivateKey, provider)
       // inject ethereum object in the global window
       Object.defineProperty(win, "ethereum", {
-        get: () => new CustomizedBridge(signer as any, provider as any)
+        get: () => new CustomizedBridge(signer as any, signer.address, provider as any)
       })
     })
 
     // with nothing in localstorage (and in session storage)
     // the whole login flow should kick in
-    cy.session("web3login", () => {
+    cy.session("web3loginNewUser", () => {
       cy.visit(url)
       authenticationPage.web3Button().click()
       authenticationPage.showMoreButton().click()
@@ -82,12 +89,18 @@ Cypress.Commands.add(
     bucketsPage.bucketsHeaderLabel().should("be.visible")
 
     if(clearPins){
-      cy.clearPins(apiUrlBase)
+      cy.clearPins()
+      navigationMenu.bucketsNavButton().click()
+      navigationMenu.cidsNavButton().click()
+    }
+
+    if (deleteFpsBuckets) {
+      apiTestHelper.deleteBuckets("fps")
     }
   }
 )
 
-Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
+Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element?: JQuery<HTMLElement>) => {
   const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
   return cy
     .wrap($element)
@@ -105,16 +118,15 @@ declare global {
       /**
        * Login using Metamask to an instance of Storage.
        * @param {String} options.url - (default: "http://localhost:3000") - what url to visit.
-       * @param {String} apiUrlBase - (default: "https://stage.imploy.site/api/v1") - what url to call for the api.
+       * @param {Boolean} options.withNewUser - (default: true) - whether to create a new user for this session.
+       * @param {Boolean} options.clearCSFBucket - (default: false) - whether any file in the csf bucket should be deleted.
        */
-      web3Login: (options?: Web3LoginOptions) => Chainable
+      web3Login: (options?: Web3LoginOptions) => void
 
       /**
        * Remove all "queued", "pinning", "pinned", "failed" pins
-       * @param {String} apiUrlBase - what url to call for the api.
-       * @example cy.clearPins("https://stage.imploy.site/api/v1")
        */
-      clearPins: (apiUrlBase: string) => Chainable
+      clearPins: () => void
 
       /**
        * Use this when encountering race condition issues resulting in
@@ -128,7 +140,15 @@ declare global {
        * https://github.com/cypress-io/cypress/issues/7306
        * 
        */
-      safeClick: () => Chainable
+      safeClick: ($element?: JQuery<HTMLElement>) => Chainable
+
+      /**
+       * Clear a bucket.
+       * @param {BucketType} - what bucket type to clear for this user.
+       * @example cy.deleteBuckets("fps")
+       * @example cy.deleteBuckets(["fps","csf"])
+       */
+      deleteBuckets: (type: BucketType | BucketType[]) => void
     }
   }
 }

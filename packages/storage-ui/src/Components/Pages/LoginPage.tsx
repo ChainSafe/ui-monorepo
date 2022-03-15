@@ -66,6 +66,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         justifyContent: "center",
         marginTop: "2rem",
+        marginBottom: "2rem",
         fontWeight: typography.fontWeight.regular,
         [breakpoints.up("md")]:{
           ...typography.h2
@@ -93,12 +94,6 @@ const useStyles = makeStyles(
       inner: {
         display: "flex",
         flexDirection: "column",
-        flex: "1 1 0",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: zIndex?.layer1,
         backgroundColor: constants.loginModule.background,
         border: `1px solid ${constants.landing.border}`,
         boxShadow: constants.landing.boxShadow,
@@ -116,6 +111,10 @@ const useStyles = makeStyles(
         height: 60,
         width: 60,
         marginRight: "1rem"
+      },
+      loginContainer: {
+        display: "flex",
+        justifyContent: "center"
       }
     })
 )
@@ -157,7 +156,9 @@ const LoginPage = () => {
           </Trans>
         </Typography>
       </a>
-      <InitialScreen className={classes.inner} />
+      <div className={classes.loginContainer}>
+        <InitialScreen className={classes.inner} />
+      </div>
     </div>
   )
 }

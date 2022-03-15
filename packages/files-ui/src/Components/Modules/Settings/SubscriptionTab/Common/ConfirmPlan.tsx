@@ -106,8 +106,8 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
 interface IConfirmPlan {
   plan: Product
   planPrice: ProductPrice
-  goToSelectPlan: () => void
-  goToPaymentMethod: () => void
+  goToSelectPlan?: () => void
+  goToPaymentMethod?: () => void
   onChangeSubscription: () => void
   loadingChangeSubscription: boolean
   paymentMethod: PaymentMethod
@@ -176,6 +176,7 @@ const ConfirmPlan = ({
             component="p"
             className={classes.textButton}
             onClick={goToSelectPlan}
+            disabled={!goToSelectPlan}
             data-cy="link-edit-plan"
           >
             <Trans>Edit plan</Trans>
@@ -218,6 +219,7 @@ const ConfirmPlan = ({
                 component="p"
                 className={classes.textButton}
                 onClick={goToPaymentMethod}
+                disabled={!goToPaymentMethod}
                 data-cy="link-edit-payment-method"
               >
                 <Trans>Edit payment method</Trans>
@@ -452,7 +454,7 @@ const ConfirmPlan = ({
           <Button
             variant="primary"
             loading={loadingChangeSubscription || !checkSubscriptionUpdate}
-            disabled={loadingChangeSubscription || !checkSubscriptionUpdate}
+            disabled={loadingChangeSubscription || !checkSubscriptionUpdate || (paymentMethod === "creditCard" && !defaultCard)}
             onClick={onChangeSubscription}
             testId="confirm-plan-change"
           >

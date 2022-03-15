@@ -18,7 +18,7 @@ import { t, Trans } from "@lingui/macro"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
+import { LOGIN_TYPE } from "@toruslabs/customauth"
 import { LINK_SHARING_BASE, ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
@@ -94,7 +94,7 @@ const useStyles = makeStyles(
         textAlign: "center",
         [breakpoints.up("md")]: {
           paddingTop: constants.generalUnit * 4,
-          paddingBottom: constants.generalUnit * 8
+          paddingBottom: constants.generalUnit * 5
         },
         [breakpoints.down("md")]: {
           paddingTop: constants.generalUnit * 3,

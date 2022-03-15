@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, useDoubleClick, useOnClickOutside } from "@chainsafe/common-theme"
 import {
   Button,
@@ -159,6 +159,18 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
   const [isRenaming, setIsRenaming] = useState(false)
   const formRef = useRef(null)
   const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
+  const [ownerName, setOwnerName] = useState("")
+
+  useEffect(() => {
+    if (isOwner) {
+      setOwnerName("me")
+      return
+    }
+
+    getUserDisplayName(bucket.owners[0])
+      .then(setOwnerName)
+      .catch(console.error)
+  }, [bucket, isOwner])
 
   const menuItems: IMenuItem[] = isOwner
     ? [{
@@ -283,6 +295,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                 <Form
                   className={classes.desktopRename}
                   data-cy='form-rename'
+                  ref={formRef}
                 >
                   <FormikTextInput
                     className={classes.renameInput}
@@ -304,12 +317,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         </TableCell>
         {desktop &&
         <TableCell align="left">
-          {isOwner
-            ? t`me`
-            : <UserBubble
-              tooltip={getUserDisplayName(bucket.owners[0])}
-              hashIconValue={bucket.owners[0].uuid}
-            />}
+          <UserBubble
+            tooltip={ownerName}
+            hashIconValue={bucket.owners[0].uuid}
+          />
         </TableCell>
         }
         <TableCell
