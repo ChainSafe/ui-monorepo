@@ -58,6 +58,7 @@ export const useLookupSharedFolderUser = () => {
 
   const onAddNewUser = useCallback((user: LookupUser, permission: NonceResponsePermission) => {
     captureEvent("Manually share with user", { permission })
+
     if (permission === "read") {
       setSharedFolderReaders([...sharedFolderReaders, user])
     } else {
