@@ -158,7 +158,7 @@ const useStyles = makeStyles(
         borderRadius: 4,
         display: "flex",
         alignItems: "center",
-        padding: constants.generalUnit,
+        padding: `5px ${constants.generalUnit}px`,
         background: palette.additional["gray"][1],
         boxShadow: constants.nav.profileButtonShadow
       }
