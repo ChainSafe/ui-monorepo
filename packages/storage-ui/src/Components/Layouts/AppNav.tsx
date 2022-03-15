@@ -9,13 +9,14 @@ import {
   Link,
   Typography,
   DatabaseSvg,
-  PowerDownSvg,
   ProgressBar,
   formatBytes,
   ChainsafeLogo,
   FolderSvg,
   SettingSvg,
-  DocumentSvg
+  DocumentSvg,
+  Button,
+  PowerDownIcon
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
@@ -309,43 +310,43 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             </nav>
           </div>
           <section>
-            {desktop && (
-              <div
-                data-cy="label-space-used"
-              >
-                {
-                  storageSummary && (
-                    <>
-                      <Typography
-                        variant="body2"
-                        className={classes.spaceUsedMargin}
-                        component="p"
-                      >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
-                          storageSummary.total_storage, 2
-                        )} used`}</Typography>
-                      <ProgressBar
-                        data-cy="progress-bar-space-used"
-                        className={classes.spaceUsedMargin}
-                        progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
-                        size="small"
-                      />
-                    </>
-                  )
-                }
-              </div>
-            )}
+            <div
+              data-cy="label-space-used"
+            >
+              {
+                storageSummary && (
+                  <>
+                    <Typography
+                      variant="body2"
+                      className={classes.spaceUsedMargin}
+                      component="p"
+                    >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+                        storageSummary.total_storage, 2
+                      )} used`}</Typography>
+                    <ProgressBar
+                      data-cy="progress-bar-space-used"
+                      className={classes.spaceUsedMargin}
+                      progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
+                      size="small"
+                    />
+                  </>
+                )
+              }
+            </div>
             {!desktop && (
-              <div
-                className={classes.navItem}
-                onClick={() => {
-                  handleOnClick()
-                  signOut()
-                }}
-              >
-                <PowerDownSvg />
-                <Typography>
-                  <Trans>Sign Out</Trans>
-                </Typography>
+
+              <div style={{ display: "flex" }}>
+                <Button
+                  variant='secondary'
+                  onClick={() => {
+                    handleOnClick()
+                    signOut()
+                  }}
+                  size='small'
+                >
+                  <PowerDownIcon />
+                  <Trans>Log out</Trans>
+                </Button>
               </div>
             )}
           </section>

@@ -599,7 +599,7 @@ msgstr "Aucun fichier à afficher"
 msgid "No thanks"
 msgstr "Non merci"
 
-msgid "No users found"
+msgid "No user found"
 msgstr "Aucun utilisateur trouvé"
 
 msgid "Notifications"
