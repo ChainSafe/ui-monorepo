@@ -4,6 +4,7 @@ import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-cli
 import { Trans } from "@lingui/macro"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
+import { usePosthogContext } from "../../../../Contexts/PosthogContext"
 import { CSFTheme } from "../../../../Themes/types"
 import PermissionsDropdown from "./PermissionsDropdown"
 import SharingLink from "./SharingLink"
@@ -121,6 +122,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
   const [isLoadingCreation, setIsLoadingCreation] = useState(false)
   const hasAReadNonce = useMemo(() => !!nonces.find(n => n.permission === "read"), [nonces])
   const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission | undefined>(undefined)
+  const { captureEvent } = usePosthogContext()
 
   useEffect(() => {
     if (hasAReadNonce) {
@@ -152,6 +154,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
       return
     }
 
+    captureEvent("Create sharing link", { permission: newLinkPermission })
     setIsLoadingCreation(true)
 
     return filesApiClient
@@ -161,7 +164,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
         setIsLoadingCreation(false)
         refreshNonces()
       })
-  }, [bucketId, filesApiClient, newLinkPermission, refreshNonces])
+  }, [bucketId, captureEvent, filesApiClient, newLinkPermission, refreshNonces])
 
   return (
     <div className={classes.root}>
