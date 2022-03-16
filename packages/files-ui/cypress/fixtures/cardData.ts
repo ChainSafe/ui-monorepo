@@ -7,3 +7,4 @@ export const mastercardExpiry = "01/31"
 export const invalidCardNumber = "6242424242424255"
 export const invalidCvc = "11"
 export const invalidExpiry = "02/21"
+export const currentDateExpiry = new Date().getMonth() + 1 + "/" + new Date().getFullYear().toString().substr(-2)
