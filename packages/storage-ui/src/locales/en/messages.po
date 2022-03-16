@@ -220,6 +220,9 @@ msgstr "Created"
 msgid "Created At"
 msgstr "Created At"
 
+msgid "Credit Card is expiring soon"
+msgstr "Credit Card is expiring soon"
+
 msgid "DAI, USDC, ETH or BTC"
 msgstr "DAI, USDC, ETH or BTC"
 
@@ -342,6 +345,9 @@ msgstr "Info"
 
 msgid "Insufficient balance"
 msgstr "Insufficient balance"
+
+msgid "Invoice outstanding"
+msgstr "Invoice outstanding"
 
 msgid "Key ID"
 msgstr "Key ID"
