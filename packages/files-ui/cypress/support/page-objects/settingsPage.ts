@@ -1,5 +1,5 @@
 import { basePage } from "./basePage"
-import { visaNumber, visaExpiry, visaCvc } from "../../fixtures/cardData"
+import { visaNumber, visaExpiry, visaCvc, currentDateExpiry } from "../../fixtures/cardData"
 import { cardAddedToast } from "../../support/page-objects/toasts/cardAddedToast"
 import { selectPlanModal } from "../../support/page-objects/modals/billing/selectPlanModal"
 import { planDetailsModal } from "../../support/page-objects/modals/billing/planDetailsModal"
@@ -40,8 +40,9 @@ export const settingsPage = {
   payNowButton: () => cy.get("[data-testid=button-pay-invoice]"),
 
   // use this convenience function when an upgraded account is required as a test requisite
-  upgradeSubscription(plan: "pro" | "max") {
+  upgradeSubscription(plan: "pro" | "max", card?: "expiring") {
     const planContainer = plan === "pro" ? "@filesProBox" : "@filesMaxBox"
+    const cardExpiry = card === "expiring" ? currentDateExpiry : visaExpiry
 
     this.subscriptionTabButton().click()
     this.changePlanButton().click()
@@ -57,7 +58,7 @@ export const settingsPage = {
       .click()
     cy.awaitStripeElementReady()
     selectPaymentMethodModal.cardNumberInput().type(visaNumber)
-    selectPaymentMethodModal.expiryDateInput().type(visaExpiry)
+    selectPaymentMethodModal.expiryDateInput().type(cardExpiry)
     selectPaymentMethodModal.cvcNumberInput().type(visaCvc)
     selectPaymentMethodModal.useThisCardButton().click()
     cy.awaitStripeConfirmation()
