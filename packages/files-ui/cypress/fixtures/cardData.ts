@@ -1,3 +1,5 @@
+import dayjs from "dayjs"
+
 export const visaNumber = "4242424242424242"
 export const visaCvc = "123"
 export const visaExpiry = "12/30"
@@ -7,4 +9,4 @@ export const mastercardExpiry = "01/31"
 export const invalidCardNumber = "6242424242424255"
 export const invalidCvc = "11"
 export const invalidExpiry = "02/21"
-export const currentDateExpiry = new Date().getMonth() + 1 + "/" + new Date().getFullYear().toString().substr(-2)
+export const currentDateExpiry = dayjs().format("MM/YY")
