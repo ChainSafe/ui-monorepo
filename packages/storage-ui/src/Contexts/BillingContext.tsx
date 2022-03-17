@@ -191,7 +191,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
           product.name = ProductMapping[product.id].name
           product.description = ProductMapping[product.id].description
           return product
-        })
+        }).sort((a, b) => Number(a.prices[0].metadata?.storage_size_bytes) - Number(b.prices[0].metadata?.storage_size_bytes))
       })
       .catch((error: any) => {
         console.error(error)
