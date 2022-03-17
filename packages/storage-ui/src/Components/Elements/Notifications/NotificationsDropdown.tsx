@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { BellIcon, MenuDropdown } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import NotificationList from "./NotificationList"
-// import { useNotifications } from "../../../Contexts/NotificationsContext"
+import { useNotifications } from "../../../Contexts/NotificationsContext"
 import { CSSTheme } from "../../../Themes/types"
 import clsx from "clsx"
 
@@ -81,8 +81,7 @@ export interface Notification {
 
 const NotificationsDropdown = () => {
   const classes = useStyles()
-  // const { notifications } = useNotifications()
-  const notifications: any = []
+  const { notifications } = useNotifications()
   const [isActive, setIsActive] = useState(false)
 
   return (
