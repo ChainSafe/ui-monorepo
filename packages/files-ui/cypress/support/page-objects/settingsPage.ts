@@ -40,9 +40,9 @@ export const settingsPage = {
   payNowButton: () => cy.get("[data-testid=button-pay-invoice]"),
 
   // use this convenience function when an upgraded account is required as a test requisite
-  upgradeSubscription(plan: "pro" | "max", card?: "expiring") {
-    const planContainer = plan === "pro" ? "@filesProBox" : "@filesMaxBox"
-    const cardExpiry = card === "expiring" ? currentDateExpiry : visaExpiry
+  upgradeSubscription(subDetails: {plan: "pro"|"max"; isCardExpiring?: boolean}) {
+    const planContainer = subDetails.plan === "pro" ? "@filesProBox" : "@filesMaxBox"
+    const cardExpiry = subDetails.isCardExpiring === true ? currentDateExpiry : visaExpiry
 
     this.subscriptionTabButton().click()
     this.changePlanButton().click()

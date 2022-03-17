@@ -20,7 +20,7 @@ describe("Notifications", () => {
 
       // upgrade subscription with a card expiring this month
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("max", "expiring")
+      settingsPage.upgradeSubscription({ plan: "max", isCardExpiring: true })
 
       // access and inspect notification menu
       settingsPage.notificationButton().click()

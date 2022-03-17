@@ -219,7 +219,7 @@ describe("Subscription Plan", () => {
 
       // upgrade to a Max plan first
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("max")
+      settingsPage.upgradeSubscription({ plan: "max" })
 
       // setup intercepter, stub the used products response to disallow update
       cy.intercept("GET", "**/billing/products", (req) => {
@@ -401,7 +401,7 @@ describe("Subscription Plan", () => {
 
       // upgrade to a max plan first using convenience function
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("max")
+      settingsPage.upgradeSubscription({ plan: "max" })
 
       // store the upgraded plan name for later comparison
       settingsPage.planNameLabel()
@@ -452,7 +452,7 @@ describe("Subscription Plan", () => {
 
       // upgrade to a Pro plan first
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("pro")
+      settingsPage.upgradeSubscription({ plan: "pro" })
 
       // store the Pro plan name for later comparison
       settingsPage.planNameLabel()
