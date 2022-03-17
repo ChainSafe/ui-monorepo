@@ -103,7 +103,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
       })
   }, [addPin, cid, onClose, refreshPins])
 
-  const checkIfCidDuplicate = useCallback(() => {
+  const warnforDuplicatesCid = useCallback(() => {
     searchCid(cid)
       .then((res) => {
         if(res && res.results?.length){
@@ -122,12 +122,12 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
       .validate({ cid })
       .then(() => {
         setCidError("")
-        checkIfCidDuplicate()
+        warnforDuplicatesCid()
       })
       .catch((e: Error) => {
         setCidError(e.message)
       })
-  }, [checkIfCidDuplicate])
+  }, [warnforDuplicatesCid])
 
   return (
     <CustomModal
