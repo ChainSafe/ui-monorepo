@@ -16,7 +16,7 @@ describe("Notifications", () => {
   context("desktop", () => {
 
     it("can see and interact with a notification when a card is expiring soon", () => {
-      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true, withNewSession: true })
 
       // upgrade subscription with a card expiring this month
       navigationMenu.settingsNavButton().click()
@@ -48,7 +48,7 @@ describe("Notifications", () => {
     })
 
     it("can see and interact with a notification when crypto invoice is open", () => {
-      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true, withNewSession: true  })
       navigationMenu.settingsNavButton().click()
 
       // initiate crypto payment then exit upgrade flow
