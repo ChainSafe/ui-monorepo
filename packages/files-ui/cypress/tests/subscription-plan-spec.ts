@@ -447,7 +447,7 @@ describe("Subscription Plan", () => {
       })
     })
 
-    it("can downgrade from Pro plan to free plan", () => {
+    it.only("can downgrade from Pro plan to free plan", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
 
       // upgrade to a Pro plan first
@@ -491,7 +491,7 @@ describe("Subscription Plan", () => {
       })
     })
 
-    it("can initiate and return to a crypto payment flow within 60 minutes", () => {
+    it.only("can initiate and return to a crypto payment flow within 60 minutes", () => {
       cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
       navigationMenu.settingsNavButton().click()
       settingsPage.subscriptionTabButton().click()
