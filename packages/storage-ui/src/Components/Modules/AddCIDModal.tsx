@@ -53,11 +53,7 @@ const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette }: CSSTh
       fontWeight: 600,
       marginBottom: constants.generalUnit
     },
-    modalFlexItem: {
-      width: "100%",
-      marginBottom: constants.generalUnit * 2
-    },
-    newFolderInput: {
+    cidInput: {
       margin: 0,
       width: "100%"
     },
@@ -157,7 +153,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
           <TextInput
             label={t`Paste the CID to pin it with ChainSafe Storage`}
             placeholder="QmNbbf...dps2Xw"
-            className={classes.newFolderInput}
+            className={classes.cidInput}
             labelClassName={classes.inputLabel}
             size="large"
             value={cid}
