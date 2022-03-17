@@ -57,9 +57,6 @@ const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette }: CSSTh
       margin: 0,
       width: "100%"
     },
-    inputWrapper: {
-      marginBottom: 0
-    },
     errorText: {
       marginTop: constants.generalUnit * 1,
       color: palette.error.main
