@@ -691,8 +691,8 @@ msgstr "View PDF"
 msgid "View folder"
 msgstr "View folder"
 
-msgid "Warning: cid already pinned"
-msgstr "Warning: cid already pinned"
+msgid "Warning: CID already pinned"
+msgstr "Warning: CID already pinned"
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
