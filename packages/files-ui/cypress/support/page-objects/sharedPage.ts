@@ -30,7 +30,7 @@ export const sharedPage = {
     createSharedFolderModal.body().should("be.visible")
     createSharedFolderModal.folderNameInput().type(sharedFolderName)
     createSharedFolderModal.createButton().safeClick()
-    editSharedFolderModal.cancelButton().safeClick()
+    editSharedFolderModal.closeButton().safeClick()
     editSharedFolderModal.body().should("not.exist")
     sharedPage.sharedFolderItemRow().should("have.length", 1)
   }
