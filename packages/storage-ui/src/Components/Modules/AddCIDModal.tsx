@@ -174,7 +174,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
               variant="body1"
               className={classes.warningText}
             >
-              <Trans>Warning: cid already pinned</Trans>
+              <Trans>Warning: CID already pinned</Trans>
             </Typography>
           )}
         </Grid>
