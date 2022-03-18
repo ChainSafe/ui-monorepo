@@ -200,6 +200,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
             className={classes.okButton}
             loading={accessingCID}
             data-cy="button-submit-pin"
+            disabled={!!cidError}
           >
             <Trans>Pin</Trans>
           </Button>
