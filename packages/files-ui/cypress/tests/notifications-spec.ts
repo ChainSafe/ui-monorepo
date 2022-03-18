@@ -48,7 +48,7 @@ describe("Notifications", () => {
     })
 
     it("can see and interact with a notification when crypto invoice is open", () => {
-      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true, withNewSession: true  })
+      cy.web3Login({ deleteCreditCard: true, withNewSession: true  })
       navigationMenu.settingsNavButton().click()
 
       // initiate crypto payment then exit upgrade flow

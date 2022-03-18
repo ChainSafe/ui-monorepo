@@ -492,7 +492,7 @@ describe("Subscription Plan", () => {
     })
 
     it.only("can initiate and return to a crypto payment flow within 60 minutes", () => {
-      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+      cy.web3Login({ deleteCreditCard: true, withNewSession: true })
       navigationMenu.settingsNavButton().click()
       settingsPage.subscriptionTabButton().click()
       settingsPage.changePlanButton().click()
