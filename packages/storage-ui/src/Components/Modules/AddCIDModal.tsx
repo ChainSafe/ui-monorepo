@@ -116,7 +116,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
     setCidError("")
     setShowWarning(false)
 
-    cid && setCid(cid?.toString())
+    setCid(cid?.toString() || "")
 
     cidValidator
       .validate({ cid })
