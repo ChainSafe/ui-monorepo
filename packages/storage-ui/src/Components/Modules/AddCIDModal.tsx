@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button, Grid, TextInput, Typography } from "@chainsafe/common-components"
 import CustomModal from "../Elements/CustomModal"
@@ -90,7 +90,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
 
   const onSubmit = useCallback(() => {
     setAccessingCID(true)
-    addPin(cid.trim())
+    addPin(cid)
       .then(() => {
         onClose()
       })
@@ -103,31 +103,31 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
       })
   }, [addPin, cid, onClose, refreshPins])
 
-  const warnforDuplicatesCid = useCallback(() => {
-    searchCid(cid)
-      .then((res) => {
-        if(res && res.results?.length){
-          setShowWarning(true)
-        }
+  useEffect(() => {
+    if (!cid) return
+
+    cidValidator
+      .validate({ cid })
+      .then(() => {
+        searchCid(cid)
+          .then((res) => {
+            if(res && res.results?.length){
+              setShowWarning(true)
+            }
+          })
+          .catch(console.error)
       })
-  }, [cid, searchCid])
+      .catch((e: Error) => {
+        setCidError(e.message)
+      })
+  }, [cid, cidError, searchCid])
 
   const onCidChange = useCallback((cid?: string | number) => {
     setCidError("")
     setShowWarning(false)
 
-    setCid(cid?.toString() || "")
-
-    cidValidator
-      .validate({ cid })
-      .then(() => {
-        setCidError("")
-        warnforDuplicatesCid()
-      })
-      .catch((e: Error) => {
-        setCidError(e.message)
-      })
-  }, [warnforDuplicatesCid])
+    setCid(cid?.toString().trim() || "")
+  }, [])
 
   return (
     <CustomModal
