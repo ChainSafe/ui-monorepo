@@ -20,6 +20,7 @@ import CustomModal from "../Elements/CustomModal"
 import { Form, FormikProvider, useFormik } from "formik"
 import { bucketNameValidator } from "../../Utils/validationSchema"
 import { useCallback } from "react"
+import { usePageTrack } from "../../Contexts/PosthogContext"
 
 export const desktopGridSettings = "3fr 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 70px !important"
@@ -122,6 +123,8 @@ const BucketsPage = () => {
     , [bucketsToShow]
   )
 
+  usePageTrack()
+  
   useEffect(() => {
     // this is needed for tests
     refreshBuckets()
