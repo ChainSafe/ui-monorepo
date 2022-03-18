@@ -6,6 +6,13 @@ export const editSharedFolderModal = {
   folderNameInput: () => cy.get("[data-cy=input-shared-folder-name]"),
   updateButton: () => cy.get("[data-cy=button-update-shared-folder]", { timeout: 10000 }),
   userLookupResult: () => cy.get("[data-cy=user-lookup-result]", { timeout: 10000 }),
+  addedUserBox: () => cy.get("[data-cy=container-added-user]"),
+  addedUserIcon: () => cy.get("[data-cy=container-user-icon]"),
+  addedUserName: () => cy.get("[data-cy=label-added-user]"),
+  userPermissionDropDown: () => cy.get("[data-testid=dropdown-title-user-permission]"),
+  userViewOnlyDropdownOption: () => cy.get("[data-testid=dropdown-user-permission-read]"),
+  userCanEditDropdownOption: () => cy.get("[data-testid=dropdown-user-permission-write]"),
+  removeUserButton: () => cy.get("[data-testid=button-remove-user-from-share]"),
   // link sharing related elements
   shareLink: () => cy.get("[data-cy=link-share]"),
   activeShareLink: () => cy.get("[data-cy=link-active-share]"),
@@ -14,7 +21,7 @@ export const editSharedFolderModal = {
   linkKebabMenu: () => cy.get("[data-testid=icon-link-kebab]"),
   deleteLinkMenuOption: () => cy.get("[data-cy=menu-delete-active-link]"),
   linkPermissionDropdown: () => cy.get("[data-testid=dropdown-title-link-permission]"),
-  viewOnlyDropdownOption: () => cy.get("[data-testid=dropdown-link-permission-read]"),
-  canEditDropdownOption: () => cy.get("[data-testid=dropdown-link-permission-write]"),
+  linkViewOnlyDropdownOption: () => cy.get("[data-testid=dropdown-link-permission-read]"),
+  linkCanEditDropdownOption: () => cy.get("[data-testid=dropdown-link-permission-write]"),
   createLinkButton: () => cy.get("[data-cy=button-create-link]")
 }

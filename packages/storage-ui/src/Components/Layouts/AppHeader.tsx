@@ -15,6 +15,8 @@ import { Trans } from "@lingui/macro"
 import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { useUser } from "../../Contexts/UserContext"
+import NotificationsDropdown from "../Elements/Notifications/NotificationsDropdown"
+import { Hashicon } from "@emeraldpay/hashicon-react"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSSTheme) => {
@@ -140,6 +142,25 @@ const useStyles = makeStyles(
       },
       title : {
         marginLeft: constants.generalUnit
+      },
+      profileLabel: {
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis"
+      },
+      hashIconContainer: {
+        marginRight: constants.generalUnit,
+        display: "flex",
+        alignItems: "center"
+      },
+      profileButton: {
+        maxWidth: 144,
+        borderRadius: 4,
+        display: "flex",
+        alignItems: "center",
+        padding: `5px ${constants.generalUnit}px`,
+        background: palette.additional["gray"][1],
+        boxShadow: constants.nav.profileButtonShadow
       }
     })
   }
@@ -155,7 +176,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const classes = useStyles()
   const { isLoggedIn, logout } = useStorageApi()
   const { history } = useHistory()
-  const { getProfileTitle } = useUser()
+  const { getProfileTitle, profile } = useUser()
+
+  const profileTitle = getProfileTitle()
 
   const signOut = useCallback(async () => {
     logout()
@@ -175,8 +198,8 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
             <>
               <section className={classes.accountControls}>
                 <MenuDropdown
-                  title={getProfileTitle()}
                   anchor="bottom-right"
+                  hideIndicator={true}
                   classNames={{
                     icon: classes.icon,
                     options: classes.options
@@ -198,7 +221,26 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                       )
                     }
                   ]}
-                />
+                >
+                  {!!profileTitle &&
+                    <div className={classes.profileButton}>
+                      <div className={classes.hashIconContainer}>
+                        <Hashicon
+                          value={profile?.userId || ""}
+                          size={20} />
+                      </div>
+                      <Typography
+                        variant="body1"
+                        component="p"
+                        className={classes.profileLabel}
+                      >
+                        {profileTitle}
+                      </Typography>
+                    </div>
+                  }
+                </MenuDropdown>
+                <NotificationsDropdown />
+
               </section>
             </>
           ) : (

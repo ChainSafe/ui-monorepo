@@ -85,9 +85,6 @@ msgstr "Amount from credit"
 msgid "Annual billing{0}"
 msgstr "Annual billing{0}"
 
-msgid "Api Keys"
-msgstr "Api Keys"
-
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Are we on the right track? Let us know in less than 1 minute."
 
@@ -223,6 +220,9 @@ msgstr "Created"
 msgid "Created At"
 msgstr "Created At"
 
+msgid "Credit Card is expiring soon"
+msgstr "Credit Card is expiring soon"
+
 msgid "DAI, USDC, ETH or BTC"
 msgstr "DAI, USDC, ETH or BTC"
 
@@ -346,11 +346,17 @@ msgstr "Info"
 msgid "Insufficient balance"
 msgstr "Insufficient balance"
 
+msgid "Invoice outstanding"
+msgstr "Invoice outstanding"
+
 msgid "Key ID"
 msgstr "Key ID"
 
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
+
+msgid "Log out"
+msgstr "Log out"
 
 msgid "Make sure to save the secret, as it can only be displayed once."
 msgstr "Make sure to save the secret, as it can only be displayed once."
@@ -388,8 +394,14 @@ msgstr "No folders"
 msgid "No invoice found"
 msgstr "No invoice found"
 
+msgid "Notifications"
+msgstr "Notifications"
+
 msgid "OK"
 msgstr "OK"
+
+msgid "Older notifications"
+msgstr "Older notifications"
 
 msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
 msgstr "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
@@ -586,6 +598,9 @@ msgstr "The time to pay with crypto is up. Updating your plan..."
 msgid "The transaction was declined. Please use a different card or try again."
 msgstr "The transaction was declined. Please use a different card or try again."
 
+msgid "There are no notifications!"
+msgstr "There are no notifications!"
+
 msgid "There was a problem creating a charge {error}"
 msgstr "There was a problem creating a charge {error}"
 
@@ -609,6 +624,9 @@ msgstr "This card will become your default payment method"
 
 msgid "This is the free product."
 msgstr "This is the free product."
+
+msgid "This week"
+msgstr "This week"
 
 msgid "Total"
 msgstr "Total"

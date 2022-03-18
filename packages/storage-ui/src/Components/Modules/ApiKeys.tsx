@@ -15,7 +15,8 @@ import {
   MenuDropdown,
   DeleteSvg,
   MoreIcon,
-  CopyIcon } from "@chainsafe/common-components"
+  CopyIcon,
+  Divider } from "@chainsafe/common-components"
 import { CSSTheme } from "../../Themes/types"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
@@ -134,6 +135,13 @@ const useStyles = makeStyles(({ constants, breakpoints, animation, zIndex, palet
     },
     field: {
       marginBottom: constants.generalUnit * 4
+    },
+    mainHeader: {
+      fontSize: 28,
+      marginBottom: constants.generalUnit * 2,
+      [breakpoints.up("md")]: {
+        paddingLeft: constants.generalUnit * 2
+      }
     }
   })
 )
@@ -197,12 +205,12 @@ const ApiKeys = () => {
       <div className={classes.root}>
         <header className={classes.header}>
           <Typography
-            variant="h1"
-            component="h1"
-            data-cy="api-keys-header"
+            variant="h3"
+            component="h3"
+            className={classes.mainHeader}
           >
             <Trans>
-            API Keys
+              API Keys
             </Trans>
           </Typography>
           <div className={classes.controls}>
@@ -231,6 +239,7 @@ const ApiKeys = () => {
             </Button>
           </div>
         </header>
+        <Divider />
         <Table
           fullWidth={true}
           striped={true}

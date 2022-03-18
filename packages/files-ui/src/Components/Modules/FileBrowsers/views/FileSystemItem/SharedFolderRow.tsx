@@ -276,6 +276,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       >
         {desktop &&
         <TableCell
+          data-cy="cell-shared-folder-icon"
           className={classes.folderIcon}
           onClick={(e) => onFolderClick(e)}
         >
@@ -316,7 +317,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           }
         </TableCell>
         {desktop &&
-        <TableCell align="left">
+        <TableCell
+          align="left"
+          data-cy="cell-share-owner"
+        >
           <UserBubble
             tooltip={ownerName}
             hashIconValue={bucket.owners[0].uuid}
@@ -324,7 +328,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         </TableCell>
         }
         <TableCell
-          data-cy="shared-folder-item-shared-with"
+          data-cy="cell-shared-with"
           align="left"
           className={classes.sharedUser}
         >
@@ -334,7 +338,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           />
         </TableCell>
         {desktop &&
-        <TableCell align="left">
+        <TableCell
+          align="left"
+          data-cy="cell-shared-folder-size"
+        >
           {formatBytes(size, 2)}
         </TableCell>
         }

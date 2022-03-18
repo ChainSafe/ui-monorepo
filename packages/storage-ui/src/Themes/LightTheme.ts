@@ -58,7 +58,8 @@ export const lightTheme = createTheme<CsSColors>({
           itemColor: "inherit",
           itemColorHover: "var(--gray7)",
           itemIconColor: "inherit",
-          itemIconColorHover: "var(--gray7)"
+          itemIconColorHover: "var(--gray7)",
+          profileButtonShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
         },
         createFolder: {
           backgroundColor: "var(--gray1)",
