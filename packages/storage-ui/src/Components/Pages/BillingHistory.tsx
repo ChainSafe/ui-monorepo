@@ -5,6 +5,7 @@ import { Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import InvoiceLines from "../Elements/InvoiceLines"
 import PayInvoiceModal from "../Modules/SubscriptionTab/PayInvoice/PayInvoiceModal"
+import { usePageTrack } from "../../Contexts/PosthogContext"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints }: CSSTheme) =>
@@ -32,6 +33,7 @@ const useStyles = makeStyles(
 const BillingHistory = () => {
   const classes = useStyles()
   const [invoiceToPay, setInvoiceToPay] = useState<string | undefined>()
+  usePageTrack()
 
   return (
     <div className={classes.root}>

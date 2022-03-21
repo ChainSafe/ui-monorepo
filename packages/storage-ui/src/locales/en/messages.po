@@ -37,6 +37,9 @@ msgstr "A file with the same name already exists"
 msgid "API Keys"
 msgstr "API Keys"
 
+msgid "Accept"
+msgstr "Accept"
+
 msgid "Accepted currencies"
 msgstr "Accepted currencies"
 
@@ -228,6 +231,9 @@ msgstr "DAI, USDC, ETH or BTC"
 
 msgid "Date uploaded"
 msgstr "Date uploaded"
+
+msgid "Decline"
+msgstr "Decline"
 
 msgid "Delete"
 msgstr "Delete"
@@ -625,6 +631,12 @@ msgstr "This card will become your default payment method"
 msgid "This is the free product."
 msgstr "This is the free product."
 
+msgid "This website uses cookies"
+msgstr "This website uses cookies"
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+
 msgid "This week"
 msgstr "This week"
 
@@ -690,6 +702,9 @@ msgstr "View PDF"
 
 msgid "View folder"
 msgstr "View folder"
+
+msgid "Warning: CID already pinned"
+msgstr "Warning: CID already pinned"
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"

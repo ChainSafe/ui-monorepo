@@ -19,6 +19,7 @@ import { FileBrowserContext, ISelectedFile } from "../../Contexts/FileBrowserCon
 import { parseFileContentResponse } from "../../Utils/Helpers"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
+import { usePageTrack } from "../../Contexts/PosthogContext"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { storageBuckets, uploadFiles, uploadsInProgress, getStorageSummary, downloadFile } = useStorage()
@@ -30,6 +31,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { localStorageGet, localStorageSet } = useLocalStorage()
   const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
   const { pathname } = useLocation()
+  usePageTrack()
 
   const bucketId = useMemo(() =>
     pathname.split("/")[2]
