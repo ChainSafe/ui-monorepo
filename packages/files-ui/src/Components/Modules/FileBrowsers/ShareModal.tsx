@@ -288,8 +288,8 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
                     labelClassName={classes.inputLabel}
                     options={bucketsOptions}
                     value={destinationBucket?.id}
-                    data-cy="input-existing-folder"
                     onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
+                    data-cy="input-select-existing-folder-option"
                   />
                 </div>
               )

@@ -1,6 +1,7 @@
 import { createSharedFolderModal } from "../support/page-objects/modals/createSharedFolderModal"
 import { deleteSharedFolderModal } from "../support/page-objects/modals/deleteSharedFolderModal"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
+import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { sharedFolderName, sharedFolderEditedName } from "../fixtures/filesTestData"
 import { sharingExplainerKey, validUsernameA, validEthAddress, validShareKey } from "../fixtures/filesTestData"
@@ -10,6 +11,9 @@ import { viewOnlyShareLink } from "../fixtures/linkData"
 import { leaveSharedFolderModal } from "../support/page-objects/modals/leaveSharedFolderModal"
 import { linkSharingConfirmation } from "../support/page-objects/linkSharingConfirmation"
 import { editSharedFolderModal } from "../support/page-objects/modals/editSharedFolderModal"
+import { shareFileModal } from "../support/page-objects/modals/shareFileModal"
+import { sharingProgressToast } from "../support/page-objects/toasts/sharingProgressToast"
+import { shareSuccessToast } from "../support/page-objects/toasts/shareSuccessToast"
 
 describe("File Sharing", () => {
 
@@ -166,5 +170,159 @@ describe("File Sharing", () => {
       editSharedFolderModal.body().should("be.visible")
       editSharedFolderModal.userPermissionDropDown().should("contain.text", "edit")
     })
+
+    it("can copy a file to a new shared folder and preserve original", () => {
+      cy.web3Login({ deleteShareBucket: true, clearCSFBucket: true })
+
+      // upload a file and store it's name as cypress alias
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      homePage.fileItemName().invoke("text").as("fileName")
+
+      // share file to newly created share folder
+      homePage.fileItemKebabButton().click()
+      homePage.shareMenuOption().click()
+      shareFileModal.body().should("be.visible")
+      shareFileModal.shareNameInput().type(sharedFolderName)
+      shareFileModal.copyOverButton().click()
+      sharingProgressToast.body().should("be.visible")
+      shareSuccessToast.body().should("be.visible")
+      shareSuccessToast.closeButton().click()
+      editSharedFolderModal.closeButton().click()
+
+      // ensure file remained in drive after copying
+      homePage.fileItemRow().should("have.length", 1)
+
+      // go to the new share and ensure file was copied there
+      navigationMenu.sharedNavButton().click()
+      sharedPage.sharedFolderItemName().contains(sharedFolderName)
+        .should("be.visible")
+        .dblclick()
+      sharedPage.fileItemRow().should("have.length", 1)
+
+      // ensure file name of copied file is correct
+      cy.get("@fileName").then(($fileName) => {
+        sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
+      })
+    })
+
+    it("can copy a file to a new shared folder and delete original", () => {
+      cy.web3Login({ deleteShareBucket: true, clearCSFBucket: true })
+
+      // upload a file and store it's name as cypress alias
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      homePage.fileItemName().invoke("text").as("fileName")
+
+      // share file to newly created share folder
+      homePage.fileItemKebabButton().click()
+      homePage.shareMenuOption().click()
+      shareFileModal.body().should("be.visible")
+      shareFileModal.shareNameInput().type(sharedFolderName)
+      // click to unmark checkbox, selected by default
+      shareFileModal.keepOriginalFilesCheckbox().click()
+      shareFileModal.copyOverButton().click()
+      sharingProgressToast.body().should("be.visible")
+      shareSuccessToast.body().should("be.visible")
+      shareSuccessToast.closeButton().click()
+      editSharedFolderModal.closeButton().click()
+
+      // ensure the file did not remain in the drive after copying
+      homePage.fileItemRow().should("have.length", 0)
+
+      // go to the new share and ensure file was copied there
+      navigationMenu.sharedNavButton().click()
+      sharedPage.sharedFolderItemName().contains(sharedFolderName)
+        .should("be.visible")
+        .dblclick()
+      sharedPage.fileItemRow().should("have.length", 1)
+
+      // ensure file name of copied file is correct
+      cy.get("@fileName").then(($fileName) => {
+        sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
+      })
+    })
+
+    it.only("can copy a file to a pre-existing shared folder and preserve original", () => {
+      cy.web3Login({ deleteShareBucket: true, clearCSFBucket: true })
+
+      navigationMenu.sharedNavButton().click()
+      sharedPage.createSharedFolder()
+
+      // upload a file and store it's name as cypress alias
+      navigationMenu.homeNavButton().click()
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      homePage.fileItemName().invoke("text").as("fileName")
+
+      // share file to newly created share folder
+      homePage.fileItemKebabButton().click()
+      homePage.shareMenuOption().click()
+      shareFileModal.body().should("be.visible")
+      shareFileModal.selectFolderInput().click()
+      shareFileModal.existingFolderInputOption()
+        .contains(sharedFolderName)
+        .click()
+      //shareFileModal.selectFolderInput().type(`${sharedFolderName}{enter}`)
+      shareFileModal.copyOverButton().click()
+      sharingProgressToast.body().should("be.visible")
+      shareSuccessToast.body().should("be.visible")
+      shareSuccessToast.closeButton().click()
+
+      // ensure file remained in drive after copying
+      homePage.fileItemRow().should("have.length", 1)
+
+      // go to the new share and ensure file was copied there
+      navigationMenu.sharedNavButton().click()
+      sharedPage.sharedFolderItemName().contains(sharedFolderName)
+        .should("be.visible")
+        .dblclick()
+      sharedPage.fileItemRow().should("have.length", 1)
+
+      // ensure file name of copied file is correct
+      cy.get("@fileName").then(($fileName) => {
+        sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
+      })
+    })
+
+    it("can copy a file to a pre-existing shared folder and delete original", () => {
+      cy.web3Login({ deleteShareBucket: true, clearCSFBucket: true })
+
+      navigationMenu.sharedNavButton().click()
+      sharedPage.createSharedFolder()
+
+      // upload a file and store it's name as cypress alias
+      navigationMenu.homeNavButton().click()
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      homePage.fileItemName().invoke("text").as("fileName")
+
+      // share file to newly created share folder
+      homePage.fileItemKebabButton().click()
+      homePage.shareMenuOption().click()
+      shareFileModal.body().should("be.visible")
+      shareFileModal.selectFolderInput().click()
+      // shareFileModal.existingFolderInputOption()
+      //   .contains(sharedFolderName)
+      //   .click()
+      shareFileModal.selectFolderInput().type(`${sharedFolderName}{enter}`)
+      shareFileModal.keepOriginalFilesCheckbox().click()
+      shareFileModal.moveOverButton().click()
+      sharingProgressToast.body().should("be.visible")
+      shareSuccessToast.body().should("be.visible")
+      shareSuccessToast.closeButton().click()
+
+      // ensure file was deleted from drive after copying
+      homePage.fileItemRow().should("have.length", 0)
+
+      // go to the new share and ensure file was copied there
+      navigationMenu.sharedNavButton().click()
+      sharedPage.sharedFolderItemName().contains(sharedFolderName)
+        .should("be.visible")
+        .dblclick()
+      sharedPage.fileItemRow().should("have.length", 1)
+
+      // ensure file name of copied file is correct
+      cy.get("@fileName").then(($fileName) => {
+        sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
+      })
+    })
+
   })
 })
