@@ -164,6 +164,9 @@ export const lightTheme = createTheme<CsSColors>({
           color: "#595959",
           shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
           placeholderColor: "#BFBFBF"
+        },
+        cookieBanner: {
+          backgroundColor: "var(--gray9)"
         }
       } as CsSColors)
     },

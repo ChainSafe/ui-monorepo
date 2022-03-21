@@ -5,7 +5,8 @@ import {
   SearchEntry,
   Bucket,
   PinStatus,
-  BucketSummaryResponse
+  BucketSummaryResponse,
+  PinResult
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -67,6 +68,7 @@ type StorageContext = {
   createBucket: (name: string) => Promise<void>
   removeBucket: (id: string) => void
   refreshBuckets: () => void
+  searchCid: (cid: string) => Promise<PinResult | void>
 }
 
 // This represents a File or Folder on the
@@ -343,6 +345,17 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [getFileContent])
 
+  const searchCid = useCallback((cid: string) => {
+    return storageApiClient.listPins(
+      [cid],
+      undefined,
+      ["queued", "pinning", "pinned", "failed"],
+      undefined,
+      undefined,
+      50
+    ).catch(console.error)
+  }, [storageApiClient])
+
   return (
     <StorageContext.Provider
       value={{
@@ -359,7 +372,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         createBucket,
         removeBucket,
         uploadFiles,
-        refreshBuckets
+        refreshBuckets,
+        searchCid
       }}
     >
       {children}

@@ -9,6 +9,7 @@ import BottomDarkSVG from "../../Media/landing/layers/dark/Bottom.dark.svg"
 import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
+import { usePageTrack } from "../../Contexts/PosthogContext"
 
 
 const useStyles = makeStyles(
@@ -122,6 +123,7 @@ const useStyles = makeStyles(
 const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
+  usePageTrack()
 
   return (
     <div className={classes.root}>
