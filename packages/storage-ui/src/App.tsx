@@ -16,6 +16,7 @@ import { StorageProvider } from "./Contexts/StorageContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
 import { NotificationsProvider } from "./Contexts/NotificationsContext"
+import { PosthogProvider } from "./Contexts/PosthogContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -122,9 +123,11 @@ const App = () => {
                     <Router>
                       <NotificationsProvider>
                         <BillingProvider>
-                          <AppWrapper>
-                            <StorageRoutes />
-                          </AppWrapper>
+                          <PosthogProvider>
+                            <AppWrapper>
+                              <StorageRoutes />
+                            </AppWrapper>
+                          </PosthogProvider>
                         </BillingProvider>
                       </NotificationsProvider>
                     </Router>
