@@ -44,6 +44,8 @@ import MimeMatcher from "../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../Contexts/LanguageContext"
 import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import SurveyBanner from "../SurveyBanner"
+import { useStorageApi } from "../../../Contexts/StorageApiContext"
+import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 
 interface IStyleProps {
   themeKey: string
@@ -69,6 +71,10 @@ const useStyles = makeStyles(
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.primary.main
+          },
+          "&.bottomBanner": {
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + Number(constants.bottomBannerHeight)}px)`,
+            paddingBottom: constants.bottomBannerHeight
           }
         }
       },
@@ -287,7 +293,7 @@ const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
 
 const FilesList = () => {
   const { themeKey, desktop } = useThemeSwitcher()
-
+  const { accountRestricted } = useStorageApi()
   const {
     heading,
     controls = true,
@@ -566,6 +572,8 @@ const FilesList = () => {
     <article
       className={clsx(classes.root, {
         droppable: isOverUploadable && allowDropUpload
+      }, {
+        bottomBanner: accountRestricted
       })}
       ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
@@ -605,6 +613,7 @@ const FilesList = () => {
                 onClick={() => setCreateFolderModalOpen(true)}
                 variant="outline"
                 size="large"
+                disabled={accountRestricted}
               >
                 <PlusCircleIcon />
                 <span>
@@ -616,6 +625,7 @@ const FilesList = () => {
                 onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
+                disabled={accountRestricted}
               >
                 <UploadIcon />
                 <span>
@@ -654,6 +664,7 @@ const FilesList = () => {
                           size="large"
                           className={classes.mobileButton}
                           fullsize
+                          disabled={accountRestricted}
                         >
                           <PlusCircleIcon />
                           <span>
@@ -669,6 +680,7 @@ const FilesList = () => {
                           variant="primary"
                           fullsize
                           className={classes.mobileButton}
+                          disabled={accountRestricted}
                         >
                           <UploadIcon />
                           <span>
@@ -1018,11 +1030,9 @@ const FilesList = () => {
           </>
         )
       }
-      {/* 
-      <FileInfoModal
-        fileInfoPath={fileInfoPath}
-        close={() => setFileInfoPath(undefined)}
-      /> */}
+      {accountRestricted &&
+        <RestrictedModeBanner />
+      }
     </article>
   )
 }

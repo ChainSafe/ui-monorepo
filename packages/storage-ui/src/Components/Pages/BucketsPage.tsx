@@ -20,6 +20,8 @@ import CustomModal from "../Elements/CustomModal"
 import { Form, FormikProvider, useFormik } from "formik"
 import { bucketNameValidator } from "../../Utils/validationSchema"
 import { useCallback } from "react"
+import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
+import { useStorageApi } from "../../Contexts/StorageApiContext"
 
 export const desktopGridSettings = "3fr 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 70px !important"
@@ -115,6 +117,7 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
 const BucketsPage = () => {
   const classes = useStyles()
   const { storageBuckets, createBucket, refreshBuckets } = useStorage()
+  const { accountRestricted } = useStorageApi()
   const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
   const bucketsToShow = useMemo(() =>     storageBuckets.filter(b => b.status === "created"), [storageBuckets])
   const bucketNameValidationSchema = useMemo(
@@ -168,6 +171,7 @@ const BucketsPage = () => {
             data-cy="button-create-bucket"
             onClick={() => setIsCreateBucketModalOpen(true)}
             variant="outline"
+            disabled={accountRestricted}
           >
             <PlusIcon />
             <Trans>Create Bucket</Trans>
@@ -211,6 +215,9 @@ const BucketsPage = () => {
             )}
         </TableBody>
       </Table>
+      {accountRestricted &&
+        <RestrictedModeBanner />
+      }
       <CustomModal
         active={isCreateBucketModalOpen}
         className={classes.createBucketModal}

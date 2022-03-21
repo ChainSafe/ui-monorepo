@@ -22,7 +22,7 @@ import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { storageBuckets, uploadFiles, uploadsInProgress, getStorageSummary, downloadFile } = useStorage()
-  const { storageApiClient } = useStorageApi()
+  const { storageApiClient, accountRestricted } = useStorageApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
@@ -160,9 +160,19 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
+
+    if (accountRestricted) {
+      addToast({
+        type:"error",
+        title: t`Uploads disabled`,
+        subtitle: t`Oops! You need to pay for this month to upload more content.`
+      })
+      return
+    }
+
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry().isDirectory) {
+      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
         hasFolder = true
       }
     }
@@ -176,7 +186,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         .then(() => refreshContents())
         .catch(console.error)
     }
-  }, [addToast, uploadFiles, bucket, refreshContents])
+  }, [bucket, accountRestricted, addToast, uploadFiles, refreshContents])
 
   const viewFolder = useCallback((toView: ISelectedFile) => {
     const fileSystemItem = pathContents.find(f => f.cid === toView.cid && f.name === toView.name)
