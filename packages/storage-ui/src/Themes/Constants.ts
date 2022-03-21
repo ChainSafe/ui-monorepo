@@ -164,4 +164,7 @@ export interface CsSColors extends IConstants {
   surveyBanner: {
     color: string
   }
+  cookieBanner: {
+    backgroundColor: string
+  }
 }
