@@ -124,7 +124,7 @@ const BucketsPage = () => {
   )
 
   usePageTrack()
-  
+
   useEffect(() => {
     // this is needed for tests
     refreshBuckets()

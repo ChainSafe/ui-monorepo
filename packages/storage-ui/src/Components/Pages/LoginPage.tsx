@@ -124,7 +124,7 @@ const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
   usePageTrack()
-  
+
   return (
     <div className={classes.root}>
       <Typography className={classes.title}>

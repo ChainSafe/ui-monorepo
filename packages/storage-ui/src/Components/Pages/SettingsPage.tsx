@@ -132,7 +132,7 @@ const SettingsPage: React.FC = () => {
   const { redirect } = useHistory()
   const { isBillingEnabled } = useBilling()
   usePageTrack()
-  
+
   const onSelectTab = useCallback(
     (path: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(path))
     , [redirect])
