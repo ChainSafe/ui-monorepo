@@ -32,6 +32,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
   const { pathname } = useLocation()
   usePageTrack()
+
   const bucketId = useMemo(() =>
     pathname.split("/")[2]
   , [pathname])

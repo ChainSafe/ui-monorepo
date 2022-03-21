@@ -34,6 +34,7 @@ const BillingHistory = () => {
   const classes = useStyles()
   const [invoiceToPay, setInvoiceToPay] = useState<string | undefined>()
   usePageTrack()
+
   return (
     <div className={classes.root}>
       <Typography

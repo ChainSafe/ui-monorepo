@@ -60,7 +60,6 @@ const CidsPage = () => {
   const [addCIDOpen, setAddCIDOpen] = useState(false)
   const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
   const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
-
   usePageTrack()
 
   const handleSortToggle = (

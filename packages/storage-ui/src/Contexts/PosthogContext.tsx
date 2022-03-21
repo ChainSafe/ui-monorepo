@@ -73,7 +73,7 @@ const useStyles = makeStyles(
   }
 )
 
-const TOUCHED_COOKIE_BANNER_KEY = "csf.touchedCookieBanner"
+const TOUCHED_COOKIE_BANNER_KEY = "css.touchedCookieBanner"
 
 const PosthogProvider = ({ children }: PosthogProviderProps) => {
   const [hasOptedIn, setHasOptedIn] = useState(false)
