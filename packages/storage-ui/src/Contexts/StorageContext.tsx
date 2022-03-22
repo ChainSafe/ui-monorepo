@@ -61,7 +61,7 @@ type StorageContext = {
   getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
-  addPin: (cid: string) => Promise<PinStatus>
+  addPin: (cid: string, name: string) => Promise<PinStatus>
   refreshPins: () => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
@@ -169,8 +169,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   })
 
-  const addPin = useCallback((cid: string) => {
-    return storageApiClient.addPin(({ cid }))
+  const addPin = useCallback((cid: string, name: string) => {
+    return storageApiClient.addPin(({ cid, name }))
   }, [storageApiClient])
 
   const createBucket = useCallback(async (name: string) => {
