@@ -141,7 +141,5 @@ export const apiTestHelper = {
         homePage.fileItemName().contains(firstFolderName)
       })
     })
-
-
   }
 }

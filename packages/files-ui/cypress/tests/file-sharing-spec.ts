@@ -205,7 +205,7 @@ describe("File Sharing", () => {
       })
     })
 
-    it("can copy a file to a new shared folder and delete original", () => {
+    it("can move a file to a new shared folder and delete original", () => {
       cy.web3Login({ deleteShareBucket: true, clearCSFBucket: true })
 
       // upload a file and store it's name as cypress alias
@@ -219,7 +219,7 @@ describe("File Sharing", () => {
       shareFileModal.shareNameInput().type(sharedFolderName)
       // click to unmark checkbox, selected by default
       shareFileModal.keepOriginalFilesCheckbox().click()
-      shareFileModal.copyOverButton().click()
+      shareFileModal.moveOverButton().click()
       sharingProgressToast.body().should("be.visible")
       shareSuccessToast.body().should("be.visible")
       shareSuccessToast.closeButton().click()
@@ -228,7 +228,7 @@ describe("File Sharing", () => {
       // ensure the file did not remain in the drive after copying
       homePage.fileItemRow().should("have.length", 0)
 
-      // go to the new share and ensure file was copied there
+      // go to the new share and ensure the file was copied there
       navigationMenu.sharedNavButton().click()
       sharedPage.sharedFolderItemName().contains(sharedFolderName)
         .should("be.visible")
@@ -241,7 +241,7 @@ describe("File Sharing", () => {
       })
     })
 
-    it.only("can copy a file to a pre-existing shared folder and preserve original", () => {
+    it("can copy a file to a pre-existing shared folder and preserve original", () => {
       cy.web3Login({ deleteShareBucket: true, clearCSFBucket: true })
 
       navigationMenu.sharedNavButton().click()
@@ -257,10 +257,7 @@ describe("File Sharing", () => {
       homePage.shareMenuOption().click()
       shareFileModal.body().should("be.visible")
       shareFileModal.selectFolderInput().click()
-      shareFileModal.existingFolderInputOption()
-        .contains(sharedFolderName)
-        .click()
-      //shareFileModal.selectFolderInput().type(`${sharedFolderName}{enter}`)
+      shareFileModal.selectFolderInput().type(`${sharedFolderName}{enter}`)
       shareFileModal.copyOverButton().click()
       sharingProgressToast.body().should("be.visible")
       shareSuccessToast.body().should("be.visible")
@@ -282,7 +279,7 @@ describe("File Sharing", () => {
       })
     })
 
-    it("can copy a file to a pre-existing shared folder and delete original", () => {
+    it("can move a file to a pre-existing shared folder and delete original", () => {
       cy.web3Login({ deleteShareBucket: true, clearCSFBucket: true })
 
       navigationMenu.sharedNavButton().click()
@@ -298,9 +295,6 @@ describe("File Sharing", () => {
       homePage.shareMenuOption().click()
       shareFileModal.body().should("be.visible")
       shareFileModal.selectFolderInput().click()
-      // shareFileModal.existingFolderInputOption()
-      //   .contains(sharedFolderName)
-      //   .click()
       shareFileModal.selectFolderInput().type(`${sharedFolderName}{enter}`)
       shareFileModal.keepOriginalFilesCheckbox().click()
       shareFileModal.moveOverButton().click()
@@ -323,6 +317,5 @@ describe("File Sharing", () => {
         sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
       })
     })
-
   })
 })
