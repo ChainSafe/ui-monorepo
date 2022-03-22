@@ -174,11 +174,11 @@ describe("File Sharing", () => {
     it("can copy a file to a new shared folder and preserve original", () => {
       cy.web3Login({ deleteShareBucket: true, clearCSFBucket: true })
 
-      // upload a file and store it's name as cypress alias
+      // upload a file and store its name as cypress alias
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
       homePage.fileItemName().invoke("text").as("fileName")
 
-      // share file to newly created share folder
+      // share file to newly created shared folder
       homePage.fileItemKebabButton().click()
       homePage.shareMenuOption().click()
       shareFileModal.body().should("be.visible")
@@ -208,11 +208,11 @@ describe("File Sharing", () => {
     it("can move a file to a new shared folder and delete original", () => {
       cy.web3Login({ deleteShareBucket: true, clearCSFBucket: true })
 
-      // upload a file and store it's name as cypress alias
+      // upload a file and store its name as cypress alias
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
       homePage.fileItemName().invoke("text").as("fileName")
 
-      // share file to newly created share folder
+      // share file to newly created shared folder
       homePage.fileItemKebabButton().click()
       homePage.shareMenuOption().click()
       shareFileModal.body().should("be.visible")
@@ -247,12 +247,12 @@ describe("File Sharing", () => {
       navigationMenu.sharedNavButton().click()
       sharedPage.createSharedFolder()
 
-      // upload a file and store it's name as cypress alias
+      // upload a file and store its name as cypress alias
       navigationMenu.homeNavButton().click()
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
       homePage.fileItemName().invoke("text").as("fileName")
 
-      // share file to newly created share folder
+      // share file to newly created shared folder
       homePage.fileItemKebabButton().click()
       homePage.shareMenuOption().click()
       shareFileModal.body().should("be.visible")
@@ -285,12 +285,12 @@ describe("File Sharing", () => {
       navigationMenu.sharedNavButton().click()
       sharedPage.createSharedFolder()
 
-      // upload a file and store it's name as cypress alias
+      // upload a file and store its name as cypress alias
       navigationMenu.homeNavButton().click()
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
       homePage.fileItemName().invoke("text").as("fileName")
 
-      // share file to newly created share folder
+      // share file to newly created shared folder
       homePage.fileItemKebabButton().click()
       homePage.shareMenuOption().click()
       shareFileModal.body().should("be.visible")

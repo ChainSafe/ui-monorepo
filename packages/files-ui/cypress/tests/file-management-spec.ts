@@ -50,7 +50,7 @@ describe("File management", () => {
     it("can move a file in and out of a folder", () => {
       cy.web3Login({ clearCSFBucket: true })
 
-      // upload a file and save it's name as a cypress alias
+      // upload a file and save its name as a cypress alias
       homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
       homePage.fileItemRow().should("have.length", 1)
       homePage.fileItemName().invoke("text").as("fileName")
