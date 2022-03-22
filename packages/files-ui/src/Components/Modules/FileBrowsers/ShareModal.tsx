@@ -255,6 +255,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
       active={true}
       closePosition="none"
       maxWidth={500}
+      testId="share-file"
     >
       {bucketToUpload
         ? <ManageSharedFolder
@@ -278,13 +279,17 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
           <div className={classes.modalFlexItem}>
             {isUsingExistingBucket
               ? (
-                <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
+                <div
+                  className={clsx(classes.modalFlexItem, classes.inputWrapper)}
+                  data-cy="input-select-existing-folder"
+                >
                   <SelectInput
                     label={t`Select an existing shared folder or your home`}
                     labelClassName={classes.inputLabel}
                     options={bucketsOptions}
                     value={destinationBucket?.id}
                     onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
+                    data-cy="input-select-existing-folder-option"
                   />
                 </div>
               )
@@ -300,6 +305,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
                     autoFocus
                     onChange={onNameChange}
                     state={nameError ? "error" : "normal"}
+                    data-cy="input-new-share-name"
                   />
                   {!!nameError && (
                     <Typography
@@ -340,6 +346,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
                     setKeepOriginalFile(!keepOriginalFile)
                   }}
                   label={t`Keep original files`}
+                  testId="keep-original-files"
                 />
               </div>
             )}
@@ -348,6 +355,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
                 variant="outline"
                 onClick={onClose}
                 className={classes.cancelButton}
+                testId="cancel-share-file"
               >
                 <Trans>Cancel</Trans>
               </Button>
@@ -361,6 +369,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
                   ? !destinationBucket?.id
                   : !sharedFolderName || !!nameError
                 }
+                testId={keepOriginalFile ? "copy-over" : "move-over"}
               >
                 {keepOriginalFile
                   ? <Trans>Copy over</Trans>

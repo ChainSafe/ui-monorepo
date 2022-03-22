@@ -11,7 +11,7 @@ export const sharedPage = {
   createSharedFolderButton: () => cy.get("[data-cy=button-create-a-shared-folder]"),
   sharedFolderItemRow: () => cy.get("[data-cy=row-shared-folder-item]", { timeout: 20000 }),
   sharedFolderIcon: () => cy.get("[data-cy=cell-shared-folder-icon]"),
-  sharedFolderItemName: () => cy.get("[data-cy=cell-shared-folder-item-name]"),
+  sharedFolderItemName: () => cy.get("[data-cy=cell-shared-folder-item-name]", { timeout: 10000 }),
   shareOwnerCell: () => cy.get("[data-cy=cell-share-owner]"),
   sharedWithCell: () => cy.get("[data-cy=cell-shared-with]"),
   sharedFolderSizeCell: () => cy.get("[data-cy=cell-shared-folder-size]"),
@@ -30,7 +30,7 @@ export const sharedPage = {
     createSharedFolderModal.body().should("be.visible")
     createSharedFolderModal.folderNameInput().type(sharedFolderName)
     createSharedFolderModal.createButton().safeClick()
-    editSharedFolderModal.cancelButton().safeClick()
+    editSharedFolderModal.closeButton().safeClick()
     editSharedFolderModal.body().should("not.exist")
     sharedPage.sharedFolderItemRow().should("have.length", 1)
   }
