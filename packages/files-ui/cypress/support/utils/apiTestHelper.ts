@@ -55,10 +55,10 @@ export const apiTestHelper = {
             }
 
             resolve()
-          } catch (e){
-            cy.log("Something wrong happened during the subscription cancelation")
-            console.log(e)
+          } catch (e: any){
+            console.error(e)
             reject(e)
+            throw new Error("Something wrong happened during the subscription cancelation")
           }
         })
     })
@@ -132,6 +132,7 @@ export const apiTestHelper = {
         } catch(e){
           console.error(e)
           reject(e)
+          throw new Error("Something wrong happened when creating a folder")
         }
 
         navigationMenu.binNavButton().click()
