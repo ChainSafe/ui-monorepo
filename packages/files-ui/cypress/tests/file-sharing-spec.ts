@@ -225,17 +225,17 @@ describe("File Sharing", () => {
       shareSuccessToast.closeButton().click()
       editSharedFolderModal.closeButton().click()
 
-      // ensure the file did not remain in the drive after copying
+      // ensure the file did not remain in the drive after moving
       homePage.fileItemRow().should("have.length", 0)
 
-      // go to the new share and ensure the file was copied there
+      // go to the new share and ensure the file was moved there
       navigationMenu.sharedNavButton().click()
       sharedPage.sharedFolderItemName().contains(sharedFolderName)
         .should("be.visible")
         .dblclick()
       sharedPage.fileItemRow().should("have.length", 1)
 
-      // ensure file name of copied file is correct
+      // ensure file name of moved file is correct
       cy.get("@fileName").then(($fileName) => {
         sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
       })
@@ -302,17 +302,17 @@ describe("File Sharing", () => {
       shareSuccessToast.body().should("be.visible")
       shareSuccessToast.closeButton().click()
 
-      // ensure file was deleted from drive after copying
+      // ensure file was deleted from drive after moving
       homePage.fileItemRow().should("have.length", 0)
 
-      // go to the new share and ensure file was copied there
+      // go to the new share and ensure file was moved there
       navigationMenu.sharedNavButton().click()
       sharedPage.sharedFolderItemName().contains(sharedFolderName)
         .should("be.visible")
         .dblclick()
       sharedPage.fileItemRow().should("have.length", 1)
 
-      // ensure file name of copied file is correct
+      // ensure file name of moved file is correct
       cy.get("@fileName").then(($fileName) => {
         sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
       })
