@@ -42,7 +42,7 @@ const FormikTextInput = React.forwardRef(
         placeholder={placeholder}
         captionMessage={meta.error || captionMessage}
         state={meta.error ? "error" : undefined}
-        onChange={helpers.setValue}
+        onChange={(v) => helpers.setValue(v)}
         autoFocus={autoFocus}
         ref={forwardedRef}
         {...rest}

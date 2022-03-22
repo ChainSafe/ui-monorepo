@@ -396,7 +396,7 @@ export interface ITextInputProps
   inputVariant?: "default" | "minimal"
   size?: "large" | "medium" | "small"
   captionMessage?: string | ReactNode
-  onChange?: (value?: string | number) => void
+  onChange?: (value?: string | number, e?: React.ChangeEvent<HTMLInputElement>) => void
   type?: "text" | "email" | "password" | "url" | "search"
   autoFocus?: boolean
 }
@@ -469,7 +469,7 @@ const TextInput = React.forwardRef(
             name={name}
             value={value}
             placeholder={placeholder}
-            onChange={(e) => onChange && onChange(e.target.value)}
+            onChange={(e) => onChange && onChange(e.target.value, e)}
             autoFocus={autoFocus}
             ref={forwardedRef}
             {...rest}
