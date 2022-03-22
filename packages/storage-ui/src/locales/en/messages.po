@@ -424,9 +424,6 @@ msgstr "One sec, getting files ready..."
 msgid "Only send the exact amount of {0} to this address"
 msgstr "Only send the exact amount of {0} to this address"
 
-msgid "Oops! You need to pay for this month to upload more content."
-msgstr "Oops! You need to pay for this month to upload more content."
-
 msgid "Open on Gateway"
 msgstr "Open on Gateway"
 
@@ -741,6 +738,9 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+
+msgid "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
+msgstr "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
 
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
