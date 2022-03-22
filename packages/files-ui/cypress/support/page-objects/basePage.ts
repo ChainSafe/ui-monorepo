@@ -5,6 +5,14 @@ export const basePage = {
   searchInput: () => cy.get("[data-testid=input-search-bar]"),
   signOutDropdown: () => cy.get("[data-testid=dropdown-title-sign-out-dropdown]"),
   signOutMenuOption: () => cy.get("[data-cy=menu-sign-out]"),
+  notificationButton: () => cy.get("[data-testid=dropdown-title-notifications]"),
+  notificationsHeader: () => cy.get("[data-cy=label-notifications-header]"),
+  notificationsThisWeekHeader: () => cy.get("[data-cy=label-notifications-this-week]"),
+  notificationsOlderHeader: () => cy.get("[data-cy=label-notifications-older]"),
+  notificationContainer: () => cy.get("[data-cy=container-notification]"),
+  notificationTitle: () => cy.get("[data-cy=label-notification-title]"),
+  notificationTime: () => cy.get("[data-cy=label-notification-time]"),
+
   // Mobile view only element
   hamburgerMenuButton: () => cy.get("[data-testid=icon-hamburger-menu]"),
 
