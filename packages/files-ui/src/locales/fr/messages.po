@@ -623,9 +623,6 @@ msgstr "Les fichiers sont presque prêts…"
 msgid "Only send the exact amount of {0} to this address"
 msgstr "N'envoyez que la somme exacte de {0} à cette adresse"
 
-msgid "Oops! You need to pay for this month to upload more content."
-msgstr "Oups ! Vous devez payer pour ce mois-ci pour ajouter plus de contenu."
-
 msgid "Operating system:"
 msgstr "Système d’exploitation :"
 
@@ -1144,6 +1141,9 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr "Vous avez un paiement en retard. Tant qu'il n'a pas été réglé, l'accès à votre compte a été restreint"
+
+msgid "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
+msgstr ""
 
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr "Votre contenu dépasse la capacité de stockage de {planStorageCapacity} de cette formule."
