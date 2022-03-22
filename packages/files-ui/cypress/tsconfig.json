@@ -4,7 +4,8 @@
       "target": "es5",
       "jsx": "react",
       "lib": ["es5", "dom"],
-      "types": ["cypress",  "cypress-file-upload"]
+      "types": ["cypress",  "cypress-file-upload"],
+      "esModuleInterop": true,  
     },
     "include": ["**/*.ts"]
   }

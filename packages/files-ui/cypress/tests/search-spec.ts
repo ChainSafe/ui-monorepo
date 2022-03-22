@@ -37,12 +37,12 @@ describe("Search", () => {
       cy.go("back")
 
       // search for a specific file, ensure only 1 result is found
-      cy.get("@fileName").then(($fileName) => {
-        homePage.searchInput().type(`{selectall}{del}${$fileName}{enter}`)
+      cy.get<string>("@fileName").then((fileName) => {
+        homePage.searchInput().type(`{selectall}{del}${fileName}{enter}`)
         searchPage.fileItemRow()
           .should("be.visible")
           .should("have.length", 1)
-        searchPage.fileItemName().should("contain.text", $fileName)
+        searchPage.fileItemName().should("contain.text", fileName)
       })
     })
 

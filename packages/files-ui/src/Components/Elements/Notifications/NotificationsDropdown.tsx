@@ -93,6 +93,7 @@ const NotificationsDropdown = () => {
       autoclose
       classNames={{ options: classes.optionsOpen }}
       onClose={() => setIsActive(false)}
+      testId="notifications"
     >
       <div
         className={clsx(classes.notificationsButton, isActive && "active")}

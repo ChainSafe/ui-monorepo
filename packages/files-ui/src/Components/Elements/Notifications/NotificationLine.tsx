@@ -39,11 +39,13 @@ const NotificationLine = ({ notification }: Props) => {
   return <div
     className={classes.notificationBody}
     onClick={notification.onClick}
+    data-cy="container-notification"
   >
     <Typography
       variant="body2"
       className={classes.notificationTitle}
       component="p"
+      data-cy="label-notification-title"
     >
       {notification.title}
     </Typography>
@@ -51,6 +53,7 @@ const NotificationLine = ({ notification }: Props) => {
       variant="body2"
       className={classes.notificationTime}
       component="p"
+      data-cy="label-notification-time"
     >
       {dayjs.unix(notification.createdAt).fromNow()}
     </Typography>

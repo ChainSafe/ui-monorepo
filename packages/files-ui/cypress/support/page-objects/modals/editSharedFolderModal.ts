@@ -1,6 +1,6 @@
 export const editSharedFolderModal = {
   body: () => cy.get("[data-testid=modal-container-edit-shared-folder]", { timeout: 10000 }),
-  cancelButton: () => cy.get("[data-cy=button-cancel-create-shared-folder]"),
+  closeButton: () => cy.get("[data-cy=button-close-manage-shared-folder]"),
   createButton: () => cy.get("[data-cy=button-create-shared-folder]", { timeout: 10000 }),
   editPermissionInput: () => cy.get("[data-cy=input-edit-permission]"),
   folderNameInput: () => cy.get("[data-cy=input-shared-folder-name]"),

@@ -23,24 +23,24 @@ describe("File Preview", () => {
       previewModal.body().should("exist")
 
       // ensure the correct file is being previewed
-      cy.get("@fileNameA").then(($fileNameA) => {
-        previewModal.fileNameLabel().should("contain.text", $fileNameA)
+      cy.get<string>("@fileNameA").then((fileNameA) => {
+        previewModal.fileNameLabel().should("contain.text", fileNameA)
         previewModal.contentContainer().should("be.visible")
         previewModal.unsupportedFileLabel().should("not.exist")
       })
 
       // browse to the next file 
       previewModal.nextFileButton().click()
-      cy.get("@fileNameB").then(($fileNameB) => {
-        previewModal.fileNameLabel().should("contain.text", $fileNameB)
+      cy.get<string>("@fileNameB").then((fileNameB) => {
+        previewModal.fileNameLabel().should("contain.text", fileNameB)
         previewModal.contentContainer().should("be.visible")
         previewModal.unsupportedFileLabel().should("not.exist")
       })
 
       // return to the previous file
       previewModal.previousFileButton().click()
-      cy.get("@fileNameA").then(($fileNameA) => {
-        previewModal.fileNameLabel().should("contain.text", $fileNameA)
+      cy.get<string>("@fileNameA").then((fileNameA) => {
+        previewModal.fileNameLabel().should("contain.text", fileNameA)
         previewModal.contentContainer().should("be.visible")
         previewModal.unsupportedFileLabel().should("not.exist")
       })
@@ -71,8 +71,8 @@ describe("File Preview", () => {
       previewModal.body().should("exist")
 
       // ensure the correct file is being previewed
-      cy.get("@fileNameA").then(($fileNameA) => {
-        previewModal.fileNameLabel().should("contain.text", $fileNameA)
+      cy.get<string>("@fileNameA").then((fileNameA) => {
+        previewModal.fileNameLabel().should("contain.text", fileNameA)
         previewModal.contentContainer()
           .should("be.visible")
           .should("not.have.text", "Loading preview")
@@ -81,8 +81,8 @@ describe("File Preview", () => {
 
       // browse to the 2nd file via the right arrow key
       cy.get("body").type("{rightarrow}")
-      cy.get("@fileNameB").then(($fileNameB) => {
-        previewModal.fileNameLabel().should("contain.text", $fileNameB)
+      cy.get<string>("@fileNameB").then((fileNameB) => {
+        previewModal.fileNameLabel().should("contain.text", fileNameB)
         previewModal.contentContainer()
           .should("be.visible")
           .should("not.have.text", "Loading preview")
@@ -91,8 +91,8 @@ describe("File Preview", () => {
 
       // browse to the 3rd file via the right arrow key
       cy.get("body").type("{rightarrow}")
-      cy.get("@fileNameC").then(($fileNameC) => {
-        previewModal.fileNameLabel().should("contain.text", $fileNameC)
+      cy.get<string>("@fileNameC").then((fileNameC) => {
+        previewModal.fileNameLabel().should("contain.text", fileNameC)
         previewModal.contentContainer()
           .should("be.visible")
           .should("not.have.text", "Loading preview")
@@ -101,8 +101,8 @@ describe("File Preview", () => {
 
       // return to the 2nd file via the left arrow key
       cy.get("body").type("{leftarrow}")
-      cy.get("@fileNameB").then(($fileNameB) => {
-        previewModal.fileNameLabel().should("contain.text", $fileNameB)
+      cy.get<string>("@fileNameB").then((fileNameB) => {
+        previewModal.fileNameLabel().should("contain.text", fileNameB)
         previewModal.contentContainer()
           .should("be.visible")
           .should("not.have.text", "Loading preview")
@@ -111,8 +111,8 @@ describe("File Preview", () => {
 
       // return to the 1st file via the left arrow key
       cy.get("body").type("{leftarrow}")
-      cy.get("@fileNameA").then(($fileNameA) => {
-        previewModal.fileNameLabel().should("contain.text", $fileNameA)
+      cy.get<string>("@fileNameA").then((fileNameA) => {
+        previewModal.fileNameLabel().should("contain.text", fileNameA)
         previewModal.contentContainer()
           .should("be.visible")
           .should("not.have.text", "Loading preview")
