@@ -7,6 +7,8 @@ import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
 import AddCIDModal from "../Modules/AddCIDModal"
 import { PinStatus } from "@chainsafe/files-api-client"
+import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
+import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 
 export const desktopGridSettings = "3fr 180px 120px 120px 140px 70px !important"
@@ -57,6 +59,7 @@ type SortDirection = "ascend" | "descend"
 const CidsPage = () => {
   const classes = useStyles()
   const { pins } = useStorage()
+  const { accountRestricted } = useStorageApi()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
   const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
   const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
@@ -114,6 +117,7 @@ const CidsPage = () => {
               onClick={() => setAddCIDOpen(true)}
               variant="outline"
               size="large"
+              disabled={accountRestricted}
             >
               <PlusIcon />
               <span>
@@ -186,6 +190,9 @@ const CidsPage = () => {
         close={() => setAddCIDOpen(false)}
         modalOpen={addCIDOpen}
       />
+      {accountRestricted &&
+        <RestrictedModeBanner />
+      }
     </>
   )
 }

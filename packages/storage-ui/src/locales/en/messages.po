@@ -46,6 +46,9 @@ msgstr "Accepted currencies"
 msgid "Access your billing history in settings or view your"
 msgstr "Access your billing history in settings or view your"
 
+msgid "Account is restricted"
+msgstr "Account is restricted"
+
 msgid "Add API Key"
 msgstr "Add API Key"
 
@@ -336,6 +339,9 @@ msgstr "Go  back"
 
 msgid "Go back"
 msgstr "Go back"
+
+msgid "Go to Payments"
+msgstr "Go to Payments"
 
 msgid "Have a question?"
 msgstr "Have a question?"
@@ -679,6 +685,9 @@ msgstr "Upload complete"
 msgid "Uploading {0} files"
 msgstr "Uploading {0} files"
 
+msgid "Uploads disabled"
+msgstr "Uploads disabled"
+
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
@@ -726,6 +735,12 @@ msgstr "You now have:"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+
+msgid "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
+msgstr "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
 
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
