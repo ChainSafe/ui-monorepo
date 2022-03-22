@@ -895,6 +895,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       onClick={() => setCreateFolderModalOpen(true)}
                       variant="outline"
                       size="large"
+                      disabled={accountRestricted}
                     >
                       <PlusCircleIcon />
                       <span className={classes.buttonWrap}>
@@ -906,6 +907,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       onClick={() => setIsUploadModalOpen(true)}
                       variant="outline"
                       size="large"
+                      disabled={accountRestricted}
                     >
                       <UploadIcon />
                       <span className={classes.buttonWrap}>
