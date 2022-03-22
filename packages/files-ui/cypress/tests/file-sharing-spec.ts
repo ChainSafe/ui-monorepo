@@ -200,8 +200,8 @@ describe("File Sharing", () => {
       sharedPage.fileItemRow().should("have.length", 1)
 
       // ensure file name of copied file is correct
-      cy.get("@fileName").then(($fileName) => {
-        sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
+      cy.get<string>("@fileName").then((fileName) => {
+        sharedPage.fileItemName().contains(fileName).should("be.visible")
       })
     })
 
@@ -236,8 +236,8 @@ describe("File Sharing", () => {
       sharedPage.fileItemRow().should("have.length", 1)
 
       // ensure file name of moved file is correct
-      cy.get("@fileName").then(($fileName) => {
-        sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
+      cy.get<string>("@fileName").then((fileName) => {
+        sharedPage.fileItemName().contains(fileName).should("be.visible")
       })
     })
 
@@ -274,8 +274,8 @@ describe("File Sharing", () => {
       sharedPage.fileItemRow().should("have.length", 1)
 
       // ensure file name of copied file is correct
-      cy.get("@fileName").then(($fileName) => {
-        sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
+      cy.get<string>("@fileName").then((fileName) => {
+        sharedPage.fileItemName().contains(fileName).should("be.visible")
       })
     })
 
@@ -313,8 +313,8 @@ describe("File Sharing", () => {
       sharedPage.fileItemRow().should("have.length", 1)
 
       // ensure file name of moved file is correct
-      cy.get("@fileName").then(($fileName) => {
-        sharedPage.fileItemName().contains(`${$fileName}`).should("be.visible")
+      cy.get<string>("@fileName").then((fileName) => {
+        sharedPage.fileItemName().contains(fileName).should("be.visible")
       })
     })
   })

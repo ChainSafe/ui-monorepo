@@ -58,9 +58,9 @@ describe("File management", () => {
       // create a folder 
       apiTestHelper.createFolder(folderPath)
 
-      cy.get("@fileName").then(($fileName) => {
+      cy.get<string>("@fileName").then((fileName) => {
         // select the file and move it to the folder
-        homePage.fileItemName().contains(`${$fileName}`)
+        homePage.fileItemName().contains(fileName)
           .should("be.visible")
           .click()
         homePage.moveSelectedButton().click()
@@ -79,10 +79,10 @@ describe("File management", () => {
           .should("be.visible")
           .dblclick()
         homePage.fileItemRow().should("have.length", 1)
-        homePage.fileItemName().should("contain.text", $fileName)
+        homePage.fileItemName().should("contain.text", fileName)
 
         // move the file back to the home root
-        homePage.fileItemName().contains(`${$fileName}`)
+        homePage.fileItemName().contains(fileName)
           .should("be.visible")
           .click()
         homePage.moveSelectedButton().click()
@@ -98,10 +98,10 @@ describe("File management", () => {
           .should("be.visible")
           .should("have.length", 2)
         homePage.fileItemName().should("contain.text", folderName)
-        homePage.fileItemName().should("contain.text", $fileName)
+        homePage.fileItemName().should("contain.text", fileName)
 
         // ensure file already in the root cannot be moved to Home
-        homePage.fileItemName().contains(`${$fileName}`)
+        homePage.fileItemName().contains(fileName)
           .should("be.visible")
           .click()
         homePage.moveSelectedButton().click()
@@ -259,8 +259,8 @@ describe("File management", () => {
       binPage.fileItemName().invoke("text").as("binFile")
 
       // ensure file in bin matches the name of the deleted file
-      cy.get("@originalFile").then(($originalFile) => {
-        cy.get("@binFile").should("equals", $originalFile)
+      cy.get<string>("@originalFile").then((originalFile) => {
+        cy.get("@binFile").should("equals", originalFile)
       })
 
       // recover the file via the menu option
@@ -281,8 +281,8 @@ describe("File management", () => {
       binPage.fileItemRow().should("have.length", 1)
 
       // ensure file moved from the bin matches the name of the recovered file
-      cy.get("@recoveredFile").then(($recoveredFile) => {
-        cy.get("@binFile").should("equals", $recoveredFile)
+      cy.get<string>("@recoveredFile").then((recoveredFile) => {
+        cy.get("@binFile").should("equals", recoveredFile)
       })
 
       // permanently delete the file
@@ -437,12 +437,12 @@ describe("File management", () => {
       // return home and ensure both of the files were recovered
       navigationMenu.homeNavButton().click()
 
-      cy.get("@fileNameA").then(($fileNameA) => {
-        homePage.fileItemName().should("contain.text", $fileNameA)
+      cy.get<string>("@fileNameA").then((fileNameA) => {
+        homePage.fileItemName().should("contain.text", fileNameA)
       })
 
-      cy.get("@fileNameB").then(($fileNameB) => {
-        homePage.fileItemName().should("contain.text", $fileNameB)
+      cy.get<string>("@fileNameB").then((fileNameB) => {
+        homePage.fileItemName().should("contain.text", fileNameB)
       })
     })
   })
