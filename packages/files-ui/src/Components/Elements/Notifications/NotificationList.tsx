@@ -78,6 +78,7 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
             <Typography
               variant="h3"
               component="p"
+              data-cy="label-notifications-header"
             >
               <Trans>Notifications</Trans>
             </Typography>
@@ -88,6 +89,7 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
               variant="h5"
               component="p"
               className={classes.timeHeader}
+              data-cy="label-notifications-this-week"
             >
               <Trans>This week</Trans>
             </Typography>
@@ -102,6 +104,7 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
               variant="h5"
               component="p"
               className={classes.timeHeader}
+              data-cy="label-notifications-older"
             >
               <Trans>Older notifications</Trans>
             </Typography>
