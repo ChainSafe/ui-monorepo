@@ -619,6 +619,9 @@ msgstr ""
 msgid "Only send the exact amount of {0} to this address"
 msgstr ""
 
+msgid "Only with annual billing"
+msgstr ""
+
 msgid "Operating system:"
 msgstr "Operativsystem:"
 
@@ -1008,6 +1011,9 @@ msgstr "Prøv igjen"
 
 msgid "Try another method"
 msgstr "Prøv annen metode"
+
+msgid "USDC, DAI, BTC, or ETH"
+msgstr ""
 
 msgid "Update"
 msgstr "Oppdater"

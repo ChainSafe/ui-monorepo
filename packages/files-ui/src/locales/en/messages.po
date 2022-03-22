@@ -622,6 +622,9 @@ msgstr "One sec, getting files ready…"
 msgid "Only send the exact amount of {0} to this address"
 msgstr "Only send the exact amount of {0} to this address"
 
+msgid "Only with annual billing"
+msgstr "Only with annual billing"
+
 msgid "Operating system:"
 msgstr "Operating system:"
 
@@ -1011,6 +1014,9 @@ msgstr "Try again"
 
 msgid "Try another method"
 msgstr "Try another method"
+
+msgid "USDC, DAI, BTC, or ETH"
+msgstr "USDC, DAI, BTC, or ETH"
 
 msgid "Update"
 msgstr "Update"
