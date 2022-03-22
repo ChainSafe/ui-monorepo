@@ -167,7 +167,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       addToast({
         type:"error",
         title: t`Uploads disabled`,
-        subtitle: t`Oops! You need to pay for this month to upload more content.`
+        subtitle: t`Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content.`
       })
       return
     }
