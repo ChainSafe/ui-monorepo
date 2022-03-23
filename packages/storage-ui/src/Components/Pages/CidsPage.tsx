@@ -11,8 +11,8 @@ import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 
-export const desktopGridSettings = "3fr 180px 120px 120px 140px 70px !important"
-export const mobileGridSettings = "3fr 180px 120px 120px 140px 70px !important"
+export const desktopGridSettings = "2fr 3fr 180px 110px 80px 20px 70px !important"
+export const mobileGridSettings = "2fr 3fr 180px 110px 80px 20px 70px !important"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
@@ -53,7 +53,7 @@ const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =
   })
 )
 
-type SortColumn = "size" | "date_uploaded"
+type SortColumn = "size" | "date_uploaded" | "name"
 type SortDirection = "ascend" | "descend"
 
 const CidsPage = () => {
@@ -86,6 +86,10 @@ const CidsPage = () => {
     switch (sortColumn) {
       case "size": {
         temp = pins.sort((a, b) => (a.info?.size < b.info?.size ? -1 : 1))
+        break
+      }
+      case "name": {
+        temp = pins.sort((a, b) => a.pin.name?.localeCompare(b.pin.name || "") || 0)
         break
       }
       default: {
@@ -137,6 +141,16 @@ const CidsPage = () => {
               type="grid"
               className={classes.tableRow}
             >
+              <TableHeadCell
+                data-cy="table-header-name"
+                sortButtons={true}
+                align="center"
+                onSortChange={() => handleSortToggle("name")}
+                sortDirection={sortColumn === "name" ? sortDirection : undefined}
+                sortActive={sortColumn === "name"}
+              >
+                <Trans>Name</Trans>
+              </TableHeadCell>
               <TableHeadCell
                 data-cy="table-header-cid"
                 sortButtons={false}
