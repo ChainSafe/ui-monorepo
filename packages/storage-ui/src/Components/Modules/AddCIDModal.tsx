@@ -164,7 +164,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
             <Trans>Pin a CID</Trans>
           </Typography>
           <TextInput
-            label={t`Name`}
+            label={t`Name (optional)`}
             placeholder="Cute cat image"
             className={classes.cidInput}
             labelClassName={classes.inputLabel}
