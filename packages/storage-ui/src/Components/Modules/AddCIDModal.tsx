@@ -8,22 +8,21 @@ import { t, Trans } from "@lingui/macro"
 import { useStorage } from "../../Contexts/StorageContext"
 import { cidValidator } from "../../Utils/validationSchema"
 
-const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette }: CSSTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette, typography }: CSSTheme) =>
   createStyles({
     root: {
       padding: constants.generalUnit * 4,
       flexDirection: "column"
     },
     modalRoot: {
-      zIndex: zIndex?.blocker,
-      [breakpoints.down("md")]: {}
+      zIndex: zIndex?.blocker
     },
     modalInner: {
       backgroundColor: constants.createFolder.backgroundColor,
       color: constants.createFolder.color,
+      width: "100%",
       [breakpoints.down("md")]: {
-        bottom:
-        Number(constants?.mobileButtonHeight) + constants.generalUnit,
+        bottom: Number(constants?.mobileButtonHeight) + constants.generalUnit,
         borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
         borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         maxWidth: `${breakpoints.width("md")}px !important`
@@ -46,7 +45,9 @@ const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette }: CSSTh
     },
     heading: {
       color: constants.createFolder.color,
-      marginBottom: constants.generalUnit
+      fontWeight: typography.fontWeight.semibold,
+      textAlign: "center",
+      marginBottom: constants.generalUnit * 2
     },
     inputLabel: {
       fontSize: 14,
@@ -55,7 +56,8 @@ const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette }: CSSTh
     },
     cidInput: {
       margin: 0,
-      width: "100%"
+      width: "100%",
+      marginTop: constants.generalUnit * 2
     },
     errorText: {
       marginTop: constants.generalUnit * 1,
@@ -80,17 +82,20 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const [cidError, setCidError] = useState("")
   const [cid, setCid] = useState("")
   const [showWarning, setShowWarning] = useState(false)
+  const [name, setName] = useState("")
 
   const onClose = useCallback(() => {
     setCid("")
     setShowWarning(false)
     setCidError("")
+    setName("")
     close()
   }, [close])
 
   const onSubmit = useCallback(() => {
     setAccessingCID(true)
-    addPin(cid)
+    if (!cid) return
+    addPin(cid, name)
       .then(() => {
         onClose()
       })
@@ -101,7 +106,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
         refreshPins()
         setAccessingCID(false)
       })
-  }, [addPin, cid, onClose, refreshPins])
+  }, [addPin, cid, name, onClose, refreshPins])
 
   useEffect(() => {
     if (!cid) return
@@ -129,6 +134,10 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
     setCid(cid?.toString().trim() || "")
   }, [])
 
+  const onNameChange = useCallback((name?: string | number) => {
+    setName(name?.toString().trim() || "")
+  }, [])
+
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -147,14 +156,31 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
           sm={12}
           className={classes.input}
         >
+          <Typography
+            className={classes.heading}
+            variant="h5"
+            component="h5"
+          >
+            <Trans>Pin a CID</Trans>
+          </Typography>
           <TextInput
-            label={t`Paste the CID to pin it with ChainSafe Storage`}
+            label={t`Name (optional)`}
+            placeholder="Cute cat image"
+            className={classes.cidInput}
+            labelClassName={classes.inputLabel}
+            size="large"
+            value={name}
+            autoFocus
+            onChange={onNameChange}
+            data-cy="input-name"
+          />
+          <TextInput
+            label={t`CID to pin`}
             placeholder="QmNbbf...dps2Xw"
             className={classes.cidInput}
             labelClassName={classes.inputLabel}
             size="large"
             value={cid}
-            autoFocus
             onChange={onCidChange}
             state={cidError ? "error" : showWarning ?  "warning" : "normal"}
             data-cy="input-cid"
