@@ -417,7 +417,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             size="large"
             variant="outline"
             type="button"
-            data-cy="button-cancel-create-shared-folder"
+            data-cy="button-close-manage-shared-folder"
           >
             <Trans>Close</Trans>
           </CustomButton>
