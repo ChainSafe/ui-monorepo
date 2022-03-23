@@ -83,8 +83,15 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles } = useFiles()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
+  const { storageSummary } = useFiles()
 
-  const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
+  const UploadSchema = object().shape({ files: array()
+    .required(t`Please select a file to upload`) })
+    .test(
+      "UploadExceedsCapacity",
+      t`File size exceeds available storage`,
+      (val) => val.files?.reduce((total: number, file: File) => total += file.size, 0) > (storageSummary?.available_storage || 0)
+    )
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
