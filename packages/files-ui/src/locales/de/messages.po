@@ -619,6 +619,9 @@ msgstr ""
 msgid "Only send the exact amount of {0} to this address"
 msgstr ""
 
+msgid "Only with annual billing"
+msgstr ""
+
 msgid "Operating system:"
 msgstr "Betriebssystem:"
 
@@ -1008,6 +1011,9 @@ msgstr "Erneut versuchen"
 
 msgid "Try another method"
 msgstr "Eine andere Methode versuchen"
+
+msgid "USDC, DAI, BTC, or ETH"
+msgstr ""
 
 msgid "Update"
 msgstr "Aktualisieren"
