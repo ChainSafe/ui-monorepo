@@ -388,6 +388,9 @@ msgstr "Move to..."
 msgid "Name"
 msgstr "Name"
 
+msgid "Name (optional)"
+msgstr "Name (optional)"
+
 msgid "New Key"
 msgstr "New Key"
 
