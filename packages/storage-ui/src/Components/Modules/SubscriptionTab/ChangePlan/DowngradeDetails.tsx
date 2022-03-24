@@ -122,7 +122,7 @@ const DowngradeDetails = ({
   const { currentSubscription, cancelCurrentSubscription, invoices } = useBilling()
   const currentStorage = formatBytes(Number(currentSubscription?.product?.price.metadata?.storage_size_bytes), 2)
   const [isCancelingPlan, setIsCancellingPlan] = useState(false)
-  const lastInvoicePaymentMethod = invoices && invoices[invoices.length - 1].payment_method
+  const lastInvoicePaymentMethod = invoices?.length && invoices[invoices.length - 1].payment_method
 
   const onCancelPlan = useCallback(() => {
     setIsCancellingPlan(true)

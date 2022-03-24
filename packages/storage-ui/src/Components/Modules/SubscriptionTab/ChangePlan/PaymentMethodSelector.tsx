@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSSTheme } from "../../../../Themes/types"
 import { Button, Divider, RadioInput, Typography } from "@chainsafe/common-components"
@@ -88,6 +88,7 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
   const [paymentMethod, setPaymentMethod] = useState<"creditCard" | "crypto" | undefined>()
   const [isCardFormOpen, setIsCardFormOpen] = useState(false)
   const { defaultCard } = useBilling()
+  const isMonthlyPayment = useMemo(() => selectedProductPrice.recurring.interval === "month", [selectedProductPrice])
 
   useEffect(() => {
     if (defaultCard) {
@@ -138,15 +139,23 @@ const PaymentMethodSelector = ({ selectedProductPrice, goBack, onSelectPaymentMe
           </Typography>
         </div>
         <Divider className={classes.divider} />
-        <RadioInput
-          label="USDC, DAI, BTC, or ETH (Annual only)"
-          value="crypto"
-          onChange={() => setPaymentMethod("crypto")}
-          checked={paymentMethod === "crypto"}
-          labelClassName={classes.radioLabel}
-          disabled={selectedProductPrice.recurring.interval !== "year"}
-          testId="crypto"
-        />
+        <div className={classes.rowBox}>
+          <RadioInput
+            label={t`USDC, DAI, BTC, or ETH`}
+            value="crypto"
+            onChange={() => setPaymentMethod("crypto")}
+            checked={paymentMethod === "crypto"}
+            labelClassName={classes.radioLabel}
+            disabled={isMonthlyPayment}
+            testId="crypto"
+          />
+          {isMonthlyPayment && <Typography
+            variant="body1"
+            component="p"
+          >
+            <Trans>Only with annual billing</Trans>
+          </Typography>}
+        </div>
       </>
       }
       {isCardFormOpen && <div className={classes.addCardWrapper}>
