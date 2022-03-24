@@ -135,7 +135,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   }, [])
 
   const onNameChange = useCallback((name?: string | number) => {
-    setName(name?.toString().trim() || "")
+    setName(name?.toString() || "")
   }, [])
 
   return (
