@@ -256,7 +256,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
         // identified through the nonce. Manually refreshing the metadata cache solves this problem
         if (error.message.includes("nonce")) {
-          // await TKeySdk._syncShareMetadata()
           const { privKey } = await TKeySdk.reconstructKey(false)
           const privKeyString = privKey.toString("hex")
           if (privKeyString.length < 64) {
@@ -629,7 +628,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         "mnemonic"
       )) as string
       await TKeySdk.addShareDescription(
-        shareCreated.newShareIndex.toString("hex"), 
+        shareCreated.newShareIndex.toString("hex"),
         JSON.stringify({ module: SHARE_SERIALIZATION_MODULE_NAME }),
         true)
       const keyDetails = await TKeySdk.getKeyDetails()
