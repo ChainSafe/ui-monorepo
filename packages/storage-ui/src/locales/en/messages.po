@@ -124,6 +124,9 @@ msgstr "CID invalid"
 msgid "CID is required"
 msgstr "CID is required"
 
+msgid "CID to pin"
+msgstr "CID to pin"
+
 msgid "CIDs"
 msgstr "CIDs"
 
@@ -385,6 +388,9 @@ msgstr "Move to..."
 msgid "Name"
 msgstr "Name"
 
+msgid "Name (optional)"
+msgstr "Name (optional)"
+
 msgid "New Key"
 msgstr "New Key"
 
@@ -424,14 +430,11 @@ msgstr "One sec, getting files ready..."
 msgid "Only send the exact amount of {0} to this address"
 msgstr "Only send the exact amount of {0} to this address"
 
-msgid "Open on Gateway"
-msgstr "Open on Gateway"
+msgid "Only with annual billing"
+msgstr "Only with annual billing"
 
 msgid "Or using one of the following:"
 msgstr "Or using one of the following:"
-
-msgid "Paste the CID to pin it with ChainSafe Storage"
-msgstr "Paste the CID to pin it with ChainSafe Storage"
 
 msgid "Pay now"
 msgstr "Pay now"
@@ -459,6 +462,9 @@ msgstr "Pin"
 
 msgid "Pin CID"
 msgstr "Pin CID"
+
+msgid "Pin a CID"
+msgstr "Pin a CID"
 
 msgid "Plan changed successfully"
 msgstr "Plan changed successfully"
@@ -657,6 +663,9 @@ msgstr "Try again"
 
 msgid "Type"
 msgstr "Type"
+
+msgid "USDC, DAI, BTC, or ETH"
+msgstr "USDC, DAI, BTC, or ETH"
 
 msgid "Unpin"
 msgstr "Unpin"
