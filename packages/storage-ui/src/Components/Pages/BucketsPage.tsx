@@ -23,6 +23,7 @@ import { useCallback } from "react"
 import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
+import { Helmet } from "react-helmet-async"
 
 export const desktopGridSettings = "3fr 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 70px !important"
@@ -160,6 +161,9 @@ const BucketsPage = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Buckets - Chainsafe Storage</title>
+      </Helmet>
       <header
         className={classes.header}
         data-cy="header-buckets"

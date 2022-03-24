@@ -6,6 +6,7 @@ import { Trans } from "@lingui/macro"
 import InvoiceLines from "../Elements/InvoiceLines"
 import PayInvoiceModal from "../Modules/SubscriptionTab/PayInvoice/PayInvoiceModal"
 import { usePageTrack } from "../../Contexts/PosthogContext"
+import { Helmet } from "react-helmet-async"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints }: CSSTheme) =>
@@ -37,6 +38,9 @@ const BillingHistory = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Billing History - Chainsafe Storage</title>
+      </Helmet>
       <Typography
         className={classes.heading}
         variant="h1"

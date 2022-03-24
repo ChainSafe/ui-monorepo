@@ -17,6 +17,7 @@ import ApiKeys from "../Modules/ApiKeys"
 import { useBilling } from "../../Contexts/BillingContext"
 import SubscriptionTab from "../Modules/SubscriptionTab"
 import { usePageTrack } from "../../Contexts/PosthogContext"
+import { Helmet } from "react-helmet-async"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -139,6 +140,9 @@ const SettingsPage: React.FC = () => {
 
   return (
     <div className={classes.container}>
+      <Helmet>
+        <title>Settings - Chainsafe Storage</title>
+      </Helmet>
       <div className={classes.headerContainer}>
         <Typography
           variant="h1"
