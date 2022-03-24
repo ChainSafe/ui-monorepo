@@ -254,7 +254,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
         // identified through the nonce. Manually refreshing the metadata cache solves this problem
         if (error.message.includes("nonce")) {
-          await TKeySdk._syncShareMetadata()
+          // await TKeySdk._syncShareMetadata()
           const { privKey } = await TKeySdk.reconstructKey(false)
           const privKeyString = privKey.toString("hex")
           if (privKeyString.length < 64) {
@@ -360,8 +360,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         console.log("Share transfer request created. Starting request status poller")
         shareEncPubKeyX = currentEncPubKeyX
         await shareTransferModule.startRequestStatusCheck(currentEncPubKeyX, true)
-        const resultKey = await TKeySdk?.getKeyDetails()
-        await TKeySdk.syncLocalMetadataTransitions()
+        await TKeySdk.reconstructKey()
+        const resultKey = TKeySdk?.getKeyDetails()
+
         setKeyDetails(resultKey)
         shareEncPubKeyX = undefined
       } catch (error) {
@@ -664,7 +665,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
     try {
       const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
-      await TKeySdk._syncShareMetadata()
+      await TKeySdk.initialize() // should reinitialize internally
+      await TKeySdk.reconstructKey()
+
       const newDeviceShare = await TKeySdk.generateNewShare()
       const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
 
@@ -684,9 +687,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
     try {
       const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
-      await shareTransferModule.approveRequest(encPubKeyX)
-      await TKeySdk._syncShareMetadata()
-      const newKeyDetails = await TKeySdk.getKeyDetails()
+      const result = await TKeySdk.generateNewShare()
+      await shareTransferModule.approveRequest(encPubKeyX, result.newShareStores[result.newShareIndex.toString("hex")])
+      const newKeyDetails = TKeySdk.getKeyDetails()
       setKeyDetails(newKeyDetails)
     } catch (e) {
       console.error(e)
