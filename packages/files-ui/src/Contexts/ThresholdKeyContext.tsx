@@ -157,8 +157,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     ...bs,
     ...bowser.parse(bs.userAgent)
   } as BrowserShare)), [parsedShares])
-  const hasMnemonicShare = useMemo(() => (keyDetails && (keyDetails.totalShares - parsedShares.length > 1)) || false,
-    [keyDetails, parsedShares.length])
+
+  const hasMnemonicShare = useMemo(() => parsedShares.filter((s) => s.module === SHARE_SERIALIZATION_MODULE_NAME).length > 0,
+    [parsedShares])
+
   const hasPasswordShare = useMemo(() => parsedShares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0,
     [parsedShares])
 
@@ -626,6 +628,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         requiredShareStore.share.share,
         "mnemonic"
       )) as string
+      await TKeySdk.addShareDescription(
+        shareCreated.newShareIndex.toString("hex"), 
+        JSON.stringify({ module: SHARE_SERIALIZATION_MODULE_NAME }),
+        true)
       const keyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(keyDetails)
       return result
