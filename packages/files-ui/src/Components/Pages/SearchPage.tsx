@@ -8,7 +8,7 @@ const SearchPage = () => {
 
   return <>
     <Helmet>
-      <title>Search - Chainsafe Files</title>
+      <title>Search results- Chainsafe Files</title>
     </Helmet>
     <SearchFileBrowser />
   </>
