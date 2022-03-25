@@ -103,7 +103,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
         console.error(e)
       })
       .finally(() => {
-        refreshPins()
+        refreshPins(undefined)
         setAccessingCID(false)
       })
   }, [addPin, cid, name, onClose, refreshPins])

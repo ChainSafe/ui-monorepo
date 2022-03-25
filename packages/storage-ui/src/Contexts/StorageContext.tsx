@@ -53,6 +53,11 @@ interface GetFileContentParams {
   path: string
 }
 
+interface RefreshPinParams {
+  searchedCid?: string
+  searchedName?: string
+}
+
 type StorageContext = {
   pins: PinStatus[]
   uploadsInProgress: UploadProgress[]
@@ -62,7 +67,7 @@ type StorageContext = {
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   addPin: (cid: string, name: string) => Promise<PinStatus>
-  refreshPins: () => void
+  refreshPins: (params?: RefreshPinParams) => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
   createBucket: (name: string) => Promise<void>
@@ -96,14 +101,16 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [storageApiClient])
 
-  const refreshPins = useCallback(() => {
+  const refreshPins = useCallback(({ searchedCid = undefined, searchedName = ""}: RefreshPinParams = {}) => {
     storageApiClient.listPins(
-      undefined,
-      undefined,
+      searchedCid ? [searchedCid] : undefined,
+      searchedName,
       ["queued", "pinning", "pinned", "failed"],
       undefined,
       undefined,
-      50
+      50,
+      undefined,
+      "partial"
     ).then((pins) =>  setPins(pins.results || []))
       .catch(console.error)
       .finally(() => getStorageSummary())
