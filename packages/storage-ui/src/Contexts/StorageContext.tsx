@@ -105,12 +105,11 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     storageApiClient.listPins(
       searchedCid ? [searchedCid] : undefined,
       searchedName,
+      "partial",
       ["queued", "pinning", "pinned", "failed"],
       undefined,
       undefined,
-      50,
-      undefined,
-      "partial"
+      50
     ).then((pins) =>  setPins(pins.results || []))
       .catch(console.error)
       .finally(() => getStorageSummary())
@@ -355,6 +354,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const searchCid = useCallback((cid: string) => {
     return storageApiClient.listPins(
       [cid],
+      undefined,
       undefined,
       ["queued", "pinning", "pinned", "failed"],
       undefined,
