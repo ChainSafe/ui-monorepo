@@ -160,8 +160,9 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       )
     }
   })), [arrayOfPaths, bucketId, redirect])
+
   const currentFolder = useMemo(() => {
-    return arrayOfPaths[arrayOfPaths.length - 1]
+    return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
   }, [arrayOfPaths])
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
