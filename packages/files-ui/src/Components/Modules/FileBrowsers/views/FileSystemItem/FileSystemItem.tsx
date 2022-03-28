@@ -524,7 +524,7 @@ const FileSystemItem = ({
                       className={classes.renameInput}
                       name="name"
                       placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
-                      autoFocus={editing === cid}
+                      autoFocus
                     />
                     {
                       !isFolder && extension !== ""  && (

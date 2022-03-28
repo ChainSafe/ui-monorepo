@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react"
+import React, { useCallback, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -7,6 +7,7 @@ import {
   formatBytes,
   FormikTextInput,
   IMenuItem,
+  Loading,
   MoreIcon,
   TableCell,
   TableRow,
@@ -104,6 +105,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     focusVisible: {
       backgroundColor: "transparent !important"
+    },
+    loadingIcon: {
+      marginLeft: constants.generalUnit,
+      verticalAlign: "middle"
     }
   })
 })
@@ -147,11 +152,9 @@ const FileSystemTableItem = React.forwardRef(
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
     const formRef = useRef(null)
+    const [isEditingLoading, setIsEditingLoading] = useState(false)
 
-    const {
-      fileName,
-      extension
-    } = useMemo(() => {
+    const { fileName, extension } = useMemo(() => {
       if (isFolder) {
         return {
           fileName : name,
@@ -178,10 +181,14 @@ const FileSystemTableItem = React.forwardRef(
       initialValues: { name: fileName },
       validationSchema: nameValidator,
       onSubmit: (values: { name: string }) => {
+
         const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
-        if (newName !== name) {
-          newName && handleRename && handleRename(file.cid, newName)
+        if (newName !== name && !!newName && handleRename) {
+          setIsEditingLoading(true)
+
+          handleRename(file.cid, newName)
+            .then(() => setIsEditingLoading(false))
         } else {
           stopEditing()
         }
@@ -194,7 +201,7 @@ const FileSystemTableItem = React.forwardRef(
       formik.resetForm()
     }, [formik, setEditing])
 
-    useOnClickOutside(formRef, stopEditing)
+    useOnClickOutside(formRef, formik.submitForm)
 
     return (
       <TableRow
@@ -230,7 +237,7 @@ const FileSystemTableItem = React.forwardRef(
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
           {...longPressEvents}
         >
-          {editing === cid && desktop
+          { editing === cid && desktop
             ? (
               <FormikProvider value={formik}>
                 <Form
@@ -252,7 +259,7 @@ const FileSystemTableItem = React.forwardRef(
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
-                    autoFocus={editing === cid}
+                    autoFocus
                   />
                   {
                     !isFolder && extension !== "" && (
@@ -264,14 +271,18 @@ const FileSystemTableItem = React.forwardRef(
                 </Form>
               </FormikProvider>
             )
-            : <Typography>{name}</Typography>}
+            : <>
+              <Typography>{name}</Typography>
+              {isEditingLoading && <Loading
+                className={classes.loadingIcon}
+                size={16}
+              />}
+            </>}
         </TableCell>
         {desktop && (
           <>
             <TableCell align="left">
-              {
-                !isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
-              }
+              {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
             </TableCell>
             <TableCell align="left">
               {!isFolder && formatBytes(size, 2)}
@@ -296,3 +307,4 @@ const FileSystemTableItem = React.forwardRef(
 FileSystemTableItem.displayName = "FileSystemTableItem"
 
 export default FileSystemTableItem
+
