@@ -97,6 +97,9 @@ msgstr "Are we on the right track? Let us know in less than 1 minute."
 msgid "Are you sure? This will delete your default payment method."
 msgstr "Are you sure? This will delete your default payment method."
 
+msgid "Billing History"
+msgstr "Billing History"
+
 msgid "Billing history"
 msgstr "Billing history"
 
@@ -156,9 +159,6 @@ msgstr "Check your inbox! We've sent another email."
 
 msgid "Cid"
 msgstr "Cid"
-
-msgid "Cids"
-msgstr "Cids"
 
 msgid "Click or drag to upload files"
 msgstr "Click or drag to upload files"
