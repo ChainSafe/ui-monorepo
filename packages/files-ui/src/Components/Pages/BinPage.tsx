@@ -2,6 +2,7 @@ import React from "react"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import BinFileBrowser from "../Modules/FileBrowsers/BinFileBrowser"
 import { Helmet } from "react-helmet-async"
+import { Trans } from "@lingui/macro"
 
 const BinPage = () => {
   usePageTrack()

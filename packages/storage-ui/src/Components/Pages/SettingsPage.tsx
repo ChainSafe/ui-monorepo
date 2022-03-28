@@ -141,7 +141,7 @@ const SettingsPage: React.FC = () => {
   return (
     <div className={classes.container}>
       <Helmet>
-        <title>Settings - Chainsafe Storage</title>
+        <title><Trans>Settings</Trans> - Chainsafe Storage</title>
       </Helmet>
       <div className={classes.headerContainer}>
         <Typography

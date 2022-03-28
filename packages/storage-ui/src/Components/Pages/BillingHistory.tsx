@@ -39,7 +39,7 @@ const BillingHistory = () => {
   return (
     <div className={classes.root}>
       <Helmet>
-        <title>Billing History - Chainsafe Storage</title>
+        <title><Trans>Billing History</Trans> - Chainsafe Storage</title>
       </Helmet>
       <Typography
         className={classes.heading}

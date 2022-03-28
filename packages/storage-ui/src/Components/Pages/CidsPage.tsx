@@ -104,7 +104,7 @@ const CidsPage = () => {
   return (
     <>
       <Helmet>
-        <title>CIDs - Chainsafe Storage</title>
+        <title><Trans>CIDs</Trans> - Chainsafe Storage</title>
       </Helmet>
       <div className={classes.root}>
         <header
