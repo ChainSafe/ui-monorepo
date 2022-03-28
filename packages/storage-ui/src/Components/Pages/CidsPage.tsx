@@ -116,7 +116,7 @@ const CidsPage = () => {
             component="h1"
           >
             <Trans>
-              Cids
+              CIDs
             </Trans>
           </Typography>
           <div className={classes.controls}>
