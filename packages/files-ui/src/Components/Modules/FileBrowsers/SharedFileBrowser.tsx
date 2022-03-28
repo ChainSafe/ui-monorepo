@@ -43,7 +43,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   }))
 
 const SharedFileBrowser = () => {
-  const { downloadFile, uploadFiles, buckets, getStorageSummary, refreshBuckets } = useFiles()
+  const { downloadFile, uploadFiles, buckets, getStorageSummary, refreshBuckets, storageSummary } = useFiles()
   const { filesApiClient, accountRestricted } = useFilesApi()
   const classes = useStyles()
   const { addToast } = useToasts()
@@ -201,11 +201,22 @@ const SharedFileBrowser = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
-    if (accountRestricted) {
+    if (accountRestricted && bucket.permission === "owner") {
       addToast({
         type:"error",
         title: t`Uploads disabled`,
         subtitle: t`Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content.`
+      })
+      return
+    }
+    const availableStorage = storageSummary?.available_storage || 0
+    const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
+
+    if (bucket.permission === "owner" && uploadSize > availableStorage) {
+      addToast({
+        type: "error",
+        title: t`Upload size exceeds plan capacity`,
+        subtitle: t`Please select fewer files to upload`
       })
       return
     }
@@ -214,7 +225,7 @@ const SharedFileBrowser = () => {
     paths.forEach(p => {
       uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
     })
-  }, [uploadFiles, bucket, accountRestricted, addToast])
+  }, [bucket, accountRestricted, storageSummary, addToast, uploadFiles])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],

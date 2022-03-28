@@ -95,7 +95,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
           const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
           return !(isOwner && uploadSize > availableStorage)
         })
-  }), [bucket?.permission, storageSummary?.available_storage])
+  }), [bucket, storageSummary])
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
