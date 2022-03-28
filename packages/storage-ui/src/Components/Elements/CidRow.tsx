@@ -81,7 +81,8 @@ const CidRow = ({ pinStatus }: Props) => {
       <TableCell
         className={classes.cid}
         align='left'
-        data-cy="cell-pin-name">
+        data-cy="cell-pin-name"
+      >
         {pinStatus.pin?.name || "-"}
       </TableCell>
       <TableCell
