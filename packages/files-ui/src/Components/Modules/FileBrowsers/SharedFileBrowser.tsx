@@ -89,7 +89,7 @@ const SharedFileBrowser = () => {
     })
   }), [arrayOfPaths, bucket, redirect])
   const currentFolder = useMemo(() => {
-    return arrayOfPaths[arrayOfPaths.length - 1]
+    return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
   }, [arrayOfPaths])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
