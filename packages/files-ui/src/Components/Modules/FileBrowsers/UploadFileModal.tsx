@@ -1,7 +1,7 @@
 import { Button, FileInput } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import { Formik, Form } from "formik"
 import { array, object } from "yup"
 import CustomModal from "../../Elements/CustomModal"
@@ -85,13 +85,17 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const { currentPath, refreshContents, bucket } = useFileBrowser()
   const { storageSummary } = useFiles()
 
-  const UploadSchema = object().shape({ files: array()
-    .required(t`Please select a file to upload`) })
-    .test(
-      "UploadExceedsCapacity",
-      t`File size exceeds available storage`,
-      (val) => val.files?.reduce((total: number, file: File) => total += file.size, 0) > (storageSummary?.available_storage || 0)
-    )
+  const UploadSchema = useMemo(() => object().shape({
+    files: array().required(t`Please select a file to upload`)
+      .test("Upload Size",
+        t`Upload size exceeds plan capacity`,
+        (files) => {
+          const isOwner = bucket?.permission === "owner"
+          const availableStorage = storageSummary?.available_storage || 0
+          const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
+          return !(isOwner && uploadSize > availableStorage)
+        })
+  }), [bucket?.permission, storageSummary?.available_storage])
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
@@ -99,6 +103,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
 
   const onSubmit = useCallback(async (values: {files: Array<File & {path: string}>}, helpers) => {
     if (!bucket) return
+
     helpers.setSubmitting(true)
     try {
       close()
@@ -113,7 +118,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
       console.error(error)
     }
     helpers.setSubmitting(false)
-  }, [close, currentPath, uploadFiles, refreshContents, bucket])
+  }, [bucket, close, refreshContents, uploadFiles, currentPath])
 
   return (
     <CustomModal
@@ -129,49 +134,51 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
         validationSchema={UploadSchema}
         onSubmit={onSubmit}
       >
-        <Form
-          data-cy="form-upload-file"
-          className={classes.root}
-        >
-          <FileInput
-            multiple={true}
-            className={classes.input}
-            classNames={{
-              closeIcon: classes.closeIcon,
-              filelist: classes.fileList,
-              item: classes.item,
-              addFiles: classes.addFiles
-            }}
-            label={t`Click or drag to upload files`}
-            moreFilesLabel={t`Add more files`}
-            maxSize={2 * 1024 ** 3}
-            name="files"
-            onFileNumberChange={onFileNumberChange}
-            testId="fileUpload"
-          />
-          <footer className={classes.footer}>
-            <Button
-              testId="cancel-upload"
-              onClick={close}
-              size="medium"
-              className={classes.cancelButton}
-              variant="outline"
-              type="reset"
-            >
-              <Trans>Cancel</Trans>
-            </Button>
-            <Button
-              testId="start-upload"
-              size="medium"
-              type="submit"
-              variant="primary"
-              className={clsx(classes.okButton, "wide")}
-              disabled={isDoneDisabled}
-            >
-              <Trans>Start Upload</Trans>
-            </Button>
-          </footer>
-        </Form>
+        {({ isValid }) => (
+          <Form
+            data-cy="form-upload-file"
+            className={classes.root}
+          >
+            <FileInput
+              multiple={true}
+              className={classes.input}
+              classNames={{
+                closeIcon: classes.closeIcon,
+                filelist: classes.fileList,
+                item: classes.item,
+                addFiles: classes.addFiles
+              }}
+              label={t`Click or drag to upload files`}
+              moreFilesLabel={t`Add more files`}
+              maxSize={2 * 1024 ** 3}
+              name="files"
+              onFileNumberChange={onFileNumberChange}
+              testId="fileUpload"
+            />
+            <footer className={classes.footer}>
+              <Button
+                testId="cancel-upload"
+                onClick={close}
+                size="medium"
+                className={classes.cancelButton}
+                variant="outline"
+                type="reset"
+              >
+                <Trans>Cancel</Trans>
+              </Button>
+              <Button
+                testId="start-upload"
+                size="medium"
+                type="submit"
+                variant="primary"
+                className={clsx(classes.okButton, "wide")}
+                disabled={isDoneDisabled || !isValid}
+              >
+                <Trans>Start Upload</Trans>
+              </Button>
+            </footer>
+          </Form>
+        )}
       </Formik>
     </CustomModal>
   )

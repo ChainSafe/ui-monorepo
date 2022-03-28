@@ -51,6 +51,9 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
     },
     error: {
       color: palette.error.main,
+      backgroundColor: palette.additional["gray"][3],
+      paddingLeft: 40,
+      paddingBottom: 4,
       ...overrides?.FileInput?.error
     },
     item: {
