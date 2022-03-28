@@ -37,7 +37,7 @@ const BillingHistory = () => {
   return (
     <>
       <Helmet>
-        <title>Billing history - Chainsafe Files</title>
+        <title><Trans>Billing history - Chainsafe Files</Trans></title>
       </Helmet>
       <div className={classes.root}>
         <Typography
