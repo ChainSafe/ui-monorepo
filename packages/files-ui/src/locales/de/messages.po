@@ -124,9 +124,6 @@ msgstr "Der Sicherungsgeheimsatz stimmt nicht mit dem Benutzerkonto überein, bi
 msgid "Billing history"
 msgstr ""
 
-msgid "Billing history - Chainsafe Files"
-msgstr ""
-
 msgid "Billing start time"
 msgstr ""
 
@@ -854,6 +851,9 @@ msgid "Shared folder name"
 msgstr ""
 
 msgid "Shared folders"
+msgstr ""
+
+msgid "Shared link"
 msgstr ""
 
 msgid "Shared with"
