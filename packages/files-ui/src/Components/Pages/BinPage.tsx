@@ -8,7 +8,7 @@ const BinPage = () => {
 
   return <>
     <Helmet>
-      <title>Bin - Chainsafe Files</title>
+      <title><Trans>Bin</Trans> - Chainsafe Files</title>
     </Helmet>
     <BinFileBrowser />
   </>
