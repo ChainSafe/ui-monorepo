@@ -124,6 +124,9 @@ msgstr "Der Sicherungsgeheimsatz stimmt nicht mit dem Benutzerkonto überein, bi
 msgid "Billing history"
 msgstr ""
 
+msgid "Billing history - Chainsafe Files"
+msgstr ""
+
 msgid "Billing start time"
 msgstr ""
 

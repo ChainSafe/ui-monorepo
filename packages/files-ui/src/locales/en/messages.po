@@ -124,6 +124,9 @@ msgstr "Backup secret phrase does not match user account, please double-check an
 msgid "Billing history"
 msgstr "Billing history"
 
+msgid "Billing history - Chainsafe Files"
+msgstr "Billing history - Chainsafe Files"
+
 msgid "Billing start time"
 msgstr "Billing start time"
 

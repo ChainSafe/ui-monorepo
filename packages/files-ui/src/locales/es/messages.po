@@ -125,6 +125,9 @@ msgstr ""
 msgid "Billing history"
 msgstr ""
 
+msgid "Billing history - Chainsafe Files"
+msgstr ""
+
 msgid "Billing start time"
 msgstr ""
 
