@@ -93,9 +93,11 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   }, [close])
 
   const onSubmit = useCallback(() => {
-    setAccessingCID(true)
     if (!cid) return
-    addPin(cid, name)
+    
+    setAccessingCID(true)
+
+    addPin(cid, name.trim())
       .then(() => {
         onClose()
       })
