@@ -125,8 +125,8 @@ msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et r
 msgid "Billing history"
 msgstr "Historique des facturations"
 
-msgid "Billing history - Chainsafe Files"
-msgstr ""
+#~ msgid "Billing history - Chainsafe Files"
+#~ msgstr ""
 
 msgid "Billing start time"
 msgstr "Début de la facturation"
@@ -859,6 +859,9 @@ msgstr "Nom du dossier partagé"
 
 msgid "Shared folders"
 msgstr "Dossiers partagés"
+
+msgid "Shared link"
+msgstr ""
 
 msgid "Shared with"
 msgstr "Partagé avec"
