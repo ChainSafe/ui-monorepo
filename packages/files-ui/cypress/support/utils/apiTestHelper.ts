@@ -4,7 +4,7 @@ import { BucketType } from "@chainsafe/files-api-client"
 import { navigationMenu } from "../page-objects/navigationMenu"
 import { homePage } from "../page-objects/homePage"
 
-const API_BASE_URL = "https://stage.imploy.site/api/v1"
+const API_BASE_URL = "https://stage-api.chainsafe.io/api/v1"
 const REFRESH_TOKEN_KEY = "csf.refreshToken"
 const FREE_PLAN_ID = "prod_JwRu6Ph25b1f2O"
 
