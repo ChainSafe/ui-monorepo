@@ -238,7 +238,7 @@ const FileSystemGridItem = React.forwardRef(
             <FormikProvider value={formik}>
               <Form
                 className={classes.desktopRename}
-                onBlur={stopEditing}
+                onBlur={formik.submitForm}
               >
                 <FormikTextInput
                   className={classes.renameInput}

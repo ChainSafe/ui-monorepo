@@ -290,7 +290,7 @@ const FileSystemTableItem = React.forwardRef(
               <FormikProvider value={formik}>
                 <Form
                   className={classes.desktopRename}
-                  onBlur={stopEditing}
+                  onBlur={formik.submitForm}
                   data-cy='form-rename'
                 >
                   <FormikTextInput

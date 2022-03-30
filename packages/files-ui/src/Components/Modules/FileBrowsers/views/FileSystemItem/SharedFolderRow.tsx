@@ -276,7 +276,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     formik.resetForm()
   }, [formik, setIsRenaming])
 
-  useOnClickOutside(formRef, stopEditing)
+  useOnClickOutside(formRef, formik.submitForm)
 
   return  (
     <>
