@@ -235,9 +235,6 @@ msgstr "Credit Card is expiring soon"
 msgid "DAI, USDC, ETH or BTC"
 msgstr "DAI, USDC, ETH or BTC"
 
-msgid "Date uploaded"
-msgstr "Date uploaded"
-
 msgid "Decline"
 msgstr "Decline"
 
@@ -315,6 +312,9 @@ msgstr "Features"
 
 msgid "File"
 msgstr "File"
+
+msgid "File system type"
+msgstr "File system type"
 
 msgid "Folder"
 msgstr "Folder"
