@@ -109,7 +109,7 @@ interface IFileSystemItemProps {
   handleAddToSelectedItems(selectedItems: FileSystemItemType): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  handleRename?: (cid: string, newName: string) => Promise<void>
+  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
   handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
   recoverFile?: () => void

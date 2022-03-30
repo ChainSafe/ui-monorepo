@@ -119,13 +119,13 @@ interface IFileSystemTableItemProps {
   isOverUpload: boolean
   selectedCids: string[]
   file: FileSystemItem
-  editing: string | undefined
+  editing?: string
   handleAddToSelectedItems: (selected: FileSystemItem) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
   setEditing: (editing: string | undefined) => void
-  handleRename?: (path: string, newPath: string) => Promise<void>
+  handleRename?: (path: string, newPath: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
   longPressEvents?: LongPressEvents
@@ -188,7 +188,7 @@ const FileSystemTableItem = React.forwardRef(
           setIsEditingLoading(true)
 
           handleRename(file.cid, newName)
-            .then(() => setIsEditingLoading(false))
+            ?.then(() => setIsEditingLoading(false))
         } else {
           stopEditing()
         }

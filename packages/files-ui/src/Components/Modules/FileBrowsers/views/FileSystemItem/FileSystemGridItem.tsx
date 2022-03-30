@@ -138,7 +138,7 @@ interface IFileSystemTableItemProps {
   icon: React.ReactNode
   preview: ConnectDragPreview
   setEditing: (editing: string | undefined) => void
-  handleRename?: (path: string, newPath: string) => Promise<void>
+  handleRename?: (path: string, newPath: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
@@ -202,8 +202,8 @@ const FileSystemGridItem = React.forwardRef(
         if (newName !== name && newName && handleRename) {
           setIsEditingLoading(true)
 
-          handleRename(file.cid, newName)
-            .then(() => setIsEditingLoading(false))
+          handleRename(cid, newName)
+            ?.then(() => setIsEditingLoading(false))
         } else {
           stopEditing()
         }
