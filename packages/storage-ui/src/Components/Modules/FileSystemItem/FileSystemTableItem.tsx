@@ -14,7 +14,6 @@ import {
   TableRow,
   Typography
 } from "@chainsafe/common-components"
-import dayjs from "dayjs"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { CSSTheme } from "../../../Themes/types"
@@ -208,7 +207,7 @@ const FileSystemTableItem = React.forwardRef(
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { fileSystemType } = useFileBrowser()
-    const { name, cid, created_at, size } = file
+    const { name, cid, size } = file
     const { desktop } = useThemeSwitcher()
 
     const formik = useFormik({
@@ -311,12 +310,6 @@ const FileSystemTableItem = React.forwardRef(
         </TableCell>
         {desktop && (
           <>
-            {
-              fileSystemType && fileSystemType !== "ipfs" &&
-                <TableCell align="left">
-                  {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
-                </TableCell>
-            }
             {
               <TableCell>
                 {!isFolder && <>

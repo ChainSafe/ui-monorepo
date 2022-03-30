@@ -6,7 +6,8 @@ import {
   Bucket,
   PinStatus,
   BucketSummaryResponse,
-  PinResult
+  PinResult,
+  FileSystemType
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -65,7 +66,7 @@ type StorageContext = {
   refreshPins: () => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
-  createBucket: (name: string) => Promise<void>
+  createBucket: (name: string, fileSystemType: FileSystemType) => Promise<void>
   removeBucket: (id: string) => void
   refreshBuckets: () => void
   searchCid: (cid: string) => Promise<PinResult | void>
@@ -173,12 +174,13 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     return storageApiClient.addPin(({ cid, name }))
   }, [storageApiClient])
 
-  const createBucket = useCallback(async (name: string) => {
+  const createBucket = useCallback(async (name: string, fileSystemType: FileSystemType) => {
     return storageApiClient.createBucket({
       name,
       type: "fps",
       public: "read",
-      encryption_key:""
+      encryption_key: "",
+      file_system_type: fileSystemType
     })
       .then(refreshBuckets)
       .catch(console.error)
