@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useMemo, useState } from "react"
+import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
 import { Button, PlusIcon, SearchBar, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
@@ -67,6 +67,10 @@ const CidsPage = () => {
   const [searchQuery, setSearchQuery] = useState("")
   usePageTrack()
 
+  useEffect(() => {
+    refreshPins()
+  }, [refreshPins])
+
   const handleSortToggle = (
     targetColumn: SortColumn
   ) => {
@@ -102,21 +106,22 @@ const CidsPage = () => {
     return sortDirection === "descend" ? temp.reverse() : temp
   }, [pins, sortDirection, sortColumn])
 
-  
+
   const onSearch = (searchString: string) => {
-    isCid(searchString) 
-    ? refreshPins({searchedCid: searchString})
-    : refreshPins({searchedName: searchString})
-    
+    isCid(searchString)
+      ? refreshPins({ searchedCid: searchString.trim() })
+      : refreshPins({ searchedName: searchString.trim() })
+
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSearch = useCallback(debounce(onSearch, 400), [refreshPins])
 
   const onSearchChange = (searchString: string) => {
     setSearchQuery(searchString)
     debouncedSearch(searchString)
   }
-  
+
   return (
     <>
       <div className={classes.root}>
@@ -133,14 +138,14 @@ const CidsPage = () => {
             </Trans>
           </Typography>
           <div className={classes.controls}>
-          <SearchBar
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              onSearchChange(e.target.value.trim())
-            }
-            placeholder={t`Search by cid, name…`}
-            testId = "cid-search-bar"
-            value={searchQuery}
-          />
+            <SearchBar
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                onSearchChange(e.target.value)
+              }
+              placeholder={t`Search by cid, name…`}
+              testId = "cid-search-bar"
+              value={searchQuery}
+            />
             <Button
               data-cy="button-pin-cid"
               onClick={() => setAddCIDOpen(true)}
