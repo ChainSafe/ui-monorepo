@@ -412,13 +412,13 @@ msgid "Files"
 msgstr "Fichiers"
 
 msgid "Files Free"
-msgstr "Fichiers gratuits"
+msgstr "Files gratuits"
 
 msgid "Files Max"
-msgstr "Fichiers Max"
+msgstr "Files Max"
 
 msgid "Files Pro"
-msgstr "Fichiers Pro"
+msgstr "Files Pro"
 
 msgid "Files sharing key"
 msgstr "Clé de partage des fichiers"
@@ -628,7 +628,7 @@ msgid "Only send the exact amount of {0} to this address"
 msgstr "N'envoyez que la somme exacte de {0} à cette adresse"
 
 msgid "Only with annual billing"
-msgstr "Uniquement en cas de facturation annuelle"
+msgstr "Uniquement avec paiement annuel"
 
 msgid "Operating system:"
 msgstr "Système d’exploitation :"
@@ -1154,8 +1154,8 @@ msgstr "Vous avez un paiement en retard. Tant qu'il n'a pas été réglé, l'acc
 
 msgid "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
 msgstr ""
-"Votre compte est restreint. Jusqu'à ce que vous vous soyez installé(e), vous "
-"ne pouvez pas téléverser de nouveau contenu."
+"Votre compte est restreint. Merci de consulter les paramètres de paiement."
+"Vous ne pouvez pas téléverser de nouveau contenu."
 
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr "Votre contenu dépasse la capacité de stockage de {planStorageCapacity} de cette formule."
