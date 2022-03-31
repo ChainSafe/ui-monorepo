@@ -2,7 +2,7 @@ import { Button, FileInput } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useCallback, useMemo, useState } from "react"
-import { Formik, Form } from "formik"
+import { Form, useFormik, FormikProvider } from "formik"
 import { array, object } from "yup"
 import CustomModal from "../../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
@@ -103,7 +103,6 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
 
   const onSubmit = useCallback(async (values: {files: Array<File & {path: string}>}, helpers) => {
     if (!bucket) return
-
     helpers.setSubmitting(true)
     try {
       close()
@@ -120,6 +119,12 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
     helpers.setSubmitting(false)
   }, [bucket, close, refreshContents, uploadFiles, currentPath])
 
+  const formik = useFormik({
+    initialValues: { files: [] },
+    validationSchema: UploadSchema,
+    onSubmit: onSubmit
+  })
+
   return (
     <CustomModal
       active={modalOpen}
@@ -129,57 +134,53 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
         inner: classes.modalInner
       }}
     >
-      <Formik
-        initialValues={{ files: [] }}
-        validationSchema={UploadSchema}
-        onSubmit={onSubmit}
+      <FormikProvider
+        value={formik}
       >
-        {({ isValid }) => (
-          <Form
-            data-cy="form-upload-file"
-            className={classes.root}
-          >
-            <FileInput
-              multiple={true}
-              className={classes.input}
-              classNames={{
-                closeIcon: classes.closeIcon,
-                filelist: classes.fileList,
-                item: classes.item,
-                addFiles: classes.addFiles
-              }}
-              label={t`Click or drag to upload files`}
-              moreFilesLabel={t`Add more files`}
-              maxSize={2 * 1024 ** 3}
-              name="files"
-              onFileNumberChange={onFileNumberChange}
-              testId="fileUpload"
-            />
-            <footer className={classes.footer}>
-              <Button
-                testId="cancel-upload"
-                onClick={close}
-                size="medium"
-                className={classes.cancelButton}
-                variant="outline"
-                type="reset"
-              >
-                <Trans>Cancel</Trans>
-              </Button>
-              <Button
-                testId="start-upload"
-                size="medium"
-                type="submit"
-                variant="primary"
-                className={clsx(classes.okButton, "wide")}
-                disabled={isDoneDisabled || !isValid}
-              >
-                <Trans>Start Upload</Trans>
-              </Button>
-            </footer>
-          </Form>
-        )}
-      </Formik>
+        <Form
+          data-cy="form-upload-file"
+          className={classes.root}
+        >
+          <FileInput
+            multiple={true}
+            className={classes.input}
+            classNames={{
+              closeIcon: classes.closeIcon,
+              filelist: classes.fileList,
+              item: classes.item,
+              addFiles: classes.addFiles
+            }}
+            label={t`Click or drag to upload files`}
+            moreFilesLabel={t`Add more files`}
+            maxSize={2 * 1024 ** 3}
+            name="files"
+            onFileNumberChange={onFileNumberChange}
+            testId="fileUpload"
+          />
+          <footer className={classes.footer}>
+            <Button
+              testId="cancel-upload"
+              onClick={close}
+              size="medium"
+              className={classes.cancelButton}
+              variant="outline"
+              type="reset"
+            >
+              <Trans>Cancel</Trans>
+            </Button>
+            <Button
+              testId="start-upload"
+              size="medium"
+              type="submit"
+              variant="primary"
+              className={clsx(classes.okButton, "wide")}
+              disabled={isDoneDisabled || !formik.isValid}
+            >
+              <Trans>Start Upload</Trans>
+            </Button>
+          </footer>
+        </Form>
+      </FormikProvider>
     </CustomModal>
   )
 }
