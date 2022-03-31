@@ -21,7 +21,7 @@
     "@toruslabs/customauth":"7.0.2",
     "@types/filesystem": "^0.0.32",
     "@types/uuid": "^8.3.0",
-    "axios": "0.21.4",
+    "axios": "0.26.1",
     "babel-loader": "8.1.0",
     "babel-plugin-macros": "^2.8.0",
     "babel-preset-env": "^1.7.0",
