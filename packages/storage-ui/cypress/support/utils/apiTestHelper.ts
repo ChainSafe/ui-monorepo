@@ -3,7 +3,7 @@ import { FilesApiClient } from "@chainsafe/files-api-client"
 import { BucketType } from "@chainsafe/files-api-client"
 
 const REFRESH_TOKEN_KEY = "css.refreshToken"
-const API_BASE_URL = "https://stage.imploy.site/api/v1"
+const API_BASE_URL = "https://stage-api.chainsafe.io/api/v1"
 
 const getApiClient = () => {
   // Disable the internal Axios JSON deserialization as this is handled by the client
