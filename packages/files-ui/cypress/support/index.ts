@@ -16,11 +16,8 @@
 // Import commands.js using ES2015 syntax:
 import "./commands"
 
-// the following gets rid of the exception "ResizeObserver loop limit exceeded"
-// which someone on the internet says we can safely ignore
-// source https://stackoverflow.com/questions/49384120/resizeobserver-loop-limit-exceeded
+// returning false prevents Cypress from failing the test automatically
 Cypress.on("uncaught:exception", () => {
-  /* returning false here prevents Cypress from failing the test */
   return false
 })
 
