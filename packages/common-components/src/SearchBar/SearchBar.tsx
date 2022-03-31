@@ -83,17 +83,15 @@ const useStyles = makeStyles(
           "& input": {
             fontSize: 16,
             lineHeight: "24px",
-            padding: `${constants.generalUnit}px ${
-              constants.generalUnit * 1.5
-            }px`
+            padding: `${constants.generalUnit}px ${constants.generalUnit * 1.5}px`,
+            paddingRight: constants.generalUnit * 4.25
           },
           ...overrides?.SearchBar?.inputArea?.large
         },
         "&.medium": {
           "& input": {
-            padding: `${constants.generalUnit * 0.625}px ${
-              constants.generalUnit * 1.5
-            }px`
+            padding: `${constants.generalUnit * 0.625}px ${constants.generalUnit * 1.5}px`,
+            paddingRight: constants.generalUnit * 4.25
           },
           ...overrides?.SearchBar?.inputArea?.medium
         },
