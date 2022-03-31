@@ -76,7 +76,7 @@ const onboardConfig = {
 const App = () => {
   const { canUseLocalStorage } = useLocalStorage()
 
-  const apiUrl = process.env.REACT_APP_API_URL || "https://stage.imploy.site/api/v1"
+  const apiUrl = process.env.REACT_APP_API_URL || "https://stage-api.chainsafe.io/api/v1"
   // This will default to testnet unless mainnet is specifically set in the ENV
   const directAuthNetwork = (process.env.REACT_APP_DIRECT_AUTH_NETWORK === "mainnet") ? "mainnet" : "testnet"
 
