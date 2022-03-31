@@ -174,15 +174,21 @@ const useStyles = makeStyles(
           }
         },
         "&:hover": {
-          backgroundColor: palette.additional["gray"][5]
+          backgroundColor: palette.additional["gray"][5],
+          [breakpoints.down("md")]: {
+            color: constants.nav.backgroundColor
+          }
         },
         "&.selected": {
-          backgroundColor: palette.additional["gray"][5]
-        }
-      },
-      navItemText: {
-        [breakpoints.down("md")]: {
-          color: palette.additional["gray"][4]
+          backgroundColor: palette.additional["gray"][5],
+          [breakpoints.down("md")]: {
+            "& span": {
+              color: constants.nav.mobileSelectedBackground
+            },
+            "& svg": {
+              fill: constants.nav.mobileSelectedBackground
+            }
+          }
         }
       },
       menuItem: {
@@ -361,7 +367,6 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                   <DatabaseSvg />
                   <Typography
                     variant="h5"
-                    className={classes.navItemText}
                   >
                     <Trans>Home</Trans>
                   </Typography>
@@ -375,7 +380,6 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                   <UserShareSvg />
                   <Typography
                     variant="h5"
-                    className={classes.navItemText}
                   >
                     <Trans>Shared</Trans>
                   </Typography>
@@ -389,7 +393,6 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                   <DeleteSvg />
                   <Typography
                     variant="h5"
-                    className={classes.navItemText}
                   >
                     <Trans>Bin</Trans>
                   </Typography>
@@ -408,7 +411,6 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                   <SettingSvg />
                   <Typography
                     variant="h5"
-                    className={classes.navItemText}
                   >
                     <Trans>Settings</Trans>
                   </Typography>
