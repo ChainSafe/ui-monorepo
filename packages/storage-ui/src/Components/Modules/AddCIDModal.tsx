@@ -95,7 +95,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const onSubmit = useCallback(() => {
     setAccessingCID(true)
     if (!cid) return
-    addPin(cid, name)
+    addPin(cid.trim(), name.trim())
       .then(() => {
         onClose()
       })
@@ -112,7 +112,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
     if (!cid) return
 
     cidValidator
-      .validate({ cid })
+      .validate({ cid: cid.trim() })
       .then(() => {
         searchCid(cid)
           .then((res) => {
@@ -131,11 +131,11 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
     setCidError("")
     setShowWarning(false)
 
-    setCid(cid?.toString().trim() || "")
+    setCid(cid?.toString() || "")
   }, [])
 
   const onNameChange = useCallback((name?: string | number) => {
-    setName(name?.toString().trim() || "")
+    setName(name?.toString() || "")
   }, [])
 
   return (
