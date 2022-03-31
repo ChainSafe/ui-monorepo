@@ -306,6 +306,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
               {isEditingLoading && <Loading
                 className={classes.loadingIcon}
                 size={16}
+                type="initial"
               />}
             </>
             : (
@@ -426,6 +427,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
               {isEditingLoading && <Loading
                 className={classes.loadingIcon}
                 size={16}
+                type="initial"
               />}
             </>
           </>

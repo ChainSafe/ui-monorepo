@@ -276,6 +276,7 @@ const FileSystemTableItem = React.forwardRef(
               {isEditingLoading && <Loading
                 className={classes.loadingIcon}
                 size={16}
+                type="initial"
               />}
             </>}
         </TableCell>
