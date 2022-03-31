@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { Trans, t } from "@lingui/macro"
 import InvoiceLines from "../Elements/InvoiceLines"
 import PayInvoiceModal from "../Modules/Settings/SubscriptionTab/PayInvoice/PayInvoiceModal"
 import { Helmet } from "react-helmet-async"
@@ -37,7 +37,7 @@ const BillingHistory = () => {
   return (
     <>
       <Helmet>
-        <title><Trans>Billing history</Trans> - Chainsafe Files</title>
+        <title>{t`Billing history`} - Chainsafe Files</title>
       </Helmet>
       <div className={classes.root}>
         <Typography

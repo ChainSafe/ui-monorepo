@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
-import { Trans } from "@lingui/macro"
+import { Trans, t } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
 import AddCIDModal from "../Modules/AddCIDModal"
@@ -104,7 +104,7 @@ const CidsPage = () => {
   return (
     <>
       <Helmet>
-        <title><Trans>CIDs</Trans> - Chainsafe Storage</title>
+        <title>{t`CIDs`} - Chainsafe Storage</title>
       </Helmet>
       <div className={classes.root}>
         <header
@@ -115,9 +115,7 @@ const CidsPage = () => {
             variant="h1"
             component="h1"
           >
-            <Trans>
-              CIDs
-            </Trans>
+            <Trans>CIDs</Trans>
           </Typography>
           <div className={classes.controls}>
             <Button

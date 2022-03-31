@@ -162,7 +162,7 @@ const BucketsPage = () => {
   return (
     <div className={classes.root}>
       <Helmet>
-        <title><Trans>Buckets</Trans> - Chainsafe Storage</title>
+        <title>{t`Buckets`} - Chainsafe Storage</title>
       </Helmet>
       <header
         className={classes.header}

@@ -2,14 +2,14 @@ import React from "react"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import SharedFoldersOverview from "../Modules/FileBrowsers/SharedFoldersOverview"
 import { Helmet } from "react-helmet-async"
-import { Trans } from "@lingui/macro"
+import { t } from "@lingui/macro"
 
 const SharedFoldersPage = () => {
   usePageTrack()
 
   return <>
     <Helmet>
-      <title><Trans>Shared folders</Trans> - Chainsafe Files</title>
+      <title>{t`Shared folders`} - Chainsafe Files</title>
     </Helmet>
     <SharedFoldersOverview />
   </>
