@@ -47,6 +47,12 @@ describe("Survey Banner", () => {
     })
 
     it("User should see banner if account age is greater than 7 days and api response is empty", () => {
+      cy.intercept("GET", "**/user/profile", (req) => {
+        req.on("response", (res) => {
+          res.body.created_at = profileCreatedDate
+        })
+      })
+
       cy.intercept("GET", "**/user/store", {
         body: {}
       })
