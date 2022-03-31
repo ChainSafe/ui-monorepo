@@ -101,7 +101,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [storageApiClient])
 
-  const refreshPins = useCallback(({ searchedCid = undefined, searchedName = ""}: RefreshPinParams = {}) => {
+  const refreshPins = useCallback(({ searchedCid = undefined, searchedName = "" }: RefreshPinParams = {}) => {
     storageApiClient.listPins(
       searchedCid ? [searchedCid] : undefined,
       searchedName,
