@@ -63,7 +63,7 @@ const App = () => {
   const { initHotjar } = useHotjar()
   const { canUseLocalStorage } = useLocalStorage()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
-  const apiUrl = process.env.REACT_APP_API_URL || "https://stage.imploy.site/api/v1"
+  const apiUrl = process.env.REACT_APP_API_URL || "https://stage-api.chainsafe.io/api/v1"
   // This will default to testnet unless mainnet is specifically set in the ENV
 
   useEffect(() => {
