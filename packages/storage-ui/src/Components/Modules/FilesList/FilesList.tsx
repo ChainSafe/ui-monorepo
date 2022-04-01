@@ -860,11 +860,11 @@ const FilesList = () => {
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
                 handleAddToSelectedCids={handleAddToSelectedCids}
-                editing={editing}
+                editing={editing?.cid}
                 setEditing={setEditing}
-                handleRename={async (toRename: ISelectedFile, newName: string) => {
-                  handleRename && (await handleRename(toRename, newName))
+                handleRename={(cid: string, newName: string) => {
                   setEditing(undefined)
+                  return handleRename && handleRename(cid, newName)
                 }}
                 deleteFile={() => {
                   setSelectedCids([{
@@ -916,11 +916,11 @@ const FilesList = () => {
               handleSelectCid={handleSelectCid}
               viewFolder={handleViewFolder}
               handleAddToSelectedCids={handleAddToSelectedCids}
-              editing={editing}
+              editing={editing?.cid}
               setEditing={setEditing}
-              handleRename={async (toRename: ISelectedFile, newPath: string) => {
-                handleRename && (await handleRename(toRename, newPath))
+              handleRename={(cid: string, newName: string) => {
                 setEditing(undefined)
+                return handleRename && handleRename(cid, newName)
               }}
               deleteFile={() => {
                 setSelectedCids([{

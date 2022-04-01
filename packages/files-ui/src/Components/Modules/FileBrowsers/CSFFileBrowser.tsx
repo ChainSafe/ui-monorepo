@@ -24,6 +24,7 @@ import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
+import { Helmet } from "react-helmet-async"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const { downloadFile, uploadFiles, buckets } = useFiles()
@@ -106,7 +107,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     const itemToRename = pathContents.find(i => i.cid === cid)
     if (!bucket || !itemToRename) return
 
-    filesApiClient.moveBucketObjects(bucket.id, {
+    return filesApiClient.moveBucketObjects(bucket.id, {
       paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) })
       .then(() => refreshContents())
@@ -115,7 +116,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
-
 
     const pathsToMove = getAbsolutePathsFromCids(cids, currentPath, pathContents)
 
@@ -156,6 +156,10 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       },
       path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
     }}), [arrayOfPaths, redirect])
+
+  const currentFolder = useMemo(() => {
+    return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
+  }, [arrayOfPaths])
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
@@ -210,7 +214,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         deleteItems: moveItemsToBin,
         downloadFile: handleDownload,
         moveItems,
-        renameItem: renameItem,
+        renameItem,
         viewFolder,
         handleUploadOnDrop,
         loadingCurrentPath,
@@ -222,6 +226,11 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         itemOperations,
         withSurvey: showSurvey && olderThanOneWeek
       }}>
+      {!!currentFolder &&
+        <Helmet>
+          <title>{currentFolder} - Chainsafe Files</title>
+        </Helmet>
+      }
       <DragAndDrop>
         <FilesList />
       </DragAndDrop>

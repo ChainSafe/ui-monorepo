@@ -10,6 +10,7 @@ import { PinStatus } from "@chainsafe/files-api-client"
 import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
+import { Helmet } from "react-helmet-async"
 import { cid as isCid } from "is-ipfs"
 
 export const desktopGridSettings = "2fr 3fr 180px 110px 80px 20px 70px !important"
@@ -124,6 +125,9 @@ const CidsPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{t`CIDs`} - Chainsafe Storage</title>
+      </Helmet>
       <div className={classes.root}>
         <header
           className={classes.header}
@@ -133,9 +137,7 @@ const CidsPage = () => {
             variant="h1"
             component="h1"
           >
-            <Trans>
-              Cids
-            </Trans>
+            <Trans>CIDs</Trans>
           </Typography>
           <div className={classes.controls}>
             <SearchBar
