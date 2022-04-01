@@ -92,7 +92,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
         (files) => {
           // no validation if the user isn't the owner
           if(bucket?.permission !== "owner") return true
-          
+
           const availableStorage = storageSummary?.available_storage || 0
           const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
           return uploadSize < availableStorage
