@@ -1,6 +1,6 @@
 import { useFiles } from "../../Contexts/FilesContext"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import clsx from "clsx"
 import {
   Link,
@@ -13,7 +13,8 @@ import {
   DeleteSvg,
   UserShareSvg,
   MenuDropdown,
-  ScrollbarWrapper
+  ScrollbarWrapper,
+  useLocation
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
@@ -147,10 +148,11 @@ const useStyles = makeStyles(
         flexDirection: "row",
         alignItems: "center",
         cursor: "pointer",
-        padding: `${constants.generalUnit * 1.5}px 0`,
+        margin: `${constants.generalUnit * 0.5}px 0`,
+        padding: `${constants.generalUnit}px ${constants.generalUnit * 1.5}px`,
+        borderRadius: "4px",
         transitionDuration: `${animation.transform}ms`,
         "& span": {
-          transitionDuration: `${animation.transform}ms`,
           [breakpoints.up("md")]: {
             color: constants.nav.itemColor
           },
@@ -162,7 +164,6 @@ const useStyles = makeStyles(
           "& path": {
             fill: constants.nav.headingColor
           },
-          transitionDuration: `${animation.transform}ms`,
           width: Number(constants.svgWidth),
           marginRight: constants.generalUnit * 2,
           [breakpoints.up("md")]: {
@@ -173,17 +174,21 @@ const useStyles = makeStyles(
           }
         },
         "&:hover": {
-          "& span": {
-            color: constants.nav.itemColorHover
-          },
-          "& svg": {
-            fill: constants.nav.itemIconColorHover
+          backgroundColor: palette.additional["gray"][5],
+          [breakpoints.down("md")]: {
+            color: constants.nav.backgroundColor
           }
-        }
-      },
-      navItemText: {
-        [breakpoints.down("md")]: {
-          color: palette.additional["gray"][3]
+        },
+        "&.selected": {
+          backgroundColor: palette.additional["gray"][5],
+          [breakpoints.down("md")]: {
+            "& span": {
+              color: constants.nav.mobileSelectedBackground
+            },
+            "& svg": {
+              fill: constants.nav.mobileSelectedBackground
+            }
+          }
         }
       },
       menuItem: {
@@ -245,6 +250,8 @@ interface IAppNav {
   setNavOpen: (state: boolean) => void
 }
 
+type AppNavTab = "home" | "shared" | "bin" | "settings"
+
 const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
@@ -252,6 +259,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { removeUser, getProfileTitle, profile } = useUser()
+  const location = useLocation()
 
   const signOut = useCallback(() => {
     logout()
@@ -265,6 +273,18 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   }, [desktop, navOpen, setNavOpen])
 
   const profileTitle = getProfileTitle()
+
+  const appNavTab: AppNavTab | undefined = useMemo(() => {
+    const firstPathParam = location.pathname.split("/")[1]
+    switch(firstPathParam) {
+      case "drive": return "home"
+      case "shared": return "shared"
+      case "shared-overview": return "shared"
+      case "bin": return "bin"
+      case "settings": return "settings"
+      default: return
+    }
+  }, [location])
 
   return (
     <ScrollbarWrapper className={classes.scrollRoot}>
@@ -341,13 +361,12 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 <Link
                   data-cy="link-home"
                   onClick={handleOnClick}
-                  className={classes.navItem}
+                  className={clsx(classes.navItem, appNavTab === "home" && "selected")}
                   to={ROUTE_LINKS.Drive("/")}
                 >
                   <DatabaseSvg />
                   <Typography
                     variant="h5"
-                    className={classes.navItemText}
                   >
                     <Trans>Home</Trans>
                   </Typography>
@@ -355,13 +374,12 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 <Link
                   data-cy="link-shared"
                   onClick={handleOnClick}
-                  className={classes.navItem}
+                  className={clsx(classes.navItem, appNavTab === "shared" && "selected")}
                   to={ROUTE_LINKS.SharedFolders}
                 >
                   <UserShareSvg />
                   <Typography
                     variant="h5"
-                    className={classes.navItemText}
                   >
                     <Trans>Shared</Trans>
                   </Typography>
@@ -369,13 +387,12 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 <Link
                   data-cy="link-bin"
                   onClick={handleOnClick}
-                  className={classes.navItem}
+                  className={clsx(classes.navItem, appNavTab === "bin" && "selected")}
                   to={ROUTE_LINKS.Bin("/")}
                 >
                   <DeleteSvg />
                   <Typography
                     variant="h5"
-                    className={classes.navItemText}
                   >
                     <Trans>Bin</Trans>
                   </Typography>
@@ -388,13 +405,12 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                 <Link
                   data-cy="link-settings"
                   onClick={handleOnClick}
-                  className={classes.navItem}
+                  className={clsx(classes.navItem, appNavTab === "settings" && "selected")}
                   to={ROUTE_LINKS.SettingsDefault}
                 >
                   <SettingSvg />
                   <Typography
                     variant="h5"
-                    className={classes.navItemText}
                   >
                     <Trans>Settings</Trans>
                   </Typography>
