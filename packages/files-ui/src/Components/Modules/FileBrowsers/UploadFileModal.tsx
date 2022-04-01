@@ -90,10 +90,12 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
       .test("Upload Size",
         t`Upload size exceeds plan capacity`,
         (files) => {
-          const isOwner = bucket?.permission === "owner"
+          // no validation if the user isn't the owner
+          if(bucket?.permission !== "owner") return true
+          
           const availableStorage = storageSummary?.available_storage || 0
           const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
-          return !(isOwner && uploadSize > availableStorage)
+          return uploadSize < availableStorage
         })
   }), [bucket, storageSummary])
 
