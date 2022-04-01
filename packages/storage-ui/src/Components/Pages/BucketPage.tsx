@@ -20,6 +20,7 @@ import { parseFileContentResponse } from "../../Utils/Helpers"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
 import { usePageTrack } from "../../Contexts/PosthogContext"
+import { Helmet } from "react-helmet-async"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { storageBuckets, uploadFiles, uploadsInProgress, getStorageSummary, downloadFile } = useStorage()
@@ -96,11 +97,11 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       .finally(refreshContents)
   }, [bucket, storageApiClient, refreshContents, pathContents, currentPath, addToast])
 
-  const renameItem = useCallback(async (toRename: ISelectedFile, newName: string) => {
-    const itemToRename = pathContents.find(i => i.cid === toRename.cid && i.name === toRename.name)
+  const renameItem = useCallback(async (cid: string, newName: string) => {
+    const itemToRename = pathContents.find(i => i.cid === cid)
     if (!bucket || !itemToRename) return
 
-    storageApiClient.moveBucketObjects(bucket.id, {
+    return storageApiClient.moveBucketObjects(bucket.id, {
       paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) })
       .then(() => refreshContents())
@@ -159,6 +160,10 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       )
     }
   })), [arrayOfPaths, bucketId, redirect])
+
+  const currentFolder = useMemo(() => {
+    return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
+  }, [arrayOfPaths])
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
@@ -239,6 +244,11 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         withSurvey: showSurvey,
         fileSystemType: bucket?.file_system_type
       }}>
+      {(!!currentFolder || bucket?.name) &&
+        <Helmet>
+          <title>{currentFolder || bucket?.name} - Chainsafe Storage</title>
+        </Helmet>
+      }
       <DragAndDrop>
         <FilesList />
       </DragAndDrop>

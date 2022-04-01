@@ -6,12 +6,12 @@ import { useFilesApi }  from "../Contexts/FilesApiContext"
 import DrivePage from "./Pages/DrivePage"
 import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
-import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
-import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
+import SharedFoldersPage from "./Pages/SharedFoldersPage"
 import BillingHistory from "./Pages/BillingHistory"
-import { NonceResponsePermission } from "@chainsafe/files-api-client"
 import LinkSharingLanding from "./Pages/LinkSharingLanding"
+import { NonceResponsePermission } from "@chainsafe/files-api-client"
+import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 
 export const SETTINGS_BASE = "/settings"
 export const LINK_SHARING_BASE = "/link-sharing"
@@ -76,7 +76,7 @@ const FilesRoutes = () => {
         exact
         path={ROUTE_LINKS.SharedFolders}
         isAuthorized={isAuthorized}
-        component={SharedFoldersOverview}
+        component={SharedFoldersPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

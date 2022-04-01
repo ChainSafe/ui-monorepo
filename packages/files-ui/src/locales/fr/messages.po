@@ -860,6 +860,9 @@ msgstr "Nom du dossier partagé"
 msgid "Shared folders"
 msgstr "Dossiers partagés"
 
+msgid "Shared link"
+msgstr ""
+
 msgid "Shared with"
 msgstr "Partagé avec"
 
