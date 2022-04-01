@@ -313,6 +313,9 @@ msgstr "Features"
 msgid "File"
 msgstr "File"
 
+msgid "File System"
+msgstr "File System"
+
 msgid "File system type"
 msgstr "File system type"
 
