@@ -107,9 +107,9 @@ interface IFileSystemItemProps {
   selected: ISelectedFile[]
   handleSelectCid(selectedFile: ISelectedFile): void
   handleAddToSelectedCids(selectedFile: ISelectedFile): void
-  editing: ISelectedFile | undefined
+  editing?: string
   setEditing(editing: ISelectedFile | undefined): void
-  handleRename?: (toRename: ISelectedFile, newName: string) => Promise<void>
+  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
   handleMove?: (toMove: ISelectedFile, newPath: string) => Promise<void>
   deleteFile?: () => void
   recoverFile?: (toRecover: ISelectedFile) => void
@@ -158,9 +158,7 @@ const FileSystemItem = ({
   const classes = useStyles()
 
   const formik = useFormik({
-    initialValues: {
-      name
-    },
+    initialValues: { name },
     validationSchema: nameValidator,
     onSubmit: (values: {name: string}) => {
       const newName = values.name.trim()
@@ -180,10 +178,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => setEditing({
-        cid,
-        name
-      })
+      onClick: () => setEditing({ cid, name })
     },
     delete: {
       contents: (
@@ -434,7 +429,7 @@ const FileSystemItem = ({
           : <FileItemGridItem {...itemProps} />
       }
       {
-        (editing?.cid === cid && editing.name === name) && !desktop && (
+        editing === cid && !desktop && (
           <>
             <CustomModal
               className={classes.modalRoot}
@@ -442,7 +437,6 @@ const FileSystemItem = ({
                 inner: classes.modalInner
               }}
               closePosition="none"
-              active={editing?.cid === cid && editing.name === name}
               onClose={() => setEditing(undefined)}
             >
               <FormikProvider value={formik}>
@@ -462,7 +456,7 @@ const FileSystemItem = ({
                     className={classes.renameInput}
                     name="name"
                     placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
-                    autoFocus={editing.cid === cid}
+                    autoFocus
                   />
                   <footer className={classes.renameFooter}>
                     <Button

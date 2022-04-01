@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
   FormikTextInput,
   IMenuItem,
+  Loading,
   MenuDropdown,
   MoreIcon
 } from "@chainsafe/common-components"
@@ -115,6 +116,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
       [breakpoints.down("md")]: {
         padding: 0
       }
+    },
+    loadingIcon: {
+      marginLeft: constants.generalUnit,
+      verticalAlign: "middle"
     }
   })
 })
@@ -125,12 +130,12 @@ interface IFileSystemTableItemProps {
   isOverUpload: boolean
   selected: ISelectedFile[]
   file: FileSystemItem
-  editing: ISelectedFile | undefined
+  editing?: string
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
   setEditing: (editing: ISelectedFile |  undefined) => void
-  handleRename?: (toRename: ISelectedFile, newPath: string) => Promise<void>
+  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
@@ -155,6 +160,7 @@ const FileSystemGridItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid } = file
     const { desktop } = useThemeSwitcher()
+    const [isEditingLoading, setIsEditingLoading] = useState(false)
 
     const formik = useFormik({
       initialValues: {
@@ -164,10 +170,14 @@ const FileSystemGridItem = React.forwardRef(
       onSubmit: (values) => {
         const newName = values.fileName?.trim()
 
-        newName && handleRename && handleRename({
-          cid: file.cid,
-          name: file.name
-        }, newName)
+        if (newName !== name && !!newName && handleRename) {
+          setIsEditingLoading(true)
+
+          handleRename(file.cid, newName)
+            ?.then(() => setIsEditingLoading(false))
+        } else {
+          stopEditing()
+        }
       },
       enableReinitialize: true
     })
@@ -224,11 +234,11 @@ const FileSystemGridItem = React.forwardRef(
           >
             {icon}
           </div>
-          {(editing?.cid === cid && editing.name === name) && desktop ? (
+          {editing === cid && desktop ? (
             <FormikProvider value={formik}>
               <Form
                 className={classes.desktopRename}
-                onBlur={stopEditing}
+                onBlur={formik.submitForm}
               >
                 <FormikTextInput
                   className={classes.renameInput}
@@ -243,28 +253,32 @@ const FileSystemGridItem = React.forwardRef(
                     ? t`Please enter a folder name`
                     : t`Please enter a file name`
                   }
-                  autoFocus={editing.cid === cid && editing.name === name}
+                  autoFocus
                 />
               </Form>
             </FormikProvider>
-          ) : (
-            <div className={classes.gridFolderName}>{name}</div>
-          )}
+          ) : <div className={classes.gridFolderName}>
+            {name}{isEditingLoading && <Loading
+              className={classes.loadingIcon}
+              size={16}
+              type="initial"
+            />}
+          </div>
+          }
         </div>
-        <div>
-          <MenuDropdown
-            animation="none"
-            anchor="bottom-right"
-            menuItems={menuItems}
-            classNames={{
-              icon: classes.dropdownIcon,
-              options: classes.dropdownOptions,
-              item: classes.dropdownItem,
-              title: classes.menuTitleGrid
-            }}
-            indicator={MoreIcon}
-          />
-        </div>
+        <MenuDropdown
+          animation="none"
+          anchor="bottom-right"
+          menuItems={menuItems}
+          classNames={{
+            icon: classes.dropdownIcon,
+            options: classes.dropdownOptions,
+            item: classes.dropdownItem,
+            title: classes.menuTitleGrid
+          }}
+          indicator={MoreIcon}
+        />
+
       </div>
     )
   }
