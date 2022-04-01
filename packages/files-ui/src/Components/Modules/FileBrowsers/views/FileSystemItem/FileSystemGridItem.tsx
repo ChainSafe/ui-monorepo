@@ -285,6 +285,15 @@ const FileSystemGridItem = React.forwardRef(
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
+                    draggable
+                    onDragStart={e => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                    }}
+                    onClick={e => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                    }}
                     autoFocus
                   />
                   {
@@ -298,7 +307,7 @@ const FileSystemGridItem = React.forwardRef(
               </FormikProvider>
             )
             : <div className={classes.gridFolderName}>
-              {name}{!isEditingLoading && <Loading
+              {name}{isEditingLoading && <Loading
                 className={classes.loadingIcon}
                 size={16}
                 type="initial"

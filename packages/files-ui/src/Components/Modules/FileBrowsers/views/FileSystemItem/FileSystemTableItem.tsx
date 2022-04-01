@@ -259,6 +259,15 @@ const FileSystemTableItem = React.forwardRef(
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
+                    draggable
+                    onDragStart={e => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                    }}
+                    onClick={e => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                    }}
                     autoFocus
                   />
                   {
