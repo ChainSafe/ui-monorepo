@@ -697,6 +697,9 @@ msgstr "Angi et passord"
 msgid "Please select a file to upload"
 msgstr "Velg en fil å laste opp"
 
+msgid "Please select fewer files to upload"
+msgstr ""
+
 msgid "Preview"
 msgstr "Forhåndsvis"
 
@@ -1034,6 +1037,9 @@ msgid "Update your credit card"
 msgstr ""
 
 msgid "Upload"
+msgstr ""
+
+msgid "Upload size exceeds plan capacity"
 msgstr ""
 
 msgid "Uploads cancelled"

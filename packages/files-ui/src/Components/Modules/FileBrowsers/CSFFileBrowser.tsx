@@ -27,7 +27,7 @@ import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransf
 import { Helmet } from "react-helmet-async"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
-  const { downloadFile, uploadFiles, buckets } = useFiles()
+  const { downloadFile, uploadFiles, buckets, storageSummary } = useFiles()
   const { accountRestricted } = useFilesApi()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
@@ -173,12 +173,23 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       return
     }
 
+    const availableStorage = storageSummary?.available_storage || 0
+    const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
+
+    if (uploadSize > availableStorage) {
+      addToast({
+        type: "error",
+        title: t`Upload size exceeds plan capacity`,
+        subtitle: t`Please select fewer files to upload`
+      })
+      return
+    }
     const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
     const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
     paths.forEach(p => {
       uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
     })
-  }, [uploadFiles, bucket, accountRestricted, addToast])
+  }, [bucket, accountRestricted, storageSummary, addToast, uploadFiles])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
