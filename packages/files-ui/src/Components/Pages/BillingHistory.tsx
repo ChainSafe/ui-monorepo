@@ -2,9 +2,10 @@ import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { Trans, t } from "@lingui/macro"
 import InvoiceLines from "../Elements/InvoiceLines"
 import PayInvoiceModal from "../Modules/Settings/SubscriptionTab/PayInvoice/PayInvoiceModal"
+import { Helmet } from "react-helmet-async"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints }: CSFTheme) =>
@@ -34,20 +35,25 @@ const BillingHistory = () => {
   const [invoiceToPay, setInvoiceToPay] = useState<string | undefined>()
 
   return (
-    <div className={classes.root}>
-      <Typography
-        className={classes.heading}
-        variant="h1"
-        component="p"
-      >
-        <Trans>Billing history</Trans>
-      </Typography>
-      <InvoiceLines payInvoice={(invoiceId) => setInvoiceToPay(invoiceId)} />
-      {invoiceToPay && <PayInvoiceModal
-        invoiceId={invoiceToPay}
-        onClose={() => setInvoiceToPay(undefined)}
-      />}
-    </div>
+    <>
+      <Helmet>
+        <title>{t`Billing history`} - Chainsafe Files</title>
+      </Helmet>
+      <div className={classes.root}>
+        <Typography
+          className={classes.heading}
+          variant="h1"
+          component="p"
+        >
+          <Trans>Billing history</Trans>
+        </Typography>
+        <InvoiceLines payInvoice={(invoiceId) => setInvoiceToPay(invoiceId)} />
+        {invoiceToPay && <PayInvoiceModal
+          invoiceId={invoiceToPay}
+          onClose={() => setInvoiceToPay(undefined)}
+        />}
+      </div>
+    </>
   )
 }
 

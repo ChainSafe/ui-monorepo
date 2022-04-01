@@ -2,10 +2,11 @@ import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSSTheme } from "../../Themes/types"
 import { Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import InvoiceLines from "../Elements/InvoiceLines"
 import PayInvoiceModal from "../Modules/SubscriptionTab/PayInvoice/PayInvoiceModal"
 import { usePageTrack } from "../../Contexts/PosthogContext"
+import { Helmet } from "react-helmet-async"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints }: CSSTheme) =>
@@ -37,6 +38,9 @@ const BillingHistory = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>{t`Billing History`} - Chainsafe Storage</title>
+      </Helmet>
       <Typography
         className={classes.heading}
         variant="h1"

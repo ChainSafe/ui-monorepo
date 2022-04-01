@@ -13,7 +13,7 @@ interface FileBrowserContext extends IFileBrowserModuleProps {
   bucket?: Bucket
   itemOperations: {[contentType: string]: FileOperation[]}
   bulkOperations?: IBulkOperations
-  renameItem?: (toRename: ISelectedFile, newName: string) => Promise<void>
+  renameItem?: (cid: string, newName: string) => Promise<void>
   moveItems?: (toMove: ISelectedFile[], newPath: string) => Promise<void>
   downloadFile?: (toDownload: ISelectedFile) => Promise<void>
   deleteItems?: (toDelete: ISelectedFile[]) => Promise<void>
