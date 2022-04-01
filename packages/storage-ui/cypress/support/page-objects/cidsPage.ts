@@ -2,6 +2,7 @@
 
 import { basePage } from "./basePage"
 import { testCid } from "../../fixtures/storageTestData"
+import { addCidModal } from "./modals/addCidModal"
 
 export const cidsPage = {
   ...basePage,
@@ -16,13 +17,8 @@ export const cidsPage = {
   sizeTableHeader: () => cy.get("[data-cy=table-header-size]"),
   statusTableHeader: () => cy.get("[data-cy=table-header-status]"),
   cidItemRow: () => cy.get("[data-cy=row-cid-item]", { timeout: 20000 }),
+  cidNameCell: () => cy.get("[data-cy=cell-pin-name]"),
   cidRowKebabButton: () => cy.get("[data-testid=dropdown-title-cid-kebab]"),
-
-  // pin cid modal elements
-  pinCidForm: () => cy.get("[data-testid=form-create-bucket]"),
-  cidInput: () => cy.get("[data-cy=input-cid]"),
-  pinCancelButton: () => cy.get("[data-cy=button-cancel-add-pin]"),
-  pinSubmitButton: () => cy.get("[data-cy=button-submit-pin]"),
 
   // menu elements
   unpinMenuOption: () => cy.get("[data-cy=menu-unpin]"),
@@ -30,8 +26,8 @@ export const cidsPage = {
   // helpers and convenience functions
   addPinnedCid() {
     this.pinButton().click()
-    this.cidInput().type(testCid)
-    this.pinSubmitButton().click()
+    addCidModal.cidInput().type(testCid)
+    addCidModal.pinSubmitButton().click()
     this.cidItemRow().should("have.length", 1)
   }
 }
