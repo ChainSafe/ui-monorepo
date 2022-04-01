@@ -23,6 +23,7 @@ import FilesList from "./views/FilesList"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
+import { Helmet } from "react-helmet-async"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -87,6 +88,9 @@ const SharedFileBrowser = () => {
       }
     })
   }), [arrayOfPaths, bucket, redirect])
+  const currentFolder = useMemo(() => {
+    return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
+  }, [arrayOfPaths])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
@@ -308,6 +312,11 @@ const SharedFileBrowser = () => {
         itemOperations,
         withSurvey: false
       }}>
+      {(!!currentFolder || bucket.name) &&
+        <Helmet>
+          <title>{currentFolder || bucket.name} - Chainsafe Files</title>
+        </Helmet>
+      }
       <DragAndDrop>
         <FilesList isShared/>
       </DragAndDrop>
