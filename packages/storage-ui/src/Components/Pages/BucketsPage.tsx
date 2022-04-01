@@ -26,8 +26,8 @@ import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import { FileSystemType } from "@chainsafe/files-api-client"
 
-export const desktopGridSettings = "3fr 190px 70px !important"
-export const mobileGridSettings = "3fr 190px 70px !important"
+export const desktopGridSettings = "3fr 110px 150px 70px !important"
+export const mobileGridSettings = "3fr 100px 100px 70px !important"
 
 const useStyles = makeStyles(({ breakpoints, animation, constants, typography }: CSSTheme) =>
   createStyles({
@@ -207,6 +207,13 @@ const BucketsPage = () => {
               align="left"
             >
               <Trans>Name</Trans>
+            </TableHeadCell>
+            <TableHeadCell
+              data-cy="table-header-file-system"
+              sortButtons={false}
+              align="left"
+            >
+              <Trans>File System</Trans>
             </TableHeadCell>
             <TableHeadCell
               data-cy="table-header-size"
