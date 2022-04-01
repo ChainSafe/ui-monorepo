@@ -517,6 +517,9 @@ msgstr "Rename file"
 msgid "Rename folder"
 msgstr "Rename folder"
 
+msgid "Search by cid, name…"
+msgstr "Search by cid, name…"
+
 msgid "Secret"
 msgstr "Secret"
 

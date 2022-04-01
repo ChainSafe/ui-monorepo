@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
+import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
+import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
+import { Button, PlusIcon, SearchBar, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
-import { Trans, t } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
 import AddCIDModal from "../Modules/AddCIDModal"
@@ -11,6 +11,7 @@ import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
+import { cid as isCid } from "is-ipfs"
 
 export const desktopGridSettings = "2fr 3fr 180px 110px 80px 20px 70px !important"
 export const mobileGridSettings = "2fr 3fr 180px 110px 80px 20px 70px !important"
@@ -59,12 +60,17 @@ type SortDirection = "ascend" | "descend"
 
 const CidsPage = () => {
   const classes = useStyles()
-  const { pins } = useStorage()
+  const { pins, refreshPins } = useStorage()
   const { accountRestricted } = useStorageApi()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
   const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
   const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
+  const [searchQuery, setSearchQuery] = useState("")
   usePageTrack()
+
+  useEffect(() => {
+    refreshPins()
+  }, [refreshPins])
 
   const handleSortToggle = (
     targetColumn: SortColumn
@@ -101,6 +107,22 @@ const CidsPage = () => {
     return sortDirection === "descend" ? temp.reverse() : temp
   }, [pins, sortDirection, sortColumn])
 
+
+  const onSearch = (searchString: string) => {
+    isCid(searchString)
+      ? refreshPins({ searchedCid: searchString.trim() })
+      : refreshPins({ searchedName: searchString.trim() })
+
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSearch = useCallback(debounce(onSearch, 400), [refreshPins])
+
+  const onSearchChange = (searchString: string) => {
+    setSearchQuery(searchString)
+    debouncedSearch(searchString)
+  }
+
   return (
     <>
       <Helmet>
@@ -118,6 +140,14 @@ const CidsPage = () => {
             <Trans>CIDs</Trans>
           </Typography>
           <div className={classes.controls}>
+            <SearchBar
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                onSearchChange(e.target.value)
+              }
+              placeholder={t`Search by cid, name…`}
+              testId = "cid-search-bar"
+              value={searchQuery}
+            />
             <Button
               data-cy="button-pin-cid"
               onClick={() => setAddCIDOpen(true)}
