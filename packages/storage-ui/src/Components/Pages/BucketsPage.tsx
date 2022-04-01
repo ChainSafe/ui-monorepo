@@ -25,6 +25,7 @@ import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import { FileSystemType } from "@chainsafe/files-api-client"
+import { Helmet } from "react-helmet-async"
 
 export const desktopGridSettings = "3fr 110px 150px 70px !important"
 export const mobileGridSettings = "3fr 100px 100px 70px !important"
@@ -170,6 +171,9 @@ const BucketsPage = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>{t`Buckets`} - Chainsafe Storage</title>
+      </Helmet>
       <header
         className={classes.header}
         data-cy="header-buckets"

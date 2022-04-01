@@ -66,7 +66,8 @@
             "delimiter": "semi",
             "requireLast": false
         }
-    }]
+    }],
+    "@typescript-eslint/no-loss-of-precision": "off"
   },
   "ignorePatterns": [
     ".github/**",

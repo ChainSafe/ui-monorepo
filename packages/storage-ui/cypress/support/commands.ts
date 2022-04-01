@@ -43,6 +43,7 @@ export interface Web3LoginOptions {
   withNewUser?: boolean
   clearPins?: boolean
   deleteFpsBuckets?: boolean
+  withNewSession?: boolean
 }
 
 Cypress.Commands.add("clearPins", apiTestHelper.clearPins)
@@ -57,7 +58,8 @@ Cypress.Commands.add(
     url = localHost,
     clearPins = false,
     withNewUser = true,
-    deleteFpsBuckets = false
+    deleteFpsBuckets = false,
+    withNewSession = false
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -74,16 +76,26 @@ Cypress.Commands.add(
       })
     })
 
-    // with nothing in localstorage (and in session storage)
-    // the whole login flow should kick in
-    cy.session("web3loginNewUser", () => {
-      cy.visit(url)
-      authenticationPage.web3Button().click()
-      authenticationPage.showMoreButton().click()
-      authenticationPage.detectedWallet().click()
-      authenticationPage.web3SignInButton().safeClick()
-      bucketsPage.bucketsHeaderLabel().should("be.visible")
-    })
+    if (withNewUser || withNewSession){
+      const sessionName = `web3loginNewUser-${withNewSession ? new Date().toString() : "0"}`
+      cy.session(sessionName, () => {
+        cy.visit(url)
+        authenticationPage.web3Button().click()
+        authenticationPage.showMoreButton().click()
+        authenticationPage.detectedWallet().click()
+        authenticationPage.web3SignInButton().safeClick()
+        bucketsPage.bucketsHeaderLabel().should("be.visible")
+      })
+    } else {
+      cy.session("web3loginTestUser", () => {
+        cy.visit(url)
+        authenticationPage.web3Button().click()
+        authenticationPage.showMoreButton().click()
+        authenticationPage.detectedWallet().click()
+        authenticationPage.web3SignInButton().safeClick()
+        bucketsPage.bucketsHeaderLabel().should("be.visible")
+      })
+    }
 
     cy.visit(url)
     bucketsPage.bucketsHeaderLabel().should("be.visible")
@@ -120,6 +132,7 @@ declare global {
        * @param {String} options.url - (default: "http://localhost:3000") - what url to visit.
        * @param {Boolean} options.withNewUser - (default: true) - whether to create a new user for this session.
        * @param {Boolean} options.clearCSFBucket - (default: false) - whether any file in the csf bucket should be deleted.
+       * @param {Boolean} options.withNewSession - (default: false) - whether to create a new session.
        */
       web3Login: (options?: Web3LoginOptions) => void
 

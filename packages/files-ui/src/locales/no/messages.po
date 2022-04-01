@@ -853,6 +853,9 @@ msgstr ""
 msgid "Shared folders"
 msgstr ""
 
+msgid "Shared link"
+msgstr ""
+
 msgid "Shared with"
 msgstr ""
 

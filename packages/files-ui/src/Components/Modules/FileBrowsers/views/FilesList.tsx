@@ -1198,9 +1198,9 @@ const FilesList = ({ isShared = false }: Props) => {
                     handleAddToSelectedItems={handleAddToSelectedItems}
                     editing={editing}
                     setEditing={setEditing}
-                    handleRename={async (cid: string, newName: string) => {
-                      handleRename && (await handleRename(cid, newName))
+                    handleRename={(cid: string, newName: string) => {
                       setEditing(undefined)
+                      return handleRename && handleRename(cid, newName)
                     }}
                     deleteFile={() => {
                       setSelectedItems([file])
@@ -1257,9 +1257,9 @@ const FilesList = ({ isShared = false }: Props) => {
                   handleAddToSelectedItems={handleAddToSelectedItems}
                   editing={editing}
                   setEditing={setEditing}
-                  handleRename={async (path: string, newPath: string) => {
-                    handleRename && (await handleRename(path, newPath))
+                  handleRename={(path: string, newPath: string) => {
                     setEditing(undefined)
+                    return handleRename && handleRename(path, newPath)
                   }}
                   deleteFile={() => {
                     setSelectedItems([file])

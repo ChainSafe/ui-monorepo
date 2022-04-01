@@ -9,6 +9,7 @@ import {
   formatBytes,
   FormikTextInput,
   IMenuItem,
+  Loading,
   MoreIcon,
   TableCell,
   TableRow,
@@ -139,13 +140,17 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     okButton: {
       marginLeft: constants.generalUnit
+    },
+    loadingIcon: {
+      marginLeft: constants.generalUnit,
+      verticalAlign: "middle"
     }
   })
 })
 
 interface Props {
   bucket: BucketKeyPermission
-  handleRename: (bucket: BucketKeyPermission, newName: string) => void
+  handleRename: (bucket: BucketKeyPermission, newName: string) => Promise<void>
   openSharedFolder: (bucketId: string) => void
   onEditSharedFolder: () => void
   handleDeleteSharedFolder: () => void
@@ -160,6 +165,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
   const formRef = useRef(null)
   const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
   const [ownerName, setOwnerName] = useState("")
+  const [isEditingLoading, setIsEditingLoading] = useState(false)
 
   useEffect(() => {
     if (isOwner) {
@@ -246,15 +252,20 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
   }
 
   const formik = useFormik({
-    initialValues:{
-      name
-    },
+    initialValues:{ name },
     enableReinitialize: true,
     validationSchema: nameValidator,
     onSubmit:(values, { resetForm }) => {
       const newName = values.name?.trim()
 
-      newName && handleRename && handleRename(bucket, newName)
+      if (newName !== name && !!newName && handleRename) {
+        setIsEditingLoading(true)
+
+        handleRename(bucket, newName)
+          .then(() => setIsEditingLoading(false))
+      } else {
+        stopEditing()
+      }
       setIsRenaming(false)
       resetForm()
     }
@@ -265,7 +276,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     formik.resetForm()
   }, [formik, setIsRenaming])
 
-  useOnClickOutside(formRef, stopEditing)
+  useOnClickOutside(formRef, formik.submitForm)
 
   return  (
     <>
@@ -290,7 +301,14 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           onClick={(e) => onFolderClick(e)}
         >
           {!isRenaming || !desktop
-            ? <Typography>{name}</Typography>
+            ? <>
+              <Typography>{name}</Typography>
+              {isEditingLoading && <Loading
+                className={classes.loadingIcon}
+                size={16}
+                type="initial"
+              />}
+            </>
             : (
               <FormikProvider value={formik}>
                 <Form
@@ -404,7 +422,14 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                 </Form>
               </FormikProvider>
             </CustomModal>
-            <Typography>{name}</Typography>
+            <>
+              <Typography>{name}</Typography>
+              {isEditingLoading && <Loading
+                className={classes.loadingIcon}
+                size={16}
+                type="initial"
+              />}
+            </>
           </>
         )
       }

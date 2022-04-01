@@ -8,6 +8,7 @@ import {
   formatBytes,
   FormikTextInput,
   IMenuItem,
+  Loading,
   MenuDropdown,
   MoreIcon,
   TableCell,
@@ -168,6 +169,10 @@ const useStyles = makeStyles(({ animation, breakpoints, constants, palette, zInd
       "&.active": {
         fill: palette.primary.main
       }
+    },
+    loadingIcon: {
+      marginLeft: constants.generalUnit,
+      verticalAlign: "middle"
     }
   })
 })
@@ -178,13 +183,13 @@ interface IFileSystemTableItemProps {
   isOverUpload: boolean
   selected: ISelectedFile[]
   file: FileSystemItem
-  editing: ISelectedFile | undefined
+  editing?: string
   handleAddToSelectedCids: (selected: ISelectedFile) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
   setEditing: (editing: ISelectedFile |  undefined) => void
-  handleRename?: (toRename: ISelectedFile, newPath: string) => Promise<void>
+  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
 }
@@ -209,6 +214,7 @@ const FileSystemTableItem = React.forwardRef(
     const { fileSystemType } = useFileBrowser()
     const { name, cid, size } = file
     const { desktop } = useThemeSwitcher()
+    const [isEditingLoading, setIsEditingLoading] = useState(false)
 
     const formik = useFormik({
       initialValues: {
@@ -218,10 +224,12 @@ const FileSystemTableItem = React.forwardRef(
       onSubmit: (values) => {
         const newName = values.name?.trim()
 
-        newName && handleRename && handleRename({
-          cid: file.cid,
-          name: file.name
-        }, newName)
+        if (newName !== name && !!newName && handleRename) {
+          setIsEditingLoading(true)
+
+          handleRename(cid, newName)
+            ?.then(() => setIsEditingLoading(false))
+        }
       },
       enableReinitialize: true
     })
@@ -259,10 +267,7 @@ const FileSystemTableItem = React.forwardRef(
           <TableCell>
             <CheckboxInput
               value={selected.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0}
-              onChange={() => handleAddToSelectedCids({
-                cid,
-                name
-              })}
+              onChange={() => handleAddToSelectedCids({ cid, name })}
             />
           </TableCell>
         )}
@@ -276,15 +281,15 @@ const FileSystemTableItem = React.forwardRef(
           data-cy="label-file-item-name"
           ref={preview}
           align="left"
-          className={clsx(classes.filename, desktop && (editing?.cid === cid && editing.name === name) && "editing")}
+          className={clsx(classes.filename, desktop && editing === cid && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
-          {(editing?.cid === cid && editing.name === name) && desktop
+          {editing === cid && desktop
             ? (
               <FormikProvider value={formik}>
                 <Form
                   className={classes.desktopRename}
-                  onBlur={stopEditing}
+                  onBlur={formik.submitForm}
                   data-cy='form-rename'
                 >
                   <FormikTextInput
@@ -300,13 +305,19 @@ const FileSystemTableItem = React.forwardRef(
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
-                    autoFocus={editing.cid === cid && editing.name === name}
+                    autoFocus
                   />
                 </Form>
               </FormikProvider>
             )
-            : <Typography>{name}</Typography>
-          }
+            : <>
+              <Typography>{name}</Typography>
+              {isEditingLoading && <Loading
+                className={classes.loadingIcon}
+                size={16}
+                type="initial"
+              />}
+            </>}
         </TableCell>
         {desktop && (
           <>
