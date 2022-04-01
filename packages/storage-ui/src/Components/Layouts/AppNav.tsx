@@ -3,7 +3,7 @@ import {
   makeStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import clsx from "clsx"
 import {
   Link,
@@ -16,7 +16,8 @@ import {
   SettingSvg,
   DocumentSvg,
   Button,
-  PowerDownIcon
+  PowerDownIcon,
+  useLocation
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
@@ -137,43 +138,37 @@ const useStyles = makeStyles(
         flexDirection: "row",
         alignItems: "center",
         cursor: "pointer",
-        padding: `${constants.generalUnit * 1.5}px 0`,
+        margin: `${constants.generalUnit * 0.5}px 0`,
+        padding: `${constants.generalUnit}px ${constants.generalUnit * 1.5}px`,
+        borderRadius: "4px",
         transitionDuration: `${animation.transform}ms`,
         "& span": {
-          transitionDuration: `${animation.transform}ms`,
-          [breakpoints.up("md")]: {
-            color: constants.nav.itemColor
-          },
+          color: constants.nav.itemColor,
           [breakpoints.down("md")]: {
-            color: constants.nav.itemColorHover
+            color: palette.additional["gray"][3]
           }
         },
         "& svg": {
-          transitionDuration: `${animation.transform}ms`,
           width: Number(constants.svgWidth),
           marginRight: constants.generalUnit * 2,
-          [breakpoints.up("md")]: {
-            fill: constants.nav.itemIconColor
-          },
+          fill: constants.nav.itemIconColor,
           [breakpoints.down("md")]: {
-            fill: constants.nav.itemIconColorHover
+            fill: palette.additional["gray"][3]
           }
         },
         "&:hover": {
-          "& span": {
-            color: constants.nav.itemColorHover
-          },
-          "& svg": {
-            fill: constants.nav.itemIconColorHover
-          }
+          backgroundColor: palette.additional["gray"][5]
         },
-        [breakpoints.down("md")]: {
-          minWidth: Number(constants.mobileNavWidth)
-        }
-      },
-      navItemText: {
-        [breakpoints.down("md")]: {
-          color: palette.additional["gray"][3]
+        "&.selected": {
+          backgroundColor: palette.additional["gray"][5],
+          [breakpoints.down("md")]: {
+            "& span": {
+              color: palette.additional["gray"][9]
+            },
+            "& svg": {
+              fill: palette.additional["gray"][9]
+            }
+          }
         }
       },
       menuItem: {
@@ -202,14 +197,14 @@ interface IAppNav {
   setNavOpen: (state: boolean) => void
 }
 
+type AppNavTab = "buckets" | "cids" | "settings"
+
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-
+  const location = useLocation()
   const { storageSummary } = useStorage()
-
   const { isLoggedIn, logout } = useStorageApi()
-
 
   const signOut = useCallback(() => {
     logout()
@@ -220,6 +215,17 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
       setNavOpen(false)
     }
   }, [desktop, navOpen, setNavOpen])
+
+  const appNavTab: AppNavTab | undefined = useMemo(() => {
+    const firstPathParam = location.pathname.split("/")[1]
+    switch(firstPathParam) {
+      case "cids": return "cids"
+      case "buckets": return "buckets"
+      case "bucket": return "buckets"
+      case "settings": return "settings"
+      default: return
+    }
+  }, [location])
 
   return (
     <section
@@ -249,29 +255,25 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 data-cy="buckets-nav"
                 onClick={handleOnClick}
-                className={classes.navItem}
+                className={clsx(classes.navItem, appNavTab === "buckets" && "selected")}
                 to={ROUTE_LINKS.Buckets}
               >
                 <FolderSvg />
                 <Typography
                   variant="h5"
-                  className={classes.navItemText}
                 >
                   <Trans>Buckets</Trans>
                 </Typography>
               </Link>
               <Link
                 data-cy="cids-nav"
-                onClick={() => {
-                  handleOnClick()
-                }}
-                className={classes.navItem}
+                onClick={handleOnClick}
+                className={clsx(classes.navItem, appNavTab === "cids" && "selected")}
                 to={ROUTE_LINKS.Cids}
               >
                 <DatabaseSvg />
                 <Typography
                   variant="h5"
-                  className={classes.navItemText}
                 >
                   <Trans>CIDs</Trans>
                 </Typography>
@@ -281,13 +283,12 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 data-cy="settings-nav"
                 onClick={handleOnClick}
-                className={classes.navItem}
+                className={clsx(classes.navItem, appNavTab === "settings" && "selected")}
                 to={ROUTE_LINKS.SettingsRoot}
               >
                 <SettingSvg />
                 <Typography
                   variant="h5"
-                  className={classes.navItemText}
                 >
                   <Trans>Settings</Trans>
                 </Typography>
@@ -302,7 +303,6 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 <DocumentSvg />
                 <Typography
                   variant="h5"
-                  className={classes.navItemText}
                 >
                   <Trans>Docs</Trans>
                 </Typography>

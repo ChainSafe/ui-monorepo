@@ -1,8 +1,8 @@
 import { Button, FileInput } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import React, { useCallback, useState } from "react"
-import { Formik, Form } from "formik"
+import React, { useCallback, useMemo, useState } from "react"
+import { Form, useFormik, FormikProvider } from "formik"
 import { array, object } from "yup"
 import CustomModal from "../../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
@@ -83,8 +83,21 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles } = useFiles()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
+  const { storageSummary } = useFiles()
 
-  const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
+  const UploadSchema = useMemo(() => object().shape({
+    files: array().required(t`Please select a file to upload`)
+      .test("Upload Size",
+        t`Upload size exceeds plan capacity`,
+        (files) => {
+          // no validation if the user isn't the owner
+          if(bucket?.permission !== "owner") return true
+
+          const availableStorage = storageSummary?.available_storage || 0
+          const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
+          return uploadSize < availableStorage
+        })
+  }), [bucket, storageSummary])
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
@@ -106,7 +119,13 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
       console.error(error)
     }
     helpers.setSubmitting(false)
-  }, [close, currentPath, uploadFiles, refreshContents, bucket])
+  }, [bucket, close, refreshContents, uploadFiles, currentPath])
+
+  const formik = useFormik({
+    initialValues: { files: [] },
+    validationSchema: UploadSchema,
+    onSubmit: onSubmit
+  })
 
   return (
     <CustomModal
@@ -117,11 +136,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
         inner: classes.modalInner
       }}
     >
-      <Formik
-        initialValues={{ files: [] }}
-        validationSchema={UploadSchema}
-        onSubmit={onSubmit}
-      >
+      <FormikProvider value={formik}>
         <Form
           data-cy="form-upload-file"
           className={classes.root}
@@ -159,13 +174,13 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
               type="submit"
               variant="primary"
               className={clsx(classes.okButton, "wide")}
-              disabled={isDoneDisabled}
+              disabled={isDoneDisabled || !formik.isValid}
             >
               <Trans>Start Upload</Trans>
             </Button>
           </footer>
         </Form>
-      </Formik>
+      </FormikProvider>
     </CustomModal>
   )
 }
