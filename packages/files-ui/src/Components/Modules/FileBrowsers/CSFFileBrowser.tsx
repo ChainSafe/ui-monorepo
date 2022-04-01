@@ -107,7 +107,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     const itemToRename = pathContents.find(i => i.cid === cid)
     if (!bucket || !itemToRename) return
 
-    filesApiClient.moveBucketObjects(bucket.id, {
+    return filesApiClient.moveBucketObjects(bucket.id, {
       paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) })
       .then(() => refreshContents())
@@ -214,7 +214,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         deleteItems: moveItemsToBin,
         downloadFile: handleDownload,
         moveItems,
-        renameItem: renameItem,
+        renameItem,
         viewFolder,
         handleUploadOnDrop,
         loadingCurrentPath,
