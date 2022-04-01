@@ -199,7 +199,7 @@ const FileSystemGridItem = React.forwardRef(
       onSubmit: (values: { name: string }) => {
         const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
-        if (newName !== name && newName && handleRename) {
+        if (newName !== name && !!newName && handleRename) {
           setIsEditingLoading(true)
 
           handleRename(cid, newName)
