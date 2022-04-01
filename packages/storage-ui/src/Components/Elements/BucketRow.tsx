@@ -84,6 +84,9 @@ const BucketRow = ({ bucket }: Props) => {
         {bucket.name || bucket.id}
       </TableCell>
       <TableCell>
+        {bucket.file_system_type === "ipfs" ? "IPFS MFS" : "Chainsafe" }
+      </TableCell>
+      <TableCell>
         {formatBytes(bucket.size, 2)}
       </TableCell>
       <TableCell align="right">
