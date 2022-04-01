@@ -17,6 +17,7 @@ import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
 import { NotificationsProvider } from "./Contexts/NotificationsContext"
 import { PosthogProvider } from "./Contexts/PosthogContext"
+import { HelmetProvider } from "react-helmet-async"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -96,49 +97,51 @@ const App = () => {
   ), [])
 
   return (
-    <ThemeSwitcher
-      storageKey="css.themeKey"
-      themes={{ light: lightTheme, dark: darkTheme }}
-    >
-      <ErrorBoundary
-        fallback={fallBack}
-        onReset={() => window.location.reload()}
+    <HelmetProvider>
+      <ThemeSwitcher
+        storageKey="css.themeKey"
+        themes={{ light: lightTheme, dark: darkTheme }}
       >
-        <CssBaseline />
-        <LanguageProvider availableLanguages={availableLanguages}>
-          <ToastProvider
-            autoDismiss
-            defaultPosition="bottomRight">
-            <Web3Provider
-              onboardConfig={onboardConfig}
-              checkNetwork={false}
-              cacheWalletSelection={canUseLocalStorage}
-            >
-              <StorageApiProvider
-                apiUrl={apiUrl}
-                withLocalStorage={true}
+        <ErrorBoundary
+          fallback={fallBack}
+          onReset={() => window.location.reload()}
+        >
+          <CssBaseline />
+          <LanguageProvider availableLanguages={availableLanguages}>
+            <ToastProvider
+              autoDismiss
+              defaultPosition="bottomRight">
+              <Web3Provider
+                onboardConfig={onboardConfig}
+                checkNetwork={false}
+                cacheWalletSelection={canUseLocalStorage}
               >
-                <UserProvider>
-                  <StorageProvider>
-                    <Router>
-                      <NotificationsProvider>
-                        <BillingProvider>
-                          <PosthogProvider>
-                            <AppWrapper>
-                              <StorageRoutes />
-                            </AppWrapper>
-                          </PosthogProvider>
-                        </BillingProvider>
-                      </NotificationsProvider>
-                    </Router>
-                  </StorageProvider>
-                </UserProvider>
-              </StorageApiProvider>
-            </Web3Provider>
-          </ToastProvider>
-        </LanguageProvider>
-      </ErrorBoundary>
-    </ThemeSwitcher>
+                <StorageApiProvider
+                  apiUrl={apiUrl}
+                  withLocalStorage={true}
+                >
+                  <UserProvider>
+                    <StorageProvider>
+                      <Router>
+                        <NotificationsProvider>
+                          <BillingProvider>
+                            <PosthogProvider>
+                              <AppWrapper>
+                                <StorageRoutes />
+                              </AppWrapper>
+                            </PosthogProvider>
+                          </BillingProvider>
+                        </NotificationsProvider>
+                      </Router>
+                    </StorageProvider>
+                  </UserProvider>
+                </StorageApiProvider>
+              </Web3Provider>
+            </ToastProvider>
+          </LanguageProvider>
+        </ErrorBoundary>
+      </ThemeSwitcher>
+    </HelmetProvider>
   )
 }
 
