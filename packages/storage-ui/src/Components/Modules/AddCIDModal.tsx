@@ -93,8 +93,10 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   }, [close])
 
   const onSubmit = useCallback(() => {
-    setAccessingCID(true)
     if (!cid) return
+
+    setAccessingCID(true)
+
     addPin(cid.trim(), name.trim())
       .then(() => {
         onClose()
@@ -145,11 +147,9 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
       active={modalOpen}
       closePosition="none"
       maxWidth="sm"
+      testId="add-cid"
     >
-      <div
-        className={classes.root}
-        data-cy="form-pin-cid"
-      >
+      <div className={classes.root}>
         <Grid
           item
           xs={12}
@@ -172,7 +172,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
             value={name}
             autoFocus
             onChange={onNameChange}
-            data-cy="input-name"
+            data-cy="input-cid-name"
           />
           <TextInput
             label={t`CID to pin`}
@@ -199,6 +199,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
               component="p"
               variant="body1"
               className={classes.warningText}
+              data-cy="label-cid-pinned-warning"
             >
               <Trans>Warning: CID already pinned</Trans>
             </Typography>
