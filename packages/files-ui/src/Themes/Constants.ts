@@ -61,6 +61,7 @@ export interface CsfColors extends IConstants {
     itemColorHover: string
     itemIconColor: string
     itemIconColorHover: string
+    mobileSelectedBackground: string
     profileButtonShadow: string
   }
   createFolder: {
