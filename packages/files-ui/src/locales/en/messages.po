@@ -700,6 +700,9 @@ msgstr "Please provide a password"
 msgid "Please select a file to upload"
 msgstr "Please select a file to upload"
 
+msgid "Please select fewer files to upload"
+msgstr "Please select fewer files to upload"
+
 msgid "Preview"
 msgstr "Preview"
 
@@ -1038,6 +1041,9 @@ msgstr "Update your credit card"
 
 msgid "Upload"
 msgstr "Upload"
+
+msgid "Upload size exceeds plan capacity"
+msgstr "Upload size exceeds plan capacity"
 
 msgid "Uploads cancelled"
 msgstr "Uploads cancelled"

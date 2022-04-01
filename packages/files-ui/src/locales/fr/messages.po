@@ -701,6 +701,9 @@ msgstr "Merci de donner un mot de passe"
 msgid "Please select a file to upload"
 msgstr "Merci de sélectionner un fichier à téléverser"
 
+msgid "Please select fewer files to upload"
+msgstr ""
+
 msgid "Preview"
 msgstr "Aperçu"
 
@@ -1039,6 +1042,9 @@ msgstr "Mettre à jour votre carte de crédit"
 
 msgid "Upload"
 msgstr "Téléverser"
+
+msgid "Upload size exceeds plan capacity"
+msgstr ""
 
 msgid "Uploads cancelled"
 msgstr "Téléversements annulés"
