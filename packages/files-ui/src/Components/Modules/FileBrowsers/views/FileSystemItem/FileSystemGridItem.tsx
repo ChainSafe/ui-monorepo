@@ -298,7 +298,7 @@ const FileSystemGridItem = React.forwardRef(
               </FormikProvider>
             )
             : <div className={classes.gridFolderName}>
-              {name}{!isEditingLoading && <Loading
+              {name}{isEditingLoading && <Loading
                 className={classes.loadingIcon}
                 size={16}
                 type="initial"
