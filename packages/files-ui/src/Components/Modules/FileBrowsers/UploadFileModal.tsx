@@ -136,9 +136,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
         inner: classes.modalInner
       }}
     >
-      <FormikProvider
-        value={formik}
-      >
+      <FormikProvider value={formik}>
         <Form
           data-cy="form-upload-file"
           className={classes.root}
