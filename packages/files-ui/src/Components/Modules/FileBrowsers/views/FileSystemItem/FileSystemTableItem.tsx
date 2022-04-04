@@ -268,7 +268,6 @@ const FileSystemTableItem = React.forwardRef(
                       : t`Please enter a file name`
                     }
                     ref={renameInputRef}
-                    autoFocus
                   />
                   {
                     !isFolder && extension !== "" && (
