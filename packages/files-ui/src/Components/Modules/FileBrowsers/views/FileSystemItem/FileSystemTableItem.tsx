@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -203,6 +203,14 @@ const FileSystemTableItem = React.forwardRef(
 
     useOnClickOutside(formRef, formik.submitForm)
 
+    const renameInputRef = useRef<HTMLInputElement | null>()
+
+    useEffect(() => {
+      if (editing && renameInputRef?.current) {
+        renameInputRef.current.focus()
+      }
+    }, [editing])
+
     return (
       <TableRow
         data-cy="row-file-item"
@@ -259,6 +267,7 @@ const FileSystemTableItem = React.forwardRef(
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
+                    ref={renameInputRef}
                     autoFocus
                   />
                   {

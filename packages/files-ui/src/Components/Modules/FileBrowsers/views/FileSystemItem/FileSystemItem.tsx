@@ -355,6 +355,7 @@ const FileSystemItem = ({
 
   const [, dragMoveRef, preview] = useDrag({
     type: DragTypes.MOVABLE_FILE,
+    canDrag: !editing,
     item: () => {
       if (selectedCids.includes(file.cid)) {
         return { ids: selectedCids }
@@ -401,6 +402,14 @@ const FileSystemItem = ({
 
   const fileOrFolderRef = useRef<any>()
 
+  if (fileOrFolderRef?.current) {
+    if (editing) {
+      fileOrFolderRef.current.draggable = false
+    } else {
+      fileOrFolderRef.current.draggable = true
+    }
+  }
+
   if (!editing && desktop) {
     dragMoveRef(fileOrFolderRef)
     if (isFolder) {
@@ -408,6 +417,7 @@ const FileSystemItem = ({
       dropUploadRef(fileOrFolderRef)
     }
   }
+
 
   const onSingleClick = useCallback(
     (e) => {
