@@ -418,7 +418,6 @@ const FileSystemItem = ({
     }
   }
 
-
   const onSingleClick = useCallback(
     (e) => {
       if (desktop) {
