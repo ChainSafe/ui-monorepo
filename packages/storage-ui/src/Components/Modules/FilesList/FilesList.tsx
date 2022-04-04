@@ -282,6 +282,15 @@ const useStyles = makeStyles(
         color: "#FFFF00",
         fontWeight: 600,
         paddingRight: constants.generalUnit
+      },
+      fileNameHeader: {
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        marginRight: constants.generalUnit * 2
+      },
+      buttonWrap: {
+        whiteSpace: "nowrap"
       }
     })
   }
@@ -601,6 +610,7 @@ const FilesList = () => {
         <Typography
           variant="h1"
           component="h1"
+          className={classes.fileNameHeader}
         >
           {heading}
         </Typography>
@@ -615,7 +625,7 @@ const FilesList = () => {
                 disabled={accountRestricted}
               >
                 <PlusCircleIcon />
-                <span>
+                <span className={classes.buttonWrap}>
                   <Trans>New folder</Trans>
                 </span>
               </Button>
@@ -627,7 +637,7 @@ const FilesList = () => {
                 disabled={accountRestricted}
               >
                 <UploadIcon />
-                <span>
+                <span className={classes.buttonWrap}>
                   <Trans>Upload</Trans>
                 </span>
               </Button>
