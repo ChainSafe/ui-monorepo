@@ -178,7 +178,7 @@ const SharedFolderOverview = () => {
   }, [column, direction])
 
   const handleRename = useCallback((bucket: BucketKeyPermission, newName: string) => {
-    filesApiClient.updateBucket(bucket.id, {
+    return filesApiClient.updateBucket(bucket.id, {
       ...bucket,
       name: newName
     }).then(() => refreshBuckets(false))

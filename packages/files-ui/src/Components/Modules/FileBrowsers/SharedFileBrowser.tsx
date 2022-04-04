@@ -23,6 +23,7 @@ import FilesList from "./views/FilesList"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
+import { Helmet } from "react-helmet-async"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -87,6 +88,9 @@ const SharedFileBrowser = () => {
       }
     })
   }), [arrayOfPaths, bucket, redirect])
+  const currentFolder = useMemo(() => {
+    return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
+  }, [arrayOfPaths])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
@@ -155,7 +159,7 @@ const SharedFileBrowser = () => {
     const itemToRename = pathContents.find(i => i.cid === cid)
     if (!bucket || !itemToRename) return
 
-    filesApiClient.moveBucketObjects(bucket.id, {
+    return filesApiClient.moveBucketObjects(bucket.id, {
       paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) }).then(() => refreshContents())
       .catch(console.error)
@@ -319,6 +323,11 @@ const SharedFileBrowser = () => {
         itemOperations,
         withSurvey: false
       }}>
+      {(!!currentFolder || bucket.name) &&
+        <Helmet>
+          <title>{currentFolder || bucket.name} - Chainsafe Files</title>
+        </Helmet>
+      }
       <DragAndDrop>
         <FilesList isShared/>
       </DragAndDrop>

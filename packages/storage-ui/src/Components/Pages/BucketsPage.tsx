@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Button,
+  FormikRadioInput,
   FormikTextInput,
   Grid,
   PlusIcon,
@@ -23,9 +24,11 @@ import { useCallback } from "react"
 import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
+import { FileSystemType } from "@chainsafe/files-api-client"
+import { Helmet } from "react-helmet-async"
 
-export const desktopGridSettings = "3fr 190px 70px !important"
-export const mobileGridSettings = "3fr 190px 70px !important"
+export const desktopGridSettings = "3fr 110px 150px 70px !important"
+export const mobileGridSettings = "3fr 100px 100px 70px !important"
 
 const useStyles = makeStyles(({ breakpoints, animation, constants, typography }: CSSTheme) =>
   createStyles({
@@ -111,6 +114,13 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
     label: {
       fontSize: 14,
       lineHeight: "22px"
+    },
+    fileSystemSelector: {
+      margin: 5,
+      "& > div": {
+        display: "flex",
+        flexDirection: "row"
+      }
     }
   })
 )
@@ -120,7 +130,7 @@ const BucketsPage = () => {
   const { storageBuckets, createBucket, refreshBuckets } = useStorage()
   const { accountRestricted } = useStorageApi()
   const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
-  const bucketsToShow = useMemo(() =>     storageBuckets.filter(b => b.status === "created"), [storageBuckets])
+  const bucketsToShow = useMemo(() => storageBuckets.filter(b => b.status === "created"), [storageBuckets])
   const bucketNameValidationSchema = useMemo(
     () => bucketNameValidator(bucketsToShow.map(b => b.name))
     , [bucketsToShow]
@@ -135,13 +145,14 @@ const BucketsPage = () => {
 
   const formik = useFormik({
     initialValues:{
-      name: ""
+      name: "",
+      fileSystemType: "ipfs"
     },
     enableReinitialize: true,
     validationSchema: bucketNameValidationSchema,
     onSubmit:(values, helpers) => {
       helpers.setSubmitting(true)
-      createBucket(values.name.trim())
+      createBucket(values.name.trim(), values.fileSystemType as FileSystemType)
         .then(() => {
           setIsCreateBucketModalOpen(false)
         })
@@ -160,6 +171,9 @@ const BucketsPage = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>{t`Buckets`} - Chainsafe Storage</title>
+      </Helmet>
       <header
         className={classes.header}
         data-cy="header-buckets"
@@ -197,6 +211,13 @@ const BucketsPage = () => {
               align="left"
             >
               <Trans>Name</Trans>
+            </TableHeadCell>
+            <TableHeadCell
+              data-cy="table-header-file-system"
+              sortButtons={false}
+              align="left"
+            >
+              <Trans>File System</Trans>
             </TableHeadCell>
             <TableHeadCell
               data-cy="table-header-size"
@@ -263,6 +284,28 @@ const BucketsPage = () => {
                   labelClassName={classes.label}
                   autoFocus={true}
                 />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                className={classes.input}
+              >
+                <label className={classes.fileSystemSelector}>
+                  <Trans>File system type</Trans>
+                  <div>
+                    <FormikRadioInput
+                      name="fileSystemType"
+                      id='ipfs'
+                      label='IPFS'
+                    />
+                    <FormikRadioInput
+                      name="fileSystemType"
+                      id='chainsafe'
+                      label='Chainsafe'
+                    />
+                  </div>
+                </label>
               </Grid>
               <footer className={classes.modalFooter}>
                 <Button

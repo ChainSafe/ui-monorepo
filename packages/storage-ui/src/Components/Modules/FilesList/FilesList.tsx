@@ -282,6 +282,15 @@ const useStyles = makeStyles(
         color: "#FFFF00",
         fontWeight: 600,
         paddingRight: constants.generalUnit
+      },
+      fileNameHeader: {
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        marginRight: constants.generalUnit * 2
+      },
+      buttonWrap: {
+        whiteSpace: "nowrap"
       }
     })
   }
@@ -312,8 +321,7 @@ const FilesList = () => {
     allowDropUpload,
     itemOperations,
     moduleRootPath,
-    withSurvey,
-    fileSystemType
+    withSurvey
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<ISelectedFile | undefined>()
@@ -602,6 +610,7 @@ const FilesList = () => {
         <Typography
           variant="h1"
           component="h1"
+          className={classes.fileNameHeader}
         >
           {heading}
         </Typography>
@@ -616,7 +625,7 @@ const FilesList = () => {
                 disabled={accountRestricted}
               >
                 <PlusCircleIcon />
-                <span>
+                <span className={classes.buttonWrap}>
                   <Trans>New folder</Trans>
                 </span>
               </Button>
@@ -628,7 +637,7 @@ const FilesList = () => {
                 disabled={accountRestricted}
               >
                 <UploadIcon />
-                <span>
+                <span className={classes.buttonWrap}>
                   <Trans>Upload</Trans>
                 </span>
               </Button>
@@ -805,19 +814,6 @@ const FilesList = () => {
                 >
                   <Trans>Name</Trans>
                 </TableHeadCell>
-                {
-                  fileSystemType && fileSystemType !== "ipfs" && <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("date_uploaded")}
-                    sortDirection={
-                      column === "date_uploaded" ? direction : undefined
-                    }
-                    sortActive={column === "date_uploaded"}
-                  >
-                    <Trans>Date uploaded</Trans>
-                  </TableHeadCell>
-                }
                 <TableHeadCell>
                     CID
                 </TableHeadCell>
@@ -874,11 +870,11 @@ const FilesList = () => {
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
                 handleAddToSelectedCids={handleAddToSelectedCids}
-                editing={editing}
+                editing={editing?.cid}
                 setEditing={setEditing}
-                handleRename={async (toRename: ISelectedFile, newName: string) => {
-                  handleRename && (await handleRename(toRename, newName))
+                handleRename={(cid: string, newName: string) => {
                   setEditing(undefined)
+                  return handleRename && handleRename(cid, newName)
                 }}
                 deleteFile={() => {
                   setSelectedCids([{
@@ -930,11 +926,11 @@ const FilesList = () => {
               handleSelectCid={handleSelectCid}
               viewFolder={handleViewFolder}
               handleAddToSelectedCids={handleAddToSelectedCids}
-              editing={editing}
+              editing={editing?.cid}
               setEditing={setEditing}
-              handleRename={async (toRename: ISelectedFile, newPath: string) => {
-                handleRename && (await handleRename(toRename, newPath))
+              handleRename={(cid: string, newName: string) => {
                 setEditing(undefined)
+                return handleRename && handleRename(cid, newName)
               }}
               deleteFile={() => {
                 setSelectedCids([{

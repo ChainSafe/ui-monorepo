@@ -859,6 +859,9 @@ msgstr "Shared folder name"
 msgid "Shared folders"
 msgstr "Shared folders"
 
+msgid "Shared link"
+msgstr "Shared link"
+
 msgid "Shared with"
 msgstr "Shared with"
 
