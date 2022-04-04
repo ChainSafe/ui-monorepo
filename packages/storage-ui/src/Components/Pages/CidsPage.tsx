@@ -145,7 +145,7 @@ const CidsPage = () => {
                 onSearchChange(e.target.value)
               }
               placeholder={t`Search by cid, name…`}
-              testId = "cid-search-bar"
+              testId = "input-search-cid"
               value={searchQuery}
             />
             <Button
