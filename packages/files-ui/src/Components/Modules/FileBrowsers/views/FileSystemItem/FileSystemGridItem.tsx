@@ -240,6 +240,14 @@ const FileSystemGridItem = React.forwardRef(
 
     useOnClickOutside(formRef, formik.submitForm)
 
+    const renameInputRef = useRef<HTMLInputElement | null>()
+
+    useEffect(() => {
+      if (editing && renameInputRef?.current) {
+        renameInputRef.current.focus()
+      }
+    }, [editing])
+
     return (
       <div
         className={classes.gridViewContainer}
@@ -285,7 +293,7 @@ const FileSystemGridItem = React.forwardRef(
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
-                    autoFocus
+                    ref={renameInputRef}
                   />
                   {
                     !isFolder && extension !== ""  && (
