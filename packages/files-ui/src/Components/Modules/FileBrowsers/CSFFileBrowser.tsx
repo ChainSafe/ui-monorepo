@@ -24,9 +24,10 @@ import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
+import { Helmet } from "react-helmet-async"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
-  const { downloadFile, uploadFiles, buckets } = useFiles()
+  const { downloadFile, uploadFiles, buckets, storageSummary } = useFiles()
   const { accountRestricted } = useFilesApi()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
@@ -106,7 +107,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     const itemToRename = pathContents.find(i => i.cid === cid)
     if (!bucket || !itemToRename) return
 
-    filesApiClient.moveBucketObjects(bucket.id, {
+    return filesApiClient.moveBucketObjects(bucket.id, {
       paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) })
       .then(() => refreshContents())
@@ -115,7 +116,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
-
 
     const pathsToMove = getAbsolutePathsFromCids(cids, currentPath, pathContents)
 
@@ -157,6 +157,10 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
     }}), [arrayOfPaths, redirect])
 
+  const currentFolder = useMemo(() => {
+    return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
+  }, [arrayOfPaths])
+
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
 
@@ -164,17 +168,28 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       addToast({
         type:"error",
         title: t`Uploads disabled`,
-        subtitle: t`Oops! You need to pay for this month to upload more content.`
+        subtitle: t`Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content.`
       })
       return
     }
 
+    const availableStorage = storageSummary?.available_storage || 0
+    const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
+
+    if (uploadSize > availableStorage) {
+      addToast({
+        type: "error",
+        title: t`Upload size exceeds plan capacity`,
+        subtitle: t`Please select fewer files to upload`
+      })
+      return
+    }
     const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
     const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
     paths.forEach(p => {
       uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
     })
-  }, [uploadFiles, bucket, accountRestricted, addToast])
+  }, [bucket, accountRestricted, storageSummary, addToast, uploadFiles])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
@@ -210,7 +225,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         deleteItems: moveItemsToBin,
         downloadFile: handleDownload,
         moveItems,
-        renameItem: renameItem,
+        renameItem,
         viewFolder,
         handleUploadOnDrop,
         loadingCurrentPath,
@@ -222,6 +237,11 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         itemOperations,
         withSurvey: showSurvey && olderThanOneWeek
       }}>
+      {!!currentFolder &&
+        <Helmet>
+          <title>{currentFolder} - Chainsafe Files</title>
+        </Helmet>
+      }
       <DragAndDrop>
         <FilesList />
       </DragAndDrop>

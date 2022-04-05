@@ -58,9 +58,7 @@ const BillingContext = React.createContext<IBillingContext | undefined>(
 )
 
 const BillingProvider = ({ children }: BillingContextProps) => {
-  const { storageApiClient, isLoggedIn
-    // accountRestricted 
-  } = useStorageApi()
+  const { storageApiClient, isLoggedIn, accountRestricted } = useStorageApi()
   const { redirect } = useHistory()
   const { addNotification, removeNotification } = useNotifications()
   const { refreshBuckets } = useStorage()
@@ -69,7 +67,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
   const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update", [currentSubscription])
   const openInvoice = useMemo(() => invoices?.find((i) => i.status === "open"), [invoices])
-  // const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
+  const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
   const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
   const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
   const [isBillingEnabled, setIsBillingEnabled] = useState(false)
@@ -99,19 +97,19 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       .catch(console.error)
   }, [storageApiClient, isLoggedIn])
 
-  // useEffect(() => {
-  //   if (accountRestricted && !restrictedNotification) {
-  //     const notif = addNotification({
-  //       createdAt: dayjs().unix(),
-  //       title: t`Account is restricted`,
-  //       onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
-  //     })
-  //     setRestrictedNotification(notif)
-  //   } else if (accountRestricted === false && restrictedNotification) {
-  //     removeNotification(restrictedNotification)
-  //     setRestrictedNotification(undefined)
-  //   }
-  // }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
+  useEffect(() => {
+    if (accountRestricted && !restrictedNotification) {
+      const notif = addNotification({
+        createdAt: dayjs().unix(),
+        title: t`Account is restricted`,
+        onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+      })
+      setRestrictedNotification(notif)
+    } else if (accountRestricted === false && restrictedNotification) {
+      removeNotification(restrictedNotification)
+      setRestrictedNotification(undefined)
+    }
+  }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
 
   useEffect(() => {
     if (!!openInvoice && !unpaidInvoiceNotification) {

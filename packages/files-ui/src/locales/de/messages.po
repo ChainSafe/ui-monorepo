@@ -619,7 +619,7 @@ msgstr ""
 msgid "Only send the exact amount of {0} to this address"
 msgstr ""
 
-msgid "Oops! You need to pay for this month to upload more content."
+msgid "Only with annual billing"
 msgstr ""
 
 msgid "Operating system:"
@@ -696,6 +696,9 @@ msgstr "Bitte geben Sie ein Passwort an"
 
 msgid "Please select a file to upload"
 msgstr "Bitte wählen Sie eine Datei zum Hochladen"
+
+msgid "Please select fewer files to upload"
+msgstr ""
 
 msgid "Preview"
 msgstr "Vorschau"
@@ -851,6 +854,9 @@ msgid "Shared folder name"
 msgstr ""
 
 msgid "Shared folders"
+msgstr ""
+
+msgid "Shared link"
 msgstr ""
 
 msgid "Shared with"
@@ -1012,6 +1018,9 @@ msgstr "Erneut versuchen"
 msgid "Try another method"
 msgstr "Eine andere Methode versuchen"
 
+msgid "USDC, DAI, BTC, or ETH"
+msgstr ""
+
 msgid "Update"
 msgstr "Aktualisieren"
 
@@ -1028,6 +1037,9 @@ msgid "Update your credit card"
 msgstr ""
 
 msgid "Upload"
+msgstr ""
+
+msgid "Upload size exceeds plan capacity"
 msgstr ""
 
 msgid "Uploads cancelled"
@@ -1139,6 +1151,9 @@ msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
 msgstr ""
 
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."

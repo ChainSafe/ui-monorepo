@@ -23,6 +23,7 @@ import FilesList from "./views/FilesList"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
+import { Helmet } from "react-helmet-async"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   createStyles({
@@ -43,7 +44,7 @@ const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
   }))
 
 const SharedFileBrowser = () => {
-  const { downloadFile, uploadFiles, buckets, getStorageSummary, refreshBuckets } = useFiles()
+  const { downloadFile, uploadFiles, buckets, getStorageSummary, refreshBuckets, storageSummary } = useFiles()
   const { filesApiClient, accountRestricted } = useFilesApi()
   const classes = useStyles()
   const { addToast } = useToasts()
@@ -87,6 +88,9 @@ const SharedFileBrowser = () => {
       }
     })
   }), [arrayOfPaths, bucket, redirect])
+  const currentFolder = useMemo(() => {
+    return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
+  }, [arrayOfPaths])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
@@ -155,7 +159,7 @@ const SharedFileBrowser = () => {
     const itemToRename = pathContents.find(i => i.cid === cid)
     if (!bucket || !itemToRename) return
 
-    filesApiClient.moveBucketObjects(bucket.id, {
+    return filesApiClient.moveBucketObjects(bucket.id, {
       paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) }).then(() => refreshContents())
       .catch(console.error)
@@ -201,11 +205,22 @@ const SharedFileBrowser = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
-    if (accountRestricted) {
+    if (accountRestricted && bucket.permission === "owner") {
       addToast({
         type:"error",
         title: t`Uploads disabled`,
-        subtitle: t`Oops! You need to pay for this month to upload more content.`
+        subtitle: t`Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content.`
+      })
+      return
+    }
+    const availableStorage = storageSummary?.available_storage || 0
+    const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
+
+    if (bucket.permission === "owner" && uploadSize > availableStorage) {
+      addToast({
+        type: "error",
+        title: t`Upload size exceeds plan capacity`,
+        subtitle: t`Please select fewer files to upload`
       })
       return
     }
@@ -214,7 +229,7 @@ const SharedFileBrowser = () => {
     paths.forEach(p => {
       uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
     })
-  }, [uploadFiles, bucket, accountRestricted, addToast])
+  }, [bucket, accountRestricted, storageSummary, addToast, uploadFiles])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],
@@ -308,6 +323,11 @@ const SharedFileBrowser = () => {
         itemOperations,
         withSurvey: false
       }}>
+      {(!!currentFolder || bucket.name) &&
+        <Helmet>
+          <title>{currentFolder || bucket.name} - Chainsafe Files</title>
+        </Helmet>
+      }
       <DragAndDrop>
         <FilesList isShared/>
       </DragAndDrop>

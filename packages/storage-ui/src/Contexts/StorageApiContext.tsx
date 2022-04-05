@@ -69,6 +69,7 @@ type StorageApiContext = {
   logout: () => void
   status: DirectAuthContextStatus
   resetStatus(): void
+  accountRestricted?: boolean
 }
 
 const StorageApiContext = React.createContext<StorageApiContext | undefined>(undefined)
@@ -103,6 +104,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
   { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
   >(undefined)
+  const [accountRestricted, setAccountRestricted] = useState(false)
 
   // returning user
   const isReturningUserLocal = localStorageGet(isReturningUserStorageKey)
@@ -228,6 +230,22 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canUseLocalStorage])
 
+
+  useEffect(() => {
+    if (accessToken && accessToken.token && storageApiClient) {
+      storageApiClient?.setToken(accessToken.token)
+      const decodedAccessToken = jwtDecode<{ perm: { secured?: string; files?: string } }>(
+        accessToken.token
+      )
+
+      if (decodedAccessToken.perm.files === "restricted") {
+        setAccountRestricted(true)
+      } else {
+        setAccountRestricted(false)
+      }
+    }
+  }, [accessToken, storageApiClient])
+
   const selectWallet = async () => {
     if (onboard && !isReady) {
       let walletSelected = !!wallet
@@ -258,12 +276,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       }
     }
   }, [refreshToken])
-
-  useEffect(() => {
-    if (accessToken && accessToken.token && storageApiClient) {
-      storageApiClient?.setToken(accessToken.token)
-    }
-  }, [accessToken, storageApiClient])
 
   const isLoggedIn = () => {
     if (isLoadingUser) {
@@ -409,7 +421,8 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         userInfo,
         selectWallet,
         resetAndSelectWallet,
-        logout
+        logout,
+        accountRestricted
       }}
     >
       {children}

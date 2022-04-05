@@ -5,7 +5,9 @@ import {
   SearchEntry,
   Bucket,
   PinStatus,
-  BucketSummaryResponse
+  BucketSummaryResponse,
+  PinResult,
+  FileSystemType
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -52,6 +54,11 @@ interface GetFileContentParams {
   path: string
 }
 
+interface RefreshPinParams {
+  searchedCid?: string
+  searchedName?: string
+}
+
 type StorageContext = {
   pins: PinStatus[]
   uploadsInProgress: UploadProgress[]
@@ -60,13 +67,14 @@ type StorageContext = {
   getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
-  addPin: (cid: string) => Promise<PinStatus>
-  refreshPins: () => void
+  addPin: (cid: string, name: string) => Promise<PinStatus>
+  refreshPins: (params?: RefreshPinParams) => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
-  createBucket: (name: string) => Promise<void>
+  createBucket: (name: string, fileSystemType: FileSystemType) => Promise<void>
   removeBucket: (id: string) => void
   refreshBuckets: () => void
+  searchCid: (cid: string) => Promise<PinResult | void>
 }
 
 // This represents a File or Folder on the
@@ -94,10 +102,11 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [storageApiClient])
 
-  const refreshPins = useCallback(() => {
+  const refreshPins = useCallback(({ searchedCid = undefined, searchedName = "" }: RefreshPinParams = {}) => {
     storageApiClient.listPins(
-      undefined,
-      undefined,
+      searchedCid ? [searchedCid] : undefined,
+      searchedName,
+      "partial",
       ["queued", "pinning", "pinned", "failed"],
       undefined,
       undefined,
@@ -167,16 +176,17 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   })
 
-  const addPin = useCallback((cid: string) => {
-    return storageApiClient.addPin(({ cid }))
+  const addPin = useCallback((cid: string, name: string) => {
+    return storageApiClient.addPin(({ cid, name }))
   }, [storageApiClient])
 
-  const createBucket = useCallback(async (name: string) => {
+  const createBucket = useCallback(async (name: string, fileSystemType: FileSystemType) => {
     return storageApiClient.createBucket({
       name,
       type: "fps",
       public: "read",
-      encryption_key:""
+      encryption_key: "",
+      file_system_type: fileSystemType
     })
       .then(refreshBuckets)
       .catch(console.error)
@@ -343,6 +353,18 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [getFileContent])
 
+  const searchCid = useCallback((cid: string) => {
+    return storageApiClient.listPins(
+      [cid],
+      undefined,
+      undefined,
+      ["queued", "pinning", "pinned", "failed"],
+      undefined,
+      undefined,
+      50
+    ).catch(console.error)
+  }, [storageApiClient])
+
   return (
     <StorageContext.Provider
       value={{
@@ -359,7 +381,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         createBucket,
         removeBucket,
         uploadFiles,
-        refreshBuckets
+        refreshBuckets,
+        searchCid
       }}
     >
       {children}

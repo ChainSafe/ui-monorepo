@@ -895,6 +895,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       onClick={() => setCreateFolderModalOpen(true)}
                       variant="outline"
                       size="large"
+                      disabled={accountRestricted}
                     >
                       <PlusCircleIcon />
                       <span className={classes.buttonWrap}>
@@ -906,6 +907,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       onClick={() => setIsUploadModalOpen(true)}
                       variant="outline"
                       size="large"
+                      disabled={accountRestricted}
                     >
                       <UploadIcon />
                       <span className={classes.buttonWrap}>
@@ -1196,9 +1198,9 @@ const FilesList = ({ isShared = false }: Props) => {
                     handleAddToSelectedItems={handleAddToSelectedItems}
                     editing={editing}
                     setEditing={setEditing}
-                    handleRename={async (cid: string, newName: string) => {
-                      handleRename && (await handleRename(cid, newName))
+                    handleRename={(cid: string, newName: string) => {
                       setEditing(undefined)
+                      return handleRename && handleRename(cid, newName)
                     }}
                     deleteFile={() => {
                       setSelectedItems([file])
@@ -1255,9 +1257,9 @@ const FilesList = ({ isShared = false }: Props) => {
                   handleAddToSelectedItems={handleAddToSelectedItems}
                   editing={editing}
                   setEditing={setEditing}
-                  handleRename={async (path: string, newPath: string) => {
-                    handleRename && (await handleRename(path, newPath))
+                  handleRename={(path: string, newPath: string) => {
                     setEditing(undefined)
+                    return handleRename && handleRename(path, newPath)
                   }}
                   deleteFile={() => {
                     setSelectedItems([file])

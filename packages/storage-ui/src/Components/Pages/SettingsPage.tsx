@@ -16,6 +16,8 @@ import clsx from "clsx"
 import ApiKeys from "../Modules/ApiKeys"
 import { useBilling } from "../../Contexts/BillingContext"
 import SubscriptionTab from "../Modules/SubscriptionTab"
+import { usePageTrack } from "../../Contexts/PosthogContext"
+import { Helmet } from "react-helmet-async"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -130,6 +132,7 @@ const SettingsPage: React.FC = () => {
   const classes = useStyles()
   const { redirect } = useHistory()
   const { isBillingEnabled } = useBilling()
+  usePageTrack()
 
   const onSelectTab = useCallback(
     (path: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(path))
@@ -137,6 +140,9 @@ const SettingsPage: React.FC = () => {
 
   return (
     <div className={classes.container}>
+      <Helmet>
+        <title>{t`Settings`} - Chainsafe Storage</title>
+      </Helmet>
       <div className={classes.headerContainer}>
         <Typography
           variant="h1"

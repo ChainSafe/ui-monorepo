@@ -37,11 +37,17 @@ msgstr "A file with the same name already exists"
 msgid "API Keys"
 msgstr "API Keys"
 
+msgid "Accept"
+msgstr "Accept"
+
 msgid "Accepted currencies"
 msgstr "Accepted currencies"
 
 msgid "Access your billing history in settings or view your"
 msgstr "Access your billing history in settings or view your"
+
+msgid "Account is restricted"
+msgstr "Account is restricted"
 
 msgid "Add API Key"
 msgstr "Add API Key"
@@ -91,6 +97,9 @@ msgstr "Are we on the right track? Let us know in less than 1 minute."
 msgid "Are you sure? This will delete your default payment method."
 msgstr "Are you sure? This will delete your default payment method."
 
+msgid "Billing History"
+msgstr "Billing History"
+
 msgid "Billing history"
 msgstr "Billing history"
 
@@ -117,6 +126,9 @@ msgstr "CID invalid"
 
 msgid "CID is required"
 msgstr "CID is required"
+
+msgid "CID to pin"
+msgstr "CID to pin"
 
 msgid "CIDs"
 msgstr "CIDs"
@@ -147,9 +159,6 @@ msgstr "Check your inbox! We've sent another email."
 
 msgid "Cid"
 msgstr "Cid"
-
-msgid "Cids"
-msgstr "Cids"
 
 msgid "Click or drag to upload files"
 msgstr "Click or drag to upload files"
@@ -226,8 +235,8 @@ msgstr "Credit Card is expiring soon"
 msgid "DAI, USDC, ETH or BTC"
 msgstr "DAI, USDC, ETH or BTC"
 
-msgid "Date uploaded"
-msgstr "Date uploaded"
+msgid "Decline"
+msgstr "Decline"
 
 msgid "Delete"
 msgstr "Delete"
@@ -304,6 +313,12 @@ msgstr "Features"
 msgid "File"
 msgstr "File"
 
+msgid "File System"
+msgstr "File System"
+
+msgid "File system type"
+msgstr "File system type"
+
 msgid "Folder"
 msgstr "Folder"
 
@@ -330,6 +345,9 @@ msgstr "Go  back"
 
 msgid "Go back"
 msgstr "Go back"
+
+msgid "Go to Payments"
+msgstr "Go to Payments"
 
 msgid "Have a question?"
 msgstr "Have a question?"
@@ -373,6 +391,9 @@ msgstr "Move to..."
 msgid "Name"
 msgstr "Name"
 
+msgid "Name (optional)"
+msgstr "Name (optional)"
+
 msgid "New Key"
 msgstr "New Key"
 
@@ -412,14 +433,11 @@ msgstr "One sec, getting files ready..."
 msgid "Only send the exact amount of {0} to this address"
 msgstr "Only send the exact amount of {0} to this address"
 
-msgid "Open on Gateway"
-msgstr "Open on Gateway"
+msgid "Only with annual billing"
+msgstr "Only with annual billing"
 
 msgid "Or using one of the following:"
 msgstr "Or using one of the following:"
-
-msgid "Paste the CID to pin it with ChainSafe Storage"
-msgstr "Paste the CID to pin it with ChainSafe Storage"
 
 msgid "Pay now"
 msgstr "Pay now"
@@ -447,6 +465,9 @@ msgstr "Pin"
 
 msgid "Pin CID"
 msgstr "Pin CID"
+
+msgid "Pin a CID"
+msgstr "Pin a CID"
 
 msgid "Plan changed successfully"
 msgstr "Plan changed successfully"
@@ -498,6 +519,9 @@ msgstr "Rename file"
 
 msgid "Rename folder"
 msgstr "Rename folder"
+
+msgid "Search by cid, name…"
+msgstr "Search by cid, name…"
 
 msgid "Secret"
 msgstr "Secret"
@@ -625,6 +649,12 @@ msgstr "This card will become your default payment method"
 msgid "This is the free product."
 msgstr "This is the free product."
 
+msgid "This website uses cookies"
+msgstr "This website uses cookies"
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+
 msgid "This week"
 msgstr "This week"
 
@@ -639,6 +669,9 @@ msgstr "Try again"
 
 msgid "Type"
 msgstr "Type"
+
+msgid "USDC, DAI, BTC, or ETH"
+msgstr "USDC, DAI, BTC, or ETH"
 
 msgid "Unpin"
 msgstr "Unpin"
@@ -667,6 +700,9 @@ msgstr "Upload complete"
 msgid "Uploading {0} files"
 msgstr "Uploading {0} files"
 
+msgid "Uploads disabled"
+msgstr "Uploads disabled"
+
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
@@ -691,6 +727,9 @@ msgstr "View PDF"
 msgid "View folder"
 msgstr "View folder"
 
+msgid "Warning: CID already pinned"
+msgstr "Warning: CID already pinned"
+
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 
@@ -711,6 +750,12 @@ msgstr "You now have:"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+
+msgid "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
+msgstr "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
 
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
 msgstr "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
