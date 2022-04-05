@@ -27,7 +27,7 @@ const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     title: {
-      marginTop: constants.generalUnit,
+      marginTop: constants.generalUnit * 4,
       [breakpoints.down("md")]: {
         fontSize: 18,
         lineHeight: "22px",

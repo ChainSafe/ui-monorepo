@@ -129,7 +129,8 @@ const useStyles = makeStyles(
           backgroundColor: palette.additional["gray"][4]
         },
         [breakpoints.up("md")]: {
-          margin: `${constants.generalUnit * 3}px 0`
+          marginTop: constants.generalUnit * 3,
+          marginBottom: 0
         },
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 3}px 0 0`
@@ -255,11 +256,19 @@ const useStyles = makeStyles(
       bulkOperations: {
         display: "flex",
         flexDirection: "row",
-        marginTop: constants.generalUnit * 3,
-        marginBottom: constants.generalUnit * 3,
-        minHeight: constants.generalUnit * 4.2, // reserve space for buttons for the interface not to jump when they get visible
+        position: "sticky",
+        top: "80px",
+        backgroundColor: palette.additional["gray"][1],
+        zIndex: zIndex?.blocker,
+        minHeight: constants.generalUnit * 5 + 34,
+        alignItems: "center",
         "& > *": {
           marginRight: constants.generalUnit
+        },
+        [breakpoints.up("md")]: {
+          // prevent grid shadows overflow showing
+          marginLeft: "-4px",
+          paddingLeft: "4px"
         }
       },
       confirmDeletionDialog: {
@@ -271,7 +280,6 @@ const useStyles = makeStyles(
         gridColumnGap: constants.generalUnit * 2,
         gridRowGap: constants.generalUnit * 2,
         marginBottom: constants.generalUnit * 4,
-        marginTop: constants.generalUnit * 4,
         [breakpoints.down("lg")]: {
           gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)"
         },
@@ -319,6 +327,14 @@ const useStyles = makeStyles(
       },
       checkIcon: {
         fill: palette.additional.gray[8]
+      },
+      tableHead: {
+        position: "sticky",
+        top: constants.generalUnit * 5 + 34 + 80,
+        zIndex: zIndex?.layer0,
+        [breakpoints.down("md")]: {
+          top: 50
+        }
       }
     })
   }
@@ -1053,7 +1069,7 @@ const FilesList = ({ isShared = false }: Props) => {
               testId="home"
             >
               {desktop ? (
-                <TableHead>
+                <TableHead className={classes.tableHead}>
                   <TableRow
                     type="grid"
                     className={classes.tableRow}
@@ -1102,7 +1118,7 @@ const FilesList = ({ isShared = false }: Props) => {
                   </TableRow>
                 </TableHead>
               ) : (
-                <TableHead>
+                <TableHead className={classes.tableHead}>
                   <TableRow
                     type="grid"
                     className={classes.tableRow}
