@@ -64,6 +64,7 @@ describe("File management", () => {
       fileUploadModal.uploadButton().should("be.enabled").click()
       // error should be present
       fileUploadModal.uploadButton().should("be.disabled")
+      fileUploadModal.errorLabel().should("be.visible")
     })
 
     it("can move a file in and out of a folder", () => {
