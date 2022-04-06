@@ -88,12 +88,11 @@ interface ToastContext {
   addToast: (toastParams: ToastParams) => string
   updateToast: (toastId: string, toastParams: ToastParams, startDismissal?: boolean) => void
   removeToast: (toastId: string) => void
+  removeAllToasts: () => void
   toasts: Toast[]
 }
 
-const ToastContext = React.createContext<ToastContext | undefined>(
-  undefined
-)
+const ToastContext = React.createContext<ToastContext | undefined>(undefined)
 
 const ToastProvider = ({
   children,
@@ -108,6 +107,16 @@ const ToastProvider = ({
 
   const removeToast = useCallback((toastId: string) => {
     toasts.current = toasts.current.filter((toast) => toast.id !== toastId)
+    setToastQueue(toasts.current)
+  }, [toasts])
+
+  const removeAllToasts = useCallback(() => {
+    // cancel any pending progress such as upload/downloads etc.. 
+    toasts.current.forEach((toast) => {
+      toast.onProgressCancel && toast.onProgressCancel()
+    })
+
+    toasts.current = []
     setToastQueue(toasts.current)
   }, [toasts])
 
@@ -159,6 +168,7 @@ const ToastProvider = ({
         addToast,
         updateToast,
         removeToast,
+        removeAllToasts,
         toasts: toastQueue
       }}
     >
@@ -184,8 +194,7 @@ const ToastProvider = ({
             ))}
           </div>
         )
-      ))
-      }
+      ))}
       {children}
     </ToastContext.Provider>
   )
