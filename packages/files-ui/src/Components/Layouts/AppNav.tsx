@@ -14,7 +14,8 @@ import {
   UserShareSvg,
   MenuDropdown,
   ScrollbarWrapper,
-  useLocation
+  useLocation,
+  useToasts
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
@@ -260,11 +261,14 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { removeUser, getProfileTitle, profile } = useUser()
   const location = useLocation()
+  const { removeAllToasts } = useToasts()
 
   const signOut = useCallback(() => {
+    console.log("hop")
     logout()
     removeUser()
-  }, [logout, removeUser])
+    removeAllToasts()
+  }, [logout, removeAllToasts, removeUser])
 
   const handleOnClick = useCallback(() => {
     if (!desktop && navOpen) {
