@@ -259,7 +259,7 @@ const useStyles = makeStyles(
         position: "sticky",
         top: "80px",
         backgroundColor: palette.additional["gray"][1],
-        zIndex: zIndex?.blocker,
+        zIndex: zIndex?.layer0,
         minHeight: constants.generalUnit * 5 + 34,
         alignItems: "center",
         "& > *": {
