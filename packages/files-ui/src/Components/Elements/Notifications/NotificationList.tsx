@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Typography, ScrollbarWrapper, Divider } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import dayjs from "dayjs"
@@ -57,10 +57,6 @@ const NotificationList = ({ notifications }: INotificationListProps) => {
   const classes = useStyles()
   const thisWeeksNotifications = notifications.filter(n => dayjs(Date.now()).diff(dayjs.unix(n.createdAt), "day") <= 7)
   const olderNotifications = notifications.filter(n => dayjs(Date.now()).diff(dayjs.unix(n.createdAt), "day") > 7)
-
-  useEffect(() => {
-    console.log("notif", notifications.length)
-  }, [notifications])
 
   return (
     <ScrollbarWrapper
