@@ -264,7 +264,6 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
   const { removeAllToasts } = useToasts()
 
   const signOut = useCallback(() => {
-    console.log("hop")
     logout()
     removeUser()
     removeAllToasts()
