@@ -61,7 +61,7 @@ describe("File management", () => {
       homePage.uploadButton().click()
       fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
       // we attach files via automation differently than a real user, click is necessary to invoke error
-      fileUploadModal.uploadButton().should("be.enabled").click()
+      fileUploadModal.uploadButton().safeClick(undefined, true)
       // error should be present
       fileUploadModal.uploadButton().should("be.disabled")
       fileUploadModal.errorLabel().should("be.visible")
