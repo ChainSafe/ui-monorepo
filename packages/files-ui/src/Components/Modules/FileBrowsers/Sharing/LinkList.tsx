@@ -166,7 +166,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey, setTouchedLinkedList }: Props
         refreshNonces()
         setTouchedLinkedList()
       })
-  }, [bucketId, captureEvent, filesApiClient, newLinkPermission, refreshNonces])
+  }, [bucketId, captureEvent, filesApiClient, newLinkPermission, refreshNonces, setTouchedLinkedList])
 
   return (
     <div className={classes.root}>
