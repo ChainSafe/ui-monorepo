@@ -112,9 +112,10 @@ const MAX_LINKS = 2
 interface Props {
   bucketId: string
   bucketEncryptionKey: string
+  setTouchedLinkedList: () => void
 }
 
-const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
+const LinkList = ({ bucketId, bucketEncryptionKey, setTouchedLinkedList }: Props) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const [nonces, setNonces] = useState<NonceResponse[]>([])
@@ -163,6 +164,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
       .finally(() => {
         setIsLoadingCreation(false)
         refreshNonces()
+        setTouchedLinkedList()
       })
   }, [bucketId, captureEvent, filesApiClient, newLinkPermission, refreshNonces])
 
