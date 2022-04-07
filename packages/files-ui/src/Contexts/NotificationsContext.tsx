@@ -12,9 +12,7 @@ interface INotificationsContext {
   removeNotification: (id: string) => void
 }
 
-const NotificationsContext = React.createContext<INotificationsContext | undefined>(
-  undefined
-)
+const NotificationsContext = React.createContext<INotificationsContext | undefined>(undefined)
 
 const NotificationsProvider = ({ children }: NotificationsContextProps) => {
   const [notifications, setNotifications] = useState<Notification[]>([])
