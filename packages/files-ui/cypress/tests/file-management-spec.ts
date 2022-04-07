@@ -47,7 +47,7 @@ describe("File management", () => {
       fileUploadModal.body().should("not.exist")
     })
 
-    it.only("cannot upload a file if size exceeds capacity", () => {
+    it("cannot upload a file if the size exceeds capacity", () => {
       // intercept and stub storage data
       cy.intercept("GET", "**/buckets/summary", (req) => {
         req.on("response", (res) => {
@@ -59,12 +59,10 @@ describe("File management", () => {
 
       cy.web3Login()
       homePage.uploadButton().click()
-      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
-      // we attach files via automation differently than a real user, click is necessary to invoke error
-      fileUploadModal.uploadButton().safeClick(undefined, true)
-      // error should be present
-      fileUploadModal.uploadButton().should("be.disabled")
+      fileUploadModal.attachFileForAutomation()
+      // ensure an error label is present
       fileUploadModal.errorLabel().should("be.visible")
+      fileUploadModal.uploadButton().should("be.disabled")
     })
 
     it("can move a file in and out of a folder", () => {
