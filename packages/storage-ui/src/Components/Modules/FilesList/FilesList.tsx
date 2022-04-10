@@ -473,8 +473,8 @@ const FilesList = () => {
   const [{ isOverMoveHomeBreadcrumb }, dropMoveHomeBreadcrumbRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => currentPath !== "/",
-    drop: (item: { ids: ISelectedFile[]}) => {
-      moveItems && moveItems(item.ids, "/")
+    drop: (item: {selected: ISelectedFile[]}) => {
+      moveItems && moveItems(item.selected, "/")
       resetSelectedCids()
     },
     collect: (monitor) => ({
@@ -644,7 +644,6 @@ const FilesList = () => {
       <div className={classes.breadCrumbContainer}>
         {crumbs && moduleRootPath && (
           <Breadcrumb
-            // crumbs={crumbs}
             crumbs={crumbs.map((crumb, i) => ({
               ...crumb,
               component: (i < crumbs.length - 1)
@@ -652,12 +651,14 @@ const FilesList = () => {
                   folderName={crumb.text}
                   onClick={crumb.onClick}
                   handleMove={(item) => {
-                    moveItems && crumb.path && moveItems(item.ids, crumb.path)
+                    console.log(item, crumb.path)
+                    moveItems && crumb.path && moveItems(item.selected, crumb.path)
                     resetSelectedCids()
                   }}
                   handleUpload={(item) => handleUploadOnDrop &&
-                  crumb.path &&
-                  handleUploadOnDrop(item.files, item.items, crumb.path)}
+                    crumb.path &&
+                    handleUploadOnDrop(item.files, item.items, crumb.path)
+                  }
                 />
                 : null
             }))}

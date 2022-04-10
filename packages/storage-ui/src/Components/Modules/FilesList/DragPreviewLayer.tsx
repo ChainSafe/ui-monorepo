@@ -39,7 +39,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
     previewDragLayer: {
       position: "fixed",
       pointerEvents: "none",
-      zIndex: 100,
+      zIndex: 10000,
       left: 0,
       top: 0,
       bottom: 0,
@@ -160,7 +160,7 @@ export const DragPreviewLayer: React.FC<{items: FileSystemItem[]; previewType: B
     : <div className={classes.previewDragLayer}>
       <ul style={getItemStyles(currentOffset)}>
         {dragItems.selected.map(di => {
-          const previewItem = items.find(i => i.cid === di.cid)
+          const previewItem = items.find(i => i.cid === di.cid && i.name === di.name)
 
           if (previewItem) {
             let Icon
@@ -178,12 +178,12 @@ export const DragPreviewLayer: React.FC<{items: FileSystemItem[]; previewType: B
               ? <DragPreviewRowItem
                 item={previewItem}
                 icon={<Icon />}
-                key={previewItem.cid}
+                key={`${previewItem.cid}_${previewItem.name}`}
               />
               : <DragPreviewGridItem
                 item={previewItem}
                 icon={<Icon />}
-                key={previewItem.cid}
+                key={`${previewItem.cid}_${previewItem.name}`}
               />
           } else {
             return null

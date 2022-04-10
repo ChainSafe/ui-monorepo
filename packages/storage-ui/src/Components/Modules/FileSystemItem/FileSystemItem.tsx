@@ -316,8 +316,6 @@ const FileSystemItem = ({
     })
   })
 
-  console.log(selected)
-
   const [{ isOverUpload }, dropUploadRef] = useDrop({
     accept: [NativeTypes.FILE],
     canDrop: () => isFolder,
