@@ -275,7 +275,7 @@ const FileSystemItem = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag(() => ({
+  const [, dragMoveRef, preview] = useDrag({
     type: DragTypes.MOVABLE_FILE,
     canDrag: !editing,
     item: () => {
@@ -288,7 +288,7 @@ const FileSystemItem = ({
         }] }
       }
     }
-  }), [selected])
+  })
 
   useEffect(() => {
     // This gets called after every render, by default
@@ -308,12 +308,15 @@ const FileSystemItem = ({
       !item.selected.map((s) => s.cid).includes(file.cid),
     drop: (item: {selected: ISelectedFile[]}) => {
       moveItems && moveItems(item.selected, getPathWithFile(currentPath, name))
+      resetSelectedFiles()
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver() &&
         !monitor.getItem<{selected: ISelectedFile[]}>().selected.map((s) => s.cid).includes(file.cid)
     })
   })
+
+  console.log(selected)
 
   const [{ isOverUpload }, dropUploadRef] = useDrop({
     accept: [NativeTypes.FILE],

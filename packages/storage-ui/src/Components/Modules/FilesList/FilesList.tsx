@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import {
   MenuDropdown,
   PlusIcon,
@@ -47,6 +47,8 @@ import SurveyBanner from "../SurveyBanner"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
+import FolderBreadcrumb from "./FolderBreadcrumb"
+import { DragTypes } from "./DragConstants"
 
 interface IStyleProps {
   themeKey: string
@@ -324,6 +326,7 @@ const FilesList = () => {
     renameItem: handleRename,
     deleteItems,
     viewFolder,
+    moveItems,
     currentPath,
     refreshContents,
     loadingCurrentPath,
@@ -453,6 +456,35 @@ const FilesList = () => {
       canDrop: monitor.canDrop()
     })
   })
+
+  const [{ isOverUploadHomeBreadcrumb }, dropUploadHomeBreadcrumbRef] = useDrop({
+    accept: [NativeTypes.FILE],
+    drop: (item: {
+      files: File[]
+      items:DataTransferItemList
+    }) => {
+      handleUploadOnDrop && handleUploadOnDrop(item.files, item.items, "/")
+    },
+    collect: (monitor) => ({
+      isOverUploadHomeBreadcrumb: monitor.isOver()
+    })
+  })
+
+  const [{ isOverMoveHomeBreadcrumb }, dropMoveHomeBreadcrumbRef] = useDrop({
+    accept: DragTypes.MOVABLE_FILE,
+    canDrop: () => currentPath !== "/",
+    drop: (item: { ids: ISelectedFile[]}) => {
+      moveItems && moveItems(item.ids, "/")
+      resetSelectedCids()
+    },
+    collect: (monitor) => ({
+      isOverMoveHomeBreadcrumb: monitor.isOver() && currentPath !== "/"
+    })
+  })
+
+  const homeBreadcrumbRef  =  useRef<HTMLDivElement>(null)
+  dropMoveHomeBreadcrumbRef(homeBreadcrumbRef)
+  dropUploadHomeBreadcrumbRef(homeBreadcrumbRef)
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
@@ -612,8 +644,26 @@ const FilesList = () => {
       <div className={classes.breadCrumbContainer}>
         {crumbs && moduleRootPath && (
           <Breadcrumb
-            crumbs={crumbs}
+            // crumbs={crumbs}
+            crumbs={crumbs.map((crumb, i) => ({
+              ...crumb,
+              component: (i < crumbs.length - 1)
+                ? <FolderBreadcrumb
+                  folderName={crumb.text}
+                  onClick={crumb.onClick}
+                  handleMove={(item) => {
+                    moveItems && crumb.path && moveItems(item.ids, crumb.path)
+                    resetSelectedCids()
+                  }}
+                  handleUpload={(item) => handleUploadOnDrop &&
+                  crumb.path &&
+                  handleUploadOnDrop(item.files, item.items, crumb.path)}
+                />
+                : null
+            }))}
             homeOnClick={() => redirect(moduleRootPath)}
+            homeRef={homeBreadcrumbRef}
+            homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
             showDropDown={!desktop}
           />
         )}
