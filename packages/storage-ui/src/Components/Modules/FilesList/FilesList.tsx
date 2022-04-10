@@ -46,6 +46,7 @@ import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserCont
 import SurveyBanner from "../SurveyBanner"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
+import { DragPreviewLayer } from "./DragPreviewLayer"
 
 interface IStyleProps {
   themeKey: string
@@ -604,6 +605,10 @@ const FilesList = () => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
+      <DragPreviewLayer
+        items={sourceFiles}
+        previewType={browserView}
+      />
       <div className={classes.breadCrumbContainer}>
         {crumbs && moduleRootPath && (
           <Breadcrumb

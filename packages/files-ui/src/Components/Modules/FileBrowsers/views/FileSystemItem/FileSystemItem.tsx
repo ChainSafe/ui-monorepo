@@ -353,17 +353,17 @@ const FileSystemItem = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag({
+  const [, dragMoveRef, preview] = useDrag(() => ({
     type: DragTypes.MOVABLE_FILE,
     canDrag: !editing,
     item: () => {
-      if (selectedCids.includes(file.cid)) {
+      if (selectedCids.findIndex(selectedCid => selectedCid === file.cid) >= 0) {
         return { ids: selectedCids }
       } else {
         return { ids: [...selectedCids, file.cid] }
       }
     }
-  })
+  }), [selectedCids])
 
   useEffect(() => {
     // This gets called after every render, by default

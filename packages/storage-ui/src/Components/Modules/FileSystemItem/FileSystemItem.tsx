@@ -3,10 +3,6 @@ import {
   FormikTextInput,
   Typography,
   Button,
-  FileImageSvg,
-  FilePdfSvg,
-  FileTextSvg,
-  FolderFilledSvg,
   DownloadSvg,
   DeleteSvg,
   EditSvg,
@@ -32,6 +28,7 @@ import { BrowserView, FileOperation } from "../../../Contexts/types"
 import { DragTypes } from "../FilesList/DragConstants"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
+import { getIconForItem } from "../../../Utils/getItemIcon"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
   return createStyles({
@@ -142,17 +139,7 @@ const FileSystemItem = ({
   resetSelectedFiles
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
-  const { cid, name, isFolder, content_type } = file
-  let Icon
-  if (isFolder) {
-    Icon = FolderFilledSvg
-  } else if (content_type.includes("image")) {
-    Icon = FileImageSvg
-  } else if (content_type.includes("pdf")) {
-    Icon = FilePdfSvg
-  } else {
-    Icon = FileTextSvg
-  }
+  const { cid, name, isFolder } = file
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
@@ -163,10 +150,15 @@ const FileSystemItem = ({
     onSubmit: (values: {name: string}) => {
       const newName = values.name.trim()
 
-      editing && newName && handleRename && handleRename(editing, newName)
+      editing && newName && newName !== name && handleRename && handleRename(editing, newName)
     },
     enableReinitialize: true
   })
+
+  const stopEditing = useCallback(() => {
+    setEditing(undefined)
+    formik.resetForm()
+  }, [formik, setEditing])
 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
@@ -283,19 +275,20 @@ const FileSystemItem = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag(() =>
-    ({ type: DragTypes.MOVABLE_FILE,
-      item: () => {
-        if (selected.findIndex(item => item.cid === file.cid && item.name === file.name) >= 0) {
-          return { selected: selected }
-        } else {
-          return { selected: [...selected, {
-            cid: file.cid,
-            name: file.name
-          }] }
-        }
+  const [, dragMoveRef, preview] = useDrag(() => ({
+    type: DragTypes.MOVABLE_FILE,
+    canDrag: !editing,
+    item: () => {
+      if (selected.findIndex(item => item.cid === file.cid && item.name === file.name) >= 0) {
+        return { selected: selected }
+      } else {
+        return { selected: [...selected, {
+          cid: file.cid,
+          name: file.name
+        }] }
       }
-    }), [selected])
+    }
+  }), [selected])
 
   useEffect(() => {
     // This gets called after every render, by default
@@ -311,17 +304,20 @@ const FileSystemItem = ({
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
-    canDrop: () => isFolder,
+    canDrop: (item) => isFolder &&
+      !item.selected.map((s) => s.cid).includes(file.cid),
     drop: (item: {selected: ISelectedFile[]}) => {
       moveItems && moveItems(item.selected, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
-      isOverMove: monitor.isOver()
+      isOverMove: monitor.isOver() &&
+        !monitor.getItem<{selected: ISelectedFile[]}>().selected.map((s) => s.cid).includes(file.cid)
     })
   })
 
   const [{ isOverUpload }, dropUploadRef] = useDrop({
     accept: [NativeTypes.FILE],
+    canDrop: () => isFolder,
     drop: (item: any) => {
       handleUploadOnDrop &&
         handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
@@ -333,12 +329,20 @@ const FileSystemItem = ({
 
   const fileOrFolderRef = useRef<any>()
 
-  if (!editing && isFolder) {
-    dropMoveRef(fileOrFolderRef)
-    dropUploadRef(fileOrFolderRef)
+  if (fileOrFolderRef?.current) {
+    if (editing) {
+      fileOrFolderRef.current.draggable = false
+    } else {
+      fileOrFolderRef.current.draggable = true
+    }
   }
-  if (!editing && !isFolder) {
+
+  if (!editing && desktop) {
     dragMoveRef(fileOrFolderRef)
+    if (isFolder) {
+      dropMoveRef(fileOrFolderRef)
+      dropUploadRef(fileOrFolderRef)
+    }
   }
 
   const onFilePreview = useCallback(() => {
@@ -402,6 +406,8 @@ const FileSystemItem = ({
     click(e)
   }
 
+  const Icon = getIconForItem(file)
+
   const itemProps = {
     ref: fileOrFolderRef,
     currentPath,
@@ -437,7 +443,8 @@ const FileSystemItem = ({
                 inner: classes.modalInner
               }}
               closePosition="none"
-              onClose={() => setEditing(undefined)}
+              active={editing === cid}
+              onClose={stopEditing}
             >
               <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>
