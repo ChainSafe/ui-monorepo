@@ -19,7 +19,8 @@ export const mobileGridSettings = "2fr 3fr 180px 110px 80px 20px 70px !important
 const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
     root: {
-      position: "relative"
+      position: "relative",
+      marginTop: constants.generalUnit * 2
     },
     header: {
       display: "flex",
