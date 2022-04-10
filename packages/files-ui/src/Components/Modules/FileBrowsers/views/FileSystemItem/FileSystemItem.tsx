@@ -382,7 +382,6 @@ const FileSystemItem = ({
     canDrop: (item) => isFolder && !item.ids.includes(file.cid),
     drop: (item: { ids: string[]}) => {
       moveItems && moveItems(item.ids, getPathWithFile(currentPath, name))
-      resetSelectedFiles()
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver() && !monitor.getItem<{ids: string[]}>().ids.includes(file.cid)

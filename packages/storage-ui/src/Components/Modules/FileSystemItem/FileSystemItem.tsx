@@ -308,7 +308,6 @@ const FileSystemItem = ({
       !item.selected.map((s) => s.cid).includes(file.cid),
     drop: (item: {selected: ISelectedFile[]}) => {
       moveItems && moveItems(item.selected, getPathWithFile(currentPath, name))
-      resetSelectedFiles()
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver() &&
