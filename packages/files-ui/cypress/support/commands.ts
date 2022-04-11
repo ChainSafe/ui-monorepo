@@ -156,7 +156,7 @@ Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element, _, expe
     .should("be.enabled")
     .pipe(click)
     .should($el => expectDisable
-      ?  expect($el).to.be.disabled
+      ? expect($el).to.be.disabled
       : expect($el).to.not.be.visible
     )
 })
