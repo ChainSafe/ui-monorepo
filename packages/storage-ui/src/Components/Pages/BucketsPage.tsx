@@ -33,7 +33,8 @@ export const mobileGridSettings = "3fr 100px 100px 70px !important"
 const useStyles = makeStyles(({ breakpoints, animation, constants, typography }: CSSTheme) =>
   createStyles({
     root: {
-      position: "relative"
+      position: "relative",
+      marginTop: constants.generalUnit * 2
     },
     tableHead: {
       marginTop: 24
