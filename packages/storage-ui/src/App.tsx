@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect } from "react"
-import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
+import React from "react"
+import { init as initSentry, ErrorBoundary } from "@sentry/react"
 import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
-import { Button, CssBaseline, Modal, Router, ToastProvider, Typography } from "@chainsafe/common-components"
+import { CssBaseline, Router, ToastProvider } from "@chainsafe/common-components"
 import StorageRoutes from "./Components/StorageRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
-import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
@@ -18,6 +17,7 @@ import { BillingProvider } from "./Contexts/BillingContext"
 import { NotificationsProvider } from "./Contexts/NotificationsContext"
 import { PosthogProvider } from "./Contexts/PosthogContext"
 import { HelmetProvider } from "react-helmet-async"
+import ErrorModal from "./Components/Modules/ErrorModal"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -61,40 +61,9 @@ const onboardConfig = {
 }
 
 const App = () => {
-  const { initHotjar } = useHotjar()
   const { canUseLocalStorage } = useLocalStorage()
-  const hotjarId = process.env.REACT_APP_HOTJAR_ID
   const apiUrl = process.env.REACT_APP_API_URL || "https://stage-api.chainsafe.io/api/v1"
   // This will default to testnet unless mainnet is specifically set in the ENV
-
-  useEffect(() => {
-    if (hotjarId && process.env.NODE_ENV === "production") {
-      initHotjar(hotjarId, "6", () => console.log("Hotjar initialized"))
-    }
-  }, [hotjarId, initHotjar])
-
-  const fallBack = useCallback(({ error, componentStack, eventId, resetError }) => (
-    <Modal
-      active
-      closePosition="none"
-      onClose={resetError}
-    >
-      <Typography>
-        An error occurred and has been logged. If you would like to
-        provide additional info to help us debug and resolve the issue,
-        click the `&quot;`Provide Additional Details`&quot;` button
-      </Typography>
-      <Typography>{error?.message.toString()}</Typography>
-      <Typography>{componentStack}</Typography>
-      <Typography>{eventId}</Typography>
-      <Button
-        onClick={() => showReportDialog({ eventId: eventId || "" })}
-      >
-      Provide Additional Details
-      </Button>
-      <Button onClick={resetError}>Reset error</Button>
-    </Modal>
-  ), [])
 
   return (
     <HelmetProvider>
@@ -103,7 +72,7 @@ const App = () => {
         themes={{ light: lightTheme, dark: darkTheme }}
       >
         <ErrorBoundary
-          fallback={fallBack}
+          fallback={ErrorModal}
           onReset={() => window.location.reload()}
         >
           <CssBaseline />
