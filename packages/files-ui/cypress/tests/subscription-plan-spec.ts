@@ -79,8 +79,8 @@ describe("Subscription Plan", () => {
       settingsPage.defaultCardLabel().invoke("text").as("partialMaskedMastercard")
 
       // ensure the card number was updated by comparing cypress aliases
-      cy.get("@partialMaskedVisa").then(($partialMaskedVisa) => {
-        cy.get("@partialMaskedMastercard").should("not.equal", $partialMaskedVisa)
+      cy.get<string>("@partialMaskedVisa").then((partialMaskedVisa) => {
+        cy.get("@partialMaskedMastercard").should("not.equal", partialMaskedVisa)
       })
 
       // remove the card
@@ -219,7 +219,7 @@ describe("Subscription Plan", () => {
 
       // upgrade to a Max plan first
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("max")
+      settingsPage.upgradeSubscription({ plan: "max" })
 
       // setup intercepter, stub the used products response to disallow update
       cy.intercept("GET", "**/billing/products", (req) => {
@@ -262,8 +262,8 @@ describe("Subscription Plan", () => {
       planDetailsModal.totalCostLabel().invoke("text").as("yearlyBillingPrice")
 
       // price should update when switching to annual billing
-      cy.get("@monthlyBillingPrice").then(($monthlyBillingPrice) => {
-        cy.get("@yearlyBillingPrice").should("not.equal", $monthlyBillingPrice)
+      cy.get<string>("@monthlyBillingPrice").then((monthlyBillingPrice) => {
+        cy.get("@yearlyBillingPrice").should("not.equal", monthlyBillingPrice)
       })
     })
 
@@ -401,7 +401,7 @@ describe("Subscription Plan", () => {
 
       // upgrade to a max plan first using convenience function
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("max")
+      settingsPage.upgradeSubscription({ plan: "max" })
 
       // store the upgraded plan name for later comparison
       settingsPage.planNameLabel()
@@ -442,8 +442,8 @@ describe("Subscription Plan", () => {
         .invoke("text").as("proPlanName")
 
       // ensure the downgraded plan name is not the same as the previously upgraded plan
-      cy.get("@premiumPlanName").then(($premiumPlanName) => {
-        cy.get("@proPlanName").should("not.equal", $premiumPlanName)
+      cy.get<string>("@premiumPlanName").then((premiumPlanName) => {
+        cy.get("@proPlanName").should("not.equal", premiumPlanName)
       })
     })
 
@@ -452,7 +452,7 @@ describe("Subscription Plan", () => {
 
       // upgrade to a Pro plan first
       navigationMenu.settingsNavButton().click()
-      settingsPage.upgradeSubscription("pro")
+      settingsPage.upgradeSubscription({ plan: "pro" })
 
       // store the Pro plan name for later comparison
       settingsPage.planNameLabel()
@@ -486,13 +486,13 @@ describe("Subscription Plan", () => {
         .invoke("text").as("freePlanName")
 
       // ensure the downgraded plan name is not the same as the previously upgraded plan
-      cy.get("@proPlanName").then(($standardPlanName) => {
-        cy.get("@freePlanName").should("not.equal", $standardPlanName)
+      cy.get<string>("@proPlanName").then((standardPlanName) => {
+        cy.get("@freePlanName").should("not.equal", standardPlanName)
       })
     })
 
     it("can initiate and return to a crypto payment flow within 60 minutes", () => {
-      cy.web3Login({ deleteCreditCard: true, resetToFreePlan: true })
+      cy.web3Login({ deleteCreditCard: true, withNewSession: true })
       navigationMenu.settingsNavButton().click()
       settingsPage.subscriptionTabButton().click()
       settingsPage.changePlanButton().click()

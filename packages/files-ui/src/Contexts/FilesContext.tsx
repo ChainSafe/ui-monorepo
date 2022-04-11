@@ -803,7 +803,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
                   updateToast(toastId, {
                     title: t`${inSharedBucket ? "Copying" : "Sharing"} ${fileProgress} - ${item.name}`,
                     type: "success",
-                    progress: currentProgress
+                    progress: currentProgress,
+                    testId: "sharing-progress"
                   })
                 },
                 cancelToken
@@ -829,6 +830,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               : t`${inSharedBucket ? "Copying" : "Sharing"} failed`,
           type: successCount ? "success" : "error",
           progress: undefined,
+          testId: "share-success",
           isClosable: true
         }, true)
         setTransfersInProgress(false)

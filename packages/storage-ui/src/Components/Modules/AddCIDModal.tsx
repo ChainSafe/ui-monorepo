@@ -1,30 +1,28 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { Button, FormikTextInput, Grid } from "@chainsafe/common-components"
+import { Button, Grid, TextInput, Typography } from "@chainsafe/common-components"
 import CustomModal from "../Elements/CustomModal"
 import { CSSTheme } from "../../Themes/types"
 import CustomButton from "../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import { Formik, Form } from "formik"
 import { useStorage } from "../../Contexts/StorageContext"
 import { cidValidator } from "../../Utils/validationSchema"
 
-const useStyles = makeStyles(({ constants, breakpoints, zIndex }: CSSTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette, typography }: CSSTheme) =>
   createStyles({
     root: {
       padding: constants.generalUnit * 4,
       flexDirection: "column"
     },
     modalRoot: {
-      zIndex: zIndex?.blocker,
-      [breakpoints.down("md")]: {}
+      zIndex: zIndex?.blocker
     },
     modalInner: {
       backgroundColor: constants.createFolder.backgroundColor,
       color: constants.createFolder.color,
+      width: "100%",
       [breakpoints.down("md")]: {
-        bottom:
-        Number(constants?.mobileButtonHeight) + constants.generalUnit,
+        bottom: Number(constants?.mobileButtonHeight) + constants.generalUnit,
         borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
         borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         maxWidth: `${breakpoints.width("md")}px !important`
@@ -45,13 +43,29 @@ const useStyles = makeStyles(({ constants, breakpoints, zIndex }: CSSTheme) =>
         height: constants?.mobileButtonHeight
       }
     },
-    label: {
-      fontSize: 14,
-      lineHeight: "22px"
-    },
     heading: {
       color: constants.createFolder.color,
+      fontWeight: typography.fontWeight.semibold,
+      textAlign: "center",
+      marginBottom: constants.generalUnit * 2
+    },
+    inputLabel: {
+      fontSize: 14,
+      fontWeight: 600,
       marginBottom: constants.generalUnit
+    },
+    cidInput: {
+      margin: 0,
+      width: "100%",
+      marginTop: constants.generalUnit * 2
+    },
+    errorText: {
+      marginTop: constants.generalUnit * 1,
+      color: palette.error.main
+    },
+    warningText: {
+      marginTop: constants.generalUnit * 1,
+      color: palette.warning.main
     }
   })
 )
@@ -63,97 +77,162 @@ interface IAddCIDModuleProps {
 
 const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const classes = useStyles()
-  const { addPin } = useStorage()
-  const inputRef = useRef<any>(null)
+  const { addPin, refreshPins, searchCid } = useStorage()
   const [accessingCID, setAccessingCID] = useState(false)
+  const [cidError, setCidError] = useState("")
+  const [cid, setCid] = useState("")
+  const [showWarning, setShowWarning] = useState(false)
+  const [name, setName] = useState("")
 
-  const onSubmit = useCallback((values, helpers) => {
-    helpers.setSubmitting(true)
+  const onClose = useCallback(() => {
+    setCid("")
+    setShowWarning(false)
+    setCidError("")
+    setName("")
+    close()
+  }, [close])
+
+  const onSubmit = useCallback(() => {
+    if (!cid) return
+
     setAccessingCID(true)
-    addPin(values.cid.trim())
+
+    addPin(cid.trim(), name.trim())
       .then(() => {
-        helpers.resetForm()
-        close()
+        onClose()
       })
       .catch((e) => {
-        helpers.setFieldError("cid", e.message)
         console.error(e)
       })
       .finally(() => {
-        // refreshPins()
+        refreshPins(undefined)
         setAccessingCID(false)
-        helpers.setSubmitting(false)
       })
-  }, [addPin, close])
+  }, [addPin, cid, name, onClose, refreshPins])
+
+  useEffect(() => {
+    if (!cid) return
+
+    cidValidator
+      .validate({ cid: cid.trim() })
+      .then(() => {
+        searchCid(cid)
+          .then((res) => {
+            if(res && res.results?.length){
+              setShowWarning(true)
+            }
+          })
+          .catch(console.error)
+      })
+      .catch((e: Error) => {
+        setCidError(e.message)
+      })
+  }, [cid, cidError, searchCid])
+
+  const onCidChange = useCallback((cid?: string | number) => {
+    setCidError("")
+    setShowWarning(false)
+
+    setCid(cid?.toString() || "")
+  }, [])
+
+  const onNameChange = useCallback((name?: string | number) => {
+    setName(name?.toString() || "")
+  }, [])
 
   return (
     <CustomModal
       className={classes.modalRoot}
-      injectedClass={{
-        inner: classes.modalInner
-      }}
+      injectedClass={{ inner: classes.modalInner }}
       active={modalOpen}
       closePosition="none"
       maxWidth="sm"
+      testId="add-cid"
     >
-      <Formik
-        initialValues={{
-          cid: ""
-        }}
-        validationSchema={cidValidator}
-        validateOnChange={false}
-        onSubmit={onSubmit}
-      >
-        <Form>
-          <div
-            className={classes.root}
-            data-cy="form-pin-cid"
+      <div className={classes.root}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          className={classes.input}
+        >
+          <Typography
+            className={classes.heading}
+            variant="h5"
+            component="h5"
           >
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              className={classes.input}
+            <Trans>Pin a CID</Trans>
+          </Typography>
+          <TextInput
+            label={t`Name (optional)`}
+            placeholder="Cute cat image"
+            className={classes.cidInput}
+            labelClassName={classes.inputLabel}
+            size="large"
+            value={name}
+            autoFocus
+            onChange={onNameChange}
+            data-cy="input-cid-name"
+          />
+          <TextInput
+            label={t`CID to pin`}
+            placeholder="QmNbbf...dps2Xw"
+            className={classes.cidInput}
+            labelClassName={classes.inputLabel}
+            size="large"
+            value={cid}
+            onChange={onCidChange}
+            state={cidError ? "error" : showWarning ?  "warning" : "normal"}
+            data-cy="input-cid"
+          />
+          {!!cidError && (
+            <Typography
+              component="p"
+              variant="body1"
+              className={classes.errorText}
             >
-              <FormikTextInput
-                name="cid"
-                size="large"
-                placeholder="QmNbbf...dps2Xw"
-                labelClassName={classes.label}
-                label={t`Paste the CID to pin it with ChainSafe Storage`}
-                ref={inputRef}
-                data-cy="input-cid"
-              />
-            </Grid>
-            <Grid
-              item
-              flexDirection="row"
-              justifyContent="flex-end"
+              {cidError}
+            </Typography>
+          )}
+          {showWarning && (
+            <Typography
+              component="p"
+              variant="body1"
+              className={classes.warningText}
+              data-cy="label-cid-pinned-warning"
             >
-              <CustomButton
-                onClick={() => close()}
-                size="medium"
-                className={classes.cancelButton}
-                variant={"outline"}
-                type="button"
-                data-cy="button-cancel-add-pin"
-              >
-                <Trans>Cancel</Trans>
-              </CustomButton>
-              <Button
-                size={"medium"}
-                variant="primary"
-                type="submit"
-                className={classes.okButton}
-                loading={accessingCID}
-                data-cy="button-submit-pin"
-              >
-                <Trans>Pin</Trans>
-              </Button>
-            </Grid>
-          </div>
-        </Form>
-      </Formik>
+              <Trans>Warning: CID already pinned</Trans>
+            </Typography>
+          )}
+        </Grid>
+        <Grid
+          item
+          flexDirection="row"
+          justifyContent="flex-end"
+        >
+          <CustomButton
+            onClick={() => onClose()}
+            size="medium"
+            className={classes.cancelButton}
+            variant={"outline"}
+            type="button"
+            data-cy="button-cancel-add-pin"
+          >
+            <Trans>Cancel</Trans>
+          </CustomButton>
+          <Button
+            size={"medium"}
+            variant="primary"
+            onClick={onSubmit}
+            className={classes.okButton}
+            loading={accessingCID}
+            data-cy="button-submit-pin"
+            disabled={!!cidError}
+          >
+            <Trans>Pin</Trans>
+          </Button>
+        </Grid>
+      </div>
     </CustomModal>
   )
 }

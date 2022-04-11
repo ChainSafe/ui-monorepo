@@ -109,7 +109,7 @@ interface IFileSystemItemProps {
   handleAddToSelectedItems(selectedItems: FileSystemItemType): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  handleRename?: (cid: string, newName: string) => Promise<void>
+  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
   handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
   recoverFile?: () => void
@@ -355,6 +355,7 @@ const FileSystemItem = ({
 
   const [, dragMoveRef, preview] = useDrag({
     type: DragTypes.MOVABLE_FILE,
+    canDrag: !editing,
     item: () => {
       if (selectedCids.includes(file.cid)) {
         return { ids: selectedCids }
@@ -400,6 +401,14 @@ const FileSystemItem = ({
   })
 
   const fileOrFolderRef = useRef<any>()
+
+  if (fileOrFolderRef?.current) {
+    if (editing) {
+      fileOrFolderRef.current.draggable = false
+    } else {
+      fileOrFolderRef.current.draggable = true
+    }
+  }
 
   if (!editing && desktop) {
     dragMoveRef(fileOrFolderRef)
@@ -524,7 +533,7 @@ const FileSystemItem = ({
                       className={classes.renameInput}
                       name="name"
                       placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
-                      autoFocus={editing === cid}
+                      autoFocus
                     />
                     {
                       !isFolder && extension !== ""  && (

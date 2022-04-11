@@ -1,6 +1,6 @@
 import React from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { DeleteSvg, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow  } from "@chainsafe/common-components"
+import { DeleteSvg, ExternalIcon, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { PinStatus } from "@chainsafe/files-api-client"
@@ -9,7 +9,7 @@ import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings } from "../Pages/CidsPage"
 import { trimChar } from "../../Utils/pathUtils"
 
-const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =>
+const useStyles = makeStyles(({ animation, constants, breakpoints, palette }: CSSTheme) =>
   createStyles({
     dropdownIcon: {
       "& svg": {
@@ -52,6 +52,13 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings
       }
+    },
+    icon: {
+      stroke: palette.additional["gray"][8],
+      cursor: "pointer"
+    },
+    externalIconCell: {
+      padding: "0 !important"
     }
   })
 )
@@ -59,7 +66,7 @@ interface Props {
   pinStatus: PinStatus
 }
 
-const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || ""
+const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || "https://ipfs.io/ipfs/"
 
 const CidRow = ({ pinStatus }: Props) => {
   const classes = useStyles()
@@ -73,7 +80,16 @@ const CidRow = ({ pinStatus }: Props) => {
     >
       <TableCell
         className={classes.cid}
-        align='left'>
+        align='left'
+        data-cy="cell-pin-name"
+      >
+        {pinStatus.pin?.name || "-"}
+      </TableCell>
+      <TableCell
+        className={classes.cid}
+        align='left'
+        data-cy="cell-pin-cid"
+      >
         {pinStatus.pin?.cid}
       </TableCell>
       <TableCell>
@@ -85,14 +101,11 @@ const CidRow = ({ pinStatus }: Props) => {
       <TableCell>
         {pinStatus.status}
       </TableCell>
-      <TableCell>
-        <a
-          href={`${trimChar(IPFS_GATEWAY, "/")}/${pinStatus.pin?.cid}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Trans>Open on Gateway</Trans>
-        </a>
+      <TableCell className={classes.externalIconCell}>
+        <ExternalIcon
+          className={classes.icon}
+          onClick={() => window.open(`${trimChar(IPFS_GATEWAY, "/")}/${pinStatus.pin?.cid}`)}
+        />
       </TableCell>
       <TableCell align="right">
         <MenuDropdown

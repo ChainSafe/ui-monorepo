@@ -18,6 +18,8 @@ import { BillingProvider } from "./Contexts/BillingContext"
 import { PosthogProvider } from "./Contexts/PosthogContext"
 import { NotificationsProvider } from "./Contexts/NotificationsContext"
 import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
+import { HelmetProvider } from "react-helmet-async"
+
 import ErrorModal from "./Components/Modules/ErrorModal"
 
 // making material and jss use one className generator
@@ -74,68 +76,70 @@ const onboardConfig = {
 const App = () => {
   const { canUseLocalStorage } = useLocalStorage()
 
-  const apiUrl = process.env.REACT_APP_API_URL || "https://stage.imploy.site/api/v1"
+  const apiUrl = process.env.REACT_APP_API_URL || "https://stage-api.chainsafe.io/api/v1"
   // This will default to testnet unless mainnet is specifically set in the ENV
   const directAuthNetwork = (process.env.REACT_APP_DIRECT_AUTH_NETWORK === "mainnet") ? "mainnet" : "testnet"
 
   return (
-    <StylesProvider generateClassName={generateClassName}>
-      <ThemeSwitcher
-        storageKey="csf.themeKey"
-        themes={{ light: lightTheme, dark: darkTheme }}
-      >
-        <ErrorBoundary
-          fallback={ErrorModal}
-          onReset={() => window.location.reload()}
+    <HelmetProvider>
+      <StylesProvider generateClassName={generateClassName}>
+        <ThemeSwitcher
+          storageKey="csf.themeKey"
+          themes={{ light: lightTheme, dark: darkTheme }}
         >
-          <CssBaseline />
-          <LanguageProvider availableLanguages={availableLanguages}>
-            <ToastProvider
-              autoDismiss
-              defaultPosition="bottomRight"
-            >
-              <Web3Provider
-                onboardConfig={onboardConfig}
-                checkNetwork={false}
-                cacheWalletSelection={canUseLocalStorage}
-                tokensToWatch={{
-                  1: [
-                    { address: "0x6b175474e89094c44da98b954eedeac495271d0f" },
-                    { address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }
-                  ]
-                }}
+          <ErrorBoundary
+            fallback={ErrorModal}
+            onReset={() => window.location.reload()}
+          >
+            <CssBaseline />
+            <LanguageProvider availableLanguages={availableLanguages}>
+              <ToastProvider
+                autoDismiss
+                defaultPosition="bottomRight"
               >
-                <FilesApiProvider
-                  apiUrl={apiUrl}
-                  withLocalStorage={false}
+                <Web3Provider
+                  onboardConfig={onboardConfig}
+                  checkNetwork={false}
+                  cacheWalletSelection={canUseLocalStorage}
+                  tokensToWatch={{
+                    1: [
+                      { address: "0x6b175474e89094c44da98b954eedeac495271d0f" },
+                      { address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }
+                    ]
+                  }}
                 >
-                  <ThresholdKeyProvider
-                    enableLogging={directAuthNetwork !== "mainnet"}
-                    network={directAuthNetwork}
+                  <FilesApiProvider
+                    apiUrl={apiUrl}
+                    withLocalStorage={false}
                   >
-                    <Router>
-                      <NotificationsProvider>
-                        <UserProvider>
-                          <FilesProvider>
-                            <BillingProvider>
-                              <PosthogProvider>
-                                <AppWrapper>
-                                  <FilesRoutes />
-                                </AppWrapper>
-                              </PosthogProvider>
-                            </BillingProvider>
-                          </FilesProvider>
-                        </UserProvider>
-                      </NotificationsProvider>
-                    </Router>
-                  </ThresholdKeyProvider>
-                </FilesApiProvider>
-              </Web3Provider>
-            </ToastProvider>
-          </LanguageProvider>
-        </ErrorBoundary>
-      </ThemeSwitcher>
-    </StylesProvider>
+                    <ThresholdKeyProvider
+                      enableLogging={directAuthNetwork !== "mainnet"}
+                      network={directAuthNetwork}
+                    >
+                      <Router>
+                        <NotificationsProvider>
+                          <UserProvider>
+                            <FilesProvider>
+                              <BillingProvider>
+                                <PosthogProvider>
+                                  <AppWrapper>
+                                    <FilesRoutes />
+                                  </AppWrapper>
+                                </PosthogProvider>
+                              </BillingProvider>
+                            </FilesProvider>
+                          </UserProvider>
+                        </NotificationsProvider>
+                      </Router>
+                    </ThresholdKeyProvider>
+                  </FilesApiProvider>
+                </Web3Provider>
+              </ToastProvider>
+            </LanguageProvider>
+          </ErrorBoundary>
+        </ThemeSwitcher>
+      </StylesProvider>
+    </HelmetProvider>
   )
 }
 

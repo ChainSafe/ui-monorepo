@@ -6,10 +6,10 @@ import { useCallback } from "react"
 import { t } from "@lingui/macro"
 import { PaymentMethod as StripePaymentMethod } from "@stripe/stripe-js"
 import { useStorage } from "./StorageContext"
-// import { useNotifications } from "./NotificationsContext"
-// import dayjs from "dayjs"
-// import { useHistory } from "@chainsafe/common-components"
-// import { ROUTE_LINKS } from "../Components/StorageRoutes"
+import { useNotifications } from "./NotificationsContext"
+import dayjs from "dayjs"
+import { useHistory } from "@chainsafe/common-components"
+import { ROUTE_LINKS } from "../Components/StorageRoutes"
 
 export type PaymentMethod = "crypto" | "creditCard"
 
@@ -58,20 +58,18 @@ const BillingContext = React.createContext<IBillingContext | undefined>(
 )
 
 const BillingProvider = ({ children }: BillingContextProps) => {
-  const { storageApiClient, isLoggedIn
-    // accountRestricted 
-  } = useStorageApi()
-  // const { redirect } = useHistory()
-  // const { addNotification, removeNotification } = useNotifications()
+  const { storageApiClient, isLoggedIn, accountRestricted } = useStorageApi()
+  const { redirect } = useHistory()
+  const { addNotification, removeNotification } = useNotifications()
   const { refreshBuckets } = useStorage()
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
   const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update", [currentSubscription])
   const openInvoice = useMemo(() => invoices?.find((i) => i.status === "open"), [invoices])
-  // const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
-  // const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
-  // const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
+  const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
+  const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
+  const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
   const [isBillingEnabled, setIsBillingEnabled] = useState(false)
 
   const refreshInvoices = useCallback(() => {
@@ -99,51 +97,51 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       .catch(console.error)
   }, [storageApiClient, isLoggedIn])
 
-  // useEffect(() => {
-  //   if (accountRestricted && !restrictedNotification) {
-  //     const notif = addNotification({
-  //       createdAt: dayjs().unix(),
-  //       title: t`Account is restricted`,
-  //       onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
-  //     })
-  //     setRestrictedNotification(notif)
-  //   } else if (accountRestricted === false && restrictedNotification) {
-  //     removeNotification(restrictedNotification)
-  //     setRestrictedNotification(undefined)
-  //   }
-  // }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
+  useEffect(() => {
+    if (accountRestricted && !restrictedNotification) {
+      const notif = addNotification({
+        createdAt: dayjs().unix(),
+        title: t`Account is restricted`,
+        onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+      })
+      setRestrictedNotification(notif)
+    } else if (accountRestricted === false && restrictedNotification) {
+      removeNotification(restrictedNotification)
+      setRestrictedNotification(undefined)
+    }
+  }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
 
-  // useEffect(() => {
-  //   if (!!openInvoice && !unpaidInvoiceNotification) {
-  //     const notif = addNotification({
-  //       createdAt: openInvoice.period_start,
-  //       title: t`Invoice outstanding`,
-  //       onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
-  //     })
-  //     setUnpaidInvoiceNotification(notif)
-  //   } else if (!openInvoice && unpaidInvoiceNotification) {
-  //     removeNotification(unpaidInvoiceNotification)
-  //     setUnpaidInvoiceNotification(undefined)
-  //   }
-  // }, [addNotification, openInvoice, redirect, removeNotification, unpaidInvoiceNotification])
+  useEffect(() => {
+    if (!!openInvoice && !unpaidInvoiceNotification) {
+      const notif = addNotification({
+        createdAt: openInvoice.period_start,
+        title: t`Invoice outstanding`,
+        onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+      })
+      setUnpaidInvoiceNotification(notif)
+    } else if (!openInvoice && unpaidInvoiceNotification) {
+      removeNotification(unpaidInvoiceNotification)
+      setUnpaidInvoiceNotification(undefined)
+    }
+  }, [addNotification, openInvoice, redirect, removeNotification, unpaidInvoiceNotification])
 
-  // useEffect(() => {
-  //   if (defaultCard && currentSubscription) {
-  //     if (!cardExpiringNotification && currentSubscription.expiry_date >
-  //       dayjs(`${defaultCard.exp_year}-${defaultCard.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
-  //       const notif = addNotification({
-  //         createdAt: dayjs().unix(),
-  //         title: t`Credit Card is expiring soon`,
-  //         onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
-  //       })
-  //       setCardExpiringNotification(notif)
-  //     } else if (cardExpiringNotification && currentSubscription?.expiry_date <=
-  //       dayjs(`${defaultCard?.exp_year}-${defaultCard?.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
-  //       removeNotification(cardExpiringNotification)
-  //       setCardExpiringNotification(undefined)
-  //     }
-  //   }
-  // }, [addNotification, cardExpiringNotification, currentSubscription, defaultCard, redirect, removeNotification])
+  useEffect(() => {
+    if (defaultCard && currentSubscription) {
+      if (!cardExpiringNotification && currentSubscription.expiry_date >
+        dayjs(`${defaultCard.exp_year}-${defaultCard.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
+        const notif = addNotification({
+          createdAt: dayjs().unix(),
+          title: t`Credit Card is expiring soon`,
+          onClick: () => redirect(ROUTE_LINKS.SettingsPath("plan"))
+        })
+        setCardExpiringNotification(notif)
+      } else if (cardExpiringNotification && currentSubscription?.expiry_date <=
+        dayjs(`${defaultCard?.exp_year}-${defaultCard?.exp_month}-01`, "YYYY-MM-DD").endOf("month").unix()) {
+        removeNotification(cardExpiringNotification)
+        setCardExpiringNotification(undefined)
+      }
+    }
+  }, [addNotification, cardExpiringNotification, currentSubscription, defaultCard, redirect, removeNotification])
 
   const refreshDefaultCard = useCallback(() => {
     storageApiClient.getDefaultCard()
@@ -191,7 +189,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
           product.name = ProductMapping[product.id].name
           product.description = ProductMapping[product.id].description
           return product
-        })
+        }).sort((a, b) => Number(a.prices[0].metadata?.storage_size_bytes) - Number(b.prices[0].metadata?.storage_size_bytes))
       })
       .catch((error: any) => {
         console.error(error)

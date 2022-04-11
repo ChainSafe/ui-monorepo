@@ -25,6 +25,7 @@ export const homePage = {
   renameMenuOption: () => cy.get("[data-cy=menu-rename]"),
   moveMenuOption: () => cy.get("[data-cy=menu-move]"),
   deleteMenuOption: () => cy.get("[data-cy=menu-delete]"),
+  shareMenuOption: () => cy.get("[data-cy=menu-share]"),
 
   // helpers and convenience functions
   uploadFile(filePath: string) {

@@ -4,7 +4,7 @@ import { BucketType } from "@chainsafe/files-api-client"
 import { navigationMenu } from "../page-objects/navigationMenu"
 import { homePage } from "../page-objects/homePage"
 
-const API_BASE_URL = "https://stage.imploy.site/api/v1"
+const API_BASE_URL = "https://stage-api.chainsafe.io/api/v1"
 const REFRESH_TOKEN_KEY = "csf.refreshToken"
 const FREE_PLAN_ID = "prod_JwRu6Ph25b1f2O"
 
@@ -55,10 +55,10 @@ export const apiTestHelper = {
             }
 
             resolve()
-          } catch (e){
-            cy.log("Something wrong happened during the subscription cancelation")
-            console.log(e)
+          } catch (e: any){
+            console.error(e)
             reject(e)
+            throw new Error("Something wrong happened during the subscription cancelation")
           }
         })
     })
@@ -132,6 +132,7 @@ export const apiTestHelper = {
         } catch(e){
           console.error(e)
           reject(e)
+          throw new Error("Something wrong happened when creating a folder")
         }
 
         navigationMenu.binNavButton().click()
@@ -141,7 +142,5 @@ export const apiTestHelper = {
         homePage.fileItemName().contains(firstFolderName)
       })
     })
-
-
   }
 }

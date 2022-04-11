@@ -4,8 +4,8 @@ export const UI_CONSTANTS = {
   mobileButtonHeight: 44,
   headerHeight: 60,
   navWidth: 8 * 27,
-  contentPadding: 8 * 15,
-  contentTopPadding: 8 * 15,
+  contentPadding: 6 * 15,
+  contentTopPadding: 6 * 15,
   mobileHeaderHeight: 8 * 6.3,
   svgWidth: 8 * 2.5,
   topPadding: 8 * 3,
@@ -61,6 +61,7 @@ export interface CsfColors extends IConstants {
     itemColorHover: string
     itemIconColor: string
     itemIconColorHover: string
+    mobileSelectedBackground: string
     profileButtonShadow: string
   }
   createFolder: {

@@ -192,11 +192,12 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
     resetUsers
   } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
-  const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission>("read")
+  const [newUserPermission, setNewUserPermission] = useState<NonceResponsePermission>("read")
   const [usernameSearch, setUsernameSearch] = useState<string | undefined>()
   const [suggestedUsers, setSuggestedUsers] = useState<LookupUser[]>([])
   const [loadingUsers, setLoadingUsers] = useState(false)
   const [searchActive, setSearchActive] = useState(false)
+  const [touchedLinksList, setTouchedLinksList] = useState(false)
 
   const onReset = useCallback(() => {
     setHasPermissionsChanged(false)
@@ -219,10 +220,18 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
 
   const onEditSharedFolder = useCallback(() => {
     if (!bucketToEdit) return
+
+    // only sharing link where touched no need to call the api
+    // just close the modal
+    if (!hasPermissionsChanged) {
+      handleClose()
+      return
+    }
+
     handleEditSharedFolder(bucketToEdit, sharedFolderReaders, sharedFolderWriters)
       .catch(console.error)
       .finally(handleClose)
-  }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
+  }, [bucketToEdit, hasPermissionsChanged, handleEditSharedFolder, sharedFolderReaders, sharedFolderWriters, handleClose])
 
   const onLookupUser = (inputText?: string) => {
     if (!inputText) return
@@ -247,6 +256,14 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
       setSearchActive(false)
     }
   })
+
+  const onSuggestedUserClick = useCallback((user: LookupUser) => {
+    onAddNewUser(user, newUserPermission)
+    setSearchActive(false)
+    setUsernameSearch("")
+    setSuggestedUsers([])
+    setHasPermissionsChanged(true)
+  }, [newUserPermission, onAddNewUser])
 
   return (
     <div className={classes.root}>
@@ -274,9 +291,9 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             data-cy="input-edit-permission"
           />
           <PermissionsDropdown
-            selectedPermission={newLinkPermission}
-            onViewPermissionClick={() => setNewLinkPermission("read")}
-            onEditPermissionClick={() => setNewLinkPermission("write")}
+            selectedPermission={newUserPermission}
+            onViewPermissionClick={() => setNewUserPermission("read")}
+            onEditPermissionClick={() => setNewUserPermission("write")}
             permissions={["read", "write"]}
             injectedClasses={{
               root: classes.permissionsInSuggestion,
@@ -292,13 +309,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
               {suggestedUsers.map((u) => <div
                 key={u.uuid}
                 className={classes.usernameBox}
-                onClick={() => {
-                  onAddNewUser(u, newLinkPermission)
-                  setSearchActive(false)
-                  setUsernameSearch("")
-                  setSuggestedUsers([])
-                  setHasPermissionsChanged(true)
-                }}
+                onClick={() => {onSuggestedUserClick(u)}}
                 data-cy="user-lookup-result"
               >
                 <UserName user={u}/>
@@ -313,7 +324,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
               >
                 {loadingUsers
                   ? <Trans>Loading...</Trans>
-                  : <Trans>No users found</Trans>
+                  : <Trans>No user found</Trans>
                 }
               </Typography>
             </div>
@@ -328,9 +339,13 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
         ].map((sharedFolderUser) => <div
           key={sharedFolderUser.user.uuid}
           className={classes.addedUserBox}
+          data-cy="container-added-user"
         >
           <div className={classes.flexContainer}>
-            <div className={classes.hashIcon}>
+            <div
+              className={classes.hashIcon}
+              data-cy="container-user-icon"
+            >
               <Hashicon
                 value={sharedFolderUser.user.uuid}
                 size={28}
@@ -339,12 +354,14 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             <Typography
               className={classes.addedUserLabel}
               component="p"
+              data-cy="label-added-user"
             >
               <UserName user={sharedFolderUser.user}/>
             </Typography>
           </div>
           <div className={classes.flexContainer}>
             <PermissionsDropdown
+              testId="user-permission"
               selectedPermission={sharedFolderUser.permission}
               onViewPermissionClick={() => {
                 if (sharedFolderUser.permission === "write") {
@@ -370,6 +387,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             <Button
               variant="link"
               className={classes.crossButton}
+              testId="remove-user-from-share"
               onClick={() => {
                 setHasPermissionsChanged(true)
                 if (sharedFolderUser.permission === "read") {
@@ -389,6 +407,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
         <LinkList
           bucketEncryptionKey={bucketToEdit.encryptionKey}
           bucketId={bucketToEdit.id}
+          setTouchedLinksList={() => setTouchedLinksList(true)}
         />
       </div>}
       <Grid
@@ -408,7 +427,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             size="large"
             variant="outline"
             type="button"
-            data-cy="button-cancel-create-shared-folder"
+            data-cy="button-close-manage-shared-folder"
           >
             <Trans>Close</Trans>
           </CustomButton>
@@ -419,7 +438,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             className={classes.okButton}
             loading={isCreatingSharedFolder || isEditingSharedFolder}
             onClick={onEditSharedFolder}
-            disabled={!hasPermissionsChanged || isEditingSharedFolder}
+            disabled={!touchedLinksList && (!hasPermissionsChanged || isEditingSharedFolder)}
             data-cy="button-update-shared-folder"
           >
             <Trans>Update</Trans>

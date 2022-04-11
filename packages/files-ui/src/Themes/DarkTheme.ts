@@ -373,9 +373,10 @@ export const darkTheme = createTheme<CsfColors>({
           mobileBackgroundColor: "var(--gray2)",
           headingColor: "var(--gray9)",
           itemColor: "var(--gray9)",
-          itemColorHover: "var(--gray9)",
           itemIconColor: "var(--gray9)",
+          itemColorHover: "var(--gray9)",
           itemIconColorHover: "var(--gray9)",
+          mobileSelectedBackground: "var(--gray9)",
           profileButtonShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
         },
         createFolder: {
@@ -435,7 +436,7 @@ export const darkTheme = createTheme<CsfColors>({
         filesTable: {
           color: "var(--gray7)",
           uploadText: "var(--gray7)",
-          gridItemShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+          gridItemShadow: "1px 1px 4px rgba(0, 0, 0, 0.25)"
         },
         fileSystemItemRow: {
           icon: "var(--gray9)",

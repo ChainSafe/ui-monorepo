@@ -38,6 +38,7 @@ const useStyles = makeStyles(
       root: {
         position: "relative",
         [breakpoints.down("md")]: {
+          marginTop: constants.generalUnit * 4,
           marginLeft: constants.generalUnit * 2,
           marginRight: constants.generalUnit * 2,
           "&.bottomBanner": {
@@ -46,6 +47,7 @@ const useStyles = makeStyles(
         },
         [breakpoints.up("md")]: {
           border: "1px solid transparent",
+          marginTop: constants.generalUnit * 6,
           padding: `0 ${constants.generalUnit}px`,
           borderRadius: constants.generalUnit / 4,
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
@@ -178,7 +180,7 @@ const SharedFolderOverview = () => {
   }, [column, direction])
 
   const handleRename = useCallback((bucket: BucketKeyPermission, newName: string) => {
-    filesApiClient.updateBucket(bucket.id, {
+    return filesApiClient.updateBucket(bucket.id, {
       ...bucket,
       name: newName
     }).then(() => refreshBuckets(false))

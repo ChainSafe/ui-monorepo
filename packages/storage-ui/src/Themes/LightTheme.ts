@@ -58,7 +58,8 @@ export const lightTheme = createTheme<CsSColors>({
           itemColor: "inherit",
           itemColorHover: "var(--gray7)",
           itemIconColor: "inherit",
-          itemIconColorHover: "var(--gray7)"
+          itemIconColorHover: "var(--gray7)",
+          profileButtonShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
         },
         createFolder: {
           backgroundColor: "var(--gray1)",
@@ -163,6 +164,9 @@ export const lightTheme = createTheme<CsSColors>({
           color: "#595959",
           shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
           placeholderColor: "#BFBFBF"
+        },
+        cookieBanner: {
+          backgroundColor: "var(--gray9)"
         }
       } as CsSColors)
     },

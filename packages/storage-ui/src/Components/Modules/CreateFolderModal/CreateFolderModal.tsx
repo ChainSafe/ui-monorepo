@@ -29,15 +29,13 @@ const useStyles = makeStyles(
         flexDirection: "column"
       },
       modalRoot: {
-        zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {}
+        zIndex: zIndex?.blocker
       },
       modalInner: {
         backgroundColor: constants.createFolder.backgroundColor,
         color: constants.createFolder.color,
         [breakpoints.down("md")]: {
-          bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
+          bottom: Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`

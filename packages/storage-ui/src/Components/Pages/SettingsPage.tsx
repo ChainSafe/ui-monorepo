@@ -16,6 +16,8 @@ import clsx from "clsx"
 import ApiKeys from "../Modules/ApiKeys"
 import { useBilling } from "../../Contexts/BillingContext"
 import SubscriptionTab from "../Modules/SubscriptionTab"
+import { usePageTrack } from "../../Contexts/PosthogContext"
+import { Helmet } from "react-helmet-async"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -62,7 +64,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     tabPane: {
       flex: 1,
-      padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`,
+      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`,
       "&.apiKeysPane": {
         [breakpoints.down("lg")]: {
           paddingLeft: constants.generalUnit,
@@ -110,15 +112,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       marginRight: 0,
       display: "flex",
       borderBottom: "none",
-
       "& .iconRight": {
         flex: 1,
         textAlign: "right"
       },
-
       "&.selected": {
         borderBottom: "none",
-        fontWeight: "normal",
         backgroundColor: palette.additional["gray"][4],
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10
@@ -133,14 +132,17 @@ const SettingsPage: React.FC = () => {
   const classes = useStyles()
   const { redirect } = useHistory()
   const { isBillingEnabled } = useBilling()
+  usePageTrack()
 
-  console.log("path", path)
   const onSelectTab = useCallback(
     (path: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(path))
     , [redirect])
 
   return (
     <div className={classes.container}>
+      <Helmet>
+        <title>{t`Settings`} - Chainsafe Storage</title>
+      </Helmet>
       <div className={classes.headerContainer}>
         <Typography
           variant="h1"
@@ -172,7 +174,7 @@ const SettingsPage: React.FC = () => {
               className={clsx(classes.tabPane, "apiKeysPane", (!desktop && !path) ? classes.hideTabPane : "")}
               icon={<LockIcon className={classes.lockIcon}/>}
               iconRight={<CaretRightIcon/>}
-              title={t`Api Keys`}
+              title={t`API Keys`}
               tabKey="apiKeys"
               testId="apiKeys-tab"
             >

@@ -4,6 +4,7 @@ import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-cli
 import { Trans } from "@lingui/macro"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
+import { usePosthogContext } from "../../../../Contexts/PosthogContext"
 import { CSFTheme } from "../../../../Themes/types"
 import PermissionsDropdown from "./PermissionsDropdown"
 import SharingLink from "./SharingLink"
@@ -111,9 +112,10 @@ const MAX_LINKS = 2
 interface Props {
   bucketId: string
   bucketEncryptionKey: string
+  setTouchedLinksList: () => void
 }
 
-const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
+const LinkList = ({ bucketId, bucketEncryptionKey, setTouchedLinksList }: Props) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const [nonces, setNonces] = useState<NonceResponse[]>([])
@@ -121,6 +123,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
   const [isLoadingCreation, setIsLoadingCreation] = useState(false)
   const hasAReadNonce = useMemo(() => !!nonces.find(n => n.permission === "read"), [nonces])
   const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission | undefined>(undefined)
+  const { captureEvent } = usePosthogContext()
 
   useEffect(() => {
     if (hasAReadNonce) {
@@ -152,6 +155,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
       return
     }
 
+    captureEvent("Create sharing link", { permission: newLinkPermission })
     setIsLoadingCreation(true)
 
     return filesApiClient
@@ -160,8 +164,9 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
       .finally(() => {
         setIsLoadingCreation(false)
         refreshNonces()
+        setTouchedLinksList()
       })
-  }, [bucketId, filesApiClient, newLinkPermission, refreshNonces])
+  }, [bucketId, captureEvent, filesApiClient, newLinkPermission, refreshNonces, setTouchedLinksList])
 
   return (
     <div className={classes.root}>
@@ -175,6 +180,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey }: Props) => {
                 bucketEncryptionKey={bucketEncryptionKey}
                 nonce={nonce}
                 data-cy="link-share-folder"
+                setTouchedLinksList={setTouchedLinksList}
               />
             )}
           </div>

@@ -63,9 +63,10 @@ export const lightTheme = createTheme<CsfColors>({
           mobileBackgroundColor: "var(--gray9)",
           headingColor: "inherit",
           itemColor: "inherit",
-          itemColorHover: "var(--gray7)",
           itemIconColor: "inherit",
-          itemIconColorHover: "var(--gray7)",
+          itemColorHover: "var(--gray6)",
+          itemIconColorHover: "var(--gray6)",
+          mobileSelectedBackground: "var(--gray9)",
           profileButtonShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
         },
         createFolder: {
@@ -125,7 +126,7 @@ export const lightTheme = createTheme<CsfColors>({
         filesTable: {
           color: "",
           uploadText: "var(--gray2)",
-          gridItemShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
+          gridItemShadow: "1px 1px 4px rgba(0, 0, 0, 0.25)"
         },
         fileSystemItemRow: {
           icon: "var(--gray8)",

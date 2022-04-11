@@ -9,6 +9,7 @@ import {
   formatBytes,
   FormikTextInput,
   IMenuItem,
+  Loading,
   MoreIcon,
   TableCell,
   TableRow,
@@ -139,13 +140,17 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     okButton: {
       marginLeft: constants.generalUnit
+    },
+    loadingIcon: {
+      marginLeft: constants.generalUnit,
+      verticalAlign: "middle"
     }
   })
 })
 
 interface Props {
   bucket: BucketKeyPermission
-  handleRename: (bucket: BucketKeyPermission, newName: string) => void
+  handleRename: (bucket: BucketKeyPermission, newName: string) => Promise<void>
   openSharedFolder: (bucketId: string) => void
   onEditSharedFolder: () => void
   handleDeleteSharedFolder: () => void
@@ -154,12 +159,13 @@ interface Props {
 const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteSharedFolder, onEditSharedFolder }: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
-
   const { desktop } = useThemeSwitcher()
   const [isRenaming, setIsRenaming] = useState(false)
   const formRef = useRef(null)
   const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
   const [ownerName, setOwnerName] = useState("")
+  const [isEditingLoading, setIsEditingLoading] = useState(false)
+  const renameInputRef = useRef<HTMLInputElement | null>()
 
   useEffect(() => {
     if (isOwner) {
@@ -171,6 +177,12 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       .then(setOwnerName)
       .catch(console.error)
   }, [bucket, isOwner])
+
+  useEffect(() => {
+    if (isRenaming && renameInputRef?.current) {
+      renameInputRef.current.focus()
+    }
+  }, [isRenaming])
 
   const menuItems: IMenuItem[] = isOwner
     ? [{
@@ -246,15 +258,20 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
   }
 
   const formik = useFormik({
-    initialValues:{
-      name
-    },
+    initialValues:{ name },
     enableReinitialize: true,
     validationSchema: nameValidator,
     onSubmit:(values, { resetForm }) => {
       const newName = values.name?.trim()
 
-      newName && handleRename && handleRename(bucket, newName)
+      if (newName !== name && !!newName && handleRename) {
+        setIsEditingLoading(true)
+
+        handleRename(bucket, newName)
+          .then(() => setIsEditingLoading(false))
+      } else {
+        stopEditing()
+      }
       setIsRenaming(false)
       resetForm()
     }
@@ -265,7 +282,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     formik.resetForm()
   }, [formik, setIsRenaming])
 
-  useOnClickOutside(formRef, stopEditing)
+  useOnClickOutside(formRef, formik.submitForm)
 
   return  (
     <>
@@ -276,6 +293,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       >
         {desktop &&
         <TableCell
+          data-cy="cell-shared-folder-icon"
           className={classes.folderIcon}
           onClick={(e) => onFolderClick(e)}
         >
@@ -289,7 +307,14 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           onClick={(e) => onFolderClick(e)}
         >
           {!isRenaming || !desktop
-            ? <Typography>{name}</Typography>
+            ? <>
+              <Typography>{name}</Typography>
+              {isEditingLoading && <Loading
+                className={classes.loadingIcon}
+                size={16}
+                type="initial"
+              />}
+            </>
             : (
               <FormikProvider value={formik}>
                 <Form
@@ -308,7 +333,8 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                       }
                     }}
                     placeholder = {t`Please enter a folder name`}
-                    autoFocus={isRenaming}
+                    autoFocus
+                    ref={renameInputRef}
                   />
                 </Form>
               </FormikProvider>
@@ -316,7 +342,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           }
         </TableCell>
         {desktop &&
-        <TableCell align="left">
+        <TableCell
+          align="left"
+          data-cy="cell-share-owner"
+        >
           <UserBubble
             tooltip={ownerName}
             hashIconValue={bucket.owners[0].uuid}
@@ -324,7 +353,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         </TableCell>
         }
         <TableCell
-          data-cy="shared-folder-item-shared-with"
+          data-cy="cell-shared-with"
           align="left"
           className={classes.sharedUser}
         >
@@ -334,7 +363,10 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           />
         </TableCell>
         {desktop &&
-        <TableCell align="left">
+        <TableCell
+          align="left"
+          data-cy="cell-shared-folder-size"
+        >
           {formatBytes(size, 2)}
         </TableCell>
         }
@@ -397,7 +429,14 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                 </Form>
               </FormikProvider>
             </CustomModal>
-            <Typography>{name}</Typography>
+            <>
+              <Typography>{name}</Typography>
+              {isEditingLoading && <Loading
+                className={classes.loadingIcon}
+                size={16}
+                type="initial"
+              />}
+            </>
           </>
         )
       }

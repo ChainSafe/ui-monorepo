@@ -371,7 +371,8 @@ export const darkTheme = createTheme<CsSColors>({
           itemColor: "var(--gray9)",
           itemColorHover: "var(--gray9)",
           itemIconColor: "var(--gray9)",
-          itemIconColorHover: "var(--gray9)"
+          itemIconColorHover: "var(--gray9)",
+          profileButtonShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
         },
         createFolder: {
           backgroundColor: "var(--gray2)",
@@ -476,6 +477,9 @@ export const darkTheme = createTheme<CsSColors>({
           color: "#DBDBDB",
           shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
           placeholderColor: "#595959"
+        },
+        cookieBanner: {
+          backgroundColor: "var(--gray9)"
         }
       } as CsSColors)
     },

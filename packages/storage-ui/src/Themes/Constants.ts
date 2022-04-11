@@ -4,8 +4,8 @@ export const UI_CONSTANTS = {
   mobileButtonHeight: 44,
   headerHeight: 60,
   navWidth: 8 * 27,
-  contentPadding: 8 * 15,
-  contentTopPadding: 8 * 15,
+  contentPadding: 8 * 12,
+  contentTopPadding: 8 * 12,
   mobileHeaderHeight: 8 * 6.3,
   svgWidth: 8 * 2.5,
   topPadding: 8 * 3,
@@ -56,6 +56,7 @@ export interface CsSColors extends IConstants {
     itemColorHover: string
     itemIconColor: string
     itemIconColorHover: string
+    profileButtonShadow: string
   }
   createFolder: {
     backgroundColor: string
@@ -162,5 +163,8 @@ export interface CsSColors extends IConstants {
   }
   surveyBanner: {
     color: string
+  }
+  cookieBanner: {
+    backgroundColor: string
   }
 }
