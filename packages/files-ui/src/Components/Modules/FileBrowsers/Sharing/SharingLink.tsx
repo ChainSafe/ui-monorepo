@@ -128,9 +128,10 @@ interface Props {
   nonce: NonceResponse
   bucketEncryptionKey: string
   refreshNonces: (hideLoading?: boolean) => void
+  setTouchedLinkedList: () => void
 }
 
-const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
+const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces, setTouchedLinkedList }: Props) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const [link, setLink] = useState("")
@@ -198,8 +199,9 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces }: Props) => {
       .catch(console.error)
       .finally(() => {
         refreshNonces(true)
+        setTouchedLinkedList()
       })
-  }, [filesApiClient, nonce, refreshNonces])
+  }, [filesApiClient, nonce.id, refreshNonces, setTouchedLinkedList])
 
   return (
     <div className={classes.root}>

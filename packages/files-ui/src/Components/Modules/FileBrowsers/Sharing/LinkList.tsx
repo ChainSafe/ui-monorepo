@@ -180,6 +180,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey, setTouchedLinkedList }: Props
                 bucketEncryptionKey={bucketEncryptionKey}
                 nonce={nonce}
                 data-cy="link-share-folder"
+                setTouchedLinkedList={setTouchedLinkedList}
               />
             )}
           </div>
