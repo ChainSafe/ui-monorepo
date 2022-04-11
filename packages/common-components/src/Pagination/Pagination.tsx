@@ -13,10 +13,10 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) => {
       margin: `${constants.generalUnit}px 0`
     },
     nextButton: {
-      marginLeft: constants.generalUnit
+      marginLeft: constants.generalUnit * 1.5
     },
     previousButton: {
-      marginRight: constants.generalUnit
+      marginRight: constants.generalUnit * 1.5
     },
     icons: {
       fill: palette.additional["gray"][9]
@@ -49,6 +49,8 @@ const Pagination: React.FC<IPaginationProps> = ({
 }) => {
   const classes = useStyles()
 
+  console.log(isNextDisabled)
+
   return (
     <div className={classes.root}>
       <Button
@@ -61,12 +63,12 @@ const Pagination: React.FC<IPaginationProps> = ({
       >
         <CaretLeftIcon className={classes.icons} />
       </Button>
-      {!!showPageNumbers && pageNo && totalPages &&
+      {!!showPageNumbers && pageNo &&
         <Typography
           component="p"
           variant="body1"
         >
-          Page {pageNo} of {totalPages}
+          {`Page ${pageNo} ${totalPages ? `of ${totalPages}` : "" }`}
         </Typography>
       }
       <Button

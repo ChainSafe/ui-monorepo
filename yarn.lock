@@ -1932,10 +1932,10 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/browser-storage-hooks/-/browser-storage-hooks-1.0.1.tgz#26d32cde1999914db755a631e2643823c54959f7"
   integrity sha512-Q4b5gQAZnsRXKeADspd5isqfwwhhXjDk70y++YadufA6EZ3tf340oW0OVszp74KaGEw+CAYFGQR4X7bzpZ3x9Q==
 
-"@chainsafe/files-api-client@1.18.34":
-  version "1.18.34"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.34.tgz#58162ab01c8cb3667964c23a2c6fe7adbf6b5faf"
-  integrity sha512-00AR3uEIJs08MQ3s9uiRxId7oRE+XnOrkfPAEWmU4j3k3dbochl8yc0JCVYE/q11Cg60XVEbnVqo5JjATl4foA==
+"@chainsafe/files-api-client@1.18.35":
+  version "1.18.35"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.35.tgz#52cd9fa823e20f3ff2bedfbc9a1dae674a61c06b"
+  integrity sha512-DDPMT30b57fmON1gjvfDvdg+Gx2cTewo4/oGdhAwH6B4ZnLqMTnraDacNFZKaaOBtG0U7GdvxU1vHjxY8FE4vw==
   dependencies:
     "@redocly/openapi-cli" "^1.0.0-beta.58"
     "@redocly/openapi-core" "^1.0.0-beta.69"

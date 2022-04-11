@@ -11,9 +11,7 @@ import {
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-// import { v4 as uuidv4 } from "uuid"
 import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FileOperationsReducers"
-// import { t } from "@lingui/macro"
 import { useBeforeunload } from "react-beforeunload"
 import { useStorageApi } from "./StorageApiContext"
 import { v4 as uuidv4 } from "uuid"
@@ -49,7 +47,7 @@ export type DownloadProgress = {
   complete: boolean
 }
 
-const PINS_PAGE_SIZE = 4
+const PINS_PAGE_SIZE = 1
 
 interface GetFileContentParams {
   cid: string
@@ -75,6 +73,7 @@ type StorageContext = {
   isNextPins: boolean
   isPreviousPins: boolean
   isLoadingPins: boolean
+  isPagingLoading: boolean
   onNextPins: () => void
   onPreviousPins: () => void
   addPin: (cid: string, name: string) => Promise<PinStatus>
@@ -85,6 +84,8 @@ type StorageContext = {
   removeBucket: (id: string) => void
   refreshBuckets: () => void
   searchCid: (cid: string) => Promise<PinResult | void>
+  onSearch: (searchParams: RefreshPinParams) => void
+  pageNumber: number
 }
 
 // This represents a File or Folder on the
@@ -102,13 +103,24 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse | undefined>()
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const [pins, setPins] = useState<PinStatus[]>([])
-  const [pinsRange, setPinsRange] = useState<{
-    before?: Date
-    after?: Date
-  }>({ before: new Date() })
+  const [pinsParams, setPinsParams] = useState<{
+    pageNumber: number
+    pinsRange: {
+      before?: Date
+      after?: Date
+    }
+    searchedCID?: string
+    searchedName?: string
+  }>({
+    pageNumber: 1,
+    pinsRange: {
+      before: new Date()
+    }
+  })
   const [isPreviousPins, setIsPreviousPins] = useState(false)
   const [isNextPins, setIsNextPins] = useState(false)
-  const [isLoadingPins, setIsLoadingPins] = useState(false)
+  const [isLoadingPins, setIsLoadingPins] = useState(true)
+  const [isPagingLoading, setIsPagingLoading] = useState(false)
 
   const getStorageSummary = useCallback(async () => {
     try {
@@ -119,18 +131,20 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [storageApiClient])
 
-  const refreshPins = useCallback(({ searchedCid = undefined, searchedName = "" }: RefreshPinParams = {}) => {
+  const refreshPins = useCallback(() => {
     storageApiClient.listPins(
-      searchedCid ? [searchedCid] : undefined,
-      searchedName,
+      pinsParams.searchedCID ? [pinsParams.searchedCID] : undefined,
+      pinsParams.searchedName || undefined,
       "partial",
       ["queued", "pinning", "pinned", "failed"],
-      pinsRange.after,
-      pinsRange.before,
-      PINS_PAGE_SIZE
+      pinsParams.pinsRange.after,
+      pinsParams.pinsRange.before,
+      PINS_PAGE_SIZE,
+      undefined,
+      pinsParams.pinsRange.before ? "asc" : "dsc"
     ).then((pinsResult) => {
       setPins(pinsResult.results || [])
-      if (pinsRange.before) {
+      if (pinsParams.pinsRange.before) {
         // next pins
         if (
           pinsResult.results?.length &&
@@ -156,24 +170,46 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }).catch(console.error)
       .finally(() => {
         setIsLoadingPins(false)
+        setIsPagingLoading(false)
       })
-  }, [storageApiClient, pinsRange])
+  }, [storageApiClient, pinsParams])
 
   const onNextPins = useCallback(() => {
     if (!pins.length) return
+    setIsPagingLoading(true)
     setIsPreviousPins(true)
-    setPinsRange({
-      before: new Date(pins[pins.length - 1].created)
+    setPinsParams({
+      ...pinsParams,
+      pageNumber: pinsParams.pageNumber + 1,
+      pinsRange: {
+        before: new Date(pins[pins.length - 1].created)
+      }
     })
-  }, [pins])
+  }, [pins, pinsParams ])
 
   const onPreviousPins = useCallback(() => {
-    if (!pins.length) return
+    if (!pins.length || pinsParams.pageNumber === 1) return
+    setIsPagingLoading(true)
     setIsNextPins(true)
-    setPinsRange({
-      after: new Date(pins[0].created)
+    setPinsParams({
+      ...pinsParams,
+      pageNumber: pinsParams.pageNumber - 1,
+      pinsRange: {
+        after: new Date(pins[0].created)
+      }
     })
-  }, [pins])
+  }, [pins, pinsParams])
+
+  const onSearch = useCallback((searchParams: RefreshPinParams) => {
+    setPinsParams({
+      pinsRange: {
+        before: new Date()
+      },
+      pageNumber: 1,
+      searchedCID: searchParams.searchedCid,
+      searchedName: searchParams.searchedName
+    })
+  }, [])
 
   const refreshBuckets = useCallback(() => {
     storageApiClient.listBuckets()
@@ -437,6 +473,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         isNextPins,
         isPreviousPins,
         isLoadingPins,
+        isPagingLoading,
         onNextPins,
         onPreviousPins,
         unpin,
@@ -446,7 +483,9 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         removeBucket,
         uploadFiles,
         refreshBuckets,
-        searchCid
+        searchCid,
+        onSearch,
+        pageNumber: pinsParams.pageNumber
       }}
     >
       {children}
