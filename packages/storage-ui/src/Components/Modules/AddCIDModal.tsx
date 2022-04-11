@@ -77,7 +77,7 @@ interface IAddCIDModuleProps {
 
 const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const classes = useStyles()
-  const { addPin, refreshPins, searchCid } = useStorage()
+  const { addPin, searchCid } = useStorage()
   const [accessingCID, setAccessingCID] = useState(false)
   const [cidError, setCidError] = useState("")
   const [cid, setCid] = useState("")
@@ -98,17 +98,12 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
     setAccessingCID(true)
 
     addPin(cid.trim(), name.trim())
-      .then(() => {
-        onClose()
-      })
-      .catch((e) => {
-        console.error(e)
-      })
+      .then(onClose)
+      .catch(console.error)
       .finally(() => {
-        refreshPins(undefined)
         setAccessingCID(false)
       })
-  }, [addPin, cid, name, onClose, refreshPins])
+  }, [addPin, cid, name, onClose])
 
   useEffect(() => {
     if (!cid) return

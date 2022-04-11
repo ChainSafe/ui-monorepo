@@ -47,7 +47,7 @@ export type DownloadProgress = {
   complete: boolean
 }
 
-const PINS_PAGE_SIZE = 1
+const PINS_PAGE_SIZE = 2
 
 interface GetFileContentParams {
   cid: string
@@ -76,7 +76,7 @@ type StorageContext = {
   isPagingLoading: boolean
   onNextPins: () => void
   onPreviousPins: () => void
-  addPin: (cid: string, name: string) => Promise<PinStatus>
+  addPin: (cid: string, name: string) => Promise<PinStatus | undefined>
   refreshPins: (params?: RefreshPinParams) => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
@@ -141,7 +141,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       pinsParams.pinsRange.before,
       PINS_PAGE_SIZE,
       undefined,
-      pinsParams.pinsRange.before ? "asc" : "dsc"
+      pinsParams.pinsRange.before ? "dsc" : "asc"
     ).then((pinsResult) => {
       setPins(pinsResult.results || [])
       if (pinsParams.pinsRange.before) {
@@ -201,6 +201,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   }, [pins, pinsParams])
 
   const onSearch = useCallback((searchParams: RefreshPinParams) => {
+    setIsLoadingPins(true)
     setPinsParams({
       pinsRange: {
         before: new Date()
@@ -225,7 +226,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const unpin = useCallback((requestId: string) => {
     storageApiClient.deletePin(requestId)
-      .then(() => refreshPins())
+      .then(refreshPins)
       .catch(console.error)
   }, [storageApiClient, refreshPins])
 
@@ -271,9 +272,22 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   })
 
-  const addPin = useCallback((cid: string, name: string) => {
-    return storageApiClient.addPin(({ cid, name }))
-  }, [storageApiClient])
+  const addPin = useCallback(async (cid: string, name: string) => {
+    try {
+      const pinStatus = await storageApiClient.addPin(({ cid, name }))
+      if (pinsParams.pageNumber === 1) {
+        setPinsParams({
+          ...pinsParams,
+          pinsRange: {
+            before: new Date()
+          }
+        })
+      }
+      return pinStatus
+    } catch (e) {
+      console.error(e)
+    }
+  }, [storageApiClient, pinsParams])
 
   const createBucket = useCallback(async (name: string, fileSystemType: FileSystemType) => {
     return storageApiClient.createBucket({
