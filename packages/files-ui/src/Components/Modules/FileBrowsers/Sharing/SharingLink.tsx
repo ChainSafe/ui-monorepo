@@ -128,10 +128,10 @@ interface Props {
   nonce: NonceResponse
   bucketEncryptionKey: string
   refreshNonces: (hideLoading?: boolean) => void
-  setTouchedLinkedList: () => void
+  setTouchedLinksList: () => void
 }
 
-const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces, setTouchedLinkedList }: Props) => {
+const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces, setTouchedLinksList }: Props) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const [link, setLink] = useState("")
@@ -166,30 +166,6 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces, setTouchedLink
       })
       .catch(console.error)
 
-    // //Create a textbox field where we can insert text to. 
-    // const copyFrom = document.createElement("textarea")
-
-    // //Set the text content to be the text you wished to copy.
-    // copyFrom.textContent = link
-
-    // //Append the textbox field into the body as a child. 
-    // //"execCommand()" only works when there exists selected text, and the text is inside 
-    // //document.body (meaning the text is part of a valid rendered HTML element).
-    // document.body.appendChild(copyFrom)
-
-    // //Select all the text!
-    // copyFrom.select()
-
-    // //Execute command
-    // document.execCommand("copy")
-
-    // //(Optional) De-select the text using blur(). 
-    // copyFrom.blur()
-
-    // //Remove the textbox field from the document.body, so no other JavaScript nor 
-    // //other elements can get access to this.
-    // document.body.removeChild(copyFrom)
-
     setCopied(true)
     debouncedSwitchCopied()
   }, [debouncedSwitchCopied, link])
@@ -199,9 +175,9 @@ const SharingLink = ({ nonce, bucketEncryptionKey, refreshNonces, setTouchedLink
       .catch(console.error)
       .finally(() => {
         refreshNonces(true)
-        setTouchedLinkedList()
+        setTouchedLinksList()
       })
-  }, [filesApiClient, nonce.id, refreshNonces, setTouchedLinkedList])
+  }, [filesApiClient, nonce.id, refreshNonces, setTouchedLinksList])
 
   return (
     <div className={classes.root}>

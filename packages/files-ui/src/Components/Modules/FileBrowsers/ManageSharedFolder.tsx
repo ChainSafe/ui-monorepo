@@ -197,7 +197,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
   const [suggestedUsers, setSuggestedUsers] = useState<LookupUser[]>([])
   const [loadingUsers, setLoadingUsers] = useState(false)
   const [searchActive, setSearchActive] = useState(false)
-  const [touchedLinkedList, setTouchedLinkedList] = useState(false)
+  const [touchedLinksList, setTouchedLinksList] = useState(false)
 
   const onReset = useCallback(() => {
     setHasPermissionsChanged(false)
@@ -407,7 +407,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
         <LinkList
           bucketEncryptionKey={bucketToEdit.encryptionKey}
           bucketId={bucketToEdit.id}
-          setTouchedLinkedList={() => setTouchedLinkedList(true)}
+          setTouchedLinksList={() => setTouchedLinksList(true)}
         />
       </div>}
       <Grid
@@ -438,7 +438,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             className={classes.okButton}
             loading={isCreatingSharedFolder || isEditingSharedFolder}
             onClick={onEditSharedFolder}
-            disabled={!touchedLinkedList && (!hasPermissionsChanged || isEditingSharedFolder)}
+            disabled={!touchedLinksList && (!hasPermissionsChanged || isEditingSharedFolder)}
             data-cy="button-update-shared-folder"
           >
             <Trans>Update</Trans>
