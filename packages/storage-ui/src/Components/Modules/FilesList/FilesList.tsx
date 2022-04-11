@@ -109,7 +109,8 @@ const useStyles = makeStyles(
           backgroundColor: palette.additional["gray"][4]
         },
         [breakpoints.up("md")]: {
-          margin: `${constants.generalUnit * 3}px 0`
+          marginTop: constants.generalUnit * 3,
+          marginBottom: 0
         },
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 3}px 0 0`
@@ -229,14 +230,15 @@ const useStyles = makeStyles(
         opacity: 0.2,
         transition: `opacity ${animation.transform * 3}ms`
       },
-      tableHead: {
-        marginTop: constants.generalUnit * 3
-      },
       bulkOperations: {
         display: "flex",
         flexDirection: "row",
-        marginTop: constants.generalUnit * 3,
-        minHeight: constants.generalUnit * 4.2, // reserve space for buttons for the interface not to jump when they get visible
+        position: "sticky",
+        top: "80px",
+        backgroundColor: palette.additional["gray"][1],
+        zIndex: zIndex?.layer0,
+        minHeight: constants.generalUnit * 5 + 34,
+        alignItems: "center",
         "& > *": {
           marginRight: constants.generalUnit
         }
@@ -291,6 +293,14 @@ const useStyles = makeStyles(
       },
       buttonWrap: {
         whiteSpace: "nowrap"
+      },
+      tableHead: {
+        position: "sticky",
+        top: constants.generalUnit * 5 + 34 + 80,
+        zIndex: zIndex?.layer0,
+        [breakpoints.down("md")]: {
+          top: 50
+        }
       }
     })
   }
