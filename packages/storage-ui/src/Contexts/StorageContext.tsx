@@ -191,13 +191,24 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     if (!pins.length || pinsParams.pageNumber === 1) return
     setIsPagingLoading(true)
     setIsNextPins(true)
-    setPinsParams({
-      ...pinsParams,
-      pageNumber: pinsParams.pageNumber - 1,
-      pinsRange: {
-        after: new Date(pins[0].created)
-      }
-    })
+    // moving into page 1 - reset
+    if (pinsParams.pageNumber === 2) {
+      setPinsParams({
+        ...pinsParams,
+        pageNumber: 1,
+        pinsRange: {
+          before: new Date()
+        }
+      })
+    } else {
+      setPinsParams({
+        ...pinsParams,
+        pageNumber: pinsParams.pageNumber - 1,
+        pinsRange: {
+          after: new Date(pins[0].created)
+        }
+      })
+    }
   }, [pins, pinsParams])
 
   const onSearch = useCallback((searchParams: RefreshPinParams) => {
@@ -279,7 +290,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         setPinsParams({
           ...pinsParams,
           pinsRange: {
-            before: new Date()
+            before: new Date(new Date(pinStatus.created).getTime() + 1)
           }
         })
       }

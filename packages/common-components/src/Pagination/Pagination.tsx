@@ -49,8 +49,6 @@ const Pagination: React.FC<IPaginationProps> = ({
 }) => {
   const classes = useStyles()
 
-  console.log(isNextDisabled)
-
   return (
     <div className={classes.root}>
       <Button

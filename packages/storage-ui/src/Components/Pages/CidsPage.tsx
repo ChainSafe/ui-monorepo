@@ -147,8 +147,6 @@ const CidsPage = () => {
     debouncedSearch(searchString)
   }
 
-  console.log(isNextPins, isPagingLoading)
-
   return (
     <>
       <Helmet>
