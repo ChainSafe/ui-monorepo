@@ -47,6 +47,24 @@ describe("File management", () => {
       fileUploadModal.body().should("not.exist")
     })
 
+    it("cannot upload a file if the size exceeds capacity", () => {
+      // intercept and stub storage data
+      cy.intercept("GET", "**/buckets/summary", (req) => {
+        req.on("response", (res) => {
+          res.body.available_storage = "0"
+          res.body.total_storage = "107374182400"
+          res.body.used_storage = "107374181400"
+        })
+      })
+
+      cy.web3Login()
+      homePage.uploadButton().click()
+      fileUploadModal.attachFileForAutomation()
+      // ensure an error label is present
+      fileUploadModal.errorLabel().should("be.visible")
+      fileUploadModal.uploadButton().should("be.disabled")
+    })
+
     it("can move a file in and out of a folder", () => {
       cy.web3Login({ clearCSFBucket: true })
 
