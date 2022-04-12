@@ -147,7 +147,7 @@ Cypress.Commands.add(
   }
 )
 
-Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element?: JQuery<HTMLElement>) => {
+Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element, _, expectDisable = false) => {
   const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
 
   return cy
@@ -155,7 +155,10 @@ Cypress.Commands.add("safeClick", { prevSubject: "element" }, ($element?: JQuery
     .should("be.visible")
     .should("be.enabled")
     .pipe(click)
-    .should($el => expect($el).to.not.be.visible)
+    .should($el => expectDisable
+      ? expect($el).to.be.disabled
+      : expect($el).to.not.be.visible
+    )
 })
 
 Cypress.Commands.add("iframeLoaded", { prevSubject: "element" }, ($iframe?: JQuery<HTMLElement>): any => {
@@ -235,7 +238,7 @@ declare global {
        * https://github.com/cypress-io/cypress/issues/7306
        * 
        */
-      safeClick: ($element?: JQuery<HTMLElement>) => Chainable
+      safeClick: ($element?: JQuery<HTMLElement>, expectDisable?: boolean) => Chainable
 
       /**
        * Clear a bucket.
