@@ -140,7 +140,7 @@ const CidsPage = () => {
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSearch = useCallback(debounce(handleSearch, 300), [refreshPins])
+  const debouncedSearch = useCallback(debounce(handleSearch, 400), [refreshPins])
 
   const onSearchChange = (searchString: string) => {
     setSearchQuery(searchString)
