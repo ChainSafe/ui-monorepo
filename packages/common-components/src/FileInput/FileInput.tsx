@@ -277,11 +277,17 @@ const FileInput = ({
       )}
       {(meta.error || errors.length > 0) && (
         <ul className={classNames?.error}>
-          <li className={classes.error}>{meta.error}</li>
+          <li
+            data-testid={`meta-error-message-${testId}`}
+            className={classes.error}
+          >
+            {meta.error}
+          </li>
           {errors.map((error, i) => (
             <li
               key={i}
               className={classes.error}
+              data-testid={`error-message-${testId}`}
             >
               {error}
             </li>
