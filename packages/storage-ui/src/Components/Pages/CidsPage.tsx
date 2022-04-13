@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useMemo, useState } from "react"
+import React, { ChangeEvent, useCallback, useMemo, useState, useEffect } from "react"
 import {
   Button,
   PlusIcon,
@@ -87,7 +87,8 @@ const CidsPage = () => {
     refreshPins,
     onSearch,
     pageNumber,
-    isLoadingPins
+    isLoadingPins,
+    resetPins
   } = useStorage()
   const { accountRestricted } = useStorageApi()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
@@ -110,6 +111,10 @@ const CidsPage = () => {
       }
     }
   }
+
+  useEffect(() => {
+    resetPins()
+  }, [resetPins])
 
   const sortedPins: PinStatus[] = useMemo(() => {
     let temp = []

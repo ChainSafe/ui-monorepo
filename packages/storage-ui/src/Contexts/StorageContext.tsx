@@ -47,7 +47,7 @@ export type DownloadProgress = {
   complete: boolean
 }
 
-const PINS_PAGE_SIZE = 2
+const PINS_PAGE_SIZE = 15
 
 interface GetFileContentParams {
   cid: string
@@ -86,6 +86,7 @@ type StorageContext = {
   searchCid: (cid: string) => Promise<PinResult | void>
   onSearch: (searchParams: RefreshPinParams) => void
   pageNumber: number
+  resetPins: () => void
 }
 
 // This represents a File or Folder on the
@@ -173,6 +174,18 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         setIsPagingLoading(false)
       })
   }, [storageApiClient, pinsParams])
+
+  const resetPins = useCallback(() => {
+    setIsLoadingPins(true)
+    setPinsParams({
+      pageNumber: 1,
+      pinsRange: {
+        before: new Date()
+      },
+      searchedCID: undefined,
+      searchedName: undefined
+    })
+  }, [])
 
   const onNextPins = useCallback(() => {
     if (!pins.length) return
@@ -510,7 +523,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         refreshBuckets,
         searchCid,
         onSearch,
-        pageNumber: pinsParams.pageNumber
+        pageNumber: pinsParams.pageNumber,
+        resetPins
       }}
     >
       {children}
