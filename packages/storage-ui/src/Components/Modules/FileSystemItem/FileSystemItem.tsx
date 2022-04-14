@@ -304,15 +304,15 @@ const FileSystemItem = ({
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
-    canDrop: (item) => isFolder &&
-      !item.selected.map((s) => s.cid).includes(file.cid),
+    canDrop: (item) =>  isFolder &&
+      item.selected.findIndex((s) => s.cid === file.cid && s.name === file.name) < 0,
     drop: (item: {selected: ISelectedFile[]}) => {
       moveItems && moveItems(item.selected, getPathWithFile(currentPath, name))
       resetSelectedFiles()
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver() &&
-        !monitor.getItem<{selected: ISelectedFile[]}>().selected.map((s) => s.cid).includes(file.cid)
+        monitor.getItem<{selected: ISelectedFile[]}>().selected.findIndex((s) => s.cid === file.cid && s.name === file.name) < 0
     })
   })
 
