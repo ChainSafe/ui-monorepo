@@ -147,7 +147,7 @@ const BucketsPage = () => {
   const formik = useFormik({
     initialValues:{
       name: "",
-      fileSystemType: "ipfs"
+      fileSystemType: "chainsafe"
     },
     enableReinitialize: true,
     validationSchema: bucketNameValidationSchema,
@@ -297,13 +297,13 @@ const BucketsPage = () => {
                   <div>
                     <FormikRadioInput
                       name="fileSystemType"
-                      id='ipfs'
-                      label='IPFS'
+                      id='chainsafe'
+                      label='Chainsafe'
                     />
                     <FormikRadioInput
                       name="fileSystemType"
-                      id='chainsafe'
-                      label='Chainsafe'
+                      id='ipfs'
+                      label='IPFS'
                     />
                   </div>
                 </label>
