@@ -73,7 +73,7 @@ type StorageContext = {
   isNextPins: boolean
   isPreviousPins: boolean
   isLoadingPins: boolean
-  isPagingLoading: boolean
+  pagingLoaders?: { next?: boolean; previous?: boolean }
   onNextPins: () => void
   onPreviousPins: () => void
   addPin: (cid: string, name: string) => Promise<PinStatus | undefined>
@@ -121,7 +121,10 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [isPreviousPins, setIsPreviousPins] = useState(false)
   const [isNextPins, setIsNextPins] = useState(false)
   const [isLoadingPins, setIsLoadingPins] = useState(true)
-  const [isPagingLoading, setIsPagingLoading] = useState(false)
+  const [pagingLoaders, setPagingLoaders] = useState<{
+    next?: boolean
+    previous?: boolean
+  } | undefined>()
 
   const getStorageSummary = useCallback(async () => {
     try {
@@ -171,7 +174,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }).catch(console.error)
       .finally(() => {
         setIsLoadingPins(false)
-        setIsPagingLoading(false)
+        setPagingLoaders(undefined)
       })
   }, [storageApiClient, pinsParams])
 
@@ -189,7 +192,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const onNextPins = useCallback(() => {
     if (!pins.length) return
-    setIsPagingLoading(true)
+    setPagingLoaders({ next: true })
     setIsPreviousPins(true)
     setPinsParams({
       ...pinsParams,
@@ -202,7 +205,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const onPreviousPins = useCallback(() => {
     if (!pins.length || pinsParams.pageNumber === 1) return
-    setIsPagingLoading(true)
+    setPagingLoaders({ previous: true })
     setIsNextPins(true)
     // moving into page 1 - reset
     if (pinsParams.pageNumber === 2) {
@@ -511,7 +514,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         isNextPins,
         isPreviousPins,
         isLoadingPins,
-        isPagingLoading,
+        pagingLoaders,
         onNextPins,
         onPreviousPins,
         unpin,

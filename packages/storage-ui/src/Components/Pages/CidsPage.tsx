@@ -83,7 +83,7 @@ const CidsPage = () => {
     onPreviousPins,
     isNextPins,
     isPreviousPins,
-    isPagingLoading,
+    pagingLoaders,
     refreshPins,
     onSearch,
     pageNumber,
@@ -269,10 +269,10 @@ const CidsPage = () => {
             pageNo={pageNumber}
             onNextClick={onNextPins}
             onPreviousClick={onPreviousPins}
-            isNextDisabled={!isNextPins || isPagingLoading}
-            isPreviousDisabled={!isPreviousPins || isPagingLoading}
-            loadingNext={isPagingLoading}
-            loadingPrevious={isPagingLoading}
+            isNextDisabled={!isNextPins || !!pagingLoaders}
+            isPreviousDisabled={!isPreviousPins || !!pagingLoaders}
+            loadingNext={pagingLoaders?.next}
+            loadingPrevious={pagingLoaders?.previous}
           />
         </div>
       }
