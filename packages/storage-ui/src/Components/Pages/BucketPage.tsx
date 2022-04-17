@@ -97,8 +97,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       .finally(refreshContents)
   }, [bucket, storageApiClient, refreshContents, pathContents, currentPath, addToast])
 
-  const renameItem = useCallback(async (cid: string, newName: string) => {
-    const itemToRename = pathContents.find(i => i.cid === cid)
+  const renameItem = useCallback(async (item: ISelectedFile, newName: string) => {
+    const itemToRename = pathContents.find(i => i.cid === item.cid && i.name === item.name)
     if (!bucket || !itemToRename) return
 
     return storageApiClient.moveBucketObjects(bucket.id, {

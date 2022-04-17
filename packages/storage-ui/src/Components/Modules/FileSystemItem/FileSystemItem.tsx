@@ -107,9 +107,9 @@ interface IFileSystemItemProps {
   selected: ISelectedFile[]
   handleSelectCid(selectedFile: ISelectedFile): void
   handleAddToSelectedCids(selectedFile: ISelectedFile): void
-  editing?: string
+  editing?: ISelectedFile
   setEditing(editing: ISelectedFile | undefined): void
-  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
+  handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   handleMove?: (toMove: ISelectedFile, newPath: string) => Promise<void>
   deleteFile?: () => void
   recoverFile?: (toRecover: ISelectedFile) => void
@@ -429,7 +429,7 @@ const FileSystemItem = ({
           : <FileItemGridItem {...itemProps} />
       }
       {
-        editing === cid && !desktop && (
+        editing?.cid === cid && editing?.name === name && !desktop && (
           <>
             <CustomModal
               className={classes.modalRoot}

@@ -183,13 +183,13 @@ interface IFileSystemTableItemProps {
   isOverUpload: boolean
   selected: ISelectedFile[]
   file: FileSystemItem
-  editing?: string
+  editing?: ISelectedFile
   handleAddToSelectedCids: (selected: ISelectedFile) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
   setEditing: (editing: ISelectedFile |  undefined) => void
-  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
+  handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
 }
@@ -224,10 +224,10 @@ const FileSystemTableItem = React.forwardRef(
       onSubmit: (values) => {
         const newName = values.name?.trim()
 
-        if (newName !== name && !!newName && handleRename) {
+        if (newName !== name && !!newName && handleRename && editing) {
           setIsEditingLoading(true)
 
-          handleRename(cid, newName)
+          handleRename(editing, newName)
             ?.then(() => setIsEditingLoading(false))
         }
       },
@@ -281,10 +281,10 @@ const FileSystemTableItem = React.forwardRef(
           data-cy="label-file-item-name"
           ref={preview}
           align="left"
-          className={clsx(classes.filename, desktop && editing === cid && "editing")}
+          className={clsx(classes.filename, desktop && editing?.cid === cid && editing.name === name && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
-          {editing === cid && desktop
+          {editing?.cid === cid && editing.name === name && desktop
             ? (
               <FormikProvider value={formik}>
                 <Form

@@ -130,12 +130,12 @@ interface IFileSystemTableItemProps {
   isOverUpload: boolean
   selected: ISelectedFile[]
   file: FileSystemItem
-  editing?: string
+  editing?: ISelectedFile
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
   setEditing: (editing: ISelectedFile |  undefined) => void
-  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
+  handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
@@ -170,10 +170,10 @@ const FileSystemGridItem = React.forwardRef(
       onSubmit: (values) => {
         const newName = values.fileName?.trim()
 
-        if (newName !== name && !!newName && handleRename) {
+        if (newName !== name && !!newName && handleRename && editing) {
           setIsEditingLoading(true)
 
-          handleRename(file.cid, newName)
+          handleRename(editing, newName)
             ?.then(() => setIsEditingLoading(false))
         } else {
           stopEditing()
@@ -234,7 +234,7 @@ const FileSystemGridItem = React.forwardRef(
           >
             {icon}
           </div>
-          {editing === cid && desktop ? (
+          {editing?.cid === cid && editing.name === name && desktop ? (
             <FormikProvider value={formik}>
               <Form
                 className={classes.desktopRename}
