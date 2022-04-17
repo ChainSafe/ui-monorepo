@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react"
-import { makeStyles, createStyles, useThemeSwitcher, debounce } from "@chainsafe/common-theme"
+import React, { useCallback, useRef, useState } from "react"
+import { makeStyles, createStyles, useThemeSwitcher, debounce, useOnClickOutside } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import {
@@ -214,12 +214,11 @@ const FileSystemTableItem = React.forwardRef(
     const { fileSystemType } = useFileBrowser()
     const { name, cid, size } = file
     const { desktop } = useThemeSwitcher()
+    const formRef = useRef(null)
     const [isEditingLoading, setIsEditingLoading] = useState(false)
 
     const formik = useFormik({
-      initialValues: {
-        name: name
-      },
+      initialValues: { name: name },
       validationSchema: nameValidator,
       onSubmit: (values) => {
         const newName = values.name?.trim()
@@ -229,6 +228,8 @@ const FileSystemTableItem = React.forwardRef(
 
           handleRename(editing, newName)
             ?.then(() => setIsEditingLoading(false))
+        } else {
+          setEditing(undefined)
         }
       },
       enableReinitialize: true
@@ -238,6 +239,8 @@ const FileSystemTableItem = React.forwardRef(
       setEditing(undefined)
       formik.resetForm()
     }, [formik, setEditing])
+
+    useOnClickOutside(formRef, formik.submitForm)
 
     const [copied, setCopied] = useState(false)
     const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
@@ -291,6 +294,7 @@ const FileSystemTableItem = React.forwardRef(
                   className={classes.desktopRename}
                   onBlur={formik.submitForm}
                   data-cy='form-rename'
+                  ref={formRef}
                 >
                   <FormikTextInput
                     className={classes.renameInput}
