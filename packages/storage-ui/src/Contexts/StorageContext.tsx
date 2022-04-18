@@ -192,13 +192,16 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const onNextPins = useCallback(() => {
     if (!pins.length) return
+    const newBeforeDate = pins.reduce((p1, p2) =>
+      new Date(p1.created).getTime() < new Date(p2.created).getTime() ? p1 : p2
+    ).created
     setPagingLoaders({ next: true })
     setIsPreviousPins(true)
     setPinsParams({
       ...pinsParams,
       pageNumber: pinsParams.pageNumber + 1,
       pinsRange: {
-        before: new Date(pins[pins.length - 1].created)
+        before: new Date(newBeforeDate)
       }
     })
   }, [pins, pinsParams ])
@@ -217,11 +220,14 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         }
       })
     } else {
+      const newAfterDate = pins.reduce((p1, p2) =>
+        new Date(p1.created).getTime() > new Date(p2.created).getTime() ? p1 : p2
+      ).created
       setPinsParams({
         ...pinsParams,
         pageNumber: pinsParams.pageNumber - 1,
         pinsRange: {
-          after: new Date(pins[0].created)
+          after: new Date(newAfterDate)
         }
       })
     }
