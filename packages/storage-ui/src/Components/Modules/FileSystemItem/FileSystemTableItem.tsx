@@ -183,12 +183,12 @@ interface IFileSystemTableItemProps {
   isOverUpload: boolean
   selected: ISelectedFile[]
   file: FileSystemItem
-  editing?: ISelectedFile
+  editingFile?: ISelectedFile
   handleAddToSelectedCids: (selected: ISelectedFile) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: ISelectedFile |  undefined) => void
+  setEditingFile: (editingFile: ISelectedFile |  undefined) => void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
@@ -201,12 +201,12 @@ const FileSystemTableItem = React.forwardRef(
     isOverUpload,
     selected,
     file,
-    editing,
+    editingFile,
     handleAddToSelectedCids,
     onFolderOrFileClicks,
     icon,
     preview,
-    setEditing,
+    setEditingFile,
     handleRename,
     menuItems
   }: IFileSystemTableItemProps, forwardedRef: any) => {
@@ -223,22 +223,22 @@ const FileSystemTableItem = React.forwardRef(
       onSubmit: (values) => {
         const newName = values.name?.trim()
 
-        if (newName !== name && !!newName && handleRename && editing) {
+        if (newName !== name && !!newName && handleRename && editingFile) {
           setIsEditingLoading(true)
 
-          handleRename(editing, newName)
+          handleRename(editingFile, newName)
             ?.then(() => setIsEditingLoading(false))
         } else {
-          setEditing(undefined)
+          setEditingFile(undefined)
         }
       },
       enableReinitialize: true
     })
 
     const stopEditing = useCallback(() => {
-      setEditing(undefined)
+      setEditingFile(undefined)
       formik.resetForm()
-    }, [formik, setEditing])
+    }, [formik, setEditingFile])
 
     useOnClickOutside(formRef, formik.submitForm)
 
@@ -284,10 +284,10 @@ const FileSystemTableItem = React.forwardRef(
           data-cy="label-file-item-name"
           ref={preview}
           align="left"
-          className={clsx(classes.filename, desktop && editing?.cid === cid && editing.name === name && "editing")}
-          onClick={(e) => !editing && onFolderOrFileClicks(e)}
+          className={clsx(classes.filename, desktop && editingFile?.cid === cid && editingFile.name === name && "editing")}
+          onClick={(e) => !editingFile && onFolderOrFileClicks(e)}
         >
-          {editing?.cid === cid && editing.name === name && desktop
+          {editingFile?.cid === cid && editingFile.name === name && desktop
             ? (
               <FormikProvider value={formik}>
                 <Form

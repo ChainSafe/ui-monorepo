@@ -107,8 +107,8 @@ interface IFileSystemItemProps {
   selected: ISelectedFile[]
   handleSelectCid(selectedFile: ISelectedFile): void
   handleAddToSelectedCids(selectedFile: ISelectedFile): void
-  editing?: ISelectedFile
-  setEditing(editing: ISelectedFile | undefined): void
+  editingFile?: ISelectedFile
+  setEditingFile(editingFile: ISelectedFile | undefined): void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   handleMove?: (toMove: ISelectedFile, newPath: string) => Promise<void>
   deleteFile?: () => void
@@ -126,8 +126,8 @@ const FileSystemItem = ({
   file,
   files,
   selected,
-  editing,
-  setEditing,
+  editingFile,
+  setEditingFile,
   handleRename,
   deleteFile,
   recoverFile,
@@ -163,7 +163,7 @@ const FileSystemItem = ({
     onSubmit: (values: {name: string}) => {
       const newName = values.name.trim()
 
-      editing && newName && handleRename && handleRename(editing, newName)
+      editingFile && newName && handleRename && handleRename(editingFile, newName)
     },
     enableReinitialize: true
   })
@@ -178,7 +178,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => setEditing({ cid, name })
+      onClick: () => setEditingFile({ cid, name })
     },
     delete: {
       contents: (
@@ -333,11 +333,11 @@ const FileSystemItem = ({
 
   const fileOrFolderRef = useRef<any>()
 
-  if (!editing && isFolder) {
+  if (!editingFile && isFolder) {
     dropMoveRef(fileOrFolderRef)
     dropUploadRef(fileOrFolderRef)
   }
-  if (!editing && !isFolder) {
+  if (!editingFile && !isFolder) {
     dragMoveRef(fileOrFolderRef)
   }
 
@@ -405,7 +405,7 @@ const FileSystemItem = ({
   const itemProps = {
     ref: fileOrFolderRef,
     currentPath,
-    editing,
+    editingFile,
     file,
     handleAddToSelectedCids,
     handleRename,
@@ -417,7 +417,7 @@ const FileSystemItem = ({
     onFolderOrFileClicks,
     preview,
     selected,
-    setEditing,
+    setEditingFile,
     resetSelectedFiles
   }
 
@@ -429,7 +429,7 @@ const FileSystemItem = ({
           : <FileItemGridItem {...itemProps} />
       }
       {
-        editing?.cid === cid && editing?.name === name && !desktop && (
+        editingFile?.cid === cid && editingFile?.name === name && !desktop && (
           <>
             <CustomModal
               className={classes.modalRoot}
@@ -437,7 +437,7 @@ const FileSystemItem = ({
                 inner: classes.modalInner
               }}
               closePosition="none"
-              onClose={() => setEditing(undefined)}
+              onClose={() => setEditingFile(undefined)}
             >
               <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>
@@ -460,7 +460,7 @@ const FileSystemItem = ({
                   />
                   <footer className={classes.renameFooter}>
                     <Button
-                      onClick={() => setEditing(undefined)}
+                      onClick={() => setEditingFile(undefined)}
                       size="medium"
                       className={classes.cancelButton}
                       variant="outline"

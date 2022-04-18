@@ -334,7 +334,7 @@ const FilesList = () => {
     withSurvey
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
-  const [editing, setEditing] = useState<ISelectedFile | undefined>()
+  const [editingFile, setEditingFile] = useState<ISelectedFile | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<ISelectedFile[]>([])
@@ -880,10 +880,10 @@ const FilesList = () => {
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
                 handleAddToSelectedCids={handleAddToSelectedCids}
-                editing={editing}
-                setEditing={setEditing}
+                editingFile={editingFile}
+                setEditingFile={setEditingFile}
                 handleRename={(item: ISelectedFile, newName: string) => {
-                  setEditing(undefined)
+                  setEditingFile(undefined)
                   return handleRename && handleRename(item, newName)
                 }}
                 deleteFile={() => {
@@ -936,11 +936,11 @@ const FilesList = () => {
               handleSelectCid={handleSelectCid}
               viewFolder={handleViewFolder}
               handleAddToSelectedCids={handleAddToSelectedCids}
-              editing={editing}
-              setEditing={setEditing}
-              handleRename={(editing: ISelectedFile, newName: string) => {
-                setEditing(undefined)
-                return handleRename && handleRename(editing, newName)
+              editingFile={editingFile}
+              setEditingFile={setEditingFile}
+              handleRename={(editingFile: ISelectedFile, newName: string) => {
+                setEditingFile(undefined)
+                return handleRename && handleRename(editingFile, newName)
               }}
               deleteFile={() => {
                 setSelectedCids([{

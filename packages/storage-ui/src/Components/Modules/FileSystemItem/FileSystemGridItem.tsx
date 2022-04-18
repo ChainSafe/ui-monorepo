@@ -130,11 +130,11 @@ interface IFileSystemTableItemProps {
   isOverUpload: boolean
   selected: ISelectedFile[]
   file: FileSystemItem
-  editing?: ISelectedFile
+  editingFile?: ISelectedFile
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: ISelectedFile |  undefined) => void
+  setEditingFile: (editingFile: ISelectedFile |  undefined) => void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
@@ -148,10 +148,10 @@ const FileSystemGridItem = React.forwardRef(
     isOverUpload,
     selected,
     file,
-    editing,
+    editingFile,
     onFolderOrFileClicks,
     icon,
-    setEditing,
+    setEditingFile,
     handleRename,
     menuItems,
     resetSelectedFiles,
@@ -170,10 +170,10 @@ const FileSystemGridItem = React.forwardRef(
       onSubmit: (values) => {
         const newName = values.fileName?.trim()
 
-        if (newName !== name && !!newName && handleRename && editing) {
+        if (newName !== name && !!newName && handleRename && editingFile) {
           setIsEditingLoading(true)
 
-          handleRename(editing, newName)
+          handleRename(editingFile, newName)
             ?.then(() => setIsEditingLoading(false))
         } else {
           stopEditing()
@@ -205,9 +205,9 @@ const FileSystemGridItem = React.forwardRef(
     }, [handleClickOutside])
 
     const stopEditing = useCallback(() => {
-      setEditing(undefined)
+      setEditingFile(undefined)
       formik.resetForm()
-    }, [formik, setEditing])
+    }, [formik, setEditingFile])
 
     return  (
       <div
@@ -234,7 +234,7 @@ const FileSystemGridItem = React.forwardRef(
           >
             {icon}
           </div>
-          {editing?.cid === cid && editing.name === name && desktop ? (
+          {editingFile?.cid === cid && editingFile.name === name && desktop ? (
             <FormikProvider value={formik}>
               <Form
                 className={classes.desktopRename}
