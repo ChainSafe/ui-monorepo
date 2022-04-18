@@ -98,6 +98,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   }, [bucket, storageApiClient, refreshContents, pathContents, currentPath, addToast])
 
   const renameItem = useCallback(async (item: ISelectedFile, newName: string) => {
+    // checking the name is useful for MFS folders since empty folders all have the same cid
     const itemToRename = pathContents.find(i => i.cid === item.cid && i.name === item.name)
     if (!bucket || !itemToRename) return
 

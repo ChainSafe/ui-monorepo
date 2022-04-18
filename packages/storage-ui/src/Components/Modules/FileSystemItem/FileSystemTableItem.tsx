@@ -287,31 +287,31 @@ const FileSystemTableItem = React.forwardRef(
           className={clsx(classes.filename, desktop && editingFile?.cid === cid && editingFile.name === name && "editing")}
           onClick={(e) => !editingFile && onFolderOrFileClicks(e)}
         >
+          {/* checking the name is useful for MFS folders since empty folders all have the same cid */}
           {editingFile?.cid === cid && editingFile.name === name && desktop
-            ? (
-              <FormikProvider value={formik}>
-                <Form
-                  className={classes.desktopRename}
-                  data-cy='form-rename'
-                  ref={formRef}
-                >
-                  <FormikTextInput
-                    className={classes.renameInput}
-                    name="name"
-                    inputVariant="minimal"
-                    onKeyDown={(event) => {
-                      if (event.key === "Escape") {
-                        stopEditing()
-                      }
-                    }}
-                    placeholder = {isFolder
-                      ? t`Please enter a folder name`
-                      : t`Please enter a file name`
+            ? (<FormikProvider value={formik}>
+              <Form
+                className={classes.desktopRename}
+                data-cy='form-rename'
+                ref={formRef}
+              >
+                <FormikTextInput
+                  className={classes.renameInput}
+                  name="name"
+                  inputVariant="minimal"
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") {
+                      stopEditing()
                     }
-                    autoFocus
-                  />
-                </Form>
-              </FormikProvider>
+                  }}
+                  placeholder = {isFolder
+                    ? t`Please enter a folder name`
+                    : t`Please enter a file name`
+                  }
+                  autoFocus
+                />
+              </Form>
+            </FormikProvider>
             )
             : <>
               <Typography>{name}</Typography>

@@ -234,8 +234,9 @@ const FileSystemGridItem = React.forwardRef(
           >
             {icon}
           </div>
-          {editingFile?.cid === cid && editingFile.name === name && desktop ? (
-            <FormikProvider value={formik}>
+          {/* checking the name is useful for MFS folders since empty folders all have the same cid */}
+          {editingFile?.cid === cid && editingFile.name === name && desktop
+            ? (<FormikProvider value={formik}>
               <Form
                 className={classes.desktopRename}
                 onBlur={formik.submitForm}
@@ -257,13 +258,13 @@ const FileSystemGridItem = React.forwardRef(
                 />
               </Form>
             </FormikProvider>
-          ) : <div className={classes.gridFolderName}>
-            {name}{isEditingLoading && <Loading
-              className={classes.loadingIcon}
-              size={16}
-              type="initial"
-            />}
-          </div>
+            ) : <div className={classes.gridFolderName}>
+              {name}{isEditingLoading && <Loading
+                className={classes.loadingIcon}
+                size={16}
+                type="initial"
+              />}
+            </div>
           }
         </div>
         <MenuDropdown
