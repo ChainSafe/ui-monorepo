@@ -287,6 +287,7 @@ const FileSystemTableItem = React.forwardRef(
           className={clsx(classes.filename, desktop && editing?.cid === cid && editing.name === name && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
+           // checking the name is useful for MFS folders since empty folders all have the same cid
           {editing?.cid === cid && editing.name === name && desktop
             ? (
               <FormikProvider value={formik}>
