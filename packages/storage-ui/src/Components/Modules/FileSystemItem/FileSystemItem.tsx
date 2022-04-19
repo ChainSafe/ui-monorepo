@@ -29,6 +29,7 @@ import { DragTypes } from "../FilesList/DragConstants"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 import { getIconForItem } from "../../../Utils/getItemIcon"
+import { getFileNameAndExtension } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
   return createStyles({
@@ -160,30 +161,8 @@ const FileSystemItem = ({
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const {
-    fileName,
-    extension
-  } = useMemo(() => {
-    if (isFolder) {
-      return {
-        fileName : name,
-        extension: ""
-      }
-    }
-    const split = name.split(".")
-    const extension = `.${split[split.length - 1]}`
-
-    if (split.length === 1) {
-      return {
-        fileName : name,
-        extension: ""
-      }
-    }
-
-    return {
-      fileName: name.slice(0, name.length - extension.length),
-      extension: split[split.length - 1]
-    }
+  const { fileName, extension } = useMemo(() => {
+    return getFileNameAndExtension(name, isFolder)
   }, [name, isFolder])
 
   const formik = useFormik({

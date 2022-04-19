@@ -22,6 +22,7 @@ import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { desktopGridSettings, mobileGridSettings } from "../FilesList/FilesList"
+import { getFileNameAndExtension } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants, palette, zIndex }: CSSTheme) => {
   return createStyles({
@@ -224,26 +225,7 @@ const FileSystemTableItem = React.forwardRef(
     const [isEditingLoading, setIsEditingLoading] = useState(false)
 
     const { fileName, extension } = useMemo(() => {
-      if (isFolder) {
-        return {
-          fileName : name,
-          extension: ""
-        }
-      }
-      const split = name.split(".")
-      const extension = `.${split[split.length - 1]}`
-
-      if (split.length === 1) {
-        return {
-          fileName : name,
-          extension: ""
-        }
-      }
-
-      return {
-        fileName: name.slice(0, name.length - extension.length),
-        extension: split[split.length - 1]
-      }
+      return getFileNameAndExtension(name, isFolder)
     }, [name, isFolder])
 
     const formik = useFormik({
