@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react"
+import React, { useCallback, useEffect, useMemo, useRef } from "react"
 import {
   FormikTextInput,
   Typography,
@@ -32,6 +32,7 @@ import { BrowserView, FileOperation } from "../../../Contexts/types"
 import { DragTypes } from "../FilesList/DragConstants"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
+import { getIconForItem } from "../../../Utils/getItemIcon"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
   return createStyles({
@@ -142,26 +143,42 @@ const FileSystemItem = ({
   resetSelectedFiles
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
-  const { cid, name, isFolder, content_type } = file
-  let Icon
-  if (isFolder) {
-    Icon = FolderFilledSvg
-  } else if (content_type.includes("image")) {
-    Icon = FileImageSvg
-  } else if (content_type.includes("pdf")) {
-    Icon = FilePdfSvg
-  } else {
-    Icon = FileTextSvg
-  }
+  const { cid, name, isFolder } = file
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
+  const {
+    fileName,
+    extension
+  } = useMemo(() => {
+    if (isFolder) {
+      return {
+        fileName : name,
+        extension: ""
+      }
+    }
+    const split = name.split(".")
+    const extension = `.${split[split.length - 1]}`
+
+    if (split.length === 1) {
+      return {
+        fileName : name,
+        extension: ""
+      }
+    }
+
+    return {
+      fileName: name.slice(0, name.length - extension.length),
+      extension: split[split.length - 1]
+    }
+  }, [name, isFolder])
+
   const formik = useFormik({
-    initialValues: { name },
+    initialValues: { name: fileName },
     validationSchema: nameValidator,
-    onSubmit: (values: {name: string}) => {
-      const newName = values.name.trim()
+    onSubmit: (values: { name: string }) => {
+      const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
       editingFile && newName && handleRename && handleRename(editingFile, newName)
     },
@@ -401,6 +418,8 @@ const FileSystemItem = ({
     e?.persist()
     click(e)
   }
+
+  const Icon = getIconForItem(file)
 
   const itemProps = {
     ref: fileOrFolderRef,
