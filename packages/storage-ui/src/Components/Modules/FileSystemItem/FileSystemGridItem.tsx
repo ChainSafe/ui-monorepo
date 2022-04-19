@@ -77,9 +77,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
     desktopRename: {
       display: "flex",
       flexDirection: "row",
+      alignItems: "center",
       "& svg": {
         width: 20,
         height: 20
+      },
+      "& > span": {
+        fontSize: 16,
+        lineHeight: "20px",
+        marginLeft: constants.generalUnit / 2
       }
     },
     dropdownIcon: {
