@@ -58,6 +58,22 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
     renameHeader: {
       textAlign: "center"
     },
+    renameInputWrapper: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "flex-end",
+      [breakpoints.down("md")]: {
+        margin: `${constants.generalUnit * 4.2}px 0`
+      },
+      "& > span": {
+        display: "block",
+        fontSize: 16,
+        lineHeight: "20px",
+        marginLeft: constants.generalUnit / 2,
+        marginBottom: (constants.generalUnit * 2.50),
+        transform: "translateY(50%)"
+      }
+    },
     renameFooter: {
       display: "flex",
       flexDirection: "row",
@@ -176,7 +192,11 @@ const FileSystemItem = ({
     onSubmit: (values: { name: string }) => {
       const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
-      editingFile && newName && newName !== name && handleRename && handleRename(editingFile, newName)
+      if (newName !== name && editingFile) {
+        newName && handleRename && handleRename(editingFile, newName)
+      } else {
+        stopEditing()
+      }
     },
     enableReinitialize: true
   })
@@ -485,13 +505,22 @@ const FileSystemItem = ({
                         : <Trans>Rename file</Trans>
                     }
                   </Typography>
-                  <FormikTextInput
-                    label="Name"
-                    className={classes.renameInput}
-                    name="name"
-                    placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
-                    autoFocus
-                  />
+                  <div className={classes.renameInputWrapper}>
+                    <FormikTextInput
+                      label="Name"
+                      className={classes.renameInput}
+                      name="name"
+                      placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
+                      autoFocus
+                    />
+                    {
+                      !isFolder && extension !== ""  && (
+                        <Typography component="span">
+                          { `.${extension}` }
+                        </Typography>
+                      )
+                    }
+                  </div>
                   <footer className={classes.renameFooter}>
                     <Button
                       onClick={() => setEditingFile(undefined)}

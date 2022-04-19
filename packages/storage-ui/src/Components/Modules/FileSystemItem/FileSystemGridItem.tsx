@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -7,7 +7,8 @@ import {
   IMenuItem,
   Loading,
   MenuDropdown,
-  MoreIcon
+  MoreIcon,
+  Typography
 } from "@chainsafe/common-components"
 import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
@@ -162,13 +163,36 @@ const FileSystemGridItem = React.forwardRef(
     const { desktop } = useThemeSwitcher()
     const [isEditingLoading, setIsEditingLoading] = useState(false)
 
+    const { fileName, extension } = useMemo(() => {
+      if (isFolder) {
+        return {
+          fileName : name,
+          extension: ""
+        }
+      }
+      const split = name.split(".")
+      const extension = `.${split[split.length - 1]}`
+
+      if (split.length === 1) {
+        return {
+          fileName : name,
+          extension: ""
+        }
+      }
+
+      return {
+        fileName: name.slice(0, name.length - extension.length),
+        extension: split[split.length - 1]
+      }
+    }, [name, isFolder])
+
     const formik = useFormik({
       initialValues: {
-        fileName: name
+        name: fileName
       },
       validationSchema: nameValidator,
       onSubmit: (values) => {
-        const newName = values.fileName?.trim()
+        const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
         if (newName !== name && !!newName && handleRename && editingFile) {
           setIsEditingLoading(true)
@@ -243,7 +267,7 @@ const FileSystemGridItem = React.forwardRef(
               >
                 <FormikTextInput
                   className={classes.renameInput}
-                  name="fileName"
+                  name="name"
                   inputVariant="minimal"
                   onKeyDown={(event) => {
                     if (event.key === "Escape") {
@@ -256,6 +280,13 @@ const FileSystemGridItem = React.forwardRef(
                   }
                   autoFocus
                 />
+                {
+                  !isFolder && extension !== ""  && (
+                    <Typography component="span">
+                      { `.${extension}` }
+                    </Typography>
+                  )
+                }
               </Form>
             </FormikProvider>
             ) : <div className={classes.gridFolderName}>

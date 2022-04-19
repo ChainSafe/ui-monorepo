@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, debounce, useOnClickOutside } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
@@ -217,11 +217,35 @@ const FileSystemTableItem = React.forwardRef(
     const formRef = useRef(null)
     const [isEditingLoading, setIsEditingLoading] = useState(false)
 
+    const { fileName, extension } = useMemo(() => {
+      if (isFolder) {
+        return {
+          fileName : name,
+          extension: ""
+        }
+      }
+      const split = name.split(".")
+      const extension = `.${split[split.length - 1]}`
+
+      if (split.length === 1) {
+        return {
+          fileName : name,
+          extension: ""
+        }
+      }
+
+      return {
+        fileName: name.slice(0, name.length - extension.length),
+        extension: split[split.length - 1]
+      }
+    }, [name, isFolder])
+
     const formik = useFormik({
-      initialValues: { name: name },
+      initialValues: { name: fileName },
       validationSchema: nameValidator,
       onSubmit: (values) => {
-        const newName = values.name?.trim()
+
+        const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
         if (newName !== name && !!newName && handleRename && editingFile) {
           setIsEditingLoading(true)
@@ -310,6 +334,13 @@ const FileSystemTableItem = React.forwardRef(
                   }
                   autoFocus
                 />
+                {
+                  !isFolder && extension !== "" && (
+                    <Typography component="span">
+                      { `.${extension}` }
+                    </Typography>
+                  )
+                }
               </Form>
             </FormikProvider>
             )
