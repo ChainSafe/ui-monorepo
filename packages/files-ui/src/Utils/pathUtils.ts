@@ -43,11 +43,18 @@ export function getURISafePathFromArray(arrayOfPaths: string[]): string {
 // /path/to/somewhere + 1.txt -> /path/to/somewhere/1.txt
 // /path/to/somewhere/ + 1.txt -> /path/to/somewhere/1.txt
 export function getPathWithFile(path: string, fileName: string) {
+
+  // make sure the file name doesn't start with a /
+  // otherwise remove it
+  const nameToUse = fileName.startsWith("/")
+    ? fileName.substring(1)
+    : fileName
+
   return path === "/"
-    ? `/${fileName}`
+    ? `/${nameToUse}`
     : path[path.length - 1] === "/"
-      ? `${path}${fileName}`
-      : `${path}/${fileName}`
+      ? `${path}${nameToUse}`
+      : `${path}/${nameToUse}`
 }
 
 // Removes a parent element
