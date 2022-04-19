@@ -70,8 +70,8 @@ type StorageContext = {
   getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
-  isNextPins: boolean
-  isPreviousPins: boolean
+  isNextPinsPage: boolean
+  isPreviousPinsPage: boolean
   isLoadingPins: boolean
   pagingLoaders?: { next?: boolean; previous?: boolean }
   onNextPins: () => void
@@ -118,8 +118,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       before: new Date()
     }
   })
-  const [isPreviousPins, setIsPreviousPins] = useState(false)
-  const [isNextPins, setIsNextPins] = useState(false)
+  const [isPreviousPinsPage, setIsPreviousPinsPage] = useState(false)
+  const [isNextPinsPage, setIsNextPinsPage] = useState(false)
   const [isLoadingPins, setIsLoadingPins] = useState(true)
   const [pagingLoaders, setPagingLoaders] = useState<{
     next?: boolean
@@ -138,7 +138,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const refreshPins = useCallback(() => {
     storageApiClient.listPins(
       pinsParams.searchedCID ? [pinsParams.searchedCID] : undefined,
-      pinsParams.searchedName || undefined,
+      pinsParams.searchedName,
       "partial",
       ["queued", "pinning", "pinned", "failed"],
       pinsParams.pinsRange.after,
@@ -148,28 +148,19 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       pinsParams.pinsRange.before ? "dsc" : "asc"
     ).then((pinsResult) => {
       setPins(pinsResult.results || [])
-      if (pinsParams.pinsRange.before) {
-        // next pins
-        if (
+      // are there more pins
+      if (
           pinsResult.results?.length &&
           pinsResult.count &&
           pinsResult.results.length < pinsResult.count
-        ) {
-          setIsNextPins(true)
-        } else {
-          setIsNextPins(false)
-        }
+      ) {
+        pinsParams.pinsRange.before
+          ? setIsNextPinsPage(true)
+          : setIsPreviousPinsPage(true)
       } else {
-        // previous pins
-        if (
-          pinsResult.results?.length &&
-          pinsResult.count &&
-          pinsResult.results.length < pinsResult.count
-        ) {
-          setIsPreviousPins(true)
-        } else {
-          setIsPreviousPins(false)
-        }
+        pinsParams.pinsRange.before
+          ? setIsNextPinsPage(false)
+          : setIsPreviousPinsPage(false)
       }
     }).catch(console.error)
       .finally(() => {
@@ -196,7 +187,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       new Date(p1.created).getTime() < new Date(p2.created).getTime() ? p1 : p2
     ).created
     setPagingLoaders({ next: true })
-    setIsPreviousPins(true)
+    setIsPreviousPinsPage(true)
     setPinsParams({
       ...pinsParams,
       pageNumber: pinsParams.pageNumber + 1,
@@ -209,7 +200,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const onPreviousPins = useCallback(() => {
     if (!pins.length || pinsParams.pageNumber === 1) return
     setPagingLoaders({ previous: true })
-    setIsNextPins(true)
+    setIsNextPinsPage(true)
     // moving into page 1 - reset
     if (pinsParams.pageNumber === 2) {
       setPinsParams({
@@ -517,8 +508,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         downloadsInProgress,
         pins,
         refreshPins,
-        isNextPins,
-        isPreviousPins,
+        isNextPinsPage,
+        isPreviousPinsPage,
         isLoadingPins,
         pagingLoaders,
         onNextPins,

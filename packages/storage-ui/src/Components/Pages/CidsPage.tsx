@@ -81,8 +81,8 @@ const CidsPage = () => {
     pins,
     onNextPins,
     onPreviousPins,
-    isNextPins,
-    isPreviousPins,
+    isNextPinsPage,
+    isPreviousPinsPage,
     pagingLoaders,
     refreshPins,
     onSearch,
@@ -262,15 +262,15 @@ const CidsPage = () => {
           </TableBody>
         </Table>
       </div>
-      {!!pins.length &&
+      {!!pins.length && (isNextPinsPage || isPreviousPinsPage) &&
         <div className={classes.pagination}>
           <Pagination
             showPageNumbers={true}
             pageNo={pageNumber}
             onNextClick={onNextPins}
             onPreviousClick={onPreviousPins}
-            isNextDisabled={!isNextPins || !!pagingLoaders}
-            isPreviousDisabled={!isPreviousPins || !!pagingLoaders}
+            isNextDisabled={!isNextPinsPage || !!pagingLoaders}
+            isPreviousDisabled={!isPreviousPinsPage || !!pagingLoaders}
             loadingNext={pagingLoaders?.next}
             loadingPrevious={pagingLoaders?.previous}
           />
