@@ -39,7 +39,10 @@ export const lightTheme = createTheme<CsSColors>({
         },
         modalDefault: {
           fadeBackground: "var(--gray9)",
-          background: "var(--gray1)"
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray10)",
+          iconBackingColor: "#EBEEFF",
+          closeIconColor: "var(--gray8)"
         },
         header: {
           rootBackground: "var(--gray1)",
