@@ -45,7 +45,10 @@ export interface CsSColors extends IConstants {
   }
   modalDefault: {
     fadeBackground: string
-    background: string
+    backgroundColor: string
+    color: string
+    iconBackingColor: string
+    closeIconColor: string
   }
   nav: {
     backgroundColor: string
