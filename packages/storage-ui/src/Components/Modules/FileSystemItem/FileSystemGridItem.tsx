@@ -130,12 +130,12 @@ interface IFileSystemTableItemProps {
   isOverUpload: boolean
   selected: ISelectedFile[]
   file: FileSystemItem
-  editing?: string
+  editingFile?: ISelectedFile
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: ISelectedFile |  undefined) => void
-  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
+  setEditingFile: (editingFile: ISelectedFile |  undefined) => void
+  handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
@@ -148,10 +148,10 @@ const FileSystemGridItem = React.forwardRef(
     isOverUpload,
     selected,
     file,
-    editing,
+    editingFile,
     onFolderOrFileClicks,
     icon,
-    setEditing,
+    setEditingFile,
     handleRename,
     menuItems,
     resetSelectedFiles,
@@ -170,10 +170,10 @@ const FileSystemGridItem = React.forwardRef(
       onSubmit: (values) => {
         const newName = values.fileName?.trim()
 
-        if (newName !== name && !!newName && handleRename) {
+        if (newName !== name && !!newName && handleRename && editingFile) {
           setIsEditingLoading(true)
 
-          handleRename(file.cid, newName)
+          handleRename(editingFile, newName)
             ?.then(() => setIsEditingLoading(false))
         } else {
           stopEditing()
@@ -205,9 +205,9 @@ const FileSystemGridItem = React.forwardRef(
     }, [handleClickOutside])
 
     const stopEditing = useCallback(() => {
-      setEditing(undefined)
+      setEditingFile(undefined)
       formik.resetForm()
-    }, [formik, setEditing])
+    }, [formik, setEditingFile])
 
     return  (
       <div
@@ -234,8 +234,9 @@ const FileSystemGridItem = React.forwardRef(
           >
             {icon}
           </div>
-          {editing === cid && desktop ? (
-            <FormikProvider value={formik}>
+          {/* checking the name is useful for MFS folders since empty folders all have the same cid */}
+          {editingFile?.cid === cid && editingFile.name === name && desktop
+            ? (<FormikProvider value={formik}>
               <Form
                 className={classes.desktopRename}
                 onBlur={formik.submitForm}
@@ -257,13 +258,13 @@ const FileSystemGridItem = React.forwardRef(
                 />
               </Form>
             </FormikProvider>
-          ) : <div className={classes.gridFolderName}>
-            {name}{isEditingLoading && <Loading
-              className={classes.loadingIcon}
-              size={16}
-              type="initial"
-            />}
-          </div>
+            ) : <div className={classes.gridFolderName}>
+              {name}{isEditingLoading && <Loading
+                className={classes.loadingIcon}
+                size={16}
+                type="initial"
+              />}
+            </div>
           }
         </div>
         <MenuDropdown
