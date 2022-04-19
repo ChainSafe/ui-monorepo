@@ -8,7 +8,7 @@ import { t, Trans } from "@lingui/macro"
 import { useStorage } from "../../Contexts/StorageContext"
 import { cidValidator } from "../../Utils/validationSchema"
 
-const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette, typography }: CSSTheme) =>
+const useStyles = makeStyles(({ constants, zIndex, palette, typography }: CSSTheme) =>
   createStyles({
     root: {
       padding: constants.generalUnit * 4,
@@ -18,30 +18,13 @@ const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette, typogra
       zIndex: zIndex?.blocker
     },
     modalInner: {
-      backgroundColor: constants.createFolder.backgroundColor,
-      color: constants.createFolder.color,
-      width: "100%",
-      [breakpoints.down("md")]: {
-        bottom: Number(constants?.mobileButtonHeight) + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-        maxWidth: `${breakpoints.width("md")}px !important`
-      }
+      width: "100%"
     },
     input: {
       marginBottom: constants.generalUnit * 2
     },
     okButton: {
       marginLeft: constants.generalUnit
-    },
-    cancelButton: {
-      [breakpoints.down("md")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: constants?.mobileButtonHeight
-      }
     },
     heading: {
       color: constants.createFolder.color,
@@ -213,8 +196,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
           <CustomButton
             onClick={() => onClose()}
             size="medium"
-            className={classes.cancelButton}
-            variant={"outline"}
+            variant="outline"
             type="button"
             data-cy="button-cancel-add-pin"
           >
