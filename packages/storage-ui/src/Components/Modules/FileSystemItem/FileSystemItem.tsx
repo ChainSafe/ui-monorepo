@@ -3,10 +3,6 @@ import {
   FormikTextInput,
   Typography,
   Button,
-  FileImageSvg,
-  FilePdfSvg,
-  FileTextSvg,
-  FolderFilledSvg,
   DownloadSvg,
   DeleteSvg,
   EditSvg,
@@ -32,6 +28,7 @@ import { BrowserView, FileOperation } from "../../../Contexts/types"
 import { DragTypes } from "../FilesList/DragConstants"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
+import { getIconForItem } from "../../../Utils/getItemIcon"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
   return createStyles({
@@ -107,9 +104,9 @@ interface IFileSystemItemProps {
   selected: ISelectedFile[]
   handleSelectCid(selectedFile: ISelectedFile): void
   handleAddToSelectedCids(selectedFile: ISelectedFile): void
-  editing?: string
-  setEditing(editing: ISelectedFile | undefined): void
-  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
+  editingFile?: ISelectedFile
+  setEditingFile(editingFile: ISelectedFile | undefined): void
+  handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   handleMove?: (toMove: ISelectedFile, newPath: string) => Promise<void>
   deleteFile?: () => void
   recoverFile?: (toRecover: ISelectedFile) => void
@@ -126,8 +123,8 @@ const FileSystemItem = ({
   file,
   files,
   selected,
-  editing,
-  setEditing,
+  editingFile,
+  setEditingFile,
   handleRename,
   deleteFile,
   recoverFile,
@@ -142,17 +139,7 @@ const FileSystemItem = ({
   resetSelectedFiles
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
-  const { cid, name, isFolder, content_type } = file
-  let Icon
-  if (isFolder) {
-    Icon = FolderFilledSvg
-  } else if (content_type.includes("image")) {
-    Icon = FileImageSvg
-  } else if (content_type.includes("pdf")) {
-    Icon = FilePdfSvg
-  } else {
-    Icon = FileTextSvg
-  }
+  const { cid, name, isFolder } = file
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
@@ -163,10 +150,15 @@ const FileSystemItem = ({
     onSubmit: (values: {name: string}) => {
       const newName = values.name.trim()
 
-      editing && newName && handleRename && handleRename(editing, newName)
+      editingFile && newName && newName !== name && handleRename && handleRename(editingFile, newName)
     },
     enableReinitialize: true
   })
+
+  const stopEditing = useCallback(() => {
+    setEditingFile(undefined)
+    formik.resetForm()
+  }, [formik, setEditingFile])
 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
@@ -178,7 +170,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => setEditing({ cid, name })
+      onClick: () => setEditingFile({ cid, name })
     },
     delete: {
       contents: (
@@ -283,19 +275,20 @@ const FileSystemItem = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag(() =>
-    ({ type: DragTypes.MOVABLE_FILE,
-      item: () => {
-        if (selected.findIndex(item => item.cid === file.cid && item.name === file.name) >= 0) {
-          return { selected: selected }
-        } else {
-          return { selected: [...selected, {
-            cid: file.cid,
-            name: file.name
-          }] }
-        }
+  const [, dragMoveRef, preview] = useDrag({
+    type: DragTypes.MOVABLE_FILE,
+    canDrag: !editingFile,
+    item: () => {
+      if (selected.findIndex(item => item.cid === file.cid && item.name === file.name) >= 0) {
+        return { selected: selected }
+      } else {
+        return { selected: [...selected, {
+          cid: file.cid,
+          name: file.name
+        }] }
       }
-    }), [selected])
+    }
+  })
 
   useEffect(() => {
     // This gets called after every render, by default
@@ -311,17 +304,21 @@ const FileSystemItem = ({
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
-    canDrop: () => isFolder,
+    canDrop: (item) =>  isFolder &&
+      item.selected.findIndex((s) => s.cid === file.cid && s.name === file.name) < 0,
     drop: (item: {selected: ISelectedFile[]}) => {
       moveItems && moveItems(item.selected, getPathWithFile(currentPath, name))
+      resetSelectedFiles()
     },
     collect: (monitor) => ({
-      isOverMove: monitor.isOver()
+      isOverMove: monitor.isOver() &&
+        monitor.getItem<{selected: ISelectedFile[]}>().selected.findIndex((s) => s.cid === file.cid && s.name === file.name) < 0
     })
   })
 
   const [{ isOverUpload }, dropUploadRef] = useDrop({
     accept: [NativeTypes.FILE],
+    canDrop: () => isFolder,
     drop: (item: any) => {
       handleUploadOnDrop &&
         handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
@@ -333,12 +330,20 @@ const FileSystemItem = ({
 
   const fileOrFolderRef = useRef<any>()
 
-  if (!editing && isFolder) {
-    dropMoveRef(fileOrFolderRef)
-    dropUploadRef(fileOrFolderRef)
+  if (fileOrFolderRef?.current) {
+    if (editingFile) {
+      fileOrFolderRef.current.draggable = false
+    } else {
+      fileOrFolderRef.current.draggable = true
+    }
   }
-  if (!editing && !isFolder) {
+
+  if (!editingFile && desktop) {
     dragMoveRef(fileOrFolderRef)
+    if (isFolder) {
+      dropMoveRef(fileOrFolderRef)
+      dropUploadRef(fileOrFolderRef)
+    }
   }
 
   const onFilePreview = useCallback(() => {
@@ -402,10 +407,12 @@ const FileSystemItem = ({
     click(e)
   }
 
+  const Icon = getIconForItem(file)
+
   const itemProps = {
     ref: fileOrFolderRef,
     currentPath,
-    editing,
+    editingFile,
     file,
     handleAddToSelectedCids,
     handleRename,
@@ -417,7 +424,7 @@ const FileSystemItem = ({
     onFolderOrFileClicks,
     preview,
     selected,
-    setEditing,
+    setEditingFile,
     resetSelectedFiles
   }
 
@@ -429,7 +436,7 @@ const FileSystemItem = ({
           : <FileItemGridItem {...itemProps} />
       }
       {
-        editing === cid && !desktop && (
+        editingFile?.cid === cid && editingFile?.name === name && !desktop && (
           <>
             <CustomModal
               className={classes.modalRoot}
@@ -437,7 +444,8 @@ const FileSystemItem = ({
                 inner: classes.modalInner
               }}
               closePosition="none"
-              onClose={() => setEditing(undefined)}
+              active={!!editingFile}
+              onClose={stopEditing}
             >
               <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>
@@ -460,7 +468,7 @@ const FileSystemItem = ({
                   />
                   <footer className={classes.renameFooter}>
                     <Button
-                      onClick={() => setEditing(undefined)}
+                      onClick={() => setEditingFile(undefined)}
                       size="medium"
                       className={classes.cancelButton}
                       variant="outline"

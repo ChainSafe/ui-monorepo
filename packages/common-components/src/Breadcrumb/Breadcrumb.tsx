@@ -88,6 +88,9 @@ const useStyles = makeStyles(
       menuTitle: {
         padding: `0px ${constants.generalUnit * 1.5}px 0px ${constants.generalUnit * 0.5}px`
       },
+      menuOptions: {
+        zIndex: zIndex?.layer1
+      },
       menuIcon: {
         width: 12,
         height: 12,
@@ -158,6 +161,7 @@ const Breadcrumb = ({
         animation="rotate"
         classNames={{
           item: classes.menuItem,
+          options: classes.menuOptions,
           title: classes.menuTitle,
           icon: classes.menuIcon,
           titleText: classes.menuTitleText
