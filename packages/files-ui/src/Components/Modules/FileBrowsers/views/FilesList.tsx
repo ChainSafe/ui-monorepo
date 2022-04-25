@@ -505,6 +505,20 @@ const FilesList = ({ isShared = false }: Props) => {
     [selectedCids, selectedItems]
   )
 
+  // select item with SHIFT pressed
+  const handleSelectItemWithShift = useCallback(
+    (itemToAdd: FileSystemItemType) => {
+      if (selectedCids.includes(itemToAdd.cid)) {
+        setSelectedItems(
+          selectedItems.filter((selectedItem: FileSystemItemType) => selectedItem.cid !== itemToAdd.cid)
+        )
+      } else {
+        setSelectedItems([...selectedItems, itemToAdd])
+      }
+    },
+    [selectedCids, selectedItems]
+  )
+
   const toggleAll = useCallback(() => {
     if (selectedItems.length === items.length) {
       setSelectedItems([])
@@ -1212,6 +1226,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     selectedCids={selectedCids}
                     handleSelectItem={handleSelectItem}
                     handleAddToSelectedItems={handleAddToSelectedItems}
+                    handleSelectItemWithShift={handleSelectItemWithShift}
                     editing={editing}
                     setEditing={setEditing}
                     handleRename={(cid: string, newName: string) => {
@@ -1271,6 +1286,7 @@ const FilesList = ({ isShared = false }: Props) => {
                   handleSelectItem={handleSelectItem}
                   viewFolder={handleViewFolder}
                   handleAddToSelectedItems={handleAddToSelectedItems}
+                  handleSelectItemWithShift={handleSelectItemWithShift}
                   editing={editing}
                   setEditing={setEditing}
                   handleRename={(path: string, newPath: string) => {
