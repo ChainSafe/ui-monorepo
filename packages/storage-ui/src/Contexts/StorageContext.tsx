@@ -11,9 +11,7 @@ import {
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-// import { v4 as uuidv4 } from "uuid"
 import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FileOperationsReducers"
-// import { t } from "@lingui/macro"
 import { useBeforeunload } from "react-beforeunload"
 import { useStorageApi } from "./StorageApiContext"
 import { v4 as uuidv4 } from "uuid"
@@ -21,6 +19,9 @@ import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import axios, { CancelToken } from "axios"
 import { getPathWithFile } from "../Utils/pathUtils"
+import dayjs from "dayjs"
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
+dayjs.extend(isSameOrAfter)
 
 type StorageContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -46,6 +47,8 @@ export type DownloadProgress = {
   complete: boolean
 }
 
+const PINS_PAGE_SIZE = 15
+
 interface GetFileContentParams {
   cid: string
   cancelToken?: CancelToken
@@ -67,7 +70,13 @@ type StorageContext = {
   getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
-  addPin: (cid: string, name: string) => Promise<PinStatus>
+  isNextPinsPage: boolean
+  isPreviousPinsPage: boolean
+  isLoadingPins: boolean
+  pagingLoaders?: { next?: boolean; previous?: boolean }
+  onNextPins: () => void
+  onPreviousPins: () => void
+  addPin: (cid: string, name: string) => Promise<PinStatus | undefined>
   refreshPins: (params?: RefreshPinParams) => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
@@ -75,6 +84,9 @@ type StorageContext = {
   removeBucket: (id: string) => void
   refreshBuckets: () => void
   searchCid: (cid: string) => Promise<PinResult | void>
+  onSearch: (searchParams: RefreshPinParams) => void
+  pageNumber: number
+  resetPins: () => void
 }
 
 // This represents a File or Folder on the
@@ -92,6 +104,27 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse | undefined>()
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const [pins, setPins] = useState<PinStatus[]>([])
+  const [pinsParams, setPinsParams] = useState<{
+    pageNumber: number
+    pinsRange: {
+      before?: Date
+      after?: Date
+    }
+    searchedCID?: string
+    searchedName?: string
+  }>({
+    pageNumber: 1,
+    pinsRange: {
+      before: new Date()
+    }
+  })
+  const [isPreviousPinsPage, setIsPreviousPinsPage] = useState(false)
+  const [isNextPinsPage, setIsNextPinsPage] = useState(false)
+  const [isLoadingPins, setIsLoadingPins] = useState(true)
+  const [pagingLoaders, setPagingLoaders] = useState<{
+    next?: boolean
+    previous?: boolean
+  } | undefined>()
 
   const getStorageSummary = useCallback(async () => {
     try {
@@ -102,19 +135,106 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [storageApiClient])
 
-  const refreshPins = useCallback(({ searchedCid = undefined, searchedName = "" }: RefreshPinParams = {}) => {
+  const refreshPins = useCallback(() => {
     storageApiClient.listPins(
-      searchedCid ? [searchedCid] : undefined,
-      searchedName,
+      pinsParams.searchedCID ? [pinsParams.searchedCID] : undefined,
+      pinsParams.searchedName,
       "partial",
       ["queued", "pinning", "pinned", "failed"],
+      pinsParams.pinsRange.after,
+      pinsParams.pinsRange.before,
+      PINS_PAGE_SIZE,
       undefined,
-      undefined,
-      50
-    ).then((pins) =>  setPins(pins.results || []))
-      .catch(console.error)
-      .finally(() => getStorageSummary())
-  }, [storageApiClient, getStorageSummary])
+      pinsParams.pinsRange.before ? "dsc" : "asc"
+    ).then((pinsResult) => {
+      setPins(pinsResult.results || [])
+      // are there more pins
+      if (
+          pinsResult.results?.length &&
+          pinsResult.count &&
+          pinsResult.results.length < pinsResult.count
+      ) {
+        pinsParams.pinsRange.before
+          ? setIsNextPinsPage(true)
+          : setIsPreviousPinsPage(true)
+      } else {
+        pinsParams.pinsRange.before
+          ? setIsNextPinsPage(false)
+          : setIsPreviousPinsPage(false)
+      }
+    }).catch(console.error)
+      .finally(() => {
+        setIsLoadingPins(false)
+        setPagingLoaders(undefined)
+      })
+  }, [storageApiClient, pinsParams])
+
+  const resetPins = useCallback(() => {
+    setIsLoadingPins(true)
+    setPinsParams({
+      pageNumber: 1,
+      pinsRange: {
+        before: new Date()
+      },
+      searchedCID: undefined,
+      searchedName: undefined
+    })
+  }, [])
+
+  const onNextPins = useCallback(() => {
+    if (!pins.length) return
+    const newBeforeDate = pins.reduce((p1, p2) =>
+      new Date(p1.created).getTime() < new Date(p2.created).getTime() ? p1 : p2
+    ).created
+    setPagingLoaders({ next: true })
+    setIsPreviousPinsPage(true)
+    setPinsParams({
+      ...pinsParams,
+      pageNumber: pinsParams.pageNumber + 1,
+      pinsRange: {
+        before: new Date(newBeforeDate)
+      }
+    })
+  }, [pins, pinsParams ])
+
+  const onPreviousPins = useCallback(() => {
+    if (!pins.length || pinsParams.pageNumber === 1) return
+    setPagingLoaders({ previous: true })
+    setIsNextPinsPage(true)
+    // moving into page 1 - reset
+    if (pinsParams.pageNumber === 2) {
+      setPinsParams({
+        ...pinsParams,
+        pageNumber: 1,
+        pinsRange: {
+          before: new Date()
+        }
+      })
+    } else {
+      const newAfterDate = pins.reduce((p1, p2) =>
+        new Date(p1.created).getTime() > new Date(p2.created).getTime() ? p1 : p2
+      ).created
+      setPinsParams({
+        ...pinsParams,
+        pageNumber: pinsParams.pageNumber - 1,
+        pinsRange: {
+          after: new Date(newAfterDate)
+        }
+      })
+    }
+  }, [pins, pinsParams])
+
+  const onSearch = useCallback((searchParams: RefreshPinParams) => {
+    setIsLoadingPins(true)
+    setPinsParams({
+      pinsRange: {
+        before: new Date()
+      },
+      pageNumber: 1,
+      searchedCID: searchParams.searchedCid,
+      searchedName: searchParams.searchedName
+    })
+  }, [])
 
   const refreshBuckets = useCallback(() => {
     storageApiClient.listBuckets()
@@ -130,7 +250,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const unpin = useCallback((requestId: string) => {
     storageApiClient.deletePin(requestId)
-      .then(() => refreshPins())
+      .then(refreshPins)
       .catch(console.error)
   }, [storageApiClient, refreshPins])
 
@@ -176,9 +296,22 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   })
 
-  const addPin = useCallback((cid: string, name: string) => {
-    return storageApiClient.addPin(({ cid, name }))
-  }, [storageApiClient])
+  const addPin = useCallback(async (cid: string, name: string) => {
+    try {
+      const pinStatus = await storageApiClient.addPin(({ cid, name }))
+      if (pinsParams.pageNumber === 1) {
+        setPinsParams({
+          ...pinsParams,
+          pinsRange: {
+            before: new Date(new Date(pinStatus.created).getTime() + 1)
+          }
+        })
+      }
+      return pinStatus
+    } catch (e) {
+      console.error(e)
+    }
+  }, [storageApiClient, pinsParams])
 
   const createBucket = useCallback(async (name: string, fileSystemType: FileSystemType) => {
     return storageApiClient.createBucket({
@@ -375,6 +508,12 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         downloadsInProgress,
         pins,
         refreshPins,
+        isNextPinsPage,
+        isPreviousPinsPage,
+        isLoadingPins,
+        pagingLoaders,
+        onNextPins,
+        onPreviousPins,
         unpin,
         storageBuckets,
         downloadFile,
@@ -382,7 +521,10 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         removeBucket,
         uploadFiles,
         refreshBuckets,
-        searchCid
+        searchCid,
+        onSearch,
+        pageNumber: pinsParams.pageNumber,
+        resetPins
       }}
     >
       {children}
