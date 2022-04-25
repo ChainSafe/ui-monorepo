@@ -1,6 +1,17 @@
-import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
+import React, { ChangeEvent, useCallback, useMemo, useState, useEffect } from "react"
+import {
+  Button,
+  PlusIcon,
+  Table,
+  TableBody,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+  Typography,
+  Pagination,
+  SearchBar
+} from "@chainsafe/common-components"
 import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
-import { Button, PlusIcon, SearchBar, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
 import { t, Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
@@ -52,6 +63,11 @@ const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings
       }
+    },
+    pagination: {
+      margin: `${constants.generalUnit * 3}px 0`,
+      display: "flex",
+      justifyContent: "flex-end"
     }
   })
 )
@@ -61,17 +77,25 @@ type SortDirection = "ascend" | "descend"
 
 const CidsPage = () => {
   const classes = useStyles()
-  const { pins, refreshPins } = useStorage()
+  const {
+    pins,
+    onNextPins,
+    onPreviousPins,
+    isNextPinsPage,
+    isPreviousPinsPage,
+    pagingLoaders,
+    refreshPins,
+    onSearch,
+    pageNumber,
+    isLoadingPins,
+    resetPins
+  } = useStorage()
   const { accountRestricted } = useStorageApi()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
   const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
   const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
   const [searchQuery, setSearchQuery] = useState("")
   usePageTrack()
-
-  useEffect(() => {
-    refreshPins()
-  }, [refreshPins])
 
   const handleSortToggle = (
     targetColumn: SortColumn
@@ -87,6 +111,10 @@ const CidsPage = () => {
       }
     }
   }
+
+  useEffect(() => {
+    resetPins()
+  }, [resetPins])
 
   const sortedPins: PinStatus[] = useMemo(() => {
     let temp = []
@@ -109,15 +137,15 @@ const CidsPage = () => {
   }, [pins, sortDirection, sortColumn])
 
 
-  const onSearch = (searchString: string) => {
-    isCid(searchString)
-      ? refreshPins({ searchedCid: searchString.trim() })
-      : refreshPins({ searchedName: searchString.trim() })
-
+  const handleSearch = (searchString: string) => {
+    onSearch(
+      isCid(searchString)
+        ? { searchedCid: searchString.trim() }
+        : { searchedName: searchString.trim() })
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSearch = useCallback(debounce(onSearch, 400), [refreshPins])
+  const debouncedSearch = useCallback(debounce(handleSearch, 400), [refreshPins])
 
   const onSearchChange = (searchString: string) => {
     setSearchQuery(searchString)
@@ -148,6 +176,7 @@ const CidsPage = () => {
               placeholder={t`Search by cid, name…`}
               testId = "input-search-cid"
               value={searchQuery}
+              isLoading={isLoadingPins}
             />
             <Button
               data-cy="button-pin-cid"
@@ -233,6 +262,20 @@ const CidsPage = () => {
           </TableBody>
         </Table>
       </div>
+      {!!pins.length && (isNextPinsPage || isPreviousPinsPage) &&
+        <div className={classes.pagination}>
+          <Pagination
+            showPageNumbers={true}
+            pageNo={pageNumber}
+            onNextClick={onNextPins}
+            onPreviousClick={onPreviousPins}
+            isNextDisabled={!isNextPinsPage || !!pagingLoaders}
+            isPreviousDisabled={!isPreviousPinsPage || !!pagingLoaders}
+            loadingNext={pagingLoaders?.next}
+            loadingPrevious={pagingLoaders?.previous}
+          />
+        </div>
+      }
       <AddCIDModal
         close={() => setAddCIDOpen(false)}
         modalOpen={addCIDOpen}
