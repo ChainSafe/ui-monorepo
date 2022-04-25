@@ -510,10 +510,10 @@ const FilesList = ({ isShared = false }: Props) => {
 
       const lastIndex = selectedItems.length
         ? items.findIndex((i) => i.cid === selectedItems[selectedItems.length - 1].cid)
-        : undefined
+        : -1
 
       // first item
-      if (!lastIndex) {
+      if (lastIndex === -1) {
         setSelectedItems([item])
         return
       }
