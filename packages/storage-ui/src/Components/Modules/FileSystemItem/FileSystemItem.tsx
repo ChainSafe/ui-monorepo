@@ -104,6 +104,7 @@ interface IFileSystemItemProps {
   selected: ISelectedFile[]
   handleSelectCid(selectedFile: ISelectedFile): void
   handleAddToSelectedCids(selectedFile: ISelectedFile): void
+  handleSelectItemWithShift(selectedFile: ISelectedFile): void
   editingFile?: ISelectedFile
   setEditingFile(editingFile: ISelectedFile | undefined): void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
@@ -134,6 +135,7 @@ const FileSystemItem = ({
   setFileInfoPath,
   handleSelectCid,
   handleAddToSelectedCids,
+  handleSelectItemWithShift,
   itemOperations,
   browserView,
   resetSelectedFiles
@@ -355,15 +357,11 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop 
         if (e && (e.ctrlKey || e.metaKey)) {
-          handleAddToSelectedCids({
-            cid,
-            name
-          })
+          handleAddToSelectedCids({ cid, name })
+        } else if (e && (e.shiftKey || e.metaKey)) {
+          handleSelectItemWithShift({ cid, name })
         } else {
-          handleSelectCid({
-            cid,
-            name
-          })
+          handleSelectCid({ cid, name })
         }
       } else {
         // on mobile
@@ -377,7 +375,17 @@ const FileSystemItem = ({
         }
       }
     },
-    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, viewFolder, name, onFilePreview]
+    [
+      cid,
+      handleSelectCid,
+      handleAddToSelectedCids,
+      desktop,
+      isFolder,
+      viewFolder,
+      name,
+      onFilePreview,
+      handleSelectItemWithShift
+    ]
   )
 
   const onDoubleClick = useCallback(

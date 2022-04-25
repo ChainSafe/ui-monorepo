@@ -527,7 +527,6 @@ const FilesList = ({ isShared = false }: Props) => {
       const mySelectedItems = selectedItems
       while (countIndex !== currentIndex) {
         // filter out if item already selected
-        console.log(countIndex)
         const currentCID = items[countIndex].cid
         mySelectedItems.filter((s) => s.cid !== currentCID)
         mySelectedItems.push(items[countIndex])
