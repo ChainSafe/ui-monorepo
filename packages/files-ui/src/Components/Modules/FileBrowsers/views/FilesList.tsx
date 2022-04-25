@@ -483,13 +483,9 @@ const FilesList = ({ isShared = false }: Props) => {
   // Selection logic
   const handleSelectItem = useCallback(
     (item: FileSystemItemType) => {
-      if (selectedCids.includes(item.cid)) {
-        setSelectedItems([])
-      } else {
-        setSelectedItems([item])
-      }
+      setSelectedItems([item])
     },
-    [selectedCids]
+    []
   )
 
   const handleAddToSelectedItems = useCallback(
@@ -507,16 +503,42 @@ const FilesList = ({ isShared = false }: Props) => {
 
   // select item with SHIFT pressed
   const handleSelectItemWithShift = useCallback(
-    (itemToAdd: FileSystemItemType) => {
-      if (selectedCids.includes(itemToAdd.cid)) {
-        setSelectedItems(
-          selectedItems.filter((selectedItem: FileSystemItemType) => selectedItem.cid !== itemToAdd.cid)
-        )
-      } else {
-        setSelectedItems([...selectedItems, itemToAdd])
+    (item: FileSystemItemType) => {
+      // item already selected
+      const isItemAlreadySelected = selectedItems.find((s) => s.cid === item.cid)
+      if (isItemAlreadySelected) return
+
+      const lastIndex = selectedItems.length
+        ? items.findIndex((i) => i.cid === selectedItems[selectedItems.length - 1].cid)
+        : undefined
+
+      // first item
+      if (!lastIndex) {
+        setSelectedItems([item])
+        return
       }
+
+      const currentIndex = items.findIndex((i) => i.cid === item.cid)
+      // unavailable item
+      if (currentIndex === -1) return
+
+      // new item, with selected items 
+      let countIndex = lastIndex
+      const mySelectedItems = selectedItems
+      while (countIndex !== currentIndex) {
+        // filter out if item already selected
+        console.log(countIndex)
+        const currentCID = items[countIndex].cid
+        mySelectedItems.filter((s) => s.cid !== currentCID)
+        mySelectedItems.push(items[countIndex])
+        if (currentIndex > lastIndex) countIndex++
+        else countIndex--
+      }
+      // add the current item
+      mySelectedItems.push(items[currentIndex])
+      setSelectedItems([...mySelectedItems])
     },
-    [selectedCids, selectedItems]
+    [selectedItems, items]
   )
 
   const toggleAll = useCallback(() => {
