@@ -6,7 +6,8 @@ import {
   getURISafePathFromArray,
   getPathWithFile,
   extractFileBrowserPathFromURL,
-  getUrlSafePathWithFile
+  getUrlSafePathWithFile,
+  joinArrayOfPaths
 } from "../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "../../Contexts/types"
 import FilesList from "../Modules/FilesList/FilesList"
@@ -153,14 +154,17 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
-  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
-    text: decodeURIComponent(path),
-    onClick: () => {
-      redirect(
-        ROUTE_LINKS.Bucket(bucketId, getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
-      )
-    }
-  })), [arrayOfPaths, bucketId, redirect])
+
+  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => {
+    return {
+      text: decodeURIComponent(path),
+      onClick: () => {
+        redirect(
+          ROUTE_LINKS.Bucket(bucketId, getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+        )
+      },
+      path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
+    }}), [arrayOfPaths, redirect, bucketId])
 
   const currentFolder = useMemo(() => {
     return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
