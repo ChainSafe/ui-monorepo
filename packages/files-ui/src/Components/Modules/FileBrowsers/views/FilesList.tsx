@@ -524,17 +524,18 @@ const FilesList = ({ isShared = false }: Props) => {
 
       // new item, with selected items 
       let countIndex = lastIndex
-      const mySelectedItems = selectedItems
-      while (countIndex !== currentIndex) {
+      let mySelectedItems = selectedItems
+      while (
+        (currentIndex > lastIndex && countIndex <= currentIndex) ||
+        (currentIndex < lastIndex && countIndex >= currentIndex)
+      ) {
         // filter out if item already selected
         const currentCID = items[countIndex].cid
-        mySelectedItems.filter((s) => s.cid !== currentCID)
+        mySelectedItems = mySelectedItems.filter((s) => s.cid !== currentCID)
         mySelectedItems.push(items[countIndex])
         if (currentIndex > lastIndex) countIndex++
         else countIndex--
       }
-      // add the current item
-      mySelectedItems.push(items[currentIndex])
       setSelectedItems([...mySelectedItems])
     },
     [selectedItems, items]
