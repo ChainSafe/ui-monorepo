@@ -7,6 +7,7 @@ import BucketsPage from "./Pages/BucketsPage"
 import SettingsPage from "./Pages/SettingsPage"
 import BucketPage from "./Pages/BucketPage"
 import BillingHistory from "./Pages/BillingHistory"
+import CreateNFTPage from "./Pages/UploadNFT"
 
 export const SETTINGS_BASE = "/settings"
 export const SETTINGS_PATHS = ["apiKeys", "plan"] as const
@@ -27,7 +28,8 @@ export const ROUTE_LINKS = {
   ChainSafe: "https://chainsafe.io/",
   BucketRoot: "/bucket",
   Bucket: (id: string, bucketPath: string) => `/bucket/${id}${bucketPath}`,
-  DiscordInvite: "https://discord.gg/YYFqgHp4Tu"
+  DiscordInvite: "https://discord.gg/YYFqgHp4Tu",
+  UploadNFT: "/upload-nft"
 }
 
 const StorageRoutes = () => {
@@ -82,6 +84,13 @@ const StorageRoutes = () => {
         component={LoginPage}
         redirectPath={ROUTE_LINKS.Buckets}
         redirectToSource
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.UploadNFT}
+        isAuthorized={isLoggedIn}
+        component={CreateNFTPage}
+        redirectPath={ROUTE_LINKS.Landing}
       />
     </Switch>
   )

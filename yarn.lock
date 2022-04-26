@@ -1941,6 +1941,15 @@
     "@redocly/openapi-core" "^1.0.0-beta.69"
     redoc-cli "^0.12.3"
 
+"@chainsafe/files-api-client@1.18.36-rc3":
+  version "1.18.36-rc3"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.36-rc3.tgz#e3b23415c90c4da964971d8733d30b67040e256f"
+  integrity sha512-XJe6ivft+lzsdR6gj6nGsdikIQf8lI/u/rRvVFvm5WtBH+TAmTyn71E6DpSs1QVBR9thFJjlpM1PYpPOSe70AA==
+  dependencies:
+    "@redocly/openapi-cli" "^1.0.0-beta.58"
+    "@redocly/openapi-core" "^1.0.0-beta.69"
+    redoc-cli "^0.12.3"
+
 "@chainsafe/web3-context@1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.3.0.tgz#e546f160145dce12e00845d53f1a00165f6a96b2"
