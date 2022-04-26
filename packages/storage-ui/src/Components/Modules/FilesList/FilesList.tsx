@@ -451,18 +451,20 @@ const FilesList = () => {
 
       // new item, with selected items 
       let countIndex = lastIndex
-      const mySelectedItems = selectedItems
-      while (countIndex !== currentIndex) {
+      let mySelectedItems = selectedItems
+      while (
+        (currentIndex > lastIndex && countIndex <= currentIndex) ||
+         (currentIndex < lastIndex && countIndex >= currentIndex)
+      ) {
         // filter out if item already selected
         const currentCID = items[countIndex].cid
         const currentName = items[countIndex].name
-        mySelectedItems.filter((s) => s.cid !== currentCID && s.name !== currentName)
+        mySelectedItems = mySelectedItems.filter((s) => s.cid !== currentCID && s.name !== currentName)
         mySelectedItems.push(items[countIndex])
         if (currentIndex > lastIndex) countIndex++
         else countIndex--
       }
       // add the current item
-      mySelectedItems.push(items[currentIndex])
       setSelectedCids([...mySelectedItems])
     },
     [selectedItems, items]
