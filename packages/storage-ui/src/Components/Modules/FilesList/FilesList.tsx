@@ -470,8 +470,6 @@ const FilesList = () => {
     [selectedItems, items]
   )
 
-  console.log(selectedItems)
-
   const toggleAll = useCallback(() => {
     if (selectedCids.length === items.length) {
       setSelectedCids([])
