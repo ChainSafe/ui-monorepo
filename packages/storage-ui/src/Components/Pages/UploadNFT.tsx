@@ -4,7 +4,7 @@ import { makeStyles, createStyles, useThemeSwitcher, ITheme } from "@chainsafe/c
 import { t, Trans } from "@lingui/macro"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
-import { FieldArray, Form, Formik } from "formik"
+import { FieldArray, Form, Formik, FormikProvider, useFormik } from "formik"
 import * as yup from "yup"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import FormikImageInput from "../Elements/FormikImageInput"
@@ -38,15 +38,27 @@ const CreateNFTPage: React.FC = () => {
   const classes = useStyles()
   usePageTrack()
 
-  const { storageApiClient } = useStorageApi()
-
-  const [initialValues, setInitialValues] = useState <{[key: string]: string | number | File | Array<any> | any}>({
+  const [initialValues, setInitialValues] = useState<{ [key: string]: string | number | File | Array<any> | any }>({
     image: undefined,
     name: "",
     decimals: "",
     description: "",
     properties: {}
   })
+
+  const formikProps = useFormik({
+    initialValues: initialValues,
+    // validationSchema={validationSchema}
+    onSubmit: async(val) => {
+      // const result = await storageApiClient.uploadNFT(val)
+      console.log(val)
+    },
+    enableReinitialize: true
+  })
+
+  const { storageApiClient } = useStorageApi()
+
+
 
   const [newFieldName, setNewFieldName] = useState("")
 
@@ -88,23 +100,19 @@ const CreateNFTPage: React.FC = () => {
         </Typography>
       </div>
       {desktop && <Divider />}
-      <Formik
-        initialValues={initialValues}
-        // validationSchema={validationSchema}
-        onSubmit={async (val) => {
-          // const result = await storageApiClient.uploadNFT(val)
-          console.log(val)
-        }}
-        enableReinitialize >
+      <FormikProvider value={formikProps}>
         <Form>
           <FormikTextInput name='name' />
           <FormikTextInput name='description' />
           <FormikTextInput name='decimals' />
           <FormikImageInput name='image'/>
-          {Object.keys(initialValues.properties).map(k => {
+          {Object.keys(formikProps.values.properties).map(k => {
           // Primitive fields should be instantiated to an empty string
           // File fields should be instantiated to undefined
-            if (typeof (initialValues?.properties[k]) === "string" || typeof (initialValues?.properties[k]) === "number") return <FormikTextInput name={`properties.${k}`} />
+            if (typeof (formikProps.values.properties[k]) === "string" || typeof (formikProps.values.properties[k]) === "number")
+              return <FormikTextInput
+                name={`properties.${k}`}
+                label={k} />
             // if (typeof initialValues.properties[k] === "object" && Array.isArray(initialValues.properties[k])) return <FieldArray name={`properties.${k}`} />
             // if ((typeof initialValues.properties[k] === "object" && initialValues.properties[k] instanceof File) || typeof initialValues.properties[k] === "undefined")
             //   return <FileInput
@@ -116,7 +124,7 @@ const CreateNFTPage: React.FC = () => {
           })}
           <Button type="submit">Upload</Button>
         </Form>
-      </Formik>
+      </FormikProvider>
       <TextInput
         value={newFieldName}
         onChange={(val) => setNewFieldName(val?.toString() || "")} />
@@ -137,13 +145,13 @@ const CreateNFTPage: React.FC = () => {
         onChange={() => undefined} />
       <Button onClick={
         () => {
-          setInitialValues((originalValue) => ({
-            ...originalValue,
+          formikProps.setValues({
+            ...formikProps.values,
             properties: {
-              ...originalValue.properties,
+              ...formikProps.values.properties,
               [newFieldName]: ""
             }
-          }))
+          })
         }}>
           Add
       </Button>
