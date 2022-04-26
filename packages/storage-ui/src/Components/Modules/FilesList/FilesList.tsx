@@ -459,7 +459,7 @@ const FilesList = () => {
         // filter out if item already selected
         const currentCID = items[countIndex].cid
         const currentName = items[countIndex].name
-        mySelectedItems = mySelectedItems.filter((s) => s.cid !== currentCID && s.name !== currentName)
+        mySelectedItems = mySelectedItems.filter((s) => s.cid !== currentCID || s.name !== currentName)
         mySelectedItems.push(items[countIndex])
         if (currentIndex > lastIndex) countIndex++
         else countIndex--
@@ -469,6 +469,8 @@ const FilesList = () => {
     },
     [selectedItems, items]
   )
+
+  console.log(selectedItems)
 
   const toggleAll = useCallback(() => {
     if (selectedCids.length === items.length) {
