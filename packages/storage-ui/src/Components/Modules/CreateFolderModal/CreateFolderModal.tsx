@@ -22,7 +22,7 @@ import { getPathWithFile } from "../../../Utils/pathUtils"
 
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, typography, zIndex }: CSSTheme) => {
+  ({  constants, typography, zIndex }: CSSTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
@@ -34,27 +34,13 @@ const useStyles = makeStyles(
       modalInner: {
         backgroundColor: constants.createFolder.backgroundColor,
         color: constants.createFolder.color,
-        [breakpoints.down("md")]: {
-          bottom: Number(constants?.mobileButtonHeight) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-          maxWidth: `${breakpoints.width("md")}px !important`
-        }
+        width: "100%"
       },
       input: {
         marginBottom: constants.generalUnit * 2
       },
       okButton: {
         marginLeft: constants.generalUnit
-      },
-      cancelButton: {
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: constants?.mobileButtonHeight
-        }
       },
       label: {
         fontSize: 14,
@@ -161,8 +147,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
               <CustomButton
                 onClick={() => close()}
                 size="medium"
-                className={classes.cancelButton}
-                variant={desktop ? "outline" : "gray"}
+                variant={"outline"}
                 type="button"
               >
                 <Trans>Cancel</Trans>

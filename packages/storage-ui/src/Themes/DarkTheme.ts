@@ -352,7 +352,10 @@ export const darkTheme = createTheme<CsSColors>({
         },
         modalDefault: {
           fadeBackground: "var(--gray7)",
-          background: "var(--gray2)"
+          backgroundColor: "var(--gray2)",
+          color: "var(--gray10)",
+          iconBackingColor: "#EBEEFF",
+          closeIconColor: "var(--gray8)"
         },
         header: {
           rootBackground: "var(--gray1)",

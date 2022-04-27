@@ -12,21 +12,24 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
       }
     },
     inner: {
+      backgroundColor: constants.modalDefault.backgroundColor,
+      color: constants.modalDefault.color,
+      width: "100%"
+    },
+    mobileStickyBottom: {
       [breakpoints.down("md")]: {
-        backgroundColor: constants.modalDefault.background,
+        position: "fixed",
         top: "unset",
         bottom: 0,
         left: 0,
         width: "100% !important",
-        transform: "unset",
-        borderRadiusLeftTop: `${constants.generalUnit * 1.5}px`,
-        borderRadiusRightTop: `${constants.generalUnit * 1.5}px`,
-        borderRadiusLeftBottom: 0,
-        borderRadiusRightBottom: 0
+        transform: "unset"
       }
     },
-    closeIcon: {
-      [breakpoints.down("md")]: {}
+    closeIcon : {
+      "& svg": {
+        stroke: constants.modalDefault.closeIconColor
+      }
     }
   })
 )
@@ -34,14 +37,11 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
 interface ICustomModal extends IModalProps {
   children: ReactNode
   className?: string
+  testId?: string
+  mobileStickyBottom?: boolean
 }
 
-const CustomModal: React.FC<ICustomModal> = ({
-  className,
-  children,
-  injectedClass,
-  ...rest
-}: ICustomModal) => {
+const CustomModal = ({ className, children, injectedClass, mobileStickyBottom = true, ...rest }: ICustomModal) => {
   const classes = useStyles()
 
   return (
@@ -49,7 +49,8 @@ const CustomModal: React.FC<ICustomModal> = ({
       className={clsx(classes.root, className)}
       injectedClass={{
         closeIcon: clsx(classes.closeIcon, injectedClass?.closeIcon),
-        inner: clsx(classes.inner, injectedClass?.inner)
+        inner: clsx(classes.inner, mobileStickyBottom ? classes.mobileStickyBottom : undefined, injectedClass?.inner),
+        subModalInner: injectedClass?.subModalInner
       }}
       {...rest}
     >
