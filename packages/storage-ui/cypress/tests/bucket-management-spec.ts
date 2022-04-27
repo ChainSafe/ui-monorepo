@@ -1,5 +1,5 @@
 import { bucketsPage } from "../support/page-objects/bucketsPage"
-import { bucketName } from "../fixtures/storageTestData"
+import { chainSafeBucketName, ipfsBucketName } from "../fixtures/storageTestData"
 import { createBucketModal } from "../support/page-objects/modals/createBucketModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 
@@ -19,11 +19,11 @@ describe("Bucket management", () => {
       // create a bucket and see it in the bucket table
       bucketsPage.createBucketButton().click()
       createBucketModal.body().should("be.visible")
-      createBucketModal.bucketNameInput().type(bucketName)
+      createBucketModal.bucketNameInput().type(chainSafeBucketName)
       createBucketModal.chainsafeRadioInput().click()
       createBucketModal.submitButton().click()
       bucketsPage.bucketItemRow().should("have.length", 1)
-      bucketsPage.bucketItemName().should("have.text", bucketName)
+      bucketsPage.bucketItemName().should("have.text", chainSafeBucketName)
       bucketsPage.bucketFileSystemType().should("have.text", "Chainsafe")
 
       // delete chainsafe bucket
@@ -40,11 +40,11 @@ describe("Bucket management", () => {
       // create a bucket and see it in the bucket table
       bucketsPage.createBucketButton().click()
       createBucketModal.body().should("be.visible")
-      createBucketModal.bucketNameInput().type(bucketName)
+      createBucketModal.bucketNameInput().type(ipfsBucketName)
       createBucketModal.ipfsRadioInput().click()
       createBucketModal.submitButton().click()
       bucketsPage.bucketItemRow().should("have.length", 1)
-      bucketsPage.bucketItemName().should("have.text", bucketName)
+      bucketsPage.bucketItemName().should("have.text", ipfsBucketName)
       bucketsPage.bucketFileSystemType().should("have.text", "IPFS MFS")
 
       // delete ipfs bucket
