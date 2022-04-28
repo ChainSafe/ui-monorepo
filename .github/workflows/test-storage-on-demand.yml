@@ -41,14 +41,14 @@ jobs:
         if: failure()
         with:
           name: cypress-screenshots
-          path: packages/files-ui/cypress/screenshots
+          path: packages/storage-ui/cypress/screenshots
       # store the videos if the tests fail
       # - name: Store videos 
       #   uses: actions/upload-artifact@v1
       #   if: failure()
       #   with:
       #     name: cypress-videos
-      #     path: packages/files-ui/cypress/videos
+      #     path: packages/storage-ui/cypress/videos
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2.2.0
