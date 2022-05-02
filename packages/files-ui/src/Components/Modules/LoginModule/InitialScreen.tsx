@@ -537,6 +537,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 href={ROUTE_LINKS.PrivacyPolicy}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-cy="button-privacy-policy"
               >
                 <Typography>
                   <Trans>Privacy Policy</Trans>
