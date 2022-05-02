@@ -547,6 +547,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 href={ROUTE_LINKS.Terms}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-cy="button-terms-and-conditions"
               >
                 <Typography>
                   <Trans>Terms and Conditions</Trans>

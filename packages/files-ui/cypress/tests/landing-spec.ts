@@ -11,5 +11,10 @@ describe("Landing", () => {
       authenticationPage.privacyPolicyButton().invoke('removeAttr', 'target').click()
       cy.url().should("include", "/privacy-policy")
     })
+
+    it("can navigate to terms & conditions page", () => {
+      authenticationPage.termsAndConditionsButton().invoke('removeAttr', 'target').click()
+      cy.url().should("include", "/terms-of-service")
+    })
   })
 })

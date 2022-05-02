@@ -14,6 +14,7 @@ export const authenticationPage = {
   detectedWallet: () => cy.get(":nth-child(3) > .bn-onboard-custom > span.svelte-1799bj2"),
   web3SignInButton: () => cy.get("[data-cy=button-sign-in-with-web3]"),
   privacyPolicyButton: () => cy.get("[data-cy=button-privacy-policy]"),
+  termsAndConditionsButton: () => cy.get("[data-cy=button-terms-and-conditions]"),
 
   // sign in section elements
   loginPasswordButton: () => cy.get("[data-cy=button-login-password]", { timeout: 20000 }),
