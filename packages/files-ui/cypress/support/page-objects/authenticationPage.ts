@@ -15,6 +15,7 @@ export const authenticationPage = {
   web3SignInButton: () => cy.get("[data-cy=button-sign-in-with-web3]"),
   privacyPolicyButton: () => cy.get("[data-cy=button-privacy-policy]"),
   termsAndConditionsButton: () => cy.get("[data-cy=button-terms-and-conditions]"),
+  learnMoreAboutChainsafeButton: () => cy.get("[data-cy=button-learn-more-about-chainsafe]"),
 
   // sign in section elements
   loginPasswordButton: () => cy.get("[data-cy=button-login-password]", { timeout: 20000 }),

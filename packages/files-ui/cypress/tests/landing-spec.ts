@@ -16,5 +16,10 @@ describe("Landing", () => {
       authenticationPage.termsAndConditionsButton().invoke('removeAttr', 'target').click()
       cy.url().should("include", "/terms-of-service")
     })
+
+    it("can navigate to ChainSafe.io from 'Learn more about Chainsafe'", () => {
+      authenticationPage.learnMoreAboutChainsafeButton().invoke('removeAttr', 'target').click()
+      cy.url().should("eq", "https://chainsafe.io/")
+    })
   })
 })
