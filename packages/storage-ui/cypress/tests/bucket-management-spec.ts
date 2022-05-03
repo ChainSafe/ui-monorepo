@@ -1,13 +1,16 @@
 import { bucketsPage } from "../support/page-objects/bucketsPage"
+import { bucketContentsPage } from "../support/page-objects/bucketContentsPage"
 import { chainSafeBucketName, ipfsBucketName } from "../fixtures/storageTestData"
 import { createBucketModal } from "../support/page-objects/modals/createBucketModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
+import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
+import { uploadStatusToast } from "../support/page-objects/toasts/uploadStatusToast"
 
 describe("Bucket management", () => {
 
   context("desktop", () => {
 
-    it("can create and delete a chainsafe bucket", () => {
+    it("can create, upload file and delete a chainsafe bucket", () => {
       cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
 
@@ -26,14 +29,34 @@ describe("Bucket management", () => {
       bucketsPage.bucketItemName().should("have.text", chainSafeBucketName)
       bucketsPage.bucketFileSystemType().should("have.text", "Chainsafe")
 
+      // open bucket and ensure header matches the expected value
+      bucketsPage.bucketItemName().dblclick()
+      bucketContentsPage.bucketHeaderLabel()
+        .should("be.visible")
+        .should("contain.text", chainSafeBucketName)
+
+      // upload a file to the bucket
+      bucketContentsPage.uploadButton().click()
+      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/logo.png")
+      fileUploadModal.fileList().should("have.length", 1)
+      fileUploadModal.uploadButton().safeClick()
+      fileUploadModal.body().should("not.exist")
+      uploadStatusToast.body()
+        .should("be.visible")
+        .should("contain.text", "Upload complete")
+      bucketContentsPage.fileItemRow().should("have.length", 1)
+
       // delete chainsafe bucket
-      bucketsPage.bucketRowKebabButton().first().click()
+      navigationMenu.bucketsNavButton().click()
+      bucketsPage.bucketRowKebabButton()
+        .should("be.visible")
+        .first().click()
       bucketsPage.deleteBucketMenuOption().first().click()
       bucketsPage.bucketItemRow().should("not.exist")
       bucketsPage.bucketItemName().should("not.exist")
     })
 
-    it("can create and delete an ipfs bucket", () => {
+    it("can create, upload file and delete an ipfs bucket", () => {
       cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
 
@@ -47,8 +70,26 @@ describe("Bucket management", () => {
       bucketsPage.bucketItemName().should("have.text", ipfsBucketName)
       bucketsPage.bucketFileSystemType().should("have.text", "IPFS MFS")
 
+      // open bucket and ensure header matches the expected value
+      bucketsPage.bucketItemName().dblclick()
+      bucketContentsPage.bucketHeaderLabel().should("contain.text", ipfsBucketName)
+
+      // upload a file to the bucket
+      bucketContentsPage.uploadButton().click()
+      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/logo.png")
+      fileUploadModal.fileList().should("have.length", 1)
+      fileUploadModal.uploadButton().safeClick()
+      fileUploadModal.body().should("not.exist")
+      uploadStatusToast.body()
+        .should("be.visible")
+        .should("contain.text", "Upload complete")
+      bucketContentsPage.fileItemRow().should("have.length", 1)
+
       // delete ipfs bucket
-      bucketsPage.bucketRowKebabButton().first().click()
+      navigationMenu.bucketsNavButton().click()
+      bucketsPage.bucketRowKebabButton()
+        .should("be.visible")
+        .first().click()
       bucketsPage.deleteBucketMenuOption().first().click()
       bucketsPage.bucketItemRow().should("not.exist")
       bucketsPage.bucketItemName().should("not.exist")
