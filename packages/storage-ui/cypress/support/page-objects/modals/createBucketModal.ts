@@ -4,5 +4,5 @@ export const createBucketModal = {
   chainsafeRadioInput: () => cy.get("[data-testid=radio-input-chainsafe]"),
   ipfsRadioInput: () => cy.get("[data-testid=radio-input-ipfs]"),
   cancelButton: () => cy.get("[data-cy=button-cancel-create]"),
-  submitButton: () => cy.get("[data-cy=button-submit-create]", { timeout: 10000 })
+  submitButton: () => cy.get("[data-cy=button-submit-create]")
 }

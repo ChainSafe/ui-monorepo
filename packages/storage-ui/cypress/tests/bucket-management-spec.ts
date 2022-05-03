@@ -50,8 +50,8 @@ describe("Bucket management", () => {
       navigationMenu.bucketsNavButton().click()
       bucketsPage.bucketRowKebabButton()
         .should("be.visible")
-        .first().click()
-      bucketsPage.deleteBucketMenuOption().first().click()
+        .click()
+      bucketsPage.deleteBucketMenuOption().click()
       bucketsPage.bucketItemRow().should("not.exist")
       bucketsPage.bucketItemName().should("not.exist")
     })
@@ -72,7 +72,9 @@ describe("Bucket management", () => {
 
       // open bucket and ensure header matches the expected value
       bucketsPage.bucketItemName().dblclick()
-      bucketContentsPage.bucketHeaderLabel().should("contain.text", ipfsBucketName)
+      bucketContentsPage.bucketHeaderLabel()
+        .should("be.visible")
+        .should("contain.text", ipfsBucketName)
 
       // upload a file to the bucket
       bucketContentsPage.uploadButton().click()
@@ -89,8 +91,8 @@ describe("Bucket management", () => {
       navigationMenu.bucketsNavButton().click()
       bucketsPage.bucketRowKebabButton()
         .should("be.visible")
-        .first().click()
-      bucketsPage.deleteBucketMenuOption().first().click()
+        .click()
+      bucketsPage.deleteBucketMenuOption().click()
       bucketsPage.bucketItemRow().should("not.exist")
       bucketsPage.bucketItemName().should("not.exist")
     })
