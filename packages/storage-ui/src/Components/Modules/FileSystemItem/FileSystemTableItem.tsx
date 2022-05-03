@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, debounce, useOnClickOutside } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
@@ -22,6 +22,7 @@ import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { desktopGridSettings, mobileGridSettings } from "../FilesList/FilesList"
+import { getFileNameAndExtension } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants, palette, zIndex }: CSSTheme) => {
   return createStyles({
@@ -74,9 +75,15 @@ const useStyles = makeStyles(({ animation, breakpoints, constants, palette, zInd
     desktopRename: {
       display: "flex",
       flexDirection: "row",
+      alignItems: "center",
       "& svg": {
         width: 20,
         height: 20
+      },
+      "& > span": {
+        fontSize: 16,
+        lineHeight: "20px",
+        marginLeft: constants.generalUnit / 2
       }
     },
     filename: {
@@ -217,11 +224,16 @@ const FileSystemTableItem = React.forwardRef(
     const formRef = useRef(null)
     const [isEditingLoading, setIsEditingLoading] = useState(false)
 
+    const { fileName, extension } = useMemo(() => {
+      return getFileNameAndExtension(name, isFolder)
+    }, [name, isFolder])
+
     const formik = useFormik({
-      initialValues: { name: name },
+      initialValues: { name: fileName },
       validationSchema: nameValidator,
       onSubmit: (values) => {
-        const newName = values.name?.trim()
+
+        const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
         if (newName !== name && !!newName && handleRename && editingFile) {
           setIsEditingLoading(true)
@@ -310,6 +322,13 @@ const FileSystemTableItem = React.forwardRef(
                   }
                   autoFocus
                 />
+                {
+                  !isFolder && extension !== "" && (
+                    <Typography component="span">
+                      { `.${extension}` }
+                    </Typography>
+                  )
+                }
               </Form>
             </FormikProvider>
             )
