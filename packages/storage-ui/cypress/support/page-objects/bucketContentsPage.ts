@@ -17,5 +17,11 @@ export const bucketContentsPage = {
   downloadMenuOption: () => cy.get("[data-cy=menu-download]"),
   renameMenuOption: () => cy.get("[data-cy=menu-rename]"),
   moveMenuOption: () => cy.get("[data-cy=menu-move]"),
-  deleteMenuOption: () => cy.get("[data-cy=menu-delete]")
+  deleteMenuOption: () => cy.get("[data-cy=menu-delete]"),
+
+  // helpers and convenience functions
+  awaitBucketRefresh() {
+    cy.intercept("POST", "**/bucket/*/ls").as("refresh")
+    cy.wait("@refresh")
+  }
 }
