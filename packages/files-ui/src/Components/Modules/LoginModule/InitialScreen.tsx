@@ -537,6 +537,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 href={ROUTE_LINKS.PrivacyPolicy}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-cy="link-privacy-policy"
               >
                 <Typography>
                   <Trans>Privacy Policy</Trans>
@@ -546,6 +547,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 href={ROUTE_LINKS.Terms}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-cy="link-terms-and-conditions"
               >
                 <Typography>
                   <Trans>Terms and Conditions</Trans>
