@@ -4,14 +4,14 @@ export const bucketContentsPage = {
   ...basePage,
 
   // bucket content browser elements
-  bucketHeaderLabel: () => cy.get("[data-cy=header-bucket]", { timeout: 20000 }),
+  bucketHeaderLabel: () => cy.get("[data-cy=header-bucket]"),
   newFolderButton: () => cy.get("[data-testid=button-new-folder] "),
   uploadButton: () => cy.get("[data-testid=button-upload-file]"),
 
   // file or folder browser row elements
-  fileItemKebabButton: () => cy.get("[data-testid=icon-file-item-kebab]", { timeout: 10000 }),
+  fileItemKebabButton: () => cy.get("[data-testid=icon-file-item-kebab]"),
   fileItemName: () => cy.get("[data-cy=label-file-item-name]"),
-  fileItemRow: () => cy.get("[data-cy=row-file-item]", { timeout: 20000 }),
+  fileItemRow: () => cy.get("[data-cy=row-file-item]"),
 
   // kebab menu elements
   downloadMenuOption: () => cy.get("[data-cy=menu-download]"),

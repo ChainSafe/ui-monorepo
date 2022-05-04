@@ -1,5 +1,5 @@
 export const fileUploadModal = {
-  body: () => cy.get("[data-cy=form-upload-file] input", { timeout: 10000 }),
+  body: () => cy.get("[data-cy=form-upload-file] input"),
   cancelButton: () => cy.get("[data-testid=button-cancel-upload]"),
   fileList: () => cy.get("[data-testid=list-fileUpload] li"),
   removeFileButton: () => cy.get("[data-testid=button-remove-from-file-list]"),
