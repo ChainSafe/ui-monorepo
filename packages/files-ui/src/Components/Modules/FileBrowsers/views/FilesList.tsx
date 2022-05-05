@@ -869,7 +869,8 @@ const FilesList = ({ isShared = false }: Props) => {
             homeOnClick={() => redirect(moduleRootPath)}
             homeRef={homeBreadcrumbRef}
             homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
-            showDropDown={!desktop}
+            showDropDown
+            maximumCrumbs={desktop ? 5 : 3}
           />
         )}
       </div>

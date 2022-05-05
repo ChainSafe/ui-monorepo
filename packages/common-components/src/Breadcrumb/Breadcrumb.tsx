@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React, { Fragment, useMemo } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { HomeIcon } from "../Icons"
@@ -22,6 +22,7 @@ export type BreadcrumbProps = {
   homeActive?: boolean
   className?: string
   showDropDown?: boolean
+  maximumCrumbs?: number
 }
 
 const useStyles = makeStyles(
@@ -140,9 +141,12 @@ const Breadcrumb = ({
   homeRef,
   homeActive,
   className,
-  showDropDown
+  showDropDown,
+  maximumCrumbs
 }: BreadcrumbProps) => {
   const classes = useStyles()
+
+  const maximumCrumbsBeforeCollapse = useMemo(() => maximumCrumbs || 3, [maximumCrumbs])
 
   const generateFullCrumbs = (crumbs: Crumb[]) => {
     return crumbs.map((crumb: Crumb, index: number) => (
@@ -174,16 +178,16 @@ const Breadcrumb = ({
   }
 
   const generateCrumbs = () => {
-    if (crumbs.length < 3 || !showDropDown) {
+    if (crumbs.length < (maximumCrumbs || 3) || !showDropDown) {
       return generateFullCrumbs(crumbs)
     } else {
-      const dropdownCrumbs = crumbs.slice(0, crumbs.length - 1)
-      const lastCrumb = crumbs[crumbs.length - 1]
+      const dropdownCrumbs = crumbs.slice(0, crumbs.length - (maximumCrumbsBeforeCollapse - 2))
+      const lastCrumbs = crumbs.slice(crumbs.length - (maximumCrumbsBeforeCollapse - 2), crumbs.length)
       return (
         <>
           {generateDropdownCrumb(dropdownCrumbs)}
           <div className={clsx(classes.separator)} />
-          <CrumbComponent crumb={lastCrumb} />
+          {generateFullCrumbs(lastCrumbs)}
         </>
       )
     }
