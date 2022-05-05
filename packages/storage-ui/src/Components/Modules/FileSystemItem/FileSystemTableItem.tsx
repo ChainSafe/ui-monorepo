@@ -191,7 +191,7 @@ interface IFileSystemTableItemProps {
   selected: ISelectedFile[]
   file: FileSystemItem
   editingFile?: ISelectedFile
-  handleItemSelect: (e: React.MouseEvent) => void
+  handleItemSelectOnCheck: (e: React.MouseEvent) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
@@ -209,7 +209,7 @@ const FileSystemTableItem = React.forwardRef(
     selected,
     file,
     editingFile,
-    handleItemSelect,
+    handleItemSelectOnCheck,
     onFolderOrFileClicks,
     icon,
     preview,
@@ -282,7 +282,7 @@ const FileSystemTableItem = React.forwardRef(
           <TableCell>
             <CheckboxInput
               value={selected.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0}
-              onClick={handleItemSelect}
+              onClick={handleItemSelectOnCheck}
             />
           </TableCell>
         )}

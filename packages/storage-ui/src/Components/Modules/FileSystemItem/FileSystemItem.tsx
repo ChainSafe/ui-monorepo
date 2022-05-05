@@ -377,21 +377,27 @@ const FileSystemItem = ({
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
 
-  const handleItemSelect = useCallback((e: React.MouseEvent) => {
+  const handleItemSelectOnCheck = useCallback((e: React.MouseEvent) => {
     if (e && (e.ctrlKey || e.metaKey)) {
       handleAddToSelectedCids({ cid, name })
     } else if (e && (e.shiftKey || e.metaKey)) {
       handleSelectItemWithShift({ cid, name })
     } else {
-      handleSelectCid({ cid, name })
+      handleAddToSelectedCids({ cid, name })
     }
-  }, [handleAddToSelectedCids, handleSelectItemWithShift, handleSelectCid, cid, name])
+  }, [handleAddToSelectedCids, handleSelectItemWithShift, cid, name])
 
   const onSingleClick = useCallback(
     (e) => {
       if (desktop) {
         // on desktop 
-        handleItemSelect(e)
+        if (e && (e.ctrlKey || e.metaKey)) {
+          handleAddToSelectedCids({ cid, name })
+        } else if (e && (e.shiftKey || e.metaKey)) {
+          handleSelectItemWithShift({ cid, name })
+        } else {
+          handleSelectCid({ cid, name })
+        }
       } else {
         // on mobile
         if (isFolder) {
@@ -405,7 +411,9 @@ const FileSystemItem = ({
       cid,
       desktop,
       isFolder,
-      handleItemSelect,
+      handleAddToSelectedCids,
+      handleSelectItemWithShift,
+      handleSelectCid,
       viewFolder,
       name,
       onFilePreview
@@ -458,7 +466,7 @@ const FileSystemItem = ({
     selected,
     setEditingFile,
     resetSelectedFiles,
-    handleItemSelect
+    handleItemSelectOnCheck
   }
 
   return (
