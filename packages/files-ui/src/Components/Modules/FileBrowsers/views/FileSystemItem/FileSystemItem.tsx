@@ -400,17 +400,22 @@ const FileSystemItem = ({
     }
   }
 
+  const handleItemSelect = useCallback((e: React.MouseEvent) => {
+    if (e && (e.ctrlKey || e.metaKey)) {
+      handleAddToSelectedItems(file)
+    } else if (e && (e.shiftKey || e.metaKey)) {
+      handleSelectItemWithShift(file)
+    } else {
+      handleSelectItem(file)
+    }
+  }, [handleAddToSelectedItems, handleSelectItemWithShift, handleSelectItem, file])
+
+
   const onSingleClick = useCallback(
     (e) => {
       if (desktop) {
         // on desktop 
-        if (e && (e.ctrlKey || e.metaKey)) {
-          handleAddToSelectedItems(file)
-        } else if (e && (e.shiftKey || e.metaKey)) {
-          handleSelectItemWithShift(file)
-        } else {
-          handleSelectItem(file)
-        }
+        handleItemSelect(e)
       } else {
         // on mobile
         if (selectedCids.length) {
@@ -426,14 +431,13 @@ const FileSystemItem = ({
     },
     [
       desktop,
-      handleAddToSelectedItems,
       file,
-      handleSelectItem,
       isFolder,
       viewFolder,
       onFilePreview,
       selectedCids.length,
-      handleSelectItemWithShift
+      handleItemSelect,
+      handleAddToSelectedItems
     ]
   )
 
@@ -487,6 +491,7 @@ const FileSystemItem = ({
     selectedCids,
     setEditing,
     resetSelectedFiles,
+    handleItemSelect,
     longPressEvents: !desktop ? longPressEvents : undefined
   }
 

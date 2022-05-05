@@ -106,7 +106,7 @@ interface ICheckboxProps extends Omit<React.HTMLProps<HTMLInputElement>, "value"
   error?: string
   value: boolean
   indeterminate?: boolean
-  onChange: (event: FormEvent<HTMLInputElement>) => void
+  onChange?: (event: FormEvent<HTMLInputElement>) => void
   testId?: string
 }
 
@@ -124,7 +124,7 @@ const CheckboxInput: React.FC<ICheckboxProps> = ({
   const classes = useStyles(props)
 
   const handleChange = (event: any) => {
-    !disabled && onChange(event)
+    !disabled && onChange && onChange(event)
   }
 
   return (
