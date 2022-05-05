@@ -368,7 +368,6 @@ const LoginModule = ({ className }: IInitialScreen) => {
             href={ROUTE_LINKS.PrivacyPolicy}
             target="_blank"
             rel="noopener noreferrer"
-            data-cy="link-privacy-policy"
           >
             Privacy Policy
           </a>
