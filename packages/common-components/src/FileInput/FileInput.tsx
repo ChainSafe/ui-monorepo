@@ -143,11 +143,11 @@ const FileInput = ({
   const classes = useStyles()
   const [previews, setPreviews] = useState<any[]>([])
   const [errors, setErrors] = useState<any[]>([])
-  const [{ value }, meta, helpers] = useField<Array<FileWithPath>>(name)
+  const [{ value }, meta, helpers] = useField<Array<FileWithPath> | FileWithPath | null>(name)
 
   useEffect(() => {
-    onFileNumberChange && onFileNumberChange(value.length)
-  }, [onFileNumberChange, value.length])
+    onFileNumberChange && Array.isArray(value) && onFileNumberChange(value.length)
+  }, [onFileNumberChange, value])
 
   const onDrop = useCallback(
     async (acceptedFiles: Array<FileWithPath>, fileRejections: FileRejection[]) => {
@@ -165,7 +165,9 @@ const FileInput = ({
           )
         )
       }
-      helpers.setValue([...value, ...filtered])
+      Array.isArray(value)
+        ? helpers.setValue([...value, ...filtered])
+        : helpers.setValue(filtered[0])
 
       if (fileRejections.length > 0) {
         const fileDropRejectionErrors = fileRejections.map((fr) =>
@@ -195,8 +197,10 @@ const FileInput = ({
   })
 
   const removeItem = (i: number) => {
-    const items = value
-    items.splice(i, 1)
+    let items = value
+    Array.isArray(items)
+      ? items.splice(i, 1)
+      : items = null
     helpers.setValue(items)
   }
 
@@ -208,7 +212,7 @@ const FileInput = ({
     >
       <input {...getInputProps()} />
       {variant === "dropzone" ? (
-        value?.length === 0 ? (
+        value === null || (Array.isArray(value) && value.length === 0) ? (
           <div className={clsx(classes.pending, classNames?.pending)}>
             {pending || (
               <>
@@ -227,35 +231,52 @@ const FileInput = ({
           >
             <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
-                {value.map((file: any, i: number) => (
-                  <li
-                    className={clsx(classes.item, classNames?.item)}
-                    key={i}
-                  >
-                    <span className={classes.itemText}>{file.path}</span>
+                {Array.isArray(value)
+                  ? value.map((file: any, i: number) => (
+                    <li
+                      className={clsx(classes.item, classNames?.item)}
+                      key={i}
+                    >
+                      <span className={classes.itemText}>{file.path}</span>
+                      <Button
+                        testId="remove-from-file-list"
+                        className={clsx(classes.crossIcon, classNames?.closeIcon)}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          removeItem(i)
+                        }}
+                        size="small"
+                      >
+                        <CrossIcon fontSize="small" />
+                      </Button>
+                    </li>
+                  ))
+                  : <li className={clsx(classes.item, classNames?.item)}>
+                    <span className={classes.itemText}>{value.path}</span>
                     <Button
                       testId="remove-from-file-list"
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation()
-                        removeItem(i)
+                        removeItem(1)
                       }}
                       size="small"
                     >
                       <CrossIcon fontSize="small" />
                     </Button>
                   </li>
-                ))}
+                }
               </ul>
             </ScrollbarWrapper>
           </div>
         )
       ) : (
         <>
-          {value?.length === 0
+          {value === null || Array.isArray(value) && value?.length === 0
             ? "No files selected"
-            : `${value?.length} file(s) selected`}
+            : `${Array.isArray(value) ? value?.length : 1} file(s) selected`}
           <Button
             onClick={open}
             size="small"
@@ -264,7 +285,7 @@ const FileInput = ({
           </Button>
         </>
       )}
-      {value?.length > 0 && (
+      {Array.isArray(value) && value.length > 0 && (
         <div
           className={clsx(classes.addFiles, classNames?.addFiles)}
         >

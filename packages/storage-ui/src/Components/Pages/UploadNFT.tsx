@@ -1,14 +1,12 @@
-import React, { ReactNode, useCallback, useState } from "react"
+import React, { ReactNode, useState } from "react"
 import { Button, Divider, FileInput, FormikTextInput, SelectInput, TextInput, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useThemeSwitcher, ITheme } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
-import { FieldArray, Form, Formik, FormikProvider, useFormik } from "formik"
-import * as yup from "yup"
+import { FieldArray, Form, FormikProvider, useFormik } from "formik"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import FormikImageInput from "../Elements/FormikImageInput"
-import { type } from "os"
 
 const useStyles = makeStyles(({ constants, breakpoints }: ITheme) =>
   createStyles({
@@ -36,15 +34,17 @@ const useStyles = makeStyles(({ constants, breakpoints }: ITheme) =>
 
 const primitives = ["boolean", "string", "number"]
 
-const generateFormFields = (obj: any, namespace?: string): ReactNode | (ReactNode | undefined)[] => {
+const generateFormFields = (obj: any,
+  formikProps: {values: any; setValues: (vals: any) => void},
+  namespace?: string): ReactNode | (ReactNode | undefined)[] => {
   if (!!namespace && primitives.includes(typeof obj)) {
     return <FormikTextInput
       name={namespace || ""}
-      label={namespace} 
+      label={namespace}
       key={namespace} />
   }
 
-  if (!!namespace && (obj === undefined || (typeof obj === "object" && (obj instanceof File || obj instanceof Blob)))) {
+  if (!!namespace && (obj === null || (typeof obj === "object" && (obj instanceof File || obj instanceof Blob)))) {
     return <FileInput
       name={namespace || ""}
       label={namespace || ""}
@@ -64,8 +64,8 @@ const generateFormFields = (obj: any, namespace?: string): ReactNode | (ReactNod
           name={`${namespace}.${key}`}
           label={key} />
 
-      // File fields should be instantiated to undefined
-      if (obj[key] === undefined || (typeof obj[key] === "object" && (obj[key] instanceof File || obj[key] instanceof Blob)))
+      // File fields should be instantiated to null
+      if (obj[key] === null || (typeof obj[key] === "object" && (obj[key] instanceof File || obj[key] instanceof Blob)))
         return <FileInput
           name={`${namespace}.${key}`}
           key={key}
@@ -81,14 +81,40 @@ const generateFormFields = (obj: any, namespace?: string): ReactNode | (ReactNod
           key={key}>
           {({ push }) => <>
             <Typography>{key}</Typography>
-            {obj[key].map((item: any, index: number) => generateFormFields(item, `${namespace}.${key}[${index}]`))}
+            {obj[key].map((item: any, index: number) => generateFormFields(item, formikProps, `${namespace}.${key}[${index}]`))}
             <Button onClick={() => push("")}>Add Value</Button>
           </>
           }
         </FieldArray>
 
       if (typeof obj[key] === "object") {
-        return generateFormFields(obj[key], `${namespace}.${key}`)
+        return <FieldArray
+          name={`${namespace}.${key}`}
+          key={key}>
+          {() => {
+            const [newFieldName, setNewFieldName] = useState("")
+            const [newFieldType, setNewFieldType] = useState<"value" | "array" | "file" | "object">("value")
+
+            return <>
+              <Typography>{key}</Typography>
+              {generateFormFields(obj[key], formikProps, `${namespace}.${key}`)}
+              <Button onClick={() => {
+                formikProps.setValues({
+                  ...formikProps.values,
+                  properties: {
+                    ...formikProps.values.properties,
+                    [newFieldName]: (newFieldType === "array")
+                      ? []
+                      : (newFieldType === "file")
+                        ? null
+                        : (newFieldType === "object")
+                          ? {}
+                          : ""
+                  }
+                })}}>Add Value</Button>
+            </>}
+          }
+        </FieldArray>
       }
 
       return undefined
@@ -102,7 +128,7 @@ const CreateNFTPage: React.FC = () => {
   usePageTrack()
 
   const initialValues: { [key: string]: any } = {
-    image: undefined,
+    image: null,
     name: "",
     decimals: "",
     description: "",
@@ -170,23 +196,7 @@ const CreateNFTPage: React.FC = () => {
           <FormikTextInput name='description' />
           <FormikTextInput name='decimals' />
           <FormikImageInput name='image' />
-          {generateFormFields(formikProps.values.properties, "properties")
-          /* {Object.keys(formikProps.values.properties).map((key, index) => {
-            // Primitive fields should be instantiated to an empty string
-            // File fields should be instantiated to undefined
-            if (typeof (formikProps.values.properties[key]) === "string" || typeof (formikProps.values.properties[key]) === "number")
-              return <FormikTextInput
-                key={index}
-                name={`properties.${key}`}
-                label={key} />
-              // if (typeof initialValues.properties[k] === "object" && Array.isArray(initialValues.properties[k])) return <FieldArray name={`properties.${k}`} />
-              // if ((typeof initialValues.properties[k] === "object" && initialValues.properties[k] instanceof File) || typeof initialValues.properties[k] === "undefined")
-              //   return <FileInput
-              //     name={k}
-              //     label={k}
-              //     maxFiles={1}
-              //     moreFilesLabel="" />
-            return undefined */}
+          {generateFormFields(formikProps.values.properties, formikProps, "properties")}
           <Button type="submit">Upload</Button>
         </Form>
       </FormikProvider>
@@ -211,20 +221,16 @@ const CreateNFTPage: React.FC = () => {
         value={newFieldType} />
       <Button onClick={
         () => {
-          formikProps.setValues({
-            ...formikProps.values,
-            properties: {
-              ...formikProps.values.properties,
-              [newFieldName]: (newFieldType === "array")
-                ? []
-                : (newFieldType === "file")
-                  ? undefined
-                  : (newFieldType === "object")
-                    ? {}
-                    : ""
-            }
-          })
-        }}>
+          console.log("adding new field to properties root")
+          formikProps.setFieldValue(`properties.${newFieldName}`, (newFieldType === "array")
+            ? []
+            : (newFieldType === "file")
+              ? null
+              : (newFieldType === "object")
+                ? {}
+                : "")
+        }
+      }>
           Add
       </Button>
     </div>

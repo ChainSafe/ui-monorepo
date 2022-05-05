@@ -104,6 +104,7 @@ const FormikImageInput = React.forwardRef(
       return () => {
         URL.revokeObjectURL(preview)
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value])
 
     const { getRootProps, getInputProps, open } = useDropzone({
