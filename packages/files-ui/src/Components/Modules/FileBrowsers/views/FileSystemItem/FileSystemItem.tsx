@@ -34,6 +34,7 @@ import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
 import CustomButton from "../../../../Elements/CustomButton"
 import { getIconForItem } from "../../../../../Utils/getItemIcon"
+import { getFileNameAndExtension } from "../../../../../Utils/Helpers"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -151,30 +152,8 @@ const FileSystemItem = ({
   const { cid, name, isFolder } = file
   const inSharedFolder = useMemo(() => bucket?.type === "share", [bucket])
 
-  const {
-    fileName,
-    extension
-  } = useMemo(() => {
-    if (isFolder) {
-      return {
-        fileName : name,
-        extension: ""
-      }
-    }
-    const split = name.split(".")
-    const extension = `.${split[split.length - 1]}`
-
-    if (split.length === 1) {
-      return {
-        fileName : name,
-        extension: ""
-      }
-    }
-
-    return {
-      fileName: name.slice(0, name.length - extension.length),
-      extension: split[split.length - 1]
-    }
+  const { fileName, extension } = useMemo(() => {
+    return getFileNameAndExtension(name, isFolder)
   }, [name, isFolder])
 
   const formik = useFormik({
@@ -382,6 +361,7 @@ const FileSystemItem = ({
     canDrop: (item) => isFolder && !item.ids.includes(file.cid),
     drop: (item: { ids: string[]}) => {
       moveItems && moveItems(item.ids, getPathWithFile(currentPath, name))
+      resetSelectedFiles()
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver() && !monitor.getItem<{ids: string[]}>().ids.includes(file.cid)

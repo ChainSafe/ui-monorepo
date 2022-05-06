@@ -44,3 +44,26 @@ export const parseFileContentResponse = (fcr: FileContentResponse): FileSystemIt
   isFolder:
     fcr.content_type === "application/chainsafe-files-directory"
 })
+
+export const getFileNameAndExtension = (name: string, isFolder: boolean) => {
+  if (isFolder) {
+    return {
+      fileName : name,
+      extension: ""
+    }
+  }
+  const split = name.split(".")
+  const extension = `.${split[split.length - 1]}`
+
+  if (split.length === 1) {
+    return {
+      fileName : name,
+      extension: ""
+    }
+  }
+
+  return {
+    fileName: name.slice(0, name.length - extension.length),
+    extension: split[split.length - 1]
+  }
+}
