@@ -42,7 +42,12 @@ const ObjectInput: React.FC<{obj: any; namespace: string}> =
 
     return <>
       <Typography>{namespace}</Typography>
-      {generateFormFields(obj, namespace)}
+      <div style={{ border: "1px #000 solid" }}>
+        {Object.keys(obj).map((key) => generateFormFields(obj[key], `${namespace}.${key}`))}
+      </div>
+      <TextInput
+        value={newFieldName}
+        onChange={(val) => setNewFieldName(val?.toString() || "")} />
       <SelectInput
         options={[{
           label: "Value", // Use better description here
@@ -59,9 +64,6 @@ const ObjectInput: React.FC<{obj: any; namespace: string}> =
         }]}
         onChange={setNewFieldType}
         value={newFieldType} />
-      <TextInput
-        value={newFieldName}
-        onChange={(val) => setNewFieldName(val?.toString() || "")} />
       <Button
         type="button"
         onClick={() => formikBag.setFieldValue(`${namespace}.${newFieldName}`, (newFieldType === "array")
@@ -71,7 +73,7 @@ const ObjectInput: React.FC<{obj: any; namespace: string}> =
             : (newFieldType === "object")
               ? {}
               : "")
-        }>Add Value</Button>
+        }>Add</Button>
     </>
   }
 
@@ -84,7 +86,9 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
       {({ push }) => {
         return <>
           <Typography>{namespace}</Typography>
-          {obj.map((item: any, index: number) => generateFormFields(item, `${namespace}[${index}]`))}
+          <div style={{ border: "1px #000 solid" }}>
+            {obj.map((item: any, index: number) => generateFormFields(item, `${namespace}[${index}]`))}
+          </div>
           <SelectInput
             options={[{
               label: "Value", // Use better description here
@@ -111,21 +115,22 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
                   : (newFieldType === "object")
                     ? push({})
                     : push("")
-            }}>Add Value</Button>
+            }}>Add</Button>
         </>
       }}
     </FieldArray>
   }
 
-const generateFormFields = (obj: any, namespace?: string): ReactNode | (ReactNode | undefined)[] => {
-  if (!!namespace && primitives.includes(typeof obj)) {
+const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNode | undefined)[] => {
+  if (!!namespace && primitives.includes(typeof val)) {
     return <FormikTextInput
       name={namespace || ""}
       label={namespace}
       key={namespace} />
   }
 
-  if (!!namespace && (obj === null || (typeof obj === "object" && (obj instanceof File || obj instanceof Blob)))) {
+  // This is a file
+  if (!!namespace && (val === null || (typeof val === "object" && (val instanceof File || val instanceof Blob)))) {
     return <FileInput
       name={namespace || ""}
       label={namespace || ""}
@@ -135,45 +140,22 @@ const generateFormFields = (obj: any, namespace?: string): ReactNode | (ReactNod
       key={namespace} />
   }
 
-  if (typeof obj === "object") {
-    // Map through each of the child properties and create fields to handle inputs for these
-    return Object.keys(obj).map((key, index) => {
-      // Primitive fields should be instantiated to an empty string
-      if ((primitives.includes(typeof obj[key])) && obj[key] !== null)
-        return <FormikTextInput
-          key={index}
-          name={`${namespace}.${key}`}
-          label={key} />
-
-      // File fields should be instantiated to null
-      if (obj[key] === null || (typeof obj[key] === "object" && (obj[key] instanceof File || obj[key] instanceof Blob)))
-        return <FileInput
-          name={`${namespace}.${key}`}
-          key={key}
-          label={key}
-          onFileNumberChange={() => undefined}
-          moreFilesLabel={""}
-          maxFiles={1} />
-
-      // Handle arrays by wrapping in a FieldArray and generating inputs for each of the items in the  array
-      if (typeof obj[key] === "object" && Array.isArray(obj[key])) {
-        return <ArrayInput
-          obj={obj[key]}
-          namespace={`${namespace}.${key}`}
-          key={`${namespace}.${key}`} />
-      }
-
-
-      if (typeof obj[key] === "object") {
-        return <ObjectInput
-          obj={obj[key]}
-          namespace={`${namespace}.${key}`}
-          key={`${namespace}.${key}`} />
-      }
-
-      return undefined
-    })
+  // This is an Array
+  if (typeof val === "object" && Array.isArray(val)) {
+    return <ArrayInput
+      obj={val}
+      namespace={namespace || ""}
+      key={namespace} />
   }
+
+  // This is an object but not an array
+  if (typeof val === "object") {
+    return <ObjectInput
+      obj={val}
+      namespace={`${namespace}`}
+      key={namespace} />
+  }
+  return undefined
 }
 
 
@@ -191,44 +173,19 @@ const CreateNFTPage: React.FC = () => {
     properties: {}
   }
 
+  const { storageApiClient } = useStorageApi()
+
   const formikProps = useFormik({
     initialValues: initialValues,
     // validationSchema={validationSchema}
     onSubmit: async (val) => {
-      // const result = await storageApiClient.uploadNFT(val)
+      const result = await storageApiClient.uploadNFT(val)
+      console.log(result)
       console.log("submitting")
       console.log(val)
     },
     enableReinitialize: true
   })
-
-  // const { storageApiClient } = useStorageApi()
-
-  const [newFieldName, setNewFieldName] = useState("")
-  const [newFieldType, setNewFieldType] = useState<"value" | "array" | "file" | "object">("value")
-
-  // const validationSchema = yup.object().shape({
-  //   name: yup.string().required("Name is required"),
-  //   decimals: yup.number().required("Decimals is required"),
-  //   description: yup.string(),
-  //   image: yup.object().nullable().required("Image is required")
-  // })
-
-  // const addField = (name: string, type: "value" |"object"|"array"|"file", parent?: string) => {
-  //   switch (type) {
-  //     case "array":
-  //       initialValues = {...initialValues, }
-  //       break
-  //     case "file":
-  //       break
-  //     case "object":
-  //       break
-  //     case "value":
-  //       break
-  //     default:
-  //       break
-  //   }
-  // }
 
   return (
     <div className={classes.container}>
@@ -255,40 +212,6 @@ const CreateNFTPage: React.FC = () => {
           <Button type="submit">Upload</Button>
         </Form>
       </FormikProvider>
-      <TextInput
-        value={newFieldName}
-        onChange={(val) => setNewFieldName(val?.toString() || "")} />
-      <SelectInput
-        options={[{
-          label: "Value", // Use better description here
-          value: "value"
-        }, {
-          label: "Object", // Use better description here
-          value: "object"
-        }, {
-          label: "Array",
-          value: "array"
-        }, {
-          label: "File",
-          value: "file"
-        }]}
-        onChange={setNewFieldType}
-        value={newFieldType} />
-      <Button
-        type='button'
-        onClick={
-          () => {
-            formikProps.setFieldValue(`properties.${newFieldName}`, (newFieldType === "array")
-              ? []
-              : (newFieldType === "file")
-                ? null
-                : (newFieldType === "object")
-                  ? {}
-                  : "")
-          }
-        }>
-          Add
-      </Button>
     </div>
   )
 }
