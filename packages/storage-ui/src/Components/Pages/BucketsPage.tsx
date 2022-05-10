@@ -233,10 +233,10 @@ const BucketsPage = () => {
           inner: classes.modalInner
         }}
         closePosition="none"
+        testId="create-bucket"
       >
         <div
           className={classes.modalRoot}
-          data-cy="form-create-bucket"
         >
           <FormikProvider value={formik}>
             <Form>
@@ -282,11 +282,13 @@ const BucketsPage = () => {
                       name="fileSystemType"
                       id='chainsafe'
                       label='Chainsafe'
+                      testId="chainsafe"
                     />
                     <FormikRadioInput
                       name="fileSystemType"
                       id='ipfs'
                       label='IPFS'
+                      testId="ipfs"
                     />
                   </div>
                 </label>
