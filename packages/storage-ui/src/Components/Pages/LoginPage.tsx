@@ -150,6 +150,7 @@ const LoginPage = () => {
         href={ROUTE_LINKS.ChainSafe}
         target="_blank"
         rel="noopener noreferrer"
+        data-cy="link-learn-more-about-chainsafe"
       >
         <ChainsafeLogo className={classes.logo} />
         <Typography>
