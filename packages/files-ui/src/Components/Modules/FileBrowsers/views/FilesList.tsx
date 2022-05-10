@@ -54,7 +54,7 @@ import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
-import { ListItemIcon, ListItemText } from "@material-ui/core"
+import { ListItemIcon, ListItemText, Menu as MaterialMenu, MenuItem } from "@material-ui/core"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import { DragTypes } from "../DragConstants"
@@ -820,6 +820,23 @@ const FilesList = ({ isShared = false }: Props) => {
     handleOpenShareDialog()
   }, [handleOpenShareDialog])
 
+  const [contextMenu, setContextMenu] = useState<{
+    mouseX: number
+    mouseY: number
+  } | null>(null)
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setContextMenu(
+      contextMenu === null
+        ? {
+          mouseX: e.clientX - 2,
+          mouseY: e.clientY - 4
+        }
+        : null
+    )
+  }
+
   return (
     <article
       className={clsx(classes.root, {
@@ -828,6 +845,7 @@ const FilesList = ({ isShared = false }: Props) => {
         bottomBanner: accountRestricted
       }
       )}
+      onContextMenu={handleContextMenu}
       ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
@@ -840,6 +858,33 @@ const FilesList = ({ isShared = false }: Props) => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
+      <MaterialMenu
+        open={contextMenu !== null}
+        onClose={() => setContextMenu(null)}
+        anchorReference="anchorPosition"
+        anchorPosition={
+          contextMenu !== null
+            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+            : undefined
+        }
+      >
+        <MenuItem
+          onClick={() => {
+            setCreateFolderModalOpen(true)
+            setContextMenu(null)
+          }}
+        >
+          New folder
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setIsUploadModalOpen(true)
+            setContextMenu(null)
+          }}
+        >
+          Upload
+        </MenuItem>
+      </MaterialMenu>
       <DragPreviewLayer
         items={sourceFiles}
         previewType={browserView}

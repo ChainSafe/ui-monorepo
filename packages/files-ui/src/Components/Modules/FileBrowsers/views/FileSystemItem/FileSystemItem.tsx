@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import {
   FormikTextInput,
   Typography,
@@ -35,6 +35,7 @@ import { nameValidator } from "../../../../../Utils/validationSchema"
 import CustomButton from "../../../../Elements/CustomButton"
 import { getIconForItem } from "../../../../../Utils/getItemIcon"
 import { getFileNameAndExtension } from "../../../../../Utils/Helpers"
+import MenuDropdown from "../../../../../UI-components/MenuDropdown"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -455,6 +456,26 @@ const FileSystemItem = ({
 
   const Icon = getIconForItem(file)
 
+
+  const [contextMenu, setContextMenu] = useState<{
+    mouseX: number
+    mouseY: number
+  } | null>(null)
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    console.log("hello table")
+    setContextMenu(
+      contextMenu === null
+        ? {
+          mouseX: e.clientX - 2,
+          mouseY: e.clientY - 4
+        }
+        : null
+    )
+  }
+
   const itemProps = {
     ref: fileOrFolderRef,
     owners,
@@ -473,6 +494,7 @@ const FileSystemItem = ({
     selectedCids,
     setEditing,
     resetSelectedFiles,
+    handleContextMenu,
     longPressEvents: !desktop ? longPressEvents : undefined
   }
 
@@ -548,6 +570,18 @@ const FileSystemItem = ({
             <Typography>{name}</Typography>
           </>
         )
+      }
+      {contextMenu && <MenuDropdown
+        options={menuItems}
+        onClose={() => setContextMenu(null)}
+        anchorReference="anchorPosition"
+        open={!!contextMenu}
+        anchorPosition={
+          contextMenu !== null
+            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+            : undefined
+        }
+      />
       }
     </>
   )

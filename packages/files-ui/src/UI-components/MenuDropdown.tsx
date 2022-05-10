@@ -1,7 +1,6 @@
 import React, { useState, ReactNode, useMemo } from "react"
-import { PopoverOrigin, PopoverPosition, PopoverReference } from "@material-ui/core"
+import { Menu as MaterialMenu, MenuItem, PopoverOrigin, PopoverPosition, PopoverReference } from "@material-ui/core"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import MenuDropdown from "./MenuDropdown"
 import clsx from "clsx"
 import { useCallback } from "react"
 import { CSFTheme } from "../Themes/types"
@@ -9,28 +8,24 @@ import { CSFTheme } from "../Themes/types"
 interface Option {
   contents: ReactNode
   inset?: boolean
-  testId?: string
   onClick?: (e: React.MouseEvent) => void
   disabled?: boolean
 }
 
 interface CustomClasses {
-  iconContainer?: string
-  menuWrapper?: string
   focusVisible?: string
   root?: string
 }
 
 interface Props {
   open?: boolean
-  icon?: ReactNode
   options: Option[]
   style?: CustomClasses
-  testId?: string
   anchorOrigin?: PopoverOrigin
   transformOrigin?: PopoverOrigin
   anchorPosition?: PopoverPosition
   anchorReference?: PopoverReference
+  onClose?: () => void
 }
 
 const useStyles = makeStyles(({ constants }: CSFTheme) => {
@@ -39,9 +34,6 @@ const useStyles = makeStyles(({ constants }: CSFTheme) => {
       backgroundColor: `${constants.menu.backgroundColor} !important`,
       color: `${constants.menu.color} !important`
     },
-    iconContainer: {
-      cursor: "pointer"
-    },
     options: {
       "&:hover": {
         backgroundColor: `${constants.menu.backgroundOptionHover} !important`
@@ -49,46 +41,51 @@ const useStyles = makeStyles(({ constants }: CSFTheme) => {
     }
   })})
 
-export default function Menu({
+export default function MenuDropdown({
   open,
-  icon,
   options,
   style,
-  testId,
   anchorOrigin,
   transformOrigin,
   anchorPosition,
-  anchorReference
+  anchorReference,
+  onClose
 }: Props) {
   const [anchorEl, setAnchorEl] = useState(null)
   const isOpen = useMemo(() => open === undefined ? Boolean(anchorEl) : open, [anchorEl, open])
   const classes = useStyles()
 
-  const handleClick = useCallback((event: any) => {
-    setAnchorEl(event.currentTarget)
-  }, [])
+  const handleClose = useCallback(() => {
+    if (onClose) onClose()
+    else setAnchorEl(null)
+  }, [onClose])
 
   return (
-    <div className={clsx(style?.menuWrapper)}>
-      <div
-        data-testid={`icon-${testId}`}
-        className={clsx(classes.iconContainer, style?.iconContainer)}
-        onClick={handleClick}
-      >
-        {icon}
-      </div>
-      <MenuDropdown
-        open={isOpen}
-        options={options}
-        style={{
-          focusVisible: style?.focusVisible,
-          root: style?.root
-        }}
-        anchorOrigin={anchorOrigin}
-        transformOrigin={transformOrigin}
-        anchorPosition={anchorPosition}
-        anchorReference={anchorReference}
-      />
-    </div>
+    <MaterialMenu
+      anchorEl={open === undefined ? anchorEl : undefined}
+      keepMounted
+      open={isOpen}
+      onClose={handleClose}
+      PopoverClasses={{ paper: classes.paper, root: style?.root }}
+      anchorOrigin={anchorOrigin}
+      transformOrigin={transformOrigin}
+      anchorPosition={anchorPosition}
+      anchorReference={anchorReference}
+    >
+      {options.map((option, index) => (
+        <MenuItem
+          key={index}
+          onClick={(e) => {
+            option.onClick && handleClose()
+            option.onClick && option.onClick(e)
+          }}
+          focusVisibleClassName={clsx(style?.focusVisible)}
+          className={classes.options}
+          disabled={option.disabled}
+        >
+          {option.contents}
+        </MenuItem>
+      ))}
+    </MaterialMenu>
   )
 }

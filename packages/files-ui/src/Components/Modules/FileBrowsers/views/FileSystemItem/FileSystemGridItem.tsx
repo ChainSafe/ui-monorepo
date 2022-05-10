@@ -144,6 +144,7 @@ interface IFileSystemTableItemProps {
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
   longPressEvents?: LongPressEvents
+  handleContextMenu?: (e: React.MouseEvent) => void
 }
 
 const FileSystemGridItem = React.forwardRef(
@@ -161,7 +162,8 @@ const FileSystemGridItem = React.forwardRef(
     menuItems,
     resetSelectedFiles,
     preview,
-    longPressEvents
+    longPressEvents,
+    handleContextMenu
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid } = file
@@ -237,6 +239,10 @@ const FileSystemGridItem = React.forwardRef(
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault()
+          handleContextMenu && handleContextMenu(e)
         }}
       >
         <div
