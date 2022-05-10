@@ -41,39 +41,41 @@ const ObjectInput: React.FC<{obj: any; namespace: string}> =
     const formikBag = useFormikContext()
 
     return <>
-      <Typography>{namespace}</Typography>
       <div style={{ border: "1px #000 solid" }}>
+        <Typography>{namespace}</Typography><br />
         {Object.keys(obj).map((key) => generateFormFields(obj[key], `${namespace}.${key}`))}
+        <TextInput
+          value={newFieldName}
+          onChange={(val) => setNewFieldName(val?.toString() || "")}
+          label="Property name" />
+        <SelectInput
+          options={[{
+            label: "Value", // Use better description here
+            value: "value"
+          }, {
+            label: "Object", // Use better description here
+            value: "object"
+          }, {
+            label: "Array",
+            value: "array"
+          }, {
+            label: "File",
+            value: "file"
+          }]}
+          onChange={setNewFieldType}
+          value={newFieldType}
+          label="Property type"/>
+        <Button
+          type="button"
+          onClick={() => formikBag.setFieldValue(`${namespace}.${newFieldName}`, (newFieldType === "array")
+            ? []
+            : (newFieldType === "file")
+              ? null
+              : (newFieldType === "object")
+                ? {}
+                : "")
+          }>Add property</Button>
       </div>
-      <TextInput
-        value={newFieldName}
-        onChange={(val) => setNewFieldName(val?.toString() || "")} />
-      <SelectInput
-        options={[{
-          label: "Value", // Use better description here
-          value: "value"
-        }, {
-          label: "Object", // Use better description here
-          value: "object"
-        }, {
-          label: "Array",
-          value: "array"
-        }, {
-          label: "File",
-          value: "file"
-        }]}
-        onChange={setNewFieldType}
-        value={newFieldType} />
-      <Button
-        type="button"
-        onClick={() => formikBag.setFieldValue(`${namespace}.${newFieldName}`, (newFieldType === "array")
-          ? []
-          : (newFieldType === "file")
-            ? null
-            : (newFieldType === "object")
-              ? {}
-              : "")
-        }>Add</Button>
     </>
   }
 
@@ -84,11 +86,9 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
     return <FieldArray
       name={`${namespace}`}>
       {({ push }) => {
-        return <>
+        return <div style={{ border: "1px #000 solid" }}>
           <Typography>{namespace}</Typography>
-          <div style={{ border: "1px #000 solid" }}>
-            {obj.map((item: any, index: number) => generateFormFields(item, `${namespace}[${index}]`))}
-          </div>
+          {obj.map((item: any, index: number) => generateFormFields(item, `${namespace}[${index}]`))}
           <SelectInput
             options={[{
               label: "Value", // Use better description here
@@ -104,7 +104,8 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
               value: "file"
             }]}
             onChange={setNewFieldType}
-            value={newFieldType} />
+            value={newFieldType}
+            label="Item type"/>
           <Button
             type="button"
             onClick={() => {
@@ -115,8 +116,8 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
                   : (newFieldType === "object")
                     ? push({})
                     : push("")
-            }}>Add</Button>
-        </>
+            }}>Add item</Button>
+        </div>
       }}
     </FieldArray>
   }
@@ -179,10 +180,10 @@ const CreateNFTPage: React.FC = () => {
     initialValues: initialValues,
     // validationSchema={validationSchema}
     onSubmit: async (val) => {
-      const result = await storageApiClient.uploadNFT(val)
-      console.log(result)
       console.log("submitting")
       console.log(val)
+      const result = await storageApiClient.uploadNFT(val)
+      console.log(result)
     },
     enableReinitialize: true
   })
