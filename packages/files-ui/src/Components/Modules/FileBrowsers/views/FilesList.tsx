@@ -505,7 +505,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const handleSelectItemWithShift = useCallback(
     (item: FileSystemItemType) => {
       // item already selected
-      const isItemAlreadySelected = selectedItems.find((s) => s.cid === item.cid)
+      const isItemAlreadySelected = selectedItems.includes(item)
       if (isItemAlreadySelected) return
 
       const lastIndex = selectedItems.length
