@@ -54,11 +54,12 @@ import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
-import { ListItemIcon, ListItemText, Menu as MaterialMenu, MenuItem } from "@material-ui/core"
+import { ListItemIcon, ListItemText } from "@material-ui/core"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import { DragTypes } from "../DragConstants"
 import FolderBreadcrumb from "./FolderBreadcrumb"
+import MenuDropdown from "../../../../UI-components/MenuDropdown"
 
 const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -820,21 +821,17 @@ const FilesList = ({ isShared = false }: Props) => {
     handleOpenShareDialog()
   }, [handleOpenShareDialog])
 
-  const [contextMenu, setContextMenu] = useState<{
+  const [browserOptionsMenu, setBrowserOptionsMenu] = useState<{
     mouseX: number
     mouseY: number
   } | null>(null)
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault()
-    setContextMenu(
-      contextMenu === null
-        ? {
-          mouseX: e.clientX - 2,
-          mouseY: e.clientY - 4
-        }
-        : null
-    )
+    setBrowserOptionsMenu({
+      mouseX: e.clientX - 2,
+      mouseY: e.clientY - 4
+    })
   }
 
   return (
@@ -858,33 +855,29 @@ const FilesList = ({ isShared = false }: Props) => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
-      <MaterialMenu
-        open={contextMenu !== null}
-        onClose={() => setContextMenu(null)}
+      <MenuDropdown
+        options={[{
+          contents: "New folder",
+          onClick: () => {
+            setCreateFolderModalOpen(true)
+            setBrowserOptionsMenu(null)
+          }
+        }, {
+          contents: "Upload",
+          onClick: () => {
+            setIsUploadModalOpen(true)
+            setBrowserOptionsMenu(null)
+          }
+        }]}
+        onClose={() => setBrowserOptionsMenu(null)}
         anchorReference="anchorPosition"
+        open={!!browserOptionsMenu}
         anchorPosition={
-          contextMenu !== null
-            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+          browserOptionsMenu !== null
+            ? { top: browserOptionsMenu.mouseY, left: browserOptionsMenu.mouseX }
             : undefined
         }
-      >
-        <MenuItem
-          onClick={() => {
-            setCreateFolderModalOpen(true)
-            setContextMenu(null)
-          }}
-        >
-          New folder
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setIsUploadModalOpen(true)
-            setContextMenu(null)
-          }}
-        >
-          Upload
-        </MenuItem>
-      </MaterialMenu>
+      />
       <DragPreviewLayer
         items={sourceFiles}
         previewType={browserView}
