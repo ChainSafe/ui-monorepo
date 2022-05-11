@@ -7,6 +7,7 @@ interface IFormikRadioInputProps extends React.HTMLProps<HTMLInputElement> {
   name: string
   label?: string
   id: string
+  testId: string
 }
 
 const FormikRadioInput: React.FC<IFormikRadioInputProps> = ({
@@ -14,6 +15,7 @@ const FormikRadioInput: React.FC<IFormikRadioInputProps> = ({
   onChange,
   id,
   label,
+  testId,
   ...props
 }) => {
   const [field, meta, helpers] = useField<string>(name)
@@ -32,6 +34,7 @@ const FormikRadioInput: React.FC<IFormikRadioInputProps> = ({
       value={id}
       checked={field.value === id}
       label={label}
+      testId={testId}
     />
   )
 }

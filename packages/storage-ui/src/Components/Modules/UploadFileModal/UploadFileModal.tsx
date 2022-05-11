@@ -136,7 +136,7 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
           />
           <footer className={classes.footer}>
             <Button
-              data-cy="upload-cancel-button"
+              testId="cancel-upload"
               onClick={close}
               size="medium"
               className={classes.cancelButton}
@@ -146,7 +146,7 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
               <Trans>Cancel</Trans>
             </Button>
             <Button
-              data-cy="upload-ok-button"
+              testId="start-upload"
               size="medium"
               type="submit"
               variant="primary"

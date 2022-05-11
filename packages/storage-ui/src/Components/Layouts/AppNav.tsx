@@ -350,6 +350,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
 
               <div style={{ display: "flex" }}>
                 <Button
+                  data-cy="button-sign-out"
                   variant='secondary'
                   onClick={() => {
                     handleOnClick()
