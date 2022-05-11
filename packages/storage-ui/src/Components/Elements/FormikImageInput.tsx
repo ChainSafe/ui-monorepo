@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { useField } from "formik"
-import { Button, Typography } from "@chainsafe/common-components"
+import { Button, Typography, UploadRoundIcon } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSSTheme } from "../../Themes/types"
 import clsx from "clsx"
-import UploadIcon from "./Icons/UploadIcon"
 import { useDropzone } from "react-dropzone"
 import { t, Trans } from "@lingui/macro"
 
@@ -167,7 +166,7 @@ const FormikImageInput = React.forwardRef(
               isDropActive && "active"
             )}
           >
-            <UploadIcon />
+            <UploadRoundIcon />
             <Typography><Trans>Drag and drop to upload</Trans></Typography>
             <Button
               className={classes.browseButton}
