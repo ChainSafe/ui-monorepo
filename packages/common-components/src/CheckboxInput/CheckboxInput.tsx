@@ -107,6 +107,7 @@ interface ICheckboxProps extends Omit<React.HTMLProps<HTMLInputElement>, "value"
   value: boolean
   indeterminate?: boolean
   onChange?: (event: FormEvent<HTMLInputElement>) => void
+  onClick?: (event: React.MouseEvent) => void
   testId?: string
 }
 
@@ -114,6 +115,7 @@ const CheckboxInput: React.FC<ICheckboxProps> = ({
   className,
   label,
   onChange,
+  onClick,
   disabled,
   indeterminate = false,
   value,
@@ -145,6 +147,7 @@ const CheckboxInput: React.FC<ICheckboxProps> = ({
           ["disabled"]: disabled,
           ["indeterminate"]: indeterminate
         })}
+        onClick={onClick}
       >
         <CheckIcon />
       </div>
