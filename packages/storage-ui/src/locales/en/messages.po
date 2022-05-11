@@ -106,6 +106,9 @@ msgstr "Billing history"
 msgid "Billing start time"
 msgstr "Billing start time"
 
+msgid "Browse files"
+msgstr "Browse files"
+
 msgid "Bucket name"
 msgstr "Bucket name"
 
@@ -268,6 +271,9 @@ msgstr "Download"
 msgid "Download complete"
 msgstr "Download complete"
 
+msgid "Drag and drop to upload"
+msgstr "Drag and drop to upload"
+
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
@@ -387,6 +393,9 @@ msgstr "Move selected"
 
 msgid "Move to..."
 msgstr "Move to..."
+
+msgid "NFT"
+msgstr "NFT"
 
 msgid "Name"
 msgstr "Name"
@@ -519,6 +528,9 @@ msgstr "Rename file"
 
 msgid "Rename folder"
 msgstr "Rename folder"
+
+msgid "Replace"
+msgstr "Replace"
 
 msgid "Search by cid, name…"
 msgstr "Search by cid, name…"
@@ -693,6 +705,9 @@ msgstr "Update your credit card"
 
 msgid "Upload"
 msgstr "Upload"
+
+msgid "Upload NFT"
+msgstr "Upload NFT"
 
 msgid "Upload complete"
 msgstr "Upload complete"
