@@ -125,7 +125,7 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
 const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNode | undefined)[] => {
   if (!!namespace && primitives.includes(typeof val)) {
     return <FormikTextInput
-      name={namespace || ""}
+      name={namespace}
       label={namespace}
       key={namespace} />
   }
@@ -133,8 +133,8 @@ const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNod
   // This is a file
   if (!!namespace && (val === null || (typeof val === "object" && (val instanceof File || val instanceof Blob)))) {
     return <FileInput
-      name={namespace || ""}
-      label={namespace || ""}
+      name={namespace}
+      label={namespace}
       onFileNumberChange={() => undefined}
       moreFilesLabel={""}
       maxFiles={1}
