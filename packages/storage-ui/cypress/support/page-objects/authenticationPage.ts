@@ -7,5 +7,8 @@ export const authenticationPage = {
   web3Button: () => cy.get("[data-cy=button-web3]", { timeout: 120000 }),
   showMoreButton: () => cy.get("div.svelte-q1527 > .bn-onboard-custom"),
   detectedWallet: () => cy.get(":nth-child(3) > .bn-onboard-custom > span.svelte-1799bj2"),
-  web3SignInButton: () => cy.get("[data-cy=button-sign-in-with-web3]", { timeout: 10000 })
+  web3SignInButton: () => cy.get("[data-cy=button-sign-in-with-web3]", { timeout: 10000 }),
+  privacyPolicyLink: () => cy.get("[data-cy=link-privacy-policy]"),
+  termsAndConditionsLink: () => cy.get("[data-cy=link-terms-and-conditions]"),
+  learnMoreAboutChainsafeLink: () => cy.get("[data-cy=link-learn-more-about-chainsafe]"),
 }

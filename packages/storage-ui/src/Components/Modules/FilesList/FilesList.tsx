@@ -712,7 +712,7 @@ const FilesList = () => {
       </div>
       <header
         className={classes.header}
-        data-cy="header-bucket-item"
+        data-cy="header-bucket"
       >
         <Typography
           variant="h1"
@@ -725,11 +725,11 @@ const FilesList = () => {
           {controls && desktop ? (
             <>
               <Button
-                data-cy="button-new-folder"
                 onClick={() => setCreateFolderModalOpen(true)}
                 variant="outline"
                 size="large"
                 disabled={accountRestricted}
+                testId="new-folder"
               >
                 <PlusCircleIcon />
                 <span className={classes.buttonWrap}>
@@ -737,11 +737,11 @@ const FilesList = () => {
                 </span>
               </Button>
               <Button
-                data-cy="button-bucket-upload"
                 onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
                 disabled={accountRestricted}
+                testId="upload-file"
               >
                 <UploadIcon />
                 <span className={classes.buttonWrap}>
