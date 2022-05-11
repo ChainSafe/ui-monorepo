@@ -1,7 +1,6 @@
 import React, { useState, ReactNode, useMemo } from "react"
-import { PopoverOrigin, PopoverPosition, PopoverReference } from "@material-ui/core"
+import { Menu as MaterialMenu, MenuItem, PopoverOrigin } from "@material-ui/core"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import MenuDropdown from "./MenuDropdown"
 import clsx from "clsx"
 import { useCallback } from "react"
 import { CSFTheme } from "../Themes/types"
@@ -22,15 +21,12 @@ interface CustomClasses {
 }
 
 interface Props {
-  open?: boolean
   icon?: ReactNode
   options: Option[]
   style?: CustomClasses
   testId?: string
   anchorOrigin?: PopoverOrigin
   transformOrigin?: PopoverOrigin
-  anchorPosition?: PopoverPosition
-  anchorReference?: PopoverReference
 }
 
 const useStyles = makeStyles(({ constants }: CSFTheme) => {
@@ -49,23 +45,17 @@ const useStyles = makeStyles(({ constants }: CSFTheme) => {
     }
   })})
 
-export default function Menu({
-  open,
-  icon,
-  options,
-  style,
-  testId,
-  anchorOrigin,
-  transformOrigin,
-  anchorPosition,
-  anchorReference
-}: Props) {
+export default function Menu({ icon, options, style, testId, anchorOrigin, transformOrigin }: Props) {
   const [anchorEl, setAnchorEl] = useState(null)
-  const isOpen = useMemo(() => open === undefined ? Boolean(anchorEl) : open, [anchorEl, open])
+  const open = useMemo(() => Boolean(anchorEl), [anchorEl])
   const classes = useStyles()
 
   const handleClick = useCallback((event: any) => {
     setAnchorEl(event.currentTarget)
+  }, [])
+
+  const handleClose = useCallback(() => {
+    setAnchorEl(null)
   }, [])
 
   return (
@@ -77,18 +67,30 @@ export default function Menu({
       >
         {icon}
       </div>
-      <MenuDropdown
-        open={isOpen}
-        options={options}
-        style={{
-          focusVisible: style?.focusVisible,
-          root: style?.root
-        }}
+      <MaterialMenu
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        PopoverClasses={{ paper: classes.paper, root: style?.root }}
         anchorOrigin={anchorOrigin}
         transformOrigin={transformOrigin}
-        anchorPosition={anchorPosition}
-        anchorReference={anchorReference}
-      />
+      >
+        {options.map((option, index) => (
+          <MenuItem
+            key={index}
+            onClick={(e) => {
+              option.onClick && handleClose()
+              option.onClick && option.onClick(e)
+            }}
+            focusVisibleClassName={clsx(style?.focusVisible)}
+            className={classes.options}
+            disabled={option.disabled}
+          >
+            {option.contents}
+          </MenuItem>
+        ))}
+      </MaterialMenu>
     </div>
   )
 }

@@ -2,18 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react"
 import {
   FormikTextInput,
   Typography,
-  Button,
-  DownloadSvg,
-  DeleteSvg,
-  EditSvg,
-  IMenuItem,
-  RecoverSvg,
-  EyeSvg,
-  ExportSvg,
-  ShareAltSvg,
-  ExclamationCircleInverseSvg,
-  ZoomInSvg,
-  InfoCircleSvg
+  Button
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher, useLongPress } from "@chainsafe/common-theme"
 import { Form, FormikProvider, useFormik } from "formik"
@@ -36,6 +25,7 @@ import CustomButton from "../../../../Elements/CustomButton"
 import { getIconForItem } from "../../../../../Utils/getItemIcon"
 import { getFileNameAndExtension } from "../../../../../Utils/Helpers"
 import MenuDropdown from "../../../../../UI-components/MenuDropdown"
+import { getItemMenuOptions } from "./itemOperations"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -181,157 +171,52 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const filePath = useMemo(() => getPathWithFile(currentPath, name), [currentPath, name])
 
-  const onFilePreview = useCallback(() => {
-    showPreview && showPreview(files.indexOf(file))
-  }, [file, files, showPreview])
+  const fileIndex = useMemo(() => files.indexOf(file), [file, files])
 
-  const allMenuItems: Record<FileOperation, IMenuItem> = useMemo(() => ({
-    rename: {
-      contents: (
-        <>
-          <EditSvg className={classes.menuIcon} />
-          <span data-cy="menu-rename">
-            <Trans>Rename</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => setEditing(cid)
-    },
-    delete: {
-      contents: (
-        <>
-          <DeleteSvg className={classes.menuIcon} />
-          <span data-cy="menu-delete">
-            <Trans>Delete</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => deleteFile && deleteFile()
-    },
-    download: {
-      contents: (
-        <>
-          <DownloadSvg className={classes.menuIcon} />
-          <span data-cy="menu-download">
-            {file.isFolder ? <Trans>Download as zip</Trans> : <Trans>Download</Trans>}
-          </span>
-        </>
-      ),
-      onClick: () => {
-        if (file.isFolder) {
-          bucket && downloadMultipleFiles([file], currentPath, bucket.id)
-        } else {
-          downloadFile && downloadFile(cid)
-        }
-      }
-    },
-    move: {
-      contents: (
-        <>
-          <ExportSvg className={classes.menuIcon} />
-          <span data-cy="menu-move">
-            <Trans>Move</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => moveFile && moveFile()
-    },
-    share: {
-      contents: (
-        <>
-          <ShareAltSvg className={classes.menuIcon} />
-          <span data-cy="menu-share">
-            {inSharedFolder
-              ? t`Copy to`
-              : t`Share`
-            }
-          </span>
-        </>
-      ),
-      onClick: () => handleShare && handleShare(file)
-    },
-    info: {
-      contents: (
-        <>
-          <InfoCircleSvg className={classes.menuIcon} />
-          <span data-cy="menu-info">
-            <Trans>Info</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => showFileInfo && showFileInfo(filePath)
-    },
-    recover: {
-      contents: (
-        <>
-          <RecoverSvg className={classes.menuIcon} />
-          <span data-cy="menu-recover">
-            <Trans>Recover</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => recoverFile && recoverFile()
-    },
-    preview: {
-      contents: (
-        <>
-          <ZoomInSvg className={classes.menuIcon} />
-          <span data-cy="menu-preview">
-            <Trans>Preview</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => onFilePreview()
-    },
-    view_folder: {
-      contents: (
-        <>
-          <EyeSvg className={classes.menuIcon} />
-          <span data-cy="menu-view-folder">
-            <Trans>View folder</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => viewFolder && viewFolder(cid)
-    },
-    report: {
-      contents: (
-        <>
-          <ExclamationCircleInverseSvg className={classes.menuIcon} />
-          <span data-cy="menu-report">
-            <Trans>Report</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => reportFile && reportFile(filePath)
+  const onDownloadFile = useCallback(() => {
+    if (file.isFolder) {
+      bucket && downloadMultipleFiles([file], currentPath, bucket.id)
+    } else {
+      downloadFile && downloadFile(cid)
     }
-  }),
-  [
+  }, [bucket, cid, currentPath, downloadFile, downloadMultipleFiles, file])
+
+  const menuItems = useMemo(() => getItemMenuOptions(
+    classes.menuIcon,
+    file,
+    fileIndex,
+    currentPath,
+    inSharedFolder, {
+      viewFolder,
+      reportFile,
+      onFilePreview: showPreview,
+      recoverFile,
+      showFileInfo,
+      deleteFile,
+      handleShare,
+      moveFile,
+      downloadFile: onDownloadFile,
+      setEditing: setEditing
+    }, itemOperations
+  ), [
     classes.menuIcon,
     file,
     setEditing,
-    cid,
-    deleteFile,
-    bucket,
-    downloadMultipleFiles,
     currentPath,
-    downloadFile,
+    fileIndex,
+    showPreview,
+    itemOperations,
+    onDownloadFile,
+    deleteFile,
     moveFile,
     handleShare,
-    filePath,
     showFileInfo,
     recoverFile,
-    onFilePreview,
     viewFolder,
     reportFile,
     inSharedFolder
   ])
-
-  const menuItems: IMenuItem[] = itemOperations.map(
-    (itemOperation) => allMenuItems[itemOperation]
-  )
 
   const [, dragMoveRef, preview] = useDrag({
     type: DragTypes.MOVABLE_FILE,
@@ -416,12 +301,22 @@ const FileSystemItem = ({
           if (isFolder) {
             viewFolder && viewFolder(file.cid)
           } else {
-            onFilePreview()
+            showPreview && showPreview(fileIndex)
           }
         }
       }
     },
-    [desktop, handleAddToSelectedItems, file, handleSelectItem, isFolder, viewFolder, onFilePreview, selectedCids.length]
+    [
+      desktop,
+      handleAddToSelectedItems,
+      file,
+      handleSelectItem,
+      isFolder,
+      viewFolder,
+      showPreview,
+      fileIndex,
+      selectedCids.length
+    ]
   )
 
   const onDoubleClick = useCallback(
@@ -431,14 +326,14 @@ const FileSystemItem = ({
         if (isFolder) {
           viewFolder && viewFolder(file.cid)
         } else {
-          onFilePreview()
+          showPreview && showPreview(fileIndex)
         }
       } else {
         // on mobile
         return
       }
     },
-    [desktop, viewFolder, file, onFilePreview, isFolder]
+    [desktop, viewFolder, file, showPreview, fileIndex, isFolder]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
