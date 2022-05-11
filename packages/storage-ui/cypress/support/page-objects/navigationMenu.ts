@@ -9,5 +9,5 @@ export const navigationMenu = {
   spaceUsedLabel: () => cy.get("[data-cy=label-space-used]"),
   spaceUsedProgressBar: () => cy.get("[data-cy=progress-bar-space-used]"),
   // mobile view only
-  signOutButton: () => cy.get("[data-cy=container-signout-nav]")
+  signOutButton: () => cy.get("[data-cy=button-sign-out]")
 }
