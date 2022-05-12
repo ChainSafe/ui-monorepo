@@ -483,13 +483,9 @@ const FilesList = ({ isShared = false }: Props) => {
   // Selection logic
   const handleSelectItem = useCallback(
     (item: FileSystemItemType) => {
-      if (selectedCids.includes(item.cid)) {
-        setSelectedItems([])
-      } else {
-        setSelectedItems([item])
-      }
+      setSelectedItems([item])
     },
-    [selectedCids]
+    []
   )
 
   const handleAddToSelectedItems = useCallback(
@@ -503,6 +499,46 @@ const FilesList = ({ isShared = false }: Props) => {
       }
     },
     [selectedCids, selectedItems]
+  )
+
+  // select item with SHIFT pressed
+  const handleSelectItemWithShift = useCallback(
+    (item: FileSystemItemType) => {
+      // item already selected
+      const isItemAlreadySelected = selectedItems.includes(item)
+      if (isItemAlreadySelected) return
+
+      const lastIndex = selectedItems.length
+        ? items.findIndex((i) => i.cid === selectedItems[selectedItems.length - 1].cid)
+        : -1
+
+      // first item
+      if (lastIndex === -1) {
+        setSelectedItems([item])
+        return
+      }
+
+      const currentIndex = items.findIndex((i) => i.cid === item.cid)
+      // unavailable item
+      if (currentIndex === -1) return
+
+      // new item, with selected items 
+      let countIndex = lastIndex
+      let mySelectedItems = selectedItems
+      while (
+        (currentIndex > lastIndex && countIndex <= currentIndex) ||
+        (currentIndex < lastIndex && countIndex >= currentIndex)
+      ) {
+        // filter out if item already selected
+        const currentCID = items[countIndex].cid
+        mySelectedItems = mySelectedItems.filter((s) => s.cid !== currentCID)
+        mySelectedItems.push(items[countIndex])
+        if (currentIndex > lastIndex) countIndex++
+        else countIndex--
+      }
+      setSelectedItems([...mySelectedItems])
+    },
+    [selectedItems, items]
   )
 
   const toggleAll = useCallback(() => {
@@ -1213,6 +1249,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     selectedCids={selectedCids}
                     handleSelectItem={handleSelectItem}
                     handleAddToSelectedItems={handleAddToSelectedItems}
+                    handleSelectItemWithShift={handleSelectItemWithShift}
                     editing={editing}
                     setEditing={setEditing}
                     handleRename={(cid: string, newName: string) => {
@@ -1272,6 +1309,7 @@ const FilesList = ({ isShared = false }: Props) => {
                   handleSelectItem={handleSelectItem}
                   viewFolder={handleViewFolder}
                   handleAddToSelectedItems={handleAddToSelectedItems}
+                  handleSelectItemWithShift={handleSelectItemWithShift}
                   editing={editing}
                   setEditing={setEditing}
                   handleRename={(path: string, newPath: string) => {
