@@ -429,7 +429,9 @@ const FilesList = () => {
   const handleSelectItemWithShift = useCallback(
     (item: ISelectedFile) => {
       // item already selected
-      const isItemAlreadySelected = selectedItems.find((s) => s.cid === item.cid && s.name === item.name)
+      const isItemAlreadySelected = selectedItems
+        .find((s) => s.cid === item.cid && s.name === item.name)
+        .length > 0
       if (isItemAlreadySelected) return
 
       const lastIndex = selectedItems.length
