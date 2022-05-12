@@ -121,6 +121,7 @@ interface IFileSystemItemProps {
   selected: ISelectedFile[]
   handleSelectCid(selectedFile: ISelectedFile): void
   handleAddToSelectedCids(selectedFile: ISelectedFile): void
+  handleSelectItemWithShift(selectedFile: ISelectedFile): void
   editingFile?: ISelectedFile
   setEditingFile(editingFile: ISelectedFile | undefined): void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
@@ -151,6 +152,7 @@ const FileSystemItem = ({
   setFileInfoPath,
   handleSelectCid,
   handleAddToSelectedCids,
+  handleSelectItemWithShift,
   itemOperations,
   browserView,
   resetSelectedFiles
@@ -375,34 +377,47 @@ const FileSystemItem = ({
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
 
+  const handleItemSelectOnCheck = useCallback((e: React.MouseEvent) => {
+    if (e && (e.ctrlKey || e.metaKey)) {
+      handleAddToSelectedCids({ cid, name })
+    } else if (e && (e.shiftKey || e.metaKey)) {
+      handleSelectItemWithShift({ cid, name })
+    } else {
+      handleAddToSelectedCids({ cid, name })
+    }
+  }, [handleAddToSelectedCids, handleSelectItemWithShift, cid, name])
+
   const onSingleClick = useCallback(
     (e) => {
       if (desktop) {
         // on desktop 
         if (e && (e.ctrlKey || e.metaKey)) {
-          handleAddToSelectedCids({
-            cid,
-            name
-          })
+          handleAddToSelectedCids({ cid, name })
+        } else if (e && (e.shiftKey || e.metaKey)) {
+          handleSelectItemWithShift({ cid, name })
         } else {
-          handleSelectCid({
-            cid,
-            name
-          })
+          handleSelectCid({ cid, name })
         }
       } else {
         // on mobile
         if (isFolder) {
-          viewFolder && viewFolder({
-            cid,
-            name
-          })
+          viewFolder && viewFolder({ cid, name })
         } else {
           onFilePreview()
         }
       }
     },
-    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, viewFolder, name, onFilePreview]
+    [
+      cid,
+      desktop,
+      isFolder,
+      handleAddToSelectedCids,
+      handleSelectItemWithShift,
+      handleSelectCid,
+      viewFolder,
+      name,
+      onFilePreview
+    ]
   )
 
   const onDoubleClick = useCallback(
@@ -450,7 +465,8 @@ const FileSystemItem = ({
     preview,
     selected,
     setEditingFile,
-    resetSelectedFiles
+    resetSelectedFiles,
+    handleItemSelectOnCheck
   }
 
   return (
