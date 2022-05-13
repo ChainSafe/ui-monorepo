@@ -486,22 +486,32 @@ describe("File management", () => {
         fileInfoModal.cidLabel().should("be.visible")
         fileInfoModal.decryptionKeyLabel().should("be.visible")
   
-        // file name is the same from the stored before
+        // ensure the correct file name is being displayed
         fileInfoModal.body().should("be.visible")
         cy.get<string>("@fileNameA").then((fileNameA) => {
           fileInfoModal.nameLabel().should("have.text", fileNameA)
         })
   
-        // CID value is the same as the copied from the clipboard
-        fileInfoModal.cidLabel().dblclick()
+        // grant clipboard read permissions to the browser
+        cy.wrap(Cypress.automation('remote:debugger:protocol', {
+          command: 'Browser.grantPermissions',
+          params: {
+            permissions: ['clipboardReadWrite', 'clipboardSanitizedWrite'],
+            origin: window.location.origin,
+          },
+        }))
+        
+        // ensure the correct CID is being copied to the clipboard
+        fileInfoModal.cidLabel().click()
         cy.window().its('navigator.clipboard').invoke('readText').then((text) => {
           fileInfoModal.cidLabel().should("have.text", text)
         })
-  
-        // cancel and ensure that the create folder modal is dismissed
+
+        // cancel and ensure that the modal is dismissed
         fileInfoModal.closeButton().click()
         fileInfoModal.body().should("not.exist")
       })
+      
     })
     
 })
