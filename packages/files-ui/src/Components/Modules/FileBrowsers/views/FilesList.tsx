@@ -782,6 +782,11 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsShareModalOpen(true)
   }, [])
 
+  const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
+    setSelectedItems([fileSystemItem])
+    handleOpenShareDialog()
+  }, [handleOpenShareDialog])
+
   const browserOptions = useMemo(() => [
     {
       contents: (
@@ -810,8 +815,8 @@ const FilesList = ({ isShared = false }: Props) => {
   ],
   [classes.menuIcon, accountRestricted])
 
-  const mobileBulkActions = useMemo(() => {
-    const menuOptions = []
+  const bulkActions = useMemo(() => {
+    const menuOptions: IMenuItem[] = []
 
     validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) &&
       menuOptions.push({
@@ -895,11 +900,6 @@ const FilesList = ({ isShared = false }: Props) => {
     selectionContainsAFolder
   ])
 
-  const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
-    setSelectedItems([fileSystemItem])
-    handleOpenShareDialog()
-  }, [handleOpenShareDialog])
-
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number
     mouseY: number
@@ -916,7 +916,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const handleContextMenuOnItem = useCallback((e: React.MouseEvent, item: FileSystemItemType) => {
     e.preventDefault()
     if (!selectedItems.includes(item)) {
-      setSelectedItems([...selectedItems, item])
+      setSelectedItems([item])
     }
     setContextMenu({
       mouseX: e.clientX - 2,
@@ -950,7 +950,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const contextMenuOptions: IMenuItem[] = useMemo(() => {
     if (selectedItems.length > 1) {
       // bulk operations
-      return []
+      return bulkActions
     } else if (selectedItems.length === 1) {
       // single item operations
       const isInSharedFolder = bucket?.type === "share"
@@ -976,7 +976,8 @@ const FilesList = ({ isShared = false }: Props) => {
     files,
     classes.menuIcon,
     getItemOperations,
-    itemFunctions
+    itemFunctions,
+    bulkActions
   ])
 
   return (
@@ -1366,7 +1367,7 @@ const FilesList = ({ isShared = false }: Props) => {
                           <Menu
                             testId='bulkActionsDropdown'
                             icon={<MoreIcon className={classes.dropdownIcon} />}
-                            options={mobileBulkActions}
+                            options={bulkActions}
                             style={{ focusVisible: classes.focusVisible }}
                           />
                         </TableHeadCell>
