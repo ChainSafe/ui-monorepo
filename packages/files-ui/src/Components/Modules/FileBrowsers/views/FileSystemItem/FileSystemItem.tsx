@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import {
   FormikTextInput,
   Typography,
@@ -15,7 +15,7 @@ import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
-import { FileSystemItem as FileSystemItemType, useFiles } from "../../../../../Contexts/FilesContext"
+import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
@@ -24,7 +24,6 @@ import { nameValidator } from "../../../../../Utils/validationSchema"
 import CustomButton from "../../../../Elements/CustomButton"
 import { getIconForItem } from "../../../../../Utils/getItemIcon"
 import { getFileNameAndExtension } from "../../../../../Utils/Helpers"
-import MenuDropdown from "../../../../../UI-components/MenuDropdown"
 import { getItemMenuOptions } from "./itemOperations"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
@@ -103,11 +102,11 @@ interface IFileSystemItemProps {
   editing: string | undefined
   setEditing(editing: string | undefined): void
   handleRename?: (cid: string, newName: string) => Promise<void> | undefined
-  handleMove?: (cid: string, newPath: string) => Promise<void>
-  deleteFile?: () => void
-  recoverFile?: () => void
+  deleteFile?: (file: FileSystemItemType) => void
+  recoverFile?: (file: FileSystemItemType) => void
   viewFolder?: (cid: string) => void
-  moveFile?: () => void
+  moveFile?: (file: FileSystemItemType) => void
+  downloadFile?: (file: FileSystemItemType) => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
@@ -115,6 +114,7 @@ interface IFileSystemItemProps {
   showFileInfo?: (path: string) => void
   handleShare?: (file: FileSystemItemType) => void
   showPreview?: (fileIndex: number) => void
+  handleContextMenuOnItem? : (e: React.MouseEvent, file: FileSystemItemType) => void
 }
 
 const FileSystemItem = ({
@@ -129,6 +129,7 @@ const FileSystemItem = ({
   recoverFile,
   viewFolder,
   moveFile,
+  downloadFile,
   handleSelectItem,
   handleAddToSelectedItems,
   handleSelectItemWithShift,
@@ -138,10 +139,10 @@ const FileSystemItem = ({
   reportFile,
   showFileInfo,
   handleShare,
-  showPreview
+  showPreview,
+  handleContextMenuOnItem
 }: IFileSystemItemProps) => {
-  const { bucket, downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
-  const { downloadMultipleFiles } = useFiles()
+  const { bucket, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder } = file
   const inSharedFolder = useMemo(() => bucket?.type === "share", [bucket])
 
@@ -176,14 +177,6 @@ const FileSystemItem = ({
 
   const fileIndex = useMemo(() => files.indexOf(file), [file, files])
 
-  const onDownloadFile = useCallback(() => {
-    if (file.isFolder) {
-      bucket && downloadMultipleFiles([file], currentPath, bucket.id)
-    } else {
-      downloadFile && downloadFile(cid)
-    }
-  }, [bucket, cid, currentPath, downloadFile, downloadMultipleFiles, file])
-
   const menuItems = useMemo(() => getItemMenuOptions(
     classes.menuIcon,
     file,
@@ -192,14 +185,14 @@ const FileSystemItem = ({
     inSharedFolder, {
       viewFolder,
       reportFile,
-      onFilePreview: showPreview,
+      showPreview,
       recoverFile,
       showFileInfo,
       deleteFile,
       handleShare,
       moveFile,
-      downloadFile: onDownloadFile,
-      setEditing: setEditing
+      downloadFile,
+      setEditing
     }, itemOperations
   ), [
     classes.menuIcon,
@@ -209,7 +202,7 @@ const FileSystemItem = ({
     fileIndex,
     showPreview,
     itemOperations,
-    onDownloadFile,
+    downloadFile,
     deleteFile,
     moveFile,
     handleShare,
@@ -367,26 +360,6 @@ const FileSystemItem = ({
 
   const Icon = getIconForItem(file)
 
-
-  const [contextMenu, setContextMenu] = useState<{
-    mouseX: number
-    mouseY: number
-  } | null>(null)
-
-  const handleContextMenu = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    console.log("hello table")
-    setContextMenu(
-      contextMenu === null
-        ? {
-          mouseX: e.clientX - 2,
-          mouseY: e.clientY - 4
-        }
-        : null
-    )
-  }
-
   const itemProps = {
     ref: fileOrFolderRef,
     owners,
@@ -405,7 +378,9 @@ const FileSystemItem = ({
     selectedCids,
     setEditing,
     resetSelectedFiles,
-    handleContextMenu,
+    handleContextMenuOnItem: (e: React.MouseEvent) => {
+      handleContextMenuOnItem && handleContextMenuOnItem(e, file)
+    },
     handleItemSelectOnCheck,
     longPressEvents: !desktop ? longPressEvents : undefined
   }
@@ -482,18 +457,6 @@ const FileSystemItem = ({
             <Typography>{name}</Typography>
           </>
         )
-      }
-      {contextMenu && <MenuDropdown
-        options={menuItems}
-        onClose={() => setContextMenu(null)}
-        anchorReference="anchorPosition"
-        open={!!contextMenu}
-        anchorPosition={
-          contextMenu !== null
-            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
-            : undefined
-        }
-      />
       }
     </>
   )

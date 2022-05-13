@@ -25,12 +25,12 @@ export function getItemMenuOptions(
   inSharedFolder: boolean,
   functions: {
     setEditing?: (cid: string) => void
-    deleteFile?: () => void
-    downloadFile?: () => void
-    moveFile?: () => void
+    deleteFile?: (item: FileSystemItem) => void
+    downloadFile?: (item: FileSystemItem) => void
+    moveFile?: (item: FileSystemItem) => void
     handleShare?: (item: FileSystemItem) => void
-    recoverFile?: () => void
-    onFilePreview?: (fileIndex: number) => void
+    recoverFile?: (item: FileSystemItem) => void
+    showPreview?: (fileIndex: number) => void
     viewFolder?: (cid: string) => void
     showFileInfo?: (filePath: string) => void
     reportFile?: (filePath: string) => void
@@ -46,7 +46,7 @@ export function getItemMenuOptions(
     downloadFile,
     handleShare,
     moveFile,
-    onFilePreview,
+    showPreview,
     recoverFile,
     reportFile,
     showFileInfo
@@ -72,7 +72,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => deleteFile && deleteFile()
+      onClick: () => deleteFile && deleteFile(file)
     },
     download: {
       contents: (
@@ -83,7 +83,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => downloadFile && downloadFile()
+      onClick: () => downloadFile && downloadFile(file)
     },
     move: {
       contents: (
@@ -94,7 +94,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => moveFile && moveFile()
+      onClick: () => moveFile && moveFile(file)
     },
     share: {
       contents: (
@@ -130,7 +130,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => recoverFile && recoverFile()
+      onClick: () => recoverFile && recoverFile(file)
     },
     preview: {
       contents: (
@@ -141,7 +141,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => onFilePreview && onFilePreview(fileIndex)
+      onClick: () => showPreview && showPreview(fileIndex)
     },
     view_folder: {
       contents: (
