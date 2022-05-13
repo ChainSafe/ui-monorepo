@@ -407,13 +407,9 @@ const FilesList = () => {
   // Selection logic
   const handleSelectCid = useCallback(
     (toSelect: ISelectedFile) => {
-      if (selectedCids.findIndex(item => item.cid === toSelect.cid && item.name === toSelect.name) >= 0) {
-        setSelectedCids([])
-      } else {
-        setSelectedCids([toSelect])
-      }
+      setSelectedCids([toSelect])
     },
-    [selectedCids]
+    []
   )
 
   const handleAddToSelectedCids = useCallback(
@@ -427,6 +423,52 @@ const FilesList = () => {
       }
     },
     [selectedCids]
+  )
+
+  // select item with SHIFT pressed
+  const handleSelectItemWithShift = useCallback(
+    (item: ISelectedFile) => {
+      // item already selected
+      const isItemAlreadySelected = !!selectedItems
+        .find((s) => s.cid === item.cid && s.name === item.name)
+      if (isItemAlreadySelected) return
+
+      const lastIndex = selectedItems.length
+        ? items.findIndex((i) =>
+          i.cid === selectedItems[selectedItems.length - 1].cid &&
+          i.name === selectedItems[selectedItems.length - 1].name
+        )
+        : -1
+
+      // first item
+      if (lastIndex === -1) {
+        setSelectedCids([item])
+        return
+      }
+
+      const currentIndex = items.findIndex((i) => i.cid === item.cid && i.name === item.name)
+      // unavailable item
+      if (currentIndex === -1) return
+
+      // new item, with selected items 
+      let countIndex = lastIndex
+      let mySelectedItems = selectedItems
+      while (
+        (currentIndex > lastIndex && countIndex <= currentIndex) ||
+         (currentIndex < lastIndex && countIndex >= currentIndex)
+      ) {
+        // filter out if item already selected
+        const currentCID = items[countIndex].cid
+        const currentName = items[countIndex].name
+        mySelectedItems = mySelectedItems.filter((s) => s.cid !== currentCID || s.name !== currentName)
+        mySelectedItems.push(items[countIndex])
+        if (currentIndex > lastIndex) countIndex++
+        else countIndex--
+      }
+      // add the current item
+      setSelectedCids([...mySelectedItems])
+    },
+    [selectedItems, items]
   )
 
   const toggleAll = useCallback(() => {
@@ -665,7 +707,8 @@ const FilesList = () => {
             homeOnClick={() => redirect(moduleRootPath)}
             homeRef={homeBreadcrumbRef}
             homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
-            showDropDown={!desktop}
+            showDropDown
+            maximumCrumbs={desktop ? 5 : 3}
           />
         )}
       </div>
@@ -936,6 +979,7 @@ const FilesList = () => {
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
                 handleAddToSelectedCids={handleAddToSelectedCids}
+                handleSelectItemWithShift={handleSelectItemWithShift}
                 editingFile={editingFile}
                 setEditingFile={setEditingFile}
                 handleRename={(item: ISelectedFile, newName: string) => {
@@ -992,6 +1036,7 @@ const FilesList = () => {
               handleSelectCid={handleSelectCid}
               viewFolder={handleViewFolder}
               handleAddToSelectedCids={handleAddToSelectedCids}
+              handleSelectItemWithShift={handleSelectItemWithShift}
               editingFile={editingFile}
               setEditingFile={setEditingFile}
               handleRename={(editingFile: ISelectedFile, newName: string) => {

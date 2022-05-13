@@ -99,6 +99,7 @@ interface IFileSystemItemProps {
   owners?: BucketUser[]
   handleSelectItem(selectedItem: FileSystemItemType): void
   handleAddToSelectedItems(selectedItems: FileSystemItemType): void
+  handleSelectItemWithShift(selectedItems: FileSystemItemType): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
   handleRename?: (cid: string, newName: string) => Promise<void> | undefined
@@ -130,6 +131,7 @@ const FileSystemItem = ({
   moveFile,
   handleSelectItem,
   handleAddToSelectedItems,
+  handleSelectItemWithShift,
   itemOperations,
   browserView,
   resetSelectedFiles,
@@ -284,12 +286,25 @@ const FileSystemItem = ({
     }
   }
 
+  const handleItemSelectOnCheck = useCallback((e: React.MouseEvent) => {
+    if (e && (e.ctrlKey || e.metaKey)) {
+      handleAddToSelectedItems(file)
+    } else if (e && (e.shiftKey || e.metaKey)) {
+      handleSelectItemWithShift(file)
+    } else {
+      handleAddToSelectedItems(file)
+    }
+  }, [handleAddToSelectedItems, handleSelectItemWithShift, file])
+
+
   const onSingleClick = useCallback(
     (e) => {
       if (desktop) {
         // on desktop 
         if (e && (e.ctrlKey || e.metaKey)) {
           handleAddToSelectedItems(file)
+        } else if (e && (e.shiftKey || e.metaKey)) {
+          handleSelectItemWithShift(file)
         } else {
           handleSelectItem(file)
         }
@@ -308,14 +323,15 @@ const FileSystemItem = ({
     },
     [
       desktop,
-      handleAddToSelectedItems,
       file,
-      handleSelectItem,
       isFolder,
       viewFolder,
-      showPreview,
+      selectedCids.length,
+      handleAddToSelectedItems,
+      handleSelectItemWithShift,
+      handleSelectItem,
       fileIndex,
-      selectedCids.length
+      showPreview
     ]
   )
 
@@ -390,6 +406,7 @@ const FileSystemItem = ({
     setEditing,
     resetSelectedFiles,
     handleContextMenu,
+    handleItemSelectOnCheck,
     longPressEvents: !desktop ? longPressEvents : undefined
   }
 
