@@ -491,16 +491,7 @@ describe("File management", () => {
         cy.get<string>("@fileNameA").then((fileNameA) => {
           fileInfoModal.nameLabel().should("have.text", fileNameA)
         })
-  
-        // grant clipboard read permissions to the browser
-        cy.wrap(Cypress.automation('remote:debugger:protocol', {
-          command: 'Browser.grantPermissions',
-          params: {
-            permissions: ['clipboardReadWrite', 'clipboardSanitizedWrite'],
-            origin: window.location.origin,
-          },
-        }))
-        
+
         // ensure the correct CID is being copied to the clipboard
         fileInfoModal.cidLabel().click()
         cy.window().its('navigator.clipboard').invoke('readText').then((text) => {
