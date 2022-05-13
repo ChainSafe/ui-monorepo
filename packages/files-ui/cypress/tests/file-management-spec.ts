@@ -493,10 +493,9 @@ describe("File management", () => {
         })
   
         // CID value is the same as the copied from the clipboard
-        fileInfoModal.cidLabel().click().then(() => {
-          cy.window().its('navigator.clipboard').invoke('readText').then((text) => {
-            fileInfoModal.cidLabel().should("have.text", text)
-          })
+        fileInfoModal.cidLabel().click('right')
+        cy.window().its('navigator.clipboard').invoke('readText').then((text) => {
+          fileInfoModal.cidLabel().should("have.text", text)
         })
   
         // cancel and ensure that the create folder modal is dismissed
