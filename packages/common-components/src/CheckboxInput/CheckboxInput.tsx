@@ -106,7 +106,8 @@ interface ICheckboxProps extends Omit<React.HTMLProps<HTMLInputElement>, "value"
   error?: string
   value: boolean
   indeterminate?: boolean
-  onChange: (event: FormEvent<HTMLInputElement>) => void
+  onChange?: (event: FormEvent<HTMLInputElement>) => void
+  onClick?: (event: React.MouseEvent) => void
   testId?: string
 }
 
@@ -114,6 +115,7 @@ const CheckboxInput: React.FC<ICheckboxProps> = ({
   className,
   label,
   onChange,
+  onClick,
   disabled,
   indeterminate = false,
   value,
@@ -124,7 +126,7 @@ const CheckboxInput: React.FC<ICheckboxProps> = ({
   const classes = useStyles(props)
 
   const handleChange = (event: any) => {
-    !disabled && onChange(event)
+    !disabled && onChange && onChange(event)
   }
 
   return (
@@ -145,6 +147,7 @@ const CheckboxInput: React.FC<ICheckboxProps> = ({
           ["disabled"]: disabled,
           ["indeterminate"]: indeterminate
         })}
+        onClick={onClick}
       >
         <CheckIcon />
       </div>

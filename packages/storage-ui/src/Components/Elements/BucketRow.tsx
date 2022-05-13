@@ -83,7 +83,8 @@ const BucketRow = ({ bucket }: Props) => {
         onClick={() => redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}>
         {bucket.name || bucket.id}
       </TableCell>
-      <TableCell>
+      <TableCell
+        data-cy="cell-file-system-type">
         {bucket.file_system_type === "ipfs" ? "IPFS MFS" : "Chainsafe" }
       </TableCell>
       <TableCell>
