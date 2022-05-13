@@ -465,42 +465,44 @@ describe("File management", () => {
       })
     })
 
-    it("can view file information via modal option", () => {
-      cy.web3Login({ clearCSFBucket: true })
-
-      // upload a file
-      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
-      homePage.fileItemRow().should("have.length", 1)
-
-      // store file name as cypress aliases for later comparison
-      homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
-
-      // navigate to the info modal for the file
-      homePage.fileItemKebabButton().first().click()
-      homePage.infoMenuOption().eq(0).click()
-
-      // ensure all labels on the modal are visible
-      fileInfoModal.nameLabel().should("be.visible")
-      fileInfoModal.fileSizeLabel().should("be.visible")
-      fileInfoModal.dateUploadedLabel().should("be.visible")
-      fileInfoModal.cidLabel().should("be.visible")
-      fileInfoModal.decryptionKeyLabel().should("be.visible")
-
-      // file name is the same from the stored before
-      fileInfoModal.body().should("be.visible")
-      cy.get<string>("@fileNameA").then((fileNameA) => {
-        fileInfoModal.nameLabel().should("have.text", fileNameA)
+      it("can view file information via modal option", () => {
+        cy.web3Login({ clearCSFBucket: true })
+  
+        // upload a file
+        homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+        homePage.fileItemRow().should("have.length", 1)
+  
+        // store file name as cypress aliases for later comparison
+        homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
+  
+        // navigate to the info modal for the file
+        homePage.fileItemKebabButton().first().click()
+        homePage.infoMenuOption().eq(0).click()
+  
+        // ensure all labels on the modal are visible
+        fileInfoModal.nameLabel().should("be.visible")
+        fileInfoModal.fileSizeLabel().should("be.visible")
+        fileInfoModal.dateUploadedLabel().should("be.visible")
+        fileInfoModal.cidLabel().should("be.visible")
+        fileInfoModal.decryptionKeyLabel().should("be.visible")
+  
+        // file name is the same from the stored before
+        fileInfoModal.body().should("be.visible")
+        cy.get<string>("@fileNameA").then((fileNameA) => {
+          fileInfoModal.nameLabel().should("have.text", fileNameA)
+        })
+  
+        // CID value is the same as the copied from the clipboard
+        fileInfoModal.cidLabel().click().then(() => {
+          cy.window().its('navigator.clipboard').invoke('readText').then((text) => {
+            fileInfoModal.cidLabel().should("have.text", text)
+          })
+        })
+  
+        // cancel and ensure that the create folder modal is dismissed
+        fileInfoModal.closeButton().click()
+        fileInfoModal.body().should("not.exist")
       })
-
-      // CID value is the same as the copied from the clipboard
-      fileInfoModal.cidLabel().click()
-      cy.window().its('navigator.clipboard').invoke('readText').then((text) => {
-        fileInfoModal.cidLabel().should("have.text", text)
-      })
-
-      // cancel and ensure that the create folder modal is dismissed
-      fileInfoModal.closeButton().click()
-      fileInfoModal.body().should("not.exist")
     })
-  })
+    
 })
