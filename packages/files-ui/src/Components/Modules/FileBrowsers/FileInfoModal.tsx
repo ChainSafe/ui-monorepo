@@ -232,6 +232,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
             xs={12}
             sm={12}
             className={classes.infoContainer}
+            data-cy="modal-container-info"
           >
             <div className={classes.infoBox}>
               <div>
@@ -254,6 +255,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       className={classes.subSubtitle}
                       variant="body2"
                       component="p"
+                      data-cy="label-info-name"
                     >
                       {fullFileInfo.content.name}
                     </Typography>
@@ -271,6 +273,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       className={classes.subSubtitle}
                       variant="body2"
                       component="p"
+                      data-cy="label-info-date-uploaded"
                     >
                       {fullFileInfo.content.created_at && dayjs.unix(fullFileInfo.content.created_at).format("DD MMM YYYY h:mm a")}
                     </Typography>
@@ -288,6 +291,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       className={classes.subSubtitle}
                       variant="body2"
                       component="p"
+                      data-cy="label-info-file-size"
                     >
                       {formatBytes(fullFileInfo.content?.size, 2)}
                     </Typography>
@@ -356,6 +360,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       className={classes.subSubtitle}
                       variant="body2"
                       component="p"
+                      data-cy="label-info-cid"
                     >
                       {fullFileInfo.content?.cid}
                     </Typography>
@@ -391,6 +396,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       className={classes.subSubtitle}
                       variant="body2"
                       component="p"
+                      data-cy="label-info-decryption-key"
                     >
                       <ToggleHiddenText hiddenLength={14}>
                         <span>{bucket?.encryptionKey}</span>
@@ -421,6 +427,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
               size="large"
               variant="outline"
               type="button"
+              data-cy="button-info-close"
             >
               <Trans>Close</Trans>
             </CustomButton>
