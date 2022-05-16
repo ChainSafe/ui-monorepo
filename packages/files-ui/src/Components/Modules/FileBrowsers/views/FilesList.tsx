@@ -60,7 +60,7 @@ import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import { DragTypes } from "../DragConstants"
 import FolderBreadcrumb from "./FolderBreadcrumb"
-import MenuDropdown from "../../../../UI-components/MenuDropdown"
+import AnchorMenu from "../../../../UI-components/AnchorMenu"
 import { getItemMenuOptions } from "./FileSystemItem/itemOperations"
 
 const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
@@ -900,14 +900,17 @@ const FilesList = ({ isShared = false }: Props) => {
     selectionContainsAFolder
   ])
 
-  const [contextMenu, setContextMenu] = useState<{
+  const [contextMenuPosition, setContextMenuPosition] = useState<{
     mouseX: number
     mouseY: number
   } | null>(null)
 
   const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
-    setContextMenu({
+    console.log("browser level")
+    // reset selected files if context menu was open
+    setSelectedItems([])
+    setContextMenuPosition({
       mouseX: e.clientX - 2,
       mouseY: e.clientY - 4
     })
@@ -915,10 +918,12 @@ const FilesList = ({ isShared = false }: Props) => {
 
   const handleContextMenuOnItem = useCallback((e: React.MouseEvent, item: FileSystemItemType) => {
     e.preventDefault()
+    e.stopPropagation()
+    console.log("item level")
     if (!selectedItems.includes(item)) {
       setSelectedItems([item])
     }
-    setContextMenu({
+    setContextMenuPosition({
       mouseX: e.clientX - 2,
       mouseY: e.clientY - 4
     })
@@ -1001,14 +1006,16 @@ const FilesList = ({ isShared = false }: Props) => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
-      <MenuDropdown
+      <AnchorMenu
         options={contextMenuOptions}
-        onClose={() => setContextMenu(null)}
-        anchorReference="anchorPosition"
-        open={!!contextMenu}
+        onClose={() => setContextMenuPosition(null)}
+        isOpen={!!contextMenuPosition}
         anchorPosition={
-          contextMenu
-            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+          contextMenuPosition
+            ? {
+              top: contextMenuPosition.mouseY,
+              left: contextMenuPosition.mouseX
+            }
             : undefined
         }
       />
