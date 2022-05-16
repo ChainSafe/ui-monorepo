@@ -502,7 +502,5 @@ describe("File management", () => {
         fileInfoModal.closeButton().click()
         fileInfoModal.body().should("not.exist")
       })
-      
     })
-    
 })
