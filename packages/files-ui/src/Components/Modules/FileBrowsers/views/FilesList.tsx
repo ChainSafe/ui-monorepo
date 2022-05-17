@@ -907,7 +907,6 @@ const FilesList = ({ isShared = false }: Props) => {
 
   const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
-    console.log("browser level")
     // reset selected files if context menu was open
     setSelectedItems([])
     setContextMenuPosition({
@@ -919,7 +918,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const handleContextMenuOnItem = useCallback((e: React.MouseEvent, item: FileSystemItemType) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log("item level")
+    // only keep current item selected if not in selected
     if (!selectedItems.includes(item)) {
       setSelectedItems([item])
     }
