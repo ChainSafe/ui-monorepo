@@ -47,7 +47,7 @@ const ObjectInput: React.FC<{obj: any; namespace: string}> =
         <TextInput
           value={newFieldName}
           onChange={(val) => setNewFieldName(val?.toString() || "")}
-          label=t`Property name`
+          label={t`Property name`}
         />
         <SelectInput
           options={[{
