@@ -511,6 +511,9 @@ msgstr "Privacy Policy"
 msgid "Proceed to payment"
 msgstr "Proceed to payment"
 
+msgid "Property name"
+msgstr "Property name"
+
 msgid "Recover"
 msgstr "Recover"
 
