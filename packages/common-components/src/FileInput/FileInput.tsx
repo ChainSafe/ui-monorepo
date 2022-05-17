@@ -143,7 +143,7 @@ const FileInput = ({
   const classes = useStyles()
   const [previews, setPreviews] = useState<any[]>([])
   const [errors, setErrors] = useState<any[]>([])
-  const [{ value }, meta, helpers] = useField<Array<FileWithPath> | FileWithPath | null>(name)
+  const [{ value }, meta, helpers] = useField<FileWithPath[] | FileWithPath | null>(name)
 
   useEffect(() => {
     onFileNumberChange && Array.isArray(value) && onFileNumberChange(value.length)
@@ -274,7 +274,7 @@ const FileInput = ({
         )
       ) : (
         <>
-          {value === null || Array.isArray(value) && value?.length === 0
+          {value === null || (Array.isArray(value) && value?.length === 0)
             ? "No files selected"
             : `${Array.isArray(value) ? value?.length : 1} file(s) selected`}
           <Button

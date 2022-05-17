@@ -285,9 +285,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 to={ROUTE_LINKS.UploadNFT}
               >
                 <DatabaseSvg />
-                <Typography
-                  variant="h5"
-                >
+                <Typography variant="h5">
                   <Trans>Upload NFT</Trans>
                 </Typography>
               </Link>

@@ -47,7 +47,8 @@ const ObjectInput: React.FC<{obj: any; namespace: string}> =
         <TextInput
           value={newFieldName}
           onChange={(val) => setNewFieldName(val?.toString() || "")}
-          label="Property name" />
+          label=t`Property name`
+        />
         <SelectInput
           options={[{
             label: "Value", // Use better description here
@@ -64,7 +65,8 @@ const ObjectInput: React.FC<{obj: any; namespace: string}> =
           }]}
           onChange={setNewFieldType}
           value={newFieldType}
-          label="Property type"/>
+          label="Property type"
+        />
         <Button
           type="button"
           onClick={() => formikBag.setFieldValue(`${namespace}.${newFieldName}`, (newFieldType === "array")
@@ -210,7 +212,7 @@ const CreateNFTPage: React.FC = () => {
           <FormikTextInput name='decimals' />
           <FormikImageInput name='image' />
           {generateFormFields(formikProps.values.properties, "properties")}
-          <Button type="submit">Upload</Button>
+          <Button type="submit"><Trans>Upload</Trans></Button>
         </Form>
       </FormikProvider>
     </div>
