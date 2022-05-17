@@ -1,6 +1,6 @@
 //Shamelessly borrowed from https://github.com/anatol-grabowski/datatransfer-files-promise with added Types
 
-type FileWithPath = File & {filepath: string}
+export type FileWithPath = File & {filepath: string}
 
 const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItemList): Promise<Array<FileWithPath>> => {
   const readFile = (entry: FileEntry, path = ""): Promise<FileWithPath> => {

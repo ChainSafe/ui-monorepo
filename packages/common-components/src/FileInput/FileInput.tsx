@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, ReactNode } from "react"
 import { useField } from "formik"
-import { useDropzone, DropzoneOptions, FileRejection } from "react-dropzone"
+import { useDropzone, DropzoneOptions, FileRejection, FileWithPath } from "react-dropzone"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button } from "../Button"
@@ -100,10 +100,6 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
     }
   })
 )
-
-interface FileWithPath extends File {
-  path?: string
-}
 
 interface IFileInputProps extends DropzoneOptions {
   className?: string

@@ -109,16 +109,8 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
 
     try {
       close()
-      const paths = [...new Set(values.files.map(f => f.path.substring(0, f.path.lastIndexOf("/"))))]
-      paths.reduce(async (prev, p) => {
-        await prev
-
-        const filesToUpload = values.files.filter((f => f.path.substring(0, f.path.lastIndexOf("/")) === p))
-        return await uploadFiles(bucket, filesToUpload, getPathWithFile(currentPath, p))
-      },
-      Promise.resolve()
-      )
-
+      const filesToUpload = values.files.map(f => ({ ...f, filepath: f.path }))
+      await uploadFiles(bucket, filesToUpload, currentPath)
       refreshContents && refreshContents()
       helpers.resetForm()
     } catch (error: any) {

@@ -22,6 +22,7 @@ import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
 import { getPathWithFile, getRelativePath } from "../Utils/pathUtils"
 import { Zippable, zipSync } from "fflate"
+import { FileWithPath } from "../Utils/getFilesFromDataTransferItems"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -52,7 +53,7 @@ type FilesContext = {
   storageSummary: BucketSummaryResponse | undefined
   personalEncryptionKey: string | undefined
   getStorageSummary: () => Promise<void>
-  uploadFiles: (bucket: BucketKeyPermission, files: File[], path: string, encryptionKey?: string) => Promise<void>
+  uploadFiles: (bucket: BucketKeyPermission, files: FileWithPath[], rootUploadPath: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshBuckets: (showLoading?: boolean) => Promise<void>
@@ -350,14 +351,14 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     )
   }, [filesApiClient])
 
-  const uploadFiles = useCallback(async (bucket: BucketKeyPermission, files: File[], path: string) => {
-    const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
-    if (hasOversizedFile) {
-      addToast({
-        title: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
-        type: "error"
-      })
-    }
+  const uploadFiles = useCallback(async (bucket: BucketKeyPermission, files: FileWithPath[], rootUploadPath: string) => {
+    // const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
+    // if (hasOversizedFile) {
+    //   addToast({
+    //     title: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
+    //     type: "error"
+    //   })
+    // }
 
     const cancelSource = axios.CancelToken.source()
     const cancelToken = cancelSource.token
@@ -377,20 +378,29 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     setUploadsInProgress(true)
 
     try {
-      await encryptAndUploadFiles(
-        bucket,
-        files,
-        path,
-        (progressEvent: { loaded: number; total: number }) => {
-          updateToast(toastId, {
-            ...toastParams,
-            progress: Math.ceil(
-              (progressEvent.loaded / progressEvent.total) * 100
-            )
-          })
-        },
-        cancelToken
+      const paths = [...new Set(files.map(f => f.filepath))]
+      paths.reduce(async (prev, p) => {
+        await prev
+        const filesToUpload = files.filter((f => f.filepath === p))
+        return await encryptAndUploadFiles(
+          bucket,
+          filesToUpload,
+          getPathWithFile(rootUploadPath, p),
+          (progressEvent: { loaded: number; total: number }) => {
+            updateToast(toastId, {
+              ...toastParams,
+              progress: Math.ceil(
+                (progressEvent.loaded / progressEvent.total) * 100
+              )
+            })
+          },
+          cancelToken
+        )
+      },
+      Promise.resolve()
       )
+
+
       setUploadsInProgress(false)
 
       await refreshBuckets()
