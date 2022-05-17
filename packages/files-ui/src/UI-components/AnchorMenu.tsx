@@ -1,5 +1,5 @@
 import React, {  ReactNode, useRef } from "react"
-import { MenuItem, PopoverPosition } from "@material-ui/core"
+import { MenuItem, Paper, PopoverPosition } from "@material-ui/core"
 import { makeStyles, createStyles, useOnClickOutside } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { CSFTheme } from "../Themes/types"
@@ -32,13 +32,14 @@ const useStyles = makeStyles(({ constants, zIndex, animation }: CSFTheme) => {
       zIndex: zIndex?.blocker,
       visibility: "hidden",
       opacity: 0,
-      transitionDuration: `${animation.transform}ms`,
+      transition: `opacity ${animation.transform * 2}ms`,
       "&.open": {
         visibility: "visible",
         opacity: 1
       }
     }),
     paper: {
+      padding: `${constants.generalUnit}px 0`,
       backgroundColor: `${constants.menu.backgroundColor} !important`,
       color: `${constants.menu.color} !important`
     },
@@ -67,19 +68,22 @@ export default function MenuDropdown({
       className={clsx(classes.anchorRoot, isOpen && !!anchorPosition && "open")}
       ref={ref}
     >
-      {options.map((option, index) => (
-        <MenuItem
-          key={index}
-          onClick={(e) => {
-            option.onClick && onClose()
-            option.onClick && option.onClick(e)
-          }}
-          className={classes.options}
-          disabled={option.disabled}
-        >
-          {option.contents}
-        </MenuItem>
-      ))}
+      <Paper className={classes.paper}>
+        {options.map((option, index) => (
+          <MenuItem
+            key={index}
+            onClick={(e) => {
+              option.onClick && onClose()
+              option.onClick && option.onClick(e)
+            }}
+            className={classes.options}
+            disabled={option.disabled}
+          >
+            {option.contents}
+          </MenuItem>
+        ))}
+      </Paper>
+
     </div>
   )
 }
