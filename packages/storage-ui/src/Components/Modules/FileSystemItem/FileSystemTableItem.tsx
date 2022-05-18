@@ -199,6 +199,7 @@ interface IFileSystemTableItemProps {
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
+  handleContextMenuOnItem?: (e: React.MouseEvent) => void
 }
 
 const FileSystemTableItem = React.forwardRef(
@@ -215,7 +216,8 @@ const FileSystemTableItem = React.forwardRef(
     preview,
     setEditingFile,
     handleRename,
-    menuItems
+    menuItems,
+    handleContextMenuOnItem
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { fileSystemType } = useFileBrowser()
@@ -276,6 +278,7 @@ const FileSystemTableItem = React.forwardRef(
         })}
         type="grid"
         ref={forwardedRef}
+        onContextMenu={handleContextMenuOnItem}
         selected={selected.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0}
       >
         {desktop && (

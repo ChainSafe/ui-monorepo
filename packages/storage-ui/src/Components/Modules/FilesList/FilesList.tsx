@@ -49,6 +49,7 @@ import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import FolderBreadcrumb from "./FolderBreadcrumb"
 import { DragTypes } from "./DragConstants"
+import { getPathWithFile } from "../../../Utils/pathUtils"
 
 interface IStyleProps {
   themeKey: string
@@ -649,6 +650,25 @@ const FilesList = () => {
     viewFolder && viewFolder(toView)
   }, [viewFolder])
 
+  const onDeleteFile = useCallback((toDelete: ISelectedFile) => {
+    setSelectedCids([toDelete])
+    setIsDeleteModalOpen(true)
+  }, [])
+
+  const onMoveFile = useCallback((toMove: ISelectedFile) => {
+    setSelectedCids([toMove])
+    setIsMoveFileModalOpen(true)
+    setMoveModalMode("move")
+  }, [])
+
+  const onShowFileInfo = useCallback((item: ISelectedFile) => {
+    setFileInfoPath(getPathWithFile(currentPath, item.name))
+  }, [currentPath])
+
+  const onPreviewFile = useCallback((toPreview: FileSystemItemType) => {
+    setPreviewFileIndex(files.indexOf(toPreview))
+  }, [files])
+
   const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -975,46 +995,24 @@ const FilesList = () => {
                 key={index}
                 index={index}
                 file={file}
-                files={files}
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
                 handleAddToSelectedCids={handleAddToSelectedCids}
                 handleSelectItemWithShift={handleSelectItemWithShift}
                 editingFile={editingFile}
-                setEditingFile={setEditingFile}
                 handleRename={(item: ISelectedFile, newName: string) => {
                   setEditingFile(undefined)
                   return handleRename && handleRename(item, newName)
                 }}
-                deleteFile={() => {
-                  setSelectedCids([{
-                    cid: file.cid,
-                    name: file.name
-                  }])
-                  setIsDeleteModalOpen(true)
-                }}
+                setEditingFile={setEditingFile}
+                deleteFile={onDeleteFile}
                 viewFolder={handleViewFolder}
-                setPreviewFileIndex={setPreviewFileIndex}
-                moveFile={() => {
-                  setSelectedCids([{
-                    cid: file.cid,
-                    name: file.name
-                  }])
-                  setIsMoveFileModalOpen(true)
-                  setMoveModalMode("move")
-                }}
-                setFileInfoPath={setFileInfoPath}
+                previewFile={onPreviewFile}
+                moveFile={onMoveFile}
+                showFileInfo={onShowFileInfo}
                 itemOperations={getItemOperations(file.content_type)}
                 resetSelectedFiles={resetSelectedCids}
                 browserView="table"
-                recoverFile={() => {
-                  setSelectedCids([{
-                    cid: file.cid,
-                    name: file.name
-                  }])
-                  setIsMoveFileModalOpen(true)
-                  setMoveModalMode("recover")
-                }}
               />
             ))}
           </TableBody>
@@ -1031,45 +1029,23 @@ const FilesList = () => {
               key={index}
               index={index}
               file={file}
-              files={files}
               selected={selectedCids}
               handleSelectCid={handleSelectCid}
               viewFolder={handleViewFolder}
               handleAddToSelectedCids={handleAddToSelectedCids}
               handleSelectItemWithShift={handleSelectItemWithShift}
               editingFile={editingFile}
-              setEditingFile={setEditingFile}
               handleRename={(editingFile: ISelectedFile, newName: string) => {
                 setEditingFile(undefined)
                 return handleRename && handleRename(editingFile, newName)
               }}
-              deleteFile={() => {
-                setSelectedCids([{
-                  cid: file.cid,
-                  name: file.name
-                }])
-                setIsDeleteModalOpen(true)
-              }}
-              setPreviewFileIndex={setPreviewFileIndex}
-              moveFile={() => {
-                setSelectedCids([{
-                  cid: file.cid,
-                  name: file.name
-                }])
-                setIsMoveFileModalOpen(true)
-                setMoveModalMode("move")
-              }}
-              setFileInfoPath={setFileInfoPath}
+              setEditingFile={setEditingFile}
+              deleteFile={onDeleteFile}
+              previewFile={onPreviewFile}
+              moveFile={onMoveFile}
+              showFileInfo={onShowFileInfo}
               itemOperations={getItemOperations(file.content_type)}
               resetSelectedFiles={resetSelectedCids}
-              recoverFile={() => {
-                setSelectedCids([{
-                  cid: file.cid,
-                  name: file.name
-                }])
-                setIsMoveFileModalOpen(true)
-                setMoveModalMode("recover")
-              }}
               browserView="grid"
             />
           ))}

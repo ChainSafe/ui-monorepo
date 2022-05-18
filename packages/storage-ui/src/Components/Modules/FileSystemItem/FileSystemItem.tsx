@@ -2,17 +2,8 @@ import React, { useCallback, useEffect, useMemo, useRef } from "react"
 import {
   FormikTextInput,
   Typography,
-  Button,
-  DownloadSvg,
-  DeleteSvg,
-  EditSvg,
-  IMenuItem,
-  RecoverSvg,
-  EyeSvg,
-  ExportSvg,
-  ShareAltSvg,
-  ExclamationCircleInverseSvg,
-  ZoomInSvg } from "@chainsafe/common-components"
+  Button
+} from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Form, useFormik, FormikProvider } from "formik"
 import CustomModal from "../../Elements/CustomModal"
@@ -30,6 +21,7 @@ import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 import { getIconForItem } from "../../../Utils/getItemIcon"
 import { getFileNameAndExtension } from "../../../Utils/Helpers"
+import { getItemMenuOptions } from "./itemOperations"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
   return createStyles({
@@ -117,7 +109,6 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
 interface IFileSystemItemProps {
   index: number
   file: FileSystemItemType
-  files: FileSystemItemType[]
   selected: ISelectedFile[]
   handleSelectCid(selectedFile: ISelectedFile): void
   handleAddToSelectedCids(selectedFile: ISelectedFile): void
@@ -126,12 +117,12 @@ interface IFileSystemItemProps {
   setEditingFile(editingFile: ISelectedFile | undefined): void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   handleMove?: (toMove: ISelectedFile, newPath: string) => Promise<void>
-  deleteFile?: () => void
+  deleteFile?: (toDelete: ISelectedFile) => void
   recoverFile?: (toRecover: ISelectedFile) => void
   viewFolder?: (toView: ISelectedFile) => void
-  setPreviewFileIndex: (fileIndex: number | undefined) => void
-  moveFile?: () => void
-  setFileInfoPath: (path: string) => void
+  previewFile?: (file: FileSystemItemType) => void
+  moveFile?: (toMove: ISelectedFile) => void
+  showFileInfo: (toShow: ISelectedFile) => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
@@ -139,17 +130,15 @@ interface IFileSystemItemProps {
 
 const FileSystemItem = ({
   file,
-  files,
   selected,
   editingFile,
   setEditingFile,
   handleRename,
   deleteFile,
-  recoverFile,
   viewFolder,
-  setPreviewFileIndex,
+  previewFile,
   moveFile,
-  setFileInfoPath,
+  showFileInfo,
   handleSelectCid,
   handleAddToSelectedCids,
   handleSelectItemWithShift,
@@ -187,120 +176,26 @@ const FileSystemItem = ({
     formik.resetForm()
   }, [formik, setEditingFile])
 
-  const allMenuItems: Record<FileOperation, IMenuItem> = {
-    rename: {
-      contents: (
-        <>
-          <EditSvg className={classes.menuIcon} />
-          <span data-cy="menu-rename">
-            <Trans>Rename</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => setEditingFile({ cid, name })
-    },
-    delete: {
-      contents: (
-        <>
-          <DeleteSvg className={classes.menuIcon} />
-          <span data-cy="menu-delete">
-            <Trans>Delete</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => deleteFile && deleteFile()
-    },
-    download: {
-      contents: (
-        <>
-          <DownloadSvg className={classes.menuIcon} />
-          <span data-cy="menu-download">
-            <Trans>Download</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => downloadFile && downloadFile({
-        cid,
-        name
-      })
-    },
-    move: {
-      contents: (
-        <>
-          <ExportSvg className={classes.menuIcon} />
-          <span data-cy="menu-move">
-            <Trans>Move</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => moveFile && moveFile()
-    },
-    share: {
-      contents: (
-        <>
-          <ShareAltSvg className={classes.menuIcon} />
-          <span data-cy="menu-share">
-            <Trans>Share</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => console.log
-    },
-    info: {
-      contents: (
-        <>
-          <ExclamationCircleInverseSvg className={classes.menuIcon} />
-          <span data-cy="menu-info">
-            <Trans>Info</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => setFileInfoPath(getPathWithFile(currentPath, name))
-    },
-    recover: {
-      contents: (
-        <>
-          <RecoverSvg className={classes.menuIcon} />
-          <span data-cy="menu-recover">
-            <Trans>Recover</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => recoverFile && recoverFile({
-        cid,
-        name
-      })
-    },
-    preview: {
-      contents: (
-        <>
-          <ZoomInSvg className={classes.menuIcon} />
-          <span data-cy="menu-preview">
-            <Trans>Preview</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => setPreviewFileIndex(files?.indexOf(file))
-    },
-    view_folder: {
-      contents: (
-        <>
-          <EyeSvg className={classes.menuIcon} />
-          <span data-cy="view-folder">
-            <Trans>View folder</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => viewFolder && viewFolder({
-        cid,
-        name
-      })
-    }
-  }
-
-  const menuItems: IMenuItem[] = itemOperations.map(
-    (itemOperation) => allMenuItems[itemOperation]
-  )
+  const menuItems = useMemo(() => getItemMenuOptions(classes.menuIcon, file, {
+    deleteFile,
+    downloadFile,
+    moveFile,
+    setEditingFile,
+    showFileInfo,
+    previewFile,
+    viewFolder
+  }, itemOperations), [
+    classes.menuIcon,
+    file,
+    itemOperations,
+    deleteFile,
+    downloadFile,
+    previewFile,
+    moveFile,
+    setEditingFile,
+    showFileInfo,
+    viewFolder
+  ])
 
   const [, dragMoveRef, preview] = useDrag({
     type: DragTypes.MOVABLE_FILE,
@@ -373,10 +268,6 @@ const FileSystemItem = ({
     }
   }
 
-  const onFilePreview = useCallback(() => {
-    setPreviewFileIndex(files?.indexOf(file))
-  }, [file, files, setPreviewFileIndex])
-
   const handleItemSelectOnCheck = useCallback((e: React.MouseEvent) => {
     if (e && (e.ctrlKey || e.metaKey)) {
       handleAddToSelectedCids({ cid, name })
@@ -403,7 +294,7 @@ const FileSystemItem = ({
         if (isFolder) {
           viewFolder && viewFolder({ cid, name })
         } else {
-          onFilePreview()
+          previewFile && previewFile(file)
         }
       }
     },
@@ -416,7 +307,8 @@ const FileSystemItem = ({
       handleSelectCid,
       viewFolder,
       name,
-      onFilePreview
+      previewFile,
+      file
     ]
   )
 
@@ -430,14 +322,14 @@ const FileSystemItem = ({
             name
           })
         } else {
-          onFilePreview()
+          previewFile && previewFile(file)
         }
       } else {
         // on mobile
         return
       }
     },
-    [desktop, viewFolder, name, cid, onFilePreview, isFolder]
+    [desktop, viewFolder, name, cid, previewFile, file, isFolder]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)

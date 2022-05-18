@@ -147,6 +147,7 @@ interface IFileSystemTableItemProps {
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
+  handleContextMenuOnItem?: (e: React.MouseEvent) => void
 }
 
 const FileSystemGridItem = React.forwardRef(
@@ -163,7 +164,8 @@ const FileSystemGridItem = React.forwardRef(
     handleRename,
     menuItems,
     resetSelectedFiles,
-    preview
+    preview,
+    handleContextMenuOnItem
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid } = file
@@ -229,6 +231,7 @@ const FileSystemGridItem = React.forwardRef(
           e.preventDefault()
           e.stopPropagation()
         }}
+        onContextMenu={handleContextMenuOnItem}
       >
         <div
           className={clsx(classes.gridViewIconNameBox)}
