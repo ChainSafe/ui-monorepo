@@ -53,7 +53,7 @@ type FilesContext = {
   storageSummary: BucketSummaryResponse | undefined
   personalEncryptionKey: string | undefined
   getStorageSummary: () => Promise<void>
-  uploadFiles: (bucket: BucketKeyPermission, files: FileWithPath[], rootUploadPath: string, encryptionKey?: string) => Promise<void>
+  uploadFiles: (bucket: BucketKeyPermission, files: FileWithPath[], rootUploadPath: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshBuckets: (showLoading?: boolean) => Promise<void>
@@ -320,7 +320,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     onUploadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
     cancelToken?: CancelToken
   ) => {
-
     const key = bucket.encryptionKey
 
     if (!key) {
@@ -329,8 +328,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
     const filesParam = await Promise.all(
       files
-        .filter((f) => f.size <= MAX_FILE_SIZE)
-        .map(async (f) => {
+        // .filter((f) => f.size <= MAX_FILE_SIZE)
+        .map(async (f, i, arr) => {
+          debugger
           const fileData = await readFileAsync(f)
           const encryptedData = await encryptFile(fileData, key)
           return {
@@ -379,26 +379,30 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
     try {
       const paths = [...new Set(files.map(f => f.filepath))]
-      paths.reduce(async (prev, p) => {
-        await prev
-        const filesToUpload = files.filter((f => f.filepath === p))
-        return await encryptAndUploadFiles(
+      const totalUploadSize = files.reduce((sum, f) => sum += f.size, 0)
+
+      let uploadedSize = 0
+      for (const path of paths) {
+        const filesToUpload = files.filter((f => f.filepath === path))
+        const batchSize = filesToUpload.reduce((sum, f) => sum += f.size, 0)
+        console.log(`Uploading ${filesToUpload.length} files to ${path}`)
+        await encryptAndUploadFiles(
           bucket,
           filesToUpload,
-          getPathWithFile(rootUploadPath, p),
+          getPathWithFile(rootUploadPath, path),
           (progressEvent: { loaded: number; total: number }) => {
             updateToast(toastId, {
               ...toastParams,
               progress: Math.ceil(
-                (progressEvent.loaded / progressEvent.total) * 100
+                ((progressEvent.loaded + uploadedSize) / totalUploadSize) * 100
               )
             })
           },
           cancelToken
         )
-      },
-      Promise.resolve()
-      )
+        console.log(`Finished uploading ${filesToUpload.length} files to ${path}`)
+        uploadedSize += batchSize
+      }
 
 
       setUploadsInProgress(false)

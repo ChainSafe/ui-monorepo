@@ -9,7 +9,7 @@ import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
-import { getPathWithFile } from "../../../Utils/pathUtils"
+import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -109,7 +109,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
 
     try {
       close()
-      const filesToUpload = values.files.map(f => ({ ...f, filepath: f.path }))
+      const filesToUpload = values.files.map(f => ({ ...f, filepath: getParentPathFromFilePath(f.path) }))
       await uploadFiles(bucket, filesToUpload, currentPath)
       refreshContents && refreshContents()
       helpers.resetForm()
