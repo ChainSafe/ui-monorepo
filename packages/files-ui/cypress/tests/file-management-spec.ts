@@ -3,6 +3,7 @@ import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { folderName, folderPath } from "../fixtures/filesTestData"
 import "cypress-pipe"
+import path from "path"
 import { apiTestHelper } from "../support/utils/apiTestHelper"
 import { createFolderModal } from "../support/page-objects/modals/createFolderModal"
 import { deleteFileModal } from "../support/page-objects/modals/deleteFileModal"
@@ -13,6 +14,7 @@ import { deleteSuccessToast } from "../support/page-objects/toasts/deleteSuccess
 import { moveSuccessToast } from "../support/page-objects/toasts/moveSuccessToast"
 import { recoverSuccessToast } from "../support/page-objects/toasts/recoverSuccessToast"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
+import { downloadCompleteToast } from "../support/page-objects/toasts/downloadCompleteToast"
 import { fileInfoModal } from "../support/page-objects/modals/fileInfoModal"
 
 describe("File management", () => {
@@ -501,6 +503,36 @@ describe("File management", () => {
       // cancel and ensure that the modal is dismissed
       fileInfoModal.closeButton().click()
       fileInfoModal.body().should("not.exist")
+    })
+
+    it("can download a file from file browser", () => {
+      const fileName = "text-file.txt"
+      const downloadsFolder = Cypress.config("downloadsFolder")
+
+      cy.web3Login({ clearCSFBucket: true })
+  
+      // upload a file
+      homePage.uploadFile(`../fixtures/uploadedFiles/${fileName}`)
+      homePage.fileItemRow().should("have.length", 1)
+    
+      // download file from kebab menu 
+      homePage.fileItemKebabButton().first().click()
+     
+      // intercept POST to ensure the request was successful
+      cy.intercept("POST", "**/bucket/*/download")
+        .as("downloadRequest")
+        .then(() => {
+          homePage.downloadMenuOption().eq(0).click();
+
+          cy.wait("@downloadRequest").should((download) => {
+            expect(download.response).to.have.property("statusCode", 200);
+          });
+        });
+     
+      // ensure the file was download
+      downloadCompleteToast.body().should("be.visible")
+      downloadCompleteToast.closeButton().click()
+      cy.readFile(path.join(downloadsFolder, fileName)).should("exist")
     })
   })
 })
