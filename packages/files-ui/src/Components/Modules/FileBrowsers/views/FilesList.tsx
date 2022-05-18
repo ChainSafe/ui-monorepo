@@ -906,6 +906,7 @@ const FilesList = ({ isShared = false }: Props) => {
   } | null>(null)
 
   const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
+    if (!controls) return
     e.preventDefault()
     // reset selected files if context menu was open
     setSelectedItems([])
@@ -913,7 +914,7 @@ const FilesList = ({ isShared = false }: Props) => {
       mouseX: e.clientX - 2,
       mouseY: e.clientY - 4
     })
-  }, [])
+  }, [controls])
 
   const handleContextMenuOnItem = useCallback((e: React.MouseEvent, item: FileSystemItemType) => {
     e.preventDefault()
