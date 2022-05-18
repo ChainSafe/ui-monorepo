@@ -133,7 +133,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       text: decodeURIComponent(path),
       onClick: () => {
         redirect(
-          ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+          ROUTE_LINKS.Bin(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
         )
       },
       path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
