@@ -25,6 +25,11 @@ export const settingsPage = {
   // security tab
   securityTabButton: () => cy.get("[data-testid=tab-security]"),
   securityTabHeader: () => cy.get("[data-cy=label-security-header]"),
+  changePasswordLink: () => cy.get("[data-cy=link-change-password]"),
+  passwordInput: () => cy.get("[data-cy=input-sign-in-password]"),
+  confirmPasswordInput: () => cy.get("[data-cy=input-sign-in-password-verification]"),
+  changePasswordButton: () => cy.get("[data-cy=button-sign-in-password]"),
+  changePasswordErrorLabel: () => cy.get("[data-cy=form-change-password] span.error"),
 
   // subscription tab
   subscriptionTabButton: () => cy.get("[data-testid=tab-subscription]"),
