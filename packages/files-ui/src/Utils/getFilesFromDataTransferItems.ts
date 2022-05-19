@@ -77,6 +77,4 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
   return files
 }
 
-
-
 export default getFilesFromDataTransferItems

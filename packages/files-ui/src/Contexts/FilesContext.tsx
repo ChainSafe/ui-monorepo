@@ -384,7 +384,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       for (const path of paths) {
         const filesToUpload = files.filter((f => getParentPathFromFilePath(f.path) === path))
         const batchSize = filesToUpload.reduce((sum, f) => sum += f.size, 0)
-        console.log(`Uploading ${filesToUpload.length} files to ${path}`)
         await encryptAndUploadFiles(
           bucket,
           filesToUpload,
@@ -399,7 +398,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           },
           cancelToken
         )
-        console.log(`Finished uploading ${filesToUpload.length} files to ${path}`)
         uploadedSize += batchSize
       }
 
