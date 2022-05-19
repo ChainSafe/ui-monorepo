@@ -126,6 +126,40 @@ interface IFileInputProps extends DropzoneOptions {
   testId?: string
 }
 
+const FileItem = ({
+  id,
+  fullPath,
+  removeItem,
+  itemClassName,
+  closeIconClassName
+}: {
+  id: number
+  fullPath: string
+  removeItem: (id: number | undefined) => void
+  itemClassName?: string
+  closeIconClassName?: string
+}) => {
+  const classes = useStyles()
+  return <li
+    className={clsx(classes.item, itemClassName)}
+    key={id}
+  >
+    <span className={classes.itemText}>{fullPath}</span>
+    <Button
+      testId="remove-from-file-list"
+      className={clsx(classes.crossIcon, closeIconClassName)}
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation()
+        removeItem(id)
+      }}
+      size="small"
+    >
+      <CrossIcon fontSize="small" />
+    </Button>
+  </li>
+}
+
 const FileInput = ({
   className,
   variant = "dropzone",
@@ -196,9 +230,9 @@ const FileInput = ({
     ...dropZoneProps
   })
 
-  const removeItem = (i: number) => {
+  const removeItem = (i?: number) => {
     let items = value
-    Array.isArray(items)
+    Array.isArray(items) && i
       ? items.splice(i, 1)
       : items = null
     helpers.setValue(items)
@@ -232,41 +266,21 @@ const FileInput = ({
             <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
                 {Array.isArray(value)
-                  ? value.map((file: any, i: number) => (
-                    <li
-                      className={clsx(classes.item, classNames?.item)}
+                  ? value.map((file, i) => (
+                    <FileItem
                       key={i}
-                    >
-                      <span className={classes.itemText}>{file.path}</span>
-                      <Button
-                        testId="remove-from-file-list"
-                        className={clsx(classes.crossIcon, classNames?.closeIcon)}
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          removeItem(i)
-                        }}
-                        size="small"
-                      >
-                        <CrossIcon fontSize="small" />
-                      </Button>
-                    </li>
+                      id={i}
+                      fullPath={file.path || ""}
+                      removeItem={removeItem}
+                      closeIconClassName={classNames?.closeIcon}
+                      itemClassName={classNames?.item} />
                   ))
-                  : <li className={clsx(classes.item, classNames?.item)}>
-                    <span className={classes.itemText}>{value.path}</span>
-                    <Button
-                      testId="remove-from-file-list"
-                      className={clsx(classes.crossIcon, classNames?.closeIcon)}
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        removeItem(1)
-                      }}
-                      size="small"
-                    >
-                      <CrossIcon fontSize="small" />
-                    </Button>
-                  </li>
+                  : <FileItem
+                    id={0}
+                    fullPath={value.path || ""}
+                    removeItem={removeItem}
+                    closeIconClassName={classNames?.closeIcon}
+                    itemClassName={classNames?.item} />
                 }
               </ul>
             </ScrollbarWrapper>
