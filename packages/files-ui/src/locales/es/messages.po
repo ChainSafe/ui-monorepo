@@ -879,7 +879,7 @@ msgid "Sign in with a different account"
 msgstr "Inicie sesión con una cuenta diferente"
 
 msgid "Sign in/up to access the shared folder"
-msgstr ""
+msgstr "Inicie sesión o registrese para acceder a la carpeta compartida"
 
 msgid "Sign-in methods"
 msgstr "Métodos de inicio de sesión"
@@ -942,13 +942,13 @@ msgid "The files are already in this folder"
 msgstr "Los archivos ya se encuentran en esta carpeta"
 
 msgid "The link you typed in looks malformed. Please verify it."
-msgstr ""
+msgstr "El link que escribiste parece malformado. Por favor verifiquelo"
 
 msgid "The time to pay with crypto is up. Updating your plan..."
 msgstr ""
 
 msgid "The transaction was declined. Please use a different card or try again."
-msgstr ""
+msgstr "La transacción fue rechazada. Por favor use una tarjeta diferente o intente de nuevo."
 
 msgid "The username is too long"
 msgstr "El nombre de usuario es demasiado largo"
@@ -993,7 +993,7 @@ msgid "This card will become your default payment method"
 msgstr "Esta tarjeta se convertirá en su método de pago por defecto"
 
 msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
-msgstr ""
+msgstr "Este link esta malformado, Por favor verifique que lo copiaste/pegaste correctamente."
 
 msgid "This link is not valid any more."
 msgstr "Este link ya no es válido."
@@ -1044,7 +1044,7 @@ msgid "Upload"
 msgstr "Subir"
 
 msgid "Upload size exceeds plan capacity"
-msgstr ""
+msgstr "El tamaño de la carga excede la capacidad del plan"
 
 msgid "Uploads cancelled"
 msgstr "Cargas canceladas"
@@ -1080,19 +1080,19 @@ msgid "Using an email:"
 msgstr "Utilizando un email:"
 
 msgid "Verification code is required"
-msgstr "El código de verficación es necesario"
+msgstr "El código de verficación es obligatorio"
 
 msgid "Verification code not correct!"
-msgstr ""
+msgstr "¡Código de verificación incorrecto!"
 
 msgid "Verification code sent!"
-msgstr ""
+msgstr "¡Código de verificación enviado!"
 
 msgid "Verifying the link..."
-msgstr ""
+msgstr "Verificando el enlance..."
 
 msgid "View PDF"
-msgstr ""
+msgstr "Ver PDF"
 
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
@@ -1146,10 +1146,10 @@ msgid "You haven't set a username yet."
 msgstr ""
 
 msgid "You now have:"
-msgstr ""
+msgstr "Ahora tienes:"
 
 msgid "You were added to the shared folder ({0}): {1}"
-msgstr ""
+msgstr "Fuiste añadido a la carpeta compartida ({0}): {1}"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
@@ -1167,7 +1167,7 @@ msgid "Your recovery key can be used to restore your account in place of your ba
 msgstr ""
 
 msgid "can-edit"
-msgstr ""
+msgstr "editable"
 
 msgid "expires"
 msgstr ""
@@ -1185,7 +1185,7 @@ msgid "unknown"
 msgstr "desconocido"
 
 msgid "view-only"
-msgstr ""
+msgstr "solo lectura"
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr ""
@@ -1197,34 +1197,34 @@ msgid "{0, plural, one {You are about to delete {1} item.} other {You are about 
 msgstr ""
 
 msgid "{0} cancelled"
-msgstr ""
+msgstr "{0} cancelados"
 
 msgid "{0} cancelled - {successCount} files {1} successfully"
-msgstr ""
+msgstr "{0} cancelados - {successCount} archivos {1} exitosamente"
 
 msgid "{0} complete"
-msgstr ""
+msgstr "{0} completados"
 
 msgid "{0} failed"
-msgstr ""
+msgstr "{0} fallidos"
 
 msgid "{0} of {1} used"
-msgstr ""
+msgstr "{0} de {1} utilizado"
 
 msgid "{0} {fileProgress} - {1}"
-msgstr ""
+msgstr "{0} {fileProgress} - {1}"
 
 msgid "{currentPlanStorage} of storage"
-msgstr ""
+msgstr "{currentPlanStorage} de almacenamiento"
 
 msgid "{newPlanCapacity} of storage"
-msgstr ""
+msgstr "{newPlanCapacity} de almacenamiento"
 
 msgid "{newPlanStorage} of storage"
-msgstr ""
+msgstr "{newPlanStorage} de almacenamiento"
 
 msgid "{planStorageCapacity} of storage"
-msgstr ""
+msgstr "{planStorageCapacity} de almacenamiento"
 
 msgid "{successCount} files transferred successfully, {0} failed"
-msgstr ""
+msgstr "{successCount} archivos transferidos exitosamente, {0} fallidos"
