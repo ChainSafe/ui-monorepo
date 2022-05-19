@@ -23,10 +23,6 @@ describe("Main Navigation", () => {
       cy.url().should("include", "/settings")
     })
 
-    it.skip("can navigate to block survey via send feedback button", () => {
-      // TODO: Andrew - find a way to check the button link, cypress doesn't support tabs #1084
-    })
-
     it("can navigate to the home page", () => {
       navigationMenu.homeNavButton()
         .should("be.visible")
