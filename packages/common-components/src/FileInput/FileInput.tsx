@@ -297,4 +297,4 @@ const FileInput = ({
 
 export default FileInput
 
-export { IFileInputProps, FileWithPath }
+export { IFileInputProps }
