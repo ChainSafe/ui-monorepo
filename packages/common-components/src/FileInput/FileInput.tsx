@@ -122,8 +122,6 @@ interface IFileInputProps extends DropzoneOptions {
   testId?: string
 }
 
-// type FileWithPath = File & {path: string}
-
 const FileInput = ({
   className,
   variant = "dropzone",
