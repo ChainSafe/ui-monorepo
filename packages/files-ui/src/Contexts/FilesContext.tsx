@@ -351,13 +351,13 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   }, [filesApiClient])
 
   const uploadFiles = useCallback(async (bucket: BucketKeyPermission, files: FileWithPath[], rootUploadPath: string) => {
-    // const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
-    // if (hasOversizedFile) {
-    //   addToast({
-    //     title: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
-    //     type: "error"
-    //   })
-    // }
+    const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
+    if (hasOversizedFile) {
+      addToast({
+        title: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
+        type: "error"
+      })
+    }
 
     const cancelSource = axios.CancelToken.source()
     const cancelToken = cancelSource.token
