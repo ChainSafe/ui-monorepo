@@ -1105,6 +1105,9 @@ msgstr "Want to help shape this product?"
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
+msgstr "We can't encrypt files larger than 2GB. Some items will not be uploaded"
+
 msgid "Web3: {0}"
 msgstr "Web3: {0}"
 

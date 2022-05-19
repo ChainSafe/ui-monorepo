@@ -1106,6 +1106,9 @@ msgstr ""
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
 msgstr ""
 
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
+msgstr ""
+
 msgid "Web3: {0}"
 msgstr "Vender: {0}"
 
