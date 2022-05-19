@@ -526,8 +526,8 @@ describe("File management", () => {
 
           cy.wait("@downloadRequest").should((download) => {
             expect(download.response).to.have.property("statusCode", 200);
-          });
-        });
+          })
+        })
      
       // ensure the file was download
       downloadCompleteToast.body().should("be.visible")
