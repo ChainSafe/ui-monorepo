@@ -34,6 +34,7 @@ import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
 import CustomButton from "../../../../Elements/CustomButton"
 import { getIconForItem } from "../../../../../Utils/getItemIcon"
+import { getFileNameAndExtension } from "../../../../../Utils/Helpers"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -107,6 +108,7 @@ interface IFileSystemItemProps {
   owners?: BucketUser[]
   handleSelectItem(selectedItem: FileSystemItemType): void
   handleAddToSelectedItems(selectedItems: FileSystemItemType): void
+  handleSelectItemWithShift(selectedItems: FileSystemItemType): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
   handleRename?: (cid: string, newName: string) => Promise<void> | undefined
@@ -138,6 +140,7 @@ const FileSystemItem = ({
   moveFile,
   handleSelectItem,
   handleAddToSelectedItems,
+  handleSelectItemWithShift,
   itemOperations,
   browserView,
   resetSelectedFiles,
@@ -151,30 +154,8 @@ const FileSystemItem = ({
   const { cid, name, isFolder } = file
   const inSharedFolder = useMemo(() => bucket?.type === "share", [bucket])
 
-  const {
-    fileName,
-    extension
-  } = useMemo(() => {
-    if (isFolder) {
-      return {
-        fileName : name,
-        extension: ""
-      }
-    }
-    const split = name.split(".")
-    const extension = `.${split[split.length - 1]}`
-
-    if (split.length === 1) {
-      return {
-        fileName : name,
-        extension: ""
-      }
-    }
-
-    return {
-      fileName: name.slice(0, name.length - extension.length),
-      extension: split[split.length - 1]
-    }
+  const { fileName, extension } = useMemo(() => {
+    return getFileNameAndExtension(name, isFolder)
   }, [name, isFolder])
 
   const formik = useFormik({
@@ -355,6 +336,7 @@ const FileSystemItem = ({
 
   const [, dragMoveRef, preview] = useDrag({
     type: DragTypes.MOVABLE_FILE,
+    canDrag: !editing,
     item: () => {
       if (selectedCids.includes(file.cid)) {
         return { ids: selectedCids }
@@ -381,6 +363,7 @@ const FileSystemItem = ({
     canDrop: (item) => isFolder && !item.ids.includes(file.cid),
     drop: (item: { ids: string[]}) => {
       moveItems && moveItems(item.ids, getPathWithFile(currentPath, name))
+      resetSelectedFiles()
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver() && !monitor.getItem<{ids: string[]}>().ids.includes(file.cid)
@@ -401,6 +384,14 @@ const FileSystemItem = ({
 
   const fileOrFolderRef = useRef<any>()
 
+  if (fileOrFolderRef?.current) {
+    if (editing) {
+      fileOrFolderRef.current.draggable = false
+    } else {
+      fileOrFolderRef.current.draggable = true
+    }
+  }
+
   if (!editing && desktop) {
     dragMoveRef(fileOrFolderRef)
     if (isFolder) {
@@ -409,12 +400,25 @@ const FileSystemItem = ({
     }
   }
 
+  const handleItemSelectOnCheck = useCallback((e: React.MouseEvent) => {
+    if (e && (e.ctrlKey || e.metaKey)) {
+      handleAddToSelectedItems(file)
+    } else if (e && (e.shiftKey || e.metaKey)) {
+      handleSelectItemWithShift(file)
+    } else {
+      handleAddToSelectedItems(file)
+    }
+  }, [handleAddToSelectedItems, handleSelectItemWithShift, file])
+
+
   const onSingleClick = useCallback(
     (e) => {
       if (desktop) {
         // on desktop 
         if (e && (e.ctrlKey || e.metaKey)) {
           handleAddToSelectedItems(file)
+        } else if (e && (e.shiftKey || e.metaKey)) {
+          handleSelectItemWithShift(file)
         } else {
           handleSelectItem(file)
         }
@@ -431,7 +435,17 @@ const FileSystemItem = ({
         }
       }
     },
-    [desktop, handleAddToSelectedItems, file, handleSelectItem, isFolder, viewFolder, onFilePreview, selectedCids.length]
+    [
+      desktop,
+      file,
+      isFolder,
+      viewFolder,
+      onFilePreview,
+      selectedCids.length,
+      handleAddToSelectedItems,
+      handleSelectItemWithShift,
+      handleSelectItem
+    ]
   )
 
   const onDoubleClick = useCallback(
@@ -484,6 +498,7 @@ const FileSystemItem = ({
     selectedCids,
     setEditing,
     resetSelectedFiles,
+    handleItemSelectOnCheck,
     longPressEvents: !desktop ? longPressEvents : undefined
   }
 

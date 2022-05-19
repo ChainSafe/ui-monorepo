@@ -1,6 +1,6 @@
 import { cidsPage } from "../support/page-objects/cidsPage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
-import { testCid, testCidName } from "../fixtures/storageTestData"
+import { testCid, testCidAlternative, testCidName } from "../fixtures/storageTestData"
 import { addCidModal } from "../support/page-objects/modals/addCidModal"
 
 describe("CID management", () => {
@@ -41,19 +41,67 @@ describe("CID management", () => {
       cidsPage.unpinMenuOption().click()
       cidsPage.cidItemRow().should("contain.text", "queued")
     })
-  })
 
-  it("can see a warning when attempting to pin the same CID twice", () => {
-    cy.web3Login({ withNewSession: true })
-    navigationMenu.cidsNavButton().click()
+    it("can see a warning when attempting to pin the same CID twice", () => {
+      cy.web3Login({ withNewSession: true })
+      navigationMenu.cidsNavButton().click()
 
-    // add a cid
-    cidsPage.addPinnedCid()
+      // add a cid
+      cidsPage.addPinnedCid()
 
-    // see warning if attempting to pin the cid again
-    cidsPage.pinButton().click()
-    addCidModal.body().should("be.visible")
-    addCidModal.cidInput().type(testCid)
-    addCidModal.cidPinnedWarningLabel().should("be.visible")
+      // see warning if attempting to pin the cid again
+      cidsPage.pinButton().click()
+      addCidModal.body().should("be.visible")
+      addCidModal.cidInput().type(testCid)
+      addCidModal.cidPinnedWarningLabel().should("be.visible")
+    })
+
+    it("can search via name or cid", () => {
+      cy.web3Login({ withNewSession: true })
+      navigationMenu.cidsNavButton().click()
+
+      // use helper to add required pins
+      // partially sharing the same name, each with unique cid
+      const pin1 = "Pin 1"
+      const pin2 = "Pin 2"
+      cidsPage.addPinnedCid({ name: pin1 })
+      cidsPage.addPinnedCid({ name: pin2, cid: testCidAlternative })
+
+      // ensure search by full name yields 1 result
+      cidsPage.searchCidInput().type(pin1)
+      cidsPage.cidItemRow().should("have.length", 1)
+      cidsPage.cidItemRow().within(() => {
+        cidsPage.cidNameCell().should("have.text", pin1)
+      })
+
+      // ensure search by partial name yields 2 results
+      cidsPage.searchCidInput()
+        .clear()
+        .type(pin1.slice(0, 3))
+      cidsPage.cidItemRow().should("have.length", 2)
+      cidsPage.cidItemRow().within(() => {
+        cidsPage.cidNameCell().should("contain.text", pin1)
+        cidsPage.cidNameCell().should("contain.text", pin2)
+      })
+
+      // ensure search by full cid yields 1 result
+      cidsPage.searchCidInput()
+        .clear()
+        .type(testCid)
+      cidsPage.cidItemRow().should("have.length", 1)
+      cidsPage.cidItemRow().within(() => {
+        cidsPage.cidCell().should("have.text", testCid)
+      })
+
+      // peform a search that yields no results
+      cidsPage.searchCidInput()
+        .clear()
+        .type("bogus")
+      cidsPage.cidItemRow().should("have.length", 0)
+
+      // remove search input to remove all search filtering
+      cidsPage.searchCidInput().clear()
+      cidsPage.cidItemRow().should("have.length", 2)
+    })
   })
 })

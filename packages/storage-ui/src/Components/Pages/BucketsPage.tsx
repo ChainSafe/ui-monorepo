@@ -33,7 +33,8 @@ export const mobileGridSettings = "3fr 100px 100px 70px !important"
 const useStyles = makeStyles(({ breakpoints, animation, constants, typography }: CSSTheme) =>
   createStyles({
     root: {
-      position: "relative"
+      position: "relative",
+      marginTop: constants.generalUnit * 2
     },
     tableHead: {
       marginTop: 24
@@ -58,27 +59,10 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
       padding: constants.generalUnit * 4
     },
     modalInner: {
-      [breakpoints.down("md")]: {
-        bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
-        maxWidth: `${breakpoints.width("md")}px !important`
-      }
+      width: "100%"
     },
     okButton: {
       marginLeft: constants.generalUnit
-    },
-    cancelButton: {
-      [breakpoints.down("md")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: constants?.mobileButtonHeight
-      }
     },
     controls: {
       display: "flex",
@@ -146,7 +130,7 @@ const BucketsPage = () => {
   const formik = useFormik({
     initialValues:{
       name: "",
-      fileSystemType: "ipfs"
+      fileSystemType: "chainsafe"
     },
     enableReinitialize: true,
     validationSchema: bucketNameValidationSchema,
@@ -249,10 +233,10 @@ const BucketsPage = () => {
           inner: classes.modalInner
         }}
         closePosition="none"
+        testId="create-bucket"
       >
         <div
           className={classes.modalRoot}
-          data-cy="form-create-bucket"
         >
           <FormikProvider value={formik}>
             <Form>
@@ -296,13 +280,15 @@ const BucketsPage = () => {
                   <div>
                     <FormikRadioInput
                       name="fileSystemType"
-                      id='ipfs'
-                      label='IPFS'
+                      id='chainsafe'
+                      label='Chainsafe'
+                      testId="chainsafe"
                     />
                     <FormikRadioInput
                       name="fileSystemType"
-                      id='chainsafe'
-                      label='Chainsafe'
+                      id='ipfs'
+                      label='IPFS'
+                      testId="ipfs"
                     />
                   </div>
                 </label>
@@ -312,7 +298,6 @@ const BucketsPage = () => {
                   data-cy="button-cancel-create"
                   onClick={closeCreateModal}
                   size="medium"
-                  className={classes.cancelButton}
                   variant="outline"
                   type="button"
                 >

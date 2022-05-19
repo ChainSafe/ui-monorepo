@@ -6,11 +6,14 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
-import { useHistory, useLocation, useToasts } from "@chainsafe/common-components"
+import { Crumb, useHistory, useLocation, useToasts } from "@chainsafe/common-components"
 import {
   extractFileBrowserPathFromURL,
   getAbsolutePathsFromCids,
+  getArrayOfPaths,
+  getURISafePathFromArray,
   getUrlSafePathWithFile,
+  joinArrayOfPaths,
   pathEndingWithSlash
 } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
@@ -50,6 +53,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   },
   [bucket, currentPath, filesApiClient]
   )
+
   useEffect(() => {
     refreshContents(true)
   }, [bucket, refreshContents])
@@ -122,11 +126,24 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     [CONTENT_TYPES.Directory]: ["recover", "delete"]
   }), [])
 
+  // Breadcrumbs/paths
+  const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
+  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => {
+    return {
+      text: decodeURIComponent(path),
+      onClick: () => {
+        redirect(
+          ROUTE_LINKS.Bin(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+        )
+      },
+      path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
+    }}), [arrayOfPaths, redirect])
+
   return (
     <FileBrowserContext.Provider
       value={{
         bucket,
-        crumbs: undefined,
+        crumbs,
         deleteItems,
         recoverItems,
         currentPath,

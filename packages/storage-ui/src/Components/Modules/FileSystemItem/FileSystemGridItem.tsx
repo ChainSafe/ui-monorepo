@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -7,7 +7,8 @@ import {
   IMenuItem,
   Loading,
   MenuDropdown,
-  MoreIcon
+  MoreIcon,
+  Typography
 } from "@chainsafe/common-components"
 import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
@@ -15,6 +16,7 @@ import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { ISelectedFile } from "../../../Contexts/FileBrowserContext"
+import { getFileNameAndExtension } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   return createStyles({
@@ -76,9 +78,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
     desktopRename: {
       display: "flex",
       flexDirection: "row",
+      alignItems: "center",
       "& svg": {
         width: 20,
         height: 20
+      },
+      "& > span": {
+        fontSize: 16,
+        lineHeight: "20px",
+        marginLeft: constants.generalUnit / 2
       }
     },
     dropdownIcon: {
@@ -130,12 +138,12 @@ interface IFileSystemTableItemProps {
   isOverUpload: boolean
   selected: ISelectedFile[]
   file: FileSystemItem
-  editing?: string
+  editingFile?: ISelectedFile
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: ISelectedFile |  undefined) => void
-  handleRename?: (cid: string, newName: string) => Promise<void> | undefined
+  setEditingFile: (editingFile: ISelectedFile |  undefined) => void
+  handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
@@ -148,10 +156,10 @@ const FileSystemGridItem = React.forwardRef(
     isOverUpload,
     selected,
     file,
-    editing,
+    editingFile,
     onFolderOrFileClicks,
     icon,
-    setEditing,
+    setEditingFile,
     handleRename,
     menuItems,
     resetSelectedFiles,
@@ -162,18 +170,22 @@ const FileSystemGridItem = React.forwardRef(
     const { desktop } = useThemeSwitcher()
     const [isEditingLoading, setIsEditingLoading] = useState(false)
 
+    const { fileName, extension } = useMemo(() => {
+      return getFileNameAndExtension(name, isFolder)
+    }, [name, isFolder])
+
     const formik = useFormik({
       initialValues: {
-        fileName: name
+        name: fileName
       },
       validationSchema: nameValidator,
       onSubmit: (values) => {
-        const newName = values.fileName?.trim()
+        const newName = extension !== "" ? `${values.name.trim()}.${extension}` : values.name.trim()
 
-        if (newName !== name && !!newName && handleRename) {
+        if (newName !== name && !!newName && handleRename && editingFile) {
           setIsEditingLoading(true)
 
-          handleRename(file.cid, newName)
+          handleRename(editingFile, newName)
             ?.then(() => setIsEditingLoading(false))
         } else {
           stopEditing()
@@ -205,9 +217,9 @@ const FileSystemGridItem = React.forwardRef(
     }, [handleClickOutside])
 
     const stopEditing = useCallback(() => {
-      setEditing(undefined)
+      setEditingFile(undefined)
       formik.resetForm()
-    }, [formik, setEditing])
+    }, [formik, setEditingFile])
 
     return  (
       <div
@@ -234,15 +246,16 @@ const FileSystemGridItem = React.forwardRef(
           >
             {icon}
           </div>
-          {editing === cid && desktop ? (
-            <FormikProvider value={formik}>
+          {/* checking the name is useful for MFS folders since empty folders all have the same cid */}
+          {editingFile?.cid === cid && editingFile.name === name && desktop
+            ? (<FormikProvider value={formik}>
               <Form
                 className={classes.desktopRename}
                 onBlur={formik.submitForm}
               >
                 <FormikTextInput
                   className={classes.renameInput}
-                  name="fileName"
+                  name="name"
                   inputVariant="minimal"
                   onKeyDown={(event) => {
                     if (event.key === "Escape") {
@@ -255,15 +268,22 @@ const FileSystemGridItem = React.forwardRef(
                   }
                   autoFocus
                 />
+                {
+                  !isFolder && extension !== ""  && (
+                    <Typography component="span">
+                      { `.${extension}` }
+                    </Typography>
+                  )
+                }
               </Form>
             </FormikProvider>
-          ) : <div className={classes.gridFolderName}>
-            {name}{isEditingLoading && <Loading
-              className={classes.loadingIcon}
-              size={16}
-              type="initial"
-            />}
-          </div>
+            ) : <div className={classes.gridFolderName}>
+              {name}{isEditingLoading && <Loading
+                className={classes.loadingIcon}
+                size={16}
+                type="initial"
+              />}
+            </div>
           }
         </div>
         <MenuDropdown

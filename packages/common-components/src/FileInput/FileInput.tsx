@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, ReactNode } from "react"
 import { useField } from "formik"
-import { useDropzone, DropzoneOptions, FileRejection } from "react-dropzone"
+import { useDropzone, DropzoneOptions, FileRejection, FileWithPath } from "react-dropzone"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button } from "../Button"
@@ -101,10 +101,6 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   })
 )
 
-interface FileWithPath extends File {
-  path?: string
-}
-
 interface IFileInputProps extends DropzoneOptions {
   className?: string
   variant?: "dropzone" | "filepicker"
@@ -143,14 +139,14 @@ const FileInput = ({
   const classes = useStyles()
   const [previews, setPreviews] = useState<any[]>([])
   const [errors, setErrors] = useState<any[]>([])
-  const [{ value }, meta, helpers] = useField<Array<FileWithPath>>(name)
+  const [{ value }, meta, helpers] = useField<FileWithPath[]>(name)
 
   useEffect(() => {
     onFileNumberChange && onFileNumberChange(value.length)
   }, [onFileNumberChange, value.length])
 
   const onDrop = useCallback(
-    async (acceptedFiles: Array<FileWithPath>, fileRejections: FileRejection[]) => {
+    async (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
       const filtered = acceptedFiles.filter((file) =>
         maxFileSize ? file.size <= maxFileSize : true
       )
@@ -165,6 +161,7 @@ const FileInput = ({
           )
         )
       }
+
       helpers.setValue([...value, ...filtered])
 
       if (fileRejections.length > 0) {
@@ -277,11 +274,17 @@ const FileInput = ({
       )}
       {(meta.error || errors.length > 0) && (
         <ul className={classNames?.error}>
-          <li className={classes.error}>{meta.error}</li>
+          <li
+            data-testid={`meta-error-message-${testId}`}
+            className={classes.error}
+          >
+            {meta.error}
+          </li>
           {errors.map((error, i) => (
             <li
               key={i}
               className={classes.error}
+              data-testid={`error-message-${testId}`}
             >
               {error}
             </li>

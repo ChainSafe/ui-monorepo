@@ -6,7 +6,8 @@ import {
   getURISafePathFromArray,
   getPathWithFile,
   extractFileBrowserPathFromURL,
-  getUrlSafePathWithFile
+  getUrlSafePathWithFile,
+  joinArrayOfPaths
 } from "../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "../../Contexts/types"
 import FilesList from "../Modules/FilesList/FilesList"
@@ -97,8 +98,9 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       .finally(refreshContents)
   }, [bucket, storageApiClient, refreshContents, pathContents, currentPath, addToast])
 
-  const renameItem = useCallback(async (cid: string, newName: string) => {
-    const itemToRename = pathContents.find(i => i.cid === cid)
+  const renameItem = useCallback(async (item: ISelectedFile, newName: string) => {
+    // checking the name is useful for MFS folders since empty folders all have the same cid
+    const itemToRename = pathContents.find(i => i.cid === item.cid && i.name === item.name)
     if (!bucket || !itemToRename) return
 
     return storageApiClient.moveBucketObjects(bucket.id, {
@@ -152,14 +154,17 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
-  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
-    text: decodeURIComponent(path),
-    onClick: () => {
-      redirect(
-        ROUTE_LINKS.Bucket(bucketId, getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
-      )
-    }
-  })), [arrayOfPaths, bucketId, redirect])
+
+  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => {
+    return {
+      text: decodeURIComponent(path),
+      onClick: () => {
+        redirect(
+          ROUTE_LINKS.Bucket(bucketId, getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+        )
+      },
+      path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
+    }}), [arrayOfPaths, redirect, bucketId])
 
   const currentFolder = useMemo(() => {
     return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]

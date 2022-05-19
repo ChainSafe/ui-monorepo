@@ -1932,10 +1932,10 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/browser-storage-hooks/-/browser-storage-hooks-1.0.1.tgz#26d32cde1999914db755a631e2643823c54959f7"
   integrity sha512-Q4b5gQAZnsRXKeADspd5isqfwwhhXjDk70y++YadufA6EZ3tf340oW0OVszp74KaGEw+CAYFGQR4X7bzpZ3x9Q==
 
-"@chainsafe/files-api-client@1.18.34":
-  version "1.18.34"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.34.tgz#58162ab01c8cb3667964c23a2c6fe7adbf6b5faf"
-  integrity sha512-00AR3uEIJs08MQ3s9uiRxId7oRE+XnOrkfPAEWmU4j3k3dbochl8yc0JCVYE/q11Cg60XVEbnVqo5JjATl4foA==
+"@chainsafe/files-api-client@1.18.35":
+  version "1.18.35"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.35.tgz#52cd9fa823e20f3ff2bedfbc9a1dae674a61c06b"
+  integrity sha512-DDPMT30b57fmON1gjvfDvdg+Gx2cTewo4/oGdhAwH6B4ZnLqMTnraDacNFZKaaOBtG0U7GdvxU1vHjxY8FE4vw==
   dependencies:
     "@redocly/openapi-cli" "^1.0.0-beta.58"
     "@redocly/openapi-core" "^1.0.0-beta.69"
@@ -2108,7 +2108,7 @@
     "@emotion/utils" "0.11.3"
     "@emotion/weak-memoize" "0.2.5"
 
-"@emotion/core@^10.0.14", "@emotion/core@^10.0.15", "@emotion/core@^10.0.20", "@emotion/core@^10.0.9":
+"@emotion/core@^10.0.15", "@emotion/core@^10.0.20", "@emotion/core@^10.0.9":
   version "10.0.35"
   resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.0.35.tgz#513fcf2e22cd4dfe9d3894ed138c9d7a859af9b3"
   integrity sha512-sH++vJCdk025fBlRZSAhkRlSUoqSqgCzYf5fMOmqqi3bM6how+sQpg3hkgJonj8GxXM4WbD7dRO+4tegDB9fUw==
@@ -6343,13 +6343,6 @@
   version "4.3.5"
   resolved "https://registry.yarnpkg.com/@types/react-textarea-autosize/-/react-textarea-autosize-4.3.5.tgz#6c4d2753fa1864c98c0b2b517f67bb1f6e4c46de"
   integrity sha512-PiDL83kPMTolyZAWW3lyzO6ktooTb9tFTntVy7CA83/qFLWKLJ5bLeRboy6J6j3b1e8h2Eec6gBTEOOJRjV14A==
-  dependencies:
-    "@types/react" "*"
-
-"@types/react-toast-notifications@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@types/react-toast-notifications/-/react-toast-notifications-2.4.0.tgz#0ca0732cfae5a6ef5939a676fffac6e64c78bc25"
-  integrity sha512-nBI6gQ0E5gwi3IcTrVOR3oKoMGRfH1gK67kI6RIKUmiV5Sc3ZC/eymYBFt6iDo0dhlYET6kdtR0tcUh9h5L0sQ==
   dependencies:
     "@types/react" "*"
 
@@ -21376,14 +21369,6 @@ react-textarea-autosize@^8.1.1:
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
 
-react-toast-notifications@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/react-toast-notifications/-/react-toast-notifications-2.4.0.tgz#6213730bd1fe158fc01aeef200687ea94c5c5b24"
-  integrity sha512-8tkrbNh7LxkiFmtqAL/AiI55efIeI+fBk3c6ImsiZ0VObb4yvOq0cqYuJHyUiv9fuD2aBxvXGVH+n4Snt8qoWA==
-  dependencies:
-    "@emotion/core" "^10.0.14"
-    react-transition-group "^4.3.0"
-
 react-transition-group@^4.3.0:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"
@@ -21403,11 +21388,6 @@ react-transition-group@^4.4.0:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
-
-react-use-hotjar@1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/react-use-hotjar/-/react-use-hotjar-1.0.8.tgz#00df9f6b1e6e4f0f75a44600a4dacefb65c5280e"
-  integrity sha512-paWu8a6n3gYzD6dMS26KtKxwmzegFJh3nrIhcICWfAtxrjlAYH8hTflr5JJN868ubwXnewiQ7lvJBb13EAooeQ==
 
 react-zoom-pan-pinch@^1.6.1:
   version "1.6.1"

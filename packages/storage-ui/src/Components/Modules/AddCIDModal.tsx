@@ -8,7 +8,7 @@ import { t, Trans } from "@lingui/macro"
 import { useStorage } from "../../Contexts/StorageContext"
 import { cidValidator } from "../../Utils/validationSchema"
 
-const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette, typography }: CSSTheme) =>
+const useStyles = makeStyles(({ constants, zIndex, palette, typography }: CSSTheme) =>
   createStyles({
     root: {
       padding: constants.generalUnit * 4,
@@ -18,30 +18,13 @@ const useStyles = makeStyles(({ constants, breakpoints, zIndex, palette, typogra
       zIndex: zIndex?.blocker
     },
     modalInner: {
-      backgroundColor: constants.createFolder.backgroundColor,
-      color: constants.createFolder.color,
-      width: "100%",
-      [breakpoints.down("md")]: {
-        bottom: Number(constants?.mobileButtonHeight) + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-        maxWidth: `${breakpoints.width("md")}px !important`
-      }
+      width: "100%"
     },
     input: {
       marginBottom: constants.generalUnit * 2
     },
     okButton: {
       marginLeft: constants.generalUnit
-    },
-    cancelButton: {
-      [breakpoints.down("md")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: constants?.mobileButtonHeight
-      }
     },
     heading: {
       color: constants.createFolder.color,
@@ -77,7 +60,7 @@ interface IAddCIDModuleProps {
 
 const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const classes = useStyles()
-  const { addPin, refreshPins, searchCid } = useStorage()
+  const { addPin, searchCid } = useStorage()
   const [accessingCID, setAccessingCID] = useState(false)
   const [cidError, setCidError] = useState("")
   const [cid, setCid] = useState("")
@@ -98,17 +81,12 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
     setAccessingCID(true)
 
     addPin(cid.trim(), name.trim())
-      .then(() => {
-        onClose()
-      })
-      .catch((e) => {
-        console.error(e)
-      })
+      .then(onClose)
+      .catch(console.error)
       .finally(() => {
-        refreshPins(undefined)
         setAccessingCID(false)
       })
-  }, [addPin, cid, name, onClose, refreshPins])
+  }, [addPin, cid, name, onClose])
 
   useEffect(() => {
     if (!cid) return
@@ -213,8 +191,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
           <CustomButton
             onClick={() => onClose()}
             size="medium"
-            className={classes.cancelButton}
-            variant={"outline"}
+            variant="outline"
             type="button"
             data-cy="button-cancel-add-pin"
           >

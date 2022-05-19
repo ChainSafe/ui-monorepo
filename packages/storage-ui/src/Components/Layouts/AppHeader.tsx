@@ -8,7 +8,8 @@ import {
   HamburgerMenu,
   MenuDropdown,
   PowerDownSvg,
-  useHistory
+  useHistory,
+  useToasts
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
@@ -177,13 +178,15 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { isLoggedIn, logout } = useStorageApi()
   const { history } = useHistory()
   const { getProfileTitle, profile } = useUser()
+  const { removeAllToasts } = useToasts()
 
   const profileTitle = getProfileTitle()
 
   const signOut = useCallback(async () => {
     logout()
+    removeAllToasts()
     history.replace("/", {})
-  }, [logout, history])
+  }, [logout, removeAllToasts, history])
 
   return (
     <header

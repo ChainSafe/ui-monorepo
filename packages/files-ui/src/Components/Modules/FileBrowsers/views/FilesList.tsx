@@ -129,7 +129,8 @@ const useStyles = makeStyles(
           backgroundColor: palette.additional["gray"][4]
         },
         [breakpoints.up("md")]: {
-          margin: `${constants.generalUnit * 3}px 0`
+          marginTop: constants.generalUnit * 3,
+          marginBottom: 0
         },
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 3}px 0 0`
@@ -255,11 +256,19 @@ const useStyles = makeStyles(
       bulkOperations: {
         display: "flex",
         flexDirection: "row",
-        marginTop: constants.generalUnit * 3,
-        marginBottom: constants.generalUnit * 3,
-        minHeight: constants.generalUnit * 4.2, // reserve space for buttons for the interface not to jump when they get visible
+        position: "sticky",
+        top: "80px",
+        backgroundColor: palette.additional["gray"][1],
+        zIndex: zIndex?.layer0,
+        minHeight: constants.generalUnit * 5 + 34,
+        alignItems: "center",
         "& > *": {
           marginRight: constants.generalUnit
+        },
+        [breakpoints.up("md")]: {
+          // prevent grid shadows overflow showing
+          marginLeft: "-4px",
+          paddingLeft: "4px"
         }
       },
       confirmDeletionDialog: {
@@ -271,7 +280,6 @@ const useStyles = makeStyles(
         gridColumnGap: constants.generalUnit * 2,
         gridRowGap: constants.generalUnit * 2,
         marginBottom: constants.generalUnit * 4,
-        marginTop: constants.generalUnit * 4,
         [breakpoints.down("lg")]: {
           gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)"
         },
@@ -319,6 +327,14 @@ const useStyles = makeStyles(
       },
       checkIcon: {
         fill: palette.additional.gray[8]
+      },
+      tableHead: {
+        position: "sticky",
+        top: constants.generalUnit * 5 + 34 + 80,
+        zIndex: zIndex?.layer0,
+        [breakpoints.down("md")]: {
+          top: 50
+        }
       }
     })
   }
@@ -467,13 +483,9 @@ const FilesList = ({ isShared = false }: Props) => {
   // Selection logic
   const handleSelectItem = useCallback(
     (item: FileSystemItemType) => {
-      if (selectedCids.includes(item.cid)) {
-        setSelectedItems([])
-      } else {
-        setSelectedItems([item])
-      }
+      setSelectedItems([item])
     },
-    [selectedCids]
+    []
   )
 
   const handleAddToSelectedItems = useCallback(
@@ -487,6 +499,46 @@ const FilesList = ({ isShared = false }: Props) => {
       }
     },
     [selectedCids, selectedItems]
+  )
+
+  // select item with SHIFT pressed
+  const handleSelectItemWithShift = useCallback(
+    (item: FileSystemItemType) => {
+      // item already selected
+      const isItemAlreadySelected = selectedItems.includes(item)
+      if (isItemAlreadySelected) return
+
+      const lastIndex = selectedItems.length
+        ? items.findIndex((i) => i.cid === selectedItems[selectedItems.length - 1].cid)
+        : -1
+
+      // first item
+      if (lastIndex === -1) {
+        setSelectedItems([item])
+        return
+      }
+
+      const currentIndex = items.findIndex((i) => i.cid === item.cid)
+      // unavailable item
+      if (currentIndex === -1) return
+
+      // new item, with selected items 
+      let countIndex = lastIndex
+      let mySelectedItems = selectedItems
+      while (
+        (currentIndex > lastIndex && countIndex <= currentIndex) ||
+        (currentIndex < lastIndex && countIndex >= currentIndex)
+      ) {
+        // filter out if item already selected
+        const currentCID = items[countIndex].cid
+        mySelectedItems = mySelectedItems.filter((s) => s.cid !== currentCID)
+        mySelectedItems.push(items[countIndex])
+        if (currentIndex > lastIndex) countIndex++
+        else countIndex--
+      }
+      setSelectedItems([...mySelectedItems])
+    },
+    [selectedItems, items]
   )
 
   const toggleAll = useCallback(() => {
@@ -853,7 +905,8 @@ const FilesList = ({ isShared = false }: Props) => {
             homeOnClick={() => redirect(moduleRootPath)}
             homeRef={homeBreadcrumbRef}
             homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
-            showDropDown={!desktop}
+            showDropDown
+            maximumCrumbs={desktop ? 5 : 3}
           />
         )}
       </div>
@@ -1053,7 +1106,7 @@ const FilesList = ({ isShared = false }: Props) => {
               testId="home"
             >
               {desktop ? (
-                <TableHead>
+                <TableHead className={classes.tableHead}>
                   <TableRow
                     type="grid"
                     className={classes.tableRow}
@@ -1102,7 +1155,7 @@ const FilesList = ({ isShared = false }: Props) => {
                   </TableRow>
                 </TableHead>
               ) : (
-                <TableHead>
+                <TableHead className={classes.tableHead}>
                   <TableRow
                     type="grid"
                     className={classes.tableRow}
@@ -1196,6 +1249,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     selectedCids={selectedCids}
                     handleSelectItem={handleSelectItem}
                     handleAddToSelectedItems={handleAddToSelectedItems}
+                    handleSelectItemWithShift={handleSelectItemWithShift}
                     editing={editing}
                     setEditing={setEditing}
                     handleRename={(cid: string, newName: string) => {
@@ -1255,6 +1309,7 @@ const FilesList = ({ isShared = false }: Props) => {
                   handleSelectItem={handleSelectItem}
                   viewFolder={handleViewFolder}
                   handleAddToSelectedItems={handleAddToSelectedItems}
+                  handleSelectItemWithShift={handleSelectItemWithShift}
                   editing={editing}
                   setEditing={setEditing}
                   handleRename={(path: string, newPath: string) => {

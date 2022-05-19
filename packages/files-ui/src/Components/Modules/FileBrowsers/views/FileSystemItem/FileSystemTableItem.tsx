@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -20,6 +20,7 @@ import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
 import Menu from "../../../../../UI-components/Menu"
+import { getFileNameAndExtension } from "../../../../../Utils/Helpers"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -120,7 +121,7 @@ interface IFileSystemTableItemProps {
   selectedCids: string[]
   file: FileSystemItem
   editing?: string
-  handleAddToSelectedItems: (selected: FileSystemItem) => void
+  handleItemSelectOnCheck: (e: React.MouseEvent) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
@@ -139,7 +140,7 @@ const FileSystemTableItem = React.forwardRef(
     selectedCids,
     file,
     editing,
-    handleAddToSelectedItems,
+    handleItemSelectOnCheck,
     onFolderOrFileClicks,
     icon,
     preview,
@@ -155,26 +156,7 @@ const FileSystemTableItem = React.forwardRef(
     const [isEditingLoading, setIsEditingLoading] = useState(false)
 
     const { fileName, extension } = useMemo(() => {
-      if (isFolder) {
-        return {
-          fileName : name,
-          extension: ""
-        }
-      }
-      const split = name.split(".")
-      const extension = `.${split[split.length - 1]}`
-
-      if (split.length === 1) {
-        return {
-          fileName : name,
-          extension: ""
-        }
-      }
-
-      return {
-        fileName: name.slice(0, name.length - extension.length),
-        extension: split[split.length - 1]
-      }
+      return getFileNameAndExtension(name, isFolder)
     }, [name, isFolder])
 
     const formik = useFormik({
@@ -203,6 +185,14 @@ const FileSystemTableItem = React.forwardRef(
 
     useOnClickOutside(formRef, formik.submitForm)
 
+    const renameInputRef = useRef<HTMLInputElement | null>()
+
+    useEffect(() => {
+      if (editing && renameInputRef?.current) {
+        renameInputRef.current.focus()
+      }
+    }, [editing])
+
     return (
       <TableRow
         data-cy="row-file-item"
@@ -218,7 +208,7 @@ const FileSystemTableItem = React.forwardRef(
           <TableCell>
             <CheckboxInput
               value={selectedCids.includes(cid)}
-              onChange={() => handleAddToSelectedItems(file)}
+              onClick={handleItemSelectOnCheck}
             />
           </TableCell>
         )}
@@ -259,7 +249,7 @@ const FileSystemTableItem = React.forwardRef(
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
-                    autoFocus
+                    ref={renameInputRef}
                   />
                   {
                     !isFolder && extension !== "" && (

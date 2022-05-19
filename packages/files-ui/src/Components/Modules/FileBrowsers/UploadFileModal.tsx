@@ -9,7 +9,6 @@ import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
-import { getPathWithFile } from "../../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -81,9 +80,8 @@ interface IUploadFileModuleProps {
 const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
-  const { uploadFiles } = useFiles()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
-  const { storageSummary } = useFiles()
+  const { storageSummary, uploadFiles } = useFiles()
 
   const UploadSchema = useMemo(() => object().shape({
     files: array().required(t`Please select a file to upload`)
@@ -105,14 +103,11 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
 
   const onSubmit = useCallback(async (values: {files: Array<File & {path: string}>}, helpers) => {
     if (!bucket) return
+
     helpers.setSubmitting(true)
     try {
       close()
-      const paths = [...new Set(values.files.map(f => f.path.substring(0, f.path.lastIndexOf("/"))))]
-      paths.forEach(async p => {
-        const filesToUpload = values.files.filter((f => f.path.substring(0, f.path.lastIndexOf("/")) === p))
-        await uploadFiles(bucket, filesToUpload, getPathWithFile(currentPath, p))
-      })
+      await uploadFiles(bucket, values.files, currentPath)
       refreshContents && refreshContents()
       helpers.resetForm()
     } catch (error: any) {
@@ -124,7 +119,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const formik = useFormik({
     initialValues: { files: [] },
     validationSchema: UploadSchema,
-    onSubmit: onSubmit
+    onSubmit
   })
 
   return (
@@ -132,9 +127,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
       active={modalOpen}
       closePosition="none"
       maxWidth="sm"
-      injectedClass={{
-        inner: classes.modalInner
-      }}
+      injectedClass={{ inner: classes.modalInner }}
     >
       <FormikProvider value={formik}>
         <Form

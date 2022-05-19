@@ -159,13 +159,13 @@ interface Props {
 const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteSharedFolder, onEditSharedFolder }: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
-
   const { desktop } = useThemeSwitcher()
   const [isRenaming, setIsRenaming] = useState(false)
   const formRef = useRef(null)
   const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
   const [ownerName, setOwnerName] = useState("")
   const [isEditingLoading, setIsEditingLoading] = useState(false)
+  const renameInputRef = useRef<HTMLInputElement | null>()
 
   useEffect(() => {
     if (isOwner) {
@@ -177,6 +177,12 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       .then(setOwnerName)
       .catch(console.error)
   }, [bucket, isOwner])
+
+  useEffect(() => {
+    if (isRenaming && renameInputRef?.current) {
+      renameInputRef.current.focus()
+    }
+  }, [isRenaming])
 
   const menuItems: IMenuItem[] = isOwner
     ? [{
@@ -327,7 +333,8 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                       }
                     }}
                     placeholder = {t`Please enter a folder name`}
-                    autoFocus={isRenaming}
+                    autoFocus
+                    ref={renameInputRef}
                   />
                 </Form>
               </FormikProvider>

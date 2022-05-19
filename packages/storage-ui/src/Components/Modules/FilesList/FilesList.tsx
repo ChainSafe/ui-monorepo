@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import {
   MenuDropdown,
   PlusIcon,
@@ -46,6 +46,9 @@ import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserCont
 import SurveyBanner from "../SurveyBanner"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
+import { DragPreviewLayer } from "./DragPreviewLayer"
+import FolderBreadcrumb from "./FolderBreadcrumb"
+import { DragTypes } from "./DragConstants"
 
 interface IStyleProps {
   themeKey: string
@@ -109,7 +112,8 @@ const useStyles = makeStyles(
           backgroundColor: palette.additional["gray"][4]
         },
         [breakpoints.up("md")]: {
-          margin: `${constants.generalUnit * 3}px 0`
+          marginTop: constants.generalUnit * 3,
+          marginBottom: 0
         },
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 3}px 0 0`
@@ -229,14 +233,15 @@ const useStyles = makeStyles(
         opacity: 0.2,
         transition: `opacity ${animation.transform * 3}ms`
       },
-      tableHead: {
-        marginTop: constants.generalUnit * 3
-      },
       bulkOperations: {
         display: "flex",
         flexDirection: "row",
-        marginTop: constants.generalUnit * 3,
-        minHeight: constants.generalUnit * 4.2, // reserve space for buttons for the interface not to jump when they get visible
+        position: "sticky",
+        top: "80px",
+        backgroundColor: palette.additional["gray"][1],
+        zIndex: zIndex?.layer0,
+        minHeight: constants.generalUnit * 5 + 34,
+        alignItems: "center",
         "& > *": {
           marginRight: constants.generalUnit
         }
@@ -291,6 +296,14 @@ const useStyles = makeStyles(
       },
       buttonWrap: {
         whiteSpace: "nowrap"
+      },
+      tableHead: {
+        position: "sticky",
+        top: constants.generalUnit * 5 + 34 + 80,
+        zIndex: zIndex?.layer0,
+        [breakpoints.down("md")]: {
+          top: 50
+        }
       }
     })
   }
@@ -313,6 +326,7 @@ const FilesList = () => {
     renameItem: handleRename,
     deleteItems,
     viewFolder,
+    moveItems,
     currentPath,
     refreshContents,
     loadingCurrentPath,
@@ -324,7 +338,7 @@ const FilesList = () => {
     withSurvey
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
-  const [editing, setEditing] = useState<ISelectedFile | undefined>()
+  const [editingFile, setEditingFile] = useState<ISelectedFile | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<ISelectedFile[]>([])
@@ -393,13 +407,9 @@ const FilesList = () => {
   // Selection logic
   const handleSelectCid = useCallback(
     (toSelect: ISelectedFile) => {
-      if (selectedCids.findIndex(item => item.cid === toSelect.cid && item.name === toSelect.name) >= 0) {
-        setSelectedCids([])
-      } else {
-        setSelectedCids([toSelect])
-      }
+      setSelectedCids([toSelect])
     },
-    [selectedCids]
+    []
   )
 
   const handleAddToSelectedCids = useCallback(
@@ -413,6 +423,52 @@ const FilesList = () => {
       }
     },
     [selectedCids]
+  )
+
+  // select item with SHIFT pressed
+  const handleSelectItemWithShift = useCallback(
+    (item: ISelectedFile) => {
+      // item already selected
+      const isItemAlreadySelected = !!selectedItems
+        .find((s) => s.cid === item.cid && s.name === item.name)
+      if (isItemAlreadySelected) return
+
+      const lastIndex = selectedItems.length
+        ? items.findIndex((i) =>
+          i.cid === selectedItems[selectedItems.length - 1].cid &&
+          i.name === selectedItems[selectedItems.length - 1].name
+        )
+        : -1
+
+      // first item
+      if (lastIndex === -1) {
+        setSelectedCids([item])
+        return
+      }
+
+      const currentIndex = items.findIndex((i) => i.cid === item.cid && i.name === item.name)
+      // unavailable item
+      if (currentIndex === -1) return
+
+      // new item, with selected items 
+      let countIndex = lastIndex
+      let mySelectedItems = selectedItems
+      while (
+        (currentIndex > lastIndex && countIndex <= currentIndex) ||
+         (currentIndex < lastIndex && countIndex >= currentIndex)
+      ) {
+        // filter out if item already selected
+        const currentCID = items[countIndex].cid
+        const currentName = items[countIndex].name
+        mySelectedItems = mySelectedItems.filter((s) => s.cid !== currentCID || s.name !== currentName)
+        mySelectedItems.push(items[countIndex])
+        if (currentIndex > lastIndex) countIndex++
+        else countIndex--
+      }
+      // add the current item
+      setSelectedCids([...mySelectedItems])
+    },
+    [selectedItems, items]
   )
 
   const toggleAll = useCallback(() => {
@@ -442,6 +498,35 @@ const FilesList = () => {
       canDrop: monitor.canDrop()
     })
   })
+
+  const [{ isOverUploadHomeBreadcrumb }, dropUploadHomeBreadcrumbRef] = useDrop({
+    accept: [NativeTypes.FILE],
+    drop: (item: {
+      files: File[]
+      items:DataTransferItemList
+    }) => {
+      handleUploadOnDrop && handleUploadOnDrop(item.files, item.items, "/")
+    },
+    collect: (monitor) => ({
+      isOverUploadHomeBreadcrumb: monitor.isOver()
+    })
+  })
+
+  const [{ isOverMoveHomeBreadcrumb }, dropMoveHomeBreadcrumbRef] = useDrop({
+    accept: DragTypes.MOVABLE_FILE,
+    canDrop: () => currentPath !== "/",
+    drop: (item: {selected: ISelectedFile[]}) => {
+      moveItems && moveItems(item.selected, "/")
+      resetSelectedCids()
+    },
+    collect: (monitor) => ({
+      isOverMoveHomeBreadcrumb: monitor.isOver() && currentPath !== "/"
+    })
+  })
+
+  const homeBreadcrumbRef  =  useRef<HTMLDivElement>(null)
+  dropMoveHomeBreadcrumbRef(homeBreadcrumbRef)
+  dropUploadHomeBreadcrumbRef(homeBreadcrumbRef)
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
@@ -594,18 +679,42 @@ const FilesList = () => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
+      <DragPreviewLayer
+        items={sourceFiles}
+        previewType={browserView}
+      />
       <div className={classes.breadCrumbContainer}>
         {crumbs && moduleRootPath && (
           <Breadcrumb
-            crumbs={crumbs}
+            crumbs={crumbs.map((crumb, i) => ({
+              ...crumb,
+              component: (i < crumbs.length - 1)
+                ? <FolderBreadcrumb
+                  folderName={crumb.text}
+                  onClick={crumb.onClick}
+                  handleMove={(item) => {
+                    console.log(item, crumb.path)
+                    moveItems && crumb.path && moveItems(item.selected, crumb.path)
+                    resetSelectedCids()
+                  }}
+                  handleUpload={(item) => handleUploadOnDrop &&
+                    crumb.path &&
+                    handleUploadOnDrop(item.files, item.items, crumb.path)
+                  }
+                />
+                : null
+            }))}
             homeOnClick={() => redirect(moduleRootPath)}
-            showDropDown={!desktop}
+            homeRef={homeBreadcrumbRef}
+            homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
+            showDropDown
+            maximumCrumbs={desktop ? 5 : 3}
           />
         )}
       </div>
       <header
         className={classes.header}
-        data-cy="header-bucket-item"
+        data-cy="header-bucket"
       >
         <Typography
           variant="h1"
@@ -618,11 +727,11 @@ const FilesList = () => {
           {controls && desktop ? (
             <>
               <Button
-                data-cy="button-new-folder"
                 onClick={() => setCreateFolderModalOpen(true)}
                 variant="outline"
                 size="large"
                 disabled={accountRestricted}
+                testId="new-folder"
               >
                 <PlusCircleIcon />
                 <span className={classes.buttonWrap}>
@@ -630,11 +739,11 @@ const FilesList = () => {
                 </span>
               </Button>
               <Button
-                data-cy="button-bucket-upload"
                 onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
                 disabled={accountRestricted}
+                testId="upload-file"
               >
                 <UploadIcon />
                 <span className={classes.buttonWrap}>
@@ -870,11 +979,12 @@ const FilesList = () => {
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
                 handleAddToSelectedCids={handleAddToSelectedCids}
-                editing={editing?.cid}
-                setEditing={setEditing}
-                handleRename={(cid: string, newName: string) => {
-                  setEditing(undefined)
-                  return handleRename && handleRename(cid, newName)
+                handleSelectItemWithShift={handleSelectItemWithShift}
+                editingFile={editingFile}
+                setEditingFile={setEditingFile}
+                handleRename={(item: ISelectedFile, newName: string) => {
+                  setEditingFile(undefined)
+                  return handleRename && handleRename(item, newName)
                 }}
                 deleteFile={() => {
                   setSelectedCids([{
@@ -926,11 +1036,12 @@ const FilesList = () => {
               handleSelectCid={handleSelectCid}
               viewFolder={handleViewFolder}
               handleAddToSelectedCids={handleAddToSelectedCids}
-              editing={editing?.cid}
-              setEditing={setEditing}
-              handleRename={(cid: string, newName: string) => {
-                setEditing(undefined)
-                return handleRename && handleRename(cid, newName)
+              handleSelectItemWithShift={handleSelectItemWithShift}
+              editingFile={editingFile}
+              setEditingFile={setEditingFile}
+              handleRename={(editingFile: ISelectedFile, newName: string) => {
+                setEditingFile(undefined)
+                return handleRename && handleRename(editingFile, newName)
               }}
               deleteFile={() => {
                 setSelectedCids([{

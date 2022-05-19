@@ -4,8 +4,8 @@ export const UI_CONSTANTS = {
   mobileButtonHeight: 44,
   headerHeight: 60,
   navWidth: 8 * 27,
-  contentPadding: 8 * 15,
-  contentTopPadding: 8 * 15,
+  contentPadding: 8 * 12,
+  contentTopPadding: 8 * 12,
   mobileHeaderHeight: 8 * 6.3,
   svgWidth: 8 * 2.5,
   topPadding: 8 * 3,
@@ -45,7 +45,10 @@ export interface CsSColors extends IConstants {
   }
   modalDefault: {
     fadeBackground: string
-    background: string
+    backgroundColor: string
+    color: string
+    iconBackingColor: string
+    closeIconColor: string
   }
   nav: {
     backgroundColor: string

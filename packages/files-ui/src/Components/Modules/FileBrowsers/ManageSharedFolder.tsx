@@ -197,6 +197,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
   const [suggestedUsers, setSuggestedUsers] = useState<LookupUser[]>([])
   const [loadingUsers, setLoadingUsers] = useState(false)
   const [searchActive, setSearchActive] = useState(false)
+  const [touchedLinksList, setTouchedLinksList] = useState(false)
 
   const onReset = useCallback(() => {
     setHasPermissionsChanged(false)
@@ -219,10 +220,18 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
 
   const onEditSharedFolder = useCallback(() => {
     if (!bucketToEdit) return
+
+    // only sharing link where touched no need to call the api
+    // just close the modal
+    if (!hasPermissionsChanged) {
+      handleClose()
+      return
+    }
+
     handleEditSharedFolder(bucketToEdit, sharedFolderReaders, sharedFolderWriters)
       .catch(console.error)
       .finally(handleClose)
-  }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
+  }, [bucketToEdit, hasPermissionsChanged, handleEditSharedFolder, sharedFolderReaders, sharedFolderWriters, handleClose])
 
   const onLookupUser = (inputText?: string) => {
     if (!inputText) return
@@ -398,6 +407,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
         <LinkList
           bucketEncryptionKey={bucketToEdit.encryptionKey}
           bucketId={bucketToEdit.id}
+          setTouchedLinksList={() => setTouchedLinksList(true)}
         />
       </div>}
       <Grid
@@ -428,7 +438,7 @@ const ManageSharedFolder = ({ onClose, bucketToEdit }: ICreateOrManageSharedFold
             className={classes.okButton}
             loading={isCreatingSharedFolder || isEditingSharedFolder}
             onClick={onEditSharedFolder}
-            disabled={!hasPermissionsChanged || isEditingSharedFolder}
+            disabled={!touchedLinksList && (!hasPermissionsChanged || isEditingSharedFolder)}
             data-cy="button-update-shared-folder"
           >
             <Trans>Update</Trans>
