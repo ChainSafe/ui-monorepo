@@ -20,7 +20,7 @@ import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
-import { getPathWithFile, getRelativePath } from "../Utils/pathUtils"
+import { getParentPathFromFilePath, getPathWithFile, getRelativePath } from "../Utils/pathUtils"
 import { Zippable, zipSync } from "fflate"
 import { FileWithPath } from "../Utils/getFilesFromDataTransferItems"
 
@@ -328,9 +328,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
     const filesParam = await Promise.all(
       files
-        // .filter((f) => f.size <= MAX_FILE_SIZE)
-        .map(async (f, i, arr) => {
-          debugger
+        .filter((f) => f.size <= MAX_FILE_SIZE)
+        .map(async (f) => {
           const fileData = await readFileAsync(f)
           const encryptedData = await encryptFile(fileData, key)
           return {
@@ -378,12 +377,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     setUploadsInProgress(true)
 
     try {
-      const paths = [...new Set(files.map(f => f.filepath))]
+      const paths = [...new Set(files.map(f => getParentPathFromFilePath(f.path)))]
       const totalUploadSize = files.reduce((sum, f) => sum += f.size, 0)
 
       let uploadedSize = 0
       for (const path of paths) {
-        const filesToUpload = files.filter((f => f.filepath === path))
+        const filesToUpload = files.filter((f => getParentPathFromFilePath(f.path) === path))
         const batchSize = filesToUpload.reduce((sum, f) => sum += f.size, 0)
         console.log(`Uploading ${filesToUpload.length} files to ${path}`)
         await encryptAndUploadFiles(

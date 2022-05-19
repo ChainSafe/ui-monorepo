@@ -122,6 +122,8 @@ interface IFileInputProps extends DropzoneOptions {
   testId?: string
 }
 
+// type FileWithPath = File & {path: string}
+
 const FileInput = ({
   className,
   variant = "dropzone",
@@ -139,14 +141,14 @@ const FileInput = ({
   const classes = useStyles()
   const [previews, setPreviews] = useState<any[]>([])
   const [errors, setErrors] = useState<any[]>([])
-  const [{ value }, meta, helpers] = useField<Array<FileWithPath>>(name)
+  const [{ value }, meta, helpers] = useField<FileWithPath[]>(name)
 
   useEffect(() => {
     onFileNumberChange && onFileNumberChange(value.length)
   }, [onFileNumberChange, value.length])
 
   const onDrop = useCallback(
-    async (acceptedFiles: Array<FileWithPath>, fileRejections: FileRejection[]) => {
+    async (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
       const filtered = acceptedFiles.filter((file) =>
         maxFileSize ? file.size <= maxFileSize : true
       )
@@ -161,6 +163,7 @@ const FileInput = ({
           )
         )
       }
+
       helpers.setValue([...value, ...filtered])
 
       if (fileRejections.length > 0) {
@@ -296,4 +299,4 @@ const FileInput = ({
 
 export default FileInput
 
-export { IFileInputProps }
+export { IFileInputProps, FileWithPath }
