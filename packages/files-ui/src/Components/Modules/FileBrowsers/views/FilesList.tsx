@@ -344,15 +344,19 @@ const useStyles = makeStyles(
   }
 )
 
-// Sorting
-const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
-  a.isFolder && a.content_type !== b.content_type ? -1 : 1
-
 interface Props {
   isShared?: boolean
 }
 
+type ContextMenuPosition = {
+  mouseX: number
+  mouseY: number
+}
+
 type SortByType = "name" | "size" | "date_uploaded"
+// Sorting
+const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
+  a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
 const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
@@ -908,10 +912,7 @@ const FilesList = ({ isShared = false }: Props) => {
     selectionContainsAFolder
   ])
 
-  const [contextMenuPosition, setContextMenuPosition] = useState<{
-    mouseX: number
-    mouseY: number
-  } | null>(null)
+  const [contextMenuPosition, setContextMenuPosition] = useState<ContextMenuPosition | null>(null)
 
   const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
     if (!controls) return
@@ -989,6 +990,11 @@ const FilesList = ({ isShared = false }: Props) => {
     bulkActions
   ])
 
+  const anchorPosition = useMemo(() => contextMenuPosition ? {
+    top: contextMenuPosition.mouseY,
+    left: contextMenuPosition.mouseX
+  } : undefined, [contextMenuPosition])
+
   return (
     <article
       className={clsx(classes.root, {
@@ -1014,14 +1020,7 @@ const FilesList = ({ isShared = false }: Props) => {
         options={contextMenuOptions}
         onClose={() => setContextMenuPosition(null)}
         isOpen={!!contextMenuPosition}
-        anchorPosition={
-          contextMenuPosition
-            ? {
-              top: contextMenuPosition.mouseY,
-              left: contextMenuPosition.mouseX
-            }
-            : undefined
-        }
+        anchorPosition={anchorPosition}
       />
       <DragPreviewLayer
         items={sourceFiles}

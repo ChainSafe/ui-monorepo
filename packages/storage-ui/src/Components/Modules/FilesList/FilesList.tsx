@@ -323,6 +323,11 @@ const useStyles = makeStyles(
   }
 )
 
+type ContextMenuPosition = {
+  mouseX: number
+  mouseY: number
+}
+
 // Sorting
 const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
@@ -773,10 +778,7 @@ const FilesList = () => {
     handleOpenMoveFileDialog
   ])
 
-  const [contextMenuPosition, setContextMenuPosition] = useState<{
-    mouseX: number
-    mouseY: number
-  } | null>(null)
+  const [contextMenuPosition, setContextMenuPosition] = useState<ContextMenuPosition | null>(null)
 
   const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
     if (!controls) return
@@ -844,6 +846,10 @@ const FilesList = () => {
     bulkActions
   ])
 
+  const anchorPosition = useMemo(() => contextMenuPosition ? {
+    top: contextMenuPosition.mouseY,
+    left: contextMenuPosition.mouseX
+  } : undefined, [contextMenuPosition])
 
   return (
     <article
@@ -868,14 +874,7 @@ const FilesList = () => {
         options={contextMenuOptions}
         onClose={() => setContextMenuPosition(null)}
         isOpen={!!contextMenuPosition}
-        anchorPosition={
-          contextMenuPosition
-            ? {
-              top: contextMenuPosition.mouseY,
-              left: contextMenuPosition.mouseX
-            }
-            : undefined
-        }
+        anchorPosition={anchorPosition}
       />
       <DragPreviewLayer
         items={sourceFiles}
