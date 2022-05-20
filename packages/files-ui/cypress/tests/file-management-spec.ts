@@ -523,10 +523,10 @@ describe("File management", () => {
       cy.intercept("POST", "**/bucket/*/download")
         .as("downloadRequest")
         .then(() => {
-          homePage.downloadMenuOption().eq(0).click();
+          homePage.downloadMenuOption().eq(0).click()
 
           cy.wait("@downloadRequest").should((download) => {
-            expect(download.response).to.have.property("statusCode", 200);
+            expect(download.response).to.have.property("statusCode", 200)
           })
         })
      
@@ -536,8 +536,8 @@ describe("File management", () => {
       cy.get<string>("@fileContent").then((fileContent) => {
         cy.readFile(path.join(downloadsFolder, fileName))
           .should("exist")
-          .should("eq", fileContent);
-      });
+          .should("eq", fileContent)
+      })
 
     })
   })
