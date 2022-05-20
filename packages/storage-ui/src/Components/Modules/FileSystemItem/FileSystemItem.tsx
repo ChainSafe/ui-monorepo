@@ -116,7 +116,6 @@ interface IFileSystemItemProps {
   editingFile?: ISelectedFile
   setEditingFile(editingFile: ISelectedFile | undefined): void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
-  handleMove?: (toMove: ISelectedFile, newPath: string) => Promise<void>
   deleteFile?: (toDelete: ISelectedFile) => void
   recoverFile?: (toRecover: ISelectedFile) => void
   viewFolder?: (toView: ISelectedFile) => void
@@ -126,6 +125,7 @@ interface IFileSystemItemProps {
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
+  handleContextMenuOnItem? : (e: React.MouseEvent, file: FileSystemItemType) => void
 }
 
 const FileSystemItem = ({
@@ -144,7 +144,8 @@ const FileSystemItem = ({
   handleSelectItemWithShift,
   itemOperations,
   browserView,
-  resetSelectedFiles
+  resetSelectedFiles,
+  handleContextMenuOnItem
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder } = file
@@ -358,7 +359,10 @@ const FileSystemItem = ({
     selected,
     setEditingFile,
     resetSelectedFiles,
-    handleItemSelectOnCheck
+    handleItemSelectOnCheck,
+    handleContextMenuOnItem: (e: React.MouseEvent) => {
+      handleContextMenuOnItem && handleContextMenuOnItem(e, file)
+    }
   }
 
   return (
