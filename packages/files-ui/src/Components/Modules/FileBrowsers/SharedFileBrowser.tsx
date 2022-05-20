@@ -225,14 +225,7 @@ const SharedFileBrowser = () => {
       return
     }
     const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
-    const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
-    paths.reduce(async (prev, p) => {
-      await prev
-
-      return await uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
-    },
-    Promise.resolve()
-    )
+    await uploadFiles(bucket, flattenedFiles, path)
   }, [bucket, accountRestricted, storageSummary, addToast, uploadFiles])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
