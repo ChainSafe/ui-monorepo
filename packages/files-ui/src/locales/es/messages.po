@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-06 20:51+0200\n"
-"PO-Revision-Date: 2021-09-30 12:40+0000\n"
+"PO-Revision-Date: 2022-05-19 17:13-0300\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/es/>\n"
 "Language: es\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Poedit 3.0.1\n"
 "Mime-Version: 1.0\n"
 
 msgid "(Awaiting payment)"
@@ -258,7 +258,7 @@ msgid "Create a new shared folder"
 msgstr "Crear una nueva carpeta compartida"
 
 msgid "Create your public username in <0>Settings</0>!"
-msgstr "Crear tu nombre de usuario público en <0>Configuración</0>"
+msgstr "¡Crear tu nombre de usuario público en <0>Configuración</0>!"
 
 msgid "Credit Card is expiring soon"
 msgstr "La tarjeta de crédito expirará pronto"
@@ -447,7 +447,7 @@ msgid "Generated"
 msgstr "Generado"
 
 msgid "Generating…"
-msgstr "Generando..."
+msgstr "Generando…"
 
 msgid "Get Started"
 msgstr "Empezar"
@@ -474,7 +474,7 @@ msgid "Hey! You only have two sign-in methods. If you lose that and have only on
 msgstr "Oye! Solo tienes dos métodos de inicio de sesión. Si lo pierdes y solo te queda uno, se le bloqueará su cuenta para siempre."
 
 msgid "Hold on, we are logging you in…"
-msgstr "Aguarde, te estamos conectando..."
+msgstr "Aguarde, te estamos conectando…"
 
 msgid "Home"
 msgstr "Casa"
@@ -522,7 +522,7 @@ msgid "Loading preview"
 msgstr "Cargando vista previa"
 
 msgid "Loading your shared folders…"
-msgstr "Cargando tus carpetas compartidas..."
+msgstr "Cargando tus carpetas compartidas…"
 
 msgid "Loading..."
 msgstr "Cargando..."
@@ -795,7 +795,7 @@ msgid "Search results"
 msgstr "Resultados de la búsqueda"
 
 msgid "Search…"
-msgstr "Buscar..."
+msgstr "Buscar…"
 
 msgid "Security"
 msgstr "Seguridad"
@@ -942,7 +942,7 @@ msgid "The files are already in this folder"
 msgstr "Los archivos ya se encuentran en esta carpeta"
 
 msgid "The link you typed in looks malformed. Please verify it."
-msgstr "El link que escribiste parece malformado. Por favor verifiquelo"
+msgstr "El link que escribiste parece malformado. Por favor verifique."
 
 msgid "The time to pay with crypto is up. Updating your plan..."
 msgstr ""
@@ -975,7 +975,7 @@ msgid "There was an error deleting your data"
 msgstr "Hubo un error eliminando sus datos"
 
 msgid "There was an error getting search results"
-msgstr "Se produjo un error al obtener los resultados de la búsqueda."
+msgstr "Se produjo un error al obtener los resultados de la búsqueda"
 
 msgid "There was an error getting the preview."
 msgstr "Hubo un error al obtener la vista previa."
@@ -987,7 +987,7 @@ msgid "There was an error restoring your data"
 msgstr "Hubo un error al intentar restaurar sus datos"
 
 msgid "There was an error when setting username."
-msgstr "Hubo un error al intentar configurar el nombre de usuario"
+msgstr "Hubo un error al intentar configurar el nombre de usuario."
 
 msgid "This card will become your default payment method"
 msgstr "Esta tarjeta se convertirá en su método de pago por defecto"
