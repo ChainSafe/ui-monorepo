@@ -62,6 +62,7 @@ import { DragTypes } from "../DragConstants"
 import FolderBreadcrumb from "./FolderBreadcrumb"
 import AnchorMenu from "../../../../UI-components/AnchorMenu"
 import { getItemMenuOptions } from "./FileSystemItem/itemOperations"
+import { getPathWithFile } from "../../../../Utils/pathUtils"
 
 const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -670,6 +671,10 @@ const FilesList = ({ isShared = false }: Props) => {
     setValidBulkOps(fileOperations)
   }, [selectedCids, items, bulkOperations, isShared, permission])
 
+  const onEditFile = useCallback((file: FileSystemItemType | undefined) => {
+    setEditing(file?.cid)
+  }, [])
+
   const onDeleteFile = useCallback((file: FileSystemItemType) => {
     setSelectedItems([file])
     setIsDeleteModalOpen(true)
@@ -687,15 +692,17 @@ const FilesList = ({ isShared = false }: Props) => {
     setMoveModalMode("recover")
   }, [])
 
-  const onShowFileInfo = useCallback((filePath: string) => {
+  const onShowFileInfo = useCallback((file: FileSystemItemType) => {
+    const filePath = getPathWithFile(currentPath, file.name)
     setFilePath(filePath)
     setIsFileInfoModalOpen(true)
-  }, [])
+  }, [currentPath])
 
-  const onShowPreview = useCallback((fileIndex: number) => {
+  const onShowPreview = useCallback((file: FileSystemItemType) => {
+    const fileIndex = files.indexOf(file)
     setFileIndex(fileIndex)
     setIsPreviewOpen(true)
-  }, [])
+  }, [files])
 
   const onDownloadFile = useCallback((file: FileSystemItemType) => {
     if (file.isFolder) {
@@ -705,10 +712,11 @@ const FilesList = ({ isShared = false }: Props) => {
     }
   }, [bucket, currentPath, downloadFile, downloadMultipleFiles])
 
-  const onReportFile = useCallback((itemPath: string) => {
-    setFilePath(itemPath)
+  const onReportFile = useCallback((file: FileSystemItemType) => {
+    const filePath = getPathWithFile(currentPath, file.name)
+    setFilePath(filePath)
     setIsReportFileModalOpen(true)
-  }, [])
+  }, [currentPath])
 
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
@@ -759,8 +767,8 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsSurveyBannerVisible(false)
   }, [setIsSurveyBannerVisible])
 
-  const handleViewFolder = useCallback((cid: string) => {
-    !loadingCurrentPath && viewFolder && viewFolder(cid)
+  const handleViewFolder = useCallback((file: FileSystemItemType) => {
+    !loadingCurrentPath && viewFolder && viewFolder(file.cid)
   }, [viewFolder, loadingCurrentPath])
 
   const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
@@ -938,8 +946,8 @@ const FilesList = ({ isShared = false }: Props) => {
     reportFile: onReportFile,
     viewFolder: handleViewFolder,
     showFileInfo: onShowFileInfo,
-    showPreview: onShowPreview,
-    setEditing: setEditing
+    previewFile: onShowPreview,
+    editFile: onEditFile
   }), [
     handleViewFolder,
     onDeleteFile,
@@ -949,7 +957,8 @@ const FilesList = ({ isShared = false }: Props) => {
     onReportFile,
     onShowFileInfo,
     onShowPreview,
-    onShare
+    onShare,
+    onEditFile
   ])
 
   const contextMenuOptions: IMenuItem[] = useMemo(() => {
@@ -958,18 +967,15 @@ const FilesList = ({ isShared = false }: Props) => {
       return bulkActions
     } else if (selectedItems.length === 1) {
       // single item operations
-      const isInSharedFolder = bucket?.type === "share"
+      const inSharedFolder = bucket?.type === "share"
       const item  = selectedItems[0]
-      const itemIndex = files.indexOf(item)
-      return getItemMenuOptions(
-        classes.menuIcon,
-        item,
-        itemIndex,
-        currentPath,
-        isInSharedFolder,
-        itemFunctions,
-        getItemOperations(item.content_type)
-      )
+      return getItemMenuOptions({
+        file: item,
+        inSharedFolder,
+        itemOperations: getItemOperations(item.content_type),
+        menuIconClass: classes.menuIcon,
+        ...itemFunctions
+      })
     } else {
       return browserOptions
     }
@@ -977,8 +983,6 @@ const FilesList = ({ isShared = false }: Props) => {
     browserOptions,
     selectedItems,
     bucket,
-    currentPath,
-    files,
     classes.menuIcon,
     getItemOperations,
     itemFunctions,
@@ -1389,7 +1393,6 @@ const FilesList = ({ isShared = false }: Props) => {
                     key={index}
                     browserView="table"
                     file={file}
-                    files={files}
                     selectedCids={selectedCids}
                     handleSelectItem={handleSelectItem}
                     handleAddToSelectedItems={handleAddToSelectedItems}
@@ -1420,7 +1423,6 @@ const FilesList = ({ isShared = false }: Props) => {
                   key={index}
                   browserView="grid"
                   file={file}
-                  files={files}
                   selectedCids={selectedCids}
                   handleSelectItem={handleSelectItem}
                   handleAddToSelectedItems={handleAddToSelectedItems}

@@ -15,42 +15,39 @@ import {
 import { t, Trans } from "@lingui/macro"
 import { FileOperation } from "../../types"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
-import { getPathWithFile } from "../../../../../Utils/pathUtils"
 
-export function getItemMenuOptions(
-  menuIconClass: string,
-  file: FileSystemItem,
-  fileIndex: number,
-  currentPath: string,
-  inSharedFolder: boolean,
-  functions: {
-    setEditing?: (cid: string) => void
-    deleteFile?: (item: FileSystemItem) => void
-    downloadFile?: (item: FileSystemItem) => void
-    moveFile?: (item: FileSystemItem) => void
-    handleShare?: (item: FileSystemItem) => void
-    recoverFile?: (item: FileSystemItem) => void
-    showPreview?: (fileIndex: number) => void
-    viewFolder?: (cid: string) => void
-    showFileInfo?: (filePath: string) => void
-    reportFile?: (filePath: string) => void
-  },
+export function getItemMenuOptions(params: {
+  menuIconClass: string
+  file: FileSystemItem
+  inSharedFolder: boolean
   itemOperations: FileOperation[]
-) {
-  const { name, cid } = file
-  const filePath = getPathWithFile(currentPath, name)
+  editFile?: (item: FileSystemItem) => void
+  deleteFile?: (item: FileSystemItem) => void
+  downloadFile?: (item: FileSystemItem) => void
+  moveFile?: (item: FileSystemItem) => void
+  handleShare?: (item: FileSystemItem) => void
+  recoverFile?: (item: FileSystemItem) => void
+  previewFile?: (item: FileSystemItem) => void
+  showFileInfo?: (item: FileSystemItem) => void
+  reportFile?: (item: FileSystemItem) => void
+  viewFolder?: (item: FileSystemItem) => void
+}) {
   const {
+    file,
+    itemOperations,
+    inSharedFolder,
     viewFolder,
-    setEditing,
+    editFile,
     deleteFile,
     downloadFile,
     handleShare,
     moveFile,
-    showPreview,
+    previewFile,
     recoverFile,
     reportFile,
-    showFileInfo
-  } = functions
+    showFileInfo,
+    menuIconClass
+  } = params
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (
@@ -61,7 +58,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => setEditing && setEditing(cid)
+      onClick: () => editFile && editFile(file)
     },
     delete: {
       contents: (
@@ -119,7 +116,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => showFileInfo && showFileInfo(filePath)
+      onClick: () => showFileInfo && showFileInfo(file)
     },
     recover: {
       contents: (
@@ -141,7 +138,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => showPreview && showPreview(fileIndex)
+      onClick: () => previewFile && previewFile(file)
     },
     view_folder: {
       contents: (
@@ -152,7 +149,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => viewFolder && viewFolder(cid)
+      onClick: () => viewFolder && viewFolder(file)
     },
     report: {
       contents: (
@@ -163,7 +160,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => reportFile && reportFile(filePath)
+      onClick: () => reportFile && reportFile(file)
     }
   }
 

@@ -93,37 +93,35 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
 
 interface IFileSystemItemProps {
   file: FileSystemItemType
-  files: FileSystemItemType[]
   selectedCids: string[]
   owners?: BucketUser[]
   handleSelectItem(selectedItem: FileSystemItemType): void
   handleAddToSelectedItems(selectedItems: FileSystemItemType): void
   handleSelectItemWithShift(selectedItems: FileSystemItemType): void
   editing: string | undefined
-  setEditing(editing: string | undefined): void
   handleRename?: (cid: string, newName: string) => Promise<void> | undefined
-  deleteFile?: (file: FileSystemItemType) => void
-  recoverFile?: (file: FileSystemItemType) => void
-  viewFolder?: (cid: string) => void
-  moveFile?: (file: FileSystemItemType) => void
-  downloadFile?: (file: FileSystemItemType) => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
-  reportFile?: (path: string) => void
-  showFileInfo?: (path: string) => void
+  editFile(file: FileSystemItemType | undefined): void
+  downloadFile?: (file: FileSystemItemType) => void
+  deleteFile?: (file: FileSystemItemType) => void
   handleShare?: (file: FileSystemItemType) => void
-  showPreview?: (fileIndex: number) => void
+  moveFile?: (file: FileSystemItemType) => void
+  recoverFile?: (file: FileSystemItemType) => void
+  reportFile?: (file: FileSystemItemType) => void
+  previewFile?: (file: FileSystemItemType) => void
+  viewFolder?: (file: FileSystemItemType) => void
+  showFileInfo?: (file: FileSystemItemType) => void
   handleContextMenuOnItem? : (e: React.MouseEvent, file: FileSystemItemType) => void
 }
 
+
 const FileSystemItem = ({
   file,
-  files,
   selectedCids,
   owners,
   editing,
-  setEditing,
   handleRename,
   deleteFile,
   recoverFile,
@@ -135,11 +133,12 @@ const FileSystemItem = ({
   handleSelectItemWithShift,
   itemOperations,
   browserView,
+  editFile,
   resetSelectedFiles,
   reportFile,
   showFileInfo,
   handleShare,
-  showPreview,
+  previewFile,
   handleContextMenuOnItem
 }: IFileSystemItemProps) => {
   const { bucket, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
@@ -168,39 +167,34 @@ const FileSystemItem = ({
   })
 
   const stopEditing = useCallback(() => {
-    setEditing(undefined)
+    editFile(undefined)
     formik.resetForm()
-  }, [formik, setEditing])
+  }, [formik, editFile])
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const fileIndex = useMemo(() => files.indexOf(file), [file, files])
+  const menuItems = useMemo(() => getItemMenuOptions({
+    menuIconClass: classes.menuIcon,
+    file: file,
+    inSharedFolder: inSharedFolder,
+    viewFolder,
+    reportFile,
+    previewFile,
+    recoverFile,
+    showFileInfo,
+    deleteFile,
+    handleShare,
+    moveFile,
+    downloadFile,
+    editFile,
+    itemOperations
 
-  const menuItems = useMemo(() => getItemMenuOptions(
+  }), [
     classes.menuIcon,
     file,
-    fileIndex,
-    currentPath,
-    inSharedFolder, {
-      viewFolder,
-      reportFile,
-      showPreview,
-      recoverFile,
-      showFileInfo,
-      deleteFile,
-      handleShare,
-      moveFile,
-      downloadFile,
-      setEditing
-    }, itemOperations
-  ), [
-    classes.menuIcon,
-    file,
-    setEditing,
-    currentPath,
-    fileIndex,
-    showPreview,
+    editFile,
+    previewFile,
     itemOperations,
     downloadFile,
     deleteFile,
@@ -307,9 +301,9 @@ const FileSystemItem = ({
           handleAddToSelectedItems(file)
         } else {
           if (isFolder) {
-            viewFolder && viewFolder(file.cid)
+            viewFolder && viewFolder(file)
           } else {
-            showPreview && showPreview(fileIndex)
+            previewFile && previewFile(file)
           }
         }
       }
@@ -323,8 +317,7 @@ const FileSystemItem = ({
       handleAddToSelectedItems,
       handleSelectItemWithShift,
       handleSelectItem,
-      fileIndex,
-      showPreview
+      previewFile
     ]
   )
 
@@ -333,16 +326,16 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop
         if (isFolder) {
-          viewFolder && viewFolder(file.cid)
+          viewFolder && viewFolder(file)
         } else {
-          showPreview && showPreview(fileIndex)
+          previewFile && previewFile(file)
         }
       } else {
         // on mobile
         return
       }
     },
-    [desktop, viewFolder, file, showPreview, fileIndex, isFolder]
+    [desktop, viewFolder, file, previewFile, isFolder]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
@@ -376,7 +369,7 @@ const FileSystemItem = ({
     onFolderOrFileClicks,
     preview,
     selectedCids,
-    setEditing,
+    editFile,
     resetSelectedFiles,
     handleContextMenuOnItem: (e: React.MouseEvent) => {
       handleContextMenuOnItem && handleContextMenuOnItem(e, file)
@@ -434,7 +427,7 @@ const FileSystemItem = ({
                   </div>
                   <footer className={classes.renameFooter}>
                     <CustomButton
-                      onClick={() => setEditing("")}
+                      onClick={() => editFile(undefined)}
                       size="medium"
                       variant="gray"
                       type="button"
