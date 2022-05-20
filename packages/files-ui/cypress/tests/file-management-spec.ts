@@ -511,8 +511,9 @@ describe("File management", () => {
 
       cy.web3Login({ clearCSFBucket: true })
   
-      // upload a file
+      // upload a file and store file content
       homePage.uploadFile(`../fixtures/uploadedFiles/${fileName}`)
+      cy.readFile(`cypress/fixtures/uploadedFiles/${fileName}`).as("fileContent")
       homePage.fileItemRow().should("have.length", 1)
     
       // download file from kebab menu 
@@ -529,10 +530,15 @@ describe("File management", () => {
           })
         })
      
-      // ensure the file was download
+      // ensure the file was downloaded
       downloadCompleteToast.body().should("be.visible")
       downloadCompleteToast.closeButton().click()
-      cy.readFile(path.join(downloadsFolder, fileName)).should("exist")
+      cy.get<string>("@fileContent").then((fileContent) => {
+        cy.readFile(path.join(downloadsFolder, fileName))
+          .should("exist")
+          .should("eq", fileContent);
+      });
+
     })
   })
 })
