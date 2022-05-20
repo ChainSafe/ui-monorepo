@@ -3,7 +3,7 @@ on: [workflow_dispatch]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node14.17.0-chrome91-ff89
+    container: cypress/browsers:node14.17.6-chrome100-ff98
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -53,6 +53,7 @@ jobs:
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2.2.0
+        if: always()
         env:
           SLACK_TITLE: 'Files UI Test Suite On-Demand Result:'
           SLACK_MESSAGE: ${{ job.status }}
