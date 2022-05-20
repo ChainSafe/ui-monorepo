@@ -3,7 +3,6 @@ import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { folderName, folderPath } from "../fixtures/filesTestData"
 import "cypress-pipe"
-import path from "path"
 import { apiTestHelper } from "../support/utils/apiTestHelper"
 import { createFolderModal } from "../support/page-objects/modals/createFolderModal"
 import { deleteFileModal } from "../support/page-objects/modals/deleteFileModal"
@@ -505,15 +504,16 @@ describe("File management", () => {
       fileInfoModal.body().should("not.exist")
     })
 
-    it("can download a file from file browser", () => {
+    it.only("can download a file from file browser", () => {
       const fileName = "text-file.txt"
       const downloadsFolder = Cypress.config("downloadsFolder")
+      const fileRelativePath = `uploadedFiles/${fileName}`
 
       cy.web3Login({ clearCSFBucket: true })
   
       // upload a file and store file content
-      homePage.uploadFile(`../fixtures/uploadedFiles/${fileName}`)
-      cy.readFile(`cypress/fixtures/uploadedFiles/${fileName}`).as("fileContent")
+      homePage.uploadFile(`../fixtures/${fileRelativePath}`)
+      cy.fixture(fileRelativePath).as("fileContent")
       homePage.fileItemRow().should("have.length", 1)
     
       // download file from kebab menu 
@@ -534,7 +534,7 @@ describe("File management", () => {
       downloadCompleteToast.body().should("be.visible")
       downloadCompleteToast.closeButton().click()
       cy.get<string>("@fileContent").then((fileContent) => {
-        cy.readFile(path.join(downloadsFolder, fileName))
+        cy.readFile(`${downloadsFolder}/${fileName}`)
           .should("exist")
           .should("eq", fileContent)
       })
