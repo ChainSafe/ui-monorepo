@@ -114,7 +114,7 @@ interface IFileSystemItemProps {
   handleAddToSelectedCids(selectedFile: ISelectedFile): void
   handleSelectItemWithShift(selectedFile: ISelectedFile): void
   editingFile?: ISelectedFile
-  setEditingFile(editingFile: ISelectedFile | undefined): void
+  editFile(editingFile: ISelectedFile | undefined): void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   deleteFile?: (toDelete: ISelectedFile) => void
   recoverFile?: (toRecover: ISelectedFile) => void
@@ -131,8 +131,8 @@ interface IFileSystemItemProps {
 const FileSystemItem = ({
   file,
   selected,
+  editFile,
   editingFile,
-  setEditingFile,
   handleRename,
   deleteFile,
   viewFolder,
@@ -173,19 +173,22 @@ const FileSystemItem = ({
   })
 
   const stopEditing = useCallback(() => {
-    setEditingFile(undefined)
+    editFile(undefined)
     formik.resetForm()
-  }, [formik, setEditingFile])
+  }, [formik, editFile])
 
-  const menuItems = useMemo(() => getItemMenuOptions(classes.menuIcon, file, {
+  const menuItems = useMemo(() => getItemMenuOptions({
+    menuIconClass: classes.menuIcon,
+    file,
     deleteFile,
     downloadFile,
     moveFile,
-    setEditingFile,
+    editFile,
     showFileInfo,
     previewFile,
-    viewFolder
-  }, itemOperations), [
+    viewFolder,
+    itemOperations
+  }), [
     classes.menuIcon,
     file,
     itemOperations,
@@ -193,7 +196,7 @@ const FileSystemItem = ({
     downloadFile,
     previewFile,
     moveFile,
-    setEditingFile,
+    editFile,
     showFileInfo,
     viewFolder
   ])
@@ -357,7 +360,7 @@ const FileSystemItem = ({
     onFolderOrFileClicks,
     preview,
     selected,
-    setEditingFile,
+    editFile,
     resetSelectedFiles,
     handleItemSelectOnCheck,
     handleContextMenuOnItem: (e: React.MouseEvent) => {
@@ -414,7 +417,7 @@ const FileSystemItem = ({
                   </div>
                   <footer className={classes.renameFooter}>
                     <Button
-                      onClick={() => setEditingFile(undefined)}
+                      onClick={() => editFile(undefined)}
                       size="medium"
                       className={classes.cancelButton}
                       variant="outline"

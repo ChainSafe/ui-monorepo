@@ -16,29 +16,31 @@ import { FileOperation } from "../../../Contexts/types"
 import { ISelectedFile } from "../../../Contexts/FileBrowserContext"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 
-export function getItemMenuOptions(
-  menuIconClass: string,
-  file: FileSystemItem,
-  functions: {
-    setEditingFile?: (item: ISelectedFile) => void
-    deleteFile?: (item: ISelectedFile) => void
-    downloadFile?: (item: ISelectedFile) => void
-    moveFile?: (item: ISelectedFile) => void
-    previewFile?: (file: FileSystemItem) => void
-    viewFolder?: (item: ISelectedFile) => void
-    showFileInfo?: (item: ISelectedFile) => void
-  },
+export function getItemMenuOptions(params: {
+  menuIconClass: string
+  file: FileSystemItem
+  editFile?: (item: ISelectedFile) => void
+  deleteFile?: (item: ISelectedFile) => void
+  downloadFile?: (item: ISelectedFile) => void
+  moveFile?: (item: ISelectedFile) => void
+  previewFile?: (file: FileSystemItem) => void
+  viewFolder?: (item: ISelectedFile) => void
+  showFileInfo?: (item: ISelectedFile) => void
   itemOperations: FileOperation[]
+}
 ) {
   const {
+    menuIconClass,
+    file,
     viewFolder,
-    setEditingFile,
+    editFile,
     deleteFile,
     downloadFile,
     moveFile,
     previewFile,
-    showFileInfo
-  } = functions
+    showFileInfo,
+    itemOperations
+  } = params
   const item = { cid: file.cid, name: file.name }
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
@@ -50,7 +52,7 @@ export function getItemMenuOptions(
           </span>
         </>
       ),
-      onClick: () => setEditingFile && setEditingFile(item)
+      onClick: () => editFile && editFile(item)
     },
     delete: {
       contents: (

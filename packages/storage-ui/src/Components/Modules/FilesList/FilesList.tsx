@@ -695,45 +695,33 @@ const FilesList = () => {
     setIsDeleteModalOpen(true)
   }, [])
 
-  const browserOptions = useMemo(() => ([
+  const browserOptions = useMemo(() => [
     {
       contents: (
-        <Button
-          onClick={() => setCreateFolderModalOpen(true)}
-          variant="primary"
-          size="large"
-          className={classes.mobileButton}
-          fullsize
-          disabled={accountRestricted}
-        >
-          <PlusCircleIcon />
+        <>
+          <PlusCircleIcon className={classes.menuIcon} />
           <span>
-            <Trans>Create folder</Trans>
+            <Trans>New folder</Trans>
           </span>
-        </Button>
-      )
+        </>
+      ),
+      onClick: () => setCreateFolderModalOpen(true),
+      disabled: accountRestricted
     },
     {
       contents: (
-        <Button
-          onClick={() => setIsUploadModalOpen(true)}
-          variant="primary"
-          fullsize
-          className={classes.mobileButton}
-          disabled={accountRestricted}
-        >
-          <UploadIcon />
+        <>
+          <UploadIcon className={classes.menuIcon} />
           <span>
             <Trans>Upload</Trans>
           </span>
-        </Button>
-      )
+        </>
+      ),
+      onClick: () => setIsUploadModalOpen(true),
+      disabled: accountRestricted
     }
-  ]), [
-    accountRestricted,
-    classes.mobileButton
-  ])
-
+  ],
+  [classes.menuIcon, accountRestricted])
 
   const bulkActions = useMemo(() => {
     const menuOptions: IMenuItem[] = []
@@ -821,7 +809,7 @@ const FilesList = () => {
     viewFolder: handleViewFolder,
     showFileInfo: onShowFileInfo,
     showPreview: onPreviewFile,
-    setEditingFile: setEditingFile
+    editFile: setEditingFile
   }), [
     handleViewFolder,
     onDeleteFile,
@@ -838,12 +826,12 @@ const FilesList = () => {
     } else if (selectedItems.length === 1) {
       // single item operations
       const item  = selectedItems[0]
-      return getItemMenuOptions(
-        classes.menuIcon,
-        item,
-        itemFunctions,
-        getItemOperations(item.content_type)
-      )
+      return getItemMenuOptions({
+        file: item,
+        itemOperations: getItemOperations(item.content_type),
+        menuIconClass: classes.menuIcon,
+        ...itemFunctions
+      })
     } else {
       return browserOptions
     }

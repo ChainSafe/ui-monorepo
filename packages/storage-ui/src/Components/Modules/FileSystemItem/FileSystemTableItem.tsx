@@ -195,7 +195,7 @@ interface IFileSystemTableItemProps {
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditingFile: (editingFile: ISelectedFile |  undefined) => void
+  editFile: (editingFile: ISelectedFile |  undefined) => void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
@@ -214,7 +214,7 @@ const FileSystemTableItem = React.forwardRef(
     onFolderOrFileClicks,
     icon,
     preview,
-    setEditingFile,
+    editFile,
     handleRename,
     menuItems,
     handleContextMenuOnItem
@@ -243,16 +243,16 @@ const FileSystemTableItem = React.forwardRef(
           handleRename(editingFile, newName)
             ?.then(() => setIsEditingLoading(false))
         } else {
-          setEditingFile(undefined)
+          editFile(undefined)
         }
       },
       enableReinitialize: true
     })
 
     const stopEditing = useCallback(() => {
-      setEditingFile(undefined)
+      editFile(undefined)
       formik.resetForm()
-    }, [formik, setEditingFile])
+    }, [formik, editFile])
 
     useOnClickOutside(formRef, formik.submitForm)
 

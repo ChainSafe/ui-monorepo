@@ -1,4 +1,4 @@
-import React, {  ReactNode, useRef } from "react"
+import React, {  ReactNode, useEffect, useMemo, useRef } from "react"
 import { MenuItem, Paper, PopoverPosition } from "@material-ui/core"
 import { makeStyles, createStyles, useOnClickOutside } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -18,17 +18,22 @@ interface Props {
   onClose: () => void
 }
 
-interface StyleProps {
-  top: number
-  left: number
+type Position = {
+  top?: number
+  left?: number
+  bottom?: number
+  right?: number
 }
+
 
 const useStyles = makeStyles(({ constants, zIndex, animation }: CSSTheme) => {
   return createStyles({
-    anchorRoot: (styleProps: StyleProps) => ({
+    anchorRoot: (styleProps: Position) => ({
       position: "fixed",
-      top: styleProps.top,
-      left: styleProps.left,
+      top: styleProps?.top,
+      left: styleProps?.left,
+      bottom: styleProps?.bottom,
+      right: styleProps?.right,
       zIndex: zIndex?.blocker,
       visibility: "hidden",
       opacity: 0,
@@ -50,18 +55,50 @@ const useStyles = makeStyles(({ constants, zIndex, animation }: CSSTheme) => {
     }
   })})
 
+const MENU_RIGHT_SPACE_TOLERANCE = 180
+const MENU_BOTTOM_SPACE_TOLERANCE = 250
+
 export default function MenuDropdown({
   isOpen,
   options,
   anchorPosition,
   onClose
 }: Props) {
-  const classes = useStyles({
-    top: anchorPosition?.top || 0,
-    left: anchorPosition?.left || 0
-  })
+
+  const position = useMemo(() => {
+    const windowHeight = window.innerHeight
+    const windowWidth = window.innerWidth
+    const position: Position = {}
+    if (!anchorPosition) return {}
+    // calculate top or bottom
+    if (windowHeight - anchorPosition.top > MENU_BOTTOM_SPACE_TOLERANCE) {
+      position.top = anchorPosition.top
+    } else {
+      position.bottom = windowHeight - anchorPosition.top
+    }
+    // calculate left or right
+    if (windowWidth - anchorPosition.left > MENU_RIGHT_SPACE_TOLERANCE) {
+      position.left = anchorPosition.left
+    } else {
+      position.right = windowWidth - anchorPosition.left
+    }
+    return position
+  }, [anchorPosition])
+
+  const classes = useStyles(position)
+
   const ref = useRef<HTMLDivElement>(null)
   useOnClickOutside(ref, onClose)
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflowY = "hidden"
+    } else {
+      document.body.style.overflowY = "scroll"
+    }
+  }, [isOpen])
+
+  if (!anchorPosition) return null
 
   return (
     <div
