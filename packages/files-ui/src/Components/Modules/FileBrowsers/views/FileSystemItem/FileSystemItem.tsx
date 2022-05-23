@@ -176,8 +176,8 @@ const FileSystemItem = ({
 
   const menuItems = useMemo(() => getItemMenuOptions({
     menuIconClass: classes.menuIcon,
-    file: file,
-    inSharedFolder: inSharedFolder,
+    file,
+    inSharedFolder,
     viewFolder,
     reportFile,
     previewFile,

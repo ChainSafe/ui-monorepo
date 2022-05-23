@@ -58,12 +58,7 @@ const useStyles = makeStyles(({ constants, zIndex, animation }: CSFTheme) => {
 const MENU_RIGHT_SPACE_TOLERANCE = 180
 const MENU_BOTTOM_SPACE_TOLERANCE = 250
 
-export default function MenuDropdown({
-  isOpen,
-  options,
-  anchorPosition,
-  onClose
-}: Props) {
+export default function MenuDropdown({ isOpen, options, anchorPosition, onClose }: Props) {
 
   const position = useMemo(() => {
     const windowHeight = window.innerHeight
