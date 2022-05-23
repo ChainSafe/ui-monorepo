@@ -16,31 +16,39 @@ import { FileOperation } from "../../../Contexts/types"
 import { ISelectedFile } from "../../../Contexts/FileBrowserContext"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 
-export function getItemMenuOptions(params: {
+interface MenuOptionsParams {
   menuIconClass: string
   file: FileSystemItem
-  editFile?: (item: ISelectedFile) => void
-  deleteFile?: (item: ISelectedFile) => void
-  downloadFile?: (item: ISelectedFile) => void
-  moveFile?: (item: ISelectedFile) => void
-  previewFile?: (file: FileSystemItem) => void
-  viewFolder?: (item: ISelectedFile) => void
-  showFileInfo?: (item: ISelectedFile) => void
+  inSharedFolder: boolean
   itemOperations: FileOperation[]
+  editFile?: (item: FileSystemItem) => void
+  deleteFile?: (item: FileSystemItem) => void
+  downloadFile?: (item: FileSystemItem) => void
+  moveFile?: (item: FileSystemItem) => void
+  handleShare?: (item: FileSystemItem) => void
+  recoverFile?: (item: FileSystemItem) => void
+  previewFile?: (item: FileSystemItem) => void
+  showFileInfo?: (item: FileSystemItem) => void
+  reportFile?: (item: FileSystemItem) => void
+  viewFolder?: (item: FileSystemItem) => void
 }
-) {
-  const {
-    menuIconClass,
-    file,
-    viewFolder,
-    editFile,
-    deleteFile,
-    downloadFile,
-    moveFile,
-    previewFile,
-    showFileInfo,
-    itemOperations
-  } = params
+
+export const getItemMenuOptions = ({
+  menuIconClass,
+  file,
+  inSharedFolder,
+  itemOperations,
+  editFile,
+  deleteFile,
+  downloadFile,
+  moveFile,
+  handleShare,
+  recoverFile,
+  previewFile,
+  showFileInfo,
+  reportFile,
+  viewFolder
+}: MenuOptionsParams) => {
   const item = { cid: file.cid, name: file.name }
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
