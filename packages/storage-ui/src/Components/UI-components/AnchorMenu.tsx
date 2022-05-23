@@ -92,11 +92,11 @@ export default function MenuDropdown({ isOpen, options, anchorPosition, onClose 
     }
   }, [isOpen])
 
-  if (!anchorPosition) return null
+  if (!position) return null
 
   return (
     <div
-      className={clsx(classes.anchorRoot, isOpen && !!anchorPosition && "open")}
+      className={clsx(classes.anchorRoot, isOpen && !!position && "open")}
       ref={ref}
     >
       <Paper className={classes.paper}>
