@@ -901,6 +901,9 @@ msgstr ""
 msgid "Sort By:"
 msgstr ""
 
+msgid "Space running low. Upgrade here."
+msgstr ""
+
 msgid "Start Upload"
 msgstr ""
 
@@ -1034,6 +1037,9 @@ msgid "Update credit card"
 msgstr ""
 
 msgid "Update your credit card"
+msgstr ""
+
+msgid "Upgrade"
 msgstr ""
 
 msgid "Upload"
