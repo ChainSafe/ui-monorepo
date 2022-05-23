@@ -80,7 +80,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
   const [isBillingEnabled, setIsBillingEnabled] = useState(false)
   const shouldProposeUpgrade = useMemo(() => storageSummary
-    ? storageSummary.used_storage > storageSummary.total_storage * 0.005
+    ? storageSummary.used_storage > storageSummary.total_storage * 0.75
     : false
   , [storageSummary])
 
