@@ -367,7 +367,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         testId: "upload-complete"
       }, true)
       setUploadsInProgress(false)
-      await getStorageSummary()
+      getStorageSummary()
       return Promise.resolve()
     } catch (error: any) {
       setUploadsInProgress(false)
@@ -389,6 +389,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         onProgressCancel: undefined,
         isClosable: true
       }, true)
+
+      return Promise.reject(error)
     }
   }, [storageBuckets, storageApiClient, addToast, updateToast, getStorageSummary])
 
