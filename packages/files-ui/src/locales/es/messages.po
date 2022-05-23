@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-06 20:51+0200\n"
-"PO-Revision-Date: 2022-05-19 17:13-0300\n"
+"PO-Revision-Date: 2022-05-23 09:40-0300\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/es/>\n"
 "Language: es\n"
@@ -33,7 +33,7 @@ msgid "<0>{planStorageCapacity}</0> of storage"
 msgstr "<0>{planStorageCapacity}</0> de almacenamiento"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-msgstr ""
+msgstr "Se generará una frase secreta de respaldo y se utilizará para su cuenta.<0/> No la almacenaremos y <1>solo se puede mostrar una vez</1>. ¡Guárdala en un lugar seguro!"
 
 msgid "A file with the same name already exists"
 msgstr "Ya existe un archivo con el mismo nombre"
@@ -78,37 +78,37 @@ msgid "Add more files"
 msgstr "Agrega mas archivos"
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
-msgstr ""
+msgstr "Agregue lectores y editores por nombre de usuario, ID de uso compartido o dirección de Ethereum."
 
 msgid "Adding you to the shared folder..."
-msgstr ""
+msgstr "Agregandote a la carpeta compartida..."
 
 msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
-msgstr ""
+msgstr "Todos los pagos criptográficos son finales y no son elegibles para créditos, intercambios o reembolsos. Si desea cambiar su plan, sus fondos no serán reembolsados."
 
 msgid "All invoices"
 msgstr "Todas las facturas"
 
 msgid "Allow lookup by sharing key, wallet address, username or ENS"
-msgstr ""
+msgstr "Permitir la búsqueda compartiendo clave, dirección de billetera, nombre de usuario o ENS"
 
 msgid "Amount added to credit"
-msgstr ""
+msgstr "Cantidad añadida al crédito"
 
 msgid "Amount available from last bill"
-msgstr ""
+msgstr "Importe disponible de la última factura"
 
 msgid "Amount due"
-msgstr ""
+msgstr "Importe a pagar"
 
 msgid "Amount from credit"
-msgstr ""
+msgstr "Importe del crédito"
 
 msgid "An error occurred:"
 msgstr "Ha ocurrido un error:"
 
 msgid "Annual billing{0}"
-msgstr ""
+msgstr "Facturación anual{0}"
 
 msgid "Approve"
 msgstr "Aprobar"
@@ -120,7 +120,7 @@ msgid "Backup secret phrase"
 msgstr "Frase secreta de respaldo"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
-msgstr ""
+msgstr "La frase secreta de recuperación no corresponde con el usuario de la cuenta, por favor verifique e intente denuevo."
 
 msgid "Billing history"
 msgstr "Historial de facturación"
@@ -138,7 +138,7 @@ msgid "Browser:"
 msgstr "Navegador:"
 
 msgid "Bucket id"
-msgstr ""
+msgstr "Bucket id"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "Al conectar su billetera, acepta nuestras <0> Condiciones de servicio </0> y <1> Política de privacidad </1>"
@@ -195,7 +195,7 @@ msgid "Confirm plan change"
 msgstr "Confirmar cambio de plan"
 
 msgid "Confirm plan downgrade"
-msgstr ""
+msgstr "Confirmar la rebaja del plan"
 
 msgid "Confirmation"
 msgstr "Confirmación"
@@ -264,7 +264,7 @@ msgid "Credit Card is expiring soon"
 msgstr "La tarjeta de crédito expirará pronto"
 
 msgid "Crypto payments may take a few minutes to be processed. The subscription update will reflect on next login."
-msgstr ""
+msgstr "Los pagos con criptomonedas pueden tardar unos minutos en procesarse. La actualización de la suscripción se reflejará en el próximo inicio de sesión."
 
 msgid "DAI, USDC, ETH or BTC"
 msgstr "DAI, USDC, ETH o BTC"
@@ -273,16 +273,16 @@ msgid "Dark Theme"
 msgstr "Tema oscuro"
 
 msgid "Data deleted successfully"
-msgstr ""
+msgstr "Datos eliminados exitosamente"
 
 msgid "Data moved successfully"
-msgstr ""
+msgstr "Los datos se movieron exitosamente"
 
 msgid "Data moved to bin successfully"
-msgstr ""
+msgstr "Los datos se movieron a la papelera exitosamente"
 
 msgid "Data restored successfully"
-msgstr ""
+msgstr "Los datos se restauraron exitosamente"
 
 msgid "Date Uploaded"
 msgstr "Fecha de subida"
@@ -303,7 +303,7 @@ msgid "Delete selected"
 msgstr "Eliminar seleccionado"
 
 msgid "Destination Address"
-msgstr ""
+msgstr "Dirección del destinatario"
 
 msgid "Device awaiting confirmation"
 msgstr "Dispositivo pendiente de confirmación"
@@ -312,7 +312,7 @@ msgid "Didn't receive the email?"
 msgstr "¿No recibió el email?"
 
 msgid "Display"
-msgstr ""
+msgstr "Mostrar"
 
 msgid "Download"
 msgstr "Descargar"
@@ -390,7 +390,7 @@ msgstr ""
 "seguro que has activado tu billetera."
 
 msgid "Features"
-msgstr ""
+msgstr "Características"
 
 msgid "File Info"
 msgstr "Información del archivo"
@@ -414,10 +414,10 @@ msgid "Files Max"
 msgstr ""
 
 msgid "Files Pro"
-msgstr ""
+msgstr "Archivos Pro"
 
 msgid "Files sharing key"
-msgstr ""
+msgstr "Clave para compartir archivos"
 
 msgid "Folder name is already in use"
 msgstr "El nombre de la carpeta ya está siendo utilizado"
@@ -480,7 +480,7 @@ msgid "Home"
 msgstr "Casa"
 
 msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
-msgstr ""
+msgstr "Si cree que este archivo no cumple con nuestros <0>Términos de servicio</0>, envíe la siguiente información a report@files.chainsafe.io. Tenga en cuenta que al enviar la clave de descifrado del archivo, un administrador puede descifrar cualquier archivo en esta carpeta compartida."
 
 msgid "Info"
 msgstr "Información"
@@ -495,7 +495,7 @@ msgid "I’m done saving my backup secret phrase"
 msgstr "He terminado guardando mi frase secreta de respaldo"
 
 msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
-msgstr ""
+msgstr "Únase a nuestros nuevos planes de suscripción de acceso limitado para actualizar a un plan con más almacenamiento."
 
 msgid "Keep original files"
 msgstr "Mantener archivos originales"
@@ -573,7 +573,7 @@ msgid "Nice to see you again!"
 msgstr "¡Encantado de verte de nuevo!"
 
 msgid "No Card"
-msgstr ""
+msgstr "Sin tarjeta"
 
 msgid "No file to download."
 msgstr "No hay archivos para descargar."
@@ -615,7 +615,7 @@ msgid "Older notifications"
 msgstr "Notificaciones antiguas"
 
 msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
-msgstr ""
+msgstr "Una vez que continúe, se espera que su cuenta realice un pago dentro de los 60 minutos. Si no se recibe ningún pago, su plan no cambiará."
 
 msgid "One sec, getting files ready…"
 msgstr "Un segundo, preparando los archivos…"
@@ -675,7 +675,7 @@ msgid "Payment method"
 msgstr "Método de pago"
 
 msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
-msgstr ""
+msgstr "Los pagos son finales y no reembolsables. Si desea cambiar su plan, cualquier fondo adicional se aplicará como crédito para pagos futuros."
 
 msgid "Plan changed successfully"
 msgstr "Plan cambiado exitosamente"
@@ -684,7 +684,7 @@ msgid "Plan price"
 msgstr "Precio del plan"
 
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
-msgstr ""
+msgstr "Por favor, complete el pago de las siguientes facturas pendientes para evitar la suspensión de la cuenta"
 
 msgid "Please enter a file name"
 msgstr "Por favor ingrese un nombre de archivo"
@@ -723,7 +723,7 @@ msgid "Recover"
 msgstr "Recuperar"
 
 msgid "Recover selected"
-msgstr ""
+msgstr "Recuperar seleccionado"
 
 msgid "Recover to…"
 msgstr "Recuperar a…"
@@ -834,7 +834,7 @@ msgid "Set up a password"
 msgstr "Configurar una contraseña"
 
 msgid "Setting Username"
-msgstr ""
+msgstr "Configurando Nombre de usuario"
 
 msgid "Settings"
 msgstr "Ajustes"
@@ -846,7 +846,7 @@ msgid "Share file"
 msgstr "Compartir archivo"
 
 msgid "Share links to your encrypted folders."
-msgstr ""
+msgstr "Comparte enlaces a tus carpetas encriptadas"
 
 msgid "Share selected"
 msgstr "Compartir seleccionados"
@@ -945,7 +945,7 @@ msgid "The link you typed in looks malformed. Please verify it."
 msgstr "El link que escribiste parece malformado. Por favor verifique."
 
 msgid "The time to pay with crypto is up. Updating your plan..."
-msgstr ""
+msgstr "El tiempo para pagar con criptomoneda finalizó. Actualizando tu plan…"
 
 msgid "The transaction was declined. Please use a different card or try again."
 msgstr "La transacción fue rechazada. Por favor use una tarjeta diferente o intente de nuevo."
@@ -1170,10 +1170,10 @@ msgid "can-edit"
 msgstr "editable"
 
 msgid "expires"
-msgstr ""
+msgstr "Caduca"
 
 msgid "invoices here"
-msgstr ""
+msgstr "facturas aquí"
 
 msgid "on"
 msgstr "en"
