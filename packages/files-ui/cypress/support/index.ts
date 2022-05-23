@@ -35,5 +35,18 @@ if(app != null && !app.document.head.querySelector("[data-hide-command-log-reque
   app.document.head.appendChild(style)
 }
 
+before(() => {
+  // grant clipboard read permissions to the browser
+  cy.wrap(
+    Cypress.automation("remote:debugger:protocol", {
+      command: "Browser.grantPermissions",
+      params: {
+        permissions: ["clipboardReadWrite", "clipboardSanitizedWrite"],
+        origin: window.location.origin,
+      }
+    })
+  )
+})
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

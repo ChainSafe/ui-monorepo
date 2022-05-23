@@ -20,8 +20,9 @@ import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
-import { getPathWithFile, getRelativePath } from "../Utils/pathUtils"
+import { getParentPathFromFilePath, getPathWithFile, getRelativePath } from "../Utils/pathUtils"
 import { Zippable, zipSync } from "fflate"
+import { FileWithPath } from "../Utils/getFilesFromDataTransferItems"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -52,7 +53,7 @@ type FilesContext = {
   storageSummary: BucketSummaryResponse | undefined
   personalEncryptionKey: string | undefined
   getStorageSummary: () => Promise<void>
-  uploadFiles: (bucket: BucketKeyPermission, files: File[], path: string, encryptionKey?: string) => Promise<void>
+  uploadFiles: (bucket: BucketKeyPermission, files: FileWithPath[], rootUploadPath: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshBuckets: (showLoading?: boolean) => Promise<void>
@@ -319,7 +320,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     onUploadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
     cancelToken?: CancelToken
   ) => {
-
     const key = bucket.encryptionKey
 
     if (!key) {
@@ -350,7 +350,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     )
   }, [filesApiClient])
 
-  const uploadFiles = useCallback(async (bucket: BucketKeyPermission, files: File[], path: string) => {
+  const uploadFiles = useCallback(async (bucket: BucketKeyPermission, files: FileWithPath[], rootUploadPath: string) => {
     const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
     if (hasOversizedFile) {
       addToast({
@@ -377,20 +377,31 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     setUploadsInProgress(true)
 
     try {
-      await encryptAndUploadFiles(
-        bucket,
-        files,
-        path,
-        (progressEvent: { loaded: number; total: number }) => {
-          updateToast(toastId, {
-            ...toastParams,
-            progress: Math.ceil(
-              (progressEvent.loaded / progressEvent.total) * 100
-            )
-          })
-        },
-        cancelToken
-      )
+      const paths = [...new Set(files.map(f => getParentPathFromFilePath(f.path)))]
+      const totalUploadSize = files.reduce((sum, f) => sum += f.size, 0)
+
+      let uploadedSize = 0
+      for (const path of paths) {
+        const filesToUpload = files.filter((f => getParentPathFromFilePath(f.path) === path))
+        const batchSize = filesToUpload.reduce((sum, f) => sum += f.size, 0)
+        await encryptAndUploadFiles(
+          bucket,
+          filesToUpload,
+          getPathWithFile(rootUploadPath, path),
+          (progressEvent: { loaded: number; total: number }) => {
+            updateToast(toastId, {
+              ...toastParams,
+              progress: Math.ceil(
+                ((progressEvent.loaded + uploadedSize) / totalUploadSize) * 100
+              )
+            })
+          },
+          cancelToken
+        )
+        uploadedSize += batchSize
+      }
+
+
       setUploadsInProgress(false)
 
       await refreshBuckets()
@@ -622,6 +633,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       type: "success",
       progress: 0,
       isClosable: false,
+      testId: "downloading-file",
       onProgressCancel: cancelSource.cancel
     }
     const toastId = addToast(toastParams)
@@ -652,7 +664,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         type: "success",
         progress: undefined,
         onProgressCancel: undefined,
-        isClosable: true
+        isClosable: true,
+        testId: "download-complete"
       }, true)
       URL.revokeObjectURL(link.href)
       setDownloadsInProgress(false)
