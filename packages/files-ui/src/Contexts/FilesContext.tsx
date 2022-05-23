@@ -401,9 +401,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         uploadedSize += batchSize
       }
 
-
       setUploadsInProgress(false)
-
       await refreshBuckets()
       // setting complete
       updateToast(toastId, {
