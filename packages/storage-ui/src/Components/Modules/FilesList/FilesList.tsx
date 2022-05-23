@@ -846,10 +846,10 @@ const FilesList = () => {
     bulkActions
   ])
 
-  const anchorPosition = useMemo(() => contextMenuPosition ? {
-    top: contextMenuPosition.mouseY,
-    left: contextMenuPosition.mouseX
-  } : undefined, [contextMenuPosition])
+  const anchorPosition = useMemo(() => contextMenuPosition
+    ? { top: contextMenuPosition.mouseY, left: contextMenuPosition.mouseX
+    } : undefined,
+  [contextMenuPosition])
 
   return (
     <article

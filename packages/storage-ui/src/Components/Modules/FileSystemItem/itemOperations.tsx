@@ -19,34 +19,26 @@ import { FileSystemItem } from "../../../Contexts/StorageContext"
 interface MenuOptionsParams {
   menuIconClass: string
   file: FileSystemItem
-  inSharedFolder: boolean
   itemOperations: FileOperation[]
-  editFile?: (item: FileSystemItem) => void
-  deleteFile?: (item: FileSystemItem) => void
-  downloadFile?: (item: FileSystemItem) => void
-  moveFile?: (item: FileSystemItem) => void
-  handleShare?: (item: FileSystemItem) => void
-  recoverFile?: (item: FileSystemItem) => void
+  editFile?: (item: ISelectedFile) => void
+  deleteFile?: (item: ISelectedFile) => void
+  downloadFile?: (item: ISelectedFile) => void
+  moveFile?: (item: ISelectedFile) => void
   previewFile?: (item: FileSystemItem) => void
-  showFileInfo?: (item: FileSystemItem) => void
-  reportFile?: (item: FileSystemItem) => void
-  viewFolder?: (item: FileSystemItem) => void
+  showFileInfo?: (item: ISelectedFile) => void
+  viewFolder?: (item: ISelectedFile) => void
 }
 
 export const getItemMenuOptions = ({
   menuIconClass,
   file,
-  inSharedFolder,
   itemOperations,
   editFile,
   deleteFile,
   downloadFile,
   moveFile,
-  handleShare,
-  recoverFile,
   previewFile,
   showFileInfo,
-  reportFile,
   viewFolder
 }: MenuOptionsParams) => {
   const item = { cid: file.cid, name: file.name }

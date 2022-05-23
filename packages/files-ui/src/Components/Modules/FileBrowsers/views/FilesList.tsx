@@ -991,9 +991,9 @@ const FilesList = ({ isShared = false }: Props) => {
   ])
 
   const anchorPosition = useMemo(() => contextMenuPosition
-    ? { top: contextMenuPosition.mouseY, left: contextMenuPosition.mouseX}
+    ? { top: contextMenuPosition.mouseY, left: contextMenuPosition.mouseX }
     : undefined
-, [contextMenuPosition])
+  , [contextMenuPosition])
 
   return (
     <article

@@ -16,7 +16,7 @@ import { t, Trans } from "@lingui/macro"
 import { FileOperation } from "../../types"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 
-export function getItemMenuOptions(params: {
+interface MenuOptionsParams {
   menuIconClass: string
   file: FileSystemItem
   inSharedFolder: boolean
@@ -31,23 +31,24 @@ export function getItemMenuOptions(params: {
   showFileInfo?: (item: FileSystemItem) => void
   reportFile?: (item: FileSystemItem) => void
   viewFolder?: (item: FileSystemItem) => void
-}) {
-  const {
-    file,
-    itemOperations,
-    inSharedFolder,
-    viewFolder,
-    editFile,
-    deleteFile,
-    downloadFile,
-    handleShare,
-    moveFile,
-    previewFile,
-    recoverFile,
-    reportFile,
-    showFileInfo,
-    menuIconClass
-  } = params
+}
+
+export function getItemMenuOptions({
+  file,
+  itemOperations,
+  inSharedFolder,
+  viewFolder,
+  editFile,
+  deleteFile,
+  downloadFile,
+  handleShare,
+  moveFile,
+  previewFile,
+  recoverFile,
+  reportFile,
+  showFileInfo,
+  menuIconClass
+}: MenuOptionsParams) {
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (
