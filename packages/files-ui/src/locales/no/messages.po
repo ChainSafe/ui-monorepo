@@ -556,6 +556,9 @@ msgstr ""
 msgid "New folder"
 msgstr "Ny mappe"
 
+msgid "Folder Name"
+msgstr ""
+
 msgid "New shared folder name"
 msgstr ""
 

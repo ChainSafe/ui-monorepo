@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-06 20:51+0200\n"
-"PO-Revision-Date: 2022-05-23 09:40-0300\n"
+"PO-Revision-Date: 2022-05-23 14:44-0300\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/es/>\n"
 "Language: es\n"
@@ -75,7 +75,7 @@ msgid "Add credit card"
 msgstr "Agregar tarjeta de crédito"
 
 msgid "Add more files"
-msgstr "Agrega mas archivos"
+msgstr "Agregar mas archivos"
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr "Agregue lectores y editores por nombre de usuario, ID de uso compartido o dirección de Ethereum."
@@ -270,7 +270,7 @@ msgid "DAI, USDC, ETH or BTC"
 msgstr "DAI, USDC, ETH o BTC"
 
 msgid "Dark Theme"
-msgstr "Tema oscuro"
+msgstr "Aspecto oscuro"
 
 msgid "Data deleted successfully"
 msgstr "Datos eliminados exitosamente"
@@ -312,7 +312,7 @@ msgid "Didn't receive the email?"
 msgstr "¿No recibió el email?"
 
 msgid "Display"
-msgstr "Mostrar"
+msgstr "Visualización"
 
 msgid "Download"
 msgstr "Descargar"
@@ -477,7 +477,7 @@ msgid "Hold on, we are logging you in…"
 msgstr "Aguarde, te estamos conectando…"
 
 msgid "Home"
-msgstr "Casa"
+msgstr "Inicio"
 
 msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
 msgstr "Si cree que este archivo no cumple con nuestros <0>Términos de servicio</0>, envíe la siguiente información a report@files.chainsafe.io. Tenga en cuenta que al enviar la clave de descifrado del archivo, un administrador puede descifrar cualquier archivo en esta carpeta compartida."
@@ -560,8 +560,11 @@ msgstr "¿Necesita más espacio?"
 msgid "New folder"
 msgstr "Nueva carpeta"
 
+msgid "Folder Name"
+msgstr "Nombre de la carpeta"
+
 msgid "New shared folder name"
-msgstr "Nuevo nombre de carpeta compartida"
+msgstr "Nombre de la nueva carpeta compartida"
 
 msgid "Next"
 msgstr "Siguiente"
@@ -777,16 +780,16 @@ msgid "Save this browser for next time?"
 msgstr "¿Guardar este navegador para la próxima vez?"
 
 msgid "Saved"
-msgstr "Guardado"
+msgstr "Guardados"
 
 msgid "Saved Browser"
-msgstr "Navegador guardado"
+msgstr "Cantidad de navegadores guardados"
 
 msgid "Saved Browsers"
 msgstr "Navegadores guardados"
 
 msgid "Saved on:"
-msgstr "Guardado en:"
+msgstr "Guardado el:"
 
 msgid "Schedule a 15 min call"
 msgstr "Programar una llamada de 15 min"
@@ -846,7 +849,7 @@ msgid "Share file"
 msgstr "Compartir archivo"
 
 msgid "Share links to your encrypted folders."
-msgstr "Comparte enlaces a tus carpetas encriptadas"
+msgstr "Comparte enlaces a tus carpetas encriptadas."
 
 msgid "Share selected"
 msgstr "Compartir seleccionados"
@@ -891,7 +894,7 @@ msgid "Size"
 msgstr "Tamaño"
 
 msgid "Social Sign-in Wallet"
-msgstr "Cartera de inicio de sesión social"
+msgstr "Billetera de inicio de sesión"
 
 msgid "Something went wrong with email login! Please try again."
 msgstr "¡Algo salió mal con el inicio de sesión con email! Intente de nuevo."
@@ -1005,7 +1008,7 @@ msgid "This website uses cookies"
 msgstr "Este sitio web utiliza cookies"
 
 msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-msgstr ""
+msgstr "Este sitio web utiliza cookies que ayudan al sitio web a funcionar y rastrear las interacciones con fines analíticos. Tiene derecho a rechazar nuestro uso de cookies. Para que podamos brindarle una experiencia de usuario personalizable, haga clic en el botón Aceptar a continuación.<0>Más información</0>"
 
 msgid "This week"
 msgstr "Esta semana"
@@ -1095,28 +1098,28 @@ msgid "View PDF"
 msgstr "Ver PDF"
 
 msgid "View folder"
-msgstr "Utilice un navegador guardado"
+msgstr "Ver carpeta"
 
 msgid "Wallet address"
-msgstr "Utilice un navegador guardado"
+msgstr "Dirección de la billetera"
 
 msgid "Want to help shape this product?"
-msgstr ""
+msgstr "¿Quieres ayudar a mejorar este producto?"
 
 msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
-msgstr ""
+msgstr "Estamos realizando el mantenimiento rutinario del sistema. Las actualizaciones del estado del servicio se publicarán en el <0>Canal de soporte de archivos</0> en Discord"
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
-msgstr ""
+msgstr "No podemos cifrar archivos de más de 2 GB. Algunos artículos no se cargarán"
 
 msgid "Web3: {0}"
-msgstr "Vender: {0}"
+msgstr "Web3: {0}"
 
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
 msgstr "Contamos con un nuevo sistema de autenticación. Todo lo que necesita hacer es ingresar su contraseña nuevamente para migrar sus credenciales al nuevo sistema."
 
 msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
-msgstr ""
+msgstr "Hemos enviado un email a {email}. ¡Contiene el código de verificación que le iniciará sesión súper rápido!"
 
 msgid "What a fine day it is."
 msgstr "Qué buen día es."
@@ -1131,19 +1134,19 @@ msgid "You can change this later."
 msgstr "Puedes cambiar esto más tarde."
 
 msgid "You can now create shared folders to share a file."
-msgstr ""
+msgstr "Ahora puede crear carpetas compartidas para compartir un archivo."
 
 msgid "You can't move folders to this path"
-msgstr ""
+msgstr "No puedes mover carpetas a esta ruta"
 
 msgid "You do not have access to this shared folder."
-msgstr ""
+msgstr "No tienes acceso a esta carpeta compartida."
 
 msgid "You get access to these features right now."
-msgstr ""
+msgstr "Ahora tienes acceso a estas funciones."
 
 msgid "You haven't set a username yet."
-msgstr ""
+msgstr "Aún no has establecido un nombre de usuario."
 
 msgid "You now have:"
 msgstr "Ahora tienes:"
@@ -1155,22 +1158,22 @@ msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
 
 msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
-msgstr ""
+msgstr "Tienes un pago pendiente. Hasta que se haya liquidado, hemos colocado su cuenta en modo restringido"
 
 msgid "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
-msgstr ""
+msgstr "Tu cuenta esta restringida. Hasta que no se haya liquidado, no puede cargar ningún contenido nuevo."
 
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
-msgstr ""
+msgstr "El contenido supera la capacidad de almacenamiento {planStorageCapacity} para este plan."
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr ""
+msgstr "Su clave de recuperación se puede usar para restaurar su cuenta en lugar de su frase secreta de respaldo."
 
 msgid "can-edit"
 msgstr "editable"
 
 msgid "expires"
-msgstr "Caduca"
+msgstr "caduca"
 
 msgid "invoices here"
 msgstr "facturas aquí"
@@ -1188,13 +1191,13 @@ msgid "view-only"
 msgstr "solo lectura"
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
-msgstr ""
+msgstr "{0, plural, one {Descargando {1} archivo} other {Descargando {2} archivos}}"
 
 msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
-msgstr ""
+msgstr "{0, plural, one {Encriptando y subiendo {1} archivo} other {Encriptando y subiendo {2} archivos}}"
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
-msgstr ""
+msgstr "{0, plural, one {Estás por eliminar {1} elemento.} other {Estas por eliminar {2} elementos.}}"
 
 msgid "{0} cancelled"
 msgstr "{0} cancelados"

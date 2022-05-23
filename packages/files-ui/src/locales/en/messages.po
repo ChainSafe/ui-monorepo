@@ -559,6 +559,9 @@ msgstr "Need more storage?"
 msgid "New folder"
 msgstr "New folder"
 
+msgid "Folder Name"
+msgstr "Nombre de la carpeta"
+
 msgid "New shared folder name"
 msgstr "New shared folder name"
 

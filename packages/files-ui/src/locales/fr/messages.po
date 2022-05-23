@@ -560,6 +560,9 @@ msgstr "Plus d'espace de stockage ?"
 msgid "New folder"
 msgstr "Nouveau dossier"
 
+msgid "Folder Name"
+msgstr ""
+
 msgid "New shared folder name"
 msgstr "Nouveau nom de dossier partagé"
 
