@@ -1051,6 +1051,18 @@ msgstr ""
 msgid "Uploads disabled"
 msgstr ""
 
+msgid "Upload in progress"
+msgstr ""
+
+msgid "Upload Complete"
+msgstr ""
+
+msgid "Upload complete"
+msgstr ""
+
+msgid "Upload Started"
+msgstr ""
+
 msgid "Use a different login method"
 msgstr "Eine andere Anmeldemethode verwenden"
 

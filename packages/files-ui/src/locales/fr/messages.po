@@ -1055,6 +1055,18 @@ msgstr "Téléversements annulés"
 msgid "Uploads disabled"
 msgstr "Téléversements inactifs"
 
+msgid "Upload in progress"
+msgstr ""
+
+msgid "Upload Complete"
+msgstr ""
+
+msgid "Upload complete"
+msgstr ""
+
+msgid "Upload Started"
+msgstr ""
+
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
 

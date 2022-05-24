@@ -408,7 +408,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       // setting complete
       updateToast(toastId, {
         ...toastParams,
-        title: "Upload complete",
+        title: t`Upload complete`,
         progress: undefined,
         onProgressCancel: undefined,
         isClosable: true,

@@ -1055,6 +1055,18 @@ msgstr "Cargas canceladas"
 msgid "Uploads disabled"
 msgstr "Cargas deshabilitadas"
 
+msgid "Upload in progress"
+msgstr "Carga en progreso"
+
+msgid "Upload Complete"
+msgstr "Carga Completada"
+
+msgid "Upload complete"
+msgstr "Carga completada"
+
+msgid "Upload Started"
+msgstr "Carga Iniciada"
+
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
 

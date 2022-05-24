@@ -2,6 +2,7 @@ import React from "react"
 import { ToastContent, ToastParams, ToastProvider, useToasts } from "../Toasts"
 import { withKnobs, number, select, text, boolean } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
+import { t } from "@lingui/macro"
 
 export default {
   title: "Toasts",
@@ -14,7 +15,7 @@ export const ToastsContentNotification: React.FC = () => {
     <ToastContent
       toast={{
         id: "1",
-        title: text("title", "Upload in progress"),
+        title: text("title", t`Upload in progress`),
         type: select("type", ["success", "error"], "success"),
         subtitle: text("subtitle", "Just a subtitle with a lot of info")
       }}
@@ -28,7 +29,7 @@ export const ToastsContentProgress: React.FC = () => {
     <ToastContent
       toast={{
         id: "2",
-        title: text("title", "Upload in progress"),
+        title: text("title", t`"Upload in progress`),
         type: select("type", ["success", "error"], "success"),
         progress: number("progress", 30),
         onProgressCancel: action("on progress cancel")
@@ -43,7 +44,7 @@ export const ToastsContentProgressNoCancel: React.FC = () => {
     <ToastContent
       toast={{
         id: "2",
-        title: text("title", "Upload in progress"),
+        title: text("title", t`Upload in progress`),
         type: select("type", ["success", "error"], "success"),
         progress: number("progress", 50)
       }}
@@ -60,7 +61,7 @@ export const ToastsDemo: React.FC = () => {
     >
       <ToastNotificationDemo
         toast={{
-          title: text("title", "Upload Complete"),
+          title: text("title", t`Upload Complete`),
           type: "success",
           toastPosition: select("position", ["topLeft", "topRight", "bottomLeft", "bottomRight"], "topRight"),
           autoDismiss: boolean("toast auto dismiss", true),
@@ -79,7 +80,7 @@ export const MultipleToastsDemo: React.FC = () => {
     >
       <ToastMultipleNotificationDemo
         toast={{
-          title: text("title", "Upload Started"),
+          title: text("title", t`Upload Started`),
           type: "success",
           toastPosition: select("position", ["topLeft", "topRight", "bottomLeft", "bottomRight"], "topRight"),
           autoDismiss: boolean("toast auto dismiss", true),
