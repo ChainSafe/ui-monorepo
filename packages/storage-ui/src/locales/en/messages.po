@@ -271,9 +271,6 @@ msgstr "Download"
 msgid "Download Complete"
 msgstr "Download Complete"
 
-#~ msgid "Download complete"
-#~ msgstr "Download complete"
-
 msgid "Downloading file - {0}"
 msgstr "Downloading file - {0}"
 
@@ -706,12 +703,6 @@ msgstr "Update your credit card"
 msgid "Upload"
 msgstr "Upload"
 
-#~ msgid "Upload complete"
-#~ msgstr "Upload complete"
-
-#~ msgid "Uploading {0} files"
-#~ msgstr "Uploading {0} files"
-
 msgid "Uploads cancelled"
 msgstr "Uploads cancelled"
 
@@ -807,9 +798,6 @@ msgstr "{newPlanCapacity} of storage"
 
 msgid "{newPlanStorage} of storage"
 msgstr "{newPlanStorage} of storage"
-
-#~ msgid "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
-#~ msgstr "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
 
 msgid "{planStorageCapacity} of storage"
 msgstr "{planStorageCapacity} of storage"
