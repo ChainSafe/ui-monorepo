@@ -28,7 +28,7 @@ type Position = {
 
 const useStyles = makeStyles(({ constants, zIndex, animation }: CSSTheme) => {
   return createStyles({
-    anchorRoot: (styleProps: Position) => ({
+    anchorRoot: (styleProps?: Position) => ({
       position: "fixed",
       top: styleProps?.top,
       left: styleProps?.left,
@@ -60,10 +60,11 @@ const MENU_BOTTOM_SPACE_TOLERANCE = 250
 
 export default function MenuDropdown({ isOpen, options, anchorPosition, onClose }: Props) {
   const position = useMemo(() => {
+    if (!anchorPosition || !isOpen) return
+
     const windowHeight = window.innerHeight
     const windowWidth = window.innerWidth
     const position: Position = {}
-    if (!anchorPosition) return {}
     // calculate top or bottom
     if (windowHeight - anchorPosition.top > MENU_BOTTOM_SPACE_TOLERANCE) {
       position.top = anchorPosition.top
@@ -77,7 +78,7 @@ export default function MenuDropdown({ isOpen, options, anchorPosition, onClose 
       position.right = windowWidth - anchorPosition.left
     }
     return position
-  }, [anchorPosition])
+  }, [anchorPosition, isOpen])
 
   const classes = useStyles(position)
 
@@ -96,7 +97,7 @@ export default function MenuDropdown({ isOpen, options, anchorPosition, onClose 
 
   return (
     <div
-      className={clsx(classes.anchorRoot, isOpen && !!position && "open")}
+      className={clsx(classes.anchorRoot, "open")}
       ref={ref}
     >
       <Paper className={classes.paper}>
@@ -114,7 +115,6 @@ export default function MenuDropdown({ isOpen, options, anchorPosition, onClose 
           </MenuItem>
         ))}
       </Paper>
-
     </div>
   )
 }
