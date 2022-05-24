@@ -307,8 +307,8 @@ msgstr "Destination Address"
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
-msgid "Didn't receive the email ?"
-msgstr "Didn't receive the email ?"
+msgid "Didn't receive the email?"
+msgstr "Didn't receive the email?"
 
 msgid "Display"
 msgstr "Display"
@@ -417,6 +417,9 @@ msgstr "Files Pro"
 
 msgid "Files sharing key"
 msgstr "Files sharing key"
+
+msgid "Folder Name"
+msgstr "Nombre de la carpeta"
 
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
@@ -558,9 +561,6 @@ msgstr "Need more storage?"
 
 msgid "New folder"
 msgstr "New folder"
-
-msgid "Folder Name"
-msgstr "Nombre de la carpeta"
 
 msgid "New shared folder name"
 msgstr "New shared folder name"
@@ -1045,6 +1045,9 @@ msgstr "Update your credit card"
 msgid "Upload"
 msgstr "Upload"
 
+msgid "Upload complete"
+msgstr ""
+
 msgid "Upload size exceeds plan capacity"
 msgstr "Upload size exceeds plan capacity"
 
@@ -1053,18 +1056,6 @@ msgstr "Uploads cancelled"
 
 msgid "Uploads disabled"
 msgstr "Uploads disabled"
-
-msgid "Upload in progress"
-msgstr ""
-
-msgid "Upload Complete"
-msgstr ""
-
-msgid "Upload complete"
-msgstr ""
-
-msgid "Upload Started"
-msgstr ""
 
 msgid "Use a different login method"
 msgstr "Use a different login method"

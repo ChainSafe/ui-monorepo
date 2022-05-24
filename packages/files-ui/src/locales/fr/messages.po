@@ -308,8 +308,8 @@ msgstr "L'adresse de destination"
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
-msgid "Didn't receive the email ?"
-msgstr "Vous n’avez pas reçu de courriel ?"
+msgid "Didn't receive the email?"
+msgstr ""
 
 msgid "Display"
 msgstr "Afficher"
@@ -418,6 +418,9 @@ msgstr "Files Pro"
 
 msgid "Files sharing key"
 msgstr "Clé de partage des fichiers"
+
+msgid "Folder Name"
+msgstr ""
 
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
@@ -559,9 +562,6 @@ msgstr "Plus d'espace de stockage ?"
 
 msgid "New folder"
 msgstr "Nouveau dossier"
-
-msgid "Folder Name"
-msgstr ""
 
 msgid "New shared folder name"
 msgstr "Nouveau nom de dossier partagé"
@@ -1046,6 +1046,9 @@ msgstr "Mettre à jour votre carte de crédit"
 msgid "Upload"
 msgstr "Téléverser"
 
+msgid "Upload complete"
+msgstr ""
+
 msgid "Upload size exceeds plan capacity"
 msgstr ""
 
@@ -1054,18 +1057,6 @@ msgstr "Téléversements annulés"
 
 msgid "Uploads disabled"
 msgstr "Téléversements inactifs"
-
-msgid "Upload in progress"
-msgstr ""
-
-msgid "Upload Complete"
-msgstr ""
-
-msgid "Upload complete"
-msgstr ""
-
-msgid "Upload Started"
-msgstr ""
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"

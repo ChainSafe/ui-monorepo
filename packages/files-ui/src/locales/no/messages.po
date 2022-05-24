@@ -307,8 +307,8 @@ msgstr ""
 msgid "Device awaiting confirmation"
 msgstr ""
 
-msgid "Didn't receive the email ?"
-msgstr "Fikk du ikke e-posten?"
+msgid "Didn't receive the email?"
+msgstr ""
 
 msgid "Display"
 msgstr ""
@@ -413,6 +413,9 @@ msgid "Files Pro"
 msgstr ""
 
 msgid "Files sharing key"
+msgstr ""
+
+msgid "Folder Name"
 msgstr ""
 
 msgid "Folder name is already in use"
@@ -555,9 +558,6 @@ msgstr ""
 
 msgid "New folder"
 msgstr "Ny mappe"
-
-msgid "Folder Name"
-msgstr ""
 
 msgid "New shared folder name"
 msgstr ""
@@ -1042,6 +1042,9 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
+msgid "Upload complete"
+msgstr ""
+
 msgid "Upload size exceeds plan capacity"
 msgstr ""
 
@@ -1049,18 +1052,6 @@ msgid "Uploads cancelled"
 msgstr ""
 
 msgid "Uploads disabled"
-msgstr ""
-
-msgid "Upload in progress"
-msgstr ""
-
-msgid "Upload Complete"
-msgstr ""
-
-msgid "Upload complete"
-msgstr ""
-
-msgid "Upload Started"
 msgstr ""
 
 msgid "Use a different login method"

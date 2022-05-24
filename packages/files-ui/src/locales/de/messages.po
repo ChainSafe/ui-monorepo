@@ -307,8 +307,8 @@ msgstr ""
 msgid "Device awaiting confirmation"
 msgstr "Gerät wartet auf Bestätigung"
 
-msgid "Didn't receive the email ?"
-msgstr "Sie haben die E-Mail nicht erhalten?"
+msgid "Didn't receive the email?"
+msgstr ""
 
 msgid "Display"
 msgstr ""
@@ -414,6 +414,9 @@ msgstr ""
 
 msgid "Files sharing key"
 msgstr "Dateifreigabeschlüssel"
+
+msgid "Folder Name"
+msgstr ""
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -555,9 +558,6 @@ msgstr ""
 
 msgid "New folder"
 msgstr "Neuer Ordner"
-
-msgid "Folder Name"
-msgstr ""
 
 msgid "New shared folder name"
 msgstr ""
@@ -1042,6 +1042,9 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
+msgid "Upload complete"
+msgstr ""
+
 msgid "Upload size exceeds plan capacity"
 msgstr ""
 
@@ -1049,18 +1052,6 @@ msgid "Uploads cancelled"
 msgstr ""
 
 msgid "Uploads disabled"
-msgstr ""
-
-msgid "Upload in progress"
-msgstr ""
-
-msgid "Upload Complete"
-msgstr ""
-
-msgid "Upload complete"
-msgstr ""
-
-msgid "Upload Started"
 msgstr ""
 
 msgid "Use a different login method"

@@ -419,6 +419,9 @@ msgstr "Archivos Pro"
 msgid "Files sharing key"
 msgstr "Clave para compartir archivos"
 
+msgid "Folder Name"
+msgstr "Nombre de la carpeta"
+
 msgid "Folder name is already in use"
 msgstr "El nombre de la carpeta ya está siendo utilizado"
 
@@ -559,9 +562,6 @@ msgstr "¿Necesita más espacio?"
 
 msgid "New folder"
 msgstr "Nueva carpeta"
-
-msgid "Folder Name"
-msgstr "Nombre de la carpeta"
 
 msgid "New shared folder name"
 msgstr "Nombre de la nueva carpeta compartida"
@@ -1046,6 +1046,9 @@ msgstr "Actualize su tarjeta de crédito"
 msgid "Upload"
 msgstr "Subir"
 
+msgid "Upload complete"
+msgstr "Carga completada"
+
 msgid "Upload size exceeds plan capacity"
 msgstr "El tamaño de la carga excede la capacidad del plan"
 
@@ -1054,18 +1057,6 @@ msgstr "Cargas canceladas"
 
 msgid "Uploads disabled"
 msgstr "Cargas deshabilitadas"
-
-msgid "Upload in progress"
-msgstr "Carga en progreso"
-
-msgid "Upload Complete"
-msgstr "Carga Completada"
-
-msgid "Upload complete"
-msgstr "Carga completada"
-
-msgid "Upload Started"
-msgstr "Carga Iniciada"
 
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
