@@ -4,7 +4,7 @@ import { chainSafeBucketName, ipfsBucketName } from "../fixtures/storageTestData
 import { createBucketModal } from "../support/page-objects/modals/createBucketModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
-import { uploadStatusToast } from "../support/page-objects/toasts/uploadStatusToast"
+import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 
 describe("Bucket management", () => {
 
@@ -41,8 +41,8 @@ describe("Bucket management", () => {
       fileUploadModal.fileList().should("have.length", 1)
       fileUploadModal.uploadButton().safeClick()
       fileUploadModal.body().should("not.exist")
-      uploadStatusToast.body().should("be.visible")
-      bucketContentsPage.awaitBucketRefresh()
+      uploadCompleteToast.body().should("be.visible")
+      uploadCompleteToast.closeButton().click()
       bucketContentsPage.fileItemRow().should("have.length", 1)
 
       // delete chainsafe bucket
@@ -81,8 +81,8 @@ describe("Bucket management", () => {
       fileUploadModal.fileList().should("have.length", 1)
       fileUploadModal.uploadButton().safeClick()
       fileUploadModal.body().should("not.exist")
-      uploadStatusToast.body().should("be.visible")
-      bucketContentsPage.awaitBucketRefresh()
+      uploadCompleteToast.body().should("be.visible")
+      uploadCompleteToast.closeButton().click()
       bucketContentsPage.fileItemRow().should("have.length", 1)
 
       // delete ipfs bucket
