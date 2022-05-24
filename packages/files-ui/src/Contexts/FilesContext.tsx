@@ -631,6 +631,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       type: "success",
       progress: 0,
       isClosable: false,
+      testId: "downloading-file",
       onProgressCancel: cancelSource.cancel
     }
     const toastId = addToast(toastParams)
@@ -661,7 +662,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         type: "success",
         progress: undefined,
         onProgressCancel: undefined,
-        isClosable: true
+        isClosable: true,
+        testId: "download-complete"
       }, true)
       URL.revokeObjectURL(link.href)
       setDownloadsInProgress(false)
