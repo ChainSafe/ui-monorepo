@@ -366,7 +366,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       title: plural(files.length, {
         one: `Encrypting and uploading ${files.length} file`,
         other: `Encrypting and uploading ${files.length} files`
-      }) as string,
+      }),
       type: "success",
       progress: 0,
       onProgressCancel: cancelSource.cancel,
