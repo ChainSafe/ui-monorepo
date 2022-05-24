@@ -317,7 +317,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       title: plural(files.length, {
         one: `Uploading ${files.length} file`,
         other: `Uploading ${files.length} files`
-      }) as string,
+      }),
       type: "success",
       progress: 0,
       onProgressCancel: cancelSource.cancel,
