@@ -2,7 +2,7 @@ import React, {  ReactNode, useEffect, useMemo, useRef } from "react"
 import { MenuItem, Paper, PopoverPosition } from "@material-ui/core"
 import { makeStyles, createStyles, useOnClickOutside } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { CSSTheme } from "../../Themes/types"
+import { CSFTheme } from "../Themes/types"
 
 interface Option {
   contents: ReactNode
@@ -26,7 +26,7 @@ type Position = {
 }
 
 
-const useStyles = makeStyles(({ constants, zIndex, animation }: CSSTheme) => {
+const useStyles = makeStyles(({ constants, zIndex, animation }: CSFTheme) => {
   return createStyles({
     anchorRoot: (styleProps?: Position) => ({
       position: "fixed",
