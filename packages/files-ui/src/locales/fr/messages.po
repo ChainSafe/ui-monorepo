@@ -1049,6 +1049,15 @@ msgstr "Téléverser"
 msgid "Upload complete"
 msgstr ""
 
+msgid "Upload in progress"
+msgstr ""
+
+msgid "Upload Complete"
+msgstr ""
+
+msgid "Upload Started"
+msgstr ""
+
 msgid "Upload size exceeds plan capacity"
 msgstr ""
 

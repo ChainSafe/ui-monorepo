@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-06 20:51+0200\n"
-"PO-Revision-Date: 2022-05-24 14:02-0300\n"
+"PO-Revision-Date: 2022-05-24 15:52-0300\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/es/>\n"
 "Language: es\n"
@@ -1048,6 +1048,15 @@ msgstr "Subir"
 
 msgid "Upload complete"
 msgstr "Carga completada"
+
+msgid "Upload in progress"
+msgstr ""
+
+msgid "Upload Complete"
+msgstr ""
+
+msgid "Upload Started"
+msgstr ""
 
 msgid "Upload size exceeds plan capacity"
 msgstr "El tamaño de la carga excede la capacidad del plan"
