@@ -1048,15 +1048,6 @@ msgstr "Upload"
 msgid "Upload complete"
 msgstr "Upload complete"
 
-msgid "Upload in progress"
-msgstr "Upload in progress"
-
-msgid "Upload Complete"
-msgstr "Upload Complete"
-
-msgid "Upload Started"
-msgstr "Upload Started"
-
 msgid "Upload size exceeds plan capacity"
 msgstr "Upload size exceeds plan capacity"
 
