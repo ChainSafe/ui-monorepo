@@ -419,7 +419,7 @@ msgid "Files sharing key"
 msgstr "Files sharing key"
 
 msgid "Folder Name"
-msgstr "Nombre de la carpeta"
+msgstr "Folder Name"
 
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"

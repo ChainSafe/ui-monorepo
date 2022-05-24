@@ -309,7 +309,7 @@ msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
 msgid "Didn't receive the email?"
-msgstr ""
+msgstr "Vous n’avez pas reçu de courriel?"
 
 msgid "Display"
 msgstr "Afficher"

@@ -308,7 +308,7 @@ msgid "Device awaiting confirmation"
 msgstr "Gerät wartet auf Bestätigung"
 
 msgid "Didn't receive the email?"
-msgstr ""
+msgstr "Sie haben die E-Mail nicht erhalten?"
 
 msgid "Display"
 msgstr ""
