@@ -24,7 +24,8 @@ import {
   PlusCircleSvg,
   MoreIcon,
   SortIcon,
-  CheckIcon
+  CheckIcon,
+  IMenuItem
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -59,6 +60,9 @@ import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import { DragTypes } from "../DragConstants"
 import FolderBreadcrumb from "./FolderBreadcrumb"
+import AnchorMenu, { AnchoreMenuPosition } from "../../../../UI-components/AnchorMenu"
+import { getItemMenuOptions } from "./FileSystemItem/itemOperations"
+import { getPathWithFile } from "../../../../Utils/pathUtils"
 
 const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -340,15 +344,14 @@ const useStyles = makeStyles(
   }
 )
 
-// Sorting
-const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
-  a.isFolder && a.content_type !== b.content_type ? -1 : 1
-
 interface Props {
   isShared?: boolean
 }
 
 type SortByType = "name" | "size" | "date_uploaded"
+// Sorting
+const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
+  a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
 const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
@@ -365,6 +368,7 @@ const FilesList = ({ isShared = false }: Props) => {
     bulkOperations,
     crumbs,
     moveItems,
+    downloadFile,
     renameItem: handleRename,
     deleteItems: deleteFiles,
     viewFolder,
@@ -392,6 +396,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { permission } = bucket || {}
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
   const [hasClickedShare, setClickedShare] = useState(false)
+  const [contextMenuPosition, setContextMenuPosition] = useState<AnchoreMenuPosition | null>(null)
   const showExplainerBeforeShare = useMemo(() =>
     !hasSeenSharingExplainerModal && hasClickedShare
   , [hasClickedShare, hasSeenSharingExplainerModal]
@@ -666,6 +671,53 @@ const FilesList = ({ isShared = false }: Props) => {
     setValidBulkOps(fileOperations)
   }, [selectedCids, items, bulkOperations, isShared, permission])
 
+  const onEditFile = useCallback((file: FileSystemItemType | undefined) => {
+    setEditing(file?.cid)
+  }, [])
+
+  const onDeleteFile = useCallback((file: FileSystemItemType) => {
+    setSelectedItems([file])
+    setIsDeleteModalOpen(true)
+  }, [])
+
+  const onMoveFile = useCallback((file: FileSystemItemType) => {
+    setSelectedItems([file])
+    setIsMoveFileModalOpen(true)
+    setMoveModalMode("move")
+  }, [])
+
+  const onRecoverFile = useCallback((file: FileSystemItemType) => {
+    setSelectedItems([file])
+    setIsMoveFileModalOpen(true)
+    setMoveModalMode("recover")
+  }, [])
+
+  const onShowFileInfo = useCallback((file: FileSystemItemType) => {
+    const filePath = getPathWithFile(currentPath, file.name)
+    setFilePath(filePath)
+    setIsFileInfoModalOpen(true)
+  }, [currentPath])
+
+  const onShowPreview = useCallback((file: FileSystemItemType) => {
+    const fileIndex = files.indexOf(file)
+    setFileIndex(fileIndex)
+    setIsPreviewOpen(true)
+  }, [files])
+
+  const onDownloadFile = useCallback((file: FileSystemItemType) => {
+    if (file.isFolder) {
+      bucket && downloadMultipleFiles([file], currentPath, bucket.id)
+    } else {
+      downloadFile && downloadFile(file.cid)
+    }
+  }, [bucket, currentPath, downloadFile, downloadMultipleFiles])
+
+  const onReportFile = useCallback((file: FileSystemItemType) => {
+    const filePath = getPathWithFile(currentPath, file.name)
+    setFilePath(filePath)
+    setIsReportFileModalOpen(true)
+  }, [currentPath])
+
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
 
@@ -715,8 +767,8 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsSurveyBannerVisible(false)
   }, [setIsSurveyBannerVisible])
 
-  const handleViewFolder = useCallback((cid: string) => {
-    !loadingCurrentPath && viewFolder && viewFolder(cid)
+  const handleViewFolder = useCallback((file: FileSystemItemType) => {
+    !loadingCurrentPath && viewFolder && viewFolder(file.cid)
   }, [viewFolder, loadingCurrentPath])
 
   const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
@@ -738,7 +790,12 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsShareModalOpen(true)
   }, [])
 
-  const mobileMenuItems = useMemo(() => [
+  const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
+    setSelectedItems([fileSystemItem])
+    handleOpenShareDialog()
+  }, [handleOpenShareDialog])
+
+  const browserOptions = useMemo(() => [
     {
       contents: (
         <>
@@ -766,8 +823,8 @@ const FilesList = ({ isShared = false }: Props) => {
   ],
   [classes.menuIcon, accountRestricted])
 
-  const mobileBulkActions = useMemo(() => {
-    const menuOptions = []
+  const bulkActions = useMemo(() => {
+    const menuOptions: IMenuItem[] = []
 
     validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) &&
       menuOptions.push({
@@ -851,10 +908,81 @@ const FilesList = ({ isShared = false }: Props) => {
     selectionContainsAFolder
   ])
 
-  const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
-    setSelectedItems([fileSystemItem])
-    handleOpenShareDialog()
-  }, [handleOpenShareDialog])
+  const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
+    if (!controls) return
+    e.preventDefault()
+    // reset selected files if context menu was open
+    setSelectedItems([])
+    setContextMenuPosition({
+      left: e.clientX - 2,
+      top: e.clientY - 4
+    })
+  }, [controls])
+
+  const handleContextMenuOnItem = useCallback((e: React.MouseEvent, item: FileSystemItemType) => {
+    e.preventDefault()
+    e.stopPropagation()
+    // only keep current item selected if not in selected
+    if (!selectedItems.includes(item)) {
+      setSelectedItems([item])
+    }
+    setContextMenuPosition({
+      left: e.clientX - 2,
+      top: e.clientY - 4
+    })
+  }, [selectedItems])
+
+  const itemFunctions = useMemo(() => ({
+    deleteFile: onDeleteFile,
+    downloadFile: onDownloadFile,
+    handleShare: onShare,
+    moveFile: onMoveFile,
+    recoverFile: onRecoverFile,
+    reportFile: onReportFile,
+    viewFolder: handleViewFolder,
+    showFileInfo: onShowFileInfo,
+    previewFile: onShowPreview,
+    editFile: onEditFile
+  }), [
+    handleViewFolder,
+    onDeleteFile,
+    onDownloadFile,
+    onMoveFile,
+    onRecoverFile,
+    onReportFile,
+    onShowFileInfo,
+    onShowPreview,
+    onShare,
+    onEditFile
+  ])
+
+  const contextMenuOptions: IMenuItem[] = useMemo(() => {
+    if (selectedItems.length > 1) {
+      // bulk operations
+      return bulkActions
+    } else if (selectedItems.length === 1) {
+      // single item operations
+      const inSharedFolder = bucket?.type === "share"
+      const item  = selectedItems[0]
+      return getItemMenuOptions({
+        file: item,
+        inSharedFolder,
+        itemOperations: getItemOperations(item.content_type),
+        menuIconClass: classes.menuIcon,
+        ...itemFunctions
+      })
+    } else {
+      return browserOptions
+    }
+  }, [
+    browserOptions,
+    selectedItems,
+    bucket,
+    classes.menuIcon,
+    getItemOperations,
+    itemFunctions,
+    bulkActions
+  ])
 
   return (
     <article
@@ -864,6 +992,7 @@ const FilesList = ({ isShared = false }: Props) => {
         bottomBanner: accountRestricted
       }
       )}
+      onContextMenu={handleContextMenuOnBrowser}
       ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
@@ -876,6 +1005,13 @@ const FilesList = ({ isShared = false }: Props) => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
+      {contextMenuPosition && (
+        <AnchorMenu
+          options={contextMenuOptions}
+          onClose={() => setContextMenuPosition(null)}
+          anchorPosition={contextMenuPosition}
+        />
+      )}
       <DragPreviewLayer
         items={sourceFiles}
         previewType={browserView}
@@ -987,7 +1123,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 <Menu
                   testId='mobileMenu'
                   icon={<PlusIcon className={classes.dropdownIcon} />}
-                  options={mobileMenuItems}
+                  options={browserOptions}
                   style={{ focusVisible: classes.focusVisible }}
                 />
               </>
@@ -1231,7 +1367,7 @@ const FilesList = ({ isShared = false }: Props) => {
                           <Menu
                             testId='bulkActionsDropdown'
                             icon={<MoreIcon className={classes.dropdownIcon} />}
-                            options={mobileBulkActions}
+                            options={bulkActions}
                             style={{ focusVisible: classes.focusVisible }}
                           />
                         </TableHeadCell>
@@ -1244,50 +1380,21 @@ const FilesList = ({ isShared = false }: Props) => {
                 {items.map((file, index) => (
                   <FileSystemItem
                     key={index}
+                    browserView="table"
                     file={file}
-                    files={files}
                     selectedCids={selectedCids}
                     handleSelectItem={handleSelectItem}
                     handleAddToSelectedItems={handleAddToSelectedItems}
                     handleSelectItemWithShift={handleSelectItemWithShift}
                     editing={editing}
-                    setEditing={setEditing}
                     handleRename={(cid: string, newName: string) => {
                       setEditing(undefined)
                       return handleRename && handleRename(cid, newName)
                     }}
-                    deleteFile={() => {
-                      setSelectedItems([file])
-                      setIsDeleteModalOpen(true)
-                    }}
-                    viewFolder={handleViewFolder}
-                    moveFile={() => {
-                      setSelectedItems([file])
-                      setIsMoveFileModalOpen(true)
-                      setMoveModalMode("move")
-                    }}
                     itemOperations={getItemOperations(file.content_type)}
                     resetSelectedFiles={resetSelectedItems}
-                    browserView="table"
-                    recoverFile={() => {
-                      setSelectedItems([file])
-                      setIsMoveFileModalOpen(true)
-                      setMoveModalMode("recover")
-                    }}
-                    reportFile={(filePath: string) => {
-                      setFilePath(filePath)
-                      setIsReportFileModalOpen(true)
-                    }
-                    }
-                    showFileInfo={(filePath: string) => {
-                      setFilePath(filePath)
-                      setIsFileInfoModalOpen(true)
-                    }}
-                    handleShare={onShare}
-                    showPreview={(fileIndex: number) => {
-                      setFileIndex(fileIndex)
-                      setIsPreviewOpen(true)
-                    }}
+                    handleContextMenuOnItem={handleContextMenuOnItem}
+                    {...itemFunctions}
                   />
                 ))}
               </TableBody>
@@ -1303,50 +1410,21 @@ const FilesList = ({ isShared = false }: Props) => {
               {items.map((file, index) => (
                 <FileSystemItem
                   key={index}
+                  browserView="grid"
                   file={file}
-                  files={files}
                   selectedCids={selectedCids}
                   handleSelectItem={handleSelectItem}
-                  viewFolder={handleViewFolder}
                   handleAddToSelectedItems={handleAddToSelectedItems}
                   handleSelectItemWithShift={handleSelectItemWithShift}
                   editing={editing}
-                  setEditing={setEditing}
                   handleRename={(path: string, newPath: string) => {
                     setEditing(undefined)
                     return handleRename && handleRename(path, newPath)
                   }}
-                  deleteFile={() => {
-                    setSelectedItems([file])
-                    setIsDeleteModalOpen(true)
-                  }}
-                  moveFile={() => {
-                    setSelectedItems([file])
-                    setIsMoveFileModalOpen(true)
-                    setMoveModalMode("move")
-                  }}
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedItems}
-                  recoverFile={() => {
-                    setSelectedItems([file])
-                    setIsMoveFileModalOpen(true)
-                    setMoveModalMode("recover")
-                  }}
-                  browserView="grid"
-                  reportFile={(fileInfoPath: string) => {
-                    setFilePath(fileInfoPath)
-                    setIsReportFileModalOpen(true)
-                  }
-                  }
-                  showFileInfo={(fileInfoPath: string) => {
-                    setFilePath(fileInfoPath)
-                    setIsFileInfoModalOpen(true)
-                  }}
-                  handleShare={onShare}
-                  showPreview={(fileIndex: number) => {
-                    setFileIndex(fileIndex)
-                    setIsPreviewOpen(true)
-                  }}
+                  handleContextMenuOnItem={handleContextMenuOnItem}
+                  {...itemFunctions}
                 />
               ))}
             </section>
