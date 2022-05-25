@@ -1,8 +1,10 @@
-import React, {  ReactNode, useEffect, useMemo, useRef } from "react"
+import React, {  ReactNode, useCallback, useEffect, useMemo, useRef } from "react"
 import { MenuItem, Paper, PopoverPosition } from "@material-ui/core"
 import { makeStyles, createStyles, useOnClickOutside } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { CSSTheme } from "../../Themes/types"
+
+export type AnchoreMenuPosition = PopoverPosition;
 
 interface Option {
   contents: ReactNode
@@ -12,9 +14,8 @@ interface Option {
 }
 
 interface Props {
-  isOpen: boolean
   options: Option[]
-  anchorPosition?: PopoverPosition
+  anchorPosition?: AnchoreMenuPosition
   onClose: () => void
 }
 
@@ -35,13 +36,7 @@ const useStyles = makeStyles(({ constants, zIndex, animation }: CSSTheme) => {
       bottom: styleProps?.bottom,
       right: styleProps?.right,
       zIndex: zIndex?.blocker,
-      visibility: "hidden",
-      opacity: 0,
-      transition: `opacity ${animation.transform * 2}ms`,
-      "&.open": {
-        visibility: "visible",
-        opacity: 1
-      }
+      transition: `opacity ${animation.transform * 2}ms`
     }),
     paper: {
       padding: `${constants.generalUnit}px 0`,
@@ -58,9 +53,9 @@ const useStyles = makeStyles(({ constants, zIndex, animation }: CSSTheme) => {
 const MENU_RIGHT_SPACE_TOLERANCE = 180
 const MENU_BOTTOM_SPACE_TOLERANCE = 250
 
-export default function MenuDropdown({ isOpen, options, anchorPosition, onClose }: Props) {
+export default function MenuDropdown({ options, anchorPosition, onClose }: Props) {
   const position = useMemo(() => {
-    if (!anchorPosition || !isOpen) return
+    if (!anchorPosition) return
 
     const windowHeight = window.innerHeight
     const windowWidth = window.innerWidth
@@ -78,26 +73,26 @@ export default function MenuDropdown({ isOpen, options, anchorPosition, onClose 
       position.right = windowWidth - anchorPosition.left
     }
     return position
-  }, [anchorPosition, isOpen])
+  }, [anchorPosition])
 
+  const onCloseMenu = useCallback(() => {
+    document.body.style.overflowY = "scroll"
+    onClose()
+  }, [onClose])
   const classes = useStyles(position)
 
   const ref = useRef<HTMLDivElement>(null)
-  useOnClickOutside(ref, onClose)
+  useOnClickOutside(ref, onCloseMenu)
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflowY = "hidden"
-    } else {
-      document.body.style.overflowY = "scroll"
-    }
-  }, [isOpen])
+    document.body.style.overflowY = "hidden"
+  }, [])
 
   if (!position) return null
 
   return (
     <div
-      className={clsx(classes.anchorRoot, "open")}
+      className={clsx(classes.anchorRoot)}
       ref={ref}
     >
       <Paper className={classes.paper}>

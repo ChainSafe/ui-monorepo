@@ -52,7 +52,7 @@ import FolderBreadcrumb from "./FolderBreadcrumb"
 import { DragTypes } from "./DragConstants"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 import { getItemMenuOptions } from "../FileSystemItem/itemOperations"
-import AnchorMenu from "../../UI-components/AnchorMenu"
+import AnchorMenu, { AnchoreMenuPosition } from "../../UI-components/AnchorMenu"
 
 interface IStyleProps {
   themeKey: string
@@ -323,11 +323,6 @@ const useStyles = makeStyles(
   }
 )
 
-type ContextMenuPosition = {
-  mouseX: number
-  mouseY: number
-}
-
 // Sorting
 const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
@@ -366,6 +361,7 @@ const FilesList = () => {
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
+  const [contextMenuPosition, setContextMenuPosition] = useState<AnchoreMenuPosition | null>(null)
 
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
@@ -554,9 +550,7 @@ const FilesList = () => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [, setFileInfoPath] = useState<string | undefined>(
-    undefined
-  )
+  const [, setFileInfoPath] = useState<string | undefined>(undefined)
   const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()
 
   const [browserView, setBrowserView] = useState<BrowserView>("table")
@@ -778,16 +772,14 @@ const FilesList = () => {
     handleOpenMoveFileDialog
   ])
 
-  const [contextMenuPosition, setContextMenuPosition] = useState<ContextMenuPosition | null>(null)
-
   const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
     if (!controls) return
     e.preventDefault()
     // reset selected files if context menu was open
     setSelectedCids([])
     setContextMenuPosition({
-      mouseX: e.clientX - 2,
-      mouseY: e.clientY - 4
+      left: e.clientX - 2,
+      top: e.clientY - 4
     })
   }, [controls])
 
@@ -799,14 +791,14 @@ const FilesList = () => {
       setSelectedCids([item])
     }
     setContextMenuPosition({
-      mouseX: e.clientX - 2,
-      mouseY: e.clientY - 4
+      left: e.clientX - 2,
+      top: e.clientY - 4
     })
   }, [selectedItems])
 
   const itemFunctions = useMemo(() => ({
     deleteFile: onDeleteFile,
-    downloadFile: downloadFile,
+    downloadFile,
     moveFile: onMoveFile,
     viewFolder: handleViewFolder,
     showFileInfo: onShowFileInfo,
@@ -846,11 +838,6 @@ const FilesList = () => {
     bulkActions
   ])
 
-  const anchorPosition = useMemo(() => contextMenuPosition
-    ? { top: contextMenuPosition.mouseY, left: contextMenuPosition.mouseX
-    } : undefined,
-  [contextMenuPosition])
-
   return (
     <article
       className={clsx(classes.root, {
@@ -870,12 +857,13 @@ const FilesList = () => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
-      <AnchorMenu
-        options={contextMenuOptions}
-        onClose={() => setContextMenuPosition(null)}
-        isOpen={!!contextMenuPosition}
-        anchorPosition={anchorPosition}
-      />
+      {contextMenuPosition && (
+        <AnchorMenu
+          options={contextMenuOptions}
+          onClose={() => setContextMenuPosition(null)}
+          anchorPosition={contextMenuPosition}
+        />
+      )}
       <DragPreviewLayer
         items={sourceFiles}
         previewType={browserView}
