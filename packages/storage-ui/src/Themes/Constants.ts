@@ -159,6 +159,11 @@ export interface CsSColors extends IConstants {
       borderColor?: string
     }
   }
+  menu: {
+    backgroundColor: string
+    color: string
+    backgroundOptionHover: string
+  }
   addCard: {
     color: string
     shadow: string
