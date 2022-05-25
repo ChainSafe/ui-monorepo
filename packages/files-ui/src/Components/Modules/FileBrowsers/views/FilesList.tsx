@@ -767,23 +767,23 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsSurveyBannerVisible(false)
   }, [setIsSurveyBannerVisible])
 
-  const onViewFolder = useCallback((file: FileSystemItemType) => {
+  const handleViewFolder = useCallback((file: FileSystemItemType) => {
     !loadingCurrentPath && viewFolder && viewFolder(file.cid)
   }, [viewFolder, loadingCurrentPath])
 
-  const onOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
+  const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setIsMoveFileModalOpen(true)
   }, [])
 
-  const onOpenDeleteDialog = useCallback((e: React.MouseEvent) => {
+  const handleOpenDeleteDialog = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setIsDeleteModalOpen(true)
   }, [])
 
-  const onOpenShareDialog = useCallback((e?: React.MouseEvent) => {
+  const handleOpenShareDialog = useCallback((e?: React.MouseEvent) => {
     e?.preventDefault()
     e?.stopPropagation()
     setClickedShare(true)
@@ -792,8 +792,8 @@ const FilesList = ({ isShared = false }: Props) => {
 
   const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
     setSelectedItems([fileSystemItem])
-    onOpenShareDialog()
-  }, [onOpenShareDialog])
+    handleOpenShareDialog()
+  }, [handleOpenShareDialog])
 
   const browserOptions = useMemo(() => [
     {
@@ -851,7 +851,7 @@ const FilesList = ({ isShared = false }: Props) => {
           </>
         ),
         onClick: (e: React.MouseEvent) => {
-          onOpenMoveFileDialog(e)
+          handleOpenMoveFileDialog(e)
           setMoveModalMode("move")
         }
       })
@@ -866,7 +866,7 @@ const FilesList = ({ isShared = false }: Props) => {
           </>
         ),
         onClick: (e: React.MouseEvent) => {
-          onOpenMoveFileDialog(e)
+          handleOpenMoveFileDialog(e)
           setMoveModalMode("recover")
         }
       })
@@ -880,7 +880,7 @@ const FilesList = ({ isShared = false }: Props) => {
             </span>
           </>
         ),
-        onClick: onOpenDeleteDialog
+        onClick: handleOpenDeleteDialog
       })
     validBulkOps.includes("share") &&
       menuOptions.push({
@@ -891,7 +891,7 @@ const FilesList = ({ isShared = false }: Props) => {
             </span>
           </>
         ),
-        onClick: onOpenShareDialog
+        onClick: handleOpenShareDialog
       })
 
     return menuOptions
@@ -900,9 +900,9 @@ const FilesList = ({ isShared = false }: Props) => {
     bucket,
     currentPath,
     downloadMultipleFiles,
-    onOpenDeleteDialog,
-    onOpenMoveFileDialog,
-    onOpenShareDialog,
+    handleOpenDeleteDialog,
+    handleOpenMoveFileDialog,
+    handleOpenShareDialog,
     resetSelectedItems,
     selectedItems,
     selectionContainsAFolder
@@ -939,12 +939,12 @@ const FilesList = ({ isShared = false }: Props) => {
     moveFile: onMoveFile,
     recoverFile: onRecoverFile,
     reportFile: onReportFile,
-    viewFolder: onViewFolder,
+    viewFolder: handleViewFolder,
     showFileInfo: onShowFileInfo,
     previewFile: onShowPreview,
     editFile: onEditFile
   }), [
-    onViewFolder,
+    handleViewFolder,
     onDeleteFile,
     onDownloadFile,
     onMoveFile,
@@ -1154,7 +1154,7 @@ const FilesList = ({ isShared = false }: Props) => {
               {validBulkOps.includes("move") && (
                 <Button
                   onClick={(e) => {
-                    onOpenMoveFileDialog(e)
+                    handleOpenMoveFileDialog(e)
                     setMoveModalMode("move")
                   }}
                   variant="outline"
@@ -1166,7 +1166,7 @@ const FilesList = ({ isShared = false }: Props) => {
               {validBulkOps.includes("recover") && (
                 <Button
                   onClick={(e) => {
-                    onOpenMoveFileDialog(e)
+                    handleOpenMoveFileDialog(e)
                     setMoveModalMode("recover")
                   }}
                   variant="outline"
@@ -1177,7 +1177,7 @@ const FilesList = ({ isShared = false }: Props) => {
               )}
               {validBulkOps.includes("delete") && (
                 <Button
-                  onClick={onOpenDeleteDialog}
+                  onClick={handleOpenDeleteDialog}
                   variant="outline"
                   testId="delete-selected-file"
                 >
@@ -1186,7 +1186,7 @@ const FilesList = ({ isShared = false }: Props) => {
               )}
               {validBulkOps.includes("share") && (
                 <Button
-                  onClick={onOpenShareDialog}
+                  onClick={handleOpenShareDialog}
                   variant="outline"
                   testId="share-selected-file"
                 >
