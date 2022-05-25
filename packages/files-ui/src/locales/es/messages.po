@@ -323,6 +323,9 @@ msgstr "Descarga Completa"
 msgid "Download as zip"
 msgstr "Descargar como zip"
 
+msgid "Download in progress, are you sure?"
+msgstr ""
+
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
 
@@ -1019,6 +1022,9 @@ msgstr "Total"
 msgid "Total Amount"
 msgstr "Cantidad total"
 
+msgid "Transfer is in progress, are you sure?"
+msgstr ""
+
 msgid "Try again"
 msgstr "Intentar otra vez"
 
@@ -1048,6 +1054,9 @@ msgstr "Subir"
 
 msgid "Upload complete"
 msgstr "Carga completada"
+
+msgid "Upload in progress, are you sure?"
+msgstr ""
 
 msgid "Upload size exceeds plan capacity"
 msgstr "El tamaño de la carga excede la capacidad del plan"

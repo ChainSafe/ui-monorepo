@@ -323,6 +323,9 @@ msgstr "Téléchargement terminé"
 msgid "Download as zip"
 msgstr "Télécharger au format zip"
 
+msgid "Download in progress, are you sure?"
+msgstr ""
+
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
@@ -1019,6 +1022,9 @@ msgstr "Total"
 msgid "Total Amount"
 msgstr "Montant total"
 
+msgid "Transfer is in progress, are you sure?"
+msgstr ""
+
 msgid "Try again"
 msgstr "Essayer de nouveau"
 
@@ -1047,6 +1053,9 @@ msgid "Upload"
 msgstr "Téléverser"
 
 msgid "Upload complete"
+msgstr ""
+
+msgid "Upload in progress, are you sure?"
 msgstr ""
 
 msgid "Upload size exceeds plan capacity"
