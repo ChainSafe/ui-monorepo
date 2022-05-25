@@ -60,7 +60,7 @@ import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 import { DragTypes } from "../DragConstants"
 import FolderBreadcrumb from "./FolderBreadcrumb"
-import AnchorMenu from "../../../../UI-components/AnchorMenu"
+import AnchorMenu, { AnchoreMenuPosition } from "../../../../UI-components/AnchorMenu"
 import { getItemMenuOptions } from "./FileSystemItem/itemOperations"
 import { getPathWithFile } from "../../../../Utils/pathUtils"
 
@@ -348,11 +348,6 @@ interface Props {
   isShared?: boolean
 }
 
-type ContextMenuPosition = {
-  mouseX: number
-  mouseY: number
-}
-
 type SortByType = "name" | "size" | "date_uploaded"
 // Sorting
 const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
@@ -401,6 +396,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { permission } = bucket || {}
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
   const [hasClickedShare, setClickedShare] = useState(false)
+  const [contextMenuPosition, setContextMenuPosition] = useState<AnchoreMenuPosition | null>(null)
   const showExplainerBeforeShare = useMemo(() =>
     !hasSeenSharingExplainerModal && hasClickedShare
   , [hasClickedShare, hasSeenSharingExplainerModal]
@@ -771,23 +767,23 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsSurveyBannerVisible(false)
   }, [setIsSurveyBannerVisible])
 
-  const handleViewFolder = useCallback((file: FileSystemItemType) => {
+  const onViewFolder = useCallback((file: FileSystemItemType) => {
     !loadingCurrentPath && viewFolder && viewFolder(file.cid)
   }, [viewFolder, loadingCurrentPath])
 
-  const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
+  const onOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setIsMoveFileModalOpen(true)
   }, [])
 
-  const handleOpenDeleteDialog = useCallback((e: React.MouseEvent) => {
+  const onOpenDeleteDialog = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setIsDeleteModalOpen(true)
   }, [])
 
-  const handleOpenShareDialog = useCallback((e?: React.MouseEvent) => {
+  const onOpenShareDialog = useCallback((e?: React.MouseEvent) => {
     e?.preventDefault()
     e?.stopPropagation()
     setClickedShare(true)
@@ -796,8 +792,8 @@ const FilesList = ({ isShared = false }: Props) => {
 
   const onShare = useCallback((fileSystemItem: FileSystemItemType) => {
     setSelectedItems([fileSystemItem])
-    handleOpenShareDialog()
-  }, [handleOpenShareDialog])
+    onOpenShareDialog()
+  }, [onOpenShareDialog])
 
   const browserOptions = useMemo(() => [
     {
@@ -855,7 +851,7 @@ const FilesList = ({ isShared = false }: Props) => {
           </>
         ),
         onClick: (e: React.MouseEvent) => {
-          handleOpenMoveFileDialog(e)
+          onOpenMoveFileDialog(e)
           setMoveModalMode("move")
         }
       })
@@ -870,7 +866,7 @@ const FilesList = ({ isShared = false }: Props) => {
           </>
         ),
         onClick: (e: React.MouseEvent) => {
-          handleOpenMoveFileDialog(e)
+          onOpenMoveFileDialog(e)
           setMoveModalMode("recover")
         }
       })
@@ -884,7 +880,7 @@ const FilesList = ({ isShared = false }: Props) => {
             </span>
           </>
         ),
-        onClick: handleOpenDeleteDialog
+        onClick: onOpenDeleteDialog
       })
     validBulkOps.includes("share") &&
       menuOptions.push({
@@ -895,7 +891,7 @@ const FilesList = ({ isShared = false }: Props) => {
             </span>
           </>
         ),
-        onClick: handleOpenShareDialog
+        onClick: onOpenShareDialog
       })
 
     return menuOptions
@@ -904,15 +900,13 @@ const FilesList = ({ isShared = false }: Props) => {
     bucket,
     currentPath,
     downloadMultipleFiles,
-    handleOpenDeleteDialog,
-    handleOpenMoveFileDialog,
-    handleOpenShareDialog,
+    onOpenDeleteDialog,
+    onOpenMoveFileDialog,
+    onOpenShareDialog,
     resetSelectedItems,
     selectedItems,
     selectionContainsAFolder
   ])
-
-  const [contextMenuPosition, setContextMenuPosition] = useState<ContextMenuPosition | null>(null)
 
   const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
     if (!controls) return
@@ -920,8 +914,8 @@ const FilesList = ({ isShared = false }: Props) => {
     // reset selected files if context menu was open
     setSelectedItems([])
     setContextMenuPosition({
-      mouseX: e.clientX - 2,
-      mouseY: e.clientY - 4
+      left: e.clientX - 2,
+      top: e.clientY - 4
     })
   }, [controls])
 
@@ -933,8 +927,8 @@ const FilesList = ({ isShared = false }: Props) => {
       setSelectedItems([item])
     }
     setContextMenuPosition({
-      mouseX: e.clientX - 2,
-      mouseY: e.clientY - 4
+      left: e.clientX - 2,
+      top: e.clientY - 4
     })
   }, [selectedItems])
 
@@ -945,12 +939,12 @@ const FilesList = ({ isShared = false }: Props) => {
     moveFile: onMoveFile,
     recoverFile: onRecoverFile,
     reportFile: onReportFile,
-    viewFolder: handleViewFolder,
+    viewFolder: onViewFolder,
     showFileInfo: onShowFileInfo,
     previewFile: onShowPreview,
     editFile: onEditFile
   }), [
-    handleViewFolder,
+    onViewFolder,
     onDeleteFile,
     onDownloadFile,
     onMoveFile,
@@ -990,11 +984,6 @@ const FilesList = ({ isShared = false }: Props) => {
     bulkActions
   ])
 
-  const anchorPosition = useMemo(() => contextMenuPosition
-    ? { top: contextMenuPosition.mouseY, left: contextMenuPosition.mouseX }
-    : undefined
-  , [contextMenuPosition])
-
   return (
     <article
       className={clsx(classes.root, {
@@ -1016,12 +1005,13 @@ const FilesList = ({ isShared = false }: Props) => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
-      <AnchorMenu
-        options={contextMenuOptions}
-        onClose={() => setContextMenuPosition(null)}
-        isOpen={!!contextMenuPosition}
-        anchorPosition={anchorPosition}
-      />
+      {contextMenuPosition && (
+        <AnchorMenu
+          options={contextMenuOptions}
+          onClose={() => setContextMenuPosition(null)}
+          anchorPosition={contextMenuPosition}
+        />
+      )}
       <DragPreviewLayer
         items={sourceFiles}
         previewType={browserView}
@@ -1164,7 +1154,7 @@ const FilesList = ({ isShared = false }: Props) => {
               {validBulkOps.includes("move") && (
                 <Button
                   onClick={(e) => {
-                    handleOpenMoveFileDialog(e)
+                    onOpenMoveFileDialog(e)
                     setMoveModalMode("move")
                   }}
                   variant="outline"
@@ -1176,7 +1166,7 @@ const FilesList = ({ isShared = false }: Props) => {
               {validBulkOps.includes("recover") && (
                 <Button
                   onClick={(e) => {
-                    handleOpenMoveFileDialog(e)
+                    onOpenMoveFileDialog(e)
                     setMoveModalMode("recover")
                   }}
                   variant="outline"
@@ -1187,7 +1177,7 @@ const FilesList = ({ isShared = false }: Props) => {
               )}
               {validBulkOps.includes("delete") && (
                 <Button
-                  onClick={handleOpenDeleteDialog}
+                  onClick={onOpenDeleteDialog}
                   variant="outline"
                   testId="delete-selected-file"
                 >
@@ -1196,7 +1186,7 @@ const FilesList = ({ isShared = false }: Props) => {
               )}
               {validBulkOps.includes("share") && (
                 <Button
-                  onClick={handleOpenShareDialog}
+                  onClick={onOpenShareDialog}
                   variant="outline"
                   testId="share-selected-file"
                 >
