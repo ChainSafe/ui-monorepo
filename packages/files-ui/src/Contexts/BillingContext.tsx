@@ -127,15 +127,19 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     if (shouldProposeUpgrade && !upgradeNotification) {
       const notif = addNotification({
         createdAt: dayjs().unix(),
-        title: t`Space running low. Upgrade here.`,
+        title: isBillingEnabled
+          ? t`Space running low. Upgrade here.`
+          : t`Space running low. Join the beta to upgrade.`,
         onClick: () => {
-          redirect(ROUTE_LINKS.SettingsPath("plan"))
+          isBillingEnabled
+            ? redirect(ROUTE_LINKS.SettingsPath("plan"))
+            : window.open(ROUTE_LINKS.SubscriptionWhitelistForm, "_blank")
         },
         dismissOnClick: true
       })
       setUpgradeNotification(notif)
     }
-  }, [addNotification, redirect, shouldProposeUpgrade, upgradeNotification])
+  }, [addNotification, isBillingEnabled, redirect, shouldProposeUpgrade, upgradeNotification])
 
   useEffect(() => {
     if (!!openInvoice && !unpaidInvoiceNotification) {
