@@ -29,7 +29,7 @@ export const settingsPage = {
   passwordInput: () => cy.get("[data-cy=input-sign-in-password]"),
   confirmPasswordInput: () => cy.get("[data-cy=input-sign-in-password-verification]"),
   changePasswordButton: () => cy.get("[data-cy=button-sign-in-password]"),
-  changePasswordErrorLabel: () => cy.get("[data-cy=form-change-password] span.error"),
+  changePasswordErrorLabel: () => cy.get("[data-cy=form-change-password] span.default.error"),
 
   // subscription tab
   subscriptionTabButton: () => cy.get("[data-testid=tab-subscription]"),

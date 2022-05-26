@@ -92,21 +92,20 @@ describe("Settings", () => {
       settingsPage.securityTabButton().click()
       settingsPage.changePasswordLink().click()
 
-      // ensure an error is displayed if password fields are blank
+      // ensure errors are displayed if password fields are blank
       settingsPage.passwordInput().type("{selectall}{del}{esc}")
       settingsPage.confirmPasswordInput().type("{selectall}{del}{esc}")
       settingsPage.changePasswordButton().click()
       settingsPage.changePasswordErrorLabel()
         .should("be.visible")
-        .should("have.length.at.least", 2)
+        .should("have.length", 2)
 
-      // ensure an error displayed if passwords are not complex enough
+      // ensure an error displayed if password is not complex enough
       settingsPage.passwordInput().type(simplePassword)
-      settingsPage.confirmPasswordInput().type(simplePassword)
       settingsPage.changePasswordButton().click()
       settingsPage.changePasswordErrorLabel()
         .should("be.visible")
-        .should("have.length.at.least", 2)
+        .should("have.length", 2)
 
       // should see an error if confirm password is missing
       settingsPage.passwordInput().type(complexPassword)
@@ -114,7 +113,7 @@ describe("Settings", () => {
       settingsPage.changePasswordButton().click()
       settingsPage.changePasswordErrorLabel()
         .should("be.visible")
-        .should("have.length.at.least", 1)
+        .should("have.length", 1)
 
       // should see an error if confirm password does not match password
       settingsPage.passwordInput().type(complexPassword)
@@ -122,7 +121,7 @@ describe("Settings", () => {
       settingsPage.changePasswordButton().click()
       settingsPage.changePasswordErrorLabel()
         .should("be.visible")
-        .should("have.length.at.least", 1)
+        .should("have.length", 1)
     })
   })
 
