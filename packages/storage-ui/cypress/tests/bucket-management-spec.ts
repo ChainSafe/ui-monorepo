@@ -42,7 +42,6 @@ describe("Bucket management", () => {
       fileUploadModal.uploadButton().safeClick()
       fileUploadModal.body().should("not.exist")
       uploadStatusToast.body().should("be.visible")
-      bucketContentsPage.awaitBucketRefresh()
       bucketContentsPage.fileItemRow().should("have.length", 1)
 
       // delete chainsafe bucket
@@ -82,7 +81,6 @@ describe("Bucket management", () => {
       fileUploadModal.uploadButton().safeClick()
       fileUploadModal.body().should("not.exist")
       uploadStatusToast.body().should("be.visible")
-      bucketContentsPage.awaitBucketRefresh()
       bucketContentsPage.fileItemRow().should("have.length", 1)
 
       // delete ipfs bucket
