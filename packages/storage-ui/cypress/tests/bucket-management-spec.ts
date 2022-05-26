@@ -43,6 +43,7 @@ describe("Bucket management", () => {
       fileUploadModal.body().should("not.exist")
       uploadCompleteToast.body().should("be.visible")
       uploadCompleteToast.closeButton().click()
+      bucketContentsPage.awaitBucketRefresh()
       bucketContentsPage.fileItemRow().should("have.length", 1)
 
       // delete chainsafe bucket
@@ -83,6 +84,7 @@ describe("Bucket management", () => {
       fileUploadModal.body().should("not.exist")
       uploadCompleteToast.body().should("be.visible")
       uploadCompleteToast.closeButton().click()
+      bucketContentsPage.awaitBucketRefresh()
       bucketContentsPage.fileItemRow().should("have.length", 1)
 
       // delete ipfs bucket
