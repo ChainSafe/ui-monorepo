@@ -911,6 +911,12 @@ msgstr "Algo salió mal. No pudimos subir tu archivo"
 msgid "Sort By:"
 msgstr "Ordenar por:"
 
+msgid "Space running low. Join the beta to upgrade."
+msgstr ""
+
+msgid "Space running low. Upgrade here."
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Iniciar la subida"
 
@@ -1048,6 +1054,9 @@ msgstr "Actualizar tarjeta de crédito"
 
 msgid "Update your credit card"
 msgstr "Actualize su tarjeta de crédito"
+
+msgid "Upgrade"
+msgstr ""
 
 msgid "Upload"
 msgstr "Subir"
