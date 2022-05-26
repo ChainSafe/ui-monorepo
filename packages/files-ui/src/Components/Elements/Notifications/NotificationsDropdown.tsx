@@ -77,6 +77,7 @@ export interface Notification {
   title: string
   createdAt: number
   onClick?: () => void
+  dismissOnClick?: boolean
 }
 
 const NotificationsDropdown = () => {
