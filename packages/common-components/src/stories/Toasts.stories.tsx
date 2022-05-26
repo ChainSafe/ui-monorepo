@@ -43,7 +43,7 @@ export const ToastsContentProgressNoCancel: React.FC = () => {
     <ToastContent
       toast={{
         id: "2",
-        title: text("title", t`Upload in progress`),
+        title: text("title", "Upload in progress"),
         type: select("type", ["success", "error"], "success"),
         progress: number("progress", 50)
       }}
