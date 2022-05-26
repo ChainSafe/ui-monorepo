@@ -1020,6 +1020,7 @@ const FilesList = ({ isShared = false }: Props) => {
         <div
           className={classes.breadCrumbContainer}
           data-cy="breadcrumb-folder-navigation"
+          onContextMenu={(e) => e.stopPropagation()}
         >
           {crumbs && moduleRootPath && (
             <Breadcrumb
@@ -1064,7 +1065,10 @@ const FilesList = ({ isShared = false }: Props) => {
               />
             </div>
           )}
-          <div className={classes.controls}>
+          <div
+            className={classes.controls}
+            onContextMenu={(e) => e.stopPropagation()}
+          >
             {controls && desktop ? (
               <>
                 <Button

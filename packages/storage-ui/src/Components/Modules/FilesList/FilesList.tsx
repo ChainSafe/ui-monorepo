@@ -869,7 +869,10 @@ const FilesList = () => {
           items={sourceFiles}
           previewType={browserView}
         />
-        <div className={classes.breadCrumbContainer}>
+        <div
+          className={classes.breadCrumbContainer}
+          onContextMenu={(e) => e.stopPropagation()}
+        >
           {crumbs && moduleRootPath && (
             <Breadcrumb
               crumbs={crumbs.map((crumb, i) => ({
@@ -909,7 +912,10 @@ const FilesList = () => {
           >
             {heading}
           </Typography>
-          <div className={classes.controls}>
+          <div
+            className={classes.controls}
+            onContextMenu={(e) => e.stopPropagation()}
+          >
             {controls && desktop ? (
               <>
                 <Button
@@ -966,7 +972,10 @@ const FilesList = () => {
             )}
           </div>
         </header>
-        <div className={classes.encryptionNotificationRoot}>
+        <div
+          className={classes.encryptionNotificationRoot}
+          onContextMenu={(e) => e.stopPropagation()}
+        >
           <Typography
             variant="body1"
             className={classes.banner}>
