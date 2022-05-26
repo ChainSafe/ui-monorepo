@@ -181,7 +181,7 @@ const useStyles = makeStyles(
 
 interface IMenuItem {
   contents: ReactNode | ReactNode[]
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent) => void
 }
 
 interface IMenuDropdownProps {
@@ -304,9 +304,9 @@ const MenuDropdown = ({
             data-testid={`dropdown-item-${testId}`}
             key={`menu-${index}`}
             className={clsx(classes.item, classNames?.item)}
-            onClick={() => {
+            onClick={(e) => {
               autoclose && handleClose()
-              item.onClick && item.onClick()
+              item.onClick && item.onClick(e)
             }}
           >
             {item.contents}

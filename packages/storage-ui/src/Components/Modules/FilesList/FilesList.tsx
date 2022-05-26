@@ -19,7 +19,8 @@ import {
   CheckboxInput,
   useHistory,
   GridIcon,
-  TableIcon
+  TableIcon,
+  IMenuItem
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -45,6 +46,9 @@ import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import FolderBreadcrumb from "./FolderBreadcrumb"
 import { DragTypes } from "./DragConstants"
+import { getPathWithFile } from "../../../Utils/pathUtils"
+import { getItemMenuOptions } from "../FileSystemItem/itemOperations"
+import AnchorMenu, { AnchoreMenuPosition } from "../../UI-components/AnchorMenu"
 
 interface IStyleProps {
   themeKey: string
@@ -300,6 +304,16 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           top: 50
         }
+      },
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
+        "& svg": {
+          fill: constants.fileSystemItemRow.menuIcon
+        }
       }
     })
   }
@@ -323,6 +337,7 @@ const FilesList = () => {
     deleteItems,
     viewFolder,
     moveItems,
+    downloadFile,
     currentPath,
     refreshContents,
     loadingCurrentPath,
@@ -340,6 +355,7 @@ const FilesList = () => {
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
+  const [contextMenuPosition, setContextMenuPosition] = useState<AnchoreMenuPosition | null>(null)
 
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
@@ -528,9 +544,7 @@ const FilesList = () => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [, setFileInfoPath] = useState<string | undefined>(
-    undefined
-  )
+  const [, setFileInfoPath] = useState<string | undefined>(undefined)
   const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()
 
   const [browserView, setBrowserView] = useState<BrowserView>("table")
@@ -643,6 +657,25 @@ const FilesList = () => {
     viewFolder && viewFolder(toView)
   }, [viewFolder])
 
+  const onDeleteFile = useCallback((toDelete: ISelectedFile) => {
+    setSelectedCids([toDelete])
+    setIsDeleteModalOpen(true)
+  }, [])
+
+  const onMoveFile = useCallback((toMove: ISelectedFile) => {
+    setSelectedCids([toMove])
+    setIsMoveFileModalOpen(true)
+    setMoveModalMode("move")
+  }, [])
+
+  const onShowFileInfo = useCallback((item: ISelectedFile) => {
+    setFileInfoPath(getPathWithFile(currentPath, item.name))
+  }, [currentPath])
+
+  const onPreviewFile = useCallback((toPreview: FileSystemItemType) => {
+    setPreviewFileIndex(files.indexOf(toPreview))
+  }, [files])
+
   const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -655,6 +688,150 @@ const FilesList = () => {
     setIsDeleteModalOpen(true)
   }, [])
 
+  const browserOptions = useMemo(() => [
+    {
+      contents: (
+        <>
+          <PlusCircleIcon className={classes.menuIcon} />
+          <span>
+            <Trans>New folder</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setCreateFolderModalOpen(true),
+      disabled: accountRestricted
+    },
+    {
+      contents: (
+        <>
+          <UploadIcon className={classes.menuIcon} />
+          <span>
+            <Trans>Upload</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setIsUploadModalOpen(true),
+      disabled: accountRestricted
+    }
+  ],
+  [classes.menuIcon, accountRestricted])
+
+  const bulkActions = useMemo(() => {
+    const menuOptions: IMenuItem[] = []
+    validBulkOps.includes("move") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Move</Trans>
+            </span>
+          </>
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("move")
+        }
+      })
+
+    validBulkOps.includes("recover") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Recover</Trans>
+            </span>
+          </>
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("recover")
+        }
+      })
+
+    validBulkOps.includes("delete") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Delete</Trans>
+            </span>
+          </>
+        ),
+        onClick: handleOpenDeleteDialog
+      })
+    return menuOptions
+  }, [
+    validBulkOps,
+    handleOpenDeleteDialog,
+    handleOpenMoveFileDialog
+  ])
+
+  const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
+    if (!controls) return
+    e.preventDefault()
+    // reset selected files if context menu was open
+    setSelectedCids([])
+    setContextMenuPosition({
+      left: e.clientX - 2,
+      top: e.clientY - 4
+    })
+  }, [controls])
+
+  const handleContextMenuOnItem = useCallback((e: React.MouseEvent, item: FileSystemItemType) => {
+    e.preventDefault()
+    e.stopPropagation()
+    // only keep current item selected if not in selected
+    if (!selectedItems.includes(item)) {
+      setSelectedCids([item])
+    }
+    setContextMenuPosition({
+      left: e.clientX - 2,
+      top: e.clientY - 4
+    })
+  }, [selectedItems])
+
+  const itemFunctions = useMemo(() => ({
+    deleteFile: onDeleteFile,
+    downloadFile,
+    moveFile: onMoveFile,
+    viewFolder: handleViewFolder,
+    showFileInfo: onShowFileInfo,
+    showPreview: onPreviewFile,
+    editFile: setEditingFile
+  }), [
+    handleViewFolder,
+    onDeleteFile,
+    downloadFile,
+    onMoveFile,
+    onShowFileInfo,
+    onPreviewFile
+  ])
+
+  const contextMenuOptions: IMenuItem[] = useMemo(() => {
+    if (selectedItems.length > 1) {
+      // bulk operations
+      return bulkActions
+    } else if (selectedItems.length === 1) {
+      // single item operations
+      const item  = selectedItems[0]
+      return getItemMenuOptions({
+        file: item,
+        itemOperations: getItemOperations(item.content_type),
+        menuIconClass: classes.menuIcon,
+        ...itemFunctions
+      })
+    } else {
+      return browserOptions
+    }
+  }, [
+    browserOptions,
+    selectedItems,
+    classes.menuIcon,
+    getItemOperations,
+    itemFunctions,
+    bulkActions
+  ])
+
   return (
     <article
       className={clsx(classes.root, {
@@ -662,6 +839,7 @@ const FilesList = () => {
       }, {
         bottomBanner: accountRestricted
       })}
+      onContextMenu={handleContextMenuOnBrowser}
       ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
@@ -673,6 +851,13 @@ const FilesList = () => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
+      {contextMenuPosition && (
+        <AnchorMenu
+          options={contextMenuOptions}
+          onClose={() => setContextMenuPosition(null)}
+          anchorPosition={contextMenuPosition}
+        />
+      )}
       <DragPreviewLayer
         items={sourceFiles}
         previewType={browserView}
@@ -767,41 +952,7 @@ const FilesList = () => {
                   anchor="bottom-right"
                   animation="none"
                   indicator={PlusIcon}
-                  menuItems={[
-                    {
-                      contents: (
-                        <Button
-                          onClick={() => setCreateFolderModalOpen(true)}
-                          variant="primary"
-                          size="large"
-                          className={classes.mobileButton}
-                          fullsize
-                          disabled={accountRestricted}
-                        >
-                          <PlusCircleIcon />
-                          <span>
-                            <Trans>Create folder</Trans>
-                          </span>
-                        </Button>
-                      )
-                    },
-                    {
-                      contents: (
-                        <Button
-                          onClick={() => setIsUploadModalOpen(true)}
-                          variant="primary"
-                          fullsize
-                          className={classes.mobileButton}
-                          disabled={accountRestricted}
-                        >
-                          <UploadIcon />
-                          <span>
-                            <Trans>Upload</Trans>
-                          </span>
-                        </Button>
-                      )
-                    }
-                  ]}
+                  menuItems={browserOptions}
                 />
               </>
             )
@@ -939,46 +1090,20 @@ const FilesList = () => {
                 key={index}
                 index={index}
                 file={file}
-                files={files}
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
                 handleAddToSelectedCids={handleAddToSelectedCids}
                 handleSelectItemWithShift={handleSelectItemWithShift}
                 editingFile={editingFile}
-                setEditingFile={setEditingFile}
                 handleRename={(item: ISelectedFile, newName: string) => {
                   setEditingFile(undefined)
                   return handleRename && handleRename(item, newName)
                 }}
-                deleteFile={() => {
-                  setSelectedCids([{
-                    cid: file.cid,
-                    name: file.name
-                  }])
-                  setIsDeleteModalOpen(true)
-                }}
-                viewFolder={handleViewFolder}
-                setPreviewFileIndex={setPreviewFileIndex}
-                moveFile={() => {
-                  setSelectedCids([{
-                    cid: file.cid,
-                    name: file.name
-                  }])
-                  setIsMoveFileModalOpen(true)
-                  setMoveModalMode("move")
-                }}
-                setFileInfoPath={setFileInfoPath}
                 itemOperations={getItemOperations(file.content_type)}
                 resetSelectedFiles={resetSelectedCids}
+                handleContextMenuOnItem={handleContextMenuOnItem}
+                {...itemFunctions}
                 browserView="table"
-                recoverFile={() => {
-                  setSelectedCids([{
-                    cid: file.cid,
-                    name: file.name
-                  }])
-                  setIsMoveFileModalOpen(true)
-                  setMoveModalMode("recover")
-                }}
               />
             ))}
           </TableBody>
@@ -995,45 +1120,20 @@ const FilesList = () => {
               key={index}
               index={index}
               file={file}
-              files={files}
               selected={selectedCids}
               handleSelectCid={handleSelectCid}
-              viewFolder={handleViewFolder}
               handleAddToSelectedCids={handleAddToSelectedCids}
               handleSelectItemWithShift={handleSelectItemWithShift}
               editingFile={editingFile}
-              setEditingFile={setEditingFile}
               handleRename={(editingFile: ISelectedFile, newName: string) => {
                 setEditingFile(undefined)
                 return handleRename && handleRename(editingFile, newName)
               }}
-              deleteFile={() => {
-                setSelectedCids([{
-                  cid: file.cid,
-                  name: file.name
-                }])
-                setIsDeleteModalOpen(true)
-              }}
-              setPreviewFileIndex={setPreviewFileIndex}
-              moveFile={() => {
-                setSelectedCids([{
-                  cid: file.cid,
-                  name: file.name
-                }])
-                setIsMoveFileModalOpen(true)
-                setMoveModalMode("move")
-              }}
-              setFileInfoPath={setFileInfoPath}
+              previewFile={onPreviewFile}
               itemOperations={getItemOperations(file.content_type)}
               resetSelectedFiles={resetSelectedCids}
-              recoverFile={() => {
-                setSelectedCids([{
-                  cid: file.cid,
-                  name: file.name
-                }])
-                setIsMoveFileModalOpen(true)
-                setMoveModalMode("recover")
-              }}
+              handleContextMenuOnItem={handleContextMenuOnItem}
+              {...itemFunctions}
               browserView="grid"
             />
           ))}

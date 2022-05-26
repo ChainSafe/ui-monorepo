@@ -125,11 +125,12 @@ interface IFileSystemTableItemProps {
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: string | undefined) => void
+  editFile: (file: FileSystemItem | undefined) => void
   handleRename?: (path: string, newPath: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
   longPressEvents?: LongPressEvents
+  handleContextMenuOnItem?: (e: React.MouseEvent) => void
 }
 
 const FileSystemTableItem = React.forwardRef(
@@ -144,10 +145,11 @@ const FileSystemTableItem = React.forwardRef(
     onFolderOrFileClicks,
     icon,
     preview,
-    setEditing,
+    editFile,
     handleRename,
     menuItems,
-    longPressEvents
+    longPressEvents,
+    handleContextMenuOnItem
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid, created_at, size } = file
@@ -179,9 +181,9 @@ const FileSystemTableItem = React.forwardRef(
     })
 
     const stopEditing = useCallback(() => {
-      setEditing(undefined)
+      editFile(undefined)
       formik.resetForm()
-    }, [formik, setEditing])
+    }, [formik, editFile])
 
     useOnClickOutside(formRef, formik.submitForm)
 
@@ -202,6 +204,7 @@ const FileSystemTableItem = React.forwardRef(
         })}
         type="grid"
         ref={forwardedRef}
+        onContextMenu={handleContextMenuOnItem}
         selected={selectedCids.includes(cid)}
       >
         {desktop && (
