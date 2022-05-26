@@ -28,7 +28,7 @@ export const ToastsContentProgress: React.FC = () => {
     <ToastContent
       toast={{
         id: "2",
-        title: text("title", t`"Upload in progress`),
+        title: text("title", "Upload in progress"),
         type: select("type", ["success", "error"], "success"),
         progress: number("progress", 30),
         onProgressCancel: action("on progress cancel")
@@ -60,7 +60,7 @@ export const ToastsDemo: React.FC = () => {
     >
       <ToastNotificationDemo
         toast={{
-          title: text("title", "Upload Complete"`),
+          title: text("title", "Upload Complete"),
           type: "success",
           toastPosition: select("position", ["topLeft", "topRight", "bottomLeft", "bottomRight"], "topRight"),
           autoDismiss: boolean("toast auto dismiss", true),
