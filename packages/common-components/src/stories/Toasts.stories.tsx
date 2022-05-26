@@ -61,7 +61,7 @@ export const ToastsDemo: React.FC = () => {
     >
       <ToastNotificationDemo
         toast={{
-          title: text("title", t`Upload Complete`),
+          title: text("title", "Upload Complete"`),
           type: "success",
           toastPosition: select("position", ["topLeft", "topRight", "bottomLeft", "bottomRight"], "topRight"),
           autoDismiss: boolean("toast auto dismiss", true),
