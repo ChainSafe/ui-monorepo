@@ -14,7 +14,7 @@ export const ToastsContentNotification: React.FC = () => {
     <ToastContent
       toast={{
         id: "1",
-        title: text("title", t`Upload in progress`),
+        title: text("title", "Upload in progress"),
         type: select("type", ["success", "error"], "success"),
         subtitle: text("subtitle", "Just a subtitle with a lot of info")
       }}
