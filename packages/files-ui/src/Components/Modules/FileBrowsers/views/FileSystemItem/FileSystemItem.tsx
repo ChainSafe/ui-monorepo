@@ -2,18 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react"
 import {
   FormikTextInput,
   Typography,
-  Button,
-  DownloadSvg,
-  DeleteSvg,
-  EditSvg,
-  IMenuItem,
-  RecoverSvg,
-  EyeSvg,
-  ExportSvg,
-  ShareAltSvg,
-  ExclamationCircleInverseSvg,
-  ZoomInSvg,
-  InfoCircleSvg
+  Button
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher, useLongPress } from "@chainsafe/common-theme"
 import { Form, FormikProvider, useFormik } from "formik"
@@ -26,7 +15,7 @@ import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
-import { FileSystemItem as FileSystemItemType, useFiles } from "../../../../../Contexts/FilesContext"
+import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
@@ -35,6 +24,7 @@ import { nameValidator } from "../../../../../Utils/validationSchema"
 import CustomButton from "../../../../Elements/CustomButton"
 import { getIconForItem } from "../../../../../Utils/getItemIcon"
 import { getFileNameAndExtension } from "../../../../../Utils/Helpers"
+import { getItemMenuOptions } from "./itemOperations"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -103,54 +93,55 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
 
 interface IFileSystemItemProps {
   file: FileSystemItemType
-  files: FileSystemItemType[]
   selectedCids: string[]
   owners?: BucketUser[]
   handleSelectItem(selectedItem: FileSystemItemType): void
   handleAddToSelectedItems(selectedItems: FileSystemItemType): void
   handleSelectItemWithShift(selectedItems: FileSystemItemType): void
   editing: string | undefined
-  setEditing(editing: string | undefined): void
   handleRename?: (cid: string, newName: string) => Promise<void> | undefined
-  handleMove?: (cid: string, newPath: string) => Promise<void>
-  deleteFile?: () => void
-  recoverFile?: () => void
-  viewFolder?: (cid: string) => void
-  moveFile?: () => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
-  reportFile?: (path: string) => void
-  showFileInfo?: (path: string) => void
+  editFile(file: FileSystemItemType | undefined): void
+  downloadFile?: (file: FileSystemItemType) => void
+  deleteFile?: (file: FileSystemItemType) => void
   handleShare?: (file: FileSystemItemType) => void
-  showPreview?: (fileIndex: number) => void
+  moveFile?: (file: FileSystemItemType) => void
+  recoverFile?: (file: FileSystemItemType) => void
+  reportFile?: (file: FileSystemItemType) => void
+  previewFile?: (file: FileSystemItemType) => void
+  viewFolder?: (file: FileSystemItemType) => void
+  showFileInfo?: (file: FileSystemItemType) => void
+  handleContextMenuOnItem? : (e: React.MouseEvent, file: FileSystemItemType) => void
 }
+
 
 const FileSystemItem = ({
   file,
-  files,
   selectedCids,
   owners,
   editing,
-  setEditing,
   handleRename,
   deleteFile,
   recoverFile,
   viewFolder,
   moveFile,
+  downloadFile,
   handleSelectItem,
   handleAddToSelectedItems,
   handleSelectItemWithShift,
   itemOperations,
   browserView,
+  editFile,
   resetSelectedFiles,
   reportFile,
   showFileInfo,
   handleShare,
-  showPreview
+  previewFile,
+  handleContextMenuOnItem
 }: IFileSystemItemProps) => {
-  const { bucket, downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
-  const { downloadMultipleFiles } = useFiles()
+  const { bucket, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder } = file
   const inSharedFolder = useMemo(() => bucket?.type === "share", [bucket])
 
@@ -176,163 +167,45 @@ const FileSystemItem = ({
   })
 
   const stopEditing = useCallback(() => {
-    setEditing(undefined)
+    editFile(undefined)
     formik.resetForm()
-  }, [formik, setEditing])
+  }, [formik, editFile])
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const filePath = useMemo(() => getPathWithFile(currentPath, name), [currentPath, name])
 
-  const onFilePreview = useCallback(() => {
-    showPreview && showPreview(files.indexOf(file))
-  }, [file, files, showPreview])
+  const menuItems = useMemo(() => getItemMenuOptions({
+    menuIconClass: classes.menuIcon,
+    file,
+    inSharedFolder,
+    viewFolder,
+    reportFile,
+    previewFile,
+    recoverFile,
+    showFileInfo,
+    deleteFile,
+    handleShare,
+    moveFile,
+    downloadFile,
+    editFile,
+    itemOperations
 
-  const allMenuItems: Record<FileOperation, IMenuItem> = useMemo(() => ({
-    rename: {
-      contents: (
-        <>
-          <EditSvg className={classes.menuIcon} />
-          <span data-cy="menu-rename">
-            <Trans>Rename</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => setEditing(cid)
-    },
-    delete: {
-      contents: (
-        <>
-          <DeleteSvg className={classes.menuIcon} />
-          <span data-cy="menu-delete">
-            <Trans>Delete</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => deleteFile && deleteFile()
-    },
-    download: {
-      contents: (
-        <>
-          <DownloadSvg className={classes.menuIcon} />
-          <span data-cy="menu-download">
-            {file.isFolder ? <Trans>Download as zip</Trans> : <Trans>Download</Trans>}
-          </span>
-        </>
-      ),
-      onClick: () => {
-        if (file.isFolder) {
-          bucket && downloadMultipleFiles([file], currentPath, bucket.id)
-        } else {
-          downloadFile && downloadFile(cid)
-        }
-      }
-    },
-    move: {
-      contents: (
-        <>
-          <ExportSvg className={classes.menuIcon} />
-          <span data-cy="menu-move">
-            <Trans>Move</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => moveFile && moveFile()
-    },
-    share: {
-      contents: (
-        <>
-          <ShareAltSvg className={classes.menuIcon} />
-          <span data-cy="menu-share">
-            {inSharedFolder
-              ? t`Copy to`
-              : t`Share`
-            }
-          </span>
-        </>
-      ),
-      onClick: () => handleShare && handleShare(file)
-    },
-    info: {
-      contents: (
-        <>
-          <InfoCircleSvg className={classes.menuIcon} />
-          <span data-cy="menu-info">
-            <Trans>Info</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => showFileInfo && showFileInfo(filePath)
-    },
-    recover: {
-      contents: (
-        <>
-          <RecoverSvg className={classes.menuIcon} />
-          <span data-cy="menu-recover">
-            <Trans>Recover</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => recoverFile && recoverFile()
-    },
-    preview: {
-      contents: (
-        <>
-          <ZoomInSvg className={classes.menuIcon} />
-          <span data-cy="menu-preview">
-            <Trans>Preview</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => onFilePreview()
-    },
-    view_folder: {
-      contents: (
-        <>
-          <EyeSvg className={classes.menuIcon} />
-          <span data-cy="menu-view-folder">
-            <Trans>View folder</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => viewFolder && viewFolder(cid)
-    },
-    report: {
-      contents: (
-        <>
-          <ExclamationCircleInverseSvg className={classes.menuIcon} />
-          <span data-cy="menu-report">
-            <Trans>Report</Trans>
-          </span>
-        </>
-      ),
-      onClick: () => reportFile && reportFile(filePath)
-    }
-  }),
-  [
+  }), [
     classes.menuIcon,
     file,
-    setEditing,
-    cid,
-    deleteFile,
-    bucket,
-    downloadMultipleFiles,
-    currentPath,
+    editFile,
+    previewFile,
+    itemOperations,
     downloadFile,
+    deleteFile,
     moveFile,
     handleShare,
-    filePath,
     showFileInfo,
     recoverFile,
-    onFilePreview,
     viewFolder,
     reportFile,
     inSharedFolder
   ])
-
-  const menuItems: IMenuItem[] = itemOperations.map(
-    (itemOperation) => allMenuItems[itemOperation]
-  )
 
   const [, dragMoveRef, preview] = useDrag({
     type: DragTypes.MOVABLE_FILE,
@@ -428,9 +301,9 @@ const FileSystemItem = ({
           handleAddToSelectedItems(file)
         } else {
           if (isFolder) {
-            viewFolder && viewFolder(file.cid)
+            viewFolder && viewFolder(file)
           } else {
-            onFilePreview()
+            previewFile && previewFile(file)
           }
         }
       }
@@ -440,11 +313,11 @@ const FileSystemItem = ({
       file,
       isFolder,
       viewFolder,
-      onFilePreview,
       selectedCids.length,
       handleAddToSelectedItems,
       handleSelectItemWithShift,
-      handleSelectItem
+      handleSelectItem,
+      previewFile
     ]
   )
 
@@ -453,16 +326,16 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop
         if (isFolder) {
-          viewFolder && viewFolder(file.cid)
+          viewFolder && viewFolder(file)
         } else {
-          onFilePreview()
+          previewFile && previewFile(file)
         }
       } else {
         // on mobile
         return
       }
     },
-    [desktop, viewFolder, file, onFilePreview, isFolder]
+    [desktop, viewFolder, file, previewFile, isFolder]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
@@ -496,8 +369,11 @@ const FileSystemItem = ({
     onFolderOrFileClicks,
     preview,
     selectedCids,
-    setEditing,
+    editFile,
     resetSelectedFiles,
+    handleContextMenuOnItem: (e: React.MouseEvent) => {
+      handleContextMenuOnItem && handleContextMenuOnItem(e, file)
+    },
     handleItemSelectOnCheck,
     longPressEvents: !desktop ? longPressEvents : undefined
   }
@@ -551,7 +427,7 @@ const FileSystemItem = ({
                   </div>
                   <footer className={classes.renameFooter}>
                     <CustomButton
-                      onClick={() => setEditing("")}
+                      onClick={() => editFile(undefined)}
                       size="medium"
                       variant="gray"
                       type="button"
