@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { Link, Typography, ChainsafeFilesLogo, HamburgerMenu, Button, SearchIcon } from "@chainsafe/common-components"
+import { Link, Typography, ChainsafeFilesLogo, HamburgerMenu, Button, SearchIcon, useHistory } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
@@ -10,6 +10,7 @@ import { CSFTheme } from "../../Themes/types"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
 import BetaModal from "../Elements/BetaModal"
 import NotificationsDropdown from "../Elements/Notifications/NotificationsDropdown"
+import { useBilling } from "../../Contexts/BillingContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
@@ -140,11 +141,13 @@ interface IAppHeader {
 
 const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { desktop } = useThemeSwitcher()
+  const { isBillingEnabled } = useBilling()
   const classes = useStyles()
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const [searchActive, setSearchActive] = useState(false)
   const [isBetaModalOpen, setIsBetaModalOpen] = useState(false)
+  const { redirect } = useHistory()
 
   const onReportBugClick = useCallback(() => {
     window.open(ROUTE_LINKS.DiscordInvite, "_blank")
@@ -153,6 +156,10 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const onJoinBetaClick = useCallback(() => {
     setIsBetaModalOpen(true)
   }, [])
+
+  const onUpgradeClick = useCallback(() => {
+    redirect(ROUTE_LINKS.SettingsPath("plan"))
+  }, [redirect])
 
   return (
     <header
@@ -190,14 +197,22 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 >
                   <Trans>Report a bug</Trans>
                 </Button>
-                <Button
+                {!isBillingEnabled && <Button
                   data-posthog="Join-beta"
                   variant="tertiary"
                   size="small"
                   onClick={onJoinBetaClick}
                 >
                   <Trans>Need more storage?</Trans>
-                </Button>
+                </Button>}
+                {isBillingEnabled && <Button
+                  data-posthog="Upgrade"
+                  variant="tertiary"
+                  size="small"
+                  onClick={onUpgradeClick}
+                >
+                  <Trans>Upgrade</Trans>
+                </Button>}
               </section>
               <section>
                 <NotificationsDropdown />
