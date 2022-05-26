@@ -80,7 +80,7 @@ export const MultipleToastsDemo: React.FC = () => {
     >
       <ToastMultipleNotificationDemo
         toast={{
-          title: text("title", t`Upload Started`),
+          title: text("title", "Upload Started"),
           type: "success",
           toastPosition: select("position", ["topLeft", "topRight", "bottomLeft", "bottomRight"], "topRight"),
           autoDismiss: boolean("toast auto dismiss", true),
