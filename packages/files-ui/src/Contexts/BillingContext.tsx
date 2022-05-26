@@ -68,16 +68,21 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const { filesApiClient, isLoggedIn, accountRestricted } = useFilesApi()
   const { redirect } = useHistory()
   const { addNotification, removeNotification } = useNotifications()
-  const { refreshBuckets } = useFiles()
+  const { refreshBuckets, storageSummary } = useFiles()
   const [currentSubscription, setCurrentSubscription] = useState<CurrentSubscription | undefined>()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
   const [invoices, setInvoices] = useState<InvoiceResponse[] | undefined>()
   const isPendingInvoice = useMemo(() => currentSubscription?.status === "pending_update", [currentSubscription])
   const openInvoice = useMemo(() => invoices?.find((i) => i.status === "open"), [invoices])
   const [restrictedNotification, setRestrictedNotification] = useState<string | undefined>()
+  const [upgradeNotification, setUpgradeNotification] = useState<string | undefined>()
   const [unpaidInvoiceNotification, setUnpaidInvoiceNotification] = useState<string | undefined>()
   const [cardExpiringNotification, setCardExpiringNotification] = useState<string | undefined>()
   const [isBillingEnabled, setIsBillingEnabled] = useState(false)
+  const shouldProposeUpgrade = useMemo(() => storageSummary
+    ? storageSummary.used_storage > storageSummary.total_storage * 0.75
+    : false
+  , [storageSummary])
 
   const refreshInvoices = useCallback(() => {
     if (!currentSubscription) return
@@ -117,6 +122,24 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       setRestrictedNotification(undefined)
     }
   }, [accountRestricted, addNotification, redirect, removeNotification, restrictedNotification])
+
+  useEffect(() => {
+    if (shouldProposeUpgrade && !upgradeNotification) {
+      const notif = addNotification({
+        createdAt: dayjs().unix(),
+        title: isBillingEnabled
+          ? t`Space running low. Upgrade here.`
+          : t`Space running low. Join the beta to upgrade.`,
+        onClick: () => {
+          isBillingEnabled
+            ? redirect(ROUTE_LINKS.SettingsPath("plan"))
+            : window.open(ROUTE_LINKS.SubscriptionWhitelistForm, "_blank")
+        },
+        dismissOnClick: true
+      })
+      setUpgradeNotification(notif)
+    }
+  }, [addNotification, isBillingEnabled, redirect, shouldProposeUpgrade, upgradeNotification])
 
   useEffect(() => {
     if (!!openInvoice && !unpaidInvoiceNotification) {
