@@ -2,7 +2,6 @@ import React from "react"
 import { ToastContent, ToastParams, ToastProvider, useToasts } from "../Toasts"
 import { withKnobs, number, select, text, boolean } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
-import { t } from "@lingui/macro"
 
 export default {
   title: "Toasts",
