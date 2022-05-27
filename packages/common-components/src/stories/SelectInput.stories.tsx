@@ -40,6 +40,7 @@ export const SelectInputStory = (): React.ReactNode => {
       disabled={boolean("Disabled", false)}
       label={text("Label", "Testing Label")}
       value={value}
+      menuMaxHeight={100}
       options={[
         {
           label: (
@@ -53,6 +54,50 @@ export const SelectInputStory = (): React.ReactNode => {
         { label: "a", value: "a" },
         { label: "b", value: "b" },
         { label: "c", value: "c" }
+      ]}
+    />
+  )
+}
+
+export const SelectInputMultiOptionsStory = (): React.ReactNode => {
+  const [value, setValue] = useState(["a"])
+
+  return (
+    <SelectInput
+      onChange={(value: any) => {
+        actionsData.onChange(value)
+        setValue(value)
+      }}
+      defaultIsOpen={true}
+      size={select("Size", sizeOptions, "large")}
+      isMulti={boolean("Multi", false)}
+      isClearable={boolean("Clearable", false)}
+      disabled={boolean("Disabled", false)}
+      label={text("Label", "Testing Label")}
+      value={value}
+      menuMaxHeight={100}
+      options={[
+        {
+          label: (
+            <>
+              <BulbIcon fontSize="small" />{" "}
+              <Typography>Custom markup</Typography>
+            </>
+          ),
+          value: "4"
+        },
+        { label: "a", value: "a" },
+        { label: "b", value: "b" },
+        { label: "c", value: "c" },
+        { label: "d", value: "d" },
+        { label: "e", value: "e" },
+        { label: "f", value: "f" },
+        { label: "g", value: "g" },
+        { label: "h", value: "h" },
+        { label: "i", value: "i" },
+        { label: "j", value: "j" },
+        { label: "k", value: "k" },
+        { label: "l", value: "l" }
       ]}
     />
   )
