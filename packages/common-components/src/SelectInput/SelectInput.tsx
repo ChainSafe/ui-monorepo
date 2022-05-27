@@ -181,8 +181,6 @@ const SelectInput = ({
 
   selectOverrides.menuList = (provided, state) => ({
     ...provided,
-    paddingTop: 0,
-    marginTop: 4,
     ...(
       styles && styles.menuList
         ? styles.menuList({
