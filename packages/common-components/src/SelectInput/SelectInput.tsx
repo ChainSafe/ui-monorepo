@@ -181,6 +181,8 @@ const SelectInput = ({
 
   selectOverrides.menuList = (provided, state) => ({
     ...provided,
+    paddingTop: 0,
+    marginTop: 4,
     ...(
       styles && styles.menuList
         ? styles.menuList({
@@ -330,10 +332,6 @@ const SelectInput = ({
         value={selectValue}
         isMulti={isMulti}
         name={name}
-        // styles={{ ...selectOverrides, menuList: (provided) => ({
-        //   ...provided,
-        //   maxHeight: menuMaxHeight || 300
-        // }) }}
         styles={selectOverrides}
         theme={(selectTheme) => ({
           ...selectTheme,

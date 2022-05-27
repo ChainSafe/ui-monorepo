@@ -40,7 +40,6 @@ export const SelectInputStory = (): React.ReactNode => {
       disabled={boolean("Disabled", false)}
       label={text("Label", "Testing Label")}
       value={value}
-      menuMaxHeight={100}
       options={[
         {
           label: (
@@ -75,17 +74,8 @@ export const SelectInputMultiOptionsStory = (): React.ReactNode => {
       disabled={boolean("Disabled", false)}
       label={text("Label", "Testing Label")}
       value={value}
-      menuMaxHeight={100}
+      menuMaxHeight={180}
       options={[
-        {
-          label: (
-            <>
-              <BulbIcon fontSize="small" />{" "}
-              <Typography>Custom markup</Typography>
-            </>
-          ),
-          value: "4"
-        },
         { label: "a", value: "a" },
         { label: "b", value: "b" },
         { label: "c", value: "c" },
