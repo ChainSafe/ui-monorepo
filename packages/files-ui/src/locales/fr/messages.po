@@ -1001,10 +1001,10 @@ msgid "Sort By:"
 msgstr "Trier par :"
 
 msgid "Space running low. Join the beta to upgrade."
-msgstr ""
+msgstr "L'espace est limité. Rejoignez la bêta pour une mise à niveau."
 
 msgid "Space running low. Upgrade here."
-msgstr ""
+msgstr "Bientôt à court d'espace. Mettez à niveau ici."
 
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
@@ -1164,7 +1164,7 @@ msgid "Update your credit card"
 msgstr "Mettre à jour votre carte de crédit"
 
 msgid "Upgrade"
-msgstr ""
+msgstr "Mettre à niveau"
 
 msgid "Upload"
 msgstr "Téléverser"
