@@ -278,17 +278,6 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>CIDs</Trans>
                 </Typography>
               </Link>
-              <Link
-                data-cy="create-nft-nav"
-                onClick={handleOnClick}
-                className={clsx(classes.navItem, appNavTab === "cids" && "selected")}
-                to={ROUTE_LINKS.UploadNFT}
-              >
-                <DatabaseSvg />
-                <Typography variant="h5">
-                  <Trans>Upload NFT</Trans>
-                </Typography>
-              </Link>
             </nav>
             <nav className={classes.navMenu}>
               <Link

@@ -8,6 +8,8 @@ import { FieldArray, Form, FormikProvider, useFormik, useFormikContext } from "f
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import FormikImageInput from "../Elements/FormikImageInput"
 
+type FieldType = "value" | "array" | "file" | "object"
+
 const useStyles = makeStyles(({ constants, breakpoints }: ITheme) =>
   createStyles({
     container: {
@@ -37,7 +39,7 @@ const primitives = ["boolean", "string", "number"]
 const ObjectInput: React.FC<{ obj: any; namespace: string }> =
   ({ obj, namespace }) => {
     const [newFieldName, setNewFieldName] = useState("")
-    const [newFieldType, setNewFieldType] = useState<"value" | "array" | "file" | "object">("value")
+    const [newFieldType, setNewFieldType] = useState<FieldType>("value")
     const formikBag = useFormikContext()
 
     return <>
@@ -83,7 +85,7 @@ const ObjectInput: React.FC<{ obj: any; namespace: string }> =
 
 const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
   ({ obj, namespace }) => {
-    const [newFieldType, setNewFieldType] = useState<"value" | "array" | "file" | "object">("value")
+    const [newFieldType, setNewFieldType] = useState<FieldType>("value")
 
     return <FieldArray
       name={`${namespace}`}>

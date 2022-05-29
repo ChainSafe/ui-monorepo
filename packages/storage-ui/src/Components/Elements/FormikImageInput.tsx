@@ -77,7 +77,7 @@ const useStyles = makeStyles(
   }
 )
 
-export interface FormikImageInputProps  {
+export interface FormikImageInputProps {
   className?: string
   name: string
 }
@@ -95,16 +95,17 @@ const FormikImageInput = React.forwardRef(
     const [{ value }, meta, helpers] = useField<File>(name)
 
     const [isDropActive, setIsDropActive] = useState(false)
-    const [preview, setPreview] = useState<any>(undefined)
+    const [preview, setPreview] = useState<string | undefined>(undefined)
 
     useEffect(() => {
       value && setPreview(URL.createObjectURL(value))
-
-      return () => {
-        URL.revokeObjectURL(preview)
-      }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value])
+
+    useEffect(() => {
+      return () => {
+        preview && URL.revokeObjectURL(preview)
+      }
+    }, [preview])
 
     const { getRootProps, getInputProps, open } = useDropzone({
       onDrop: (acceptedFiles, rejectedFiles) => {
@@ -142,42 +143,44 @@ const FormikImageInput = React.forwardRef(
           )}
           {...rest}
         >
-          {value ? <>
-            <img
-              src={preview}
-              alt={t`NFT`}
+          {value
+            ? <>
+              <img
+                src={preview}
+                alt={t`NFT`}
+                className={clsx(
+                  classes.imageViewContainer,
+                  isDropActive && "active"
+                )}
+              />
+              <Button
+                className={classes.replaceButton}
+                variant="primary"
+                size="small"
+                onClick={open}
+                type="button"
+              >
+                <Trans>Replace</Trans>
+              </Button>
+            </>
+            : <div
               className={clsx(
-                classes.imageViewContainer,
+                classes.imageInputsContainer,
                 isDropActive && "active"
               )}
-            />
-            <Button
-              className={classes.replaceButton}
-              variant="primary"
-              size="small"
-              onClick={open}
-              type="button"
             >
-              <Trans>Replace</Trans>
-            </Button>
-          </> : <div
-            className={clsx(
-              classes.imageInputsContainer,
-              isDropActive && "active"
-            )}
-          >
-            <UploadRoundIcon />
-            <Typography><Trans>Drag and drop to upload</Trans></Typography>
-            <Button
-              className={classes.browseButton}
-              variant="primary"
-              size="small"
-              onClick={open}
-              type="button"
-            >
-              <Trans>Browse files</Trans>
-            </Button>
-          </div>
+              <UploadRoundIcon />
+              <Typography><Trans>Drag and drop to upload</Trans></Typography>
+              <Button
+                className={classes.browseButton}
+                variant="primary"
+                size="small"
+                onClick={open}
+                type="button"
+              >
+                <Trans>Browse files</Trans>
+              </Button>
+            </div>
           }
 
         </div>
