@@ -223,9 +223,6 @@ msgstr "Create Bucket"
 msgid "Create Folder"
 msgstr "Create Folder"
 
-msgid "Create folder"
-msgstr "Create folder"
-
 msgid "Created"
 msgstr "Created"
 

@@ -901,6 +901,12 @@ msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"
 msgid "Sort By:"
 msgstr ""
 
+msgid "Space running low. Join the beta to upgrade."
+msgstr ""
+
+msgid "Space running low. Upgrade here."
+msgstr ""
+
 msgid "Start Upload"
 msgstr "Hochladen starten"
 
@@ -1034,6 +1040,9 @@ msgid "Update credit card"
 msgstr ""
 
 msgid "Update your credit card"
+msgstr ""
+
+msgid "Upgrade"
 msgstr ""
 
 msgid "Upload"
