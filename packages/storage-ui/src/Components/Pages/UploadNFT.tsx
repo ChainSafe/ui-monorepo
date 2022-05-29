@@ -34,7 +34,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: ITheme) =>
 
 const primitives = ["boolean", "string", "number"]
 
-const ObjectInput: React.FC<{obj: any; namespace: string}> =
+const ObjectInput: React.FC<{ obj: any; namespace: string }> =
   ({ obj, namespace }) => {
     const [newFieldName, setNewFieldName] = useState("")
     const [newFieldType, setNewFieldType] = useState<"value" | "array" | "file" | "object">("value")
@@ -107,7 +107,7 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
             }]}
             onChange={setNewFieldType}
             value={newFieldType}
-            label="Item type"/>
+            label="Item type" />
           <Button
             type="button"
             onClick={() => {
