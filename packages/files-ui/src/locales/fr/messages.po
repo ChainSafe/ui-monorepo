@@ -308,8 +308,8 @@ msgstr "L'adresse de destination"
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
-msgid "Didn't receive the email ?"
-msgstr "Vous n’avez pas reçu de courriel ?"
+msgid "Didn't receive the email?"
+msgstr "Vous n’avez pas reçu de courriel?"
 
 msgid "Display"
 msgstr "Afficher"
@@ -322,6 +322,9 @@ msgstr "Téléchargement terminé"
 
 msgid "Download as zip"
 msgstr "Télécharger au format zip"
+
+msgid "Download in progress, are you sure?"
+msgstr ""
 
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
@@ -418,6 +421,9 @@ msgstr "Files Pro"
 
 msgid "Files sharing key"
 msgstr "Clé de partage des fichiers"
+
+msgid "Folder Name"
+msgstr ""
 
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
@@ -1022,6 +1028,9 @@ msgstr "Total"
 msgid "Total Amount"
 msgstr "Montant total"
 
+msgid "Transfer is in progress, are you sure?"
+msgstr ""
+
 msgid "Try again"
 msgstr "Essayer de nouveau"
 
@@ -1051,6 +1060,12 @@ msgstr ""
 
 msgid "Upload"
 msgstr "Téléverser"
+
+msgid "Upload complete"
+msgstr ""
+
+msgid "Upload in progress, are you sure?"
+msgstr ""
 
 msgid "Upload size exceeds plan capacity"
 msgstr ""

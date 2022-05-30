@@ -297,11 +297,11 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
   useEffect(() => {
     if (downloadsInProgress) {
-      setCloseIntercept("Download in progress, are you sure?")
+      setCloseIntercept(t`Download in progress, are you sure?`)
     } else if (uploadsInProgress) {
-      setCloseIntercept("Upload in progress, are you sure?")
+      setCloseIntercept(t`Upload in progress, are you sure?`)
     } else if (transfersInProgress) {
-      setCloseIntercept("Transfer is in progress, are you sure?")
+      setCloseIntercept(t`Transfer is in progress, are you sure?`)
     } else if (closeIntercept !== undefined) {
       setCloseIntercept(undefined)
     }
@@ -406,7 +406,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       // setting complete
       updateToast(toastId, {
         ...toastParams,
-        title: "Upload complete",
+        title: t`Upload complete`,
         progress: undefined,
         onProgressCancel: undefined,
         isClosable: true,
