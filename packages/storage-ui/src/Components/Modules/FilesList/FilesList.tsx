@@ -833,258 +833,298 @@ const FilesList = () => {
   ])
 
   return (
-    <article
-      className={clsx(classes.root, {
-        droppable: isOverUploadable && allowDropUpload
-      }, {
-        bottomBanner: accountRestricted
-      })}
-      onContextMenu={handleContextMenuOnBrowser}
-      ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
-    >
-      <div
-        className={clsx(classes.dropNotification, { active: isOverBrowser })}
+    <>
+      <article
+        className={clsx(classes.root, {
+          droppable: isOverUploadable && allowDropUpload
+        }, {
+          bottomBanner: accountRestricted
+        })}
+        onContextMenu={handleContextMenuOnBrowser}
+        ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
       >
-        <Typography
-          variant="h4"
-          component="p">
-          <Trans>Drop to upload files</Trans>
-        </Typography>
-      </div>
-      {contextMenuPosition && (
-        <AnchorMenu
-          options={contextMenuOptions}
-          onClose={() => setContextMenuPosition(null)}
-          anchorPosition={contextMenuPosition}
-        />
-      )}
-      <DragPreviewLayer
-        items={sourceFiles}
-        previewType={browserView}
-      />
-      <div className={classes.breadCrumbContainer}>
-        {crumbs && moduleRootPath && (
-          <Breadcrumb
-            crumbs={crumbs.map((crumb, i) => ({
-              ...crumb,
-              component: (i < crumbs.length - 1)
-                ? <FolderBreadcrumb
-                  folderName={crumb.text}
-                  onClick={crumb.onClick}
-                  handleMove={(item) => {
-                    console.log(item, crumb.path)
-                    moveItems && crumb.path && moveItems(item.selected, crumb.path)
-                    resetSelectedCids()
-                  }}
-                  handleUpload={(item) => handleUploadOnDrop &&
-                    crumb.path &&
-                    handleUploadOnDrop(item.files, item.items, crumb.path)
-                  }
-                />
-                : null
-            }))}
-            homeOnClick={() => redirect(moduleRootPath)}
-            homeRef={homeBreadcrumbRef}
-            homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
-            showDropDown
-            maximumCrumbs={desktop ? 5 : 3}
-          />
-        )}
-      </div>
-      <header
-        className={classes.header}
-        data-cy="header-bucket"
-      >
-        <Typography
-          variant="h1"
-          component="h1"
-          className={classes.fileNameHeader}
+        <div
+          className={clsx(classes.dropNotification, { active: isOverBrowser })}
         >
-          {heading}
-        </Typography>
-        <div className={classes.controls}>
-          {controls && desktop ? (
-            <>
-              <Button
-                onClick={() => setCreateFolderModalOpen(true)}
-                variant="outline"
-                size="large"
-                disabled={accountRestricted}
-                testId="new-folder"
-              >
-                <PlusCircleIcon />
-                <span className={classes.buttonWrap}>
-                  <Trans>New folder</Trans>
-                </span>
-              </Button>
-              <Button
-                onClick={() => setIsUploadModalOpen(true)}
-                variant="outline"
-                size="large"
-                disabled={accountRestricted}
-                testId="upload-file"
-              >
-                <UploadIcon />
-                <span className={classes.buttonWrap}>
-                  <Trans>Upload</Trans>
-                </span>
-              </Button>
-            </>
-          ) : (
-            controls && !desktop && (
-              <>
-                <Button
-                  onClick={() =>
-                    setBrowserView(browserView === "grid" ? "table" : "grid")
-                  }
-                  variant="outline"
-                  size="large"
-                  className={classes.viewToggleButton}
-                >
-                  {browserView === "table" ? <GridIcon /> : <TableIcon />}
-                </Button>
-                <MenuDropdown
-                  classNames={{
-                    icon: classes.dropdownIcon,
-                    options: classes.dropdownOptions
-                  }}
-                  autoclose={true}
-                  anchor="bottom-right"
-                  animation="none"
-                  indicator={PlusIcon}
-                  menuItems={browserOptions}
-                />
-              </>
-            )
-          )}
-        </div>
-      </header>
-      <div className={classes.encryptionNotificationRoot}>
-        <Typography
-          variant="body1"
-          className={classes.banner}>
-          <Trans>
-            Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network.
-          </Trans>
-        </Typography>
-      </div>
-      { withSurvey && isSurveyBannerVisible &&
-        <SurveyBanner onHide={onHideSurveyBanner}/>
-      }
-      <section className={classes.bulkOperations}>
-        {selectedCids.length > 0 && (
-          <>
-            {validBulkOps.indexOf("move") >= 0 && (
-              <Button
-                onClick={(e) => {
-                  handleOpenMoveFileDialog(e)
-                  setMoveModalMode("move")
-                }}
-                variant="outline"
-              >
-                <Trans>Move selected</Trans>
-              </Button>
-            )}
-            {validBulkOps.indexOf("recover") >= 0 && (
-              <Button
-                onClick={(e) => {
-                  handleOpenMoveFileDialog(e)
-                  setMoveModalMode("recover")
-                }}
-                variant="outline"
-              >
-                <Trans>Recover selected</Trans>
-              </Button>
-            )}
-            {validBulkOps.indexOf("delete") >= 0 && (
-              <Button
-                onClick={handleOpenDeleteDialog}
-                variant="outline"
-              >
-                <Trans>Delete selected</Trans>
-              </Button>
-            )}
-          </>
-        )}
-      </section>
-      <div
-        className={clsx(
-          classes.loadingContainer,
-          loadingCurrentPath && classes.showLoadingContainer
-        )}
-      >
-        <Loading
-          size={24}
-          type="light" />
-        <Typography
-          variant="body2"
-          component="p">
-          <Trans>One sec, getting files ready...</Trans>
-        </Typography>
-      </div>
-      {(items.length === 0) ? (
-        <section
-          className={clsx(
-            classes.noFiles,
-            loadingCurrentPath && classes.fadeOutLoading
-          )}
-        >
-          <EmptySvg />
           <Typography
             variant="h4"
-            component="h4"
-          >
-            <Trans>No files to show</Trans>
+            component="p">
+            <Trans>Drop to upload files</Trans>
           </Typography>
-        </section>
-      ) : browserView === "table" ? (
-        <Table
-          fullWidth={true}
-          striped={true}
-          hover={true}
-          className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+        </div>
+        {contextMenuPosition && (
+          <AnchorMenu
+            options={contextMenuOptions}
+            onClose={() => setContextMenuPosition(null)}
+            anchorPosition={contextMenuPosition}
+          />
+        )}
+        <DragPreviewLayer
+          items={sourceFiles}
+          previewType={browserView}
+        />
+        <div
+          className={classes.breadCrumbContainer}
+          onContextMenu={(e) => e.stopPropagation()}
         >
-          {desktop && (
-            <TableHead className={classes.tableHead}>
-              <TableRow
-                type="grid"
-                className={classes.tableRow}>
-                <TableHeadCell>
-                  <CheckboxInput
-                    value={selectedCids.length === items.length}
-                    onChange={() => toggleAll()}
+          {crumbs && moduleRootPath && (
+            <Breadcrumb
+              crumbs={crumbs.map((crumb, i) => ({
+                ...crumb,
+                component: (i < crumbs.length - 1)
+                  ? <FolderBreadcrumb
+                    folderName={crumb.text}
+                    onClick={crumb.onClick}
+                    handleMove={(item) => {
+                      console.log(item, crumb.path)
+                      moveItems && crumb.path && moveItems(item.selected, crumb.path)
+                      resetSelectedCids()
+                    }}
+                    handleUpload={(item) => handleUploadOnDrop &&
+                    crumb.path &&
+                    handleUploadOnDrop(item.files, item.items, crumb.path)
+                    }
                   />
-                </TableHeadCell>
-                <TableHeadCell>
-                  {/* 
+                  : null
+              }))}
+              homeOnClick={() => redirect(moduleRootPath)}
+              homeRef={homeBreadcrumbRef}
+              homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
+              showDropDown
+              maximumCrumbs={desktop ? 5 : 3}
+            />
+          )}
+        </div>
+        <header
+          className={classes.header}
+          data-cy="header-bucket"
+        >
+          <Typography
+            variant="h1"
+            component="h1"
+            className={classes.fileNameHeader}
+          >
+            {heading}
+          </Typography>
+          <div
+            className={classes.controls}
+            onContextMenu={(e) => e.stopPropagation()}
+          >
+            {controls && desktop ? (
+              <>
+                <Button
+                  onClick={() => setCreateFolderModalOpen(true)}
+                  variant="outline"
+                  size="large"
+                  disabled={accountRestricted}
+                  testId="new-folder"
+                >
+                  <PlusCircleIcon />
+                  <span className={classes.buttonWrap}>
+                    <Trans>New folder</Trans>
+                  </span>
+                </Button>
+                <Button
+                  onClick={() => setIsUploadModalOpen(true)}
+                  variant="outline"
+                  size="large"
+                  disabled={accountRestricted}
+                  testId="upload-file"
+                >
+                  <UploadIcon />
+                  <span className={classes.buttonWrap}>
+                    <Trans>Upload</Trans>
+                  </span>
+                </Button>
+              </>
+            ) : (
+              controls && !desktop && (
+                <>
+                  <Button
+                    onClick={() =>
+                      setBrowserView(browserView === "grid" ? "table" : "grid")
+                    }
+                    variant="outline"
+                    size="large"
+                    className={classes.viewToggleButton}
+                  >
+                    {browserView === "table" ? <GridIcon /> : <TableIcon />}
+                  </Button>
+                  <MenuDropdown
+                    classNames={{
+                      icon: classes.dropdownIcon,
+                      options: classes.dropdownOptions
+                    }}
+                    autoclose={true}
+                    anchor="bottom-right"
+                    animation="none"
+                    indicator={PlusIcon}
+                    menuItems={browserOptions}
+                  />
+                </>
+              )
+            )}
+          </div>
+        </header>
+        <div
+          className={classes.encryptionNotificationRoot}
+          onContextMenu={(e) => e.stopPropagation()}
+        >
+          <Typography
+            variant="body1"
+            className={classes.banner}>
+            <Trans>
+            Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network.
+            </Trans>
+          </Typography>
+        </div>
+        { withSurvey && isSurveyBannerVisible &&
+        <SurveyBanner onHide={onHideSurveyBanner}/>
+        }
+        <section className={classes.bulkOperations}>
+          {selectedCids.length > 0 && (
+            <>
+              {validBulkOps.indexOf("move") >= 0 && (
+                <Button
+                  onClick={(e) => {
+                    handleOpenMoveFileDialog(e)
+                    setMoveModalMode("move")
+                  }}
+                  variant="outline"
+                >
+                  <Trans>Move selected</Trans>
+                </Button>
+              )}
+              {validBulkOps.indexOf("recover") >= 0 && (
+                <Button
+                  onClick={(e) => {
+                    handleOpenMoveFileDialog(e)
+                    setMoveModalMode("recover")
+                  }}
+                  variant="outline"
+                >
+                  <Trans>Recover selected</Trans>
+                </Button>
+              )}
+              {validBulkOps.indexOf("delete") >= 0 && (
+                <Button
+                  onClick={handleOpenDeleteDialog}
+                  variant="outline"
+                >
+                  <Trans>Delete selected</Trans>
+                </Button>
+              )}
+            </>
+          )}
+        </section>
+        <div
+          className={clsx(
+            classes.loadingContainer,
+            loadingCurrentPath && classes.showLoadingContainer
+          )}
+        >
+          <Loading
+            size={24}
+            type="light" />
+          <Typography
+            variant="body2"
+            component="p">
+            <Trans>One sec, getting files ready...</Trans>
+          </Typography>
+        </div>
+        {(items.length === 0) ? (
+          <section
+            className={clsx(
+              classes.noFiles,
+              loadingCurrentPath && classes.fadeOutLoading
+            )}
+          >
+            <EmptySvg />
+            <Typography
+              variant="h4"
+              component="h4"
+            >
+              <Trans>No files to show</Trans>
+            </Typography>
+          </section>
+        ) : browserView === "table" ? (
+          <Table
+            fullWidth={true}
+            striped={true}
+            hover={true}
+            className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+          >
+            {desktop && (
+              <TableHead className={classes.tableHead}>
+                <TableRow
+                  type="grid"
+                  className={classes.tableRow}>
+                  <TableHeadCell>
+                    <CheckboxInput
+                      value={selectedCids.length === items.length}
+                      onChange={() => toggleAll()}
+                    />
+                  </TableHeadCell>
+                  <TableHeadCell>
+                    {/* 
                         Icon
                       */}
-                </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  onSortChange={() => handleSortToggle("name")}
-                  sortDirection={column === "name" ? direction : undefined}
-                  sortActive={column === "name"}
-                >
-                  <Trans>Name</Trans>
-                </TableHeadCell>
-                <TableHeadCell>
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    onSortChange={() => handleSortToggle("name")}
+                    sortDirection={column === "name" ? direction : undefined}
+                    sortActive={column === "name"}
+                  >
+                    <Trans>Name</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell>
                     CID
-                </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("size")}
-                  sortDirection={column === "size" ? direction : undefined}
-                  sortActive={column === "size"}
-                >
-                  <Trans>Size</Trans>
-                </TableHeadCell>
-                <TableHeadCell>{/* Menu */}</TableHeadCell>
-              </TableRow>
-            </TableHead>
-          )}
-          <TableBody>
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("size")}
+                    sortDirection={column === "size" ? direction : undefined}
+                    sortActive={column === "size"}
+                  >
+                    <Trans>Size</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell>{/* Menu */}</TableHeadCell>
+                </TableRow>
+              </TableHead>
+            )}
+            <TableBody>
+              {items.map((file, index) => (
+                <FileSystemItem
+                  key={index}
+                  index={index}
+                  file={file}
+                  selected={selectedCids}
+                  handleSelectCid={handleSelectCid}
+                  handleAddToSelectedCids={handleAddToSelectedCids}
+                  handleSelectItemWithShift={handleSelectItemWithShift}
+                  editingFile={editingFile}
+                  handleRename={(item: ISelectedFile, newName: string) => {
+                    setEditingFile(undefined)
+                    return handleRename && handleRename(item, newName)
+                  }}
+                  itemOperations={getItemOperations(file.content_type)}
+                  resetSelectedFiles={resetSelectedCids}
+                  handleContextMenuOnItem={handleContextMenuOnItem}
+                  {...itemFunctions}
+                  browserView="table"
+                />
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <section
+            className={clsx(
+              classes.gridRoot,
+              loadingCurrentPath && classes.fadeOutLoading
+            )}
+          >
             {items.map((file, index) => (
               <FileSystemItem
                 key={index}
@@ -1095,51 +1135,21 @@ const FilesList = () => {
                 handleAddToSelectedCids={handleAddToSelectedCids}
                 handleSelectItemWithShift={handleSelectItemWithShift}
                 editingFile={editingFile}
-                handleRename={(item: ISelectedFile, newName: string) => {
+                handleRename={(editingFile: ISelectedFile, newName: string) => {
                   setEditingFile(undefined)
-                  return handleRename && handleRename(item, newName)
+                  return handleRename && handleRename(editingFile, newName)
                 }}
+                previewFile={onPreviewFile}
                 itemOperations={getItemOperations(file.content_type)}
                 resetSelectedFiles={resetSelectedCids}
                 handleContextMenuOnItem={handleContextMenuOnItem}
                 {...itemFunctions}
-                browserView="table"
+                browserView="grid"
               />
             ))}
-          </TableBody>
-        </Table>
-      ) : (
-        <section
-          className={clsx(
-            classes.gridRoot,
-            loadingCurrentPath && classes.fadeOutLoading
-          )}
-        >
-          {items.map((file, index) => (
-            <FileSystemItem
-              key={index}
-              index={index}
-              file={file}
-              selected={selectedCids}
-              handleSelectCid={handleSelectCid}
-              handleAddToSelectedCids={handleAddToSelectedCids}
-              handleSelectItemWithShift={handleSelectItemWithShift}
-              editingFile={editingFile}
-              handleRename={(editingFile: ISelectedFile, newName: string) => {
-                setEditingFile(undefined)
-                return handleRename && handleRename(editingFile, newName)
-              }}
-              previewFile={onPreviewFile}
-              itemOperations={getItemOperations(file.content_type)}
-              resetSelectedFiles={resetSelectedCids}
-              handleContextMenuOnItem={handleContextMenuOnItem}
-              {...itemFunctions}
-              browserView="grid"
-            />
-          ))}
-        </section>
-      )}
-      {/* {files && previewFileIndex !== undefined && bucket && (
+          </section>
+        )}
+        {/* {files && previewFileIndex !== undefined && bucket && (
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
@@ -1150,6 +1160,7 @@ const FilesList = () => {
           path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : getPathWithFile(currentPath, files[previewFileIndex].name)}
         />
       )} */}
+      </article>
       <Dialog
         active={isDeleteModalOpen}
         reject={() => setIsDeleteModalOpen(false)}
@@ -1202,7 +1213,7 @@ const FilesList = () => {
       {accountRestricted &&
         <RestrictedModeBanner />
       }
-    </article>
+    </>
   )
 }
 
