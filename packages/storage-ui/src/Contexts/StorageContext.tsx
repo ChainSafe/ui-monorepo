@@ -9,42 +9,21 @@ import {
   PinResult,
   FileSystemType
 } from "@chainsafe/files-api-client"
-import React, { useCallback, useEffect, useReducer } from "react"
+import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
-import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FileOperationsReducers"
 import { useBeforeunload } from "react-beforeunload"
 import { useStorageApi } from "./StorageApiContext"
-import { v4 as uuidv4 } from "uuid"
-import { t } from "@lingui/macro"
+import { plural, t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import axios, { CancelToken } from "axios"
 import { getPathWithFile } from "../Utils/pathUtils"
 import dayjs from "dayjs"
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
+import { ToastParams, useToasts } from "@chainsafe/common-components"
 dayjs.extend(isSameOrAfter)
 
 type StorageContextProps = {
   children: React.ReactNode | React.ReactNode[]
-}
-
-export type UploadProgress = {
-  id: string
-  fileName: string
-  progress: number
-  error: boolean
-  errorMessage?: string
-  complete: boolean
-  noOfFiles: number
-  path: string
-}
-
-export type DownloadProgress = {
-  id: string
-  fileName: string
-  progress: number
-  error: boolean
-  errorMessage?: string
-  complete: boolean
 }
 
 const PINS_PAGE_SIZE = 15
@@ -64,8 +43,6 @@ interface RefreshPinParams {
 
 type StorageContext = {
   pins: PinStatus[]
-  uploadsInProgress: UploadProgress[]
-  downloadsInProgress: DownloadProgress[]
   storageSummary: BucketSummaryResponse | undefined
   getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
@@ -95,7 +72,6 @@ interface IFileSystemItem extends FileContentResponse {
 }
 
 type FileSystemItem = IFileSystemItem
-const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
@@ -125,6 +101,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     next?: boolean
     previous?: boolean
   } | undefined>()
+  const { addToast, updateToast } = useToasts()
 
   const getStorageSummary = useCallback(async () => {
     try {
@@ -268,22 +245,15 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [isLoggedIn])
 
-  const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
-    uploadsInProgressReducer,
-    []
-  )
 
-  const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(
-    downloadsInProgressReducer,
-    []
-  )
-
+  const [uploadsInProgress, setUploadsInProgress] = useState(false)
+  const [downloadsInProgress, setDownloadsInProgress] = useState(false)
   const [closeIntercept, setCloseIntercept] = useState<string | undefined>()
 
   useEffect(() => {
-    if (downloadsInProgress.length > 0) {
+    if (downloadsInProgress) {
       setCloseIntercept("Download in progress, are you sure?")
-    } else if (uploadsInProgress.length > 0) {
+    } else if (uploadsInProgress) {
       setCloseIntercept("Upload in progress, are you sure?")
     } else if (closeIntercept !== undefined) {
       setCloseIntercept(undefined)
@@ -340,17 +310,22 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       return
     }
 
-    const id = uuidv4()
-    const uploadProgress: UploadProgress = {
-      id,
-      fileName: files[0].name,
-      complete: false,
-      error: false,
-      noOfFiles: files.length,
+    const cancelSource = axios.CancelToken.source()
+    const cancelToken = cancelSource.token
+
+    const toastParams: ToastParams = {
+      title: plural(files.length, {
+        one: `Uploading ${files.length} file`,
+        other: `Uploading ${files.length} files`
+      }),
+      type: "success",
       progress: 0,
-      path
+      onProgressCancel: cancelSource.cancel,
+      isClosable: false
     }
-    dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
+
+    const toastId = addToast(toastParams)
+    setUploadsInProgress(true)
 
     try {
       const filesParam = await Promise.all(
@@ -370,46 +345,54 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         path,
         undefined,
         1,
-        undefined,
+        cancelToken,
         undefined,
         (progressEvent: { loaded: number; total: number }) => {
-          dispatchUploadsInProgress({
-            type: "progress",
-            payload: {
-              id,
-              progress: Math.ceil(
-                (progressEvent.loaded / progressEvent.total) * 100
-              )
-            }
+          updateToast(toastId, {
+            ...toastParams,
+            progress: Math.ceil(
+              (progressEvent.loaded / progressEvent.total) * 100
+            )
           })
         }
       )
-      // setting complete
-      dispatchUploadsInProgress({ type: "complete", payload: { id } })
-      setTimeout(() => {
-        getStorageSummary()
-        dispatchUploadsInProgress({ type: "remove", payload: { id } })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
 
+      // setting complete
+      updateToast(toastId, {
+        ...toastParams,
+        title: "Upload complete",
+        progress: undefined,
+        onProgressCancel: undefined,
+        isClosable: true,
+        testId: "upload-complete"
+      }, true)
+      setUploadsInProgress(false)
+      getStorageSummary()
       return Promise.resolve()
     } catch (error: any) {
+      setUploadsInProgress(false)
       // setting error
       let errorMessage = t`Something went wrong. We couldn't upload your file`
-
+      // uploads cancelled through button
+      if (axios.isCancel(error)) {
+        errorMessage = t`Uploads cancelled`
+      }
       // we will need a method to parse server errors
       if (error?.error?.code === 409) {
         errorMessage = t`A file with the same name already exists`
       }
-      dispatchUploadsInProgress({
+      updateToast(toastId, {
+        ...toastParams,
+        title: errorMessage,
         type: "error",
-        payload: { id, errorMessage }
-      })
-      setTimeout(() => {
-        dispatchUploadsInProgress({ type: "remove", payload: { id } })
-        getStorageSummary()
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+        progress: undefined,
+        onProgressCancel: undefined,
+        isClosable: true
+      }, true)
+
+      return Promise.reject(error)
     }
-  }, [storageBuckets, storageApiClient, getStorageSummary])
+  }, [storageBuckets, storageApiClient, addToast, updateToast, getStorageSummary])
 
   const getFileContent = useCallback(async (
     bucketId: string,
@@ -437,29 +420,31 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   }, [storageApiClient])
 
   const downloadFile = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
-    const toastId = uuidv4()
+    const cancelSource = axios.CancelToken.source()
+    const cancelToken = cancelSource.token
+
+    const toastParams: ToastParams = {
+      title: t`Downloading file - ${itemToDownload.name}`,
+      type: "success",
+      progress: 0,
+      isClosable: false,
+      onProgressCancel: cancelSource.cancel
+    }
+    const toastId = addToast(toastParams)
+    setDownloadsInProgress(true)
+
     try {
-      const downloadProgress: DownloadProgress = {
-        id: toastId,
-        fileName: itemToDownload.name,
-        complete: false,
-        error: false,
-        progress: 0
-      }
-      dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
       const result = await getFileContent(bucketId, {
         cid: itemToDownload.cid,
         file: itemToDownload,
         path: getPathWithFile(path, itemToDownload.name),
+        cancelToken,
         onDownloadProgress: (progressEvent) => {
-          dispatchDownloadsInProgress({
-            type: "progress",
-            payload: {
-              id: toastId,
-              progress: Math.ceil(
-                (progressEvent.loaded / itemToDownload.size) * 100
-              )
-            }
+          updateToast(toastId, {
+            ...toastParams,
+            progress: Math.ceil(
+              (progressEvent.loaded / itemToDownload.size) * 100
+            )
           })
         }
       })
@@ -468,23 +453,34 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       link.href = URL.createObjectURL(result)
       link.download = itemToDownload?.name || "file"
       link.click()
-      dispatchDownloadsInProgress({
-        type: "complete",
-        payload: { id: toastId }
-      })
+      updateToast(toastId, {
+        title: t`Download Complete`,
+        type: "success",
+        progress: undefined,
+        onProgressCancel: undefined,
+        isClosable: true
+      }, true)
       URL.revokeObjectURL(link.href)
-      setTimeout(() => {
-        dispatchDownloadsInProgress({
-          type: "remove",
-          payload: { id: toastId }
-        })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      setDownloadsInProgress(false)
       return Promise.resolve()
-    } catch (error) {
-      dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
-      return Promise.reject()
+    } catch (error: any) {
+      console.error(error)
+      let errorMessage = `${t`An error occurred: `} ${typeof (error) === "string"
+        ? error
+        : error?.error?.message || ""}`
+      if (axios.isCancel(error)) {
+        errorMessage = t`Downloads cancelled`
+      }
+      updateToast(toastId, {
+        title: errorMessage,
+        type: "error",
+        progress: undefined,
+        onProgressCancel: undefined,
+        isClosable: true
+      }, true)
+      setDownloadsInProgress(false)
     }
-  }, [getFileContent])
+  }, [getFileContent, addToast, updateToast])
 
   const searchCid = useCallback((cid: string) => {
     return storageApiClient.listPins(
@@ -502,10 +498,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     <StorageContext.Provider
       value={{
         addPin,
-        uploadsInProgress,
         storageSummary,
         getStorageSummary,
-        downloadsInProgress,
         pins,
         refreshPins,
         isNextPinsPage,
