@@ -147,6 +147,8 @@ const FileInput = ({
 
   const onDrop = useCallback(
     async (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
+      console.log("acceptedFiles", acceptedFiles)
+      console.log("fileRejections", fileRejections)
       const filtered = acceptedFiles.filter((file) =>
         maxFileSize ? file.size <= maxFileSize : true
       )
