@@ -18,7 +18,7 @@ import {
   useToasts
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 import { useUser } from "../../Contexts/UserContext"
@@ -429,7 +429,7 @@ const AppNav = ({ navOpen, setNavOpen }: IAppNav) => {
                         variant="body2"
                         className={classes.spaceUsedMargin}
                         component="p"
-                      >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+                      >{t`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
                           storageSummary.total_storage, 2
                         )} used`}</Typography>
                       <ProgressBar
