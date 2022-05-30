@@ -72,7 +72,10 @@ const SurveyBanner = ({ onHide }: Props) => {
   }, [onClose])
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      onContextMenu={(e) => e.stopPropagation()}
+    >
       <Typography
         variant="body1"
         className={classes.banner}>
