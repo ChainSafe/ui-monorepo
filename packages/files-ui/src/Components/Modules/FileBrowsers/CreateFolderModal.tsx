@@ -147,9 +147,9 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
                 data-cy="input-folder-name"
                 name="name"
                 size="large"
-                placeholder="Name"
+                placeholder={t`Name`}
                 labelClassName={classes.label}
-                label="Folder Name"
+                label={t`Folder Name`}
                 autoFocus
               />
             </Grid>

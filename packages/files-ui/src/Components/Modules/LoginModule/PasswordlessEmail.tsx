@@ -200,7 +200,7 @@ const PasswordlessEmail = ({ resetLogin, email }: IPasswordlessEmail) => {
         >
           <span>
             <Trans>
-              Didn&apos;t receive the email ?
+              Didn&apos;t receive the email?
             </Trans>
           </span>
           <span
