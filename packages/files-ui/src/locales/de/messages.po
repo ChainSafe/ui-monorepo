@@ -307,7 +307,7 @@ msgstr ""
 msgid "Device awaiting confirmation"
 msgstr "Gerät wartet auf Bestätigung"
 
-msgid "Didn't receive the email ?"
+msgid "Didn't receive the email?"
 msgstr "Sie haben die E-Mail nicht erhalten?"
 
 msgid "Display"
@@ -320,6 +320,9 @@ msgid "Download Complete"
 msgstr ""
 
 msgid "Download as zip"
+msgstr ""
+
+msgid "Download in progress, are you sure?"
 msgstr ""
 
 msgid "Download recovery key"
@@ -414,6 +417,9 @@ msgstr ""
 
 msgid "Files sharing key"
 msgstr "Dateifreigabeschlüssel"
+
+msgid "Folder Name"
+msgstr ""
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -1018,6 +1024,9 @@ msgstr ""
 msgid "Total Amount"
 msgstr ""
 
+msgid "Transfer is in progress, are you sure?"
+msgstr ""
+
 msgid "Try again"
 msgstr "Erneut versuchen"
 
@@ -1046,6 +1055,12 @@ msgid "Upgrade"
 msgstr ""
 
 msgid "Upload"
+msgstr ""
+
+msgid "Upload complete"
+msgstr ""
+
+msgid "Upload in progress, are you sure?"
 msgstr ""
 
 msgid "Upload size exceeds plan capacity"

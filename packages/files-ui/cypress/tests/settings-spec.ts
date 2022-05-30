@@ -1,16 +1,15 @@
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { settingsPage } from "../support/page-objects/settingsPage"
 import { homePage } from "../support/page-objects/homePage"
+import { complexPassword, simplePassword } from "../fixtures/filesTestData"
 // import { profileUpdateSuccessToast } from "../support/page-objects/toasts/profileUpdateSuccessToast"
 
 describe("Settings", () => {
   context("desktop", () => {
-    beforeEach(() => {
-      cy.web3Login()
-      navigationMenu.settingsNavButton().click()
-    })
 
     it("can navigate to settings profile page", () => {
+      cy.web3Login()
+      navigationMenu.settingsNavButton().click()
       settingsPage.profileTabHeader().should("be.visible")
       cy.url().should("include", "/settings")
       settingsPage.profileTabButton().click()
@@ -19,6 +18,8 @@ describe("Settings", () => {
     })
 
     // it("save changes button should be disabled without first and last name", () => {
+    //   cy.web3Login()
+    //   navigationMenu.settingsNavButton().click()
     //   settingsPage.signOutDropdown().should("be.visible")
     //   settingsPage.firstNameInput().clear()
     //   settingsPage.lastNameInput().clear()
@@ -43,6 +44,8 @@ describe("Settings", () => {
     const newUserName = Date.now().toString()
 
     it("can add a username", () => {
+      cy.web3Login({ withNewSession: true })
+      navigationMenu.settingsNavButton().click()
       settingsPage.signOutDropdown().should("be.visible")
       settingsPage.addUsernameButton().should("be.visible")
       settingsPage.addUsernameButton().click()
@@ -55,11 +58,70 @@ describe("Settings", () => {
     })
 
     it("can navigate to settings security page", () => {
+      cy.web3Login()
+      navigationMenu.settingsNavButton().click()
       settingsPage.securityTabButton().click()
       cy.url().should("include", "/settings")
       settingsPage.securityTabButton().click()
       cy.url().should("include", "/settings/security")
       settingsPage.securityTabHeader().should("be.visible")
+    })
+
+    it("can change the account password", () => {
+      cy.web3Login({ withNewSession: true })
+      navigationMenu.settingsNavButton().click()
+      settingsPage.securityTabButton().click()
+      settingsPage.securityTabButton().click()
+      settingsPage.changePasswordLink().click()
+
+      // change password
+      settingsPage.passwordInput().type(complexPassword)
+      settingsPage.confirmPasswordInput().type(complexPassword)
+      settingsPage.changePasswordButton().click()
+
+      // ensure change password elements are not displayed after change
+      settingsPage.passwordInput().should("not.exist")
+      settingsPage.confirmPasswordInput().should("not.exist")
+      settingsPage.changePasswordButton().should("not.exist")
+    })
+
+    it("can see error messages when password doesn't meet critieria", () => {
+      cy.web3Login()
+      navigationMenu.settingsNavButton().click()
+      settingsPage.securityTabButton().click()
+      settingsPage.securityTabButton().click()
+      settingsPage.changePasswordLink().click()
+
+      // ensure errors are displayed if password fields are blank
+      settingsPage.passwordInput().type("{selectall}{del}{esc}")
+      settingsPage.confirmPasswordInput().type("{selectall}{del}{esc}")
+      settingsPage.changePasswordButton().click()
+      settingsPage.changePasswordErrorLabel()
+        .should("be.visible")
+        .should("have.length", 2)
+
+      // ensure an error displayed if password is not complex enough
+      settingsPage.passwordInput().type(simplePassword)
+      settingsPage.changePasswordButton().click()
+      settingsPage.changePasswordErrorLabel()
+        .should("be.visible")
+        .should("have.length", 2)
+
+      // should see an error if confirm password is missing
+      settingsPage.passwordInput().type(complexPassword)
+      settingsPage.confirmPasswordInput().type("{selectall}{del}{esc}")
+      settingsPage.changePasswordButton().click()
+      settingsPage.changePasswordErrorLabel()
+        .should("be.visible")
+        .should("have.length", 1)
+
+      // should see an error if confirm password does not match password
+      settingsPage.passwordInput().type(complexPassword)
+      settingsPage.confirmPasswordInput().type(simplePassword)
+      settingsPage.changePasswordButton().click()
+      settingsPage.changePasswordErrorLabel()
+        .should("be.visible")
+        .should("have.length", 1)
     })
   })
 

@@ -308,8 +308,8 @@ msgstr "L'adresse de destination"
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
-msgid "Didn't receive the email ?"
-msgstr "Vous n’avez pas reçu de courriel ?"
+msgid "Didn't receive the email?"
+msgstr "Vous n’avez pas reçu de courriel?"
 
 msgid "Display"
 msgstr "Afficher"
@@ -322,6 +322,9 @@ msgstr "Téléchargement terminé"
 
 msgid "Download as zip"
 msgstr "Télécharger au format zip"
+
+msgid "Download in progress, are you sure?"
+msgstr ""
 
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
@@ -418,6 +421,9 @@ msgstr "Files Pro"
 
 msgid "Files sharing key"
 msgstr "Clé de partage des fichiers"
+
+msgid "Folder Name"
+msgstr ""
 
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
@@ -702,7 +708,7 @@ msgid "Please select a file to upload"
 msgstr "Merci de sélectionner un fichier à téléverser"
 
 msgid "Please select fewer files to upload"
-msgstr ""
+msgstr "Veuillez sélectionner moins de fichiers à téléverser"
 
 msgid "Preview"
 msgstr "Aperçu"
@@ -861,7 +867,7 @@ msgid "Shared folders"
 msgstr "Dossiers partagés"
 
 msgid "Shared link"
-msgstr ""
+msgstr "Lien partagé"
 
 msgid "Shared with"
 msgstr "Partagé avec"
@@ -906,10 +912,10 @@ msgid "Sort By:"
 msgstr "Trier par :"
 
 msgid "Space running low. Join the beta to upgrade."
-msgstr ""
+msgstr "L'espace est limité. Rejoignez la bêta pour une mise à niveau."
 
 msgid "Space running low. Upgrade here."
-msgstr ""
+msgstr "Bientôt à court d'espace. Mettez à niveau ici."
 
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
@@ -1022,6 +1028,9 @@ msgstr "Total"
 msgid "Total Amount"
 msgstr "Montant total"
 
+msgid "Transfer is in progress, are you sure?"
+msgstr ""
+
 msgid "Try again"
 msgstr "Essayer de nouveau"
 
@@ -1047,13 +1056,19 @@ msgid "Update your credit card"
 msgstr "Mettre à jour votre carte de crédit"
 
 msgid "Upgrade"
-msgstr ""
+msgstr "Mettre à niveau"
 
 msgid "Upload"
 msgstr "Téléverser"
 
-msgid "Upload size exceeds plan capacity"
+msgid "Upload complete"
 msgstr ""
+
+msgid "Upload in progress, are you sure?"
+msgstr ""
+
+msgid "Upload size exceeds plan capacity"
+msgstr "La taille du téléversement dépasse la capacité de l'offre"
 
 msgid "Uploads cancelled"
 msgstr "Téléversements annulés"

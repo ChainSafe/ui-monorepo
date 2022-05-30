@@ -88,6 +88,9 @@ msgstr "Amount due"
 msgid "Amount from credit"
 msgstr "Amount from credit"
 
+msgid "An error occurred:"
+msgstr "An error occurred:"
+
 msgid "Annual billing{0}"
 msgstr "Annual billing{0}"
 
@@ -265,8 +268,14 @@ msgstr "Docs"
 msgid "Download"
 msgstr "Download"
 
-msgid "Download complete"
-msgstr "Download complete"
+msgid "Download Complete"
+msgstr "Download Complete"
+
+msgid "Downloading file - {0}"
+msgstr "Downloading file - {0}"
+
+msgid "Downloads cancelled"
+msgstr "Downloads cancelled"
 
 msgid "Drag and drop to upload"
 msgstr "Drag and drop to upload"
@@ -790,6 +799,9 @@ msgstr "invoices here"
 msgid "moved successfully"
 msgstr "moved successfully"
 
+msgid "{0, plural, one {Uploading {1} file} other {Uploading {2} files}}"
+msgstr "{0, plural, one {Uploading {1} file} other {Uploading {2} files}}"
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
@@ -804,9 +816,6 @@ msgstr "{newPlanCapacity} of storage"
 
 msgid "{newPlanStorage} of storage"
 msgstr "{newPlanStorage} of storage"
-
-msgid "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
 
 msgid "{planStorageCapacity} of storage"
 msgstr "{planStorageCapacity} of storage"

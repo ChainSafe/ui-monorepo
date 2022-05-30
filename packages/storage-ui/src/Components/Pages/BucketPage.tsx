@@ -24,7 +24,7 @@ import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
-  const { storageBuckets, uploadFiles, uploadsInProgress, getStorageSummary, downloadFile } = useStorage()
+  const { storageBuckets, uploadFiles, getStorageSummary, downloadFile } = useStorage()
   const { storageApiClient, accountRestricted } = useStorageApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -238,9 +238,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         renameItem,
         viewFolder,
         handleUploadOnDrop,
-        uploadsInProgress,
         loadingCurrentPath,
-        showUploadsInTable: true,
         sourceFiles: pathContents,
         heading: bucket?.name,
         controls: true,
