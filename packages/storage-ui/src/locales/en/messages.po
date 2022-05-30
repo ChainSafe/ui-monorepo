@@ -718,11 +718,8 @@ msgstr "Upload"
 msgid "Upload NFT"
 msgstr "Upload NFT"
 
-msgid "Upload complete"
-msgstr "Upload complete"
-
-msgid "Uploading {0} files"
-msgstr "Uploading {0} files"
+msgid "Uploads cancelled"
+msgstr "Uploads cancelled"
 
 msgid "Uploads disabled"
 msgstr "Uploads disabled"
