@@ -242,7 +242,10 @@ const Security = ({ className }: SecurityProps) => {
           )}
           { isChangingPassword
             ? (
-              <section className={classes.formRoot}>
+              <section
+                className={classes.formRoot}
+                data-cy="form-change-password"
+              >
                 <CloseSvg
                   onClick={onResetPasswordForm}
                   className={classes.close}
@@ -258,6 +261,7 @@ const Security = ({ className }: SecurityProps) => {
                 <PasswordForm
                   setPassword={onSetPassword}
                   buttonLabel={t`Change Password`}
+                  data-cy="button-change-password"
                 />
               </section>
             )
@@ -274,6 +278,7 @@ const Security = ({ className }: SecurityProps) => {
                       <span
                         className={clsx(classes.action, classes.buttonLink, classes.changeButton)}
                         onClick={() => {setIsChangingPassword(true)}}
+                        data-cy="link-change-password"
                       >
                         <Trans>Change Password</Trans>
                       </span>

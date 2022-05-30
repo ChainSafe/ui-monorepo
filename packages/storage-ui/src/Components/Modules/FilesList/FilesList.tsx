@@ -6,13 +6,11 @@ import {
   SortDirection,
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeadCell,
   TableRow,
   Typography,
   Breadcrumb,
-  CircularProgressBar,
   Button,
   PlusCircleIcon,
   UploadIcon,
@@ -34,8 +32,6 @@ import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation, MoveModalMode } from "../../../Contexts/types"
 import { FileSystemItem as FileSystemItemType } from "../../../Contexts/StorageContext"
 import FileSystemItem from "../FileSystemItem/FileSystemItem"
-import UploadProgressModals from "../UploadProgressModals"
-import DownloadProgressModals from "../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal/CreateFolderModal"
 import UploadFileModal from "../UploadFileModal/UploadFileModal"
 import MoveFileModal from "../MoveFileModal/MoveFileModal"
@@ -345,8 +341,6 @@ const FilesList = () => {
     currentPath,
     refreshContents,
     loadingCurrentPath,
-    uploadsInProgress,
-    showUploadsInTable,
     allowDropUpload,
     itemOperations,
     moduleRootPath,
@@ -1091,36 +1085,6 @@ const FilesList = () => {
             </TableHead>
           )}
           <TableBody>
-            {!desktop &&
-              showUploadsInTable &&
-              uploadsInProgress
-                ?.filter(
-                  (uploadInProgress) =>
-                    uploadInProgress.path === currentPath &&
-                    !uploadInProgress.complete &&
-                    !uploadInProgress.error
-                )
-                .map((uploadInProgress) => (
-                  <TableRow
-                    key={uploadInProgress.id}
-                    className={classes.tableRow}
-                    type="grid"
-                  >
-                    <TableCell className={classes.progressIcon}>
-                      <CircularProgressBar
-                        progress={uploadInProgress.progress}
-                        size="small"
-                        width={15}
-                      />
-                    </TableCell>
-                    <TableCell align="left">
-                      {uploadInProgress.noOfFiles > 1
-                        ? t`Uploading ${uploadInProgress.noOfFiles} files`
-                        : uploadInProgress.fileName}
-                    </TableCell>
-                    <TableCell />
-                  </TableRow>
-                ))}
             {items.map((file, index) => (
               <FileSystemItem
                 key={index}
@@ -1206,8 +1170,6 @@ const FilesList = () => {
           e.stopPropagation()
         }}
       />
-      <UploadProgressModals />
-      <DownloadProgressModals />
       {
         refreshContents && (
           <>
