@@ -71,6 +71,7 @@ const SurveyBanner = ({ onHide }: Props) => {
     <div
       className={classes.root}
       data-cy="banner-survey"
+      onContextMenu={(e) => e.stopPropagation()}
     >
       <Typography
         variant="body1"

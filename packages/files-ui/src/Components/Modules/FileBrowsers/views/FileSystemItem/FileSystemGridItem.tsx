@@ -138,12 +138,13 @@ interface IFileSystemTableItemProps {
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: string | undefined) => void
+  editFile: (file: FileSystemItem | undefined) => void
   handleRename?: (path: string, newPath: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
   longPressEvents?: LongPressEvents
+  handleContextMenuOnItem?: (e: React.MouseEvent) => void
 }
 
 const FileSystemGridItem = React.forwardRef(
@@ -156,12 +157,13 @@ const FileSystemGridItem = React.forwardRef(
     editing,
     onFolderOrFileClicks,
     icon,
-    setEditing,
+    editFile,
     handleRename,
     menuItems,
     resetSelectedFiles,
     preview,
-    longPressEvents
+    longPressEvents,
+    handleContextMenuOnItem
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid } = file
@@ -216,9 +218,9 @@ const FileSystemGridItem = React.forwardRef(
     }, [handleClickOutside])
 
     const stopEditing = useCallback(() => {
-      setEditing(undefined)
+      editFile(undefined)
       formik.resetForm()
-    }, [formik, setEditing])
+    }, [formik, editFile])
 
     useOnClickOutside(formRef, formik.submitForm)
 
@@ -238,6 +240,7 @@ const FileSystemGridItem = React.forwardRef(
           e.preventDefault()
           e.stopPropagation()
         }}
+        onContextMenu={handleContextMenuOnItem}
       >
         <div
           className={clsx(classes.gridViewIconNameBox)}

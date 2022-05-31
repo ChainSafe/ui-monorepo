@@ -48,6 +48,12 @@ export interface BucketKeyPermission extends Bucket {
   readers: RichUserInfo[]
 }
 
+const FILES_TO_IGNORE = [
+  // Thumbnail cache files for macOS and Windows
+  ".DS_Store", // macOs
+  "Thumbs.db"  // Windows
+]
+
 type FilesContext = {
   buckets: BucketKeyPermission[]
   storageSummary: BucketSummaryResponse | undefined
@@ -297,11 +303,11 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
   useEffect(() => {
     if (downloadsInProgress) {
-      setCloseIntercept("Download in progress, are you sure?")
+      setCloseIntercept(t`Download in progress, are you sure?`)
     } else if (uploadsInProgress) {
-      setCloseIntercept("Upload in progress, are you sure?")
+      setCloseIntercept(t`Upload in progress, are you sure?`)
     } else if (transfersInProgress) {
-      setCloseIntercept("Transfer is in progress, are you sure?")
+      setCloseIntercept(t`Transfer is in progress, are you sure?`)
     } else if (closeIntercept !== undefined) {
       setCloseIntercept(undefined)
     }
@@ -351,7 +357,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   }, [filesApiClient])
 
   const uploadFiles = useCallback(async (bucket: BucketKeyPermission, files: FileWithPath[], rootUploadPath: string) => {
-    const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
+    const acceptedFiles = files.filter(f => !FILES_TO_IGNORE.includes(f.name))
+
+    const hasOversizedFile = acceptedFiles.some(file => file.size > MAX_FILE_SIZE)
     if (hasOversizedFile) {
       addToast({
         title: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
@@ -363,10 +371,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     const cancelToken = cancelSource.token
 
     const toastParams: ToastParams = {
-      title: plural(files.length, {
-        one: `Encrypting and uploading ${files.length} file`,
-        other: `Encrypting and uploading ${files.length} files`
-      }) as string,
+      title: plural(acceptedFiles.length, {
+        one: `Encrypting and uploading ${acceptedFiles.length} file`,
+        other: `Encrypting and uploading ${acceptedFiles.length} files`
+      }),
       type: "success",
       progress: 0,
       onProgressCancel: cancelSource.cancel,
@@ -377,13 +385,15 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     setUploadsInProgress(true)
 
     try {
-      const paths = [...new Set(files.map(f => getParentPathFromFilePath(f.path)))]
-      const totalUploadSize = files.reduce((sum, f) => sum += f.size, 0)
+      const paths = [...new Set(acceptedFiles.map(f => getParentPathFromFilePath(f.path)))]
+      const totalUploadSize = acceptedFiles.reduce((sum, f) => sum += f.size, 0)
 
       let uploadedSize = 0
       for (const path of paths) {
-        const filesToUpload = files.filter((f => getParentPathFromFilePath(f.path) === path))
+        const filesToUpload = acceptedFiles.filter((f => getParentPathFromFilePath(f.path) === path))
         const batchSize = filesToUpload.reduce((sum, f) => sum += f.size, 0)
+        // prevent unsafe references warning on uploadedSize
+        const uploadedSizeRef = uploadedSize
         await encryptAndUploadFiles(
           bucket,
           filesToUpload,
@@ -392,7 +402,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             updateToast(toastId, {
               ...toastParams,
               progress: Math.ceil(
-                ((progressEvent.loaded + uploadedSize) / totalUploadSize) * 100
+                ((progressEvent.loaded + uploadedSizeRef) / totalUploadSize) * 100
               )
             })
           },
@@ -401,14 +411,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         uploadedSize += batchSize
       }
 
-
       setUploadsInProgress(false)
-
       await refreshBuckets()
       // setting complete
       updateToast(toastId, {
         ...toastParams,
-        title: "Upload complete",
+        title: t`Upload complete`,
         progress: undefined,
         onProgressCancel: undefined,
         isClosable: true,
@@ -633,6 +641,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       type: "success",
       progress: 0,
       isClosable: false,
+      testId: "downloading-file",
       onProgressCancel: cancelSource.cancel
     }
     const toastId = addToast(toastParams)
@@ -663,7 +672,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         type: "success",
         progress: undefined,
         onProgressCancel: undefined,
-        isClosable: true
+        isClosable: true,
+        testId: "download-complete"
       }, true)
       URL.revokeObjectURL(link.href)
       setDownloadsInProgress(false)

@@ -307,7 +307,7 @@ msgstr ""
 msgid "Device awaiting confirmation"
 msgstr ""
 
-msgid "Didn't receive the email ?"
+msgid "Didn't receive the email?"
 msgstr "Fikk du ikke e-posten?"
 
 msgid "Display"
@@ -320,6 +320,9 @@ msgid "Download Complete"
 msgstr ""
 
 msgid "Download as zip"
+msgstr ""
+
+msgid "Download in progress, are you sure?"
 msgstr ""
 
 msgid "Download recovery key"
@@ -413,6 +416,9 @@ msgid "Files Pro"
 msgstr ""
 
 msgid "Files sharing key"
+msgstr ""
+
+msgid "Folder Name"
 msgstr ""
 
 msgid "Folder name is already in use"
@@ -901,6 +907,12 @@ msgstr ""
 msgid "Sort By:"
 msgstr ""
 
+msgid "Space running low. Join the beta to upgrade."
+msgstr ""
+
+msgid "Space running low. Upgrade here."
+msgstr ""
+
 msgid "Start Upload"
 msgstr ""
 
@@ -1012,6 +1024,9 @@ msgstr ""
 msgid "Total Amount"
 msgstr ""
 
+msgid "Transfer is in progress, are you sure?"
+msgstr ""
+
 msgid "Try again"
 msgstr "Prøv igjen"
 
@@ -1036,7 +1051,16 @@ msgstr ""
 msgid "Update your credit card"
 msgstr ""
 
+msgid "Upgrade"
+msgstr ""
+
 msgid "Upload"
+msgstr ""
+
+msgid "Upload complete"
+msgstr ""
+
+msgid "Upload in progress, are you sure?"
 msgstr ""
 
 msgid "Upload size exceeds plan capacity"
