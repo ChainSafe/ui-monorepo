@@ -467,25 +467,25 @@ describe("File management", () => {
 
     it("can view file information via modal option", () => {
       cy.web3Login({ clearCSFBucket: true })
-  
+
       // upload a file
       homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
       homePage.fileItemRow().should("have.length", 1)
-  
+
       // store file name as cypress aliases for later comparison
       homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
-  
+
       // navigate to the info modal for the file
       homePage.fileItemKebabButton().first().click()
       homePage.infoMenuOption().eq(0).click()
-  
+
       // ensure all labels on the modal are visible
       fileInfoModal.nameLabel().should("be.visible")
       fileInfoModal.fileSizeLabel().should("be.visible")
       fileInfoModal.dateUploadedLabel().should("be.visible")
       fileInfoModal.cidLabel().should("be.visible")
       fileInfoModal.decryptionKeyLabel().should("be.visible")
-  
+
       // ensure the correct file name is being displayed
       fileInfoModal.body().should("be.visible")
       cy.get<string>("@fileNameA").then((fileNameA) => {
