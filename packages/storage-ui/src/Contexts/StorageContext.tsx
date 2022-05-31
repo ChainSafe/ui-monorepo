@@ -73,6 +73,12 @@ interface IFileSystemItem extends FileContentResponse {
 
 type FileSystemItem = IFileSystemItem
 
+const FILES_TO_IGNORE = [
+  // Thumbnail cache files for macOS and Windows
+  ".DS_Store", // macOs
+  "Thumbs.db"  // Windows
+]
+
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
 const StorageProvider = ({ children }: StorageContextProps) => {
@@ -310,13 +316,14 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       return
     }
 
+    const acceptedFiles = files.filter(f => !FILES_TO_IGNORE.includes(f.name))
     const cancelSource = axios.CancelToken.source()
     const cancelToken = cancelSource.token
 
     const toastParams: ToastParams = {
-      title: plural(files.length, {
-        one: `Uploading ${files.length} file`,
-        other: `Uploading ${files.length} files`
+      title: plural(acceptedFiles.length, {
+        one: `Uploading ${acceptedFiles.length} file`,
+        other: `Uploading ${acceptedFiles.length} files`
       }),
       type: "success",
       progress: 0,
@@ -329,7 +336,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
     try {
       const filesParam = await Promise.all(
-        files
+        acceptedFiles
           .map(async (f) => {
             const fileData = await readFileAsync(f)
             return {
