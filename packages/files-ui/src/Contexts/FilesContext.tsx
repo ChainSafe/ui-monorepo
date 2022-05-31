@@ -48,6 +48,12 @@ export interface BucketKeyPermission extends Bucket {
   readers: RichUserInfo[]
 }
 
+const FILES_TO_IGNORE = [
+  // Thumbnail cache files for macOS and Windows
+  ".DS_Store", // macOs
+  "Thumbs.db"  // Windows
+]
+
 type FilesContext = {
   buckets: BucketKeyPermission[]
   storageSummary: BucketSummaryResponse | undefined
@@ -351,7 +357,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   }, [filesApiClient])
 
   const uploadFiles = useCallback(async (bucket: BucketKeyPermission, files: FileWithPath[], rootUploadPath: string) => {
-    const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
+    const acceptedFiles = files.filter(f => !FILES_TO_IGNORE.includes(f.name))
+
+    const hasOversizedFile = acceptedFiles.some(file => file.size > MAX_FILE_SIZE)
     if (hasOversizedFile) {
       addToast({
         title: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
@@ -363,9 +371,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     const cancelToken = cancelSource.token
 
     const toastParams: ToastParams = {
-      title: plural(files.length, {
-        one: `Encrypting and uploading ${files.length} file`,
-        other: `Encrypting and uploading ${files.length} files`
+      title: plural(acceptedFiles.length, {
+        one: `Encrypting and uploading ${acceptedFiles.length} file`,
+        other: `Encrypting and uploading ${acceptedFiles.length} files`
       }),
       type: "success",
       progress: 0,
@@ -377,12 +385,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     setUploadsInProgress(true)
 
     try {
-      const paths = [...new Set(files.map(f => getParentPathFromFilePath(f.path)))]
-      const totalUploadSize = files.reduce((sum, f) => sum += f.size, 0)
+      const paths = [...new Set(acceptedFiles.map(f => getParentPathFromFilePath(f.path)))]
+      const totalUploadSize = acceptedFiles.reduce((sum, f) => sum += f.size, 0)
 
       let uploadedSize = 0
       for (const path of paths) {
-        const filesToUpload = files.filter((f => getParentPathFromFilePath(f.path) === path))
+        const filesToUpload = acceptedFiles.filter((f => getParentPathFromFilePath(f.path) === path))
         const batchSize = filesToUpload.reduce((sum, f) => sum += f.size, 0)
         // prevent unsafe references warning on uploadedSize
         const uploadedSizeRef = uploadedSize
