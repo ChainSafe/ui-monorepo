@@ -7,7 +7,7 @@ interface IFormikRadioInputProps extends React.HTMLProps<HTMLInputElement> {
   name: string
   label?: string
   id: string
-  testId: string
+  testId?: string
 }
 
 const FormikRadioInput: React.FC<IFormikRadioInputProps> = ({
