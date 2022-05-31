@@ -122,23 +122,19 @@ interface IFileInputProps extends DropzoneOptions {
   testId?: string
 }
 
-const FileItem = ({
-  id,
-  fullPath,
-  removeItem,
-  itemClassName,
-  closeIconClassName
-}: {
-  id: number
+interface FileItemProps {
+  index?: number
   fullPath: string
-  removeItem: (id: number | undefined) => void
+  removeItem: (index: number) => void
   itemClassName?: string
   closeIconClassName?: string
-}) => {
+}
+
+const FileItem = ({ index = 0, fullPath, removeItem, itemClassName, closeIconClassName }: FileItemProps) => {
   const classes = useStyles()
   return <li
     className={clsx(classes.item, itemClassName)}
-    key={id}
+    key={index}
   >
     <span className={classes.itemText}>{fullPath}</span>
     <Button
@@ -147,7 +143,7 @@ const FileItem = ({
       type="button"
       onClick={(e) => {
         e.stopPropagation()
-        removeItem(id)
+        removeItem(index)
       }}
       size="small"
     >
@@ -230,12 +226,13 @@ const FileInput = ({
     ...dropZoneProps
   })
 
-  const removeItem = useCallback((i?: number) => {
+  const removeItem = useCallback((i: number) => {
     let items = value
 
-    Array.isArray(items) && i
+    Array.isArray(items)
       ? items.splice(i, 1)
       : items = null
+
     helpers.setValue(items)
   }, [helpers, value])
 
@@ -270,18 +267,19 @@ const FileInput = ({
                   ? value.map((file, i) => (
                     <FileItem
                       key={i}
-                      id={i}
+                      index={i}
                       fullPath={file.path || ""}
                       removeItem={removeItem}
                       closeIconClassName={classNames?.closeIcon}
-                      itemClassName={classNames?.item} />
+                      itemClassName={classNames?.item}
+                    />
                   ))
                   : <FileItem
-                    id={0}
                     fullPath={value.path || ""}
                     removeItem={removeItem}
                     closeIconClassName={classNames?.closeIcon}
-                    itemClassName={classNames?.item} />
+                    itemClassName={classNames?.item}
+                  />
                 }
               </ul>
             </ScrollbarWrapper>

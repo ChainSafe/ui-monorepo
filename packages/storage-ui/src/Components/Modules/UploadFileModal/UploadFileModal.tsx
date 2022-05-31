@@ -80,7 +80,7 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const { uploadFiles } = useStorage()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
 
-  const UploadSchema = object().shape({ files: array().nullable().required(t`Please select a file to upload`) })
+  const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
