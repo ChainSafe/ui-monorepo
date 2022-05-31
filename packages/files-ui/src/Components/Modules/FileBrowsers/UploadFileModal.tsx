@@ -84,7 +84,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const { storageSummary, uploadFiles } = useFiles()
 
   const UploadSchema = useMemo(() => object().shape({
-    files: array().required(t`Please select a file to upload`)
+    files: array().nullable().required(t`Please select a file to upload`)
       .test("Upload Size",
         t`Upload size exceeds plan capacity`,
         (files) => {

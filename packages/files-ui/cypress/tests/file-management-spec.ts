@@ -190,7 +190,7 @@ describe("File management", () => {
       moveItemModal.cancelButton().should("be.enabled")
     })
 
-    it("can add/remove multiple files and upload", () => {
+    it.only("can add/remove multiple files and upload", () => {
       cy.web3Login({ clearCSFBucket: true })
 
       // attach 2 files to the file list

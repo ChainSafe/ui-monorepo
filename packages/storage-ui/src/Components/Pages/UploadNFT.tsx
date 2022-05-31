@@ -139,7 +139,6 @@ const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNod
     return <FileInput
       name={namespace}
       label={namespace}
-      onFileNumberChange={() => undefined}
       moreFilesLabel={""}
       maxFiles={1}
       key={namespace} />

@@ -117,7 +117,7 @@ interface IFileInputProps extends DropzoneOptions {
     closeIcon?: string
     error?: string
   }
-  onFileNumberChange: (filesNumber: number) => void
+  onFileNumberChange?: (filesNumber: number) => void
   moreFilesLabel: string
   testId?: string
 }
@@ -176,7 +176,11 @@ const FileInput = ({
   const [{ value }, meta, helpers] = useField<FileWithPath[] | FileWithPath | null>(name)
 
   useEffect(() => {
-    onFileNumberChange && Array.isArray(value) && onFileNumberChange(value.length)
+    if(Array.isArray(value)){
+      onFileNumberChange && onFileNumberChange(value.length)
+    } else {
+      onFileNumberChange && onFileNumberChange(value ? 1 : 0)
+    }
   }, [onFileNumberChange, value])
 
   const onDrop = useCallback(
@@ -226,13 +230,14 @@ const FileInput = ({
     ...dropZoneProps
   })
 
-  const removeItem = (i?: number) => {
+  const removeItem = useCallback((i?: number) => {
     let items = value
+
     Array.isArray(items) && i
       ? items.splice(i, 1)
       : items = null
     helpers.setValue(items)
-  }
+  }, [helpers, value])
 
   return (
     <div
