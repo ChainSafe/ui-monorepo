@@ -392,6 +392,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       for (const path of paths) {
         const filesToUpload = acceptedFiles.filter((f => getParentPathFromFilePath(f.path) === path))
         const batchSize = filesToUpload.reduce((sum, f) => sum += f.size, 0)
+        // prevent unsafe references warning on uploadedSize
+        const uploadedSizeRef = uploadedSize
         await encryptAndUploadFiles(
           bucket,
           filesToUpload,
@@ -400,7 +402,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             updateToast(toastId, {
               ...toastParams,
               progress: Math.ceil(
-                ((progressEvent.loaded + uploadedSize) / totalUploadSize) * 100
+                ((progressEvent.loaded + uploadedSizeRef) / totalUploadSize) * 100
               )
             })
           },
