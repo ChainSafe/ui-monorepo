@@ -28,10 +28,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
 
-      - name: Shows git version
-        run: git --version
-        id: git-version
-
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
