@@ -22,6 +22,12 @@ export const settingsPage = {
   setUsernameButton: () => cy.get("[data-cy=button-set-username]"),
   usernamePresentInput: () => cy.get("[data-cy=input-profile-username-present]"),
 
+  // display tab
+  displayTabButton: () => cy.get("[data-testid=tab-display]"),
+  displayTabHeader: () => cy.get("[data-cy=label-display-header]"),
+  darkThemeLabel: () => cy.get("[data-testid=radio-input-dark-theme]"),
+  lightThemeLabel: () => cy.get("[data-testid=radio-input-light-theme]"),
+
   // security tab
   securityTabButton: () => cy.get("[data-testid=tab-security]"),
   securityTabHeader: () => cy.get("[data-cy=label-security-header]"),

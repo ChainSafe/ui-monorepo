@@ -123,6 +123,24 @@ describe("Settings", () => {
         .should("be.visible")
         .should("have.length", 1)
     })
+
+    it("can change to dark theme and light theme", () => {
+      cy.web3Login()
+      navigationMenu.settingsNavButton().click()
+      settingsPage.displayTabButton().click()
+
+      // change to dark theme
+      settingsPage.darkThemeLabel().click().then(() => {
+        expect(window.localStorage.getItem("csf.themeKey")).to.equal("dark")
+      })
+      settingsPage.darkThemeLabel().get("div").should("have.class", "checked")
+
+      // change to light theme
+      settingsPage.lightThemeLabel().click().then(() => {
+        expect(window.localStorage.getItem("csf.themeKey")).to.equal("light")
+      })
+      settingsPage.lightThemeLabel().get("div").should("have.class", "checked")
+    })
   })
 
   context("mobile", () => {
