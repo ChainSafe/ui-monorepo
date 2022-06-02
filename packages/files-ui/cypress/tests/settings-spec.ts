@@ -129,17 +129,19 @@ describe("Settings", () => {
       navigationMenu.settingsNavButton().click()
       settingsPage.displayTabButton().click()
 
-      // change to dark theme
+      // change to dark theme and ensure change of color
       settingsPage.darkThemeLabel().click().then(() => {
         expect(window.localStorage.getItem("csf.themeKey")).to.equal("dark")
       })
       settingsPage.darkThemeLabel().get("div").should("have.class", "checked")
+      settingsPage.displayTabHeader().should("have.css", "color", "rgb(219, 219, 219)")
 
-      // change to light theme
+      // change to light theme and ensure change of color
       settingsPage.lightThemeLabel().click().then(() => {
         expect(window.localStorage.getItem("csf.themeKey")).to.equal("light")
       })
       settingsPage.lightThemeLabel().get("div").should("have.class", "checked")
+      settingsPage.displayTabHeader().should("have.css", "color", "rgb(15, 15, 15)")
     })
 
     it("can copy to clipboard wallet address and files sharing key", () => {
