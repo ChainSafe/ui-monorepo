@@ -9,6 +9,8 @@ import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { getPathWithFile } from "../../../Utils/pathUtils"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -82,6 +84,8 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { currentPath, refreshContents, bucket } = useFileBrowser()
   const { storageSummary, uploadFiles } = useFiles()
+  const { filesApiClient } = useFilesApi()
+  const [emptyFolderToCreate, setEmptyFolderToCreate] = useState<string[]>([])
 
   const UploadSchema = useMemo(() => object().shape({
     files: array().required(t`Please select a file to upload`)
@@ -108,13 +112,19 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
     try {
       close()
       await uploadFiles(bucket, values.files, currentPath)
+
+      //create empty folders
+      emptyFolderToCreate.forEach(async (folderPath) => {
+        await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+
+      })
       refreshContents && refreshContents()
       helpers.resetForm()
     } catch (error: any) {
       console.error(error)
     }
     helpers.setSubmitting(false)
-  }, [bucket, close, refreshContents, uploadFiles, currentPath])
+  }, [bucket, close, uploadFiles, currentPath, emptyFolderToCreate, refreshContents, filesApiClient])
 
   const formik = useFormik({
     initialValues: { files: [] },
@@ -148,6 +158,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
             maxSize={2 * 1024 ** 3}
             name="files"
             onFileNumberChange={onFileNumberChange}
+            onEmptyFolderChange={setEmptyFolderToCreate}
             testId="fileUpload"
           />
           <footer className={classes.footer}>

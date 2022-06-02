@@ -7,6 +7,7 @@ import { Button } from "../Button"
 import { Typography } from "../Typography"
 import { PlusIcon, CrossIcon } from "../Icons"
 import { ScrollbarWrapper } from "../ScrollbarWrapper"
+import { getFilesAndEmptyDirFromDataTransferItems } from "../utils"
 
 const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   createStyles({
@@ -118,6 +119,7 @@ interface IFileInputProps extends DropzoneOptions {
     error?: string
   }
   onFileNumberChange: (filesNumber: number) => void
+  onEmptyFolderChange?: (emptyFolderPaths: string[]) => void
   moreFilesLabel: string
   testId?: string
 }
@@ -132,6 +134,7 @@ const FileInput = ({
   maxFileSize,
   classNames,
   onFileNumberChange,
+  onEmptyFolderChange,
   moreFilesLabel,
   testId,
   ...props
@@ -188,8 +191,16 @@ const FileInput = ({
 
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
-    ...dropZoneProps
+    ...dropZoneProps,
+    getFilesFromEvent
   })
+
+  async function getFilesFromEvent(event: any) {
+    const res = await getFilesAndEmptyDirFromDataTransferItems(event.dataTransfer.items)
+    onEmptyFolderChange && res.emptyDirPaths?.length && onEmptyFolderChange(res.emptyDirPaths)
+
+    return res.files as File[] || []
+  }
 
   const removeItem = (i: number) => {
     const items = value
@@ -224,12 +235,12 @@ const FileInput = ({
           >
             <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
-                {value.map((file: any, i: number) => (
+                {value.map((file, i) => (
                   <li
                     className={clsx(classes.item, classNames?.item)}
                     key={i}
                   >
-                    <span className={classes.itemText}>{file.path}</span>
+                    <span className={classes.itemText}>{`${file.path}${file.name}`}</span>
                     <Button
                       testId="remove-from-file-list"
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}

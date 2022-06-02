@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToasts, useHistory, useLocation } from "@chainsafe/common-components"
+import { Crumb, useToasts, useHistory, useLocation, getFilesAndEmptyDirFromDataTransferItems } from "@chainsafe/common-components"
 import { useFiles, FileSystemItem } from "../../../Contexts/FilesContext"
 import {
   getArrayOfPaths,
@@ -23,7 +23,6 @@ import { useUser } from "../../../Contexts/UserContext"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
-import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 import { Helmet } from "react-helmet-async"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
@@ -184,9 +183,15 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       })
       return
     }
-    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
-    await uploadFiles(bucket, flattenedFiles, path)
-  }, [bucket, accountRestricted, storageSummary, addToast, uploadFiles])
+    const flattenedFiles = await getFilesAndEmptyDirFromDataTransferItems(fileItems)
+    await uploadFiles(bucket, flattenedFiles?.files || [], path)
+
+    //create empty dir
+    flattenedFiles?.emptyDirPaths?.forEach(async (folderPath) => {
+      await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+
+    })
+  }, [bucket, accountRestricted, storageSummary, uploadFiles, addToast, filesApiClient, currentPath])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
