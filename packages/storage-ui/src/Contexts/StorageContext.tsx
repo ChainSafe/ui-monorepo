@@ -16,10 +16,11 @@ import { useStorageApi } from "./StorageApiContext"
 import { plural, t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import axios, { CancelToken } from "axios"
-import { getPathWithFile } from "../Utils/pathUtils"
+import { getParentPathFromFilePath, getPathWithFile } from "../Utils/pathUtils"
 import dayjs from "dayjs"
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
 import { ToastParams, useToasts } from "@chainsafe/common-components"
+import { FileWithPath } from "../Utils/getFilesFromDataTransferItems"
 dayjs.extend(isSameOrAfter)
 
 type StorageContextProps = {
@@ -45,7 +46,7 @@ type StorageContext = {
   pins: PinStatus[]
   storageSummary: BucketSummaryResponse | undefined
   getStorageSummary: () => Promise<void>
-  uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
+  uploadFiles: (bucketId: string, files: FileWithPath[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   isNextPinsPage: boolean
   isPreviousPinsPage: boolean
@@ -308,7 +309,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       .catch(console.error)
   }, [storageApiClient, refreshBuckets])
 
-  const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string) => {
+  const uploadFiles = useCallback(async (bucketId: string, files: FileWithPath[], rootUploadPath: string) => {
     const bucket = storageBuckets.find(b => b.id === bucketId)
 
     if (!bucket) {
@@ -335,34 +336,45 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     setUploadsInProgress(true)
 
     try {
-      const filesParam = await Promise.all(
-        acceptedFiles
-          .map(async (f) => {
-            const fileData = await readFileAsync(f)
-            return {
-              data: new Blob([fileData], { type: f.type }),
-              fileName: f.name
-            }
-          })
-      )
+      const paths = [...new Set(acceptedFiles.map(f => getParentPathFromFilePath(f.path)))]
+      const totalUploadSize = acceptedFiles.reduce((sum, f) => sum += f.size, 0)
 
-      await storageApiClient.uploadBucketObjects(
-        bucketId,
-        filesParam,
-        path,
-        undefined,
-        1,
-        cancelToken,
-        undefined,
-        (progressEvent: { loaded: number; total: number }) => {
-          updateToast(toastId, {
-            ...toastParams,
-            progress: Math.ceil(
-              (progressEvent.loaded / progressEvent.total) * 100
-            )
-          })
-        }
-      )
+      let uploadedSize = 0
+      for (const path of paths) {
+        const filesToUpload = acceptedFiles.filter((f => getParentPathFromFilePath(f.path) === path))
+        const batchSize = filesToUpload.reduce((sum, f) => sum += f.size, 0)
+        // prevent unsafe references warning on uploadedSize
+        const uploadedSizeRef = uploadedSize
+        const filesParam = await Promise.all(
+          acceptedFiles
+            .map(async (f) => {
+              const fileData = await readFileAsync(f)
+              return {
+                data: new Blob([fileData], { type: f.type }),
+                fileName: f.name
+              }
+            })
+        )
+        await storageApiClient.uploadBucketObjects(
+          bucketId,
+          filesParam,
+          getPathWithFile(rootUploadPath, path),
+          undefined,
+          1,
+          cancelToken,
+          undefined,
+          (progressEvent: { loaded: number; total: number }) => {
+            updateToast(toastId, {
+              ...toastParams,
+              progress: Math.ceil(
+                ((progressEvent.loaded + uploadedSizeRef) / totalUploadSize) * 100
+              )
+            })
+          }
+        )
+        uploadedSize += batchSize
+      }
+
 
       // setting complete
       updateToast(toastId, {
