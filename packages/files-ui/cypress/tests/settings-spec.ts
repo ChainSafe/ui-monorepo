@@ -161,9 +161,9 @@ describe("Settings", () => {
       })
 
       // ensure the correct files sharing key is being copied to the clipboard
-      settingsPage.filesSharingKetLabel().click()
+      settingsPage.filesSharingKeyLabel().click()
       cy.window().its("navigator.clipboard").invoke("readText").then((text) => {
-        settingsPage.filesSharingKetLabel().should((element) => {
+        settingsPage.filesSharingKeyLabel().should((element) => {
           const filesSharingKey = element.text().split("...")
           expect(text.startsWith(filesSharingKey[0])).to.be.true
           expect(text.endsWith(filesSharingKey[1])).to.be.true
