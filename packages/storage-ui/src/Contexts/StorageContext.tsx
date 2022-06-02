@@ -346,7 +346,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         // prevent unsafe references warning on uploadedSize
         const uploadedSizeRef = uploadedSize
         const filesParam = await Promise.all(
-          acceptedFiles
+          filesToUpload
             .map(async (f) => {
               const fileData = await readFileAsync(f)
               return {
@@ -355,6 +355,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
               }
             })
         )
+
         await storageApiClient.uploadBucketObjects(
           bucketId,
           filesParam,
