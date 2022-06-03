@@ -76,6 +76,7 @@ const DisplayView = () => {
         <div
           className={classes.container}
           id="display"
+          data-cy="label-display-header"
         >
           <Typography
             variant="h3"
@@ -103,6 +104,7 @@ const DisplayView = () => {
               >
                 <label className={clsx(classes.themeBox, classes.themeBoxDark)}>
                   <RadioInput
+                    testId="dark-theme"
                     value='dark'
                     label={t`Dark Theme`}
                     onChange={(e) => setTheme(e.target.value)}
@@ -120,6 +122,7 @@ const DisplayView = () => {
               >
                 <label className={clsx(classes.themeBox, classes.themeBoxLight)}>
                   <RadioInput
+                    testId="light-theme"
                     value='light'
                     label={t`Light Theme`}
                     onChange={(e) => setTheme(e.target.value)}
