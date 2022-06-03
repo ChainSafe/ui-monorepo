@@ -96,10 +96,11 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
 
   const onSubmit = useCallback(async (values, helpers) => {
     if (!bucket) return
+
     helpers.setSubmitting(true)
     try {
       close()
-      await values.files.length && uploadFiles(bucket.id, values.files, currentPath)
+      values.files.length && await uploadFiles(bucket.id, values.files, currentPath)
 
       //create empty dir
       if(emptyFolders.length){
@@ -110,11 +111,12 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
         await Promise.all(allDirs)
           .catch(console.error)
       }
-      refreshContents && refreshContents()
       helpers.resetForm()
     } catch (error: any) {
       console.error(error)
     }
+
+    refreshContents && refreshContents()
     helpers.setSubmitting(false)
   }, [bucket, close, uploadFiles, currentPath, emptyFolders, refreshContents, storageApiClient])
 
