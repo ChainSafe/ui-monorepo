@@ -22,6 +22,7 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
+import getFilesFromDataTransferItems from "../../Utils/getFilesFromDataTransferItems"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { storageBuckets, uploadFiles, getStorageSummary, downloadFile } = useStorage()
@@ -182,28 +183,15 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       return
     }
 
-    let hasFolder = false
-    for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
-        hasFolder = true
-      }
-    }
-    if (hasFolder) {
-      addToast({
-        title: t`Folder uploads are currently not supported`,
-        type: "error"
-      })
-    } else {
-      uploadFiles(bucket.id, files, path)
-        .then(() => refreshContents())
-        .catch(console.error)
-    }
+    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
+    uploadFiles(bucket.id, flattenedFiles, path)
+      .then(() => refreshContents())
+      .catch(console.error)
   }, [bucket, accountRestricted, addToast, uploadFiles, refreshContents])
 
   const viewFolder = useCallback((toView: ISelectedFile) => {
     const fileSystemItem = pathContents.find(f => f.cid === toView.cid && f.name === toView.name)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-
       redirect(ROUTE_LINKS.Bucket(bucketId, getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
   }, [currentPath, pathContents, redirect, bucketId])
