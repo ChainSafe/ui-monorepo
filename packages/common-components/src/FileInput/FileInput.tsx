@@ -151,6 +151,8 @@ const FileInput = ({
   useEffect(() => {
     // reset the field on load
     helpers.setValue([])
+  // needed to avoid an infinite loop
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onDrop = useCallback(
