@@ -1,7 +1,7 @@
 import { Button, FileInput } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Form, useFormik, FormikProvider } from "formik"
 import { array, object } from "yup"
 import CustomModal from "../../Elements/CustomModal"
@@ -100,6 +100,10 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
           return uploadSize < availableStorage
         })
   }), [bucket, storageSummary])
+
+  useEffect(() => {
+    setEmptyFolders([])
+  }, [])
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)

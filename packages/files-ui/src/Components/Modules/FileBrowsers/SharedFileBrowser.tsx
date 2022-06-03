@@ -232,6 +232,7 @@ const SharedFileBrowser = () => {
       })
       return
     }
+
     const flattenedFiles = await getFilesAndEmptyDirFromDataTransferItems(fileItems)
     flattenedFiles.files?.length && await uploadFiles(bucket, flattenedFiles.files, path)
 
