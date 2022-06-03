@@ -345,6 +345,7 @@ const ProfileView = () => {
                       variant="body1"
                       component="p"
                       className={classes.publicAddress}
+                      data-cy="label-profile-wallet-address"
                     >
                       {centerEllipsis(profile.publicAddress, 16)}
                     </Typography>
@@ -379,6 +380,7 @@ const ProfileView = () => {
                       variant="body1"
                       component="p"
                       className={classes.publicAddress}
+                      data-cy="label-profile-files-sharing-key"
                     >
                       {centerEllipsis(compressedPubKey, 16)}
                     </Typography>

@@ -13,6 +13,8 @@ export const settingsPage = {
   // profile tab
   profileTabButton: () => cy.get("[data-testid=tab-profile]"),
   profileTabHeader: () => cy.get("[data-cy=label-profile-header]"),
+  walletAddressLabel: () => cy.get("[data-cy=label-profile-wallet-address]"),
+  filesSharingKetLabel: () => cy.get("[data-cy=label-profile-files-sharing-key]"),
   firstNameInput: () => cy.get("[data-cy=input-profile-firstname]"),
   lastNameInput: () => cy.get("[data-cy=input-profile-lastname]"),
   saveChangesButton: () => cy.get("[data-cy=button-save-changes]"),
