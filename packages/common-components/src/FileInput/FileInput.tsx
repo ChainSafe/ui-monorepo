@@ -119,7 +119,7 @@ interface IFileInputProps extends DropzoneOptions {
     error?: string
   }
   onFileNumberChange: (filesNumber: number) => void
-  onEmptyFolderChange?: (emptyFolderPaths: string[]) => void
+  onEmptyFolderPathsChange?: (emptyFolderPaths: string[]) => void
   moreFilesLabel: string
   testId?: string
 }
@@ -134,7 +134,7 @@ const FileInput = ({
   maxFileSize,
   classNames,
   onFileNumberChange,
-  onEmptyFolderChange,
+  onEmptyFolderPathsChange,
   moreFilesLabel,
   testId,
   ...props
@@ -207,7 +207,7 @@ const FileInput = ({
     // we support folder upload and empty folders
     if(event.dataTransfer){
       const res = await getFilesAndEmptyDirFromDataTransferItems(event.dataTransfer.items)
-      onEmptyFolderChange && res.emptyDirPaths?.length && onEmptyFolderChange(res.emptyDirPaths)
+      onEmptyFolderPathsChange && res.emptyDirPaths?.length && onEmptyFolderPathsChange(res.emptyDirPaths)
       return res.files as File[] || []
     } else {
       // this is a file list using the input

@@ -85,7 +85,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const { currentPath, refreshContents, bucket } = useFileBrowser()
   const { storageSummary, uploadFiles } = useFiles()
   const { filesApiClient } = useFilesApi()
-  const [emptyFolderToCreate, setEmptyFolderToCreate] = useState<string[]>([])
+  const [emptyFolders, setEmptyFolders] = useState<string[]>([])
 
   const UploadSchema = useMemo(() => object().shape({
     files: array().required(t`Please select a file to upload`)
@@ -111,20 +111,28 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
     helpers.setSubmitting(true)
     try {
       close()
-      await uploadFiles(bucket, values.files, currentPath)
+      await values.files.length && uploadFiles(bucket, values.files, currentPath)
 
-      //create empty folders
-      emptyFolderToCreate.forEach(async (folderPath) => {
-        await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+      // //create empty folders
+      // emptyFolders.forEach(async (folderPath) => {
+      //   await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+      // })
+      //create empty dir
+      if(emptyFolders.length){
+        const allDirs = emptyFolders.map((folderPath) =>
+          filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+        )
 
-      })
+        await Promise.all(allDirs)
+          .catch(console.error)
+      }
       refreshContents && refreshContents()
       helpers.resetForm()
     } catch (error: any) {
       console.error(error)
     }
     helpers.setSubmitting(false)
-  }, [bucket, close, uploadFiles, currentPath, emptyFolderToCreate, refreshContents, filesApiClient])
+  }, [bucket, close, uploadFiles, currentPath, emptyFolders, refreshContents, filesApiClient])
 
   const formik = useFormik({
     initialValues: { files: [] },
@@ -159,7 +167,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
             maxSize={2 * 1024 ** 3}
             name="files"
             onFileNumberChange={onFileNumberChange}
-            onEmptyFolderChange={setEmptyFolderToCreate}
+            onEmptyFolderPathsChange={setEmptyFolders}
             testId="fileUpload"
           />
           <footer className={classes.footer}>

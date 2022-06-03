@@ -184,14 +184,19 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       return
     }
     const flattenedFiles = await getFilesAndEmptyDirFromDataTransferItems(fileItems)
-    await uploadFiles(bucket, flattenedFiles?.files || [], path)
+    flattenedFiles.files?.length && await uploadFiles(bucket, flattenedFiles.files, path)
 
     //create empty dir
-    flattenedFiles?.emptyDirPaths?.forEach(async (folderPath) => {
-      await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+    if(flattenedFiles?.emptyDirPaths?.length){
+      const allDirs = flattenedFiles.emptyDirPaths.map((folderPath) =>
+        filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+      )
 
-    })
-  }, [bucket, accountRestricted, storageSummary, uploadFiles, addToast, filesApiClient, currentPath])
+      Promise.all(allDirs)
+        .then(() => refreshContents(true))
+        .catch(console.error)
+    }
+  }, [bucket, accountRestricted, storageSummary, uploadFiles, refreshContents, addToast, filesApiClient, currentPath])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)

@@ -233,14 +233,19 @@ const SharedFileBrowser = () => {
       return
     }
     const flattenedFiles = await getFilesAndEmptyDirFromDataTransferItems(fileItems)
-    await uploadFiles(bucket, flattenedFiles?.files || [], path)
+    flattenedFiles.files?.length && await uploadFiles(bucket, flattenedFiles.files, path)
 
-    // create any empty dir
-    flattenedFiles?.emptyDirPaths?.forEach(async (folderPath) => {
-      await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+    //create empty dir
+    if(flattenedFiles?.emptyDirPaths?.length){
+      const allDirs = flattenedFiles.emptyDirPaths.map((folderPath) =>
+        filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+      )
 
-    })
-  }, [bucket, accountRestricted, storageSummary, uploadFiles, addToast, filesApiClient, currentPath])
+      Promise.all(allDirs)
+        .then(() => refreshContents(true))
+        .catch(console.error)
+    }
+  }, [bucket, accountRestricted, storageSummary, uploadFiles, addToast, filesApiClient, currentPath, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],
