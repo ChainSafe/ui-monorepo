@@ -14,7 +14,7 @@ export const settingsPage = {
   profileTabButton: () => cy.get("[data-testid=tab-profile]"),
   profileTabHeader: () => cy.get("[data-cy=label-profile-header]"),
   walletAddressLabel: () => cy.get("[data-cy=label-profile-wallet-address]"),
-  filesSharingKetLabel: () => cy.get("[data-cy=label-profile-files-sharing-key]"),
+  filesSharingKeyLabel: () => cy.get("[data-cy=label-profile-files-sharing-key]"),
   firstNameInput: () => cy.get("[data-cy=input-profile-firstname]"),
   lastNameInput: () => cy.get("[data-cy=input-profile-lastname]"),
   saveChangesButton: () => cy.get("[data-cy=button-save-changes]"),
@@ -23,6 +23,12 @@ export const settingsPage = {
   usernameErrorLabel: () => cy.get("[data-cy=input-profile-username] span.error"),
   setUsernameButton: () => cy.get("[data-cy=button-set-username]"),
   usernamePresentInput: () => cy.get("[data-cy=input-profile-username-present]"),
+
+  // display tab
+  displayTabButton: () => cy.get("[data-testid=tab-display]"),
+  displayTabHeader: () => cy.get("[data-cy=label-display-header]"),
+  darkThemeLabel: () => cy.get("[data-testid=radio-input-dark-theme]"),
+  lightThemeLabel: () => cy.get("[data-testid=radio-input-light-theme]"),
 
   // security tab
   securityTabButton: () => cy.get("[data-testid=tab-security]"),
