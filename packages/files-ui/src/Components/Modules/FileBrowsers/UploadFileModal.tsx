@@ -113,10 +113,6 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
       close()
       await values.files.length && uploadFiles(bucket, values.files, currentPath)
 
-      // //create empty folders
-      // emptyFolders.forEach(async (folderPath) => {
-      //   await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
-      // })
       //create empty dir
       if(emptyFolders.length){
         const allDirs = emptyFolders.map((folderPath) =>
