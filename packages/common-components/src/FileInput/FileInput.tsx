@@ -148,6 +148,11 @@ const FileInput = ({
     onFileNumberChange && onFileNumberChange(value.length)
   }, [onFileNumberChange, value.length])
 
+  useEffect(() => {
+    // reset the field on load
+    helpers.setValue([])
+  }, [])
+
   const onDrop = useCallback(
     async (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
       const filtered = acceptedFiles.filter((file) =>
@@ -196,10 +201,16 @@ const FileInput = ({
   })
 
   async function getFilesFromEvent(event: any) {
-    const res = await getFilesAndEmptyDirFromDataTransferItems(event.dataTransfer.items)
-    onEmptyFolderChange && res.emptyDirPaths?.length && onEmptyFolderChange(res.emptyDirPaths)
-
-    return res.files as File[] || []
+    // this is a drag n drop
+    // we support folder upload and empty folders
+    if(event.dataTransfer){
+      const res = await getFilesAndEmptyDirFromDataTransferItems(event.dataTransfer.items)
+      onEmptyFolderChange && res.emptyDirPaths?.length && onEmptyFolderChange(res.emptyDirPaths)
+      return res.files as File[] || []
+    } else {
+      // this is a file list using the input
+      return event.target.files as File[]
+    }
   }
 
   const removeItem = (i: number) => {
@@ -240,7 +251,7 @@ const FileInput = ({
                     className={clsx(classes.item, classNames?.item)}
                     key={i}
                   >
-                    <span className={classes.itemText}>{`${file.path}${file.name}`}</span>
+                    <span className={classes.itemText}>{`${file.path || ""}${file.name}`}</span>
                     <Button
                       testId="remove-from-file-list"
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}

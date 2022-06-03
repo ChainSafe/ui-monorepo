@@ -129,6 +129,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const formik = useFormik({
     initialValues: { files: [] },
     validationSchema: UploadSchema,
+    enableReinitialize: true,
     onSubmit
   })
 
