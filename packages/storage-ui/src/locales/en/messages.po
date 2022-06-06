@@ -340,9 +340,6 @@ msgstr "Folder Name"
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
-msgid "Folder uploads are currently not supported"
-msgstr "Folder uploads are currently not supported"
-
 msgid "Free"
 msgstr "Free"
 
