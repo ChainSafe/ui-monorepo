@@ -17,7 +17,7 @@ const useStyles = makeStyles(({ palette, typography, overrides }: ITheme) =>
   })
 )
 
-export interface ITableHeadProps {
+export interface ITableHeadProps extends React.HTMLAttributes<HTMLTableSectionElement>{
   className?: string
   children: ReactNode | ReactNode[]
 }
