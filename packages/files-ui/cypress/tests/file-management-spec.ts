@@ -541,7 +541,7 @@ describe("File management", () => {
 
     })
 
-    it("can see folder on top of the table and file above folder", () => {
+    it("can see folder on top of the table and folder above files", () => {
       const fileName = "chainsafe.png"
       cy.web3Login({ clearCSFBucket: true })
 
