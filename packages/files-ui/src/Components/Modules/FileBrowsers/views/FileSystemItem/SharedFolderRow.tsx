@@ -154,9 +154,17 @@ interface Props {
   openSharedFolder: (bucketId: string) => void
   onEditSharedFolder: () => void
   handleDeleteSharedFolder: () => void
+  handleContextMenu: (e: React.MouseEvent, items?: IMenuItem[]) => void
 }
 
-const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteSharedFolder, onEditSharedFolder }: Props) => {
+const SharedFolderRow = ({
+  bucket,
+  handleRename,
+  openSharedFolder,
+  handleDeleteSharedFolder,
+  handleContextMenu,
+  onEditSharedFolder
+}: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
@@ -290,6 +298,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         data-cy="row-shared-folder-item"
         className={classes.tableRow}
         type="grid"
+        onContextMenu={(e) => handleContextMenu(e, menuItems)}
       >
         {desktop &&
         <TableCell
