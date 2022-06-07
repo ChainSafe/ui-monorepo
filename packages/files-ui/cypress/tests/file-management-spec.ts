@@ -540,5 +540,24 @@ describe("File management", () => {
       })
 
     })
+
+    it("can see folder on top of the table and file above folder", () => {
+      const fileName = "chainsafe.png"
+      cy.web3Login({ clearCSFBucket: true })
+
+      // upload a file and create a folder
+      apiTestHelper.createFolder(folderPath)
+      homePage.uploadFile(`../fixtures/uploadedFiles/${fileName}`)
+      homePage.fileItemRow().should("have.length", 2)
+
+      // ensure folder is on top by default
+      homePage.fileItemName().eq(0).should("have.text", folderName)
+      homePage.fileItemName().eq(1).should("have.text", fileName)
+
+      // ensure folder is on top sorting by name in ascending order
+      homePage.fileNameColumnHeader().click()
+      homePage.fileItemName().eq(0).should("have.text", folderName)
+      homePage.fileItemName().eq(1).should("have.text", fileName)
+    })
   })
 })
