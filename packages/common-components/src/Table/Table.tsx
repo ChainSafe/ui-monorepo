@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode, TableHTMLAttributes } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 
@@ -57,7 +57,7 @@ const useStyles = makeStyles(
     })
 )
 
-export interface ITableProps {
+export interface ITableProps extends TableHTMLAttributes<HTMLTableElement> {
   className?: string
   children: ReactNode | ReactNode[]
   striped?: boolean
