@@ -67,8 +67,14 @@ msgstr "Add card"
 msgid "Add credit card"
 msgstr "Add credit card"
 
+msgid "Add item"
+msgstr "Add item"
+
 msgid "Add more files"
 msgstr "Add more files"
+
+msgid "Add property"
+msgstr "Add property"
 
 msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
 msgstr "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
