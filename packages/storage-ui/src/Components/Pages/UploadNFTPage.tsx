@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react"
+import React, { ReactNode, useCallback, useState } from "react"
 import { Button, Divider, FileInput, FormikTextInput, SelectInput, TextInput, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useThemeSwitcher, ITheme } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
@@ -42,6 +42,18 @@ const ObjectInput: React.FC<{ obj: any; namespace: string }> =
     const [newFieldType, setNewFieldType] = useState<FieldType>("value")
     const formikBag = useFormikContext()
 
+    const onAddPropertyClick = useCallback(() => {
+      const value = (newFieldType === "array")
+        ? []
+        : (newFieldType === "file")
+          ? null
+          : (newFieldType === "object")
+            ? {}
+            : ""
+
+      formikBag.setFieldValue(`${namespace}.${newFieldName}`, value)
+    }, [formikBag, namespace, newFieldName, newFieldType])
+
     return <>
       <div style={{ border: "1px #000 solid" }}>
         <Typography>{namespace}</Typography><br />
@@ -71,14 +83,10 @@ const ObjectInput: React.FC<{ obj: any; namespace: string }> =
         />
         <Button
           type="button"
-          onClick={() => formikBag.setFieldValue(`${namespace}.${newFieldName}`, (newFieldType === "array")
-            ? []
-            : (newFieldType === "file")
-              ? null
-              : (newFieldType === "object")
-                ? {}
-                : "")
-          }>Add property</Button>
+          onClick={onAddPropertyClick}
+        >
+          <Trans>Add property</Trans>
+        </Button>
       </div>
     </>
   }
@@ -88,8 +96,17 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
     const [newFieldType, setNewFieldType] = useState<FieldType>("value")
 
     return <FieldArray
-      name={`${namespace}`}>
-      {({ push }) => {
+      name={`${namespace}`}
+      render={({ push }) => {
+
+        const onAddItemClick = () => newFieldType === "array"
+          ? push([])
+          : (newFieldType === "file")
+            ? push(null)
+            : (newFieldType === "object")
+              ? push({})
+              : push("")
+
         return <div style={{ border: "1px #000 solid" }}>
           <Typography>{namespace}</Typography>
           {obj.map((item: any, index: number) => generateFormFields(item, `${namespace}[${index}]`))}
@@ -112,18 +129,15 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
             label="Item type" />
           <Button
             type="button"
-            onClick={() => {
-              (newFieldType === "array")
-                ? push([])
-                : (newFieldType === "file")
-                  ? push(null)
-                  : (newFieldType === "object")
-                    ? push({})
-                    : push("")
-            }}>Add item</Button>
+            onClick={onAddItemClick}>
+            <Trans>
+        Add item
+            </Trans>
+          </Button>
         </div>
+
       }}
-    </FieldArray>
+    />
   }
 
 const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNode | undefined)[] => {
@@ -131,7 +145,8 @@ const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNod
     return <FormikTextInput
       name={namespace}
       label={namespace}
-      key={namespace} />
+      key={namespace}
+    />
   }
 
   // This is a file
@@ -141,7 +156,8 @@ const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNod
       label={namespace}
       moreFilesLabel={""}
       maxFiles={1}
-      key={namespace} />
+      key={namespace}
+    />
   }
 
   // This is an Array
@@ -149,7 +165,8 @@ const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNod
     return <ArrayInput
       obj={val}
       namespace={namespace || ""}
-      key={namespace} />
+      key={namespace}
+    />
   }
 
   // This is an object but not an array
@@ -157,7 +174,8 @@ const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNod
     return <ObjectInput
       obj={val}
       namespace={`${namespace}`}
-      key={namespace} />
+      key={namespace}
+    />
   }
   return undefined
 }
@@ -213,7 +231,9 @@ const CreateNFTPage: React.FC = () => {
           <FormikTextInput name='decimals' />
           <FormikImageInput name='image' />
           {generateFormFields(formikProps.values.properties, "properties")}
-          <Button type="submit"><Trans>Upload</Trans></Button>
+          <Button type="submit">
+            <Trans>Upload</Trans>
+          </Button>
         </Form>
       </FormikProvider>
     </div>
