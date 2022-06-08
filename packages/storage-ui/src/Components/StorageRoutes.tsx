@@ -7,7 +7,7 @@ import BucketsPage from "./Pages/BucketsPage"
 import SettingsPage from "./Pages/SettingsPage"
 import BucketPage from "./Pages/BucketPage"
 import BillingHistory from "./Pages/BillingHistory"
-import CreateNFTPage from "./Pages/UploadNFT"
+import UploadNFTPage from "./Pages/UploadNFTPage"
 
 export const SETTINGS_BASE = "/settings"
 export const SETTINGS_PATHS = ["apiKeys", "plan"] as const
@@ -89,7 +89,7 @@ const StorageRoutes = () => {
         exact
         path={ROUTE_LINKS.UploadNFT}
         isAuthorized={isLoggedIn}
-        component={CreateNFTPage}
+        component={UploadNFTPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
     </Switch>
