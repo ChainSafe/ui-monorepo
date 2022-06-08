@@ -6,6 +6,7 @@ export const navigationMenu = {
   cidsNavButton: () => cy.get("[data-cy=cids-nav]"),
   bucketsNavButton: () => cy.get("[data-cy=buckets-nav]"),
   settingsNavButton: () => cy.get("[data-cy=settings-nav]"),
+  docsNavButton: () => cy.get("[data-cy=docs-nav]"),
   spaceUsedLabel: () => cy.get("[data-cy=label-space-used]"),
   spaceUsedProgressBar: () => cy.get("[data-cy=progress-bar-space-used]"),
   // mobile view only

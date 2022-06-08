@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { DeleteSvg, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow, useHistory  } from "@chainsafe/common-components"
+import { DeleteSvg, formatBytes, IMenuItem, MenuDropdown, MoreIcon, TableCell, TableRow, useHistory  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { Bucket } from "@chainsafe/files-api-client"
 import { CSSTheme } from "../../Themes/types"
@@ -63,12 +63,25 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
 )
 interface Props {
   bucket: Bucket
+  handleContextMenu: (e: React.MouseEvent, items?: IMenuItem[]) => void
 }
 
-const BucketRow = ({ bucket }: Props) => {
+const BucketRow = ({ bucket, handleContextMenu }: Props) => {
   const classes = useStyles()
   const { removeBucket } = useStorage()
   const { redirect } = useHistory()
+  const menuItems = useMemo(() => [{
+    contents: (
+      <>
+        <DeleteSvg className={classes.menuIcon} />
+        <span data-cy="menu-delete-bucket">
+          <Trans>Delete bucket</Trans>
+        </span>
+      </>
+    ),
+    onClick: () => removeBucket(bucket.id)
+  }], [bucket, classes, removeBucket])
+
   return (
     <TableRow
       type="grid"
@@ -76,6 +89,7 @@ const BucketRow = ({ bucket }: Props) => {
         deleting: bucket.status === "deleting"
       })}
       data-cy="row-bucket-item"
+      onContextMenu={(e) => handleContextMenu(e, menuItems)}
     >
       <TableCell
         className={classes.name}
@@ -95,17 +109,7 @@ const BucketRow = ({ bucket }: Props) => {
           testId='bucket-kebab'
           animation="none"
           anchor={"bottom-right"}
-          menuItems={[{
-            contents: (
-              <>
-                <DeleteSvg className={classes.menuIcon} />
-                <span data-cy="menu-delete-bucket">
-                  <Trans>Delete bucket</Trans>
-                </span>
-              </>
-            ),
-            onClick: () => removeBucket(bucket.id)
-          }]}
+          menuItems={menuItems}
           classNames={{
             icon: classes.dropdownIcon,
             options: classes.dropdownOptions,
