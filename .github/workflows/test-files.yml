@@ -28,8 +28,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
 
-      - name: Install and Shows git version
-        run: apt-get install git && git --version
+      - name: Install and show git version
+        run: apt-get -y install git && git --version
         id: git-version
 
       # Install NPM dependencies, cache them correctly
