@@ -41,6 +41,7 @@ export const ROUTE_LINKS = {
     // bucketId should not have a / at the end
     // rawCurrentPath can be empty, or /
     const adjustedRawCurrentPath = !rawCurrentPath ? "/" : rawCurrentPath
+
     return `/shared/${bucketId}${adjustedRawCurrentPath}`
   },
   DiscordInvite: "https://discord.gg/zAEY37fNb2",
