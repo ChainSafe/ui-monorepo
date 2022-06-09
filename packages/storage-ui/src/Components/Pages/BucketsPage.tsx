@@ -6,7 +6,9 @@ import {
   FormikRadioInput,
   FormikTextInput,
   Grid,
+  IMenuItem,
   PlusIcon,
+  PlusSvg,
   Table,
   TableBody,
   TableHead,
@@ -27,6 +29,7 @@ import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Bucket, FileSystemType } from "@chainsafe/files-api-client"
 import { Helmet } from "react-helmet-async"
+import AnchorMenu, { AnchorMenuPosition } from "../UI-components/AnchorMenu"
 
 export const desktopGridSettings = "3fr 110px 150px 70px !important"
 export const mobileGridSettings = "3fr 100px 100px 70px !important"
@@ -106,6 +109,14 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
         display: "flex",
         flexDirection: "row"
       }
+    },
+    menuIcon: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 20,
+      marginRight: constants.generalUnit * 1.5,
+      fill: constants.previewModal.menuItemIconColor
     }
   })
 )
@@ -118,6 +129,22 @@ const BucketsPage = () => {
   const [bucketToRemove, setBucketToRemove] = useState<Bucket | undefined>()
   const [isRemovingBucket, setIsRemovingBucket] = useState(false)
   const bucketsToShow = useMemo(() => storageBuckets.filter(b => b.status === "created"), [storageBuckets])
+  const [contextMenuPosition, setContextMenuPosition] = useState<AnchorMenuPosition | null>(null)
+  const [contextMenuOptions, setContextMenuOptions] = useState<IMenuItem[]>([])
+  const generalContextMenuOptions: IMenuItem[] = useMemo(() => [
+    {
+      contents: (
+        <>
+          <PlusSvg className={classes.menuIcon} />
+          <span>
+            <Trans>Create Bucket</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setIsCreateBucketModalOpen(true)
+    }
+  ], [classes])
+
   const bucketNameValidationSchema = useMemo(
     () => bucketNameValidator(bucketsToShow.map(b => b.name))
     , [bucketsToShow]
@@ -156,6 +183,19 @@ const BucketsPage = () => {
     setIsCreateBucketModalOpen(false)
   }, [formik])
 
+  const handleContextMenu = useCallback((e: React.MouseEvent, options?: IMenuItem[]) => {
+    e.preventDefault()
+    if(options){
+      setContextMenuOptions(options)
+    } else {
+      setContextMenuOptions(generalContextMenuOptions)
+    }
+    setContextMenuPosition({
+      left: e.clientX - 2,
+      top: e.clientY - 4
+    })
+  }, [generalContextMenuOptions])
+
   return (
     <div className={classes.root}>
       <Helmet>
@@ -164,6 +204,7 @@ const BucketsPage = () => {
       <header
         className={classes.header}
         data-cy="header-buckets"
+        onContextMenu={handleContextMenu}
       >
         <Typography variant='h1'>
           <Trans>
@@ -182,12 +223,22 @@ const BucketsPage = () => {
           </Button>
         </div>
       </header>
+      {contextMenuPosition && (
+        <AnchorMenu
+          options={contextMenuOptions}
+          onClose={() => setContextMenuPosition(null)}
+          anchorPosition={contextMenuPosition}
+        />
+      )}
       <Table
         fullWidth={true}
         striped={true}
         hover={true}
       >
-        <TableHead className={classes.tableHead}>
+        <TableHead
+          className={classes.tableHead}
+          onContextMenu={handleContextMenu}
+        >
           <TableRow
             type="grid"
             className={classes.tableRow}
@@ -223,6 +274,7 @@ const BucketsPage = () => {
                 bucket={bucket}
                 key={bucket.id}
                 onRemoveBucket={setBucketToRemove}
+                handleContextMenu={handleContextMenu}
               />
             )}
         </TableBody>
