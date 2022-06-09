@@ -127,7 +127,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
 
   const onFormikValidate = useCallback(({ files }: UploadedFiles) => {
 
-    if (files.length === 0, isTouched) {
+    if (files.length === 0 && isTouched) {
       return { files: t`Please select a file to upload` }
     }
 
