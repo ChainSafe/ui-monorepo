@@ -27,8 +27,10 @@ jobs:
           key: ${{ runner.os }}-node_modules-files-build-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
-      - run: sudo apt install git-all
-      - run: git --version
+
+      - name: Shows git version
+        run: sudo apt install git-all && git --version
+
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
