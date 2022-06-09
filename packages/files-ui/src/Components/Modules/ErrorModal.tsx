@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React from "react"
 import { Button, Modal, Typography } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
@@ -14,7 +13,7 @@ const ErrorModal = ({ error, componentStack, resetError }: Props) => {
 
   const generalStyle = {
     margin: "1rem",
-    backgrounColor: "var(--gray1)",
+    backgroundColor: "var(--gray1)",
     color: "var(--gray9)"
   }
 
@@ -31,7 +30,7 @@ const ErrorModal = ({ error, componentStack, resetError }: Props) => {
         ...generalStyle
       }}
     >
-        An unexpected error occured
+        An unexpected error occurred
     </Typography>
     <Typography
       component="p"
@@ -45,7 +44,6 @@ const ErrorModal = ({ error, componentStack, resetError }: Props) => {
         Discord
       </a>
     </Typography>
-    <br/>
     <Typography
       variant="h4"
       style={{
@@ -61,11 +59,13 @@ const ErrorModal = ({ error, componentStack, resetError }: Props) => {
         backgroundColor: "ghostwhite",
         padding: "1rem",
         marginTop: 0,
-        color: "black"
+        color: "black",
+        maxHeight: "8rem",
+        overflow: "auto"
       }}
       component="p"
     >
-      <pre>{error?.message.toString()}</pre>
+      {error?.message.toString()}
     </Typography>
     <Typography
       variant="h4"
@@ -80,7 +80,7 @@ const ErrorModal = ({ error, componentStack, resetError }: Props) => {
       component="p"
       style={{
         ...generalStyle,
-        height: "5rem",
+        height: "10rem",
         overflow: "auto",
         padding: "1rem",
         border: "2px solid ghostwhite",
