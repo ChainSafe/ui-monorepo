@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Button,
+  Dialog,
   FormikRadioInput,
   FormikTextInput,
   Grid,
@@ -24,7 +25,7 @@ import { useCallback } from "react"
 import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
-import { FileSystemType } from "@chainsafe/files-api-client"
+import { Bucket, FileSystemType } from "@chainsafe/files-api-client"
 import { Helmet } from "react-helmet-async"
 
 export const desktopGridSettings = "3fr 110px 150px 70px !important"
@@ -111,9 +112,11 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
 
 const BucketsPage = () => {
   const classes = useStyles()
-  const { storageBuckets, createBucket, refreshBuckets } = useStorage()
+  const { storageBuckets, createBucket, refreshBuckets, removeBucket } = useStorage()
   const { accountRestricted } = useStorageApi()
   const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
+  const [bucketToRemove, setBucketToRemove] = useState<Bucket | undefined>()
+  const [isRemovingBucket, setIsRemovingBucket] = useState(false)
   const bucketsToShow = useMemo(() => storageBuckets.filter(b => b.status === "created"), [storageBuckets])
   const bucketNameValidationSchema = useMemo(
     () => bucketNameValidator(bucketsToShow.map(b => b.name))
@@ -210,7 +213,7 @@ const BucketsPage = () => {
             >
               <Trans>Size</Trans>
             </TableHeadCell>
-            <TableHeadCell>{/* Menu */}</TableHeadCell>
+            <TableHeadCell />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -219,6 +222,7 @@ const BucketsPage = () => {
               <BucketRow
                 bucket={bucket}
                 key={bucket.id}
+                onRemoveBucket={setBucketToRemove}
               />
             )}
         </TableBody>
@@ -318,6 +322,25 @@ const BucketsPage = () => {
           </FormikProvider>
         </div>
       </CustomModal>
+      <Dialog
+        active={!!bucketToRemove}
+        reject={() => setBucketToRemove(undefined)}
+        accept={async () => {
+          if (!bucketToRemove) return
+          setIsRemovingBucket(true)
+          removeBucket(bucketToRemove.id)
+            .catch(console.error)
+            .finally(() => {
+              setBucketToRemove(undefined)
+              setIsRemovingBucket(false)
+            })
+        }}
+        requestMessage={t`You are about to delete bucket - ${bucketToRemove?.name}`}
+        rejectText = {t`Cancel`}
+        acceptText = {t`Delete`}
+        acceptButtonProps={{ loading: isRemovingBucket, disabled: isRemovingBucket }}
+        rejectButtonProps={{ disabled: isRemovingBucket }}
+      />
     </div>
   )
 }

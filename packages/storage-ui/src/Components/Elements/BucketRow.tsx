@@ -4,7 +4,6 @@ import { DeleteSvg, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow, us
 import { Trans } from "@lingui/macro"
 import { Bucket } from "@chainsafe/files-api-client"
 import { CSSTheme } from "../../Themes/types"
-import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings }  from "../Pages/BucketsPage"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import clsx from "clsx"
@@ -63,12 +62,13 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
 )
 interface Props {
   bucket: Bucket
+  onRemoveBucket: (bucket: Bucket) => void
 }
 
-const BucketRow = ({ bucket }: Props) => {
+const BucketRow = ({ bucket, onRemoveBucket }: Props) => {
   const classes = useStyles()
-  const { removeBucket } = useStorage()
   const { redirect } = useHistory()
+
   return (
     <TableRow
       type="grid"
@@ -104,7 +104,7 @@ const BucketRow = ({ bucket }: Props) => {
                 </span>
               </>
             ),
-            onClick: () => removeBucket(bucket.id)
+            onClick: () => onRemoveBucket(bucket)
           }]}
           classNames={{
             icon: classes.dropdownIcon,
