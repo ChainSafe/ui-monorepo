@@ -28,9 +28,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
 
-      - name: Shows git version
-        run: git --version
-        id: git-install
+      - name: Install and Shows git version
+        run: sudo apt-get install git && git --version
+        id: git-version
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
