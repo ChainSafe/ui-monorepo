@@ -29,7 +29,8 @@ jobs:
             ${{ runner.os }}-node_modules-build-
 
       - name: Shows git version
-        run: sudo apt install git-all && git --version
+        run: git --version
+        id: git-install
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
