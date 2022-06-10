@@ -69,7 +69,7 @@ export function getRelativePath(path: string, parentPath: string) {
 }
 
 // /path/to/somewhere/1.txt -> /path/to/somewhere
-export function getParentPathFromFilePath(filePath: string) {
+export function getParentPathFromFilePath(filePath = "") {
   const parentPath = filePath.substring(0, filePath.lastIndexOf("/"))
   if (!parentPath) return "/"
   return parentPath
