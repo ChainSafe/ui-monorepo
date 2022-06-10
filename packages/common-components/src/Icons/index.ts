@@ -84,6 +84,7 @@ export { default as SubscriptionPlanIcon, SubscriptionSvg } from "./icons/Subscr
 export { default as TableIcon, TableSvg } from "./icons/Table.icon"
 export { default as UpdateIcon, UpdateSvg } from "./icons/Update.icon"
 export { default as UploadIcon, UploadSvg } from "./icons/Upload.icon"
+export { default as UploadRoundIcon, UploadRoundSvg } from "./icons/UploadRound.icon"
 export { default as UnionpayCardIcon, UnionpayCardSvg } from "./icons/UnionpayCard.icon"
 export { default as UsdcIcon, UsdcSvg } from "./icons/Usdc.icon"
 export { default as UserIcon, UserSvg } from "./icons/User.icon"
