@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToasts, useHistory, useLocation } from "@chainsafe/common-components"
+import { Crumb, useToasts, useHistory, useLocation, getFilesAndEmptyDirFromDataTransferItems } from "@chainsafe/common-components"
 import { useStorage, FileSystemItem } from "../../Contexts/StorageContext"
 import {
   getArrayOfPaths,
@@ -22,7 +22,6 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
-import getFilesFromDataTransferItems from "../../Utils/getFilesFromDataTransferItems"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { storageBuckets, uploadFiles, getStorageSummary, downloadFile } = useStorage()
@@ -183,11 +182,21 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       return
     }
 
-    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
-    uploadFiles(bucket.id, flattenedFiles, path)
-      .then(() => refreshContents())
-      .catch(console.error)
-  }, [bucket, accountRestricted, addToast, uploadFiles, refreshContents])
+    const flattenedFiles = await getFilesAndEmptyDirFromDataTransferItems(fileItems)
+    flattenedFiles.files?.length && await uploadFiles(bucket.id, flattenedFiles.files, path)
+
+    //create empty dir
+    if(flattenedFiles?.emptyDirPaths?.length){
+      const allDirs = flattenedFiles.emptyDirPaths.map((folderPath) =>
+        storageApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+      )
+
+      await Promise.all(allDirs)
+        .catch(console.error)
+    }
+
+    refreshContents(true)
+  }, [bucket, accountRestricted, uploadFiles, addToast, storageApiClient, currentPath, refreshContents])
 
   const viewFolder = useCallback((toView: ISelectedFile) => {
     const fileSystemItem = pathContents.find(f => f.cid === toView.cid && f.name === toView.name)
