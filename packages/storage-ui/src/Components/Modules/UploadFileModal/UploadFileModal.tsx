@@ -1,7 +1,7 @@
 import { Button, FileInput } from "@chainsafe/common-components"
 import { useStorage } from "../../../Contexts/StorageContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { Formik, Form } from "formik"
 import { array, object } from "yup"
 import CustomModal from "../../Elements/CustomModal"
@@ -9,6 +9,8 @@ import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { CSSTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { useStorageApi } from "../../../Contexts/StorageApiContext"
+import { getPathWithFile } from "../../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
   createStyles({
@@ -79,8 +81,14 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles } = useStorage()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
+  const { storageApiClient } = useStorageApi()
+  const [emptyFolders, setEmptyFolders] = useState<string[]>([])
 
   const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
+
+  useEffect(() => {
+    setEmptyFolders([])
+  }, [])
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
@@ -88,17 +96,29 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
 
   const onSubmit = useCallback(async (values, helpers) => {
     if (!bucket) return
+
     helpers.setSubmitting(true)
     try {
       close()
-      await uploadFiles(bucket.id, values.files, currentPath)
-      refreshContents && refreshContents()
+      values.files.length && await uploadFiles(bucket.id, values.files, currentPath)
+
+      //create empty dir
+      if(emptyFolders.length){
+        const allDirs = emptyFolders.map((folderPath) =>
+          storageApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+        )
+
+        await Promise.all(allDirs)
+          .catch(console.error)
+      }
       helpers.resetForm()
     } catch (error: any) {
       console.error(error)
     }
+
+    refreshContents && refreshContents()
     helpers.setSubmitting(false)
-  }, [close, currentPath, uploadFiles, refreshContents, bucket])
+  }, [bucket, close, uploadFiles, currentPath, emptyFolders, refreshContents, storageApiClient])
 
   return (
     <CustomModal
@@ -132,6 +152,7 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
             maxSize={2 * 1024 ** 3}
             name="files"
             onFileNumberChange={onFileNumberChange}
+            onEmptyFolderPathsChange={setEmptyFolders}
             testId="fileUpload"
           />
           <footer className={classes.footer}>

@@ -7,6 +7,7 @@ import { Button } from "../Button"
 import { Typography } from "../Typography"
 import { PlusIcon, CrossIcon } from "../Icons"
 import { ScrollbarWrapper } from "../ScrollbarWrapper"
+import { getFilesAndEmptyDirFromDataTransferItems } from "../utils"
 
 const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   createStyles({
@@ -118,6 +119,7 @@ interface IFileInputProps extends DropzoneOptions {
     error?: string
   }
   onFileNumberChange?: (filesNumber: number) => void
+  onEmptyFolderPathsChange?: (emptyFolderPaths: string[]) => void
   moreFilesLabel: string
   testId?: string
 }
@@ -162,6 +164,7 @@ const FileInput = ({
   maxFileSize,
   classNames,
   onFileNumberChange,
+  onEmptyFolderPathsChange,
   moreFilesLabel,
   testId,
   ...props
@@ -178,6 +181,13 @@ const FileInput = ({
       onFileNumberChange && onFileNumberChange(value ? 1 : 0)
     }
   }, [onFileNumberChange, value])
+
+  useEffect(() => {
+    // reset the field on load
+    helpers.setValue([])
+  // needed to avoid an infinite loop
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onDrop = useCallback(
     async (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
@@ -223,8 +233,22 @@ const FileInput = ({
 
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
-    ...dropZoneProps
+    ...dropZoneProps,
+    getFilesFromEvent
   })
+
+  async function getFilesFromEvent(event: any) {
+    // this is a drag n drop
+    // we support folder upload and empty folders
+    if(event.dataTransfer){
+      const res = await getFilesAndEmptyDirFromDataTransferItems(event.dataTransfer.items)
+      onEmptyFolderPathsChange && res.emptyDirPaths?.length && onEmptyFolderPathsChange(res.emptyDirPaths)
+      return res.files as File[] || []
+    } else {
+      // this is a file list using the input
+      return event.target.files as File[]
+    }
+  }
 
   const removeItem = useCallback((i: number) => {
     let items = value
@@ -232,7 +256,6 @@ const FileInput = ({
     Array.isArray(items)
       ? items.splice(i, 1)
       : items = null
-
     helpers.setValue(items)
   }, [helpers, value])
 
@@ -261,21 +284,21 @@ const FileInput = ({
             data-testid={`list-${testId}`}
             className={clsx(classes.root, classNames?.filelist)}
           >
-            <ScrollbarWrapper className={clsx("scrollbar")}>
+            <ScrollbarWrapper className="scrollbar">
               <ul>
                 {Array.isArray(value)
                   ? value.map((file, i) => (
                     <FileItem
                       key={i}
                       index={i}
-                      fullPath={file.path || ""}
+                      fullPath={`${file.path || ""}${file.name}`}
                       removeItem={removeItem}
                       closeIconClassName={classNames?.closeIcon}
                       itemClassName={classNames?.item}
                     />
                   ))
                   : <FileItem
-                    fullPath={value.path || ""}
+                    fullPath={`${value.path || ""}${value.name}`}
                     removeItem={removeItem}
                     closeIconClassName={classNames?.closeIcon}
                     itemClassName={classNames?.item}
