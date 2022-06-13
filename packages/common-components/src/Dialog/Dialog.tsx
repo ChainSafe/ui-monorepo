@@ -84,6 +84,7 @@ const Dialog: React.FC<IDialogProps> = ({
           onClick={() => reject()}
           variant="dashed"
           size="medium"
+          testId={`reject-${testId}`}
           {...rejectButtonProps}
         >
           {rejectText}
@@ -92,6 +93,7 @@ const Dialog: React.FC<IDialogProps> = ({
           onClick={() => accept()}
           variant="primary"
           size="medium"
+          testId={`confirm-${testId}`}
           {...acceptButtonProps}
         >
           {acceptText}

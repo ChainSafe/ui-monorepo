@@ -58,7 +58,7 @@ type StorageContext = {
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
   createBucket: (name: string, fileSystemType: FileSystemType) => Promise<void>
-  removeBucket: (id: string) => void
+  removeBucket: (id: string) => Promise<void>
   refreshBuckets: () => void
   searchCid: (cid: string) => Promise<PinResult | void>
   onSearch: (searchParams: RefreshPinParams) => void
@@ -302,9 +302,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   }, [storageApiClient, refreshBuckets])
 
   const removeBucket = useCallback((id: string) => {
-    storageApiClient.removeBucket(id)
+    return storageApiClient.removeBucket(id)
       .then(refreshBuckets)
-      .then(Promise.resolve)
       .catch(console.error)
   }, [storageApiClient, refreshBuckets])
 

@@ -48,7 +48,7 @@ import FolderBreadcrumb from "./FolderBreadcrumb"
 import { DragTypes } from "./DragConstants"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 import { getItemMenuOptions } from "../FileSystemItem/itemOperations"
-import AnchorMenu, { AnchoreMenuPosition } from "../../UI-components/AnchorMenu"
+import AnchorMenu, { AnchorMenuPosition } from "../../UI-components/AnchorMenu"
 
 interface IStyleProps {
   themeKey: string
@@ -355,7 +355,7 @@ const FilesList = () => {
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
-  const [contextMenuPosition, setContextMenuPosition] = useState<AnchoreMenuPosition | null>(null)
+  const [contextMenuPosition, setContextMenuPosition] = useState<AnchorMenuPosition | null>(null)
 
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
