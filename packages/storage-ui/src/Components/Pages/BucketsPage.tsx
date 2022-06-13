@@ -157,6 +157,17 @@ const BucketsPage = () => {
     refreshBuckets()
   }, [refreshBuckets])
 
+  const handleRemoveBucket = useCallback(() => {
+    if (!bucketToRemove) return
+    setIsRemovingBucket(true)
+    removeBucket(bucketToRemove.id)
+      .catch(console.error)
+      .finally(() => {
+        setBucketToRemove(undefined)
+        setIsRemovingBucket(false)
+      })
+  }, [bucketToRemove, removeBucket])
+
   const formik = useFormik({
     initialValues:{
       name: "",
@@ -377,16 +388,7 @@ const BucketsPage = () => {
       <Dialog
         active={!!bucketToRemove}
         reject={() => setBucketToRemove(undefined)}
-        accept={async () => {
-          if (!bucketToRemove) return
-          setIsRemovingBucket(true)
-          removeBucket(bucketToRemove.id)
-            .catch(console.error)
-            .finally(() => {
-              setBucketToRemove(undefined)
-              setIsRemovingBucket(false)
-            })
-        }}
+        accept={handleRemoveBucket}
         requestMessage={t`You are about to delete the bucket ${bucketToRemove?.name}`}
         rejectText = {t`Cancel`}
         acceptText = {t`Delete`}
