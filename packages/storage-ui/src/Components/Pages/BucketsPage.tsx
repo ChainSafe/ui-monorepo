@@ -264,7 +264,7 @@ const BucketsPage = () => {
             >
               <Trans>Size</Trans>
             </TableHeadCell>
-            <TableHeadCell />
+            <TableHeadCell>{/* Menu */}</TableHeadCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -390,8 +390,8 @@ const BucketsPage = () => {
         requestMessage={t`You are about to delete the bucket ${bucketToRemove?.name}`}
         rejectText = {t`Cancel`}
         acceptText = {t`Delete`}
-        acceptButtonProps={{ loading: isRemovingBucket, disabled: isRemovingBucket, testId: "bucket-confirm-deletion" }}
-        rejectButtonProps={{ disabled: isRemovingBucket, testId: "bucket-cancel-deletion" }}
+        acceptButtonProps={{ loading: isRemovingBucket, disabled: isRemovingBucket }}
+        rejectButtonProps={{ disabled: isRemovingBucket }}
         testId={"bucket-deletion"}
       />
     </div>

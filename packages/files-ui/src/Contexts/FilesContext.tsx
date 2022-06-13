@@ -12,7 +12,7 @@ import {
 import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
 import { decryptFile, encryptFile } from "../Utils/encryption"
-import { ToastParams, useToasts } from "@chainsafe/common-components"
+import { FileWithPath, ToastParams, useToasts } from "@chainsafe/common-components"
 import axios, { CancelToken } from "axios"
 import { plural, t } from "@lingui/macro"
 import { parseFileContentResponse, readFileAsync } from "../Utils/Helpers"
@@ -22,7 +22,6 @@ import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
 import { getParentPathFromFilePath, getPathWithFile, getRelativePath } from "../Utils/pathUtils"
 import { Zippable, zipSync } from "fflate"
-import { FileWithPath } from "../Utils/getFilesFromDataTransferItems"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
