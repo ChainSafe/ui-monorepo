@@ -387,7 +387,7 @@ const BucketsPage = () => {
               setIsRemovingBucket(false)
             })
         }}
-        requestMessage={t`You are about to delete bucket - ${bucketToRemove?.name}`}
+        requestMessage={t`You are about to delete the bucket ${bucketToRemove?.name}`}
         rejectText = {t`Cancel`}
         acceptText = {t`Delete`}
         acceptButtonProps={{ loading: isRemovingBucket, disabled: isRemovingBucket, testId: "bucket-confirm-deletion" }}
