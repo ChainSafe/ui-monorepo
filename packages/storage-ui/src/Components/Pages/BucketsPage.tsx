@@ -83,7 +83,7 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
       justifyContent: "space-between",
       alignItems: "center",
       [breakpoints.down("md")]: {
-        marginTop: constants.generalUnit
+        margin: `${constants.generalUnit}px ${constants.generalUnit * 2}px 0`
       }
     },
     modalRoot: {
