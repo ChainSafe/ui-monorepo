@@ -264,7 +264,7 @@ const BucketsPage = () => {
             >
               <Trans>Size</Trans>
             </TableHeadCell>
-            <TableHeadCell />
+            <TableHeadCell>{/* Menu */}</TableHeadCell>
           </TableRow>
         </TableHead>
         <TableBody>
