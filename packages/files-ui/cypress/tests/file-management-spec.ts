@@ -567,8 +567,8 @@ describe("File management", () => {
       cy.web3Login({ clearCSFBucket: true })
 
       // upload multiple files
-      homePage.uploadFile(`../fixtures/uploadedFiles/${textFile}`)
       homePage.uploadFile(`../fixtures/uploadedFiles/${logoImage}`)
+      homePage.uploadFile(`../fixtures/uploadedFiles/${textFile}`)
       homePage.uploadFile(`../fixtures/uploadedFiles/${fileZip}`)
 
       // by default should be sort by name in ascending order (A-Z)
@@ -585,13 +585,13 @@ describe("File management", () => {
       // ensure that sort by date uploaded in ascending order (newest file first)
       homePage.fileDateUploadedColumnHeader().click()
       homePage.fileItemName().eq(0).should("have.text", fileZip)
-      homePage.fileItemName().eq(1).should("have.text", logoImage)
-      homePage.fileItemName().eq(2).should("have.text", textFile)
+      homePage.fileItemName().eq(1).should("have.text", textFile)
+      homePage.fileItemName().eq(2).should("have.text", logoImage)
 
       // ensure that sort by date uploaded in descending order (oldest file first)
       homePage.fileDateUploadedColumnHeader().click()
-      homePage.fileItemName().eq(0).should("have.text", textFile)
-      homePage.fileItemName().eq(1).should("have.text", logoImage)
+      homePage.fileItemName().eq(0).should("have.text", logoImage)
+      homePage.fileItemName().eq(1).should("have.text", textFile)
       homePage.fileItemName().eq(2).should("have.text", fileZip)
 
       // ensure that sort by size in ascending order (largest file first)
