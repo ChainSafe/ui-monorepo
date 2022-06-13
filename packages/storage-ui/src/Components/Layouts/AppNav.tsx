@@ -241,7 +241,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Cids}
+                to={ROUTE_LINKS.Buckets}
               >
                 <ChainsafeLogo />
                 <Typography variant="body1">
