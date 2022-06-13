@@ -385,8 +385,8 @@ const SharedFolderOverview = () => {
         }
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder, testId: "confirm-deletion" }}
-        rejectButtonProps={{ disabled: isDeletingSharedFolder, testId: "cancel-deletion" }}
+        acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder }}
+        rejectButtonProps={{ disabled: isDeletingSharedFolder }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         testId={bucketToDelete?.permission === "owner"
           ? "shared-folder-deletion"

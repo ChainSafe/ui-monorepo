@@ -4,7 +4,7 @@ import { makeStyles, createStyles, useOnClickOutside } from "@chainsafe/common-t
 import clsx from "clsx"
 import { CSSTheme } from "../../Themes/types"
 
-export type AnchoreMenuPosition = PopoverPosition;
+export type AnchorMenuPosition = PopoverPosition;
 
 interface Option {
   contents: ReactNode
@@ -15,7 +15,7 @@ interface Option {
 
 interface Props {
   options: Option[]
-  anchorPosition?: AnchoreMenuPosition
+  anchorPosition?: AnchorMenuPosition
   onClose: () => void
 }
 

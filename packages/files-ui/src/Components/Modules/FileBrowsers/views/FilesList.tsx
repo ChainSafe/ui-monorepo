@@ -1450,8 +1450,8 @@ const FilesList = ({ isShared = false }: Props) => {
         }
         rejectText={t`Cancel`}
         acceptText={t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
-        rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
+        rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         onModalBodyClick={(e) => {
           e.preventDefault()
