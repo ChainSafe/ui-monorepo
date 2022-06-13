@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { useToasts, useHistory, useLocation, Crumb, Typography, ExclamationCircleIcon, Loading } from "@chainsafe/common-components"
+import {
+  useToasts,
+  useHistory,
+  useLocation,
+  Crumb,
+  Typography,
+  ExclamationCircleIcon,
+  Loading,
+  getFilesAndEmptyDirFromDataTransferItems
+} from "@chainsafe/common-components"
 import {
   getArrayOfPaths,
   getURISafePathFromArray,
@@ -22,7 +31,6 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 import { Helmet } from "react-helmet-async"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
@@ -224,9 +232,21 @@ const SharedFileBrowser = () => {
       })
       return
     }
-    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
-    await uploadFiles(bucket, flattenedFiles, path)
-  }, [bucket, accountRestricted, storageSummary, addToast, uploadFiles])
+
+    const flattenedFiles = await getFilesAndEmptyDirFromDataTransferItems(fileItems)
+    flattenedFiles.files?.length && await uploadFiles(bucket, flattenedFiles.files, path)
+
+    //create empty dir
+    if(flattenedFiles?.emptyDirPaths?.length){
+      const allDirs = flattenedFiles.emptyDirPaths.map((folderPath) =>
+        filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+      )
+
+      Promise.all(allDirs)
+        .then(() => refreshContents(true))
+        .catch(console.error)
+    }
+  }, [bucket, accountRestricted, storageSummary, uploadFiles, addToast, filesApiClient, currentPath, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],

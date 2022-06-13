@@ -19,8 +19,7 @@ import axios, { CancelToken } from "axios"
 import { getParentPathFromFilePath, getPathWithFile } from "../Utils/pathUtils"
 import dayjs from "dayjs"
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
-import { ToastParams, useToasts } from "@chainsafe/common-components"
-import { FileWithPath } from "../Utils/getFilesFromDataTransferItems"
+import { FileWithPath, ToastParams, useToasts } from "@chainsafe/common-components"
 dayjs.extend(isSameOrAfter)
 
 type StorageContextProps = {
