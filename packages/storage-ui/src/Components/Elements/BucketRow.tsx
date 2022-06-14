@@ -97,7 +97,8 @@ const BucketRow = ({ bucket, onRemoveBucket, handleContextMenu }: Props) => {
         {bucket.name || bucket.id}
       </TableCell>
       <TableCell
-        data-cy="cell-file-system-type">
+        data-cy="cell-file-system-type"
+      >
         {bucket.file_system_type === "ipfs" ? "IPFS MFS" : "Chainsafe" }
       </TableCell>
       <TableCell>
