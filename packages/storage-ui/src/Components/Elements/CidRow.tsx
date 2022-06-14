@@ -102,10 +102,12 @@ const CidRow = ({ pinStatus }: Props) => {
         {pinStatus.status}
       </TableCell>
       <TableCell className={classes.externalIconCell}>
-        <ExternalIcon
-          className={classes.icon}
-          onClick={() => window.open(`${trimChar(IPFS_GATEWAY, "/")}/${pinStatus.pin?.cid}`)}
-        />
+        {pinStatus.status === "pinned" && (
+          <ExternalIcon
+            className={classes.icon}
+            onClick={() => window.open(`${trimChar(IPFS_GATEWAY, "/")}/${pinStatus.pin?.cid}`)}
+          />
+        )}
       </TableCell>
       <TableCell align="right">
         <MenuDropdown

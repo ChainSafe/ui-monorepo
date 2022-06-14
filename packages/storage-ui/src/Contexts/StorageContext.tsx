@@ -19,8 +19,7 @@ import axios, { CancelToken } from "axios"
 import { getParentPathFromFilePath, getPathWithFile } from "../Utils/pathUtils"
 import dayjs from "dayjs"
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter"
-import { ToastParams, useToasts } from "@chainsafe/common-components"
-import { FileWithPath } from "../Utils/getFilesFromDataTransferItems"
+import { FileWithPath, ToastParams, useToasts } from "@chainsafe/common-components"
 dayjs.extend(isSameOrAfter)
 
 type StorageContextProps = {
@@ -59,7 +58,7 @@ type StorageContext = {
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
   createBucket: (name: string, fileSystemType: FileSystemType) => Promise<void>
-  removeBucket: (id: string) => void
+  removeBucket: (id: string) => Promise<void>
   refreshBuckets: () => void
   searchCid: (cid: string) => Promise<PinResult | void>
   onSearch: (searchParams: RefreshPinParams) => void
@@ -303,9 +302,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   }, [storageApiClient, refreshBuckets])
 
   const removeBucket = useCallback((id: string) => {
-    storageApiClient.removeBucket(id)
+    return storageApiClient.removeBucket(id)
       .then(refreshBuckets)
-      .then(Promise.resolve)
       .catch(console.error)
   }, [storageApiClient, refreshBuckets])
 
