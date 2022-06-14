@@ -1269,6 +1269,7 @@ const FilesList = ({ isShared = false }: Props) => {
                         onSortChange={() => handleSortToggle("name")}
                         sortDirection={column === "name" ? direction : undefined}
                         sortActive={column === "name"}
+                        data-cy="column-header-file-name"
                       >
                         <Trans>Name</Trans>
                       </TableHeadCell>
@@ -1280,6 +1281,7 @@ const FilesList = ({ isShared = false }: Props) => {
                           column === "date_uploaded" ? direction : undefined
                         }
                         sortActive={column === "date_uploaded"}
+                        data-cy="column-header-file-date-uploaded"
                       >
                         <Trans>Date uploaded</Trans>
                       </TableHeadCell>
@@ -1289,6 +1291,7 @@ const FilesList = ({ isShared = false }: Props) => {
                         onSortChange={() => handleSortToggle("size")}
                         sortDirection={column === "size" ? direction : undefined}
                         sortActive={column === "size"}
+                        data-cy="column-header-file-size"
                       >
                         <Trans>Size</Trans>
                       </TableHeadCell>
@@ -1447,8 +1450,8 @@ const FilesList = ({ isShared = false }: Props) => {
         }
         rejectText={t`Cancel`}
         acceptText={t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
-        rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
+        rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         onModalBodyClick={(e) => {
           e.preventDefault()

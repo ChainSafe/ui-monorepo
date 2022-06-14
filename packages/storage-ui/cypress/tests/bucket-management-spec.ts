@@ -4,6 +4,7 @@ import { chainSafeBucketName, ipfsBucketName } from "../fixtures/storageTestData
 import { createBucketModal } from "../support/page-objects/modals/createBucketModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
+import { deleteBucketModal } from "../support/page-objects/modals/deleteBucketModal"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 
 describe("Bucket management", () => {
@@ -52,6 +53,9 @@ describe("Bucket management", () => {
         .should("be.visible")
         .click()
       bucketsPage.deleteBucketMenuOption().click()
+      deleteBucketModal.body().should("be.visible")
+      deleteBucketModal.confirmButton().safeClick()
+      deleteBucketModal.body().should("not.exist")
       bucketsPage.bucketItemRow().should("not.exist")
       bucketsPage.bucketItemName().should("not.exist")
     })
@@ -93,6 +97,9 @@ describe("Bucket management", () => {
         .should("be.visible")
         .click()
       bucketsPage.deleteBucketMenuOption().click()
+      deleteBucketModal.body().should("be.visible")
+      deleteBucketModal.confirmButton().safeClick()
+      deleteBucketModal.body().should("not.exist")
       bucketsPage.bucketItemRow().should("not.exist")
       bucketsPage.bucketItemName().should("not.exist")
     })

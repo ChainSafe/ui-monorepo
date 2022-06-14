@@ -67,8 +67,14 @@ msgstr "Add card"
 msgid "Add credit card"
 msgstr "Add credit card"
 
+msgid "Add item"
+msgstr "Add item"
+
 msgid "Add more files"
 msgstr "Add more files"
+
+msgid "Add property"
+msgstr "Add property"
 
 msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
 msgstr "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
@@ -108,6 +114,9 @@ msgstr "Billing history"
 
 msgid "Billing start time"
 msgstr "Billing start time"
+
+msgid "Browse files"
+msgstr "Browse files"
 
 msgid "Bucket name"
 msgstr "Bucket name"
@@ -274,6 +283,9 @@ msgstr "Downloading file - {0}"
 msgid "Downloads cancelled"
 msgstr "Downloads cancelled"
 
+msgid "Drag and drop to upload"
+msgstr "Drag and drop to upload"
+
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
@@ -391,6 +403,9 @@ msgstr "Move selected"
 msgid "Move to..."
 msgstr "Move to..."
 
+msgid "NFT"
+msgstr "NFT"
+
 msgid "Name"
 msgstr "Name"
 
@@ -505,6 +520,9 @@ msgstr "Privacy Policy"
 msgid "Proceed to payment"
 msgstr "Proceed to payment"
 
+msgid "Property name"
+msgstr "Property name"
+
 msgid "Recover"
 msgstr "Recover"
 
@@ -522,6 +540,9 @@ msgstr "Rename file"
 
 msgid "Rename folder"
 msgstr "Rename folder"
+
+msgid "Replace"
+msgstr "Replace"
 
 msgid "Search by cid, name…"
 msgstr "Search by cid, name…"
@@ -697,6 +718,9 @@ msgstr "Update your credit card"
 msgid "Upload"
 msgstr "Upload"
 
+msgid "Upload NFT"
+msgstr "Upload NFT"
+
 msgid "Uploads cancelled"
 msgstr "Uploads cancelled"
 
@@ -738,6 +762,9 @@ msgstr "Web3: {0}"
 
 msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
 msgstr "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+
+msgid "You are about to delete the bucket {0}"
+msgstr "You are about to delete the bucket {0}"
 
 msgid "You can't move folders to this path"
 msgstr "You can't move folders to this path"
