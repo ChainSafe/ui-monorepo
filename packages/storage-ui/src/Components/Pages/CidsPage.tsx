@@ -11,7 +11,7 @@ import {
   Pagination,
   SearchBar
 } from "@chainsafe/common-components"
-import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, debounce, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useStorage } from "../../Contexts/StorageContext"
 import { t, Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
@@ -25,7 +25,7 @@ import { Helmet } from "react-helmet-async"
 import { cid as isCid } from "is-ipfs"
 
 export const desktopGridSettings = "2fr 3fr 180px 110px 80px 20px 70px !important"
-export const mobileGridSettings = "2fr 3fr 180px 110px 80px 20px 70px !important"
+export const mobileGridSettings = "2fr 4fr 50px !important"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
@@ -39,8 +39,14 @@ const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =
       justifyContent: "space-between",
       alignItems: "center",
       [breakpoints.down("md")]: {
-        marginTop: constants.generalUnit
+        margin: `${constants.generalUnit}px ${constants.generalUnit * 2}px 0`
       }
+    },
+    title: {
+      marginRight: constants.generalUnit * 1.5
+    },
+    pinButton: {
+      minWidth: 110
     },
     controls: {
       display: "flex",
@@ -67,7 +73,10 @@ const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =
     pagination: {
       margin: `${constants.generalUnit * 3}px 0`,
       display: "flex",
-      justifyContent: "flex-end"
+      justifyContent: "flex-end",
+      [breakpoints.down("md")]: {
+        marginRight: constants.generalUnit * 2
+      }
     }
   })
 )
@@ -77,6 +86,7 @@ type SortDirection = "ascend" | "descend"
 
 const CidsPage = () => {
   const classes = useStyles()
+  const { desktop } = useThemeSwitcher()
   const {
     pins,
     onNextPins,
@@ -165,6 +175,7 @@ const CidsPage = () => {
           <Typography
             variant="h1"
             component="h1"
+            className={classes.title}
           >
             <Trans>CIDs</Trans>
           </Typography>
@@ -183,6 +194,7 @@ const CidsPage = () => {
               onClick={() => setAddCIDOpen(true)}
               variant="outline"
               size="large"
+              className={classes.pinButton}
               disabled={accountRestricted}
             >
               <PlusIcon />
@@ -220,34 +232,42 @@ const CidsPage = () => {
               >
                 <Trans>Cid</Trans>
               </TableHeadCell>
-              <TableHeadCell
-                data-cy="table-header-created"
-                sortButtons={true}
-                onSortChange={() => handleSortToggle("date_uploaded")}
-                sortDirection={sortColumn === "date_uploaded" ? sortDirection : undefined}
-                sortActive={sortColumn === "date_uploaded"}
-                align="center"
-              >
-                <Trans>Created</Trans>
-              </TableHeadCell>
-              <TableHeadCell
-                data-cy="table-header-size"
-                sortButtons={true}
-                onSortChange={() => handleSortToggle("size")}
-                sortDirection={sortColumn === "size" ? sortDirection : undefined}
-                sortActive={sortColumn === "size"}
-                align="center"
-              >
-                <Trans>Size</Trans>
-              </TableHeadCell>
-              <TableHeadCell
-                data-cy="table-header-status"
-                sortButtons={false}
-                align="center"
-              >
-                <Trans>Status</Trans>
-              </TableHeadCell>
-              <TableHeadCell>{/* IPFS Gateway */}</TableHeadCell>
+              {desktop &&
+                <TableHeadCell
+                  data-cy="table-header-created"
+                  sortButtons={true}
+                  onSortChange={() => handleSortToggle("date_uploaded")}
+                  sortDirection={sortColumn === "date_uploaded" ? sortDirection : undefined}
+                  sortActive={sortColumn === "date_uploaded"}
+                  align="center"
+                >
+                  <Trans>Created</Trans>
+                </TableHeadCell>
+              }
+              {desktop &&
+                <TableHeadCell
+                  data-cy="table-header-size"
+                  sortButtons={true}
+                  onSortChange={() => handleSortToggle("size")}
+                  sortDirection={sortColumn === "size" ? sortDirection : undefined}
+                  sortActive={sortColumn === "size"}
+                  align="center"
+                >
+                  <Trans>Size</Trans>
+                </TableHeadCell>
+              }
+              {desktop &&
+                <TableHeadCell
+                  data-cy="table-header-status"
+                  sortButtons={false}
+                  align="center"
+                >
+                  <Trans>Status</Trans>
+                </TableHeadCell>
+              }
+              {desktop &&
+                <TableHeadCell>{/* IPFS Gateway */}</TableHeadCell>
+              }
               <TableHeadCell>{/* Menu */}</TableHeadCell>
             </TableRow>
           </TableHead>
