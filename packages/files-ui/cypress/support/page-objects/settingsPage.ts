@@ -11,7 +11,7 @@ export const settingsPage = {
   ...basePage,
 
   // settings
-  settingsTitleLabel: () => cy.get("[data-cy=title-label-settings]"),
+  settingsTitleLabel: () => cy.get("[data-cy=label-title-settings]"),
 
   // profile tab
   profileTabButton: () => cy.get("[data-testid=tab-profile]"),
@@ -33,11 +33,11 @@ export const settingsPage = {
   darkThemeLabel: () => cy.get("[data-testid=radio-input-dark-theme]"),
   lightThemeLabel: () => cy.get("[data-testid=radio-input-light-theme]"),
   languageDropdown: () => cy.get("[data-testid=dropdown-title-language-selection]"),
-  germanLanguageOption: () => cy.get("[data-cy=language-label-option-de]"),
-  englishLanguageOption: () => cy.get("[data-cy=language-label-option-en]"),
-  spanishLanguageOption: () => cy.get("[data-cy=language-label-option-es]"),
-  frenchLanguageOption: () => cy.get("[data-cy=language-label-option-fr]"),
-  norwegianLanguageOption: () => cy.get("[data-cy=language-label-option-no]"),
+  germanLanguageOption: () => cy.get("[data-cy=label-language-option-de]"),
+  englishLanguageOption: () => cy.get("[data-cy=label-language-option-en]"),
+  spanishLanguageOption: () => cy.get("[data-cy=label-language-option-es]"),
+  frenchLanguageOption: () => cy.get("[data-cy=label-language-option-fr]"),
+  norwegianLanguageOption: () => cy.get("[data-cy=label-language-option-no]"),
 
   // security tab
   securityTabButton: () => cy.get("[data-testid=tab-security]"),
