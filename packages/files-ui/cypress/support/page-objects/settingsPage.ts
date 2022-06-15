@@ -10,6 +10,9 @@ import { planChangeSuccessModal } from "../../support/page-objects/modals/billin
 export const settingsPage = {
   ...basePage,
 
+  // settings
+  settingsTitleLabel: () => cy.get("[data-cy=title-label-settings]"),
+
   // profile tab
   profileTabButton: () => cy.get("[data-testid=tab-profile]"),
   profileTabHeader: () => cy.get("[data-cy=label-profile-header]"),
@@ -29,6 +32,12 @@ export const settingsPage = {
   displayTabHeader: () => cy.get("[data-cy=label-display-header]"),
   darkThemeLabel: () => cy.get("[data-testid=radio-input-dark-theme]"),
   lightThemeLabel: () => cy.get("[data-testid=radio-input-light-theme]"),
+  languageDropdown: () => cy.get("[data-testid=dropdown-title-language-selection]"),
+  germanLanguageOption: () => cy.get("[data-cy=language-label-option-de]"),
+  englishLanguageOption: () => cy.get("[data-cy=language-label-option-en]"),
+  spanishLanguageOption: () => cy.get("[data-cy=language-label-option-es]"),
+  frenchLanguageOption: () => cy.get("[data-cy=language-label-option-fr]"),
+  norwegianLanguageOption: () => cy.get("[data-cy=language-label-option-no]"),
 
   // security tab
   securityTabButton: () => cy.get("[data-testid=tab-security]"),

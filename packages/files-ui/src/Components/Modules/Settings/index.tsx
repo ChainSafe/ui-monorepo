@@ -163,6 +163,7 @@ const Settings: React.FC = () => {
           variant="h1"
           component="p"
           className={classes.title}
+          data-cy="title-label-settings"
         >
           <Trans>Settings</Trans>
         </Typography>
