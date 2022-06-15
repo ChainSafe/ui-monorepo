@@ -121,7 +121,7 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
   })
 )
 
-type SortColumn = "name" | "file_system" | "size" | undefined
+type SortColumn = "name" | "file_system" | "size"
 type SortDirection = "ascend" | "descend"
 
 const BucketsPage = () => {
