@@ -172,49 +172,56 @@ describe("Settings", () => {
     })
 
     it("can switch between different languages that the app provides", () => {
-      cy.web3Login()
+      cy.web3Login({ withNewSession: true })
       navigationMenu.settingsNavButton().click()
       settingsPage.displayTabButton().click()
 
-      // ensure that spanish language is displayed
-      settingsPage.languageDropdown().click()
-      settingsPage.spanishLanguageOption().click()
-      settingsPage.languageDropdown().should("be.visible").within(() => {
-        cy.get("p").should("have.text", "Español")
-      })
-      settingsPage.settingsTitleLabel().should("have.text", "Ajustes")
+      cy.intercept("GET", "**/buckets/summary").as("refresh").then(() => {
+        // ensure that spanish language is displayed
+        settingsPage.languageDropdown().click()
+        settingsPage.spanishLanguageOption().click()
+        cy.wait("@refresh")
+        settingsPage.languageDropdown()
+          .should("be.visible")
+          .should("have.text", "Español")
+        settingsPage.settingsTitleLabel().should("have.text", "Ajustes")
 
-      // ensure that french language is displayed
-      settingsPage.languageDropdown().click()
-      settingsPage.frenchLanguageOption().click()
-      settingsPage.languageDropdown().should("be.visible").within(() => {
-        cy.get("p").should("have.text", "Français")
-      })
-      settingsPage.settingsTitleLabel().should("have.text", "Paramètres")
+        // ensure that french language is displayed
+        settingsPage.languageDropdown().click()
+        settingsPage.frenchLanguageOption().click()
+        cy.wait("@refresh")
+        settingsPage.languageDropdown()
+          .should("be.visible")
+          .should("have.text", "Français")
+        settingsPage.settingsTitleLabel().should("have.text", "Paramètres")
 
-      // ensure that german language is displayed
-      settingsPage.languageDropdown().click()
-      settingsPage.germanLanguageOption().click()
-      settingsPage.languageDropdown().should("be.visible").within(() => {
-        cy.get("p").should("have.text", "Deutsch")
-      })
-      settingsPage.settingsTitleLabel().should("have.text", "Einstellungen")
+        // ensure that german language is displayed
+        settingsPage.languageDropdown().click()
+        settingsPage.germanLanguageOption().click()
+        cy.wait("@refresh")
+        settingsPage.languageDropdown()
+          .should("be.visible")
+          .should("have.text", "Deutsch")
+        settingsPage.settingsTitleLabel().should("have.text", "Einstellungen")
 
-      // ensure that norwegian language is displayed
-      settingsPage.languageDropdown().click()
-      settingsPage.norwegianLanguageOption().click()
-      settingsPage.languageDropdown().should("be.visible").within(() => {
-        cy.get("p").should("have.text", "Norsk")
-      })
-      settingsPage.settingsTitleLabel().should("have.text", "Innstillinger")
+        // ensure that norweigian language is displayed
+        settingsPage.languageDropdown().click()
+        settingsPage.norwegianLanguageOption().click()
+        cy.wait("@refresh")
+        settingsPage.languageDropdown()
+          .should("be.visible")
+          .should("have.text", "Norsk")
+        settingsPage.settingsTitleLabel().should("have.text", "Innstillinger")
 
-      // ensure that english language is displayed
-      settingsPage.languageDropdown().click()
-      settingsPage.englishLanguageOption().click()
-      settingsPage.languageDropdown().should("be.visible").within(() => {
-        cy.get("p").should("have.text", "English")
+        // ensure that norweigian language is displayed
+        settingsPage.languageDropdown().click()
+        settingsPage.englishLanguageOption().click()
+        cy.wait("@refresh")
+        settingsPage.languageDropdown()
+          .should("be.visible")
+          .should("have.text", "English")
+        settingsPage.settingsTitleLabel().should("have.text", "Settings")
       })
-      settingsPage.settingsTitleLabel().should("have.text", "Settings")
     })
   })
 
