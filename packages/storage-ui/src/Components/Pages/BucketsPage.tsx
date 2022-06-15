@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Button,
+  Dialog,
   FormikRadioInput,
   FormikTextInput,
   Grid,
@@ -26,11 +27,11 @@ import { useCallback } from "react"
 import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { usePageTrack } from "../../Contexts/PosthogContext"
-import { FileSystemType } from "@chainsafe/files-api-client"
+import { Bucket, FileSystemType } from "@chainsafe/files-api-client"
 import { Helmet } from "react-helmet-async"
-import AnchorMenu, { AnchoreMenuPosition } from "../UI-components/AnchorMenu"
+import AnchorMenu, { AnchorMenuPosition } from "../UI-components/AnchorMenu"
 
-export const desktopGridSettings = "3fr 110px 150px 70px !important"
+export const desktopGridSettings = "3fr 150px 150px 70px !important"
 export const mobileGridSettings = "3fr 100px 100px 70px !important"
 
 const useStyles = makeStyles(({ breakpoints, animation, constants, typography }: CSSTheme) =>
@@ -82,7 +83,7 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
       justifyContent: "space-between",
       alignItems: "center",
       [breakpoints.down("md")]: {
-        marginTop: constants.generalUnit
+        margin: `${constants.generalUnit}px ${constants.generalUnit * 2}px 0`
       }
     },
     modalRoot: {
@@ -120,14 +121,21 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
   })
 )
 
+type SortColumn = "name" | "file_system" | "size"
+type SortDirection = "ascend" | "descend"
+
 const BucketsPage = () => {
   const classes = useStyles()
-  const { storageBuckets, createBucket, refreshBuckets } = useStorage()
+  const { storageBuckets, createBucket, refreshBuckets, removeBucket } = useStorage()
   const { accountRestricted } = useStorageApi()
   const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
-  const bucketsToShow = useMemo(() => storageBuckets.filter(b => b.status === "created"), [storageBuckets])
-  const [contextMenuPosition, setContextMenuPosition] = useState<AnchoreMenuPosition | null>(null)
+  const [bucketToRemove, setBucketToRemove] = useState<Bucket | undefined>()
+  const [isRemovingBucket, setIsRemovingBucket] = useState(false)
+  const [contextMenuPosition, setContextMenuPosition] = useState<AnchorMenuPosition | null>(null)
   const [contextMenuOptions, setContextMenuOptions] = useState<IMenuItem[]>([])
+  const [sortColumn, setSortColumn] = useState<SortColumn | undefined>(undefined)
+  const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
+
   const generalContextMenuOptions: IMenuItem[] = useMemo(() => [
     {
       contents: (
@@ -142,17 +150,53 @@ const BucketsPage = () => {
     }
   ], [classes])
 
-  const bucketNameValidationSchema = useMemo(
-    () => bucketNameValidator(bucketsToShow.map(b => b.name))
-    , [bucketsToShow]
-  )
-
   usePageTrack()
 
   useEffect(() => {
     // this is needed for tests
     refreshBuckets()
   }, [refreshBuckets])
+
+  const handleRemoveBucket = useCallback(() => {
+    if (!bucketToRemove) return
+    setIsRemovingBucket(true)
+    removeBucket(bucketToRemove.id)
+      .catch(console.error)
+      .finally(() => {
+        setBucketToRemove(undefined)
+        setIsRemovingBucket(false)
+      })
+  }, [bucketToRemove, removeBucket])
+
+  const bucketsToShow: Bucket[] = useMemo(() => {
+    let temp = []
+    const filteredBuckets = storageBuckets.filter(b => b.status === "created")
+
+    switch (sortColumn) {
+      case "name": {
+        temp = filteredBuckets.sort((a, b) => a.name?.localeCompare(b.name || "") || 0)
+        break
+      }
+      case "size": {
+        temp = filteredBuckets.sort((a, b) => (a.size < b.size ? -1 : 1))
+        break
+      }
+      case "file_system": {
+        temp = filteredBuckets.sort((a, b) => a.file_system_type?.localeCompare(b.file_system_type || "") || 0)
+        break
+      }
+      default: {
+        temp = filteredBuckets
+        break
+      }
+    }
+    return sortColumn && sortDirection === "descend" ? temp.reverse() : temp
+  }, [storageBuckets, sortDirection, sortColumn])
+
+  const bucketNameValidationSchema = useMemo(
+    () => bucketNameValidator(bucketsToShow.map(b => b.name))
+    , [bucketsToShow]
+  )
 
   const formik = useFormik({
     initialValues:{
@@ -192,6 +236,21 @@ const BucketsPage = () => {
       top: e.clientY - 4
     })
   }, [generalContextMenuOptions])
+
+  const handleSortToggle = (
+    targetColumn: SortColumn
+  ) => {
+    if (sortColumn !== targetColumn) {
+      setSortColumn(targetColumn)
+      setSortDirection("descend")
+    } else {
+      if (sortDirection === "ascend") {
+        setSortDirection("descend")
+      } else {
+        setSortDirection("ascend")
+      }
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -242,22 +301,31 @@ const BucketsPage = () => {
           >
             <TableHeadCell
               data-cy="table-header-name"
-              sortButtons={false}
               align="left"
+              sortButtons={true}
+              onSortChange={() => handleSortToggle("name")}
+              sortDirection={sortColumn === "name" ? sortDirection : undefined}
+              sortActive={sortColumn === "name"}
             >
               <Trans>Name</Trans>
             </TableHeadCell>
             <TableHeadCell
               data-cy="table-header-file-system"
-              sortButtons={false}
-              align="left"
+              align="center"
+              sortButtons={true}
+              onSortChange={() => handleSortToggle("file_system")}
+              sortDirection={sortColumn === "file_system" ? sortDirection : undefined}
+              sortActive={sortColumn === "file_system"}
             >
               <Trans>File System</Trans>
             </TableHeadCell>
             <TableHeadCell
               data-cy="table-header-size"
-              sortButtons={false}
               align="center"
+              sortButtons={true}
+              onSortChange={() => handleSortToggle("size")}
+              sortDirection={sortColumn === "size" ? sortDirection : undefined}
+              sortActive={sortColumn === "size"}
             >
               <Trans>Size</Trans>
             </TableHeadCell>
@@ -270,6 +338,7 @@ const BucketsPage = () => {
               <BucketRow
                 bucket={bucket}
                 key={bucket.id}
+                onRemoveBucket={setBucketToRemove}
                 handleContextMenu={handleContextMenu}
               />
             )}
@@ -370,6 +439,17 @@ const BucketsPage = () => {
           </FormikProvider>
         </div>
       </CustomModal>
+      <Dialog
+        active={!!bucketToRemove}
+        reject={() => setBucketToRemove(undefined)}
+        accept={handleRemoveBucket}
+        requestMessage={t`You are about to delete the bucket ${bucketToRemove?.name}`}
+        rejectText = {t`Cancel`}
+        acceptText = {t`Delete`}
+        acceptButtonProps={{ loading: isRemovingBucket, disabled: isRemovingBucket }}
+        rejectButtonProps={{ disabled: isRemovingBucket }}
+        testId={"bucket-deletion"}
+      />
     </div>
   )
 }

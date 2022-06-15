@@ -4,7 +4,6 @@ import { DeleteSvg, formatBytes, IMenuItem, MenuDropdown, MoreIcon, TableCell, T
 import { Trans } from "@lingui/macro"
 import { Bucket } from "@chainsafe/files-api-client"
 import { CSSTheme } from "../../Themes/types"
-import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings }  from "../Pages/BucketsPage"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import clsx from "clsx"
@@ -63,12 +62,12 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
 )
 interface Props {
   bucket: Bucket
+  onRemoveBucket: (bucket: Bucket) => void
   handleContextMenu: (e: React.MouseEvent, items?: IMenuItem[]) => void
 }
 
-const BucketRow = ({ bucket, handleContextMenu }: Props) => {
+const BucketRow = ({ bucket, onRemoveBucket, handleContextMenu }: Props) => {
   const classes = useStyles()
-  const { removeBucket } = useStorage()
   const { redirect } = useHistory()
   const menuItems = useMemo(() => [{
     contents: (
@@ -79,8 +78,8 @@ const BucketRow = ({ bucket, handleContextMenu }: Props) => {
         </span>
       </>
     ),
-    onClick: () => removeBucket(bucket.id)
-  }], [bucket, classes, removeBucket])
+    onClick: () => onRemoveBucket(bucket)
+  }], [bucket, classes, onRemoveBucket])
 
   return (
     <TableRow
@@ -98,7 +97,8 @@ const BucketRow = ({ bucket, handleContextMenu }: Props) => {
         {bucket.name || bucket.id}
       </TableCell>
       <TableCell
-        data-cy="cell-file-system-type">
+        data-cy="cell-file-system-type"
+      >
         {bucket.file_system_type === "ipfs" ? "IPFS MFS" : "Chainsafe" }
       </TableCell>
       <TableCell>
