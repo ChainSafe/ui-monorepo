@@ -52,7 +52,7 @@ const LanguageSelection = () => {
       menuItems={availableLanguages.map((lang) => (
         {
           contents: (
-            <span>
+            <span data-cy={`label-language-option-${lang.id}`}>
               {lang.label}
             </span>
           ),
@@ -60,6 +60,7 @@ const LanguageSelection = () => {
         }
       ))}
       title={currentLanguage}
+      testId="language-selection"
     />
   )
 }
