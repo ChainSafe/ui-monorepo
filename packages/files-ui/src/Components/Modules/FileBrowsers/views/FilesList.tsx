@@ -25,7 +25,9 @@ import {
   MoreIcon,
   SortIcon,
   CheckIcon,
-  IMenuItem
+  IMenuItem,
+  HomeIcon,
+  UserShareIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -63,6 +65,7 @@ import FolderBreadcrumb from "./FolderBreadcrumb"
 import AnchorMenu, { AnchoreMenuPosition } from "../../../../UI-components/AnchorMenu"
 import { getItemMenuOptions } from "./FileSystemItem/itemOperations"
 import { getPathWithFile } from "../../../../Utils/pathUtils"
+import { ROUTE_LINKS } from "../../../FilesRoutes"
 
 const baseOperations: FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -339,6 +342,9 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           top: 50
         }
+      },
+      rootIcon: {
+        height: 16
       }
     })
   }
@@ -583,7 +589,7 @@ const FilesList = ({ isShared = false }: Props) => {
     })
   })
 
-  const [{ isOverMoveHomeBreadcrumb }, dropMoveHomeBreadcrumbRef] = useDrop({
+  const [{ isOverMoveHomeBreadcrumb }, dropMoveRootBreadcrumbRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => currentPath !== "/",
     drop: (item: { ids: string[]}) => {
@@ -595,9 +601,9 @@ const FilesList = ({ isShared = false }: Props) => {
     })
   })
 
-  const homeBreadcrumbRef  =  useRef<HTMLDivElement>(null)
-  dropMoveHomeBreadcrumbRef(homeBreadcrumbRef)
-  dropUploadHomeBreadcrumbRef(homeBreadcrumbRef)
+  const rootBreadcrumbRef  =  useRef<HTMLDivElement>(null)
+  dropMoveRootBreadcrumbRef(rootBreadcrumbRef)
+  dropUploadHomeBreadcrumbRef(rootBreadcrumbRef)
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
@@ -1024,6 +1030,7 @@ const FilesList = ({ isShared = false }: Props) => {
         >
           {crumbs && moduleRootPath && (
             <Breadcrumb
+              rootIcon={isShared ? <UserShareIcon className={classes.rootIcon}/> : <HomeIcon className={classes.rootIcon}/>}
               crumbs={crumbs.map((crumb, i) => ({
                 ...crumb,
                 component: (i < crumbs.length - 1)
@@ -1040,9 +1047,9 @@ const FilesList = ({ isShared = false }: Props) => {
                   />
                   : null
               }))}
-              homeOnClick={() => redirect(moduleRootPath)}
-              homeRef={homeBreadcrumbRef}
-              homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
+              onRootClick={() => isShared ? redirect(ROUTE_LINKS.SharedFoldersOverview) : redirect(moduleRootPath)}
+              rootRef={rootBreadcrumbRef}
+              rootActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
               showDropDown
               maximumCrumbs={desktop ? 5 : 3}
             />
