@@ -9,7 +9,7 @@ import BucketPage from "./Pages/BucketPage"
 import BillingHistory from "./Pages/BillingHistory"
 import UploadNFTPage from "./Pages/UploadNFTPage"
 import ApiKeysPage from "./Pages/ApiKeysPage"
-import SubscriptionPage from "./Pages/SubscriptionPage"
+import BillingPage from "./Pages/BillingPage"
 
 export const SETTINGS_BASE = "/settings"
 export const SETTINGS_PATHS = ["apiKeys", "plan"] as const
@@ -86,7 +86,7 @@ const StorageRoutes = () => {
         exact
         path={ROUTE_LINKS.Billing}
         isAuthorized={isLoggedIn}
-        component={SubscriptionPage}
+        component={BillingPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

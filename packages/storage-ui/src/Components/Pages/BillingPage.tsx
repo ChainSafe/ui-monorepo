@@ -2,15 +2,15 @@ import React from "react"
 import { Helmet } from "react-helmet-async"
 import SubscriptionTab from "../Modules/SubscriptionTab"
 
-const ApiKeysPage: React.FC = () => {
+const BillingPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Subscription - Chainsafe Storage</title>
+        <title>Billing - Chainsafe Storage</title>
       </Helmet>
       <SubscriptionTab />
     </>
   )
 }
 
-export default ApiKeysPage
+export default BillingPage
