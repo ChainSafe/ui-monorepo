@@ -93,22 +93,16 @@ const CidRow = ({ pinStatus }: Props) => {
       >
         {pinStatus.pin?.cid}
       </TableCell>
-      {desktop &&
+      {desktop && <>
         <TableCell>
           {dayjs(pinStatus.created).format("DD MMM YYYY h:mm a")}
         </TableCell>
-      }
-      {desktop &&
         <TableCell>
           {pinStatus.info?.size ? formatBytes(pinStatus.info?.size, 2) : "-"}
         </TableCell>
-      }
-      {desktop &&
         <TableCell>
           {pinStatus.status}
         </TableCell>
-      }
-      {desktop &&
         <TableCell className={classes.externalIconCell}>
           {pinStatus.status === "pinned" && (
             <ExternalIcon
@@ -117,7 +111,7 @@ const CidRow = ({ pinStatus }: Props) => {
             />
           )}
         </TableCell>
-      }
+      </>}
       <TableCell align="right">
         <MenuDropdown
           testId='cid-kebab'
