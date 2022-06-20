@@ -16,7 +16,8 @@ import {
   extractSharedFileBrowserPathFromURL,
   getUrlSafePathWithFile,
   getAbsolutePathsFromCids,
-  pathEndingWithSlash
+  pathEndingWithSlash,
+  joinArrayOfPaths
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "./types"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -94,21 +95,24 @@ const SharedFileBrowser = () => {
           redirect(
             ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
           )
-        }
+        },
+        path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
       })
     })
 
-    const root = {
+    const root: Crumb = {
       text: bucket?.name || "",
       onClick: () => {
         redirect(
           ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", "/")
         )
-      }
+      },
+      path: "/"
     }
 
     return [root, ...crumbRest]
   }, [arrayOfPaths, bucket, redirect])
+
   const currentFolder = useMemo(() => {
     return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
   }, [arrayOfPaths])

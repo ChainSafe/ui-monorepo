@@ -602,8 +602,11 @@ const FilesList = ({ isShared = false }: Props) => {
   })
 
   const rootBreadcrumbRef  =  useRef<HTMLDivElement>(null)
-  dropMoveRootBreadcrumbRef(rootBreadcrumbRef)
-  dropUploadHomeBreadcrumbRef(rootBreadcrumbRef)
+
+  useEffect(() => {
+    dropMoveRootBreadcrumbRef(rootBreadcrumbRef)
+    dropUploadHomeBreadcrumbRef(rootBreadcrumbRef)
+  }, [dropMoveRootBreadcrumbRef, dropUploadHomeBreadcrumbRef])
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
@@ -1048,8 +1051,8 @@ const FilesList = ({ isShared = false }: Props) => {
                   : null
               }))}
               onRootClick={() => isShared ? redirect(ROUTE_LINKS.SharedFoldersOverview) : redirect(moduleRootPath)}
-              rootRef={rootBreadcrumbRef}
-              rootActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
+              rootRef={isShared ? undefined : rootBreadcrumbRef}
+              rootActive={!isShared && (isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb)}
               showDropDown
               maximumCrumbs={desktop ? 5 : 3}
             />
