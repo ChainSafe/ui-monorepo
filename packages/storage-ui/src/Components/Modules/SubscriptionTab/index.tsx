@@ -17,11 +17,9 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       }
     },
     mainHeader: {
-      fontSize: 28,
-      marginBottom: constants.generalUnit * 2,
-      [breakpoints.up("md")]: {
-        paddingLeft: constants.generalUnit * 2
-      }    },
+      marginTop: constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 2
+    },
     settingsSection: {
       maxWidth: breakpoints.values["md"],
       [breakpoints.up("md")]: {
@@ -48,8 +46,8 @@ const Subscription: React.FC = () => {
     <Elements stripe={stripePromise}>
       <div className={classes.root}>
         <Typography
-          variant="h3"
-          component="h3"
+          variant="h1"
+          component="h1"
           className={classes.mainHeader}
         >
           <Trans>Subscription plan</Trans>

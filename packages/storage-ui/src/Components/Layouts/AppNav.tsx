@@ -13,18 +13,20 @@ import {
   formatBytes,
   ChainsafeLogo,
   FolderSvg,
-  SettingSvg,
+  // SettingSvg,
   DocumentSvg,
   Button,
   PowerDownIcon,
   useLocation,
-  LockSvg
+  LockSvg,
+  SubscriptionSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
 import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { useStorage } from "../../Contexts/StorageContext"
+import { useBilling } from "../../Contexts/BillingContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSSTheme) => {
@@ -233,13 +235,14 @@ interface IAppNav {
   setNavOpen: (state: boolean) => void
 }
 
-type AppNavTab = "buckets" | "cids" | "settings" | "api-keys"
+type AppNavTab = "buckets" | "cids" | "settings" | "api-keys" | "billing"
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const location = useLocation()
   const { storageSummary } = useStorage()
+  const { isBillingEnabled } = useBilling()
   const { isLoggedIn, logout } = useStorageApi()
 
   const signOut = useCallback(() => {
@@ -259,6 +262,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
       case "buckets": return "buckets"
       case "bucket": return "buckets"
       case "api-key": return "api-keys"
+      case "billing": return "billing"
       case "settings": return "settings"
       default: return
     }
@@ -330,7 +334,22 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>API Keys</Trans>
                 </Typography>
               </Link>
+              {isBillingEnabled &&
               <Link
+                data-cy="billing-nav"
+                onClick={handleOnClick}
+                className={clsx(classes.navItem, appNavTab === "billing" && "selected")}
+                to={ROUTE_LINKS.Billing}
+              >
+                <SubscriptionSvg />
+                <Typography
+                  variant="h5"
+                >
+                  <Trans>Billing</Trans>
+                </Typography>
+              </Link>
+              }
+              {/* <Link
                 data-cy="settings-nav"
                 onClick={handleOnClick}
                 className={clsx(classes.navItem, appNavTab === "settings" && "selected")}
@@ -342,7 +361,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 >
                   <Trans>Settings</Trans>
                 </Typography>
-              </Link>
+              </Link> */}
               <a
                 data-cy="docs-nav"
                 className={classes.navItem}
