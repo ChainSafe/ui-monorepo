@@ -8,6 +8,7 @@ import SettingsPage from "./Pages/SettingsPage"
 import BucketPage from "./Pages/BucketPage"
 import BillingHistory from "./Pages/BillingHistory"
 import UploadNFTPage from "./Pages/UploadNFTPage"
+import ApiKeysPage from "./Pages/ApiKeysPage"
 
 export const SETTINGS_BASE = "/settings"
 export const SETTINGS_PATHS = ["apiKeys", "plan"] as const
@@ -17,6 +18,7 @@ export const ROUTE_LINKS = {
   Landing: "/",
   Cids: "/cids",
   Buckets: "/buckets",
+  ApiKeys: "/api-keys",
   SettingsRoot: "/settings",
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
@@ -69,6 +71,12 @@ const StorageRoutes = () => {
         path={ROUTE_LINKS.SettingsDefault}
         isAuthorized={isLoggedIn}
         component={SettingsPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path={ROUTE_LINKS.ApiKeys}
+        isAuthorized={isLoggedIn}
+        component={ApiKeysPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

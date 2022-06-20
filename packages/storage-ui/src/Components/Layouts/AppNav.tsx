@@ -17,7 +17,8 @@ import {
   DocumentSvg,
   Button,
   PowerDownIcon,
-  useLocation
+  useLocation,
+  LockSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
@@ -232,7 +233,7 @@ interface IAppNav {
   setNavOpen: (state: boolean) => void
 }
 
-type AppNavTab = "buckets" | "cids" | "settings"
+type AppNavTab = "buckets" | "cids" | "settings" | "api-keys"
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
@@ -257,6 +258,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
       case "cids": return "cids"
       case "buckets": return "buckets"
       case "bucket": return "buckets"
+      case "api-key": return "api-keys"
       case "settings": return "settings"
       default: return
     }
@@ -315,6 +317,19 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               </Link>
             </nav>
             <nav className={classes.navMenu}>
+              <Link
+                data-cy="api-key-nav"
+                onClick={handleOnClick}
+                className={clsx(classes.navItem, appNavTab === "api-keys" && "selected")}
+                to={ROUTE_LINKS.ApiKeys}
+              >
+                <LockSvg />
+                <Typography
+                  variant="h5"
+                >
+                  <Trans>API Keys</Trans>
+                </Typography>
+              </Link>
               <Link
                 data-cy="settings-nav"
                 onClick={handleOnClick}
