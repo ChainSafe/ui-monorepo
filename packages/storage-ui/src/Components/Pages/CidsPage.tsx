@@ -232,7 +232,7 @@ const CidsPage = () => {
               >
                 <Trans>Cid</Trans>
               </TableHeadCell>
-              {desktop &&
+              {desktop && <>
                 <TableHeadCell
                   data-cy="table-header-created"
                   sortButtons={true}
@@ -243,8 +243,6 @@ const CidsPage = () => {
                 >
                   <Trans>Created</Trans>
                 </TableHeadCell>
-              }
-              {desktop &&
                 <TableHeadCell
                   data-cy="table-header-size"
                   sortButtons={true}
@@ -255,8 +253,6 @@ const CidsPage = () => {
                 >
                   <Trans>Size</Trans>
                 </TableHeadCell>
-              }
-              {desktop &&
                 <TableHeadCell
                   data-cy="table-header-status"
                   sortButtons={false}
@@ -264,10 +260,8 @@ const CidsPage = () => {
                 >
                   <Trans>Status</Trans>
                 </TableHeadCell>
-              }
-              {desktop &&
                 <TableHeadCell>{/* IPFS Gateway */}</TableHeadCell>
-              }
+              </>}
               <TableHeadCell>{/* Menu */}</TableHeadCell>
             </TableRow>
           </TableHead>
