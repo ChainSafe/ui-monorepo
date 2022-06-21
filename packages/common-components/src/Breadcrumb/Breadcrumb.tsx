@@ -40,19 +40,6 @@ const useStyles = makeStyles(
         },
         ...overrides?.Breadcrumb?.root
       },
-      // home: {
-      //   height: 16,
-      //   width: "fit-content",
-      //   margin: "3px 0",
-      //   "& > svg": {
-      //     display: "block",
-      //     height: "100%"
-      //   },
-      //   "&.clickable": {
-      //     cursor: "pointer"
-      //   },
-      //   ...overrides?.Breadcrumb?.home
-      // },
       separator: {
         width: 1,
         margin: `0 ${constants.generalUnit}px`,
