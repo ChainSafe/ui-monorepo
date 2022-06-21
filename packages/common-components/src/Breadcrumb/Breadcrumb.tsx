@@ -97,7 +97,10 @@ const useStyles = makeStyles(
         margin: "3px 0",
         "& svg": {
           display: "block",
-          height: "100%"
+          height: "100%",
+          "& path": {
+            fill: palette.additional["gray"][9]
+          }
         },
         "&.clickable": {
           cursor: "pointer"
