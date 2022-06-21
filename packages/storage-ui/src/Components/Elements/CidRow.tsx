@@ -1,5 +1,5 @@
 import React from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { DeleteSvg, ExternalIcon, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
@@ -71,6 +71,7 @@ const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || "https://ipfs.io/ipfs
 const CidRow = ({ pinStatus }: Props) => {
   const classes = useStyles()
   const { unpin } = useStorage()
+  const { desktop } = useThemeSwitcher()
 
   return (
     <TableRow
@@ -80,35 +81,37 @@ const CidRow = ({ pinStatus }: Props) => {
     >
       <TableCell
         className={classes.cid}
-        align='left'
+        align='center'
         data-cy="cell-pin-name"
       >
         {pinStatus.pin?.name || "-"}
       </TableCell>
       <TableCell
         className={classes.cid}
-        align='left'
+        align='center'
         data-cy="cell-pin-cid"
       >
         {pinStatus.pin?.cid}
       </TableCell>
-      <TableCell>
-        {dayjs(pinStatus.created).format("DD MMM YYYY h:mm a")}
-      </TableCell>
-      <TableCell>
-        {pinStatus.info?.size ? formatBytes(pinStatus.info?.size, 2) : "-"}
-      </TableCell>
-      <TableCell>
-        {pinStatus.status}
-      </TableCell>
-      <TableCell className={classes.externalIconCell}>
-        {pinStatus.status === "pinned" && (
-          <ExternalIcon
-            className={classes.icon}
-            onClick={() => window.open(`${trimChar(IPFS_GATEWAY, "/")}/${pinStatus.pin?.cid}`)}
-          />
-        )}
-      </TableCell>
+      {desktop && <>
+        <TableCell>
+          {dayjs(pinStatus.created).format("DD MMM YYYY h:mm a")}
+        </TableCell>
+        <TableCell>
+          {pinStatus.info?.size ? formatBytes(pinStatus.info?.size, 2) : "-"}
+        </TableCell>
+        <TableCell>
+          {pinStatus.status}
+        </TableCell>
+        <TableCell className={classes.externalIconCell}>
+          {pinStatus.status === "pinned" && (
+            <ExternalIcon
+              className={classes.icon}
+              onClick={() => window.open(`${trimChar(IPFS_GATEWAY, "/")}/${pinStatus.pin?.cid}`)}
+            />
+          )}
+        </TableCell>
+      </>}
       <TableCell align="right">
         <MenuDropdown
           testId='cid-kebab'
