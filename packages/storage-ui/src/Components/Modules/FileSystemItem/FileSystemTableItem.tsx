@@ -348,23 +348,21 @@ const FileSystemTableItem = React.forwardRef(
           <>
             {
               <TableCell>
-                {!isFolder && <>
-                  <div
-                    className={classes.copyArea}
-                    onClick={onCopyCID}>
-                    <div className={clsx(classes.copiedFlag, { "active": copied })}>
-                      <span>
-                        <Trans>
-                          Copied!
-                        </Trans>
-                      </span>
-                    </div>
-                    <Typography component="p">
-                      { cid }
-                    </Typography>
-                    <CopySvg className={clsx(classes.copyIcon, { "active": copied })} />
+                <div
+                  className={classes.copyArea}
+                  onClick={onCopyCID}>
+                  <div className={clsx(classes.copiedFlag, { "active": copied })}>
+                    <span>
+                      <Trans>
+                        Copied!
+                      </Trans>
+                    </span>
                   </div>
-                </>}
+                  <Typography component="p">
+                    { cid }
+                  </Typography>
+                  <CopySvg className={clsx(classes.copyIcon, { "active": copied })} />
+                </div>
               </TableCell>
             }
             <TableCell align="left">
