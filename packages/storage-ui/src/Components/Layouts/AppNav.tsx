@@ -342,7 +342,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 </Typography>
               </Link>
               <Link
-                data-cy="api-key-nav"
+                data-cy="api-keys-nav"
                 onClick={handleOnClick}
                 className={clsx(classes.navItem, classes.navItemIconStroke, appNavTab === "api-keys" && "selected")}
                 to={ROUTE_LINKS.ApiKeys}

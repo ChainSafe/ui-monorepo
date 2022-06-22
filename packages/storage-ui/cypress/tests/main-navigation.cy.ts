@@ -19,14 +19,9 @@ describe("Main Navigation", () => {
       cy.url().should("include", "/buckets")
     })
 
-    it("can navigate to the settings page", () => {
-      navigationMenu.settingsNavButton().click()
-      cy.url().should("include", "/settings")
-    })
-
-    it.skip("can navigate to the docs page", () => {
-      navigationMenu.docsNavButton().invoke("removeAttr", "target").click()
-      cy.url().should("eq", "https://docs.storage.chainsafe.io/")
+    it("can navigate to the API keys page", () => {
+      navigationMenu.APIKeysNavButton().click()
+      cy.url().should("include", "/api-keys")
     })
 
     it("can sign out from the navigation bar", () => {
@@ -35,9 +30,9 @@ describe("Main Navigation", () => {
         .should("be.visible")
         .click()
       authenticationPage.web3Button().should("be.visible")
-      cy.url().should("not.include", "/drive")
-      cy.url().should("not.include", "/bin")
-      cy.url().should("not.include", "/settings")
+      cy.url().should("not.include", "/buckets")
+      cy.url().should("not.include", "/cids")
+      cy.url().should("not.include", "/api-keys")
     })
   })
 
@@ -58,14 +53,9 @@ describe("Main Navigation", () => {
       cy.url().should("include", "/buckets")
     })
 
-    it("can navigate to the settings page", () => {
-      navigationMenu.settingsNavButton().click()
-      cy.url().should("include", "/settings")
-    })
-
-    it("can navigate to the docs page", () => {
-      navigationMenu.docsNavButton().invoke("removeAttr", "target").click()
-      cy.url().should("eq", "https://docs.storage.chainsafe.io/")
+    it("can navigate to the API keys page", () => {
+      navigationMenu.APIKeysNavButton().click()
+      cy.url().should("include", "/api-keys")
     })
 
     it("can sign out from the navigation bar", () => {
@@ -73,9 +63,9 @@ describe("Main Navigation", () => {
         .should("be.visible")
         .click()
       authenticationPage.web3Button().should("be.visible")
-      cy.url().should("not.include", "/drive")
-      cy.url().should("not.include", "/bin")
-      cy.url().should("not.include", "/settings")
+      cy.url().should("not.include", "/buckets")
+      cy.url().should("not.include", "/cids")
+      cy.url().should("not.include", "/api-keys")
     })
   })
 })
