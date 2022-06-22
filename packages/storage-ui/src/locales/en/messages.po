@@ -106,9 +106,6 @@ msgstr "Are we on the right track? Let us know in less than 1 minute."
 msgid "Are you sure? This will delete your default payment method."
 msgstr "Are you sure? This will delete your default payment method."
 
-msgid "Billing"
-msgstr "Billing"
-
 msgid "Billing History"
 msgstr "Billing History"
 
@@ -612,6 +609,9 @@ msgstr "Storage Max"
 
 msgid "Storage Pro"
 msgstr "Storage Pro"
+
+msgid "Subscription"
+msgstr "Subscription"
 
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
