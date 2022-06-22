@@ -24,7 +24,7 @@ describe("Main Navigation", () => {
       cy.url().should("include", "/settings")
     })
 
-    it("can navigate to the docs page", () => {
+    it.skip("can navigate to the docs page", () => {
       navigationMenu.docsNavButton().invoke("removeAttr", "target").click()
       cy.url().should("eq", "https://docs.storage.chainsafe.io/")
     })
