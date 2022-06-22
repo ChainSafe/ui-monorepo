@@ -69,6 +69,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       justifyContent: "center",
       alignItems: "center",
       width: 20,
+      height: 20,
       marginRight: constants.generalUnit * 1.5,
       fill: constants.fileSystemItemRow.menuIcon,
       "& path" : {
