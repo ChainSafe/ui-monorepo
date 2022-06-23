@@ -9,7 +9,9 @@ import {
   MenuDropdown,
   PowerDownSvg,
   useHistory,
-  useToasts
+  useToasts,
+  DocumentSvg,
+  ExternalSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
@@ -36,9 +38,7 @@ const useStyles = makeStyles(
           }px`,
           left: Number(constants.navWidth),
           opacity: 0,
-
           backgroundColor: constants.header.rootBackground,
-
           "& > *:first-child": {
             flex: "1 1 0"
           },
@@ -162,6 +162,25 @@ const useStyles = makeStyles(
         padding: `5px ${constants.generalUnit}px`,
         background: palette.additional["gray"][1],
         boxShadow: constants.nav.profileButtonShadow
+      },
+      docItem: {
+        display: "flex",
+        justifyContent: "center",
+        textDecorationLine: "none",
+        padding: `5px ${constants.generalUnit * 2}px`,
+        color: palette.additional["gray"][8]
+      },
+      docIcon: {
+        height: 18,
+        width: 18,
+        marginRight: constants.generalUnit,
+        fill: palette.additional["gray"][8]
+      },
+      externalIcon: {
+        height: 18,
+        width: 18,
+        marginLeft: constants.generalUnit * 1.5,
+        stroke: palette.primary.main
       }
     })
   }
@@ -200,6 +219,21 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
           {desktop ? (
             <>
               <section className={classes.accountControls}>
+                <a
+                  data-cy="docs-nav"
+                  className={clsx(classes.docItem, classes.profileButton)}
+                  href="https://docs.storage.chainsafe.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <DocumentSvg className={classes.docIcon} />
+                  <Typography
+                    variant="h5"
+                  >
+                    <Trans>Docs</Trans>
+                  </Typography>
+                  <ExternalSvg className={classes.externalIcon} />
+                </a>
                 <MenuDropdown
                   anchor="bottom-right"
                   hideIndicator={true}
@@ -243,7 +277,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   }
                 </MenuDropdown>
                 <NotificationsDropdown />
-
               </section>
             </>
           ) : (

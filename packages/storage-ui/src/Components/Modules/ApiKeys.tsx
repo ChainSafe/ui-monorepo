@@ -35,6 +35,8 @@ const useStyles = makeStyles(({ constants, breakpoints, animation, zIndex, palet
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
+      marginTop: constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 2,
       [breakpoints.down("md")]: {
         marginTop: constants.generalUnit
       }
@@ -135,13 +137,6 @@ const useStyles = makeStyles(({ constants, breakpoints, animation, zIndex, palet
     },
     field: {
       marginBottom: constants.generalUnit * 4
-    },
-    mainHeader: {
-      fontSize: 28,
-      marginBottom: constants.generalUnit * 2,
-      [breakpoints.up("md")]: {
-        paddingLeft: constants.generalUnit * 2
-      }
     }
   })
 )
@@ -205,9 +200,8 @@ const ApiKeys = () => {
       <div className={classes.root}>
         <header className={classes.header}>
           <Typography
-            variant="h3"
-            component="h3"
-            className={classes.mainHeader}
+            variant="h1"
+            component="h1"
           >
             <Trans>
               API Keys
