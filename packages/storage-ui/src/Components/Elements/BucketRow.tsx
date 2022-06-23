@@ -1,12 +1,27 @@
-import React, { useMemo } from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { DeleteSvg, formatBytes, IMenuItem, MenuDropdown, MoreIcon, TableCell, TableRow, useHistory  } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import React, { useEffect, useMemo, useRef, useState, useCallback } from "react"
+import { makeStyles, createStyles, useOnClickOutside } from "@chainsafe/common-theme"
+import {
+  DeleteSvg,
+  EditSvg,
+  formatBytes,
+  FormikTextInput,
+  IMenuItem,
+  Loading,
+  MenuDropdown,
+  MoreIcon,
+  TableCell,
+  TableRow,
+  Typography,
+  useHistory
+} from "@chainsafe/common-components"
+import { t, Trans } from "@lingui/macro"
 import { Bucket } from "@chainsafe/files-api-client"
 import { CSSTheme } from "../../Themes/types"
 import { desktopGridSettings, mobileGridSettings }  from "../Pages/BucketsPage"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import clsx from "clsx"
+import { Form, FormikProvider, useFormik } from "formik"
+import { nameValidator } from "../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =>
   createStyles({
@@ -57,6 +72,35 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
         gridTemplateColumns: mobileGridSettings
       },
       cursor: "pointer"
+    },
+    loadingIcon: {
+      marginLeft: constants.generalUnit,
+      verticalAlign: "middle"
+    },
+    nameRename: {
+      display: "flex",
+      flexDirection: "row",
+      "& svg": {
+        width: 20,
+        height: 20
+      }
+    },
+    filename: {
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+      overflow: "hidden",
+      "&.editing": {
+        overflow: "visible"
+      }
+    },
+    renameInput: {
+      width: "100%",
+      [breakpoints.up("md")]: {
+        margin: 0
+      },
+      [breakpoints.down("md")]: {
+        margin: `${constants.generalUnit * 4.2}px 0`
+      }
     }
   })
 )
@@ -64,22 +108,73 @@ interface Props {
   bucket: Bucket
   onRemoveBucket: (bucket: Bucket) => void
   handleContextMenu: (e: React.MouseEvent, items?: IMenuItem[]) => void
+  handleRename: (bucket: Bucket, newName: string) => Promise<void>
 }
 
-const BucketRow = ({ bucket, onRemoveBucket, handleContextMenu }: Props) => {
+const BucketRow = ({ bucket, onRemoveBucket, handleContextMenu, handleRename }: Props) => {
   const classes = useStyles()
   const { redirect } = useHistory()
-  const menuItems = useMemo(() => [{
-    contents: (
-      <>
-        <DeleteSvg className={classes.menuIcon} />
-        <span data-cy="menu-delete-bucket">
-          <Trans>Delete bucket</Trans>
-        </span>
-      </>
-    ),
-    onClick: () => onRemoveBucket(bucket)
-  }], [bucket, classes, onRemoveBucket])
+  const menuItems = useMemo(() => [
+    {
+      contents: (
+        <>
+          <EditSvg className={classes.menuIcon} />
+          <span data-cy="menu-rename">
+            <Trans>Rename</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setIsRenaming(true)
+    },
+    {
+      contents: (
+        <>
+          <DeleteSvg className={classes.menuIcon} />
+          <span data-cy="menu-delete-bucket">
+            <Trans>Delete bucket</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => onRemoveBucket(bucket)
+    }], [bucket, classes, onRemoveBucket])
+
+  const [isEditingLoading, setIsEditingLoading] = useState(false)
+  const [isRenaming, setIsRenaming] = useState(false)
+  const renameInputRef = useRef<HTMLInputElement | null>()
+  const formRef = useRef(null)
+
+  useEffect(() => {
+    if (isRenaming && renameInputRef?.current) {
+      renameInputRef.current.focus()
+    }
+  }, [isRenaming])
+
+  const formik = useFormik({
+    initialValues:{ name: bucket.name },
+    enableReinitialize: true,
+    validationSchema: nameValidator,
+    onSubmit:(values, { resetForm }) => {
+      const newName = values.name?.trim()
+
+      if (newName !== bucket.name && !!newName && handleRename) {
+        setIsEditingLoading(true)
+
+        handleRename(bucket, newName)
+          .then(() => setIsEditingLoading(false))
+      } else {
+        stopEditing()
+      }
+      setIsRenaming(false)
+      resetForm()
+    }
+  })
+
+  const stopEditing = useCallback(() => {
+    setIsRenaming(false)
+    formik.resetForm()
+  }, [formik, setIsRenaming])
+
+  useOnClickOutside(formRef, formik.submitForm)
 
   return (
     <TableRow
@@ -93,8 +188,42 @@ const BucketRow = ({ bucket, onRemoveBucket, handleContextMenu }: Props) => {
       <TableCell
         className={classes.name}
         data-cy="cell-bucket-name"
-        onClick={() => redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}>
-        {bucket.name || bucket.id}
+        onClick={() => redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}
+      >
+        {!isRenaming
+          ? <>
+            <Typography>{bucket.name || bucket.id}</Typography>
+            {isEditingLoading && <Loading
+              className={classes.loadingIcon}
+              size={16}
+              type="initial"
+            />}
+          </>
+          : (
+            <FormikProvider value={formik}>
+              <Form
+                className={classes.nameRename}
+                data-cy='form-rename'
+                ref={formRef}
+              >
+                <FormikTextInput
+                  className={classes.renameInput}
+                  data-cy='input-rename-bucket'
+                  name="name"
+                  inputVariant="minimal"
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") {
+                      stopEditing()
+                    }
+                  }}
+                  placeholder = {t`Please enter a bucket name`}
+                  autoFocus
+                  ref={renameInputRef}
+                />
+              </Form>
+            </FormikProvider>
+          )
+        }
       </TableCell>
       <TableCell
         data-cy="cell-file-system-type"
