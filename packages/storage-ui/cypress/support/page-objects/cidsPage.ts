@@ -13,6 +13,7 @@ export const cidsPage = {
 
   // cid browser row elements
   searchCidInput: () => cy.get("[data-testid=input-search-cid]"),
+  nameTableHeader: () => cy.get("[data-cy=table-header-name]"),
   cidTableHeader: () => cy.get("[data-cy=table-header-cid]"),
   createdTableHeader: () => cy.get("[data-cy=table-header-created]"),
   sizeTableHeader: () => cy.get("[data-cy=table-header-size]"),
