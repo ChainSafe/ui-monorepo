@@ -13,11 +13,11 @@ export const cidsPage = {
 
   // cid browser row elements
   searchCidInput: () => cy.get("[data-testid=input-search-cid]"),
-  nameTableHeader: () => cy.get("[data-cy=table-header-name]"),
-  cidTableHeader: () => cy.get("[data-cy=table-header-cid]"),
-  createdTableHeader: () => cy.get("[data-cy=table-header-created]"),
-  sizeTableHeader: () => cy.get("[data-cy=table-header-size]"),
-  statusTableHeader: () => cy.get("[data-cy=table-header-status]"),
+  cidsTableHeaderName: () => cy.get("[data-cy=cids-table-header-name]"),
+  cidsTableHeaderCid: () => cy.get("[data-cy=cids-table-header-cid]"),
+  cidsTableHeaderCreated: () => cy.get("[data-cy=cids-table-header-created]"),
+  cidsTableHeaderSize: () => cy.get("[data-cy=cids-table-header-size]"),
+  cidsTableHeaderStatus: () => cy.get("[data-cy=cids-table-header-status]"),
   cidItemRow: () => cy.get("[data-cy=row-cid-item]", { timeout: 20000 }),
   cidNameCell: () => cy.get("[data-cy=cell-pin-name]"),
   cidCell: () => cy.get("[data-cy=cell-pin-cid]"),

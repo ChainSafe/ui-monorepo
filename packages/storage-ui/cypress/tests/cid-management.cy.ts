@@ -119,17 +119,17 @@ describe("CID management", () => {
       cidsPage.cidNameCell().eq(1).should("have.text", pin1)
 
       // ensure sort by created in descending order (oldest first)
-      cidsPage.createdTableHeader().click()
+      cidsPage.cidsTableHeaderCreated().click()
       cidsPage.cidNameCell().eq(0).should("have.text", pin1)
       cidsPage.cidNameCell().eq(1).should("have.text", pin2)
 
       // ensure sort by name in descending order (Z-A)
-      cidsPage.nameTableHeader().click()
+      cidsPage.cidsTableHeaderName().click()
       cidsPage.cidNameCell().eq(0).should("have.text", pin2)
       cidsPage.cidNameCell().eq(1).should("have.text", pin1)
 
       // ensure sort by name in ascending order (A-Z)
-      cidsPage.nameTableHeader().click()
+      cidsPage.cidsTableHeaderName().click()
       cidsPage.cidNameCell().eq(0).should("have.text", pin1)
       cidsPage.cidNameCell().eq(1).should("have.text", pin2)
     })
