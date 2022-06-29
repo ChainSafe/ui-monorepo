@@ -13,9 +13,9 @@ export const bucketsPage = {
 
   // bucket browser row elements
   bucketItemRow: () => cy.get("[data-cy=row-bucket-item]"),
-  nameTableHeader: () => cy.get("[data-cy=table-header-name]"),
-  fileSystemTableHeader: () => cy.get("[data-cy=table-header-file-system]"),
-  sizeTableHeader: () => cy.get("[data-cy=table-header-size]"),
+  bucketsTableHeaderName: () => cy.get("[data-cy=buckets-table-header-name]"),
+  bucketsTableHeaderFileSystem: () => cy.get("[data-cy=buckets-table-header-file-system]"),
+  bucketsTableHeaderSize: () => cy.get("[data-cy=buckets-table-header-size]"),
   bucketItemName: () => cy.get("[data-cy=cell-bucket-name]"),
   bucketFileSystemType: () => cy.get("[data-cy=cell-file-system-type]"),
   bucketRowKebabButton: () => cy.get("[data-testid=dropdown-title-bucket-kebab]"),

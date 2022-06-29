@@ -119,22 +119,22 @@ describe("Bucket management", () => {
       bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
 
       // ensure that sort by name in descending order (Z-A)
-      bucketsPage.nameTableHeader().click()
+      bucketsPage.bucketsTableHeaderName().click()
       bucketsPage.bucketItemName().eq(0).should("have.text", ipfsBucketName)
       bucketsPage.bucketItemName().eq(1).should("have.text", chainSafeBucketName)
 
       // ensure that sort by name in ascending order (A-Z)
-      bucketsPage.nameTableHeader().click()
+      bucketsPage.bucketsTableHeaderName().click()
       bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
       bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
 
       // ensure that sort by file system in descending order (Z-A)
-      bucketsPage.fileSystemTableHeader().click()
+      bucketsPage.bucketsTableHeaderFileSystem().click()
       bucketsPage.bucketItemName().eq(0).should("have.text", ipfsBucketName)
       bucketsPage.bucketItemName().eq(1).should("have.text", chainSafeBucketName)
 
       // ensure that sort by file system in ascending order (A-Z)
-      bucketsPage.fileSystemTableHeader().click()
+      bucketsPage.bucketsTableHeaderFileSystem().click()
       bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
       bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
     })
