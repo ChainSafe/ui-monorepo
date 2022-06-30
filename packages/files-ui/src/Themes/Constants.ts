@@ -8,6 +8,7 @@ export const UI_CONSTANTS = {
   contentTopPadding: 6 * 15,
   mobileHeaderHeight: 8 * 6.3,
   svgWidth: 8 * 2.5,
+  svgHeight: 8 * 2.5,
   topPadding: 8 * 3,
   mobileNavWidth: 8 * 30,
   headerTopPadding: 8 * 3,
