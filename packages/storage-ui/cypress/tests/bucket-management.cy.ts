@@ -6,7 +6,6 @@ import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { deleteBucketModal } from "../support/page-objects/modals/deleteBucketModal"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
-import { FILE_SYSTEM_TYPES } from "../support/utils/TestConstants"
 
 describe("Bucket management", () => {
 
@@ -109,9 +108,9 @@ describe("Bucket management", () => {
       cy.web3Login({ deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
 
-      bucketsPage.createBucket(chainSafeBucketName, FILE_SYSTEM_TYPES.CHAINSAFE)
+      bucketsPage.createBucket(chainSafeBucketName, "chainsafe")
       bucketsPage.bucketItemRow().should("have.length", 1)
-      bucketsPage.createBucket(ipfsBucketName, FILE_SYSTEM_TYPES.IPFS)
+      bucketsPage.createBucket(ipfsBucketName, "ipfs")
       bucketsPage.bucketItemRow().should("have.length", 2)
 
       // by default should be sort by date uploading in ascending order (oldest first)

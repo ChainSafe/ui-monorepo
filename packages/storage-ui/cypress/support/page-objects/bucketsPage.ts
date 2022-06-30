@@ -1,8 +1,9 @@
 // Only add things here that could be applicable to the bucket page
 
-import { FILE_SYSTEM_TYPES } from "../utils/TestConstants"
 import { basePage } from "./basePage"
 import { createBucketModal } from "./modals/createBucketModal"
+
+type BucketType = "ipfs" | "chainsafe"
 
 export const bucketsPage = {
   ...basePage,
@@ -24,15 +25,15 @@ export const bucketsPage = {
   deleteBucketMenuOption: () => cy.get("[data-cy=menu-delete-bucket]"),
 
   // helpers and convenience functions
-  createBucket(bucketName: string, bucketType: FILE_SYSTEM_TYPES) {
+  createBucket(bucketName: string, bucketType: BucketType) {
     this.createBucketButton().click()
     createBucketModal.body().should("be.visible")
     createBucketModal.bucketNameInput().type(bucketName)
     switch (bucketType) {
-      case FILE_SYSTEM_TYPES.IPFS:
+      case "ipfs":
         createBucketModal.ipfsRadioInput().click()
         break
-      case FILE_SYSTEM_TYPES.CHAINSAFE:
+      case "chainsafe":
         createBucketModal.chainsafeRadioInput().click()
         break
     }
