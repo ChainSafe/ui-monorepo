@@ -6,6 +6,7 @@ import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { deleteBucketModal } from "../support/page-objects/modals/deleteBucketModal"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
+import { FILE_SYSTEM_TYPES } from "../support/utils/TestConstants"
 
 describe("Bucket management", () => {
 
@@ -102,6 +103,40 @@ describe("Bucket management", () => {
       deleteBucketModal.body().should("not.exist")
       bucketsPage.bucketItemRow().should("not.exist")
       bucketsPage.bucketItemName().should("not.exist")
+    })
+
+    it("can sort by name or file system in buckets table", () => {
+      cy.web3Login({ deleteFpsBuckets: true })
+      navigationMenu.bucketsNavButton().click()
+
+      bucketsPage.createBucket(chainSafeBucketName, FILE_SYSTEM_TYPES.CHAINSAFE)
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.createBucket(ipfsBucketName, FILE_SYSTEM_TYPES.IPFS)
+      bucketsPage.bucketItemRow().should("have.length", 2)
+
+      // by default should be sort by date uploading in ascending order (oldest first)
+      bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
+      bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
+
+      // ensure that sort by name in descending order (Z-A)
+      bucketsPage.bucketsTableHeaderName().click()
+      bucketsPage.bucketItemName().eq(0).should("have.text", ipfsBucketName)
+      bucketsPage.bucketItemName().eq(1).should("have.text", chainSafeBucketName)
+
+      // ensure that sort by name in ascending order (A-Z)
+      bucketsPage.bucketsTableHeaderName().click()
+      bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
+      bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
+
+      // ensure that sort by file system in descending order (Z-A)
+      bucketsPage.bucketsTableHeaderFileSystem().click()
+      bucketsPage.bucketItemName().eq(0).should("have.text", ipfsBucketName)
+      bucketsPage.bucketItemName().eq(1).should("have.text", chainSafeBucketName)
+
+      // ensure that sort by file system in ascending order (A-Z)
+      bucketsPage.bucketsTableHeaderFileSystem().click()
+      bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
+      bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
     })
   })
 })
