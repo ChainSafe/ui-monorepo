@@ -20,7 +20,8 @@ import {
   useHistory,
   GridIcon,
   TableIcon,
-  IMenuItem
+  IMenuItem,
+  HomeIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -887,11 +888,12 @@ const FilesList = () => {
                   />
                   : null
               }))}
-              homeOnClick={() => redirect(moduleRootPath)}
-              homeRef={homeBreadcrumbRef}
-              homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
+              onRootClick={() => redirect(moduleRootPath)}
+              rootRef={homeBreadcrumbRef}
+              rootActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
               showDropDown
               maximumCrumbs={desktop ? 5 : 3}
+              rootIcon={<HomeIcon/>}
             />
           )}
         </div>
