@@ -216,7 +216,7 @@ const CidsPage = () => {
               className={classes.tableRow}
             >
               <TableHeadCell
-                data-cy="table-header-name"
+                data-cy="cids-table-header-name"
                 sortButtons={true}
                 align="center"
                 onSortChange={() => handleSortToggle("name")}
@@ -226,7 +226,7 @@ const CidsPage = () => {
                 <Trans>Name</Trans>
               </TableHeadCell>
               <TableHeadCell
-                data-cy="table-header-cid"
+                data-cy="cids-table-header-cid"
                 sortButtons={false}
                 align="center"
               >
@@ -234,7 +234,7 @@ const CidsPage = () => {
               </TableHeadCell>
               {desktop && <>
                 <TableHeadCell
-                  data-cy="table-header-created"
+                  data-cy="cids-table-header-created"
                   sortButtons={true}
                   onSortChange={() => handleSortToggle("date_uploaded")}
                   sortDirection={sortColumn === "date_uploaded" ? sortDirection : undefined}
@@ -244,7 +244,7 @@ const CidsPage = () => {
                   <Trans>Created</Trans>
                 </TableHeadCell>
                 <TableHeadCell
-                  data-cy="table-header-size"
+                  data-cy="cids-table-header-size"
                   sortButtons={true}
                   onSortChange={() => handleSortToggle("size")}
                   sortDirection={sortColumn === "size" ? sortDirection : undefined}
@@ -254,7 +254,7 @@ const CidsPage = () => {
                   <Trans>Size</Trans>
                 </TableHeadCell>
                 <TableHeadCell
-                  data-cy="table-header-status"
+                  data-cy="cids-table-header-status"
                   sortButtons={false}
                   align="center"
                 >
