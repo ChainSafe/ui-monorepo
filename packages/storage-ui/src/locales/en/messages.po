@@ -613,6 +613,9 @@ msgstr "Storage Max"
 msgid "Storage Pro"
 msgstr "Storage Pro"
 
+msgid "Subscription"
+msgstr "Subscription"
+
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
 
