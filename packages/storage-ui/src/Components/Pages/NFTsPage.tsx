@@ -1,13 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react"
-import {  useLocation } from "@chainsafe/common-components"
+import React, { useCallback, useEffect, useState } from "react"
 import { useStorage, FileSystemItem } from "../../Contexts/StorageContext"
-import {
-  extractFileBrowserPathFromURL
-} from "../../Utils/pathUtils"
 import {  IFileBrowserModuleProps } from "../../Contexts/types"
-import FilesList from "../Modules/FilesList/FilesList"
-import DragAndDrop from "../../Contexts/DnDContext"
-import { ROUTE_LINKS } from "../../Components/StorageRoutes"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { FileBrowserContext } from "../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../Utils/Helpers"
@@ -15,20 +8,17 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
 import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
+import NFTsList from "../Modules/NFTsList/NFTsList"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
-  const { storageBuckets, getStorageSummary } = useStorage()
+  const { NFTBucket, getStorageSummary } = useStorage()
   const { storageApiClient } = useStorageApi()
+  const { localStorageGet, localStorageSet } = useLocalStorage()
+
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const { localStorageGet, localStorageSet } = useLocalStorage()
   const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
-  const { pathname } = useLocation()
   usePageTrack()
-
-  const bucketId = useMemo(() =>
-    pathname.split("/")[2]
-  , [pathname])
 
   useEffect(() => {
     const dismissedFlag = localStorageGet(DISMISSED_SURVEY_KEY)
@@ -38,18 +28,15 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     }
   }, [localStorageGet, localStorageSet])
 
-  const currentPath = useMemo(() => {
-    return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bucket(bucketId, "/"))
-  }, [pathname, bucketId])
-  const bucket = useMemo(() => storageBuckets.find(b => b.id === bucketId), [storageBuckets, bucketId])
+  console.log(NFTBucket)
 
   const refreshContents = useCallback((showLoading?: boolean) => {
-    if (!bucket) return
+    if (!NFTBucket) return
     showLoading && setLoadingCurrentPath(true)
-    storageApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
+    storageApiClient.getBucketObjectChildrenList(NFTBucket.id, { path: "/" })
       .then((newContents) => {
         showLoading && setLoadingCurrentPath(false)
-
+        console.log(newContents)
         setPathContents(
           newContents.map((fcr) => parseFileContentResponse(fcr))
         )
@@ -59,47 +46,32 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         getStorageSummary()
         showLoading && setLoadingCurrentPath(false)
       })
-  }, [bucket, storageApiClient, currentPath, getStorageSummary])
+  }, [NFTBucket, storageApiClient, getStorageSummary])
 
   useEffect(() => {
     refreshContents(true)
-  }, [bucket, refreshContents])
-
-
+  }, [refreshContents])
 
   return (
     <>
       <FileBrowserContext.Provider
         value={{
-          bucket,
-          bulkOperations,
-          crumbs,
-          moduleRootPath: ROUTE_LINKS.Bucket(bucketId, "/"),
-          currentPath,
+          bucket: NFTBucket,
+          moduleRootPath: "/",
+          currentPath: "/",
           refreshContents,
-          deleteItems,
-          downloadFile: handleDownload,
-          moveItems,
-          renameItem,
-          viewFolder,
-          handleUploadOnDrop,
           loadingCurrentPath,
           sourceFiles: pathContents,
-          heading: bucket?.name,
+          heading: "NFTs",
           controls: true,
           allowDropUpload: true,
-          itemOperations,
           withSurvey: showSurvey,
-          fileSystemType: bucket?.file_system_type
+          fileSystemType: NFTBucket?.file_system_type
         }}>
-        {(!!currentFolder || bucket?.name) &&
         <Helmet>
           <title>NFTs - Chainsafe Storage</title>
         </Helmet>
-        }
-        <DragAndDrop>
-          <FilesList />
-        </DragAndDrop>
+        <NFTsList />
       </FileBrowserContext.Provider>
     </>
   )
