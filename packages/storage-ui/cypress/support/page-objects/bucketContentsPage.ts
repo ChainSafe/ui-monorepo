@@ -1,4 +1,6 @@
 import { basePage } from "./basePage"
+import { createFolderModal } from "./modals/createFolderModal"
+import { fileUploadModal } from "./modals/fileUploadModal"
 
 export const bucketContentsPage = {
   ...basePage,
@@ -23,5 +25,21 @@ export const bucketContentsPage = {
   awaitBucketRefresh() {
     cy.intercept("POST", "**/bucket/*/ls").as("refresh")
     cy.wait("@refresh")
+  },
+
+  uploadFileToBucket(filePath: string) {
+    this.uploadButton().click()
+    fileUploadModal.body().attachFile(filePath)
+    fileUploadModal.fileList().should("have.length", 1)
+    fileUploadModal.uploadButton().safeClick()
+    fileUploadModal.body().should("not.exist")
+  },
+
+  createNewFolder(folderName: string) {
+    this.newFolderButton().click()
+    createFolderModal.body().should("exist")
+    createFolderModal.folderNameInput().type(folderName)
+    createFolderModal.createButton().click()
+    createFolderModal.body().should("not.exist")
   }
 }
