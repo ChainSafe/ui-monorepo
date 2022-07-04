@@ -63,7 +63,7 @@ describe("Bucket management", () => {
     })
 
     it("can create, upload file and delete an ipfs bucket", () => {
-      const ipfsBucketName = `ipfs bucket ${Date.now()}
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
 
       cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
