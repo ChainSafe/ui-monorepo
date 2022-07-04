@@ -5,7 +5,8 @@ import {
   Button,
   PlusIcon,
   Divider,
-  Link } from "@chainsafe/common-components"
+  Link
+} from "@chainsafe/common-components"
 import { CSSTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../StorageRoutes"
@@ -15,7 +16,10 @@ import NFTItem from "./NFTItem"
 const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
   createStyles({
     root: {
-      position: "relative"
+      position: "relative",
+      [breakpoints.down("md")]: {
+        margin: constants.generalUnit
+      }
     },
     header: {
       display: "flex",
@@ -42,10 +46,15 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
     },
     nftGrid: {
       display: "grid",
-      columnGap: constants.generalUnit * 2,
-      rowGap: constants.generalUnit * 2,
-      width: "100%",
-      gridTemplateColumns: "1fr 1fr 1fr 1fr"
+      gridColumnGap: constants.generalUnit * 6,
+      gridRowGap: constants.generalUnit * 8,
+      gridTemplateColumns: "1fr 1fr 1fr 1fr",
+      [breakpoints.down("lg")]: {
+        gridTemplateColumns: "1fr 1fr 1fr"
+      },
+      [breakpoints.down("sm")]: {
+        gridTemplateColumns: "1fr 1fr"
+      }
     }
   })
 )
@@ -118,10 +127,16 @@ const NFTsList = () => {
         </div>
       </header>
       <Divider />
-      <div className={classes.nftGrid}>
-        {nftItems.map((nftItem, i) => <NFTItem
-          key={i}
-          {...nftItem} />)}
+      <div
+        className={classes.nftGrid}
+      >
+        {nftItems.map((nftItem, i) =>
+          <NFTItem
+            key={i}
+            {...nftItem}
+          />
+        )
+        }
       </div>
     </div>
   )

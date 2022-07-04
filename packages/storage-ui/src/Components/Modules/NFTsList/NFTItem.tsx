@@ -2,8 +2,7 @@ import React from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Typography,
-  Button,
-  Divider
+  Button
 } from "@chainsafe/common-components"
 import { CSSTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
@@ -11,13 +10,19 @@ import { Trans } from "@lingui/macro"
 const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
   createStyles({
     root: {
-      position: "relative"
+      maxWidth: "100%"
     },
     imageBox: {
-      width: "inherit",
-      height: "100%",
+      width: "100%",
       objectFit: "cover",
-      marginBottom: constants.generalUnit * 2
+      marginBottom: constants.generalUnit
+    },
+    nameTitle: {
+      marginBottom: constants.generalUnit * 0.5
+    },
+    nameContainer: {
+      borderBottom: `1px solid ${palette.additional["gray"][6]}`,
+      marginBottom: constants.generalUnit * 0.5
     },
     cidRow: {
       display: "flex",
@@ -32,14 +37,14 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
       color: palette.additional["gray"][7]
     },
     cid: {
-      maxWidth: 200,
+      maxWidth: 140,
       whiteSpace: "nowrap",
       overflow: "hidden",
       textOverflow: "ellipsis"
     },
     copyButton: {
       color: palette.primary.main,
-      padding: `${constants.generalUnit}px 0`
+      padding: `${constants.generalUnit * 0.5}px 0 !important`
     }
   })
 )
@@ -55,46 +60,43 @@ const NFTItem = ({ imageURI, name, CID }: Props) => {
 
   return (
     <div className={classes.root}>
-      <div>
-        <img
-          src={imageURI}
-          alt={name}
-          className={classes.imageBox}
-        />
+      <img
+        src={imageURI}
+        alt={name}
+        className={classes.imageBox}
+      />
+      <div className={classes.nameContainer}>
+        <Typography
+          variant="h5"
+          component="p"
+          className={classes.nameTitle}
+        >
+          {name}
+        </Typography>
       </div>
-      <div>
-        <div>
+      <div className={classes.cidRow}>
+        <div className={classes.cidStartSection}>
           <Typography
-            variant="h5"
-            component="p">
-            {name}
+            variant="body1"
+            component="p"
+            className={classes.subtitle}
+          >
+              CID:&nbsp;
+          </Typography>
+          <Typography
+            variant="body1"
+            component="p"
+            className={classes.cid}
+          >
+            {CID}
           </Typography>
         </div>
-        <Divider />
-        <div className={classes.cidRow}>
-          <div className={classes.cidStartSection}>
-            <Typography
-              variant="body1"
-              component="p"
-              className={classes.subtitle}
-            >
-              CID:&nbsp;
-            </Typography>
-            <Typography
-              variant="body1"
-              component="p"
-              className={classes.cid}
-            >
-              {CID}
-            </Typography>
-          </div>
-          <Button
-            className={classes.copyButton}
-            variant="text"
-          >
-            <Trans>Copy</Trans>
-          </Button>
-        </div>
+        <Button
+          className={classes.copyButton}
+          variant="text"
+        >
+          <Trans>Copy</Trans>
+        </Button>
       </div>
     </div>
   )
