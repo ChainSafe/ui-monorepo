@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Typography,
@@ -6,6 +6,7 @@ import {
 } from "@chainsafe/common-components"
 import { CSSTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
   createStyles({
@@ -27,7 +28,10 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
     cidRow: {
       display: "flex",
       alignItems: "center",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
+      "&.clickable": {
+        cursor: "pointer"
+      }
     },
     cidStartSection: {
       display: "flex",
@@ -37,13 +41,16 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
       color: palette.additional["gray"][7]
     },
     cid: {
-      maxWidth: 140,
+      maxWidth: 150,
       whiteSpace: "nowrap",
       overflow: "hidden",
       textOverflow: "ellipsis"
     },
     copyButton: {
       color: palette.primary.main,
+      padding: `${constants.generalUnit * 0.5}px 0 !important`
+    },
+    copiedText: {
       padding: `${constants.generalUnit * 0.5}px 0 !important`
     }
   })
@@ -57,6 +64,7 @@ interface Props {
 
 const NFTItem = ({ imageURI, name, CID }: Props) => {
   const classes = useStyles()
+  const [isCopied, setIsCopied] = useState(false)
 
   return (
     <div className={classes.root}>
@@ -74,7 +82,14 @@ const NFTItem = ({ imageURI, name, CID }: Props) => {
           {name}
         </Typography>
       </div>
-      <div className={classes.cidRow}>
+      <div
+        className={clsx(classes.cidRow, !isCopied && "clickable")}
+        onClick={() => {
+          navigator.clipboard.writeText(CID)
+          setIsCopied(true)
+          setInterval(() => setIsCopied(false), 3000)
+        }}
+      >
         <div className={classes.cidStartSection}>
           <Typography
             variant="body1"
@@ -91,12 +106,20 @@ const NFTItem = ({ imageURI, name, CID }: Props) => {
             {CID}
           </Typography>
         </div>
-        <Button
-          className={classes.copyButton}
-          variant="text"
-        >
-          <Trans>Copy</Trans>
-        </Button>
+        {isCopied
+          ? <Typography
+            className={classes.copiedText}
+            variant="body1"
+          >
+            Copied
+          </Typography>
+          : <Button
+            className={classes.copyButton}
+            variant="text"
+          >
+            <Trans>Copy</Trans>
+          </Button>
+        }
       </div>
     </div>
   )
