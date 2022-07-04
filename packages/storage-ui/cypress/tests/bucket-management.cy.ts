@@ -1,6 +1,5 @@
 import { bucketsPage } from "../support/page-objects/bucketsPage"
 import { bucketContentsPage } from "../support/page-objects/bucketContentsPage"
-import { chainSafeBucketName, ipfsBucketName } from "../fixtures/storageTestData"
 import { createBucketModal } from "../support/page-objects/modals/createBucketModal"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
@@ -12,6 +11,8 @@ describe("Bucket management", () => {
   context("desktop", () => {
 
     it("can create, upload file and delete a chainsafe bucket", () => {
+      const chainSafeBucketName = `cs bucket ${Date.now()}`
+
       cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
 
@@ -61,6 +62,8 @@ describe("Bucket management", () => {
     })
 
     it("can create, upload file and delete an ipfs bucket", () => {
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+
       cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
 
@@ -105,6 +108,9 @@ describe("Bucket management", () => {
     })
 
     it("can sort by name or file system in buckets table", () => {
+      const chainSafeBucketName = `cs bucket ${Date.now()}`
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+
       cy.web3Login({ deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
 
