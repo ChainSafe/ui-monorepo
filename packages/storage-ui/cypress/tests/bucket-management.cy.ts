@@ -137,5 +137,18 @@ describe("Bucket management", () => {
       bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
       bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
     })
+
+    it("can rename a folder and a file inside the ipfs bucket", () => {
+      cy.web3Login({ deleteFpsBuckets: true })
+      navigationMenu.bucketsNavButton().click()
+
+      // create a new bucket and go inside the bucket
+      bucketsPage.createBucket(ipfsBucketName, "ipfs")
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      bucketContentsPage.uploadFileToBucket("../fixtures/uploadedFiles/logo.png")
+      bucketContentsPage.createNewFolder("")
+    })
   })
 })
