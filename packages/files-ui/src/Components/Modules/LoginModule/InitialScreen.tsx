@@ -254,6 +254,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     try {
       await login(loginType)
     } catch (error: any) {
+      console.error(error)
+
       let errorMessage = t`There was an error authenticating`
 
       // Invalid signature, or contract wallet not deployed
