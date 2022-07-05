@@ -1,7 +1,6 @@
-import React, { Fragment, useMemo } from "react"
+import React, { Fragment, ReactNode, useMemo } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
-import { HomeIcon } from "../Icons"
 import { Typography } from "../Typography"
 import { MenuDropdown } from "../MenuDropdown"
 
@@ -16,10 +15,10 @@ export type Crumb = {
 
 export type BreadcrumbProps = {
   crumbs?: Crumb[]
-  homeOnClick?: () => void
-  hideHome?: boolean
-  homeRef?: React.Ref<HTMLDivElement>
-  homeActive?: boolean
+  onRootClick?: () => void
+  rootRef?: React.Ref<HTMLDivElement>
+  rootActive?: boolean
+  rootIcon: ReactNode
   className?: string
   showDropDown?: boolean
   maximumCrumbs?: number
@@ -40,19 +39,6 @@ const useStyles = makeStyles(
           justifyContent: "center"
         },
         ...overrides?.Breadcrumb?.root
-      },
-      home: {
-        height: 16,
-        width: "fit-content",
-        margin: "3px 0",
-        "& > svg": {
-          display: "block",
-          height: "100%"
-        },
-        "&.clickable": {
-          cursor: "pointer"
-        },
-        ...overrides?.Breadcrumb?.home
       },
       separator: {
         width: 1,
@@ -106,7 +92,20 @@ const useStyles = makeStyles(
         padding: `0 ${constants.generalUnit * 0.5}px`,
         "&.active": {
           borderColor: palette.primary.main
-        }
+        },
+        width: "fit-content",
+        margin: "3px 0",
+        "& svg": {
+          display: "block",
+          height: "100%",
+          "& path": {
+            fill: palette.additional["gray"][9]
+          }
+        },
+        "&.clickable": {
+          cursor: "pointer"
+        },
+        ...overrides?.Breadcrumb?.home
       },
       fullWidth: {
         width: "100%"
@@ -136,11 +135,10 @@ const CrumbComponent = ({ crumb }: {crumb: Crumb}) => {
 
 const Breadcrumb = ({
   crumbs = [],
-  homeOnClick,
-  hideHome,
-  homeRef,
-  homeActive,
-  className,
+  onRootClick,
+  rootRef,
+  rootActive,
+  rootIcon,
   showDropDown,
   maximumCrumbs
 }: BreadcrumbProps) => {
@@ -194,20 +192,15 @@ const Breadcrumb = ({
   }
 
   return (
-    <div className={clsx(classes.root, className)}>
-      {!hideHome && <>
-        <div
-          ref={homeRef}
-          className={clsx(classes.wrapper, homeActive && "active")}
-        >
-          <HomeIcon
-            className={clsx(classes.home, homeOnClick && "clickable")}
-            onClick={() => homeOnClick && homeOnClick()}
-          />
-        </div>
-        {!!crumbs.length && <div className={clsx(classes.separator)} />}
-      </>
-      }
+    <div className={classes.root}>
+      <div
+        ref={rootRef}
+        className={clsx(classes.wrapper, rootActive && "active", onRootClick && "clickable")}
+        onClick={() => onRootClick && onRootClick()}
+      >
+        {rootIcon}
+      </div>
+      {!!crumbs.length && <div className={clsx(classes.separator)} />}
       {generateCrumbs()}
     </div>
   )

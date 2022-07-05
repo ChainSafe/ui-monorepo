@@ -308,7 +308,7 @@ const BucketsPage = () => {
             className={classes.tableRow}
           >
             <TableHeadCell
-              data-cy="table-header-name"
+              data-cy="buckets-table-header-name"
               align="left"
               sortButtons={true}
               onSortChange={() => handleSortToggle("name")}
@@ -318,7 +318,7 @@ const BucketsPage = () => {
               <Trans>Name</Trans>
             </TableHeadCell>
             <TableHeadCell
-              data-cy="table-header-file-system"
+              data-cy="buckets-table-header-file-system"
               align="center"
               sortButtons={true}
               onSortChange={() => handleSortToggle("file_system")}
@@ -328,7 +328,7 @@ const BucketsPage = () => {
               <Trans>File System</Trans>
             </TableHeadCell>
             <TableHeadCell
-              data-cy="table-header-size"
+              data-cy="buckets-table-header-size"
               align="center"
               sortButtons={true}
               onSortChange={() => handleSortToggle("size")}

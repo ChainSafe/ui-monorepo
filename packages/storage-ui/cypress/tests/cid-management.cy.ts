@@ -103,5 +103,35 @@ describe("CID management", () => {
       cidsPage.searchCidInput().clear()
       cidsPage.cidItemRow().should("have.length", 2)
     })
+
+    it("can sort by name or created at in cids table", () => {
+      cy.web3Login({ withNewSession: true })
+      navigationMenu.cidsNavButton().click()
+
+      const pin1 = "Pin 1"
+      const pin2 = "Pin 2"
+      cidsPage.addPinnedCid({ name: pin1 })
+      cidsPage.addPinnedCid({ name: pin2, cid: testCidAlternative })
+      cidsPage.cidItemRow().should("have.length", 2)
+
+      // by default should be sort by date uploading in descending order (newest first)
+      cidsPage.cidNameCell().eq(0).should("have.text", pin2)
+      cidsPage.cidNameCell().eq(1).should("have.text", pin1)
+
+      // ensure sort by created in descending order (oldest first)
+      cidsPage.cidsTableHeaderCreated().click()
+      cidsPage.cidNameCell().eq(0).should("have.text", pin1)
+      cidsPage.cidNameCell().eq(1).should("have.text", pin2)
+
+      // ensure sort by name in descending order (Z-A)
+      cidsPage.cidsTableHeaderName().click()
+      cidsPage.cidNameCell().eq(0).should("have.text", pin2)
+      cidsPage.cidNameCell().eq(1).should("have.text", pin1)
+
+      // ensure sort by name in ascending order (A-Z)
+      cidsPage.cidsTableHeaderName().click()
+      cidsPage.cidNameCell().eq(0).should("have.text", pin1)
+      cidsPage.cidNameCell().eq(1).should("have.text", pin2)
+    })
   })
 })

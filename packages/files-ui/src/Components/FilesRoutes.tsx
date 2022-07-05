@@ -33,7 +33,7 @@ export const ROUTE_LINKS = {
   BillingHistory: "/billing-history",
   UserSurvey: "https://calendly.com/colinschwarz/chainsafe-files-chat",
   Plans: "/plans",
-  SharedFolders: "/shared-overview",
+  SharedFoldersOverview: "/shared-overview",
   SharedFolderBrowserRoot: "/shared",
   SharingLink: (permission: NonceResponsePermission, jwt: string, bucketEncryptionKey: string) =>
     `${LINK_SHARING_BASE}/${permissionPath(permission)}/${encodeURIComponent(jwt)}#${encodeURIComponent(bucketEncryptionKey)}`,
@@ -75,7 +75,7 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.SharedFolders}
+        path={ROUTE_LINKS.SharedFoldersOverview}
         isAuthorized={isAuthorized}
         component={SharedFoldersPage}
         redirectPath={ROUTE_LINKS.Landing}

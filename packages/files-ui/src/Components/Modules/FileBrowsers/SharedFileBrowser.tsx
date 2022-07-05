@@ -16,7 +16,8 @@ import {
   extractSharedFileBrowserPathFromURL,
   getUrlSafePathWithFile,
   getAbsolutePathsFromCids,
-  pathEndingWithSlash
+  pathEndingWithSlash,
+  joinArrayOfPaths
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "./types"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -86,16 +87,32 @@ const SharedFileBrowser = () => {
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
-  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => {
-    return ({
-      text: decodeURIComponent(path),
+  const crumbs: Crumb[] = useMemo(() => {
+    const crumbRest = arrayOfPaths.map((path, index) => {
+      return ({
+        text: decodeURIComponent(path),
+        onClick: () => {
+          redirect(
+            ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+          )
+        },
+        path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
+      })
+    })
+
+    const root: Crumb = {
+      text: bucket?.name || "",
       onClick: () => {
         redirect(
-          ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+          ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", "/")
         )
-      }
-    })
-  }), [arrayOfPaths, bucket, redirect])
+      },
+      path: "/"
+    }
+
+    return [root, ...crumbRest]
+  }, [arrayOfPaths, bucket, redirect])
+
   const currentFolder = useMemo(() => {
     return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
   }, [arrayOfPaths])
