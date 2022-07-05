@@ -3,7 +3,7 @@ on: [workflow_dispatch]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node14.17.0-chrome91-ff89
+    container: cypress/browsers:node14.17.6-chrome100-ff98
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -18,11 +18,13 @@ jobs:
           key: ${{ runner.os }}-node_modules-build-storage-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
-
+      - name: Install and show git version
+        run: apt-get -y install git && git --version
+        id: git-install
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         env:
           REACT_APP_BLOCKNATIVE_ID: ${{ secrets.GH_REACT_APP_BLOCKNATIVE_ID }}
           REACT_APP_FILES_VERIFIER_NAME: ${{ secrets.GH_REACT_APP_FILES_VERIFIER_NAME }}
@@ -52,6 +54,7 @@ jobs:
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2.2.0
+        if: always()
         env:
           SLACK_TITLE: 'Storage UI Test Suite On-Demand Result:'
           SLACK_MESSAGE: ${{ job.status }}

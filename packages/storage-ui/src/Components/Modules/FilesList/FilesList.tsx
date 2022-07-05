@@ -6,13 +6,11 @@ import {
   SortDirection,
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeadCell,
   TableRow,
   Typography,
   Breadcrumb,
-  CircularProgressBar,
   Button,
   PlusCircleIcon,
   UploadIcon,
@@ -21,7 +19,9 @@ import {
   CheckboxInput,
   useHistory,
   GridIcon,
-  TableIcon
+  TableIcon,
+  IMenuItem,
+  HomeIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -33,8 +33,6 @@ import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation, MoveModalMode } from "../../../Contexts/types"
 import { FileSystemItem as FileSystemItemType } from "../../../Contexts/StorageContext"
 import FileSystemItem from "../FileSystemItem/FileSystemItem"
-import UploadProgressModals from "../UploadProgressModals"
-import DownloadProgressModals from "../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal/CreateFolderModal"
 import UploadFileModal from "../UploadFileModal/UploadFileModal"
 import MoveFileModal from "../MoveFileModal/MoveFileModal"
@@ -49,6 +47,9 @@ import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import FolderBreadcrumb from "./FolderBreadcrumb"
 import { DragTypes } from "./DragConstants"
+import { getPathWithFile } from "../../../Utils/pathUtils"
+import { getItemMenuOptions } from "../FileSystemItem/itemOperations"
+import AnchorMenu, { AnchorMenuPosition } from "../../UI-components/AnchorMenu"
 
 interface IStyleProps {
   themeKey: string
@@ -304,6 +305,16 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           top: 50
         }
+      },
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
+        "& svg": {
+          fill: constants.fileSystemItemRow.menuIcon
+        }
       }
     })
   }
@@ -327,11 +338,10 @@ const FilesList = () => {
     deleteItems,
     viewFolder,
     moveItems,
+    downloadFile,
     currentPath,
     refreshContents,
     loadingCurrentPath,
-    uploadsInProgress,
-    showUploadsInTable,
     allowDropUpload,
     itemOperations,
     moduleRootPath,
@@ -346,6 +356,7 @@ const FilesList = () => {
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
+  const [contextMenuPosition, setContextMenuPosition] = useState<AnchorMenuPosition | null>(null)
 
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
@@ -534,9 +545,7 @@ const FilesList = () => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [, setFileInfoPath] = useState<string | undefined>(
-    undefined
-  )
+  const [, setFileInfoPath] = useState<string | undefined>(undefined)
   const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()
 
   const [browserView, setBrowserView] = useState<BrowserView>("table")
@@ -649,6 +658,25 @@ const FilesList = () => {
     viewFolder && viewFolder(toView)
   }, [viewFolder])
 
+  const onDeleteFile = useCallback((toDelete: ISelectedFile) => {
+    setSelectedCids([toDelete])
+    setIsDeleteModalOpen(true)
+  }, [])
+
+  const onMoveFile = useCallback((toMove: ISelectedFile) => {
+    setSelectedCids([toMove])
+    setIsMoveFileModalOpen(true)
+    setMoveModalMode("move")
+  }, [])
+
+  const onShowFileInfo = useCallback((item: ISelectedFile) => {
+    setFileInfoPath(getPathWithFile(currentPath, item.name))
+  }, [currentPath])
+
+  const onPreviewFile = useCallback((toPreview: FileSystemItemType) => {
+    setPreviewFileIndex(files.indexOf(toPreview))
+  }, [files])
+
   const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -661,421 +689,467 @@ const FilesList = () => {
     setIsDeleteModalOpen(true)
   }, [])
 
-  return (
-    <article
-      className={clsx(classes.root, {
-        droppable: isOverUploadable && allowDropUpload
-      }, {
-        bottomBanner: accountRestricted
-      })}
-      ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
-    >
-      <div
-        className={clsx(classes.dropNotification, { active: isOverBrowser })}
-      >
-        <Typography
-          variant="h4"
-          component="p">
-          <Trans>Drop to upload files</Trans>
-        </Typography>
-      </div>
-      <DragPreviewLayer
-        items={sourceFiles}
-        previewType={browserView}
-      />
-      <div className={classes.breadCrumbContainer}>
-        {crumbs && moduleRootPath && (
-          <Breadcrumb
-            crumbs={crumbs.map((crumb, i) => ({
-              ...crumb,
-              component: (i < crumbs.length - 1)
-                ? <FolderBreadcrumb
-                  folderName={crumb.text}
-                  onClick={crumb.onClick}
-                  handleMove={(item) => {
-                    console.log(item, crumb.path)
-                    moveItems && crumb.path && moveItems(item.selected, crumb.path)
-                    resetSelectedCids()
-                  }}
-                  handleUpload={(item) => handleUploadOnDrop &&
-                    crumb.path &&
-                    handleUploadOnDrop(item.files, item.items, crumb.path)
-                  }
-                />
-                : null
-            }))}
-            homeOnClick={() => redirect(moduleRootPath)}
-            homeRef={homeBreadcrumbRef}
-            homeActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
-            showDropDown
-            maximumCrumbs={desktop ? 5 : 3}
-          />
-        )}
-      </div>
-      <header
-        className={classes.header}
-        data-cy="header-bucket"
-      >
-        <Typography
-          variant="h1"
-          component="h1"
-          className={classes.fileNameHeader}
-        >
-          {heading}
-        </Typography>
-        <div className={classes.controls}>
-          {controls && desktop ? (
-            <>
-              <Button
-                onClick={() => setCreateFolderModalOpen(true)}
-                variant="outline"
-                size="large"
-                disabled={accountRestricted}
-                testId="new-folder"
-              >
-                <PlusCircleIcon />
-                <span className={classes.buttonWrap}>
-                  <Trans>New folder</Trans>
-                </span>
-              </Button>
-              <Button
-                onClick={() => setIsUploadModalOpen(true)}
-                variant="outline"
-                size="large"
-                disabled={accountRestricted}
-                testId="upload-file"
-              >
-                <UploadIcon />
-                <span className={classes.buttonWrap}>
-                  <Trans>Upload</Trans>
-                </span>
-              </Button>
-            </>
-          ) : (
-            controls && !desktop && (
-              <>
-                <Button
-                  onClick={() =>
-                    setBrowserView(browserView === "grid" ? "table" : "grid")
-                  }
-                  variant="outline"
-                  size="large"
-                  className={classes.viewToggleButton}
-                >
-                  {browserView === "table" ? <GridIcon /> : <TableIcon />}
-                </Button>
-                <MenuDropdown
-                  classNames={{
-                    icon: classes.dropdownIcon,
-                    options: classes.dropdownOptions
-                  }}
-                  autoclose={true}
-                  anchor="bottom-right"
-                  animation="none"
-                  indicator={PlusIcon}
-                  menuItems={[
-                    {
-                      contents: (
-                        <Button
-                          onClick={() => setCreateFolderModalOpen(true)}
-                          variant="primary"
-                          size="large"
-                          className={classes.mobileButton}
-                          fullsize
-                          disabled={accountRestricted}
-                        >
-                          <PlusCircleIcon />
-                          <span>
-                            <Trans>Create folder</Trans>
-                          </span>
-                        </Button>
-                      )
-                    },
-                    {
-                      contents: (
-                        <Button
-                          onClick={() => setIsUploadModalOpen(true)}
-                          variant="primary"
-                          fullsize
-                          className={classes.mobileButton}
-                          disabled={accountRestricted}
-                        >
-                          <UploadIcon />
-                          <span>
-                            <Trans>Upload</Trans>
-                          </span>
-                        </Button>
-                      )
-                    }
-                  ]}
-                />
-              </>
-            )
-          )}
-        </div>
-      </header>
-      <div className={classes.encryptionNotificationRoot}>
-        <Typography
-          variant="body1"
-          className={classes.banner}>
-          <Trans>
-            Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network.
-          </Trans>
-        </Typography>
-      </div>
-      { withSurvey && isSurveyBannerVisible &&
-        <SurveyBanner onHide={onHideSurveyBanner}/>
-      }
-      <section className={classes.bulkOperations}>
-        {selectedCids.length > 0 && (
+  const browserOptions = useMemo(() => [
+    {
+      contents: (
+        <>
+          <PlusCircleIcon className={classes.menuIcon} />
+          <span>
+            <Trans>New folder</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setCreateFolderModalOpen(true),
+      disabled: accountRestricted
+    },
+    {
+      contents: (
+        <>
+          <UploadIcon className={classes.menuIcon} />
+          <span>
+            <Trans>Upload</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setIsUploadModalOpen(true),
+      disabled: accountRestricted
+    }
+  ],
+  [classes.menuIcon, accountRestricted])
+
+  const bulkActions = useMemo(() => {
+    const menuOptions: IMenuItem[] = []
+    validBulkOps.includes("move") &&
+      menuOptions.push({
+        contents: (
           <>
-            {validBulkOps.indexOf("move") >= 0 && (
-              <Button
-                onClick={(e) => {
-                  handleOpenMoveFileDialog(e)
-                  setMoveModalMode("move")
-                }}
-                variant="outline"
-              >
-                <Trans>Move selected</Trans>
-              </Button>
-            )}
-            {validBulkOps.indexOf("recover") >= 0 && (
-              <Button
-                onClick={(e) => {
-                  handleOpenMoveFileDialog(e)
-                  setMoveModalMode("recover")
-                }}
-                variant="outline"
-              >
-                <Trans>Recover selected</Trans>
-              </Button>
-            )}
-            {validBulkOps.indexOf("delete") >= 0 && (
-              <Button
-                onClick={handleOpenDeleteDialog}
-                variant="outline"
-              >
-                <Trans>Delete selected</Trans>
-              </Button>
-            )}
+            <span>
+              <Trans>Move</Trans>
+            </span>
           </>
-        )}
-      </section>
-      <div
-        className={clsx(
-          classes.loadingContainer,
-          loadingCurrentPath && classes.showLoadingContainer
-        )}
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("move")
+        }
+      })
+
+    validBulkOps.includes("recover") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Recover</Trans>
+            </span>
+          </>
+        ),
+        onClick: (e: React.MouseEvent) => {
+          handleOpenMoveFileDialog(e)
+          setMoveModalMode("recover")
+        }
+      })
+
+    validBulkOps.includes("delete") &&
+      menuOptions.push({
+        contents: (
+          <>
+            <span>
+              <Trans>Delete</Trans>
+            </span>
+          </>
+        ),
+        onClick: handleOpenDeleteDialog
+      })
+    return menuOptions
+  }, [
+    validBulkOps,
+    handleOpenDeleteDialog,
+    handleOpenMoveFileDialog
+  ])
+
+  const handleContextMenuOnBrowser = useCallback((e: React.MouseEvent) => {
+    if (!controls) return
+    e.preventDefault()
+    // reset selected files if context menu was open
+    setSelectedCids([])
+    setContextMenuPosition({
+      left: e.clientX - 2,
+      top: e.clientY - 4
+    })
+  }, [controls])
+
+  const handleContextMenuOnItem = useCallback((e: React.MouseEvent, item: FileSystemItemType) => {
+    e.preventDefault()
+    e.stopPropagation()
+    // only keep current item selected if not in selected
+    if (!selectedItems.includes(item)) {
+      setSelectedCids([item])
+    }
+    setContextMenuPosition({
+      left: e.clientX - 2,
+      top: e.clientY - 4
+    })
+  }, [selectedItems])
+
+  const itemFunctions = useMemo(() => ({
+    deleteFile: onDeleteFile,
+    downloadFile,
+    moveFile: onMoveFile,
+    viewFolder: handleViewFolder,
+    showFileInfo: onShowFileInfo,
+    showPreview: onPreviewFile,
+    editFile: setEditingFile
+  }), [
+    handleViewFolder,
+    onDeleteFile,
+    downloadFile,
+    onMoveFile,
+    onShowFileInfo,
+    onPreviewFile
+  ])
+
+  const contextMenuOptions: IMenuItem[] = useMemo(() => {
+    if (selectedItems.length > 1) {
+      // bulk operations
+      return bulkActions
+    } else if (selectedItems.length === 1) {
+      // single item operations
+      const item  = selectedItems[0]
+      return getItemMenuOptions({
+        file: item,
+        itemOperations: getItemOperations(item.content_type),
+        menuIconClass: classes.menuIcon,
+        ...itemFunctions
+      })
+    } else {
+      return browserOptions
+    }
+  }, [
+    browserOptions,
+    selectedItems,
+    classes.menuIcon,
+    getItemOperations,
+    itemFunctions,
+    bulkActions
+  ])
+
+  return (
+    <>
+      <article
+        className={clsx(classes.root, {
+          droppable: isOverUploadable && allowDropUpload
+        }, {
+          bottomBanner: accountRestricted
+        })}
+        onContextMenu={handleContextMenuOnBrowser}
+        ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
       >
-        <Loading
-          size={24}
-          type="light" />
-        <Typography
-          variant="body2"
-          component="p">
-          <Trans>One sec, getting files ready...</Trans>
-        </Typography>
-      </div>
-      {(items.length === 0) ? (
-        <section
-          className={clsx(
-            classes.noFiles,
-            loadingCurrentPath && classes.fadeOutLoading
-          )}
+        <div
+          className={clsx(classes.dropNotification, { active: isOverBrowser })}
         >
-          <EmptySvg />
           <Typography
             variant="h4"
-            component="h4"
-          >
-            <Trans>No files to show</Trans>
+            component="p">
+            <Trans>Drop to upload files</Trans>
           </Typography>
-        </section>
-      ) : browserView === "table" ? (
-        <Table
-          fullWidth={true}
-          striped={true}
-          hover={true}
-          className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+        </div>
+        {contextMenuPosition && (
+          <AnchorMenu
+            options={contextMenuOptions}
+            onClose={() => setContextMenuPosition(null)}
+            anchorPosition={contextMenuPosition}
+          />
+        )}
+        <DragPreviewLayer
+          items={sourceFiles}
+          previewType={browserView}
+        />
+        <div
+          className={classes.breadCrumbContainer}
+          onContextMenu={(e) => e.stopPropagation()}
         >
-          {desktop && (
-            <TableHead className={classes.tableHead}>
-              <TableRow
-                type="grid"
-                className={classes.tableRow}>
-                <TableHeadCell>
-                  <CheckboxInput
-                    value={selectedCids.length === items.length}
-                    onChange={() => toggleAll()}
+          {crumbs && moduleRootPath && (
+            <Breadcrumb
+              crumbs={crumbs.map((crumb, i) => ({
+                ...crumb,
+                component: (i < crumbs.length - 1)
+                  ? <FolderBreadcrumb
+                    folderName={crumb.text}
+                    onClick={crumb.onClick}
+                    handleMove={(item) => {
+                      console.log(item, crumb.path)
+                      moveItems && crumb.path && moveItems(item.selected, crumb.path)
+                      resetSelectedCids()
+                    }}
+                    handleUpload={(item) => handleUploadOnDrop &&
+                    crumb.path &&
+                    handleUploadOnDrop(item.files, item.items, crumb.path)
+                    }
                   />
-                </TableHeadCell>
-                <TableHeadCell>
-                  {/* 
-                        Icon
-                      */}
-                </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  onSortChange={() => handleSortToggle("name")}
-                  sortDirection={column === "name" ? direction : undefined}
-                  sortActive={column === "name"}
-                >
-                  <Trans>Name</Trans>
-                </TableHeadCell>
-                <TableHeadCell>
-                    CID
-                </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("size")}
-                  sortDirection={column === "size" ? direction : undefined}
-                  sortActive={column === "size"}
-                >
-                  <Trans>Size</Trans>
-                </TableHeadCell>
-                <TableHeadCell>{/* Menu */}</TableHeadCell>
-              </TableRow>
-            </TableHead>
+                  : null
+              }))}
+              onRootClick={() => redirect(moduleRootPath)}
+              rootRef={homeBreadcrumbRef}
+              rootActive={isOverUploadHomeBreadcrumb || isOverMoveHomeBreadcrumb}
+              showDropDown
+              maximumCrumbs={desktop ? 5 : 3}
+              rootIcon={<HomeIcon/>}
+            />
           )}
-          <TableBody>
-            {!desktop &&
-              showUploadsInTable &&
-              uploadsInProgress
-                ?.filter(
-                  (uploadInProgress) =>
-                    uploadInProgress.path === currentPath &&
-                    !uploadInProgress.complete &&
-                    !uploadInProgress.error
-                )
-                .map((uploadInProgress) => (
-                  <TableRow
-                    key={uploadInProgress.id}
-                    className={classes.tableRow}
-                    type="grid"
+        </div>
+        <header
+          className={classes.header}
+          data-cy="header-bucket"
+        >
+          <Typography
+            variant="h1"
+            component="h1"
+            className={classes.fileNameHeader}
+          >
+            {heading}
+          </Typography>
+          <div
+            className={classes.controls}
+            onContextMenu={(e) => e.stopPropagation()}
+          >
+            {controls && desktop ? (
+              <>
+                <Button
+                  onClick={() => setCreateFolderModalOpen(true)}
+                  variant="outline"
+                  size="large"
+                  disabled={accountRestricted}
+                  testId="new-folder"
+                >
+                  <PlusCircleIcon />
+                  <span className={classes.buttonWrap}>
+                    <Trans>New folder</Trans>
+                  </span>
+                </Button>
+                <Button
+                  onClick={() => setIsUploadModalOpen(true)}
+                  variant="outline"
+                  size="large"
+                  disabled={accountRestricted}
+                  testId="upload-file"
+                >
+                  <UploadIcon />
+                  <span className={classes.buttonWrap}>
+                    <Trans>Upload</Trans>
+                  </span>
+                </Button>
+              </>
+            ) : (
+              controls && !desktop && (
+                <>
+                  <Button
+                    onClick={() =>
+                      setBrowserView(browserView === "grid" ? "table" : "grid")
+                    }
+                    variant="outline"
+                    size="large"
+                    className={classes.viewToggleButton}
                   >
-                    <TableCell className={classes.progressIcon}>
-                      <CircularProgressBar
-                        progress={uploadInProgress.progress}
-                        size="small"
-                        width={15}
-                      />
-                    </TableCell>
-                    <TableCell align="left">
-                      {uploadInProgress.noOfFiles > 1
-                        ? t`Uploading ${uploadInProgress.noOfFiles} files`
-                        : uploadInProgress.fileName}
-                    </TableCell>
-                    <TableCell />
-                  </TableRow>
-                ))}
+                    {browserView === "table" ? <GridIcon /> : <TableIcon />}
+                  </Button>
+                  <MenuDropdown
+                    classNames={{
+                      icon: classes.dropdownIcon,
+                      options: classes.dropdownOptions
+                    }}
+                    autoclose={true}
+                    anchor="bottom-right"
+                    animation="none"
+                    indicator={PlusIcon}
+                    menuItems={browserOptions}
+                  />
+                </>
+              )
+            )}
+          </div>
+        </header>
+        <div
+          className={classes.encryptionNotificationRoot}
+          onContextMenu={(e) => e.stopPropagation()}
+        >
+          <Typography
+            variant="body1"
+            className={classes.banner}>
+            <Trans>
+            Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network.
+            </Trans>
+          </Typography>
+        </div>
+        { withSurvey && isSurveyBannerVisible &&
+        <SurveyBanner onHide={onHideSurveyBanner}/>
+        }
+        <section className={classes.bulkOperations}>
+          {selectedCids.length > 0 && (
+            <>
+              {validBulkOps.indexOf("move") >= 0 && (
+                <Button
+                  onClick={(e) => {
+                    handleOpenMoveFileDialog(e)
+                    setMoveModalMode("move")
+                  }}
+                  variant="outline"
+                >
+                  <Trans>Move selected</Trans>
+                </Button>
+              )}
+              {validBulkOps.indexOf("recover") >= 0 && (
+                <Button
+                  onClick={(e) => {
+                    handleOpenMoveFileDialog(e)
+                    setMoveModalMode("recover")
+                  }}
+                  variant="outline"
+                >
+                  <Trans>Recover selected</Trans>
+                </Button>
+              )}
+              {validBulkOps.indexOf("delete") >= 0 && (
+                <Button
+                  onClick={handleOpenDeleteDialog}
+                  variant="outline"
+                >
+                  <Trans>Delete selected</Trans>
+                </Button>
+              )}
+            </>
+          )}
+        </section>
+        <div
+          className={clsx(
+            classes.loadingContainer,
+            loadingCurrentPath && classes.showLoadingContainer
+          )}
+        >
+          <Loading
+            size={24}
+            type="light" />
+          <Typography
+            variant="body2"
+            component="p">
+            <Trans>One sec, getting files ready...</Trans>
+          </Typography>
+        </div>
+        {(items.length === 0) ? (
+          <section
+            className={clsx(
+              classes.noFiles,
+              loadingCurrentPath && classes.fadeOutLoading
+            )}
+          >
+            <EmptySvg />
+            <Typography
+              variant="h4"
+              component="h4"
+            >
+              <Trans>No files to show</Trans>
+            </Typography>
+          </section>
+        ) : browserView === "table" ? (
+          <Table
+            fullWidth={true}
+            striped={true}
+            hover={true}
+            className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+          >
+            {desktop && (
+              <TableHead className={classes.tableHead}>
+                <TableRow
+                  type="grid"
+                  className={classes.tableRow}>
+                  <TableHeadCell>
+                    <CheckboxInput
+                      value={selectedCids.length === items.length}
+                      onChange={() => toggleAll()}
+                    />
+                  </TableHeadCell>
+                  <TableHeadCell>
+                    {/* Icon */}
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    onSortChange={() => handleSortToggle("name")}
+                    sortDirection={column === "name" ? direction : undefined}
+                    sortActive={column === "name"}
+                  >
+                    <Trans>Name</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell>
+                    CID
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("size")}
+                    sortDirection={column === "size" ? direction : undefined}
+                    sortActive={column === "size"}
+                  >
+                    <Trans>Size</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell>{/* Menu */}</TableHeadCell>
+                </TableRow>
+              </TableHead>
+            )}
+            <TableBody>
+              {items.map((file, index) => (
+                <FileSystemItem
+                  key={index}
+                  index={index}
+                  file={file}
+                  selected={selectedCids}
+                  handleSelectCid={handleSelectCid}
+                  handleAddToSelectedCids={handleAddToSelectedCids}
+                  handleSelectItemWithShift={handleSelectItemWithShift}
+                  editingFile={editingFile}
+                  handleRename={(item: ISelectedFile, newName: string) => {
+                    setEditingFile(undefined)
+                    return handleRename && handleRename(item, newName)
+                  }}
+                  itemOperations={getItemOperations(file.content_type)}
+                  resetSelectedFiles={resetSelectedCids}
+                  handleContextMenuOnItem={handleContextMenuOnItem}
+                  {...itemFunctions}
+                  browserView="table"
+                />
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <section
+            className={clsx(
+              classes.gridRoot,
+              loadingCurrentPath && classes.fadeOutLoading
+            )}
+          >
             {items.map((file, index) => (
               <FileSystemItem
                 key={index}
                 index={index}
                 file={file}
-                files={files}
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
                 handleAddToSelectedCids={handleAddToSelectedCids}
                 handleSelectItemWithShift={handleSelectItemWithShift}
                 editingFile={editingFile}
-                setEditingFile={setEditingFile}
-                handleRename={(item: ISelectedFile, newName: string) => {
+                handleRename={(editingFile: ISelectedFile, newName: string) => {
                   setEditingFile(undefined)
-                  return handleRename && handleRename(item, newName)
+                  return handleRename && handleRename(editingFile, newName)
                 }}
-                deleteFile={() => {
-                  setSelectedCids([{
-                    cid: file.cid,
-                    name: file.name
-                  }])
-                  setIsDeleteModalOpen(true)
-                }}
-                viewFolder={handleViewFolder}
-                setPreviewFileIndex={setPreviewFileIndex}
-                moveFile={() => {
-                  setSelectedCids([{
-                    cid: file.cid,
-                    name: file.name
-                  }])
-                  setIsMoveFileModalOpen(true)
-                  setMoveModalMode("move")
-                }}
-                setFileInfoPath={setFileInfoPath}
+                previewFile={onPreviewFile}
                 itemOperations={getItemOperations(file.content_type)}
                 resetSelectedFiles={resetSelectedCids}
-                browserView="table"
-                recoverFile={() => {
-                  setSelectedCids([{
-                    cid: file.cid,
-                    name: file.name
-                  }])
-                  setIsMoveFileModalOpen(true)
-                  setMoveModalMode("recover")
-                }}
+                handleContextMenuOnItem={handleContextMenuOnItem}
+                {...itemFunctions}
+                browserView="grid"
               />
             ))}
-          </TableBody>
-        </Table>
-      ) : (
-        <section
-          className={clsx(
-            classes.gridRoot,
-            loadingCurrentPath && classes.fadeOutLoading
-          )}
-        >
-          {items.map((file, index) => (
-            <FileSystemItem
-              key={index}
-              index={index}
-              file={file}
-              files={files}
-              selected={selectedCids}
-              handleSelectCid={handleSelectCid}
-              viewFolder={handleViewFolder}
-              handleAddToSelectedCids={handleAddToSelectedCids}
-              handleSelectItemWithShift={handleSelectItemWithShift}
-              editingFile={editingFile}
-              setEditingFile={setEditingFile}
-              handleRename={(editingFile: ISelectedFile, newName: string) => {
-                setEditingFile(undefined)
-                return handleRename && handleRename(editingFile, newName)
-              }}
-              deleteFile={() => {
-                setSelectedCids([{
-                  cid: file.cid,
-                  name: file.name
-                }])
-                setIsDeleteModalOpen(true)
-              }}
-              setPreviewFileIndex={setPreviewFileIndex}
-              moveFile={() => {
-                setSelectedCids([{
-                  cid: file.cid,
-                  name: file.name
-                }])
-                setIsMoveFileModalOpen(true)
-                setMoveModalMode("move")
-              }}
-              setFileInfoPath={setFileInfoPath}
-              itemOperations={getItemOperations(file.content_type)}
-              resetSelectedFiles={resetSelectedCids}
-              recoverFile={() => {
-                setSelectedCids([{
-                  cid: file.cid,
-                  name: file.name
-                }])
-                setIsMoveFileModalOpen(true)
-                setMoveModalMode("recover")
-              }}
-              browserView="grid"
-            />
-          ))}
-        </section>
-      )}
-      {/* {files && previewFileIndex !== undefined && bucket && (
+          </section>
+        )}
+        {/* {files && previewFileIndex !== undefined && bucket && (
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
@@ -1086,6 +1160,7 @@ const FilesList = () => {
           path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : getPathWithFile(currentPath, files[previewFileIndex].name)}
         />
       )} */}
+      </article>
       <Dialog
         active={isDeleteModalOpen}
         reject={() => setIsDeleteModalOpen(false)}
@@ -1106,8 +1181,6 @@ const FilesList = () => {
           e.stopPropagation()
         }}
       />
-      <UploadProgressModals />
-      <DownloadProgressModals />
       {
         refreshContents && (
           <>
@@ -1140,7 +1213,7 @@ const FilesList = () => {
       {accountRestricted &&
         <RestrictedModeBanner />
       }
-    </article>
+    </>
   )
 }
 

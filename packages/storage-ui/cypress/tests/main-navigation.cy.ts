@@ -14,15 +14,25 @@ describe("Main Navigation", () => {
       cy.url().should("include", "/cids")
     })
 
+    it("can navigate to the buckets page", () => {
+      navigationMenu.bucketsNavButton().click()
+      cy.url().should("include", "/buckets")
+    })
+
+    it("can navigate to the API keys page", () => {
+      navigationMenu.APIKeysNavButton().click()
+      cy.url().should("include", "/api-keys")
+    })
+
     it("can sign out from the navigation bar", () => {
       navigationMenu.signOutDropdown().click()
       navigationMenu.signOutMenuOption()
         .should("be.visible")
         .click()
       authenticationPage.web3Button().should("be.visible")
-      cy.url().should("not.include", "/drive")
-      cy.url().should("not.include", "/bin")
-      cy.url().should("not.include", "/settings")
+      cy.url().should("not.include", "/buckets")
+      cy.url().should("not.include", "/cids")
+      cy.url().should("not.include", "/api-keys")
     })
   })
 
@@ -38,14 +48,24 @@ describe("Main Navigation", () => {
       cy.url().should("include", "/cids")
     })
 
+    it("can navigate to the buckets page", () => {
+      navigationMenu.bucketsNavButton().click()
+      cy.url().should("include", "/buckets")
+    })
+
+    it("can navigate to the API keys page", () => {
+      navigationMenu.APIKeysNavButton().click()
+      cy.url().should("include", "/api-keys")
+    })
+
     it("can sign out from the navigation bar", () => {
       navigationMenu.signOutButton()
         .should("be.visible")
         .click()
       authenticationPage.web3Button().should("be.visible")
-      cy.url().should("not.include", "/drive")
-      cy.url().should("not.include", "/bin")
-      cy.url().should("not.include", "/settings")
+      cy.url().should("not.include", "/buckets")
+      cy.url().should("not.include", "/cids")
+      cy.url().should("not.include", "/api-keys")
     })
   })
 })

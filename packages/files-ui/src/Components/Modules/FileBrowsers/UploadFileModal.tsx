@@ -1,14 +1,16 @@
 import { Button, FileInput } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import React, { useCallback, useMemo, useState } from "react"
+
+import React, { useCallback, useState, useEffect } from "react"
 import { Form, useFormik, FormikProvider } from "formik"
-import { array, object } from "yup"
 import CustomModal from "../../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { getPathWithFile } from "../../../Utils/pathUtils"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -77,50 +79,76 @@ interface IUploadFileModuleProps {
   close: () => void
 }
 
+interface UploadedFiles {
+  files: Array<File & {path: string}>
+}
+
 const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { currentPath, refreshContents, bucket } = useFileBrowser()
   const { storageSummary, uploadFiles } = useFiles()
+  const { filesApiClient } = useFilesApi()
+  const [emptyFolders, setEmptyFolders] = useState<string[]>([])
+  const [isTouched, setIsTouched] = useState(false)
 
-  const UploadSchema = useMemo(() => object().shape({
-    files: array().required(t`Please select a file to upload`)
-      .test("Upload Size",
-        t`Upload size exceeds plan capacity`,
-        (files) => {
-          // no validation if the user isn't the owner
-          if(bucket?.permission !== "owner") return true
-
-          const availableStorage = storageSummary?.available_storage || 0
-          const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
-          return uploadSize < availableStorage
-        })
-  }), [bucket, storageSummary])
+  useEffect(() => {
+    setEmptyFolders([])
+  }, [])
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
   }, [])
 
-  const onSubmit = useCallback(async (values: {files: Array<File & {path: string}>}, helpers) => {
+  const onSubmit = useCallback(async (values: UploadedFiles, helpers) => {
     if (!bucket) return
 
     helpers.setSubmitting(true)
     try {
       close()
-      await uploadFiles(bucket, values.files, currentPath)
+      await values.files.length && uploadFiles(bucket, values.files, currentPath)
+
+      //create empty dir
+      if(emptyFolders.length){
+        const allDirs = emptyFolders.map((folderPath) =>
+          filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+        )
+
+        await Promise.all(allDirs)
+          .catch(console.error)
+      }
       refreshContents && refreshContents()
       helpers.resetForm()
     } catch (error: any) {
       console.error(error)
     }
     helpers.setSubmitting(false)
-  }, [bucket, close, refreshContents, uploadFiles, currentPath])
+  }, [bucket, close, uploadFiles, currentPath, emptyFolders, refreshContents, filesApiClient])
+
+  const onFormikValidate = useCallback(({ files }: UploadedFiles) => {
+
+    if (files.length === 0 && isTouched) {
+      return { files: t`Please select a file to upload` }
+    }
+
+    const availableStorage = storageSummary?.available_storage || 0
+    const uploadSize = files?.reduce((total: number, file: File) => total += file.size, 0) || 0
+
+    if(uploadSize > availableStorage)
+      return { files: t`Upload size exceeds plan capacity` }
+  },
+  [storageSummary, isTouched])
 
   const formik = useFormik({
     initialValues: { files: [] },
-    validationSchema: UploadSchema,
+    validate: onFormikValidate,
+    enableReinitialize: true,
     onSubmit
   })
+
+  useEffect(() => {
+    setIsTouched(formik.dirty)
+  }, [formik])
 
   return (
     <CustomModal
@@ -148,6 +176,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
             maxSize={2 * 1024 ** 3}
             name="files"
             onFileNumberChange={onFileNumberChange}
+            onEmptyFolderPathsChange={setEmptyFolders}
             testId="fileUpload"
           />
           <footer className={classes.footer}>

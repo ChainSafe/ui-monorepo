@@ -18,6 +18,11 @@ export const lightTheme = createTheme<CsSColors>({
     constants: {
       ...UI_CONSTANTS,
       ...({
+        menu:{
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray8)",
+          backgroundOptionHover: "var(--gray2)"
+        },
         landing: {
           background: "var(--gray3)",
           border: "var(--gray4)",
@@ -59,9 +64,10 @@ export const lightTheme = createTheme<CsSColors>({
           mobileBackgroundColor: "var(--gray9)",
           headingColor: "inherit",
           itemColor: "inherit",
-          itemColorHover: "var(--gray7)",
           itemIconColor: "inherit",
+          itemColorHover: "var(--gray6)",
           itemIconColorHover: "var(--gray7)",
+          mobileSelectedBackground: "var(--gray9)",
           profileButtonShadow: "0px 1px 2px rgba(0, 0, 0, 0.25)"
         },
         createFolder: {

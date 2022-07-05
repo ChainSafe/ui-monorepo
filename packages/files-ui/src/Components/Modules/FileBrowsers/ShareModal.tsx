@@ -40,7 +40,8 @@ const useStyles = makeStyles(
       buttonsArea: {
         display: "flex",
         justifyContent: "center",
-        flexDirection: "column"
+        flexDirection: "column",
+        marginTop: constants.generalUnit * 2
       },
       checkboxContainer: {
         marginTop: constants.generalUnit * 4
@@ -290,6 +291,7 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
                     value={destinationBucket?.id}
                     onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
                     data-cy="input-select-existing-folder-option"
+                    menuMaxHeight={140}
                   />
                 </div>
               )

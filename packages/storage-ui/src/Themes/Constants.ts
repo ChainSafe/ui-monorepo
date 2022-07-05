@@ -59,6 +59,7 @@ export interface CsSColors extends IConstants {
     itemColorHover: string
     itemIconColor: string
     itemIconColorHover: string
+    mobileSelectedBackground: string
     profileButtonShadow: string
   }
   createFolder: {
@@ -158,6 +159,11 @@ export interface CsSColors extends IConstants {
       border?: string
       borderColor?: string
     }
+  }
+  menu: {
+    backgroundColor: string
+    color: string
+    backgroundOptionHover: string
   }
   addCard: {
     color: string

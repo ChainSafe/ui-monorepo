@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { useToasts, useHistory, useLocation, Crumb, Typography, ExclamationCircleIcon, Loading } from "@chainsafe/common-components"
+import {
+  useToasts,
+  useHistory,
+  useLocation,
+  Crumb,
+  Typography,
+  ExclamationCircleIcon,
+  Loading,
+  getFilesAndEmptyDirFromDataTransferItems
+} from "@chainsafe/common-components"
 import {
   getArrayOfPaths,
   getURISafePathFromArray,
@@ -7,7 +16,8 @@ import {
   extractSharedFileBrowserPathFromURL,
   getUrlSafePathWithFile,
   getAbsolutePathsFromCids,
-  pathEndingWithSlash
+  pathEndingWithSlash,
+  joinArrayOfPaths
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "./types"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -22,7 +32,6 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 import { Helmet } from "react-helmet-async"
 
 const useStyles = makeStyles(({ constants, palette }: CSFTheme) =>
@@ -78,16 +87,32 @@ const SharedFileBrowser = () => {
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
-  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => {
-    return ({
-      text: decodeURIComponent(path),
+  const crumbs: Crumb[] = useMemo(() => {
+    const crumbRest = arrayOfPaths.map((path, index) => {
+      return ({
+        text: decodeURIComponent(path),
+        onClick: () => {
+          redirect(
+            ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+          )
+        },
+        path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
+      })
+    })
+
+    const root: Crumb = {
+      text: bucket?.name || "",
       onClick: () => {
         redirect(
-          ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+          ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", "/")
         )
-      }
-    })
-  }), [arrayOfPaths, bucket, redirect])
+      },
+      path: "/"
+    }
+
+    return [root, ...crumbRest]
+  }, [arrayOfPaths, bucket, redirect])
+
   const currentFolder = useMemo(() => {
     return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
   }, [arrayOfPaths])
@@ -224,9 +249,21 @@ const SharedFileBrowser = () => {
       })
       return
     }
-    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
-    await uploadFiles(bucket, flattenedFiles, path)
-  }, [bucket, accountRestricted, storageSummary, addToast, uploadFiles])
+
+    const flattenedFiles = await getFilesAndEmptyDirFromDataTransferItems(fileItems)
+    flattenedFiles.files?.length && await uploadFiles(bucket, flattenedFiles.files, path)
+
+    //create empty dir
+    if(flattenedFiles?.emptyDirPaths?.length){
+      const allDirs = flattenedFiles.emptyDirPaths.map((folderPath) =>
+        filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+      )
+
+      Promise.all(allDirs)
+        .then(() => refreshContents(true))
+        .catch(console.error)
+    }
+  }, [bucket, accountRestricted, storageSummary, uploadFiles, addToast, filesApiClient, currentPath, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],

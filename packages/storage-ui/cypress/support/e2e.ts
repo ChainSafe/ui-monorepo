@@ -42,11 +42,8 @@ before(() => {
       command: "Browser.grantPermissions",
       params: {
         permissions: ["clipboardReadWrite", "clipboardSanitizedWrite"],
-        origin: window.location.origin,
+        origin: window.location.origin
       }
     })
   )
 })
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')

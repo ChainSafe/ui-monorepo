@@ -307,8 +307,8 @@ msgstr "Destination Address"
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
-msgid "Didn't receive the email ?"
-msgstr "Didn't receive the email ?"
+msgid "Didn't receive the email?"
+msgstr "Didn't receive the email?"
 
 msgid "Display"
 msgstr "Display"
@@ -321,6 +321,9 @@ msgstr "Download Complete"
 
 msgid "Download as zip"
 msgstr "Download as zip"
+
+msgid "Download in progress, are you sure?"
+msgstr "Download in progress, are you sure?"
 
 msgid "Download recovery key"
 msgstr "Download recovery key"
@@ -417,6 +420,9 @@ msgstr "Files Pro"
 
 msgid "Files sharing key"
 msgstr "Files sharing key"
+
+msgid "Folder Name"
+msgstr "Folder Name"
 
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
@@ -904,6 +910,12 @@ msgstr "Something went wrong. We couldn't upload your file"
 msgid "Sort By:"
 msgstr "Sort By:"
 
+msgid "Space running low. Join the beta to upgrade."
+msgstr "Space running low. Join the beta to upgrade."
+
+msgid "Space running low. Upgrade here."
+msgstr "Space running low. Upgrade here."
+
 msgid "Start Upload"
 msgstr "Start Upload"
 
@@ -1015,6 +1027,9 @@ msgstr "Total"
 msgid "Total Amount"
 msgstr "Total Amount"
 
+msgid "Transfer is in progress, are you sure?"
+msgstr "Transfer is in progress, are you sure?"
+
 msgid "Try again"
 msgstr "Try again"
 
@@ -1039,8 +1054,17 @@ msgstr "Update credit card"
 msgid "Update your credit card"
 msgstr "Update your credit card"
 
+msgid "Upgrade"
+msgstr "Upgrade"
+
 msgid "Upload"
 msgstr "Upload"
+
+msgid "Upload complete"
+msgstr "Upload complete"
+
+msgid "Upload in progress, are you sure?"
+msgstr "Upload in progress, are you sure?"
 
 msgid "Upload size exceeds plan capacity"
 msgstr "Upload size exceeds plan capacity"

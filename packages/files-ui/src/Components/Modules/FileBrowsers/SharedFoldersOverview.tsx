@@ -11,7 +11,9 @@ import {
   Button,
   PlusIcon,
   useHistory,
-  Dialog
+  Dialog,
+  IMenuItem,
+  PlusSvg
 } from "@chainsafe/common-components"
 import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
@@ -28,6 +30,7 @@ import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
 import CreateOrManageSharedFolderModal from "./ManageSharedFolderModal"
 import { useLanguageContext } from "../../../Contexts/LanguageContext"
+import AnchorMenu, { AnchoreMenuPosition } from "../../../UI-components/AnchorMenu"
 
 export const desktopSharedGridSettings = "50px 3fr 90px 140px 140px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -112,6 +115,14 @@ const useStyles = makeStyles(
       },
       buttonWrap: {
         whiteSpace: "nowrap"
+      },
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
+        fill: constants.previewModal.menuItemIconColor
       }
     })
   }
@@ -135,6 +146,22 @@ const SharedFolderOverview = () => {
   const [isSharedFolderCreationModalOpen, setIsSharedFolderCreationModalOpen] = useState(false)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
   const { selectedLocale } = useLanguageContext()
+  const [contextMenuPosition, setContextMenuPosition] = useState<AnchoreMenuPosition | null>(null)
+  const [contextMenuOptions, setContextMenuOptions] = useState<IMenuItem[]>([])
+  const generalContextMenuOptions: IMenuItem[] = useMemo(() => [
+    {
+      contents: (
+        <>
+          <PlusSvg className={classes.menuIcon} />
+          <span>
+            <Trans>Create</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setIsSharedFolderCreationModalOpen(true)
+    }
+  ], [classes])
+
   const sortedBuckets = useMemo(() => {
     let temp: BucketKeyPermission[]
 
@@ -202,6 +229,20 @@ const SharedFolderOverview = () => {
   const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
+
+  const handleContextMenu = useCallback((e: React.MouseEvent, options?: IMenuItem[]) => {
+    e.preventDefault()
+    if(options){
+      setContextMenuOptions(options)
+    } else {
+      setContextMenuOptions(generalContextMenuOptions)
+    }
+    setContextMenuPosition({
+      left: e.clientX - 2,
+      top: e.clientY - 4
+    })
+  }, [generalContextMenuOptions])
+
   return (
     <>
       <article
@@ -209,7 +250,10 @@ const SharedFolderOverview = () => {
           bottomBanner: accountRestricted
         })}
       >
-        <header className={classes.header}>
+        <header
+          className={classes.header}
+          onContextMenu={handleContextMenu}
+        >
           <Typography
             variant="h1"
             component="h1"
@@ -230,6 +274,13 @@ const SharedFolderOverview = () => {
             </Button>
           </div>
         </header>
+        {contextMenuPosition && (
+          <AnchorMenu
+            options={contextMenuOptions}
+            onClose={() => setContextMenuPosition(null)}
+            anchorPosition={contextMenuPosition}
+          />
+        )}
         {isLoadingBuckets && (
           <div className={classes.loadingContainer}>
             <Loading
@@ -250,7 +301,10 @@ const SharedFolderOverview = () => {
             striped={true}
             hover={true}
           >
-            <TableHead className={classes.tableHead}>
+            <TableHead
+              className={classes.tableHead}
+              onContextMenu={handleContextMenu}
+            >
               <TableRow
                 type="grid"
                 className={classes.tableRow}
@@ -303,6 +357,7 @@ const SharedFolderOverview = () => {
                     setBucketToDelete(bucket)
                     setIsDeleteBucketModalOpen(true)
                   }}
+                  handleContextMenu={handleContextMenu}
                 />
               )}
             </TableBody>
@@ -330,8 +385,8 @@ const SharedFolderOverview = () => {
         }
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder, testId: "confirm-deletion" }}
-        rejectButtonProps={{ disabled: isDeletingSharedFolder, testId: "cancel-deletion" }}
+        acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder }}
+        rejectButtonProps={{ disabled: isDeletingSharedFolder }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         testId={bucketToDelete?.permission === "owner"
           ? "shared-folder-deletion"

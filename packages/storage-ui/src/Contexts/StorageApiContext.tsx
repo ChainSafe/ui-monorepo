@@ -330,7 +330,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       if (!token) throw new Error("Token undefined")
 
       setStatus("awaiting confirmation")
-      const signature = (wallet?.name === "WalletConnect")
+      const signature = (wallet?.name === "WalletConnect" || wallet?.name === "Connected")
         ? await signer.provider.send("personal_sign", [token, addressToUse])
         : await signer.signMessage(token)
 

@@ -10,9 +10,14 @@ import { planChangeSuccessModal } from "../../support/page-objects/modals/billin
 export const settingsPage = {
   ...basePage,
 
+  // settings
+  settingsTitleLabel: () => cy.get("[data-cy=label-title-settings]"),
+
   // profile tab
   profileTabButton: () => cy.get("[data-testid=tab-profile]"),
   profileTabHeader: () => cy.get("[data-cy=label-profile-header]"),
+  walletAddressLabel: () => cy.get("[data-cy=label-profile-wallet-address]"),
+  filesSharingKeyLabel: () => cy.get("[data-cy=label-profile-files-sharing-key]"),
   firstNameInput: () => cy.get("[data-cy=input-profile-firstname]"),
   lastNameInput: () => cy.get("[data-cy=input-profile-lastname]"),
   saveChangesButton: () => cy.get("[data-cy=button-save-changes]"),
@@ -22,9 +27,26 @@ export const settingsPage = {
   setUsernameButton: () => cy.get("[data-cy=button-set-username]"),
   usernamePresentInput: () => cy.get("[data-cy=input-profile-username-present]"),
 
+  // display tab
+  displayTabButton: () => cy.get("[data-testid=tab-display]"),
+  displayTabHeader: () => cy.get("[data-cy=label-display-header]"),
+  darkThemeLabel: () => cy.get("[data-testid=radio-input-dark-theme]"),
+  lightThemeLabel: () => cy.get("[data-testid=radio-input-light-theme]"),
+  languageDropdown: () => cy.get("[data-testid=dropdown-title-language-selection]"),
+  germanLanguageOption: () => cy.get("[data-cy=label-language-option-de]"),
+  englishLanguageOption: () => cy.get("[data-cy=label-language-option-en]"),
+  spanishLanguageOption: () => cy.get("[data-cy=label-language-option-es]"),
+  frenchLanguageOption: () => cy.get("[data-cy=label-language-option-fr]"),
+  norwegianLanguageOption: () => cy.get("[data-cy=label-language-option-no]"),
+
   // security tab
   securityTabButton: () => cy.get("[data-testid=tab-security]"),
   securityTabHeader: () => cy.get("[data-cy=label-security-header]"),
+  changePasswordLink: () => cy.get("[data-cy=link-change-password]"),
+  passwordInput: () => cy.get("[data-cy=input-sign-in-password]"),
+  confirmPasswordInput: () => cy.get("[data-cy=input-sign-in-password-verification]"),
+  changePasswordButton: () => cy.get("[data-cy=button-sign-in-password]"),
+  changePasswordErrorLabel: () => cy.get("[data-cy=form-change-password] span.default.error"),
 
   // subscription tab
   subscriptionTabButton: () => cy.get("[data-testid=tab-subscription]"),

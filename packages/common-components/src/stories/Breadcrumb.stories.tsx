@@ -2,6 +2,7 @@ import React from "react"
 import { action } from "@storybook/addon-actions"
 import { boolean, withKnobs, text, number } from "@storybook/addon-knobs"
 import { Breadcrumb } from "../Breadcrumb"
+import { HomeIcon } from "../Icons"
 
 export default {
   title: "Breadcrumb",
@@ -43,12 +44,12 @@ export const BreadcrumbWithDropdown = (): React.ReactNode => {
   return (
     <>
       <Breadcrumb
-        homeOnClick={() => actionsData.homeClicked()}
-        homeActive={boolean("home-active", false)}
+        onRootClick={() => actionsData.homeClicked()}
+        rootActive={boolean("home-active", false)}
         showDropDown
         crumbs={crumbs}
-        hideHome={boolean("hide home", false)}
         maximumCrumbs={number("maximum crumbs", 3)}
+        rootIcon={<HomeIcon/>}
 
       />
     </>
@@ -58,10 +59,10 @@ export const Breadcrumbs = (): React.ReactNode => {
   return (
     <>
       <Breadcrumb
-        homeOnClick={() => actionsData.homeClicked()}
-        homeActive={boolean("home-active", false)}
+        onRootClick={() => actionsData.homeClicked()}
+        rootActive={boolean("home-active", false)}
         crumbs={crumbs}
-        hideHome={boolean("hide home", false)}
+        rootIcon={<HomeIcon/>}
       />
     </>
   )}

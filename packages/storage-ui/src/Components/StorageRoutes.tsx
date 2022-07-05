@@ -7,6 +7,9 @@ import BucketsPage from "./Pages/BucketsPage"
 import SettingsPage from "./Pages/SettingsPage"
 import BucketPage from "./Pages/BucketPage"
 import BillingHistory from "./Pages/BillingHistory"
+import UploadNFTPage from "./Pages/UploadNFTPage"
+import ApiKeysPage from "./Pages/ApiKeysPage"
+import SubscriptionPage from "./Pages/SubscriptionPage"
 
 export const SETTINGS_BASE = "/settings"
 export const SETTINGS_PATHS = ["apiKeys", "plan"] as const
@@ -16,6 +19,8 @@ export const ROUTE_LINKS = {
   Landing: "/",
   Cids: "/cids",
   Buckets: "/buckets",
+  ApiKeys: "/api-keys",
+  Subscription: "/subscription",
   SettingsRoot: "/settings",
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
@@ -27,7 +32,8 @@ export const ROUTE_LINKS = {
   ChainSafe: "https://chainsafe.io/",
   BucketRoot: "/bucket",
   Bucket: (id: string, bucketPath: string) => `/bucket/${id}${bucketPath}`,
-  DiscordInvite: "https://discord.gg/YYFqgHp4Tu"
+  DiscordInvite: "https://discord.gg/YYFqgHp4Tu",
+  UploadNFT: "/upload-nft"
 }
 
 const StorageRoutes = () => {
@@ -70,6 +76,20 @@ const StorageRoutes = () => {
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.ApiKeys}
+        isAuthorized={isLoggedIn}
+        component={ApiKeysPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.Subscription}
+        isAuthorized={isLoggedIn}
+        component={SubscriptionPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
         path={ROUTE_LINKS.Settings}
         isAuthorized={isLoggedIn}
         component={SettingsPage}
@@ -82,6 +102,13 @@ const StorageRoutes = () => {
         component={LoginPage}
         redirectPath={ROUTE_LINKS.Buckets}
         redirectToSource
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.UploadNFT}
+        isAuthorized={isLoggedIn}
+        component={UploadNFTPage}
+        redirectPath={ROUTE_LINKS.Landing}
       />
     </Switch>
   )

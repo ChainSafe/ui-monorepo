@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToasts, useHistory, useLocation } from "@chainsafe/common-components"
+import { Crumb, useToasts, useHistory, useLocation, getFilesAndEmptyDirFromDataTransferItems } from "@chainsafe/common-components"
 import { useStorage, FileSystemItem } from "../../Contexts/StorageContext"
 import {
   getArrayOfPaths,
@@ -24,7 +24,7 @@ import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
-  const { storageBuckets, uploadFiles, uploadsInProgress, getStorageSummary, downloadFile } = useStorage()
+  const { storageBuckets, uploadFiles, getStorageSummary, downloadFile } = useStorage()
   const { storageApiClient, accountRestricted } = useStorageApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -182,28 +182,25 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       return
     }
 
-    let hasFolder = false
-    for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
-        hasFolder = true
-      }
-    }
-    if (hasFolder) {
-      addToast({
-        title: t`Folder uploads are currently not supported`,
-        type: "error"
-      })
-    } else {
-      uploadFiles(bucket.id, files, path)
-        .then(() => refreshContents())
+    const flattenedFiles = await getFilesAndEmptyDirFromDataTransferItems(fileItems)
+    flattenedFiles.files?.length && await uploadFiles(bucket.id, flattenedFiles.files, path)
+
+    //create empty dir
+    if(flattenedFiles?.emptyDirPaths?.length){
+      const allDirs = flattenedFiles.emptyDirPaths.map((folderPath) =>
+        storageApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
+      )
+
+      await Promise.all(allDirs)
         .catch(console.error)
     }
-  }, [bucket, accountRestricted, addToast, uploadFiles, refreshContents])
+
+    refreshContents(true)
+  }, [bucket, accountRestricted, uploadFiles, addToast, storageApiClient, currentPath, refreshContents])
 
   const viewFolder = useCallback((toView: ISelectedFile) => {
     const fileSystemItem = pathContents.find(f => f.cid === toView.cid && f.name === toView.name)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-
       redirect(ROUTE_LINKS.Bucket(bucketId, getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
   }, [currentPath, pathContents, redirect, bucketId])
@@ -238,9 +235,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         renameItem,
         viewFolder,
         handleUploadOnDrop,
-        uploadsInProgress,
         loadingCurrentPath,
-        showUploadsInTable: true,
         sourceFiles: pathContents,
         heading: bucket?.name,
         controls: true,

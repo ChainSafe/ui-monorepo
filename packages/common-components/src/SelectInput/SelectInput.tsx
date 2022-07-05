@@ -45,8 +45,10 @@ interface ISelectInputProps {
   labelClassName?: string
   error?: string
   captionMessage?: string
+  menuMaxHeight?: number
   placeholder?: string
   options: ISelectOption[]
+  defaultIsOpen?: boolean
   onChange(value: any): void
   disabled?: boolean
   value?: any
@@ -63,6 +65,8 @@ const SelectInput = ({
   onChange,
   label,
   labelClassName,
+  defaultIsOpen,
+  menuMaxHeight,
   placeholder = "Please select",
   options,
   captionMessage,
@@ -173,6 +177,22 @@ const SelectInput = ({
           ...overrides?.SelectInput?.menu
         })
     )
+  })
+
+  selectOverrides.menuList = (provided, state) => ({
+    ...provided,
+    ...(
+      styles && styles.menuList
+        ? styles.menuList({
+          ...provided,
+          ...overrides?.SelectInput?.menuList
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.menuList
+        })
+    ),
+    maxHeight: menuMaxHeight || 300
   })
 
   selectOverrides.dropdownIndicator = (provided, state) => ({
@@ -304,6 +324,7 @@ const SelectInput = ({
         options={options}
         isClearable={isClearable}
         onChange={handleChange}
+        defaultMenuIsOpen={defaultIsOpen}
         isDisabled={disabled}
         placeholder={placeholder}
         value={selectValue}

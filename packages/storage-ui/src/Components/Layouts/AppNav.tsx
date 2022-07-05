@@ -13,17 +13,18 @@ import {
   formatBytes,
   ChainsafeLogo,
   FolderSvg,
-  SettingSvg,
-  DocumentSvg,
   Button,
   PowerDownIcon,
-  useLocation
+  useLocation,
+  KeySvg,
+  CreditCardOutlinedSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
 import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { useStorage } from "../../Contexts/StorageContext"
+import { useBilling } from "../../Contexts/BillingContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSSTheme) => {
@@ -90,7 +91,6 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-
         [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
@@ -143,30 +143,65 @@ const useStyles = makeStyles(
         borderRadius: "4px",
         transitionDuration: `${animation.transform}ms`,
         "& span": {
-          color: constants.nav.itemColor,
+          [breakpoints.up("md")]: {
+            color: constants.nav.itemColor
+          },
           [breakpoints.down("md")]: {
-            color: palette.additional["gray"][3]
-          }
-        },
-        "& svg": {
-          width: Number(constants.svgWidth),
-          marginRight: constants.generalUnit * 2,
-          fill: constants.nav.itemIconColor,
-          [breakpoints.down("md")]: {
-            fill: palette.additional["gray"][3]
+            color: constants.nav.itemColorHover
           }
         },
         "&:hover": {
-          backgroundColor: palette.additional["gray"][5]
+          backgroundColor: palette.additional["gray"][5],
+          [breakpoints.down("md")]: {
+            color: constants.nav.backgroundColor
+          }
+        }
+      },
+      navItemIconFill: {
+        "& svg": {
+          "& path": {
+            fill: constants.nav.headingColor
+          },
+          width: Number(constants.svgWidth),
+          marginRight: constants.generalUnit * 2,
+          [breakpoints.up("md")]: {
+            fill: constants.nav.itemIconColor
+          },
+          [breakpoints.down("md")]: {
+            fill: constants.nav.itemIconColorHover
+          }
         },
         "&.selected": {
           backgroundColor: palette.additional["gray"][5],
           [breakpoints.down("md")]: {
             "& span": {
-              color: palette.additional["gray"][9]
+              color: constants.nav.mobileSelectedBackground
             },
             "& svg": {
-              fill: palette.additional["gray"][9]
+              fill: constants.nav.mobileSelectedBackground
+            }
+          }
+        }
+      },
+      navItemIconStroke: {
+        "& svg": {
+          width: Number(constants.svgWidth),
+          marginRight: constants.generalUnit * 2,
+          [breakpoints.down("md")]: {
+            stroke: constants.nav.itemIconColorHover,
+            "& path": {
+              stroke: constants.nav.headingColor
+            }
+          }
+        },
+        "&.selected": {
+          backgroundColor: palette.additional["gray"][5],
+          [breakpoints.down("md")]: {
+            "& span": {
+              color: constants.nav.mobileSelectedBackground
+            },
+            "& svg": {
+              stroke: constants.nav.mobileSelectedBackground
             }
           }
         }
@@ -176,17 +211,42 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        color: constants.header.menuItemTextColor,
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit
+          marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7],
+          stroke: palette.additional["gray"][7]
+        }
+      },
+      spaceUsedText: {
+        marginBottom: constants.generalUnit,
+        [breakpoints.down("md")]: {
+          color: palette.additional["gray"][5]
         }
       },
       spaceUsedMargin: {
-        marginBottom: constants.generalUnit
+        marginBottom: constants.generalUnit * 2
       },
       betaCaption: {
         marginBottom: constants.generalUnit * 0.5
+      },
+      bottomSection: {
+        [breakpoints.down("md")]: {
+          marginBottom: constants.generalUnit * 2
+        }
+      },
+      logoutButton: {
+        backgroundColor: palette.additional["gray"][5],
+        "& span": {
+          marginRight: constants.generalUnit * 0.5
+        },
+        "& svg": {
+          width: constants.generalUnit * 2,
+          height: constants.generalUnit * 2,
+          fill: palette.additional["gray"][9]
+        }
       }
     })
   }
@@ -197,13 +257,14 @@ interface IAppNav {
   setNavOpen: (state: boolean) => void
 }
 
-type AppNavTab = "buckets" | "cids" | "settings"
+type AppNavTab = "buckets" | "cids" | "settings" | "api-keys" | "subscription"
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const location = useLocation()
   const { storageSummary } = useStorage()
+  const { isBillingEnabled } = useBilling()
   const { isLoggedIn, logout } = useStorageApi()
 
   const signOut = useCallback(() => {
@@ -222,6 +283,8 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
       case "cids": return "cids"
       case "buckets": return "buckets"
       case "bucket": return "buckets"
+      case "api-keys": return "api-keys"
+      case "subscription": return "subscription"
       case "settings": return "settings"
       default: return
     }
@@ -241,7 +304,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Cids}
+                to={ROUTE_LINKS.Buckets}
               >
                 <ChainsafeLogo />
                 <Typography variant="body1">
@@ -255,7 +318,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 data-cy="buckets-nav"
                 onClick={handleOnClick}
-                className={clsx(classes.navItem, appNavTab === "buckets" && "selected")}
+                className={clsx(classes.navItem, classes.navItemIconFill, appNavTab === "buckets" && "selected")}
                 to={ROUTE_LINKS.Buckets}
               >
                 <FolderSvg />
@@ -268,7 +331,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 data-cy="cids-nav"
                 onClick={handleOnClick}
-                className={clsx(classes.navItem, appNavTab === "cids" && "selected")}
+                className={clsx(classes.navItem, classes.navItemIconFill, appNavTab === "cids" && "selected")}
                 to={ROUTE_LINKS.Cids}
               >
                 <DatabaseSvg />
@@ -278,9 +341,35 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>CIDs</Trans>
                 </Typography>
               </Link>
-            </nav>
-            <nav className={classes.navMenu}>
               <Link
+                data-cy="api-keys-nav"
+                onClick={handleOnClick}
+                className={clsx(classes.navItem, classes.navItemIconStroke, appNavTab === "api-keys" && "selected")}
+                to={ROUTE_LINKS.ApiKeys}
+              >
+                <KeySvg />
+                <Typography
+                  variant="h5"
+                >
+                  <Trans>API Keys</Trans>
+                </Typography>
+              </Link>
+              {isBillingEnabled &&
+                <Link
+                  data-cy="subscription-nav"
+                  onClick={handleOnClick}
+                  className={clsx(classes.navItem, classes.navItemIconStroke, appNavTab === "subscription" && "selected")}
+                  to={ROUTE_LINKS.Subscription}
+                >
+                  <CreditCardOutlinedSvg />
+                  <Typography
+                    variant="h5"
+                  >
+                    <Trans>Subscription</Trans>
+                  </Typography>
+                </Link>
+              }
+              {/* <Link
                 data-cy="settings-nav"
                 onClick={handleOnClick}
                 className={clsx(classes.navItem, appNavTab === "settings" && "selected")}
@@ -292,33 +381,17 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 >
                   <Trans>Settings</Trans>
                 </Typography>
-              </Link>
-              <a
-                data-cy="docs-nav"
-                className={classes.navItem}
-                href="https://docs.storage.chainsafe.io/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <DocumentSvg />
-                <Typography
-                  variant="h5"
-                >
-                  <Trans>Docs</Trans>
-                </Typography>
-              </a>
+              </Link> */}
             </nav>
           </div>
-          <section>
-            <div
-              data-cy="label-space-used"
-            >
+          <section className={classes.bottomSection}>
+            <div data-cy="label-space-used">
               {
                 storageSummary && (
                   <>
                     <Typography
                       variant="body2"
-                      className={classes.spaceUsedMargin}
+                      className={classes.spaceUsedText}
                       component="p"
                     >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
                         storageSummary.total_storage, 2
@@ -334,21 +407,18 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               }
             </div>
             {!desktop && (
-
-              <div style={{ display: "flex" }}>
-                <Button
-                  data-cy="button-sign-out"
-                  variant='secondary'
-                  onClick={() => {
-                    handleOnClick()
-                    signOut()
-                  }}
-                  size='small'
-                >
-                  <PowerDownIcon />
-                  <Trans>Log out</Trans>
-                </Button>
-              </div>
+              <Button
+                data-cy="button-sign-out"
+                onClick={() => {
+                  handleOnClick()
+                  signOut()
+                }}
+                className={classes.logoutButton}
+                variant="tertiary"
+              >
+                <PowerDownIcon />
+                <Trans>Log out</Trans>
+              </Button>
             )}
           </section>
           {!desktop && (

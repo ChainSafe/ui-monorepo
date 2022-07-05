@@ -67,8 +67,14 @@ msgstr "Add card"
 msgid "Add credit card"
 msgstr "Add credit card"
 
+msgid "Add item"
+msgstr "Add item"
+
 msgid "Add more files"
 msgstr "Add more files"
+
+msgid "Add property"
+msgstr "Add property"
 
 msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
 msgstr "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
@@ -88,6 +94,9 @@ msgstr "Amount due"
 msgid "Amount from credit"
 msgstr "Amount from credit"
 
+msgid "An error occurred:"
+msgstr "An error occurred:"
+
 msgid "Annual billing{0}"
 msgstr "Annual billing{0}"
 
@@ -105,6 +114,9 @@ msgstr "Billing history"
 
 msgid "Billing start time"
 msgstr "Billing start time"
+
+msgid "Browse files"
+msgstr "Browse files"
 
 msgid "Bucket name"
 msgstr "Bucket name"
@@ -220,9 +232,6 @@ msgstr "Create Bucket"
 msgid "Create Folder"
 msgstr "Create Folder"
 
-msgid "Create folder"
-msgstr "Create folder"
-
 msgid "Created"
 msgstr "Created"
 
@@ -265,8 +274,17 @@ msgstr "Docs"
 msgid "Download"
 msgstr "Download"
 
-msgid "Download complete"
-msgstr "Download complete"
+msgid "Download Complete"
+msgstr "Download Complete"
+
+msgid "Downloading file - {0}"
+msgstr "Downloading file - {0}"
+
+msgid "Downloads cancelled"
+msgstr "Downloads cancelled"
+
+msgid "Drag and drop to upload"
+msgstr "Drag and drop to upload"
 
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
@@ -328,9 +346,6 @@ msgstr "Folder Name"
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
-msgid "Folder uploads are currently not supported"
-msgstr "Folder uploads are currently not supported"
-
 msgid "Free"
 msgstr "Free"
 
@@ -387,6 +402,9 @@ msgstr "Move selected"
 
 msgid "Move to..."
 msgstr "Move to..."
+
+msgid "NFT"
+msgstr "NFT"
 
 msgid "Name"
 msgstr "Name"
@@ -502,6 +520,9 @@ msgstr "Privacy Policy"
 msgid "Proceed to payment"
 msgstr "Proceed to payment"
 
+msgid "Property name"
+msgstr "Property name"
+
 msgid "Recover"
 msgstr "Recover"
 
@@ -519,6 +540,9 @@ msgstr "Rename file"
 
 msgid "Rename folder"
 msgstr "Rename folder"
+
+msgid "Replace"
+msgstr "Replace"
 
 msgid "Search by cid, name…"
 msgstr "Search by cid, name…"
@@ -585,6 +609,9 @@ msgstr "Storage Max"
 
 msgid "Storage Pro"
 msgstr "Storage Pro"
+
+msgid "Subscription"
+msgstr "Subscription"
 
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
@@ -694,11 +721,11 @@ msgstr "Update your credit card"
 msgid "Upload"
 msgstr "Upload"
 
-msgid "Upload complete"
-msgstr "Upload complete"
+msgid "Upload NFT"
+msgstr "Upload NFT"
 
-msgid "Uploading {0} files"
-msgstr "Uploading {0} files"
+msgid "Uploads cancelled"
+msgstr "Uploads cancelled"
 
 msgid "Uploads disabled"
 msgstr "Uploads disabled"
@@ -739,6 +766,9 @@ msgstr "Web3: {0}"
 msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
 msgstr "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
 
+msgid "You are about to delete the bucket {0}"
+msgstr "You are about to delete the bucket {0}"
+
 msgid "You can't move folders to this path"
 msgstr "You can't move folders to this path"
 
@@ -775,6 +805,9 @@ msgstr "invoices here"
 msgid "moved successfully"
 msgstr "moved successfully"
 
+msgid "{0, plural, one {Uploading {1} file} other {Uploading {2} files}}"
+msgstr "{0, plural, one {Uploading {1} file} other {Uploading {2} files}}"
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
@@ -789,9 +822,6 @@ msgstr "{newPlanCapacity} of storage"
 
 msgid "{newPlanStorage} of storage"
 msgstr "{newPlanStorage} of storage"
-
-msgid "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
 
 msgid "{planStorageCapacity} of storage"
 msgstr "{planStorageCapacity} of storage"

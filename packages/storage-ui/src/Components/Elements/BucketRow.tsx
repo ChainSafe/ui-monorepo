@@ -1,10 +1,9 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { DeleteSvg, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow, useHistory  } from "@chainsafe/common-components"
+import { DeleteSvg, formatBytes, IMenuItem, MenuDropdown, MoreIcon, TableCell, TableRow, useHistory  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { Bucket } from "@chainsafe/files-api-client"
 import { CSSTheme } from "../../Themes/types"
-import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings }  from "../Pages/BucketsPage"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import clsx from "clsx"
@@ -63,12 +62,25 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
 )
 interface Props {
   bucket: Bucket
+  onRemoveBucket: (bucket: Bucket) => void
+  handleContextMenu: (e: React.MouseEvent, items?: IMenuItem[]) => void
 }
 
-const BucketRow = ({ bucket }: Props) => {
+const BucketRow = ({ bucket, onRemoveBucket, handleContextMenu }: Props) => {
   const classes = useStyles()
-  const { removeBucket } = useStorage()
   const { redirect } = useHistory()
+  const menuItems = useMemo(() => [{
+    contents: (
+      <>
+        <DeleteSvg className={classes.menuIcon} />
+        <span data-cy="menu-delete-bucket">
+          <Trans>Delete bucket</Trans>
+        </span>
+      </>
+    ),
+    onClick: () => onRemoveBucket(bucket)
+  }], [bucket, classes, onRemoveBucket])
+
   return (
     <TableRow
       type="grid"
@@ -76,6 +88,7 @@ const BucketRow = ({ bucket }: Props) => {
         deleting: bucket.status === "deleting"
       })}
       data-cy="row-bucket-item"
+      onContextMenu={(e) => handleContextMenu(e, menuItems)}
     >
       <TableCell
         className={classes.name}
@@ -84,7 +97,8 @@ const BucketRow = ({ bucket }: Props) => {
         {bucket.name || bucket.id}
       </TableCell>
       <TableCell
-        data-cy="cell-file-system-type">
+        data-cy="cell-file-system-type"
+      >
         {bucket.file_system_type === "ipfs" ? "IPFS MFS" : "Chainsafe" }
       </TableCell>
       <TableCell>
@@ -95,17 +109,7 @@ const BucketRow = ({ bucket }: Props) => {
           testId='bucket-kebab'
           animation="none"
           anchor={"bottom-right"}
-          menuItems={[{
-            contents: (
-              <>
-                <DeleteSvg className={classes.menuIcon} />
-                <span data-cy="menu-delete-bucket">
-                  <Trans>Delete bucket</Trans>
-                </span>
-              </>
-            ),
-            onClick: () => removeBucket(bucket.id)
-          }]}
+          menuItems={menuItems}
           classNames={{
             icon: classes.dropdownIcon,
             options: classes.dropdownOptions,

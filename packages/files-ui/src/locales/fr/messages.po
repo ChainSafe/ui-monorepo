@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2022-03-26 13:08+0000\n"
+"PO-Revision-Date: 2022-06-01 12:17+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.12-dev\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "(Awaiting payment)"
@@ -308,8 +308,8 @@ msgstr "L'adresse de destination"
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
-msgid "Didn't receive the email ?"
-msgstr "Vous n’avez pas reçu de courriel ?"
+msgid "Didn't receive the email?"
+msgstr "Vous n'avez pas reçu de courriel ?"
 
 msgid "Display"
 msgstr "Afficher"
@@ -322,6 +322,9 @@ msgstr "Téléchargement terminé"
 
 msgid "Download as zip"
 msgstr "Télécharger au format zip"
+
+msgid "Download in progress, are you sure?"
+msgstr "Téléchargement en cours, confirmez-vous ?"
 
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
@@ -418,6 +421,9 @@ msgstr "Files Pro"
 
 msgid "Files sharing key"
 msgstr "Clé de partage des fichiers"
+
+msgid "Folder Name"
+msgstr "Nom du dossier"
 
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
@@ -702,7 +708,7 @@ msgid "Please select a file to upload"
 msgstr "Merci de sélectionner un fichier à téléverser"
 
 msgid "Please select fewer files to upload"
-msgstr ""
+msgstr "Veuillez sélectionner moins de fichiers à téléverser"
 
 msgid "Preview"
 msgstr "Aperçu"
@@ -861,7 +867,7 @@ msgid "Shared folders"
 msgstr "Dossiers partagés"
 
 msgid "Shared link"
-msgstr ""
+msgstr "Lien partagé"
 
 msgid "Shared with"
 msgstr "Partagé avec"
@@ -904,6 +910,12 @@ msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichi
 
 msgid "Sort By:"
 msgstr "Trier par :"
+
+msgid "Space running low. Join the beta to upgrade."
+msgstr "L'espace est limité. Rejoignez la bêta pour une mise à niveau."
+
+msgid "Space running low. Upgrade here."
+msgstr "Bientôt à court d'espace. Mettez à niveau ici."
 
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
@@ -1016,6 +1028,9 @@ msgstr "Total"
 msgid "Total Amount"
 msgstr "Montant total"
 
+msgid "Transfer is in progress, are you sure?"
+msgstr "Le transfert est en cours, confirmez-vous ?"
+
 msgid "Try again"
 msgstr "Essayer de nouveau"
 
@@ -1040,11 +1055,20 @@ msgstr "Mettre à jour la carte de crédit"
 msgid "Update your credit card"
 msgstr "Mettre à jour votre carte de crédit"
 
+msgid "Upgrade"
+msgstr "Mettre à niveau"
+
 msgid "Upload"
 msgstr "Téléverser"
 
+msgid "Upload complete"
+msgstr "Téléversement terminé"
+
+msgid "Upload in progress, are you sure?"
+msgstr "Téléversement en cours, confirmez-vous ?"
+
 msgid "Upload size exceeds plan capacity"
-msgstr ""
+msgstr "La taille du téléversement dépasse la capacité de l'offre"
 
 msgid "Uploads cancelled"
 msgstr "Téléversements annulés"

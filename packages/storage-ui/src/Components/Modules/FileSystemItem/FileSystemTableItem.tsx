@@ -195,10 +195,11 @@ interface IFileSystemTableItemProps {
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditingFile: (editingFile: ISelectedFile |  undefined) => void
+  editFile: (editingFile: ISelectedFile |  undefined) => void
   handleRename?: (item: ISelectedFile, newName: string) => Promise<void> | undefined
   currentPath: string | undefined
   menuItems: IMenuItem[]
+  handleContextMenuOnItem?: (e: React.MouseEvent) => void
 }
 
 const FileSystemTableItem = React.forwardRef(
@@ -213,9 +214,10 @@ const FileSystemTableItem = React.forwardRef(
     onFolderOrFileClicks,
     icon,
     preview,
-    setEditingFile,
+    editFile,
     handleRename,
-    menuItems
+    menuItems,
+    handleContextMenuOnItem
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { fileSystemType } = useFileBrowser()
@@ -241,16 +243,16 @@ const FileSystemTableItem = React.forwardRef(
           handleRename(editingFile, newName)
             ?.then(() => setIsEditingLoading(false))
         } else {
-          setEditingFile(undefined)
+          editFile(undefined)
         }
       },
       enableReinitialize: true
     })
 
     const stopEditing = useCallback(() => {
-      setEditingFile(undefined)
+      editFile(undefined)
       formik.resetForm()
-    }, [formik, setEditingFile])
+    }, [formik, editFile])
 
     useOnClickOutside(formRef, formik.submitForm)
 
@@ -276,6 +278,7 @@ const FileSystemTableItem = React.forwardRef(
         })}
         type="grid"
         ref={forwardedRef}
+        onContextMenu={handleContextMenuOnItem}
         selected={selected.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0}
       >
         {desktop && (
@@ -341,29 +344,25 @@ const FileSystemTableItem = React.forwardRef(
               />}
             </>}
         </TableCell>
-        {desktop && (
+        {desktop && (!isFolder || fileSystemType === "ipfs") && (
           <>
-            {
-              <TableCell>
-                {!isFolder && <>
-                  <div
-                    className={classes.copyArea}
-                    onClick={onCopyCID}>
-                    <div className={clsx(classes.copiedFlag, { "active": copied })}>
-                      <span>
-                        <Trans>
-                          Copied!
-                        </Trans>
-                      </span>
-                    </div>
-                    <Typography component="p">
-                      { cid }
-                    </Typography>
-                    <CopySvg className={clsx(classes.copyIcon, { "active": copied })} />
-                  </div>
-                </>}
-              </TableCell>
-            }
+            <TableCell>
+              <div
+                className={classes.copyArea}
+                onClick={onCopyCID}>
+                <div className={clsx(classes.copiedFlag, { "active": copied })}>
+                  <span>
+                    <Trans>
+                      Copied!
+                    </Trans>
+                  </span>
+                </div>
+                <Typography component="p">
+                  { cid }
+                </Typography>
+                <CopySvg className={clsx(classes.copyIcon, { "active": copied })} />
+              </div>
+            </TableCell>
             <TableCell align="left">
               {!isFolder && formatBytes(size, 2)}
             </TableCell>

@@ -7,6 +7,7 @@ import { Button } from "../Button"
 import { Typography } from "../Typography"
 import { PlusIcon, CrossIcon } from "../Icons"
 import { ScrollbarWrapper } from "../ScrollbarWrapper"
+import { getFilesAndEmptyDirFromDataTransferItems } from "../utils"
 
 const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   createStyles({
@@ -117,9 +118,40 @@ interface IFileInputProps extends DropzoneOptions {
     closeIcon?: string
     error?: string
   }
-  onFileNumberChange: (filesNumber: number) => void
+  onFileNumberChange?: (filesNumber: number) => void
+  onEmptyFolderPathsChange?: (emptyFolderPaths: string[]) => void
   moreFilesLabel: string
   testId?: string
+}
+
+interface FileItemProps {
+  index?: number
+  fullPath: string
+  removeItem: (index: number) => void
+  itemClassName?: string
+  closeIconClassName?: string
+}
+
+const FileItem = ({ index = 0, fullPath, removeItem, itemClassName, closeIconClassName }: FileItemProps) => {
+  const classes = useStyles()
+  return <li
+    className={clsx(classes.item, itemClassName)}
+    key={index}
+  >
+    <span className={classes.itemText}>{fullPath}</span>
+    <Button
+      testId="remove-from-file-list"
+      className={clsx(classes.crossIcon, closeIconClassName)}
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation()
+        removeItem(index)
+      }}
+      size="small"
+    >
+      <CrossIcon fontSize="small" />
+    </Button>
+  </li>
 }
 
 const FileInput = ({
@@ -132,6 +164,7 @@ const FileInput = ({
   maxFileSize,
   classNames,
   onFileNumberChange,
+  onEmptyFolderPathsChange,
   moreFilesLabel,
   testId,
   ...props
@@ -139,11 +172,22 @@ const FileInput = ({
   const classes = useStyles()
   const [previews, setPreviews] = useState<any[]>([])
   const [errors, setErrors] = useState<any[]>([])
-  const [{ value }, meta, helpers] = useField<FileWithPath[]>(name)
+  const [{ value }, meta, helpers] = useField<FileWithPath[] | FileWithPath | null>(name)
 
   useEffect(() => {
-    onFileNumberChange && onFileNumberChange(value.length)
-  }, [onFileNumberChange, value.length])
+    if(Array.isArray(value)){
+      onFileNumberChange && onFileNumberChange(value.length)
+    } else {
+      onFileNumberChange && onFileNumberChange(value ? 1 : 0)
+    }
+  }, [onFileNumberChange, value])
+
+  useEffect(() => {
+    // reset the field on load
+    helpers.setValue([])
+  // needed to avoid an infinite loop
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onDrop = useCallback(
     async (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
@@ -161,8 +205,9 @@ const FileInput = ({
           )
         )
       }
-
-      helpers.setValue([...value, ...filtered])
+      Array.isArray(value)
+        ? helpers.setValue([...value, ...filtered])
+        : helpers.setValue(filtered[0])
 
       if (fileRejections.length > 0) {
         const fileDropRejectionErrors = fileRejections.map((fr) =>
@@ -188,14 +233,31 @@ const FileInput = ({
 
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
-    ...dropZoneProps
+    ...dropZoneProps,
+    getFilesFromEvent
   })
 
-  const removeItem = (i: number) => {
-    const items = value
-    items.splice(i, 1)
-    helpers.setValue(items)
+  async function getFilesFromEvent(event: any) {
+    // this is a drag n drop
+    // we support folder upload and empty folders
+    if(event.dataTransfer){
+      const res = await getFilesAndEmptyDirFromDataTransferItems(event.dataTransfer.items)
+      onEmptyFolderPathsChange && res.emptyDirPaths?.length && onEmptyFolderPathsChange(res.emptyDirPaths)
+      return res.files as File[] || []
+    } else {
+      // this is a file list using the input
+      return event.target.files as File[]
+    }
   }
+
+  const removeItem = useCallback((i: number) => {
+    let items = value
+
+    Array.isArray(items)
+      ? items.splice(i, 1)
+      : items = null
+    helpers.setValue(items)
+  }, [helpers, value])
 
   return (
     <div
@@ -205,7 +267,7 @@ const FileInput = ({
     >
       <input {...getInputProps()} />
       {variant === "dropzone" ? (
-        value?.length === 0 ? (
+        value === null || (Array.isArray(value) && value.length === 0) ? (
           <div className={clsx(classes.pending, classNames?.pending)}>
             {pending || (
               <>
@@ -222,37 +284,35 @@ const FileInput = ({
             data-testid={`list-${testId}`}
             className={clsx(classes.root, classNames?.filelist)}
           >
-            <ScrollbarWrapper className={clsx("scrollbar")}>
+            <ScrollbarWrapper className="scrollbar">
               <ul>
-                {value.map((file: any, i: number) => (
-                  <li
-                    className={clsx(classes.item, classNames?.item)}
-                    key={i}
-                  >
-                    <span className={classes.itemText}>{file.path}</span>
-                    <Button
-                      testId="remove-from-file-list"
-                      className={clsx(classes.crossIcon, classNames?.closeIcon)}
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        removeItem(i)
-                      }}
-                      size="small"
-                    >
-                      <CrossIcon fontSize="small" />
-                    </Button>
-                  </li>
-                ))}
+                {Array.isArray(value)
+                  ? value.map((file, i) => (
+                    <FileItem
+                      key={i}
+                      index={i}
+                      fullPath={`${file.path || ""}${file.name}`}
+                      removeItem={removeItem}
+                      closeIconClassName={classNames?.closeIcon}
+                      itemClassName={classNames?.item}
+                    />
+                  ))
+                  : <FileItem
+                    fullPath={`${value.path || ""}${value.name}`}
+                    removeItem={removeItem}
+                    closeIconClassName={classNames?.closeIcon}
+                    itemClassName={classNames?.item}
+                  />
+                }
               </ul>
             </ScrollbarWrapper>
           </div>
         )
       ) : (
         <>
-          {value?.length === 0
+          {value === null || (Array.isArray(value) && value?.length === 0)
             ? "No files selected"
-            : `${value?.length} file(s) selected`}
+            : `${Array.isArray(value) ? value?.length : 1} file(s) selected`}
           <Button
             onClick={open}
             size="small"
@@ -261,7 +321,7 @@ const FileInput = ({
           </Button>
         </>
       )}
-      {value?.length > 0 && (
+      {Array.isArray(value) && value.length > 0 && (
         <div
           className={clsx(classes.addFiles, classNames?.addFiles)}
         >
