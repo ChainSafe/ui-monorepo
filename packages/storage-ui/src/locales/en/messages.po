@@ -223,6 +223,9 @@ msgstr "Continue with Web3 Wallet"
 msgid "Copied!"
 msgstr "Copied!"
 
+msgid "Copy"
+msgstr "Copy"
+
 msgid "Create"
 msgstr "Create"
 
@@ -406,6 +409,9 @@ msgstr "Move to..."
 msgid "NFT"
 msgstr "NFT"
 
+msgid "NFTs"
+msgstr "NFTs"
+
 msgid "Name"
 msgstr "Name"
 
@@ -414,6 +420,9 @@ msgstr "Name (optional)"
 
 msgid "New Key"
 msgstr "New Key"
+
+msgid "New NFT"
+msgstr "New NFT"
 
 msgid "New folder"
 msgstr "New folder"
