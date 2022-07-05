@@ -50,8 +50,6 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
   }, [storageApiClient])
 
-  console.log(profile)
-
   useEffect(() => {
     if (isLoggedIn) {
       refreshProfile()

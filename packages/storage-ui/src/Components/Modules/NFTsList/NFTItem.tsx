@@ -101,7 +101,7 @@ const NFTItem = ({ imageURI, name, CID }: Props) => {
             component="p"
             className={classes.cidSubtitle}
           >
-              CID :&nbsp;
+            <Trans>CID</Trans> :&nbsp;
           </Typography>
           <Typography
             variant="body1"

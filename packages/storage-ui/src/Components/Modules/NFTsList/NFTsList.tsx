@@ -12,7 +12,6 @@ import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../StorageRoutes"
 import NFTItem from "./NFTItem"
 
-
 const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
   createStyles({
     root: {
