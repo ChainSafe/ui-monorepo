@@ -34,23 +34,28 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
       }
     },
     cidStartSection: {
-      display: "flex",
-      alignItems: "center"
+      display: "table",
+      tableLayout: "fixed",
+      width: "100%",
+      whiteSpace: "nowrap"
     },
-    subtitle: {
+    cidSubtitle: {
+      width: "35px",
+      display: "table-cell",
       color: palette.additional["gray"][7]
     },
     cid: {
-      maxWidth: 150,
-      whiteSpace: "nowrap",
+      display: "table-cell",
       overflow: "hidden",
       textOverflow: "ellipsis"
     },
     copyButton: {
+      marginLeft: constants.generalUnit,
       color: palette.primary.main,
       padding: `${constants.generalUnit * 0.5}px 0 !important`
     },
     copiedText: {
+      marginLeft: constants.generalUnit,
       padding: `${constants.generalUnit * 0.5}px 0 !important`
     }
   })
@@ -94,9 +99,9 @@ const NFTItem = ({ imageURI, name, CID }: Props) => {
           <Typography
             variant="body1"
             component="p"
-            className={classes.subtitle}
+            className={classes.cidSubtitle}
           >
-              CID:&nbsp;
+              CID :&nbsp;
           </Typography>
           <Typography
             variant="body1"
@@ -111,7 +116,7 @@ const NFTItem = ({ imageURI, name, CID }: Props) => {
             className={classes.copiedText}
             variant="body1"
           >
-            Copied
+            <Trans>Copied!</Trans>
           </Typography>
           : <Button
             className={classes.copyButton}

@@ -46,11 +46,14 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
     },
     nftGrid: {
       display: "grid",
-      gridColumnGap: constants.generalUnit * 6,
-      gridRowGap: constants.generalUnit * 8,
+      gridColumnGap: constants.generalUnit * 5,
+      gridRowGap: constants.generalUnit * 7,
       gridTemplateColumns: "1fr 1fr 1fr 1fr",
+      marginBottom: constants.generalUnit * 12,
       [breakpoints.down("lg")]: {
-        gridTemplateColumns: "1fr 1fr 1fr"
+        gridTemplateColumns: "1fr 1fr 1fr",
+        gridColumnGap: constants.generalUnit * 3,
+        gridRowGap: constants.generalUnit * 5
       },
       [breakpoints.down("sm")]: {
         gridTemplateColumns: "1fr 1fr"
