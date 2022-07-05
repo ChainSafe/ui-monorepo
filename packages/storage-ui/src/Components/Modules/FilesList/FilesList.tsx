@@ -1068,9 +1068,7 @@ const FilesList = () => {
                     />
                   </TableHeadCell>
                   <TableHeadCell>
-                    {/* 
-                        Icon
-                      */}
+                    {/* Icon */}
                   </TableHeadCell>
                   <TableHeadCell
                     sortButtons={true}

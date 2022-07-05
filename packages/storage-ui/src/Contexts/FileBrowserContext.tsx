@@ -31,12 +31,12 @@ interface FileBrowserContext extends IFileBrowserModuleProps {
   currentPath: string
   loadingCurrentPath: boolean
   sourceFiles: FileSystemItem[]
-  crumbs: Crumb[] | undefined
-  moduleRootPath: string | undefined
+  crumbs?: Crumb[]
+  moduleRootPath?: string
   getPath?: (cid: string) => string
   isSearch?: boolean
   withSurvey?: boolean
-  fileSystemType: FileSystemType | undefined
+  fileSystemType?: FileSystemType
 }
 
 const FileBrowserContext = React.createContext<FileBrowserContext | undefined>(undefined)
