@@ -25,6 +25,11 @@ export const bucketsPage = {
   deleteBucketMenuOption: () => cy.get("[data-cy=menu-delete-bucket]"),
 
   // helpers and convenience functions
+  awaitBucketRefresh() {
+    cy.intercept("GET", "**/buckets/summary").as("refresh")
+    cy.wait("@refresh")
+  },
+
   createBucket(bucketName: string, bucketType: BucketType) {
     this.createBucketButton().click()
     createBucketModal.body().should("be.visible")
@@ -39,5 +44,6 @@ export const bucketsPage = {
     }
     createBucketModal.submitButton().click()
     createBucketModal.body().should("not.exist")
+    this.awaitBucketRefresh()
   }
 }

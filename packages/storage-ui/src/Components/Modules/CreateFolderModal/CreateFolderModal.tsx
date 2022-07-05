@@ -108,7 +108,10 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
         enableReinitialize
       >
         <Form data-cy='form-folder-creation'>
-          <div className={classes.root}>
+          <div
+            className={classes.root}
+            data-cy="modal-create-folder"
+          >
             {!desktop && (
               <Grid
                 item

@@ -11,9 +11,11 @@ export const bucketContentsPage = {
   uploadButton: () => cy.get("[data-testid=button-upload-file]"),
 
   // file or folder browser row elements
-  fileItemKebabButton: () => cy.get("[data-testid=icon-file-item-kebab]"),
+  fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-file-item-kebab]"),
   fileItemName: () => cy.get("[data-cy=label-file-item-name]"),
   fileItemRow: () => cy.get("[data-cy=row-file-item]"),
+  fileRenameInput: () => cy.get("[data-cy=input-rename-file-or-folder]"),
+  fileRenameErrorLabel: () => cy.get("[data-cy=form-rename] span.minimal.error"),
 
   // kebab menu elements
   downloadMenuOption: () => cy.get("[data-cy=menu-download]"),
@@ -33,6 +35,7 @@ export const bucketContentsPage = {
     fileUploadModal.fileList().should("have.length", 1)
     fileUploadModal.uploadButton().safeClick()
     fileUploadModal.body().should("not.exist")
+    this.awaitBucketRefresh()
   },
 
   createNewFolder(folderName: string) {
@@ -41,5 +44,11 @@ export const bucketContentsPage = {
     createFolderModal.folderNameInput().type(folderName)
     createFolderModal.createButton().click()
     createFolderModal.body().should("not.exist")
+  },
+
+  renameFileOrFolder(newName: string) {
+    bucketContentsPage.fileItemKebabButton().first().click()
+    bucketContentsPage.renameMenuOption().click()
+    bucketContentsPage.fileRenameInput().type(newName)
   }
 }

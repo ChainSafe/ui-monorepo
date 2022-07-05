@@ -311,6 +311,7 @@ const FileSystemTableItem = React.forwardRef(
                 ref={formRef}
               >
                 <FormikTextInput
+                  data-cy="input-rename-file-or-folder"
                   className={classes.renameInput}
                   name="name"
                   inputVariant="minimal"
