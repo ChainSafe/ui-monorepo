@@ -144,5 +144,53 @@ describe("Bucket management", () => {
       bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
       bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
     })
+
+    it("can download a file from chainsafe bucket", () => {
+      const chainSafeBucketName = `cs bucket ${Date.now()}`
+      const fileName = "text-file.txt"
+      const downloadsFolder = Cypress.config("downloadsFolder")
+      const fileFixturePath = `uploadedFiles/${fileName}`
+
+      cy.web3Login({ deleteFpsBuckets: true })
+
+      // upload a file and store file content
+      navigationMenu.bucketsNavButton().click()
+
+      bucketsPage.createBucket(chainSafeBucketName, FILE_SYSTEM_TYPES.CHAINSAFE)
+      bucketsPage.bucketItemName().dblclick()
+
+      // upload a file to the bucket
+      bucketContentsPage.uploadButton().click()
+      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/logo.png")
+      fileUploadModal.fileList().should("have.length", 1)
+      fileUploadModal.uploadButton().safeClick()
+      fileUploadModal.body().should("not.exist")
+      bucketContentsPage.awaitBucketRefresh()
+
+      cy.fixture(fileFixturePath).as("fileContent")
+
+      // download file from kebab menu 
+      bucketContentsPage.fileItemKebabButton().first().click()
+
+      // intercept POST to ensure the request was successful
+      cy.intercept("POST", "**/bucket/*/download")
+        .as("downloadRequest")
+        .then(() => {
+          bucketContentsPage.downloadMenuOption().click()
+
+          cy.wait("@downloadRequest").should((download) => {
+            expect(download.response).to.have.property("statusCode", 200)
+          })
+        })
+
+      // ensure the file was downloaded
+      downloadCompleteToast.body().should("be.visible")
+      downloadCompleteToast.closeButton().click()
+      cy.get<string>("@fileContent").then((fileContent) => {
+        cy.readFile(`${downloadsFolder}/${fileName}`)
+          .should("exist")
+          .should("eq", fileContent)
+      })
+    })
   })
 })
