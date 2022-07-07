@@ -235,7 +235,7 @@ describe("File management", () => {
       homePage.renameMenuOption().click()
       homePage.fileRenameInput().type("{selectall}{del}{esc}")
       homePage.fileRenameInput().should("not.exist")
-      homePage.fileItemName().contains(newName)
+      homePage.fileItemName().contains("text-file.txt")
 
       // rename a file
       homePage.fileItemKebabButton().click()
