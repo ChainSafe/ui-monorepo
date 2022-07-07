@@ -164,19 +164,19 @@ describe("Bucket management", () => {
       bucketContentsPage.renameFileOrFolder("{selectall}{del}")
       bucketContentsPage.fileRenameErrorLabel().should("be.visible")
 
-      // rename a folder
-      bucketContentsPage.fileRenameInput().type(`${newFolderName}{enter}`)
-      bucketContentsPage.fileItemName().contains(newFolderName)
-
       // ensure the original name of the folder persists if the rename submission is blank
       bucketContentsPage.renameFileOrFolder("{selectall}{del}{esc}")
       bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemName().contains(folderName)
+
+      // rename a folder
+      bucketContentsPage.renameFileOrFolder(`{selectall}${newFolderName}{enter}`)
       bucketContentsPage.fileItemName().contains(newFolderName)
 
       // ensure that the name of the folder is reset when renaming is canceled
-      bucketContentsPage.renameFileOrFolder("{selectall}abc{del}{esc}")
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}}abc{esc}")
       bucketContentsPage.fileRenameInput().should("not.exist")
-      bucketContentsPage.fileItemKebabButton().first().click()
+      bucketContentsPage.fileItemKebabButton().click()
       bucketContentsPage.renameMenuOption().click()
       bucketContentsPage.fileRenameInput().should("have.value", newFolderName)
     })
@@ -201,19 +201,19 @@ describe("Bucket management", () => {
       bucketContentsPage.renameFileOrFolder("{selectall}{del}")
       bucketContentsPage.fileRenameErrorLabel().should("be.visible")
 
-      // rename a folder
-      bucketContentsPage.fileRenameInput().type(`${newFolderName}{enter}`)
-      bucketContentsPage.fileItemName().contains(newFolderName)
-
       // ensure the original name of the folder persists if the rename submission is blank
       bucketContentsPage.renameFileOrFolder("{selectall}{del}{esc}")
       bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemName().contains(folderName)
+
+      // rename a folder
+      bucketContentsPage.renameFileOrFolder(`{selectall}${newFolderName}{enter}`)
       bucketContentsPage.fileItemName().contains(newFolderName)
 
       // ensure that the name of the folder is reset when renaming is canceled
-      bucketContentsPage.renameFileOrFolder("{selectall}abc{del}{esc}")
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}abc{esc}")
       bucketContentsPage.fileRenameInput().should("not.exist")
-      bucketContentsPage.fileItemKebabButton().first().click()
+      bucketContentsPage.fileItemKebabButton().click()
       bucketContentsPage.renameMenuOption().click()
       bucketContentsPage.fileRenameInput().should("have.value", newFolderName)
     })
@@ -237,19 +237,19 @@ describe("Bucket management", () => {
       bucketContentsPage.renameFileOrFolder("{selectall}{del}")
       bucketContentsPage.fileRenameErrorLabel().should("be.visible")
 
-      // rename the file
-      bucketContentsPage.fileRenameInput().type(`${newFileName}{enter}`)
-      bucketContentsPage.fileItemName().contains(newFileName)
-
       // ensure the original name of the file persists if the rename submission is blank
       bucketContentsPage.renameFileOrFolder("{selectall}{del}{esc}")
       bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemName().contains("logo.png")
+
+      // rename the file
+      bucketContentsPage.renameFileOrFolder(`{selectall}${newFileName}{enter}`)
       bucketContentsPage.fileItemName().contains(newFileName)
 
       // ensure that the name of the file is reset when renaming is canceled
-      bucketContentsPage.renameFileOrFolder("{selectall}abc{del}{esc}")
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}abc{esc}")
       bucketContentsPage.fileRenameInput().should("not.exist")
-      bucketContentsPage.fileItemKebabButton().first().click()
+      bucketContentsPage.fileItemKebabButton().click()
       bucketContentsPage.renameMenuOption().click()
       bucketContentsPage.fileRenameInput().should("have.value", newFileName)
     })
@@ -273,19 +273,19 @@ describe("Bucket management", () => {
       bucketContentsPage.renameFileOrFolder("{selectall}{del}")
       bucketContentsPage.fileRenameErrorLabel().should("be.visible")
 
-      // rename the file
-      bucketContentsPage.fileRenameInput().type(`${newFileName}{enter}`)
-      bucketContentsPage.fileItemName().contains(newFileName)
-
       // ensure the original name of the file persists if the rename submission is blank
       bucketContentsPage.renameFileOrFolder("{selectall}{del}{esc}")
       bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemName().contains("logo.png")
+
+      // rename the file
+      bucketContentsPage.renameFileOrFolder(`{selectall}${newFileName}{enter}`)
       bucketContentsPage.fileItemName().contains(newFileName)
 
       // ensure that the name of the file is reset when renaming is canceled
-      bucketContentsPage.renameFileOrFolder("{selectall}abc{del}{esc}")
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}abc{esc}")
       bucketContentsPage.fileRenameInput().should("not.exist")
-      bucketContentsPage.fileItemKebabButton().first().click()
+      bucketContentsPage.fileItemKebabButton().click()
       bucketContentsPage.renameMenuOption().click()
       bucketContentsPage.fileRenameInput().should("have.value", newFileName)
     })

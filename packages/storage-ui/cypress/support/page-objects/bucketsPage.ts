@@ -3,8 +3,6 @@
 import { basePage } from "./basePage"
 import { createBucketModal } from "./modals/createBucketModal"
 
-type BucketType = "ipfs" | "chainsafe"
-
 export const bucketsPage = {
   ...basePage,
 
@@ -30,17 +28,14 @@ export const bucketsPage = {
     cy.wait("@refresh")
   },
 
-  createBucket(bucketName: string, bucketType: BucketType) {
+  createBucket(bucketName: string, bucketType: "ipfs" | "chainsafe") {
     this.createBucketButton().click()
     createBucketModal.body().should("be.visible")
     createBucketModal.bucketNameInput().type(bucketName)
-    switch (bucketType) {
-      case "ipfs":
-        createBucketModal.ipfsRadioInput().click()
-        break
-      case "chainsafe":
-        createBucketModal.chainsafeRadioInput().click()
-        break
+    if (bucketType == "ipfs") {
+      createBucketModal.ipfsRadioInput().click()
+    } else {
+      createBucketModal.chainsafeRadioInput().click()
     }
     createBucketModal.submitButton().click()
     createBucketModal.body().should("not.exist")

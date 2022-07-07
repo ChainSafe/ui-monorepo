@@ -47,7 +47,7 @@ export const bucketContentsPage = {
   },
 
   renameFileOrFolder(newName: string) {
-    bucketContentsPage.fileItemKebabButton().first().click()
+    bucketContentsPage.fileItemKebabButton().click()
     bucketContentsPage.renameMenuOption().click()
     bucketContentsPage.fileRenameInput().type(newName)
   }
