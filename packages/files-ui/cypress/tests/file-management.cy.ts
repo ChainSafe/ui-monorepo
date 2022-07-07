@@ -225,28 +225,30 @@ describe("File management", () => {
       homePage.fileItemRow().should("have.length", 1)
 
       // ensure an error is displayed if the edited name is blank
-      homePage.fileItemKebabButton().first().click()
+      homePage.fileItemKebabButton().click()
       homePage.renameMenuOption().click()
       homePage.fileRenameInput().type("{selectall}{del}")
       homePage.fileRenameErrorLabel().should("be.visible")
 
-      // rename a file
-      homePage.fileRenameInput().type(`${newName}{enter}`)
-      homePage.fileItemName().contains(newName)
-
       // ensure the original name persists if the rename submission is blank
-      homePage.fileItemKebabButton().first().click()
+      homePage.fileItemKebabButton().click()
       homePage.renameMenuOption().click()
       homePage.fileRenameInput().type("{selectall}{del}{esc}")
       homePage.fileRenameInput().should("not.exist")
       homePage.fileItemName().contains(newName)
 
-      // ensure that the name is reset when renaming is canceled
-      homePage.fileItemKebabButton().first().click()
+      // rename a file
+      homePage.fileItemKebabButton().click()
       homePage.renameMenuOption().click()
-      homePage.fileRenameInput().type("{selectall}abc{del}{esc}")
+      homePage.fileRenameInput().type(`{selectall}${newName}{enter}`)
+      homePage.fileItemName().contains(newName)
+
+      // ensure that the name is reset when renaming is canceled
+      homePage.fileItemKebabButton().click()
+      homePage.renameMenuOption().click()
+      homePage.fileRenameInput().type("{selectall}{del}abc{esc}")
       homePage.fileRenameInput().should("not.exist")
-      homePage.fileItemKebabButton().first().click()
+      homePage.fileItemKebabButton().click()
       homePage.renameMenuOption().click()
       homePage.fileRenameInput().should("have.value", newName)
     })
