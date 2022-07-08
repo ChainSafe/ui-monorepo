@@ -303,6 +303,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           {desktop && (
             <div>
               <Link
+                data-cy="home-nav"
                 className={classes.logo}
                 to={ROUTE_LINKS.Buckets}
               >
