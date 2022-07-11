@@ -290,7 +290,7 @@ describe("Bucket management", () => {
       bucketContentsPage.fileRenameInput().should("have.value", newFileName)
     })
 
-    it("can download a file from chainsafe bucket", () => {
+    it.only("can download a file from chainsafe bucket", () => {
       const chainSafeBucketName = `cs bucket ${Date.now()}`
       const fileName = "text-file.txt"
       const downloadsFolder = Cypress.config("downloadsFolder")
