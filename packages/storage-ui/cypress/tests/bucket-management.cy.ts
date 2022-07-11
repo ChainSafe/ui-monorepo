@@ -218,42 +218,6 @@ describe("Bucket management", () => {
       bucketContentsPage.fileRenameInput().should("have.value", newFolderName)
     })
 
-    it("can rename a file inside the ipfs bucket", () => {
-      const ipfsBucketName = `ipfs bucket ${Date.now()}`
-      const newFileName = `new file name ${Date.now()}`
-
-      cy.web3Login({ deleteFpsBuckets: true })
-      navigationMenu.bucketsNavButton().click()
-
-      // create a new bucket and go inside the bucket
-      bucketsPage.createBucket(ipfsBucketName, "ipfs")
-      bucketsPage.bucketItemRow().should("have.length", 1)
-      bucketsPage.bucketItemName().dblclick()
-
-      // upload a file
-      bucketContentsPage.uploadFileToBucket("../fixtures/uploadedFiles/logo.png")
-
-      // ensure an error is displayed if the edited name of the file is blank
-      bucketContentsPage.renameFileOrFolder("{selectall}{del}")
-      bucketContentsPage.fileRenameErrorLabel().should("be.visible")
-
-      // ensure the original name of the file persists if the rename submission is blank
-      bucketContentsPage.renameFileOrFolder("{selectall}{del}{esc}")
-      bucketContentsPage.fileRenameInput().should("not.exist")
-      bucketContentsPage.fileItemName().contains("logo.png")
-
-      // rename the file
-      bucketContentsPage.renameFileOrFolder(`{selectall}${newFileName}{enter}`)
-      bucketContentsPage.fileItemName().contains(newFileName)
-
-      // ensure that the name of the file is reset when renaming is canceled
-      bucketContentsPage.renameFileOrFolder("{selectall}{del}abc{esc}")
-      bucketContentsPage.fileRenameInput().should("not.exist")
-      bucketContentsPage.fileItemKebabButton().click()
-      bucketContentsPage.renameMenuOption().click()
-      bucketContentsPage.fileRenameInput().should("have.value", newFileName)
-    })
-
     it("can rename a file inside the chainsafe bucket", () => {
       const chainsafeBucketName = `chainsafe bucket ${Date.now()}`
       const newFileName = `new file name ${Date.now()}`
@@ -290,7 +254,7 @@ describe("Bucket management", () => {
       bucketContentsPage.fileRenameInput().should("have.value", newFileName)
     })
 
-    it.only("can download a file from chainsafe bucket", () => {
+    it("can download a file from chainsafe bucket", () => {
       const chainSafeBucketName = `cs bucket ${Date.now()}`
       const fileName = "text-file.txt"
       const downloadsFolder = Cypress.config("downloadsFolder")
@@ -302,6 +266,48 @@ describe("Bucket management", () => {
       navigationMenu.bucketsNavButton().click()
 
       bucketsPage.createBucket(chainSafeBucketName, "chainsafe")
+      bucketsPage.bucketItemName().dblclick()
+
+      // upload a file to the bucket
+      bucketContentsPage.uploadFileToBucket(`../fixtures/uploadedFiles/${fileName}`)
+      cy.fixture(fileFixturePath).as("fileContent")
+
+      // download file from kebab menu 
+      bucketContentsPage.fileItemKebabButton().click()
+
+      // intercept POST to ensure the request was successful
+      cy.intercept("POST", "**/bucket/*/download")
+        .as("downloadRequest")
+        .then(() => {
+          bucketContentsPage.downloadMenuOption().click()
+
+          cy.wait("@downloadRequest").should((download) => {
+            expect(download.response).to.have.property("statusCode", 200)
+          })
+        })
+
+      // ensure the file was downloaded
+      downloadCompleteToast.body().should("be.visible")
+      downloadCompleteToast.closeButton().click()
+      cy.get<string>("@fileContent").then((fileContent) => {
+        cy.readFile(`${downloadsFolder}/${fileName}`)
+          .should("exist")
+          .should("eq", fileContent)
+      })
+    })
+
+    it("can download a file from ipfs bucket", () => {
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+      const fileName = "text-file.txt"
+      const downloadsFolder = Cypress.config("downloadsFolder")
+      const fileFixturePath = `uploadedFiles/${fileName}`
+
+      cy.web3Login({ deleteFpsBuckets: true })
+
+      // upload a file and store file content
+      navigationMenu.bucketsNavButton().click()
+
+      bucketsPage.createBucket(ipfsBucketName, "chainsafe")
       bucketsPage.bucketItemName().dblclick()
 
       // upload a file to the bucket
