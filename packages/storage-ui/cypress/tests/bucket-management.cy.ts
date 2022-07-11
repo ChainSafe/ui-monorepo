@@ -5,7 +5,7 @@ import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { deleteBucketModal } from "../support/page-objects/modals/deleteBucketModal"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
-import { FILE_SYSTEM_TYPES } from "../support/utils/TestConstants"
+import { downloadCompleteToast } from "../support/page-objects/toasts/downloadCompleteToast"
 
 describe("Bucket management", () => {
 
@@ -115,9 +115,9 @@ describe("Bucket management", () => {
       cy.web3Login({ deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
 
-      bucketsPage.createBucket(chainSafeBucketName, FILE_SYSTEM_TYPES.CHAINSAFE)
+      bucketsPage.createBucket(chainSafeBucketName, "chainsafe")
       bucketsPage.bucketItemRow().should("have.length", 1)
-      bucketsPage.createBucket(ipfsBucketName, FILE_SYSTEM_TYPES.IPFS)
+      bucketsPage.createBucket(ipfsBucketName, "ipfs")
       bucketsPage.bucketItemRow().should("have.length", 2)
 
       // by default should be sort by date uploading in ascending order (oldest first)
@@ -144,6 +144,151 @@ describe("Bucket management", () => {
       bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
       bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
     })
+    it("can rename a folder inside the ipfs bucket", () => {
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+      const folderName = `folder ${Date.now()}`
+      const newFolderName = `new folder name ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true })
+      navigationMenu.bucketsNavButton().click()
+
+      // create a new bucket and go inside the bucket
+      bucketsPage.createBucket(ipfsBucketName, "ipfs")
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      // create a folder inside the bucket
+      bucketContentsPage.createNewFolder(folderName)
+
+      // ensure an error is displayed if the edited name of the folder is blank
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}")
+      bucketContentsPage.fileRenameErrorLabel().should("be.visible")
+
+      // ensure the original name of the folder persists if the rename submission is blank
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}{esc}")
+      bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemName().contains(folderName)
+
+      // rename a folder
+      bucketContentsPage.renameFileOrFolder(`{selectall}${newFolderName}{enter}`)
+      bucketContentsPage.fileItemName().contains(newFolderName)
+
+      // ensure that the name of the folder is reset when renaming is canceled
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}}abc{esc}")
+      bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemKebabButton().click()
+      bucketContentsPage.renameMenuOption().click()
+      bucketContentsPage.fileRenameInput().should("have.value", newFolderName)
+    })
+
+    it("can rename a folder inside the chainsafe bucket", () => {
+      const chainsafeBucketName = `chainsafe bucket ${Date.now()}`
+      const folderName = `folder ${Date.now()}`
+      const newFolderName = `new folder name ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true })
+      navigationMenu.bucketsNavButton().click()
+
+      // create a new bucket and go inside the bucket
+      bucketsPage.createBucket(chainsafeBucketName, "chainsafe")
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      // create a folder inside the bucket
+      bucketContentsPage.createNewFolder(folderName)
+
+      // ensure an error is displayed if the edited name of the folder is blank
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}")
+      bucketContentsPage.fileRenameErrorLabel().should("be.visible")
+
+      // ensure the original name of the folder persists if the rename submission is blank
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}{esc}")
+      bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemName().contains(folderName)
+
+      // rename a folder
+      bucketContentsPage.renameFileOrFolder(`{selectall}${newFolderName}{enter}`)
+      bucketContentsPage.fileItemName().contains(newFolderName)
+
+      // ensure that the name of the folder is reset when renaming is canceled
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}abc{esc}")
+      bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemKebabButton().click()
+      bucketContentsPage.renameMenuOption().click()
+      bucketContentsPage.fileRenameInput().should("have.value", newFolderName)
+    })
+
+    it("can rename a file inside the ipfs bucket", () => {
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+      const newFileName = `new file name ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true })
+      navigationMenu.bucketsNavButton().click()
+
+      // create a new bucket and go inside the bucket
+      bucketsPage.createBucket(ipfsBucketName, "ipfs")
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      // upload a file
+      bucketContentsPage.uploadFileToBucket("../fixtures/uploadedFiles/logo.png")
+
+      // ensure an error is displayed if the edited name of the file is blank
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}")
+      bucketContentsPage.fileRenameErrorLabel().should("be.visible")
+
+      // ensure the original name of the file persists if the rename submission is blank
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}{esc}")
+      bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemName().contains("logo.png")
+
+      // rename the file
+      bucketContentsPage.renameFileOrFolder(`{selectall}${newFileName}{enter}`)
+      bucketContentsPage.fileItemName().contains(newFileName)
+
+      // ensure that the name of the file is reset when renaming is canceled
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}abc{esc}")
+      bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemKebabButton().click()
+      bucketContentsPage.renameMenuOption().click()
+      bucketContentsPage.fileRenameInput().should("have.value", newFileName)
+    })
+
+    it("can rename a file inside the chainsafe bucket", () => {
+      const chainsafeBucketName = `chainsafe bucket ${Date.now()}`
+      const newFileName = `new file name ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true })
+      navigationMenu.bucketsNavButton().click()
+
+      // create a new bucket and go inside the bucket
+      bucketsPage.createBucket(chainsafeBucketName, "chainsafe")
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      // upload a file
+      bucketContentsPage.uploadFileToBucket("../fixtures/uploadedFiles/logo.png")
+
+      // ensure an error is displayed if the edited name of the file is blank
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}")
+      bucketContentsPage.fileRenameErrorLabel().should("be.visible")
+
+      // ensure the original name of the file persists if the rename submission is blank
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}{esc}")
+      bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemName().contains("logo.png")
+
+      // rename the file
+      bucketContentsPage.renameFileOrFolder(`{selectall}${newFileName}{enter}`)
+      bucketContentsPage.fileItemName().contains(newFileName)
+
+      // ensure that the name of the file is reset when renaming is canceled
+      bucketContentsPage.renameFileOrFolder("{selectall}{del}abc{esc}")
+      bucketContentsPage.fileRenameInput().should("not.exist")
+      bucketContentsPage.fileItemKebabButton().click()
+      bucketContentsPage.renameMenuOption().click()
+      bucketContentsPage.fileRenameInput().should("have.value", newFileName)
+    })
 
     it("can download a file from chainsafe bucket", () => {
       const chainSafeBucketName = `cs bucket ${Date.now()}`
@@ -156,21 +301,15 @@ describe("Bucket management", () => {
       // upload a file and store file content
       navigationMenu.bucketsNavButton().click()
 
-      bucketsPage.createBucket(chainSafeBucketName, FILE_SYSTEM_TYPES.CHAINSAFE)
+      bucketsPage.createBucket(chainSafeBucketName, "chainsafe")
       bucketsPage.bucketItemName().dblclick()
 
       // upload a file to the bucket
-      bucketContentsPage.uploadButton().click()
-      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/logo.png")
-      fileUploadModal.fileList().should("have.length", 1)
-      fileUploadModal.uploadButton().safeClick()
-      fileUploadModal.body().should("not.exist")
-      bucketContentsPage.awaitBucketRefresh()
-
+      bucketContentsPage.uploadFileToBucket(`../fixtures/uploadedFiles/${fileName}`)
       cy.fixture(fileFixturePath).as("fileContent")
 
       // download file from kebab menu 
-      bucketContentsPage.fileItemKebabButton().first().click()
+      bucketContentsPage.fileItemKebabButton().click()
 
       // intercept POST to ensure the request was successful
       cy.intercept("POST", "**/bucket/*/download")
