@@ -1,7 +1,6 @@
 // Only add things here that could be applicable to the bucket page
 
 import { basePage } from "./basePage"
-import { createBucketModal } from "./modals/createBucketModal"
 
 export const bucketsPage = {
   ...basePage,
@@ -26,19 +25,5 @@ export const bucketsPage = {
   awaitBucketRefresh() {
     cy.intercept("GET", "**/buckets/summary").as("refresh")
     cy.wait("@refresh")
-  },
-
-  createBucket(bucketName: string, bucketType: "ipfs" | "chainsafe") {
-    this.createBucketButton().click()
-    createBucketModal.body().should("be.visible")
-    createBucketModal.bucketNameInput().type(bucketName)
-    if (bucketType == "ipfs") {
-      createBucketModal.ipfsRadioInput().click()
-    } else {
-      createBucketModal.chainsafeRadioInput().click()
-    }
-    createBucketModal.submitButton().click()
-    createBucketModal.body().should("not.exist")
-    this.awaitBucketRefresh()
   }
 }

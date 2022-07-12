@@ -6,6 +6,7 @@ import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { deleteBucketModal } from "../support/page-objects/modals/deleteBucketModal"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 import { downloadCompleteToast } from "../support/page-objects/toasts/downloadCompleteToast"
+import { apiTestHelper } from "../support/utils/apiTestHelper"
 
 describe("Bucket management", () => {
 
@@ -115,9 +116,9 @@ describe("Bucket management", () => {
       cy.web3Login({ deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
 
-      bucketsPage.createBucket(chainSafeBucketName, "chainsafe")
+      apiTestHelper.createBucket(chainSafeBucketName, "chainsafe")
       bucketsPage.bucketItemRow().should("have.length", 1)
-      bucketsPage.createBucket(ipfsBucketName, "ipfs")
+      apiTestHelper.createBucket(ipfsBucketName, "ipfs")
       bucketsPage.bucketItemRow().should("have.length", 2)
 
       // by default should be sort by date uploading in ascending order (oldest first)
@@ -144,6 +145,7 @@ describe("Bucket management", () => {
       bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
       bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
     })
+
     it("can rename a folder inside the ipfs bucket", () => {
       const ipfsBucketName = `ipfs bucket ${Date.now()}`
       const folderName = `folder ${Date.now()}`
@@ -153,7 +155,7 @@ describe("Bucket management", () => {
       navigationMenu.bucketsNavButton().click()
 
       // create a new bucket and go inside the bucket
-      bucketsPage.createBucket(ipfsBucketName, "ipfs")
+      apiTestHelper.createBucket(ipfsBucketName, "ipfs")
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -190,7 +192,7 @@ describe("Bucket management", () => {
       navigationMenu.bucketsNavButton().click()
 
       // create a new bucket and go inside the bucket
-      bucketsPage.createBucket(chainsafeBucketName, "chainsafe")
+      apiTestHelper.createBucket(chainsafeBucketName, "chainsafe")
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -226,7 +228,7 @@ describe("Bucket management", () => {
       navigationMenu.bucketsNavButton().click()
 
       // create a new bucket and go inside the bucket
-      bucketsPage.createBucket(ipfsBucketName, "ipfs")
+      apiTestHelper.createBucket(ipfsBucketName, "ipfs")
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -262,7 +264,7 @@ describe("Bucket management", () => {
       navigationMenu.bucketsNavButton().click()
 
       // create a new bucket and go inside the bucket
-      bucketsPage.createBucket(chainsafeBucketName, "chainsafe")
+      apiTestHelper.createBucket(chainsafeBucketName, "chainsafe")
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -291,7 +293,7 @@ describe("Bucket management", () => {
     })
 
     it("can download a file from chainsafe bucket", () => {
-      const chainSafeBucketName = `cs bucket ${Date.now()}`
+      const chainsafeBucketName = `cs bucket ${Date.now()}`
       const fileName = "text-file.txt"
       const downloadsFolder = Cypress.config("downloadsFolder")
       const fileFixturePath = `uploadedFiles/${fileName}`
@@ -301,7 +303,7 @@ describe("Bucket management", () => {
       // upload a file and store file content
       navigationMenu.bucketsNavButton().click()
 
-      bucketsPage.createBucket(chainSafeBucketName, "chainsafe")
+      apiTestHelper.createBucket(chainsafeBucketName, "chainsafe")
       bucketsPage.bucketItemName().dblclick()
 
       // upload a file to the bucket
@@ -343,7 +345,7 @@ describe("Bucket management", () => {
       // upload a file and store file content
       navigationMenu.bucketsNavButton().click()
 
-      bucketsPage.createBucket(ipfsBucketName, "chainsafe")
+      apiTestHelper.createBucket(ipfsBucketName, "ipfs")
       bucketsPage.bucketItemName().dblclick()
 
       // upload a file to the bucket
