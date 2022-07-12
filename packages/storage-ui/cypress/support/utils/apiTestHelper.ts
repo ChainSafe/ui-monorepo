@@ -23,7 +23,6 @@ export const apiTestHelper = {
         cy.log("creating bucket", name)
         const tokens = await apiClient.getRefreshToken({ refresh: win.localStorage.getItem(REFRESH_TOKEN_KEY) || "" })
         apiClient.setToken(tokens.access_token.token)
-        // The ones in "queued" and "pinning" status can't be deleted 
         await apiClient.createBucket({ name: name, file_system_type: fileSystemType, type: "fps", encryption_key: "" })
         cy.log("done with creating bucket")
       })
