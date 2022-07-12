@@ -6,7 +6,6 @@ import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { deleteBucketModal } from "../support/page-objects/modals/deleteBucketModal"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 import { downloadCompleteToast } from "../support/page-objects/toasts/downloadCompleteToast"
-import { apiTestHelper } from "../support/utils/apiTestHelper"
 
 describe("Bucket management", () => {
 
@@ -113,13 +112,10 @@ describe("Bucket management", () => {
       const chainSafeBucketName = `cs bucket ${Date.now()}`
       const ipfsBucketName = `ipfs bucket ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets:
+        [{ name: chainSafeBucketName, type: "chainsafe" }, { name: ipfsBucketName, type: "ipfs" }]
+      })
       navigationMenu.bucketsNavButton().click()
-
-      apiTestHelper.createBucket(chainSafeBucketName, "chainsafe")
-      bucketsPage.bucketItemRow().should("have.length", 1)
-      apiTestHelper.createBucket(ipfsBucketName, "ipfs")
-      bucketsPage.bucketItemRow().should("have.length", 2)
 
       // by default should be sort by date uploading in ascending order (oldest first)
       bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
@@ -151,11 +147,10 @@ describe("Bucket management", () => {
       const folderName = `folder ${Date.now()}`
       const newFolderName = `new folder name ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
       navigationMenu.bucketsNavButton().click()
 
-      // create a new bucket and go inside the bucket
-      apiTestHelper.createBucket(ipfsBucketName, "ipfs")
+      // go inside the bucket
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -188,11 +183,10 @@ describe("Bucket management", () => {
       const folderName = `folder ${Date.now()}`
       const newFolderName = `new folder name ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
       navigationMenu.bucketsNavButton().click()
 
       // create a new bucket and go inside the bucket
-      apiTestHelper.createBucket(chainsafeBucketName, "chainsafe")
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -224,11 +218,10 @@ describe("Bucket management", () => {
       const ipfsBucketName = `ipfs bucket ${Date.now()}`
       const newFileName = `new file name ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
       navigationMenu.bucketsNavButton().click()
 
-      // create a new bucket and go inside the bucket
-      apiTestHelper.createBucket(ipfsBucketName, "ipfs")
+      // go inside the bucket
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -260,11 +253,10 @@ describe("Bucket management", () => {
       const chainsafeBucketName = `chainsafe bucket ${Date.now()}`
       const newFileName = `new file name ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
       navigationMenu.bucketsNavButton().click()
 
-      // create a new bucket and go inside the bucket
-      apiTestHelper.createBucket(chainsafeBucketName, "chainsafe")
+      // go inside the bucket
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -298,12 +290,10 @@ describe("Bucket management", () => {
       const downloadsFolder = Cypress.config("downloadsFolder")
       const fileFixturePath = `uploadedFiles/${fileName}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
 
       // upload a file and store file content
       navigationMenu.bucketsNavButton().click()
-
-      apiTestHelper.createBucket(chainsafeBucketName, "chainsafe")
       bucketsPage.bucketItemName().dblclick()
 
       // upload a file to the bucket
@@ -340,12 +330,10 @@ describe("Bucket management", () => {
       const downloadsFolder = Cypress.config("downloadsFolder")
       const fileFixturePath = `uploadedFiles/${fileName}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
 
       // upload a file and store file content
       navigationMenu.bucketsNavButton().click()
-
-      apiTestHelper.createBucket(ipfsBucketName, "ipfs")
       bucketsPage.bucketItemName().dblclick()
 
       // upload a file to the bucket
