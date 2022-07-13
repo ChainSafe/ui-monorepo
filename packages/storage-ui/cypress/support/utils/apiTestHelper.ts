@@ -1,8 +1,6 @@
 import axios from "axios"
 import { FilesApiClient, FileSystemType } from "@chainsafe/files-api-client"
 import { BucketType } from "@chainsafe/files-api-client"
-import { navigationMenu } from "../page-objects/navigationMenu"
-import { bucketsPage } from "../page-objects/bucketsPage"
 
 const REFRESH_TOKEN_KEY = "css.refreshToken"
 const API_BASE_URL = "https://stage-api.chainsafe.io/api/v1"
@@ -18,19 +16,22 @@ const getApiClient = () => {
 export const apiTestHelper = {
   createBucket(name: string, fileSystemType: FileSystemType) {
     const apiClient = getApiClient()
-    return new Cypress.Promise(async (resolve) => {
+    return new Cypress.Promise(async (resolve, reject) => {
       cy.window().then(async (win) => {
-        cy.log("creating bucket", name)
-        const tokens = await apiClient.getRefreshToken({ refresh: win.localStorage.getItem(REFRESH_TOKEN_KEY) || "" })
-        apiClient.setToken(tokens.access_token.token)
-        await apiClient.createBucket({ name: name, file_system_type: fileSystemType, type: "fps", encryption_key: "" })
-        cy.log("done with creating bucket")
+        try {
+          cy.log("creating bucket", name)
+          const tokens = await apiClient.getRefreshToken({ refresh: win.localStorage.getItem(REFRESH_TOKEN_KEY) || "" })
+          apiClient.setToken(tokens.access_token.token)
+          await apiClient.createBucket({ name: name, file_system_type: fileSystemType, type: "fps", encryption_key: "" })
+          cy.log("done with creating bucket")
+          resolve()
+          cy.reload()
+        } catch (e: any) {
+          cy.log(e)
+          reject(e)
+          throw new Error("Something wrong happened during the bucket creation")
+        }
       })
-      navigationMenu.cidsNavButton().click()
-      navigationMenu.bucketsNavButton().click()
-      bucketsPage.awaitBucketRefresh()
-      bucketsPage.bucketItemRow().should("have.length", 1)
-      resolve()
     })
   },
   clearPins() {

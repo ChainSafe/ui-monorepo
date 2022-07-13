@@ -186,8 +186,7 @@ describe("Bucket management", () => {
       cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
       navigationMenu.bucketsNavButton().click()
 
-      // create a new bucket and go inside the bucket
-      bucketsPage.bucketItemRow().should("have.length", 1)
+      // go inside the bucket
       bucketsPage.bucketItemName().dblclick()
 
       // create a folder inside the bucket
