@@ -21,15 +21,31 @@ describe("Bucket management", () => {
       createBucketModal.cancelButton().click()
       createBucketModal.body().should("not.exist")
 
-      // create a bucket and see it in the bucket table
+      // go to create bucket modal
       bucketsPage.createBucketButton().click()
       createBucketModal.body().should("be.visible")
+      // ensure can't create an empty bucket
+      createBucketModal.submitButton().click()
+      createBucketModal.bucketNameInput().should("have.class", "error")
+      // ensure can't create a bucket with only spaces
+      createBucketModal.bucketNameInput().type("  ")
+      createBucketModal.submitButton().click()
+      createBucketModal.bucketNameInput().should("have.class", "error")
+      // create a bucket and see it in the bucket table
       createBucketModal.bucketNameInput().type(chainSafeBucketName)
+      createBucketModal.bucketNameInput().should("not.have.class", "error")
       createBucketModal.chainsafeRadioInput().click()
       createBucketModal.submitButton().click()
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().should("have.text", chainSafeBucketName)
       bucketsPage.bucketFileSystemType().should("have.text", "Chainsafe")
+
+      // ensure can't create a bucket with the same name
+      bucketsPage.createBucketButton().click()
+      createBucketModal.bucketNameInput().type(chainSafeBucketName)
+      createBucketModal.submitButton().click()
+      createBucketModal.bucketNameInput().should("have.class", "error")
+      createBucketModal.cancelButton().click()
 
       // open bucket and ensure header matches the expected value
       bucketsPage.bucketItemName().dblclick()
@@ -67,15 +83,30 @@ describe("Bucket management", () => {
       cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
       navigationMenu.bucketsNavButton().click()
 
-      // create a bucket and see it in the bucket table
+      // go to create bucket modal
       bucketsPage.createBucketButton().click()
       createBucketModal.body().should("be.visible")
+      // ensure can't create an empty bucket
+      createBucketModal.submitButton().click()
+      createBucketModal.bucketNameInput().should("have.class", "error")
+      // ensure can't create a bucket with only spaces
+      createBucketModal.bucketNameInput().type("  ")
+      createBucketModal.submitButton().click()
+      createBucketModal.bucketNameInput().should("have.class", "error")
+      // create a bucket and see it in the bucket table
       createBucketModal.bucketNameInput().type(ipfsBucketName)
       createBucketModal.ipfsRadioInput().click()
       createBucketModal.submitButton().click()
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().should("have.text", ipfsBucketName)
       bucketsPage.bucketFileSystemType().should("have.text", "IPFS MFS")
+
+      // ensure can't create a bucket with the same name
+      bucketsPage.createBucketButton().click()
+      createBucketModal.bucketNameInput().type(ipfsBucketName)
+      createBucketModal.submitButton().click()
+      createBucketModal.bucketNameInput().should("have.class", "error")
+      createBucketModal.cancelButton().click()
 
       // open bucket and ensure header matches the expected value
       bucketsPage.bucketItemName().dblclick()
