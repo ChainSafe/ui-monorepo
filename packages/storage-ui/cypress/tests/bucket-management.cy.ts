@@ -24,13 +24,16 @@ describe("Bucket management", () => {
       // go to create bucket modal
       bucketsPage.createBucketButton().click()
       createBucketModal.body().should("be.visible")
+
       // ensure can't create an empty bucket
       createBucketModal.submitButton().click()
       createBucketModal.bucketNameInput().should("have.class", "error")
+
       // ensure can't create a bucket with only spaces
       createBucketModal.bucketNameInput().type("  ")
       createBucketModal.submitButton().click()
       createBucketModal.bucketNameInput().should("have.class", "error")
+
       // create a bucket and see it in the bucket table
       createBucketModal.bucketNameInput().type(chainSafeBucketName)
       createBucketModal.bucketNameInput().should("not.have.class", "error")
@@ -86,13 +89,16 @@ describe("Bucket management", () => {
       // go to create bucket modal
       bucketsPage.createBucketButton().click()
       createBucketModal.body().should("be.visible")
+
       // ensure can't create an empty bucket
       createBucketModal.submitButton().click()
       createBucketModal.bucketNameInput().should("have.class", "error")
+
       // ensure can't create a bucket with only spaces
       createBucketModal.bucketNameInput().type("  ")
       createBucketModal.submitButton().click()
       createBucketModal.bucketNameInput().should("have.class", "error")
+
       // create a bucket and see it in the bucket table
       createBucketModal.bucketNameInput().type(ipfsBucketName)
       createBucketModal.ipfsRadioInput().click()
