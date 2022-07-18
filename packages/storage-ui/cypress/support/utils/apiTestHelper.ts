@@ -1,5 +1,5 @@
 import axios from "axios"
-import { FilesApiClient } from "@chainsafe/files-api-client"
+import { FilesApiClient, FileSystemType } from "@chainsafe/files-api-client"
 import { BucketType } from "@chainsafe/files-api-client"
 
 const REFRESH_TOKEN_KEY = "css.refreshToken"
@@ -14,6 +14,26 @@ const getApiClient = () => {
 }
 
 export const apiTestHelper = {
+  createBucket(name: string, fileSystemType: FileSystemType) {
+    const apiClient = getApiClient()
+    return new Cypress.Promise(async (resolve, reject) => {
+      cy.window().then(async (win) => {
+        try {
+          cy.log("creating bucket", name)
+          const tokens = await apiClient.getRefreshToken({ refresh: win.localStorage.getItem(REFRESH_TOKEN_KEY) || "" })
+          apiClient.setToken(tokens.access_token.token)
+          await apiClient.createBucket({ name: name, file_system_type: fileSystemType, type: "fps", encryption_key: "" })
+          cy.log("done with creating bucket")
+          resolve()
+          cy.reload()
+        } catch (e: any) {
+          cy.log(e)
+          reject(e)
+          throw new Error("Something wrong happened during the bucket creation")
+        }
+      })
+    })
+  },
   clearPins() {
     const apiClient = getApiClient()
 

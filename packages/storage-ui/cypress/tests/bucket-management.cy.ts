@@ -5,6 +5,7 @@ import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { deleteBucketModal } from "../support/page-objects/modals/deleteBucketModal"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
+import { downloadCompleteToast } from "../support/page-objects/toasts/downloadCompleteToast"
 
 describe("Bucket management", () => {
 
@@ -148,13 +149,10 @@ describe("Bucket management", () => {
       const chainSafeBucketName = `cs bucket ${Date.now()}`
       const ipfsBucketName = `ipfs bucket ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets:
+        [{ name: chainSafeBucketName, type: "chainsafe" }, { name: ipfsBucketName, type: "ipfs" }]
+      })
       navigationMenu.bucketsNavButton().click()
-
-      bucketsPage.createBucket(chainSafeBucketName, "chainsafe")
-      bucketsPage.bucketItemRow().should("have.length", 1)
-      bucketsPage.createBucket(ipfsBucketName, "ipfs")
-      bucketsPage.bucketItemRow().should("have.length", 2)
 
       // by default should be sort by date uploading in ascending order (oldest first)
       bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
@@ -186,11 +184,10 @@ describe("Bucket management", () => {
       const folderName = `folder ${Date.now()}`
       const newFolderName = `new folder name ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
       navigationMenu.bucketsNavButton().click()
 
-      // create a new bucket and go inside the bucket
-      bucketsPage.createBucket(ipfsBucketName, "ipfs")
+      // go inside the bucket
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -223,12 +220,10 @@ describe("Bucket management", () => {
       const folderName = `folder ${Date.now()}`
       const newFolderName = `new folder name ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
       navigationMenu.bucketsNavButton().click()
 
-      // create a new bucket and go inside the bucket
-      bucketsPage.createBucket(chainsafeBucketName, "chainsafe")
-      bucketsPage.bucketItemRow().should("have.length", 1)
+      // go inside the bucket
       bucketsPage.bucketItemName().dblclick()
 
       // create a folder inside the bucket
@@ -259,11 +254,10 @@ describe("Bucket management", () => {
       const ipfsBucketName = `ipfs bucket ${Date.now()}`
       const newFileName = `new file name ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
       navigationMenu.bucketsNavButton().click()
 
-      // create a new bucket and go inside the bucket
-      bucketsPage.createBucket(ipfsBucketName, "ipfs")
+      // go inside the bucket
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -295,11 +289,10 @@ describe("Bucket management", () => {
       const chainsafeBucketName = `chainsafe bucket ${Date.now()}`
       const newFileName = `new file name ${Date.now()}`
 
-      cy.web3Login({ deleteFpsBuckets: true })
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
       navigationMenu.bucketsNavButton().click()
 
-      // create a new bucket and go inside the bucket
-      bucketsPage.createBucket(chainsafeBucketName, "chainsafe")
+      // go inside the bucket
       bucketsPage.bucketItemRow().should("have.length", 1)
       bucketsPage.bucketItemName().dblclick()
 
@@ -325,6 +318,86 @@ describe("Bucket management", () => {
       bucketContentsPage.fileItemKebabButton().click()
       bucketContentsPage.renameMenuOption().click()
       bucketContentsPage.fileRenameInput().should("have.value", newFileName)
+    })
+
+    it("can download a file from chainsafe bucket", () => {
+      const chainsafeBucketName = `cs bucket ${Date.now()}`
+      const fileName = "text-file.txt"
+      const downloadsFolder = Cypress.config("downloadsFolder")
+      const fileFixturePath = `uploadedFiles/${fileName}`
+
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
+
+      // upload a file and store file content
+      navigationMenu.bucketsNavButton().click()
+      bucketsPage.bucketItemName().dblclick()
+
+      // upload a file to the bucket
+      bucketContentsPage.uploadFileToBucket(`../fixtures/uploadedFiles/${fileName}`)
+      cy.fixture(fileFixturePath).as("fileContent")
+
+      // download file from kebab menu 
+      bucketContentsPage.fileItemKebabButton().click()
+
+      // intercept POST to ensure the request was successful
+      cy.intercept("POST", "**/bucket/*/download")
+        .as("downloadRequest")
+        .then(() => {
+          bucketContentsPage.downloadMenuOption().click()
+
+          cy.wait("@downloadRequest").should((download) => {
+            expect(download.response).to.have.property("statusCode", 200)
+          })
+        })
+
+      // ensure the file was downloaded
+      downloadCompleteToast.body().should("be.visible")
+      downloadCompleteToast.closeButton().click()
+      cy.get<string>("@fileContent").then((fileContent) => {
+        cy.readFile(`${downloadsFolder}/${fileName}`)
+          .should("exist")
+          .should("eq", fileContent)
+      })
+    })
+
+    it("can download a file from ipfs bucket", () => {
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+      const fileName = "text-file.txt"
+      const downloadsFolder = Cypress.config("downloadsFolder")
+      const fileFixturePath = `uploadedFiles/${fileName}`
+
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
+
+      // upload a file and store file content
+      navigationMenu.bucketsNavButton().click()
+      bucketsPage.bucketItemName().dblclick()
+
+      // upload a file to the bucket
+      bucketContentsPage.uploadFileToBucket(`../fixtures/uploadedFiles/${fileName}`)
+      cy.fixture(fileFixturePath).as("fileContent")
+
+      // download file from kebab menu 
+      bucketContentsPage.fileItemKebabButton().click()
+
+      // intercept POST to ensure the request was successful
+      cy.intercept("POST", "**/bucket/*/download")
+        .as("downloadRequest")
+        .then(() => {
+          bucketContentsPage.downloadMenuOption().click()
+
+          cy.wait("@downloadRequest").should((download) => {
+            expect(download.response).to.have.property("statusCode", 200)
+          })
+        })
+
+      // ensure the file was downloaded
+      downloadCompleteToast.body().should("be.visible")
+      downloadCompleteToast.closeButton().click()
+      cy.get<string>("@fileContent").then((fileContent) => {
+        cy.readFile(`${downloadsFolder}/${fileName}`)
+          .should("exist")
+          .should("eq", fileContent)
+      })
     })
   })
 })
