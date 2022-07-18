@@ -13,6 +13,7 @@ export const bucketContentsPage = {
   // file or folder browser row elements
   fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-file-item-kebab]"),
   fileItemName: () => cy.get("[data-cy=label-file-item-name]"),
+  fileItemCid: () => cy.get("[data-cy=label-file-item-cid]"),
   fileItemRow: () => cy.get("[data-cy=row-file-item]"),
   fileRenameInput: () => cy.get("[data-cy=input-rename-file-or-folder]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=form-rename] span.minimal.error"),
