@@ -7,6 +7,7 @@ import {
 import { CSSTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
 import clsx from "clsx"
+import { NFTData } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
   createStyles({
@@ -61,21 +62,15 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
   })
 )
 
-interface Props {
-  imageURI: string
-  name: string
-  CID: string
-}
-
-const NFTItem = ({ imageURI, name, CID }: Props) => {
+const NFTItem = ({ image, name, description }: NFTData) => {
   const classes = useStyles()
   const [isCopied, setIsCopied] = useState(false)
 
   return (
     <div className={classes.root}>
       <img
-        src={imageURI}
-        alt={name}
+        src={image}
+        alt={description}
         className={classes.imageBox}
       />
       <div className={classes.nameContainer}>
@@ -90,7 +85,7 @@ const NFTItem = ({ imageURI, name, CID }: Props) => {
       <div
         className={clsx(classes.cidRow, !isCopied && "clickable")}
         onClick={() => {
-          navigator.clipboard.writeText(CID)
+          navigator.clipboard.writeText(name)
           setIsCopied(true)
           setInterval(() => setIsCopied(false), 3000)
         }}
@@ -108,7 +103,7 @@ const NFTItem = ({ imageURI, name, CID }: Props) => {
             component="p"
             className={classes.cid}
           >
-            {CID}
+            {name}
           </Typography>
         </div>
         {isCopied

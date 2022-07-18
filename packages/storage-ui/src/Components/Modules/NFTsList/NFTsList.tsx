@@ -11,6 +11,7 @@ import { CSSTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../StorageRoutes"
 import NFTItem from "./NFTItem"
+import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
   createStyles({
@@ -61,51 +62,9 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
   })
 )
 
-const nftItems = [
-  {
-    imageURI: "https://ipfs.chainsafe.io/ipfs/QmeeTqNyJAnE1U23oKo6oj91zWG8Yqha8UiyJehP9SaUVZ",
-    name: "Bart1",
-    CID: "QmeeTqNyJAnE1U23oKo6oj91zWG8Yqha8UiyJehP9SaUVZ"
-  },
-  {
-    imageURI: "https://ipfs.chainsafe.io/ipfs/QmS3AqVfqWrNvn4t6AbJzLAvgHvS16teUbY6jB5rVsaSMh",
-    name: "Bart2",
-    CID: "QmS3AqVfqWrNvn4t6AbJzLAvgHvS16teUbY6jB5rVsaSMh"
-  },
-  {
-    imageURI: "https://ipfs.chainsafe.io/ipfs/QmcKuvy9VG7oJgwNpzEvz95vG43MvDrAQ5ec1dvtYoBxgq",
-    name: "Bart3",
-    CID: "QmcKuvy9VG7oJgwNpzEvz95vG43MvDrAQ5ec1dvtYoBxgq"
-  },
-  {
-    imageURI: "https://ipfs.chainsafe.io/ipfs/QmbBgW56r5cppCNyyLGNzykjyfBCXToFDBJjTquvSETV7P",
-    name: "Bart4",
-    CID: "QmbBgW56r5cppCNyyLGNzykjyfBCXToFDBJjTquvSETV7P"
-  },
-  {
-    imageURI: "https://ipfs.chainsafe.io/ipfs/QmU4dTwMvWJdN65tVA266UTWQbNtX6yUZ1zcA12cztw1y5",
-    name: "Bart5",
-    CID: "QmU4dTwMvWJdN65tVA266UTWQbNtX6yUZ1zcA12cztw1y5"
-  },
-  {
-    imageURI: "https://ipfs.chainsafe.io/ipfs/QmSHz5pHgcVyxp5vEAR4HQ3wHxH3VWHWjjPsqgvdjFDwG9",
-    name: "Bart6",
-    CID: "QmSHz5pHgcVyxp5vEAR4HQ3wHxH3VWHWjjPsqgvdjFDwG9"
-  },
-  {
-    imageURI: "https://ipfs.chainsafe.io/ipfs/QmYNy5W2PcMPzNDsYiNbyzKyJ6tnaUaospkfNCpF2BzTU3",
-    name: "Bart7",
-    CID: "QmYNy5W2PcMPzNDsYiNbyzKyJ6tnaUaospkfNCpF2BzTU3"
-  },
-  {
-    imageURI: "https://ipfs.chainsafe.io/ipfs/QmbSJxfgVYA8tnMp584cJQaQrHxLMFMWHxNYevcYh427aE",
-    name: "Bart8",
-    CID: "QmbSJxfgVYA8tnMp584cJQaQrHxLMFMWHxNYevcYh427aE"
-  }
-]
-
 const NFTsList = () => {
   const classes = useStyles()
+  const { NFTs } = useFileBrowser()
 
   return (
     <div className={classes.root}>
@@ -132,10 +91,10 @@ const NFTsList = () => {
       <div
         className={classes.nftGrid}
       >
-        {nftItems.map((nftItem, i) =>
+        {NFTs?.map((NFT, i) =>
           <NFTItem
             key={i}
-            {...nftItem}
+            {...NFT}
           />
         )
         }
