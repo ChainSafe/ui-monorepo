@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Typography,
@@ -7,7 +7,10 @@ import {
 import { CSSTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
 import clsx from "clsx"
-import { NFTData } from "../../../Contexts/FileBrowserContext"
+import axios from "axios"
+import { trimChar } from "../../../Utils/pathUtils"
+
+const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || "https://ipfs.io/ipfs/"
 
 const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
   createStyles({
@@ -62,15 +65,34 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
   })
 )
 
-const NFTItem = ({ image, name, description }: NFTData) => {
+
+
+interface NFTData {
+  name: string
+  CID: string
+  description: string
+  image: string
+}
+
+const NFTItem = ({ CID }: {CID: string}) => {
   const classes = useStyles()
   const [isCopied, setIsCopied] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [NFTData, setNFTData] = useState<NFTData>()
+
+  useEffect(() => {
+    axios.get(`${trimChar(IPFS_GATEWAY, "/")}/${CID}`)
+      .then(({ data }) => {setNFTData(data)})
+      .finally(() => {setIsLoading(false)})
+  }, [CID])
+
+  if (isLoading || !NFTData) return null
 
   return (
     <div className={classes.root}>
       <img
-        src={image}
-        alt={description}
+        src={NFTData.image}
+        alt={NFTData.description}
         className={classes.imageBox}
       />
       <div className={classes.nameContainer}>
@@ -79,13 +101,13 @@ const NFTItem = ({ image, name, description }: NFTData) => {
           component="p"
           className={classes.nameTitle}
         >
-          {name}
+          {CID}
         </Typography>
       </div>
       <div
         className={clsx(classes.cidRow, !isCopied && "clickable")}
         onClick={() => {
-          navigator.clipboard.writeText(name)
+          navigator.clipboard.writeText(CID)
           setIsCopied(true)
           setInterval(() => setIsCopied(false), 3000)
         }}
@@ -103,7 +125,7 @@ const NFTItem = ({ image, name, description }: NFTData) => {
             component="p"
             className={classes.cid}
           >
-            {name}
+            {NFTData.description}
           </Typography>
         </div>
         {isCopied

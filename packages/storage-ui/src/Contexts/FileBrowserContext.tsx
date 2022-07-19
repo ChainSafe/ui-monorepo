@@ -9,12 +9,6 @@ export interface ISelectedFile {
   name: string
 }
 
-export type NFTData = {
-  name: string
-  description: string
-  image: string
-}
-
 interface FileBrowserContext extends IFileBrowserModuleProps {
   bucket?: Bucket
   itemOperations?: {[contentType: string]: FileOperation[]}
@@ -43,7 +37,6 @@ interface FileBrowserContext extends IFileBrowserModuleProps {
   isSearch?: boolean
   withSurvey?: boolean
   fileSystemType?: FileSystemType
-  NFTs?: NFTData[]
 }
 
 const FileBrowserContext = React.createContext<FileBrowserContext | undefined>(undefined)

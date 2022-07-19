@@ -64,7 +64,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
 
 const NFTsList = () => {
   const classes = useStyles()
-  const { NFTs } = useFileBrowser()
+  const { sourceFiles } = useFileBrowser()
 
   return (
     <div className={classes.root}>
@@ -91,10 +91,10 @@ const NFTsList = () => {
       <div
         className={classes.nftGrid}
       >
-        {NFTs?.map((NFT, i) =>
+        {sourceFiles?.map((sourceFile, i) =>
           <NFTItem
             key={i}
-            {...NFT}
+            CID={sourceFile.name}
           />
         )
         }
