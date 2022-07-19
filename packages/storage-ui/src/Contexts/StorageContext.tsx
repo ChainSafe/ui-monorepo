@@ -481,7 +481,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         type: "success",
         progress: undefined,
         onProgressCancel: undefined,
-        isClosable: true
+        isClosable: true,
+        testId: "download-complete"
       }, true)
       URL.revokeObjectURL(link.href)
       setDownloadsInProgress(false)
