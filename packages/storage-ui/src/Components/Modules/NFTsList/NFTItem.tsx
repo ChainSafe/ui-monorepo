@@ -74,7 +74,6 @@ interface NFTData {
 const NFTItem = ({ CID }: {CID: string}) => {
   const classes = useStyles()
   const [isCopied, setIsCopied] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
   const [NFTData, setNFTData] = useState<NFTData>()
 
   useEffect(() => {
@@ -84,10 +83,10 @@ const NFTItem = ({ CID }: {CID: string}) => {
         name: data.name,
         image: data.image?.replace("ipfs://", `${trimChar(IPFS_GATEWAY, "/")}/`)
       }) })
-      .finally(() => {setIsLoading(false)})
+      .catch(console.error)
   }, [CID])
 
-  if (isLoading || !NFTData) return null
+  if (!NFTData) return null
 
   return (
     <div className={classes.root}>
