@@ -65,8 +65,6 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
   })
 )
 
-
-
 interface NFTData {
   name: string
   CID: string
