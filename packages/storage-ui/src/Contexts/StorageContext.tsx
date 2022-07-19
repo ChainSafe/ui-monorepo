@@ -224,7 +224,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const refreshBuckets = useCallback(() => {
     storageApiClient.listBuckets()
       .then((buckets) => {
-        setNFTBucket(buckets.find(b => b.type === "nft" as any))
+        setNFTBucket(buckets.find(b => b.type === "nft"))
         setStorageBuckets(buckets.filter(b => b.type === "fps"))
       })
       .catch(console.error)

@@ -1941,6 +1941,22 @@
     "@redocly/openapi-core" "^1.0.0-beta.69"
     redoc-cli "^0.12.3"
 
+"@chainsafe/files-api-client@1.18.40":
+  version "1.18.40"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.40.tgz#c8e5bdd7602aa8ba4525e558c6e9ae2bcf12daaf"
+  integrity sha512-ww4un/IDlm1VYIhr/bkKHJZ5X60rc26VS/tjpD6YSeaFw3ypIwwWxMwWHf5O6bNck/4FyuR/Y97GThj59CAUCA==
+  dependencies:
+    "@chainsafe/form-data-encoder" "^1.0.0"
+    "@redocly/openapi-cli" "^1.0.0-beta.58"
+    "@redocly/openapi-core" "^1.0.0-beta.69"
+    formdata-node "^4.3.3"
+    redoc-cli "^0.12.3"
+
+"@chainsafe/form-data-encoder@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@chainsafe/form-data-encoder/-/form-data-encoder-1.0.0.tgz#1e1df2c9c8153478f0021c71ef654f210c2ef280"
+  integrity sha512-rQpAMNJJm10IRCe43ZDLgvOgjf5l6G96VCAlpdhtuBeUhVURA+ybOOlmD036Q1tDfmecuNdCvxuOMkl0FXwZfA==
+
 "@chainsafe/web3-context@1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.3.0.tgz#e546f160145dce12e00845d53f1a00165f6a96b2"
@@ -13800,6 +13816,14 @@ format@^0.2.0:
   resolved "https://registry.yarnpkg.com/format/-/format-0.2.2.tgz#d6170107e9efdc4ed30c9dc39016df942b5cb58b"
   integrity sha1-1hcBB+nv3E7TDJ3DkBbflCtctYs=
 
+formdata-node@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/formdata-node/-/formdata-node-4.3.3.tgz#21415225be66e2c87a917bfc0fedab30a119c23c"
+  integrity sha512-coTew7WODO2vF+XhpUdmYz4UBvlsiTMSNaFYZlrXIqYbFd4W7bMwnoALNLE6uvNgzTg2j1JDF0ZImEfF06VPAA==
+  dependencies:
+    node-domexception "1.0.0"
+    web-streams-polyfill "4.0.0-beta.1"
+
 formidable@^1.2.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.2.2.tgz#bf69aea2972982675f00865342b982986f6b8dd9"
@@ -18306,6 +18330,11 @@ node-dir@^0.1.10:
   integrity sha1-X1Zl2TNRM1yqvvjxxVRRbPXx5OU=
   dependencies:
     minimatch "^3.0.2"
+
+node-domexception@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
+  integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
 
 node-fetch-h2@^2.3.0:
   version "2.3.0"
@@ -24876,6 +24905,11 @@ wcwidth@^1.0.1:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
+
+web-streams-polyfill@4.0.0-beta.1:
+  version "4.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-4.0.0-beta.1.tgz#3b19b9817374b7cee06d374ba7eeb3aeb80e8c95"
+  integrity sha512-3ux37gEX670UUphBF9AMCq8XM6iQ8Ac6A+DSRRjDoRBm1ufCkaCDdNVbaqq60PsEkdNlLKrGtv/YBP4EJXqNtQ==
 
 web3-core-helpers@1.3.6:
   version "1.3.6"
