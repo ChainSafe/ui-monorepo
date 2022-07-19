@@ -5,7 +5,8 @@ import {
   Button,
   PlusIcon,
   Divider,
-  Link
+  Link,
+  Loading
 } from "@chainsafe/common-components"
 import { CSSTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
@@ -20,6 +21,12 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
       [breakpoints.down("md")]: {
         margin: constants.generalUnit
       }
+    },
+    loadingContainer: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: constants.generalUnit * 8
     },
     header: {
       display: "flex",
@@ -64,7 +71,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
 
 const NFTsList = () => {
   const classes = useStyles()
-  const { sourceFiles } = useFileBrowser()
+  const { sourceFiles, loadingCurrentPath } = useFileBrowser()
 
   return (
     <div className={classes.root}>
@@ -88,17 +95,23 @@ const NFTsList = () => {
         </div>
       </header>
       <Divider />
-      <div
-        className={classes.nftGrid}
-      >
-        {sourceFiles?.map((sourceFile, i) =>
-          <NFTItem
-            key={i}
-            CID={sourceFile.name}
+      {loadingCurrentPath
+        ? <div className={classes.loadingContainer}>
+          <Loading
+            size={32}
+            type="light"
           />
-        )
-        }
-      </div>
+        </div>
+        : <div className={classes.nftGrid}>
+          {sourceFiles?.map((sourceFile, i) =>
+            <NFTItem
+              key={i}
+              CID={sourceFile.name}
+            />
+          )
+          }
+        </div>
+      }
     </div>
   )
 }

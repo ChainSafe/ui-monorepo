@@ -70,8 +70,7 @@ const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
 interface NFTData {
   name: string
   CID: string
-  description: string
-  image: string
+  image?: string
 }
 
 const NFTItem = ({ CID }: {CID: string}) => {
@@ -82,7 +81,11 @@ const NFTItem = ({ CID }: {CID: string}) => {
 
   useEffect(() => {
     axios.get(`${trimChar(IPFS_GATEWAY, "/")}/${CID}`)
-      .then(({ data }) => {setNFTData(data)})
+      .then(({ data }) => { setNFTData({
+        CID,
+        name: data.name,
+        image: data.image?.replace("ipfs://", `${trimChar(IPFS_GATEWAY, "/")}/`)
+      }) })
       .finally(() => {setIsLoading(false)})
   }, [CID])
 
@@ -92,7 +95,7 @@ const NFTItem = ({ CID }: {CID: string}) => {
     <div className={classes.root}>
       <img
         src={NFTData.image}
-        alt={NFTData.description}
+        alt={NFTData.name}
         className={classes.imageBox}
       />
       <div className={classes.nameContainer}>
@@ -101,7 +104,7 @@ const NFTItem = ({ CID }: {CID: string}) => {
           component="p"
           className={classes.nameTitle}
         >
-          {CID}
+          {NFTData.name}
         </Typography>
       </div>
       <div
@@ -125,7 +128,7 @@ const NFTItem = ({ CID }: {CID: string}) => {
             component="p"
             className={classes.cid}
           >
-            {NFTData.description}
+            {CID}
           </Typography>
         </div>
         {isCopied
