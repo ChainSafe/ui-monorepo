@@ -11,12 +11,11 @@ import { CSFTheme } from "../../Themes/types"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { translatedPermission } from "./FileBrowsers/Sharing/PermissionsDropdown"
 import { NonceResponsePermission } from "@chainsafe/files-api-client"
-import { usePosthogContext } from "../../Contexts/PosthogContext"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints }: CSFTheme) =>
     createStyles({
-      root:{
+      root: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
@@ -33,7 +32,7 @@ const useStyles = makeStyles(
           width: "100%"
         }
       },
-      icon : {
+      icon: {
         display: "flex",
         alignItems: "center",
         fontSize: constants.generalUnit * 6,
@@ -50,7 +49,7 @@ const useStyles = makeStyles(
         justifyContent: "center",
         alignItems: "center"
       },
-      browseButton : {
+      browseButton: {
         marginTop: constants.generalUnit * 2
       }
     })
@@ -76,7 +75,7 @@ const LinkSharingModule = () => {
   const { bucket_id: bucketId, permission, nonce_id } = useMemo(() => {
     try {
       return (jwt && jwtDecode<DecodedNonceJwt>(jwt)) || {}
-    }catch (e) {
+    } catch (e) {
       console.error(e)
       setError(t`This link is marlformed. Please verify that you copy/pasted it correctly.`)
       return {}
@@ -84,10 +83,9 @@ const LinkSharingModule = () => {
   }, [jwt])
   const newBucket = useMemo(() => buckets.find((b) => b.id === bucketId), [bucketId, buckets])
   const [isValidNonce, setIsValidNonce] = useState<boolean | undefined>()
-  const { captureEvent } = usePosthogContext()
 
   useEffect(() => {
-    if(!nonce_id) return
+    if (!nonce_id) return
 
     filesApiClient.isNonceValid(nonce_id)
       .then((res) => {
@@ -97,7 +95,7 @@ const LinkSharingModule = () => {
   }, [filesApiClient, nonce_id])
 
   useEffect(() => {
-    if(!publicKey || !bucketDecryptionKey) return
+    if (!publicKey || !bucketDecryptionKey) return
 
     encryptForPublicKey(publicKey, bucketDecryptionKey)
       .then(setEncryptedEncryptionKey)
@@ -106,18 +104,17 @@ const LinkSharingModule = () => {
   }, [bucketDecryptionKey, encryptForPublicKey, publicKey])
 
   useEffect(() => {
-    if(!jwt || !encryptedEncryptionKey || !!newBucket || !isValidNonce) return
+    if (!jwt || !encryptedEncryptionKey || !!newBucket || !isValidNonce) return
 
     filesApiClient.verifyNonce({ jwt, encryption_key: encryptedEncryptionKey })
-      .catch((e:any) => {
+      .catch((e: any) => {
         console.error(e)
         setError(e.error.message)
       })
       .finally(() => {
-        captureEvent("Access shared folder using link")
         refreshBuckets()
       })
-  }, [captureEvent, encryptedEncryptionKey, error, filesApiClient, isValidNonce, jwt, newBucket, refreshBuckets])
+  }, [encryptedEncryptionKey, error, filesApiClient, isValidNonce, jwt, newBucket, refreshBuckets])
 
   const onBrowseBucket = useCallback(() => {
     newBucket && redirect(ROUTE_LINKS.SharedFolderExplorer(newBucket.id, "/"))
@@ -176,7 +173,7 @@ const LinkSharingModule = () => {
                 variant="h4"
                 className={classes.errorMessage}
               >
-                { isValidNonce === false
+                {isValidNonce === false
                   ? <span data-cy="label-invalid-link">
                     <Trans>This link is not valid any more.</Trans>
                   </span>

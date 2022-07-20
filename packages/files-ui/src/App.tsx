@@ -12,10 +12,9 @@ import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
-import { FilesApiProvider }  from "./Contexts/FilesApiContext"
+import { FilesApiProvider } from "./Contexts/FilesApiContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
-import { PosthogProvider } from "./Contexts/PosthogContext"
 import { NotificationsProvider } from "./Contexts/NotificationsContext"
 import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
 import { HelmetProvider } from "react-helmet-async"
@@ -121,11 +120,9 @@ const App = () => {
                           <UserProvider>
                             <FilesProvider>
                               <BillingProvider>
-                                <PosthogProvider>
-                                  <AppWrapper>
-                                    <FilesRoutes />
-                                  </AppWrapper>
-                                </PosthogProvider>
+                                <AppWrapper>
+                                  <FilesRoutes />
+                                </AppWrapper>
                               </BillingProvider>
                             </FilesProvider>
                           </UserProvider>

@@ -5,7 +5,6 @@ import { Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import InvoiceLines from "../Elements/InvoiceLines"
 import PayInvoiceModal from "../Modules/SubscriptionTab/PayInvoice/PayInvoiceModal"
-import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
 
 const useStyles = makeStyles(
@@ -34,7 +33,6 @@ const useStyles = makeStyles(
 const BillingHistory = () => {
   const classes = useStyles()
   const [invoiceToPay, setInvoiceToPay] = useState<string | undefined>()
-  usePageTrack()
 
   return (
     <div className={classes.root}>

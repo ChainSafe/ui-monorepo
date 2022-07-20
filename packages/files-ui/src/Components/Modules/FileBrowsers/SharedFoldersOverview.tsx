@@ -24,7 +24,6 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
 import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
-import { usePageTrack } from "../../../Contexts/PosthogContext"
 import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
@@ -173,7 +172,7 @@ const SharedFolderOverview = () => {
       // defaults to name sorting
       default: {
         temp = bucketsToShow.sort((a, b) => {
-          if(!a.name || !b.name) return 0
+          if (!a.name || !b.name) return 0
 
           return a.name.localeCompare(b.name, selectedLocale, {
             sensitivity: "base"
@@ -186,8 +185,6 @@ const SharedFolderOverview = () => {
       ? temp.reverse()
       : temp
   }, [bucketsToShow, column, direction, selectedLocale])
-
-  usePageTrack()
 
   useEffect(() => {
     refreshBuckets(true)
@@ -232,7 +229,7 @@ const SharedFolderOverview = () => {
 
   const handleContextMenu = useCallback((e: React.MouseEvent, options?: IMenuItem[]) => {
     e.preventDefault()
-    if(options){
+    if (options) {
       setContextMenuOptions(options)
     } else {
       setContextMenuOptions(generalContextMenuOptions)
@@ -310,9 +307,9 @@ const SharedFolderOverview = () => {
                 className={classes.tableRow}
               >
                 {desktop &&
-                <TableHeadCell>
-                  {/* Icon */}
-                </TableHeadCell>
+                  <TableHeadCell>
+                    {/* Icon */}
+                  </TableHeadCell>
                 }
                 <TableHeadCell
                   sortButtons={true}
@@ -368,7 +365,7 @@ const SharedFolderOverview = () => {
         showModal={!hasSeenSharingExplainerModal}
         onHide={hideModal}
       />
-      {isSharedFolderCreationModalOpen && <CreateSharedFolderModal onClose={() => setIsSharedFolderCreationModalOpen(false)}/>}
+      {isSharedFolderCreationModalOpen && <CreateSharedFolderModal onClose={() => setIsSharedFolderCreationModalOpen(false)} />}
       <CreateOrManageSharedFolderModal
         onClose={() => setBucketToEdit(undefined)}
         bucketToEdit={bucketToEdit}
@@ -383,8 +380,8 @@ const SharedFolderOverview = () => {
           ? "You are about to delete a shared folder. Please make sure that you have backed up any necessary content"
           : "You will be removed from the shared folder. Only the owner of the folder can add you back."
         }
-        rejectText = {t`Cancel`}
-        acceptText = {t`Confirm`}
+        rejectText={t`Cancel`}
+        acceptText={t`Confirm`}
         acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder }}
         rejectButtonProps={{ disabled: isDeletingSharedFolder }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}

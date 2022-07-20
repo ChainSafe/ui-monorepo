@@ -26,7 +26,6 @@ import { bucketNameValidator } from "../../Utils/validationSchema"
 import { useCallback } from "react"
 import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
-import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Bucket, FileSystemType } from "@chainsafe/files-api-client"
 import { Helmet } from "react-helmet-async"
 import AnchorMenu, { AnchorMenuPosition } from "../UI-components/AnchorMenu"
@@ -150,8 +149,6 @@ const BucketsPage = () => {
     }
   ], [classes])
 
-  usePageTrack()
-
   useEffect(() => {
     // this is needed for tests
     refreshBuckets()
@@ -199,13 +196,13 @@ const BucketsPage = () => {
   )
 
   const formik = useFormik({
-    initialValues:{
+    initialValues: {
       name: "",
       fileSystemType: "chainsafe"
     },
     enableReinitialize: true,
     validationSchema: bucketNameValidationSchema,
-    onSubmit:(values, helpers) => {
+    onSubmit: (values, helpers) => {
       helpers.setSubmitting(true)
       createBucket(values.name.trim(), values.fileSystemType as FileSystemType)
         .then(() => {
@@ -226,7 +223,7 @@ const BucketsPage = () => {
 
   const handleContextMenu = useCallback((e: React.MouseEvent, options?: IMenuItem[]) => {
     e.preventDefault()
-    if(options){
+    if (options) {
       setContextMenuOptions(options)
     } else {
       setContextMenuOptions(generalContextMenuOptions)
@@ -444,8 +441,8 @@ const BucketsPage = () => {
         reject={() => setBucketToRemove(undefined)}
         accept={handleRemoveBucket}
         requestMessage={t`You are about to delete the bucket ${bucketToRemove?.name}`}
-        rejectText = {t`Cancel`}
-        acceptText = {t`Delete`}
+        rejectText={t`Cancel`}
+        acceptText={t`Delete`}
         acceptButtonProps={{ loading: isRemovingBucket, disabled: isRemovingBucket }}
         rejectButtonProps={{ disabled: isRemovingBucket }}
         testId={"bucket-deletion"}

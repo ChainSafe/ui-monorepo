@@ -10,12 +10,11 @@ import { LanguageProvider } from "./Contexts/LanguageContext"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
-import { StorageApiProvider }  from "./Contexts/StorageApiContext"
+import { StorageApiProvider } from "./Contexts/StorageApiContext"
 import { StorageProvider } from "./Contexts/StorageContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
 import { NotificationsProvider } from "./Contexts/NotificationsContext"
-import { PosthogProvider } from "./Contexts/PosthogContext"
 import { HelmetProvider } from "react-helmet-async"
 import ErrorModal from "./Components/Modules/ErrorModal"
 import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
@@ -102,11 +101,9 @@ const App = () => {
                         <Router>
                           <NotificationsProvider>
                             <BillingProvider>
-                              <PosthogProvider>
-                                <AppWrapper>
-                                  <StorageRoutes />
-                                </AppWrapper>
-                              </PosthogProvider>
+                              <AppWrapper>
+                                <StorageRoutes />
+                              </AppWrapper>
                             </BillingProvider>
                           </NotificationsProvider>
                         </Router>

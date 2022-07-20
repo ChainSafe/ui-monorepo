@@ -20,7 +20,6 @@ import { FileBrowserContext, ISelectedFile } from "../../Contexts/FileBrowserCon
 import { parseFileContentResponse } from "../../Utils/Helpers"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
-import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
@@ -33,7 +32,6 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { localStorageGet, localStorageSet } = useLocalStorage()
   const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
   const { pathname } = useLocation()
-  usePageTrack()
 
   const bucketId = useMemo(() =>
     pathname.split("/")[2]
@@ -64,7 +62,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         )
       }).catch(error => {
         console.error(error)
-      }).finally(() =>  {
+      }).finally(() => {
         getStorageSummary()
         showLoading && setLoadingCurrentPath(false)
       })
@@ -105,7 +103,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
 
     return storageApiClient.moveBucketObjects(bucket.id, {
       paths: [getPathWithFile(currentPath, itemToRename.name)],
-      new_path: getPathWithFile(currentPath, newName) })
+      new_path: getPathWithFile(currentPath, newName)
+    })
       .then(() => refreshContents())
       .catch(console.error)
   }, [refreshContents, storageApiClient, bucket, currentPath, pathContents])
@@ -121,8 +120,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
             paths: [getPathWithFile(currentPath, itemToMove.name)],
             new_path: getPathWithFile(newPath, itemToMove.name)
           })
-          const message = `${
-            itemToMove.isFolder ? t`Folder` : t`File`
+          const message = `${itemToMove.isFolder ? t`Folder` : t`File`
           } ${t`moved successfully`}`
 
           addToast({
@@ -130,8 +128,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
             type: "success"
           })
         } catch (error) {
-          const message = `${t`There was an error moving this`} ${
-            itemToMove.isFolder ? t`folder` : t`file`
+          const message = `${t`There was an error moving this`} ${itemToMove.isFolder ? t`folder` : t`file`
           }`
           addToast({
             title: message,
@@ -164,7 +161,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         )
       },
       path: joinArrayOfPaths(arrayOfPaths.slice(0, index + 1))
-    }}), [arrayOfPaths, redirect, bucketId])
+    }
+  }), [arrayOfPaths, redirect, bucketId])
 
   const currentFolder = useMemo(() => {
     return !!arrayOfPaths.length && arrayOfPaths[arrayOfPaths.length - 1]
@@ -175,7 +173,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
 
     if (accountRestricted) {
       addToast({
-        type:"error",
+        type: "error",
         title: t`Uploads disabled`,
         subtitle: t`Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content.`
       })
@@ -186,7 +184,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     flattenedFiles.files?.length && await uploadFiles(bucket.id, flattenedFiles.files, path)
 
     //create empty dir
-    if(flattenedFiles?.emptyDirPaths?.length){
+    if (flattenedFiles?.emptyDirPaths?.length) {
       const allDirs = flattenedFiles.emptyDirPaths.map((folderPath) =>
         storageApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, folderPath) })
       )

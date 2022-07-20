@@ -20,7 +20,6 @@ import AddCIDModal from "../Modules/AddCIDModal"
 import { PinStatus } from "@chainsafe/files-api-client"
 import RestrictedModeBanner from "../Elements/RestrictedModeBanner"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
-import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
 import { cid as isCid } from "is-ipfs"
 
@@ -105,7 +104,6 @@ const CidsPage = () => {
   const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
   const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
   const [searchQuery, setSearchQuery] = useState("")
-  usePageTrack()
 
   const handleSortToggle = (
     targetColumn: SortColumn
@@ -185,7 +183,7 @@ const CidsPage = () => {
                 onSearchChange(e.target.value)
               }
               placeholder={t`Search by cid, name…`}
-              testId = "input-search-cid"
+              testId="input-search-cid"
               value={searchQuery}
               isLoading={isLoadingPins}
             />

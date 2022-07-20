@@ -2,7 +2,6 @@ import React, { ReactNode, useCallback, useState } from "react"
 import { Button, Divider, FileInput, FormikTextInput, SelectInput, TextInput, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useThemeSwitcher, ITheme } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
-import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
 import { FieldArray, Form, FormikProvider, useFormik, useFormikContext } from "formik"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
@@ -131,7 +130,7 @@ const ArrayInput: React.FC<{ obj: Array<any>; namespace: string }> =
             type="button"
             onClick={onAddItemClick}>
             <Trans>
-        Add item
+              Add item
             </Trans>
           </Button>
         </div>
@@ -185,7 +184,6 @@ const generateFormFields = (val: any, namespace?: string): ReactNode | (ReactNod
 const CreateNFTPage: React.FC = () => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  usePageTrack()
 
   const initialValues: { [key: string]: any } = {
     image: null,

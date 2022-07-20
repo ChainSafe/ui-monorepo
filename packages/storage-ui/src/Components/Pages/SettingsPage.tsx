@@ -1,5 +1,6 @@
 import React, { useCallback } from "react"
-import { Tabs,
+import {
+  Tabs,
   TabPane as TabPaneOrigin,
   Typography, Divider,
   useParams,
@@ -16,7 +17,6 @@ import clsx from "clsx"
 import ApiKeys from "../Modules/ApiKeys"
 import { useBilling } from "../../Contexts/BillingContext"
 import SubscriptionTab from "../Modules/SubscriptionTab"
-import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
@@ -78,7 +78,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
         padding: `${constants.generalUnit * 2}px 0`
       }
     },
-    lockIcon : {
+    lockIcon: {
       width: "1rem",
       marginRight: "0.5rem"
     },
@@ -98,7 +98,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       borderRightWidth: 1,
       borderRightStyle: "solid",
 
-      "&.wide" : {
+      "&.wide": {
         width: "100%",
         borderRightStyle: "none"
       },
@@ -128,11 +128,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
 
 const SettingsPage: React.FC = () => {
   const { desktop } = useThemeSwitcher()
-  const { path = desktop ? "apiKeys" : undefined } = useParams<{path: SettingsPath}>()
+  const { path = desktop ? "apiKeys" : undefined } = useParams<{ path: SettingsPath }>()
   const classes = useStyles()
   const { redirect } = useHistory()
   const { isBillingEnabled } = useBilling()
-  usePageTrack()
 
   const onSelectTab = useCallback(
     (path: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(path))
@@ -172,8 +171,8 @@ const SettingsPage: React.FC = () => {
           >
             <TabPane
               className={clsx(classes.tabPane, "apiKeysPane", (!desktop && !path) ? classes.hideTabPane : "")}
-              icon={<LockIcon className={classes.lockIcon}/>}
-              iconRight={<CaretRightIcon/>}
+              icon={<LockIcon className={classes.lockIcon} />}
+              iconRight={<CaretRightIcon />}
               title={t`API Keys`}
               tabKey="apiKeys"
               testId="apiKeys-tab"
@@ -187,7 +186,7 @@ const SettingsPage: React.FC = () => {
                 tabKey="plan"
                 testId="tab-subscription"
                 icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
-                iconRight={<CaretRightIcon/>}
+                iconRight={<CaretRightIcon />}
               >
                 <SubscriptionTab />
               </TabPane>

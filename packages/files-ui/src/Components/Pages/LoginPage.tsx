@@ -15,7 +15,6 @@ import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
-import { usePageTrack } from "../../Contexts/PosthogContext"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -74,10 +73,10 @@ const useStyles = makeStyles(
         marginTop: "2rem",
         marginBottom: "1rem",
         fontWeight: typography.fontWeight.regular,
-        [breakpoints.up("md")]:{
+        [breakpoints.up("md")]: {
           ...typography.h2
         },
-        [breakpoints.down("md")]:{
+        [breakpoints.down("md")]: {
           ...typography.h4
         }
       },
@@ -139,7 +138,7 @@ const Content = ({ className }: { className: string }) => {
     return <MissingShares className={className} />
   }
 
-  if (shouldInitializeAccount && !isMasterPasswordSet){
+  if (shouldInitializeAccount && !isMasterPasswordSet) {
     return <InitializeAccount className={className} />
   }
 

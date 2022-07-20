@@ -9,8 +9,6 @@ import BottomDarkSVG from "../../Media/landing/layers/dark/Bottom.dark.svg"
 import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
-import { usePageTrack } from "../../Contexts/PosthogContext"
-
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSSTheme) =>
@@ -69,10 +67,10 @@ const useStyles = makeStyles(
         marginTop: "2rem",
         marginBottom: "2rem",
         fontWeight: typography.fontWeight.regular,
-        [breakpoints.up("md")]:{
+        [breakpoints.up("md")]: {
           ...typography.h2
         },
-        [breakpoints.down("md")]:{
+        [breakpoints.down("md")]: {
           ...typography.h4
         }
       },
@@ -123,7 +121,6 @@ const useStyles = makeStyles(
 const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
-  usePageTrack()
 
   return (
     <div className={classes.root}>
@@ -139,7 +136,7 @@ const LoginPage = () => {
             <BottomDarkSVG className={classes.bgBottom} />
             <TopDarkSVG className={classes.bgTop} />
           </>
-          :          <>
+          : <>
             <BottomLightSVG className={classes.bgBottom} />
             <TopLightSVG className={classes.bgTop} />
           </>

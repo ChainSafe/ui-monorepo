@@ -3,13 +3,11 @@ import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useUser } from "../../../../Contexts/UserContext"
 import { ethers } from "ethers"
 import { LookupUser, NonceResponsePermission } from "@chainsafe/files-api-client"
-import { usePosthogContext } from "../../../../Contexts/PosthogContext"
 
 export const useLookupSharedFolderUser = () => {
   const { filesApiClient } = useFilesApi()
   const [sharedFolderReaders, setSharedFolderReaders] = useState<LookupUser[]>([])
   const [sharedFolderWriters, setSharedFolderWriters] = useState<LookupUser[]>([])
-  const { captureEvent } = usePosthogContext()
   const { profile } = useUser()
 
   const handleLookupUser = useCallback(async (inputVal: string): Promise<LookupUser[]> => {
@@ -57,14 +55,13 @@ export const useLookupSharedFolderUser = () => {
   }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
 
   const onAddNewUser = useCallback((user: LookupUser, permission: NonceResponsePermission) => {
-    captureEvent("Manually share with user", { permission })
 
     if (permission === "read") {
       setSharedFolderReaders([...sharedFolderReaders, user])
     } else {
       setSharedFolderWriters([...sharedFolderWriters, user])
     }
-  }, [captureEvent, sharedFolderReaders, sharedFolderWriters])
+  }, [sharedFolderReaders, sharedFolderWriters])
 
   const resetUsers = useCallback(() => {
     setSharedFolderReaders([])

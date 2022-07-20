@@ -14,7 +14,6 @@ import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
 import ManageSharedFolder from "./ManageSharedFolder"
-import { usePosthogContext } from "../../../Contexts/PosthogContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
@@ -245,7 +244,6 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
     fileSystemItems
   ])
 
-  const { captureEvent } = usePosthogContext()
 
   return (
     <CustomModal

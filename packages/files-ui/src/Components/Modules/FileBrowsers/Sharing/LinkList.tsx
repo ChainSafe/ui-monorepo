@@ -4,7 +4,6 @@ import { NonceResponse, NonceResponsePermission } from "@chainsafe/files-api-cli
 import { Trans } from "@lingui/macro"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
-import { usePosthogContext } from "../../../../Contexts/PosthogContext"
 import { CSFTheme } from "../../../../Themes/types"
 import PermissionsDropdown from "./PermissionsDropdown"
 import SharingLink from "./SharingLink"
@@ -123,7 +122,6 @@ const LinkList = ({ bucketId, bucketEncryptionKey, setTouchedLinksList }: Props)
   const [isLoadingCreation, setIsLoadingCreation] = useState(false)
   const hasAReadNonce = useMemo(() => !!nonces.find(n => n.permission === "read"), [nonces])
   const [newLinkPermission, setNewLinkPermission] = useState<NonceResponsePermission | undefined>(undefined)
-  const { captureEvent } = usePosthogContext()
 
   useEffect(() => {
     if (hasAReadNonce) {
