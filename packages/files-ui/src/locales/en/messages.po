@@ -37,9 +37,6 @@ msgstr "A backup secret phrase will be generated and used for your account.<0/>W
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
-msgid "Accept"
-msgstr "Accept"
-
 msgid "Accepted currencies"
 msgstr "Accepted currencies"
 
@@ -288,9 +285,6 @@ msgstr "Date Uploaded"
 
 msgid "Date uploaded"
 msgstr "Date uploaded"
-
-msgid "Decline"
-msgstr "Decline"
 
 msgid "Decryption key"
 msgstr "Decryption key"
@@ -1011,12 +1005,6 @@ msgstr "This link is not valid any more."
 
 msgid "This username is already taken"
 msgstr "This username is already taken"
-
-msgid "This website uses cookies"
-msgstr "This website uses cookies"
-
-msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 
 msgid "This week"
 msgstr "This week"

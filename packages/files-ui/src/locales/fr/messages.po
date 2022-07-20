@@ -38,9 +38,6 @@ msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce co
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
 
-msgid "Accept"
-msgstr "Accepter"
-
 msgid "Accepted currencies"
 msgstr "Devises acceptées"
 
@@ -289,9 +286,6 @@ msgstr "Téléversé le"
 
 msgid "Date uploaded"
 msgstr "Téléversé le"
-
-msgid "Decline"
-msgstr "Refuser"
 
 msgid "Decryption key"
 msgstr "Clé de déchiffrement"
@@ -1012,12 +1006,6 @@ msgstr "Ce lien n'est plus valide."
 
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
-
-msgid "This website uses cookies"
-msgstr "Ce site web utilise des cookies"
-
-msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre les interactions à des fins d'analyse. Vous avez le droit de refuser notre utilisation des cookies. Pour que nous puissions vous offrir une expérience utilisateur personnalisable, veuillez cliquer sur le bouton Accepter ci-dessous.<0>En savoir plus</0>"
 
 msgid "This week"
 msgstr "Cette semaine"
