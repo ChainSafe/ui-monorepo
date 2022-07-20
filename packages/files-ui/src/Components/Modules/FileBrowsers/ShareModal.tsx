@@ -342,7 +342,6 @@ const ShareModal = ({ onClose, fileSystemItems }: IShareModalProps) => {
                 <CheckboxInput
                   value={keepOriginalFile}
                   onChange={() => {
-                    captureEvent("copy or move files on share")
                     setKeepOriginalFile(!keepOriginalFile)
                   }}
                   label={t`Keep original files`}

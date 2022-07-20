@@ -66,7 +66,6 @@ const BetaModal = ({ onHide }: Props) => {
         </Typography>
         <div className={classes.buttonContainer}>
           <Button
-            data-posthog="Subscription-whitelist-form"
             className={classes.nextButton}
             onClick={onFormdButtonClick}
           >
@@ -75,6 +74,7 @@ const BetaModal = ({ onHide }: Props) => {
         </div>
       </div>
     </CustomModal>
-  )}
+  )
+}
 
 export default BetaModal

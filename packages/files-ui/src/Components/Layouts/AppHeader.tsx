@@ -24,9 +24,7 @@ const useStyles = makeStyles(
         visibility: "hidden",
         [breakpoints.up("md")]: {
           width: `calc(100% - ${constants.navWidth}px)`,
-          padding: `${0}px ${constants.contentPadding}px ${0}px ${
-            constants.contentPadding
-          }px`,
+          padding: `${0}px ${constants.contentPadding}px ${0}px ${constants.contentPadding}px`,
           left: Number(constants.navWidth),
           opacity: 0,
 
@@ -101,7 +99,7 @@ const useStyles = makeStyles(
           zIndex: zIndex?.background
         }
       },
-      title : {
+      title: {
         marginLeft: constants.generalUnit
       },
       buttonsSection: {
@@ -109,7 +107,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         margin: `0 ${constants.generalUnit * 2}px`,
 
-        "& button" : {
+        "& button": {
           height: constants.generalUnit * 4,
 
           "&:not(:first-child)": {
@@ -189,7 +187,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               </section>
               <section className={classes.buttonsSection}>
                 <Button
-                  data-posthog="Report-a-bug"
                   data-cy="button-report-bug"
                   variant="tertiary"
                   size="small"
@@ -198,7 +195,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   <Trans>Report a bug</Trans>
                 </Button>
                 {!isBillingEnabled && <Button
-                  data-posthog="Join-beta"
                   variant="tertiary"
                   size="small"
                   onClick={onJoinBetaClick}
@@ -206,7 +202,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   <Trans>Need more storage?</Trans>
                 </Button>}
                 {isBillingEnabled && <Button
-                  data-posthog="Upgrade"
                   variant="tertiary"
                   size="small"
                   onClick={onUpgradeClick}
@@ -237,9 +232,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                         variant="h5"
                         className={classes.title}
                       >
-                        Files
+                          Files
                       </Typography>
-                      &nbsp;
+                        &nbsp;
                       <Typography variant="caption">beta</Typography>
                     </Link>
                     <section className={classes.rightSection}>
@@ -263,7 +258,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
           }
         </>
       )}
-      {isBetaModalOpen && <BetaModal onHide={() => setIsBetaModalOpen(false)}/>}
+      {isBetaModalOpen && <BetaModal onHide={() => setIsBetaModalOpen(false)} />}
     </header>
   )
 }

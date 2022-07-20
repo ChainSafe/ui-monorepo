@@ -156,7 +156,6 @@ const Content = ({ className }: { className: string }) => {
 const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
-  usePageTrack()
 
   return (
     <div className={classes.root}>

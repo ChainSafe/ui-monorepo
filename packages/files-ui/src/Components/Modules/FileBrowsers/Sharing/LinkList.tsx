@@ -153,7 +153,6 @@ const LinkList = ({ bucketId, bucketEncryptionKey, setTouchedLinksList }: Props)
       return
     }
 
-    captureEvent("Create sharing link", { permission: newLinkPermission })
     setIsLoadingCreation(true)
 
     return filesApiClient
@@ -164,7 +163,7 @@ const LinkList = ({ bucketId, bucketEncryptionKey, setTouchedLinksList }: Props)
         refreshNonces()
         setTouchedLinksList()
       })
-  }, [bucketId, captureEvent, filesApiClient, newLinkPermission, refreshNonces, setTouchedLinksList])
+  }, [bucketId, filesApiClient, newLinkPermission, refreshNonces, setTouchedLinksList])
 
   return (
     <div className={classes.root}>
