@@ -33,7 +33,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     if (!NFTBucket) return
     showLoading && setLoadingCurrentPath(true)
     storageApiClient.getBucketObjectChildrenList(NFTBucket.id, { path: "/" })
-      .then(async (newContents) => {
+      .then((newContents) => {
         showLoading && setLoadingCurrentPath(false)
         const mappedContents = newContents.map((fcr) => parseFileContentResponse(fcr))
         setPathContents(mappedContents)

@@ -9,8 +9,7 @@ import { Trans } from "@lingui/macro"
 import clsx from "clsx"
 import axios from "axios"
 import { trimChar } from "../../../Utils/pathUtils"
-
-const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || "https://ipfs.io/ipfs/"
+import { IPFS_GATEWAY } from "../../../Utils/Constants"
 
 const useStyles = makeStyles(({ constants, palette }: CSSTheme) =>
   createStyles({
