@@ -73,7 +73,7 @@ interface NFTData {
 const NFTItem = ({ CID }: {CID: string}) => {
   const classes = useStyles()
   const [isCopied, setIsCopied] = useState(false)
-  const [NFTData, setNFTData] = useState<NFTData>()
+  const [NFTData, setNFTData] = useState<NFTData | undefined>()
 
   useEffect(() => {
     axios.get(`${trimChar(IPFS_GATEWAY, "/")}/${CID}`)
