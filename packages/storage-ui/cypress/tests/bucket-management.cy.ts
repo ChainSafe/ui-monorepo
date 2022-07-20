@@ -399,5 +399,37 @@ describe("Bucket management", () => {
           .should("eq", fileContent)
       })
     })
+
+    it("can copy to clipboard the cid inside the ipfs bucket", () => {
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
+      // upload a file to the bucket
+      navigationMenu.bucketsNavButton().click()
+      bucketsPage.bucketItemName().dblclick()
+      bucketContentsPage.uploadFileToBucket("../fixtures/uploadedFiles/text-file.txt")
+
+      // ensure the correct cid is being copied to the clipboard
+      bucketContentsPage.fileItemCid().click()
+      cy.window().its("navigator.clipboard").invoke("readText").then((text) => {
+        bucketContentsPage.fileItemCid().should("have.text", text)
+      })
+    })
+
+    it("can copy to clipboard the cid inside the chainsafe bucket", () => {
+      const chainsafeBucketName = `chainsafe bucket ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
+      // upload a file to the bucket
+      navigationMenu.bucketsNavButton().click()
+      bucketsPage.bucketItemName().dblclick()
+      bucketContentsPage.uploadFileToBucket("../fixtures/uploadedFiles/text-file.txt")
+
+      // ensure the correct cid is being copied to the clipboard
+      bucketContentsPage.fileItemCid().click()
+      cy.window().its("navigator.clipboard").invoke("readText").then((text) => {
+        bucketContentsPage.fileItemCid().should("have.text", text)
+      })
+    })
   })
 })
