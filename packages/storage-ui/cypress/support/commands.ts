@@ -33,7 +33,7 @@ import { testPrivateKey, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
-import { BucketType } from "@chainsafe/files-api-client"
+import { BucketType, FileSystemType } from "@chainsafe/files-api-client"
 import { navigationMenu } from "./page-objects/navigationMenu"
 
 export type Storage = Record<string, string>[];
@@ -44,6 +44,7 @@ export interface Web3LoginOptions {
   clearPins?: boolean
   deleteFpsBuckets?: boolean
   withNewSession?: boolean
+  createFpsBuckets?: { name: string; type: FileSystemType }[]
 }
 
 Cypress.Commands.add("clearPins", apiTestHelper.clearPins)
@@ -59,7 +60,8 @@ Cypress.Commands.add(
     clearPins = false,
     withNewUser = true,
     deleteFpsBuckets = false,
-    withNewSession = false
+    withNewSession = false,
+    createFpsBuckets
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -108,6 +110,12 @@ Cypress.Commands.add(
 
     if (deleteFpsBuckets) {
       apiTestHelper.deleteBuckets("fps")
+    }
+
+    if(createFpsBuckets != null) {
+      createFpsBuckets.forEach((bucket) => {
+        apiTestHelper.createBucket(bucket.name, bucket.type)
+      })
     }
   }
 )

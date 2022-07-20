@@ -107,8 +107,11 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
         }}
         enableReinitialize
       >
-        <Form>
-          <div className={classes.root}>
+        <Form data-cy='form-folder-creation'>
+          <div
+            className={classes.root}
+            data-cy="modal-create-folder"
+          >
             {!desktop && (
               <Grid
                 item
@@ -131,6 +134,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
               className={classes.input}
             >
               <FormikTextInput
+                data-cy="input-folder-name"
                 name="name"
                 size="large"
                 placeholder={t`Name`}
@@ -145,6 +149,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
               justifyContent="flex-end"
             >
               <CustomButton
+                data-cy="button-cancel-create-folder"
                 onClick={() => close()}
                 size="medium"
                 variant={"outline"}
@@ -153,6 +158,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
                 <Trans>Cancel</Trans>
               </CustomButton>
               <Button
+                data-cy="button-create-folder"
                 size={desktop ? "medium" : "large"}
                 variant="primary"
                 type="submit"
