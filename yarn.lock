@@ -1941,14 +1941,15 @@
     "@redocly/openapi-core" "^1.0.0-beta.69"
     redoc-cli "^0.12.3"
 
-"@chainsafe/files-api-client@1.18.40":
-  version "1.18.40"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.40.tgz#c8e5bdd7602aa8ba4525e558c6e9ae2bcf12daaf"
-  integrity sha512-ww4un/IDlm1VYIhr/bkKHJZ5X60rc26VS/tjpD6YSeaFw3ypIwwWxMwWHf5O6bNck/4FyuR/Y97GThj59CAUCA==
+"@chainsafe/files-api-client@1.18.41-rc2":
+  version "1.18.41-rc2"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.41-rc2.tgz#c5c6fdab602e3ebd6683d42650336f42fd6638eb"
+  integrity sha512-NKUQTlWHsIdnRt2KC/GreRyEgTaVG2JDanxjSo84QI92OJZsJLvmAdv71IpIXPKA89ZeFBhVwKueHA/yeHmZEQ==
   dependencies:
     "@chainsafe/form-data-encoder" "^1.0.0"
     "@redocly/openapi-cli" "^1.0.0-beta.58"
     "@redocly/openapi-core" "^1.0.0-beta.69"
+    browser-or-node "^2.0.0"
     formdata-node "^4.3.3"
     redoc-cli "^0.12.3"
 
@@ -9243,6 +9244,11 @@ brorand@^1.0.1, brorand@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
+
+browser-or-node@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/browser-or-node/-/browser-or-node-2.0.0.tgz#808ea90282a670931cdc0ea98166538a50dd0d89"
+  integrity sha512-3Lrks/Okgof+/cRguUNG+qRXSeq79SO3hY4QrXJayJofwJwHiGC0qi99uDjsfTwULUFSr1OGVsBkdIkygKjTUA==
 
 browser-process-hrtime@^1.0.0:
   version "1.0.0"
