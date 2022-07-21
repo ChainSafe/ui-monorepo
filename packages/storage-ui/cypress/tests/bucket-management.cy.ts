@@ -399,5 +399,24 @@ describe("Bucket management", () => {
           .should("eq", fileContent)
       })
     })
+
+    it("can delete a file inside the chainsafe bucket", () => {
+      const chainsafeBucketName = `chainsafe bucket ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
+      navigationMenu.bucketsNavButton().click()
+
+      // go inside the bucket
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      // upload a file
+      bucketContentsPage.uploadFileToBucket("../fixtures/uploadedFiles/logo.png")
+
+      // delete the file
+      bucketContentsPage.fileItemKebabButton().click()
+      bucketContentsPage.deleteMenuOption().click()
+      bucketContentsPage.fileItemRow().should("have.length", 0)
+    })
   })
 })
