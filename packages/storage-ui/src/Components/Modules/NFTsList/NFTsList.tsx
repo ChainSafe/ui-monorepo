@@ -13,6 +13,7 @@ import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../StorageRoutes"
 import NFTItem from "./NFTItem"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import EmptySvg from "../../../Media/Empty.svg"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
   createStyles({
@@ -27,6 +28,17 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
       alignItems: "center",
       justifyContent: "center",
       marginTop: constants.generalUnit * 8
+    },
+    noFiles: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: constants.generalUnit * 20,
+      "& svg": {
+        maxWidth: 180,
+        marginBottom: constants.generalUnit * 3
+      }
     },
     header: {
       display: "flex",
@@ -102,15 +114,25 @@ const NFTsList = () => {
             type="light"
           />
         </div>
-        : <div className={classes.nftGrid}>
-          {sourceFiles?.map((sourceFile, i) =>
-            <NFTItem
-              key={i}
-              CID={sourceFile.name}
-            />
-          )
-          }
-        </div>
+        : !sourceFiles.length
+          ? <section className={classes.noFiles}>
+            <EmptySvg />
+            <Typography
+              variant="h4"
+              component="h4"
+            >
+              <Trans>No NFTs to show</Trans>
+            </Typography>
+          </section>
+          : <div className={classes.nftGrid}>
+            {sourceFiles?.map((sourceFile, i) =>
+              <NFTItem
+                key={i}
+                CID={sourceFile.name}
+              />
+            )
+            }
+          </div>
       }
     </div>
   )
