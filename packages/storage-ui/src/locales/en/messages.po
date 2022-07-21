@@ -436,6 +436,9 @@ msgstr "Next payment"
 msgid "No Card"
 msgstr "No Card"
 
+msgid "No NFTs to show"
+msgstr "No NFTs to show"
+
 msgid "No files to show"
 msgstr "No files to show"
 
