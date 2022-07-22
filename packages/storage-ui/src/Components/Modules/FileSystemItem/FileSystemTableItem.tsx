@@ -358,7 +358,9 @@ const FileSystemTableItem = React.forwardRef(
                     </Trans>
                   </span>
                 </div>
-                <Typography component="p">
+                <Typography
+                  data-cy="label-file-item-cid"
+                  component="p">
                   { cid }
                 </Typography>
                 <CopySvg className={clsx(classes.copyIcon, { "active": copied })} />
