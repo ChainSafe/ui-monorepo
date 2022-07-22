@@ -1180,6 +1180,7 @@ const FilesList = () => {
           e.preventDefault()
           e.stopPropagation()
         }}
+        testId="file-deletion"
       />
       {
         refreshContents && (
