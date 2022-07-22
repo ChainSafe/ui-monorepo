@@ -495,7 +495,7 @@ describe("Bucket management", () => {
     })
 
     it("can delete a folder inside the ipfs bucket", () => {
-      const ipfsBucketName = `chainsafe bucket ${Date.now()}`
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
       const folderName = `folder ${Date.now()}`
 
       cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
