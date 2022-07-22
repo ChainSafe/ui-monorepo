@@ -470,7 +470,6 @@ describe("Bucket management", () => {
 
       // delete the folder
       bucketContentsPage.deleteFileOrFolder()
-
       deletionCompleteToast.body().should("be.visible")
       deletionCompleteToast.closeButton().click()
       bucketContentsPage.fileItemRow().should("have.length", 0)
