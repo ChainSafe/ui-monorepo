@@ -23,8 +23,12 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
         margin: constants.generalUnit
       }
     },
+    loaderText: {
+      marginTop: constants.generalUnit * 2
+    },
     loadingContainer: {
       display: "flex",
+      flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
       marginTop: constants.generalUnit * 8
@@ -113,6 +117,13 @@ const NFTsList = () => {
             size={32}
             type="light"
           />
+          <Typography
+            variant="body2"
+            component="p"
+            className={classes.loaderText}
+          >
+            <Trans>One sec, getting NFTs...</Trans>
+          </Typography>
         </div>
         : !sourceFiles.length
           ? <section className={classes.noFiles}>
