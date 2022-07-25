@@ -42,7 +42,7 @@ describe("CID management", () => {
       cidsPage.cidItemRow().should("contain.text", "queued")
     })
 
-    it("can see a warning when attempting to pin the same CID twice", () => {
+    it("can pin the same CID twice and see the warning message", () => {
       cy.web3Login({ withNewSession: true })
       navigationMenu.cidsNavButton().click()
 
@@ -52,8 +52,19 @@ describe("CID management", () => {
       // see warning if attempting to pin the cid again
       cidsPage.pinButton().click()
       addCidModal.body().should("be.visible")
+      addCidModal.nameInput().type(testCidName)
       addCidModal.cidInput().type(testCid)
       addCidModal.cidPinnedWarningLabel().should("be.visible")
+
+      // confirm pin same cid
+      addCidModal.pinSubmitButton().click()
+
+      // ensure both cid are pinned in the table
+      cidsPage.cidItemRow().should("have.length", 2)
+      cidsPage.cidItemRow().within(() => {
+        cidsPage.cidNameCell().eq(0).should("have.text", testCidName)
+        cidsPage.cidNameCell().eq(1).should("have.text", testCidName)
+      })
     })
 
     it("can search via name or cid", () => {
