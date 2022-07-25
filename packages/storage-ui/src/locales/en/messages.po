@@ -460,6 +460,9 @@ msgstr "Older notifications"
 msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
 msgstr "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
 
+msgid "One sec, getting NFTs..."
+msgstr "One sec, getting NFTs..."
+
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
