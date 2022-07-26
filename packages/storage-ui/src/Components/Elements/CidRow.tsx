@@ -8,6 +8,7 @@ import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings } from "../Pages/CidsPage"
 import { trimChar } from "../../Utils/pathUtils"
+import { IPFS_GATEWAY } from "../../Utils/Constants"
 
 const useStyles = makeStyles(({ animation, constants, breakpoints, palette }: CSSTheme) =>
   createStyles({
@@ -65,8 +66,6 @@ const useStyles = makeStyles(({ animation, constants, breakpoints, palette }: CS
 interface Props {
   pinStatus: PinStatus
 }
-
-const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || "https://ipfs.io/ipfs/"
 
 const CidRow = ({ pinStatus }: Props) => {
   const classes = useStyles()

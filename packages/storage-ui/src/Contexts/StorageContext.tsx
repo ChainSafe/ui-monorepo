@@ -57,6 +57,7 @@ type StorageContext = {
   refreshPins: (params?: RefreshPinParams) => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
+  NFTBucket: Bucket | undefined
   createBucket: (name: string, fileSystemType: FileSystemType) => Promise<void>
   removeBucket: (id: string) => Promise<void>
   refreshBuckets: () => void
@@ -85,6 +86,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
   const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse | undefined>()
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
+  const [NFTBucket, setNFTBucket] = useState<Bucket | undefined>()
   const [pins, setPins] = useState<PinStatus[]>([])
   const [pinsParams, setPinsParams] = useState<{
     pageNumber: number
@@ -221,7 +223,10 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const refreshBuckets = useCallback(() => {
     storageApiClient.listBuckets()
-      .then((buckets) => setStorageBuckets(buckets.filter(b => b.type === "fps")))
+      .then((buckets) => {
+        setNFTBucket(buckets.find(b => b.type === "nft"))
+        setStorageBuckets(buckets.filter(b => b.type === "fps"))
+      })
       .catch(console.error)
       .finally(() => getStorageSummary())
   }, [storageApiClient, getStorageSummary])
@@ -529,6 +534,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         onPreviousPins,
         unpin,
         storageBuckets,
+        NFTBucket,
         downloadFile,
         createBucket,
         removeBucket,

@@ -9,3 +9,6 @@ export enum CONTENT_TYPES {
   Audio = "audio/*"
 }
 
+export const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || "https://ipfs.io/ipfs/"
+
+
