@@ -84,7 +84,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     }).then(() => {
       addToast({
         title: t`Deletion successful`,
-        type: "success"
+        type: "success",
+        testId: "deletion-complete"
       })
     })
       .catch((e) => {
