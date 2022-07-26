@@ -42,7 +42,7 @@ describe("CID management", () => {
       cidsPage.cidItemRow().should("contain.text", "queued")
     })
 
-    it("can pin the same CID twice and see the warning message", () => {
+    it("can pin the same CID twice following initial warning", () => {
       cy.web3Login({ withNewSession: true })
       navigationMenu.cidsNavButton().click()
 
