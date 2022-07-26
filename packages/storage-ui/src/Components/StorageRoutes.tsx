@@ -10,6 +10,7 @@ import BillingHistory from "./Pages/BillingHistory"
 import UploadNFTPage from "./Pages/UploadNFTPage"
 import ApiKeysPage from "./Pages/ApiKeysPage"
 import SubscriptionPage from "./Pages/SubscriptionPage"
+import NFTsPage from "./Pages/NFTsPage"
 
 export const SETTINGS_BASE = "/settings"
 export const SETTINGS_PATHS = ["apiKeys", "plan"] as const
@@ -33,7 +34,8 @@ export const ROUTE_LINKS = {
   BucketRoot: "/bucket",
   Bucket: (id: string, bucketPath: string) => `/bucket/${id}${bucketPath}`,
   DiscordInvite: "https://discord.gg/YYFqgHp4Tu",
-  UploadNFT: "/upload-nft"
+  UploadNFT: "/upload-nft",
+  NFTs: "/nfts"
 }
 
 const StorageRoutes = () => {
@@ -102,6 +104,13 @@ const StorageRoutes = () => {
         component={LoginPage}
         redirectPath={ROUTE_LINKS.Buckets}
         redirectToSource
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.NFTs}
+        isAuthorized={isLoggedIn}
+        component={NFTsPage}
+        redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
