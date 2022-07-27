@@ -188,7 +188,7 @@ const BucketRow = ({ bucket, onRemoveBucket, handleContextMenu, handleRename }: 
       <TableCell
         className={classes.name}
         data-cy="cell-bucket-name"
-        onClick={() => redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}
+        onClick={() => !isRenaming && redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}
       >
         {!isRenaming
           ? <>
