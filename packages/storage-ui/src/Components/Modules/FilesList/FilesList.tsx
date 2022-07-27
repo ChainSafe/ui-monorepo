@@ -624,6 +624,7 @@ const FilesList = () => {
 
   const getItemOperations = useCallback(
     (contentType: string) => {
+      if (!itemOperations) return []
       const result = Object.keys(itemOperations).reduce(
         (acc: FileOperation[], item: string) => {
           const matcher = new MimeMatcher(item)
@@ -1180,6 +1181,7 @@ const FilesList = () => {
           e.preventDefault()
           e.stopPropagation()
         }}
+        testId="file-deletion"
       />
       {
         refreshContents && (

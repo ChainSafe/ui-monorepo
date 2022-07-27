@@ -11,7 +11,7 @@ export interface ISelectedFile {
 
 interface FileBrowserContext extends IFileBrowserModuleProps {
   bucket?: Bucket
-  itemOperations: {[contentType: string]: FileOperation[]}
+  itemOperations?: {[contentType: string]: FileOperation[]}
   bulkOperations?: IBulkOperations
   renameItem?: (item: ISelectedFile, newName: string) => Promise<void>
   moveItems?: (toMove: ISelectedFile[], newPath: string) => Promise<void>

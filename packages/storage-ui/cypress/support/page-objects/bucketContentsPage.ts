@@ -1,5 +1,6 @@
 import { basePage } from "./basePage"
 import { createFolderModal } from "./modals/createFolderModal"
+import { deleteFileModal } from "./modals/deleteFileModal"
 import { fileUploadModal } from "./modals/fileUploadModal"
 
 export const bucketContentsPage = {
@@ -51,5 +52,12 @@ export const bucketContentsPage = {
     bucketContentsPage.fileItemKebabButton().click()
     bucketContentsPage.renameMenuOption().click()
     bucketContentsPage.fileRenameInput().type(newName)
+  },
+
+  deleteFileOrFolder(){
+    bucketContentsPage.fileItemKebabButton().click()
+    bucketContentsPage.deleteMenuOption().click()
+    deleteFileModal.body().should("be.visible")
+    deleteFileModal.confirmButton().click()
   }
 }

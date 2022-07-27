@@ -6,6 +6,7 @@ import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
 import { deleteBucketModal } from "../support/page-objects/modals/deleteBucketModal"
 import { uploadCompleteToast } from "../support/page-objects/toasts/uploadCompleteToast"
 import { downloadCompleteToast } from "../support/page-objects/toasts/downloadCompleteToast"
+import { deletionCompleteToast } from "../support/page-objects/toasts/deletionCompleteToast"
 
 describe("Bucket management", () => {
 
@@ -430,6 +431,88 @@ describe("Bucket management", () => {
       cy.window().its("navigator.clipboard").invoke("readText").then((text) => {
         bucketContentsPage.fileItemCid().should("have.text", text)
       })
+    })
+
+    it("can delete a file inside the chainsafe bucket", () => {
+      const chainsafeBucketName = `chainsafe bucket ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
+      navigationMenu.bucketsNavButton().click()
+
+      // go inside the bucket
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      // upload a file
+      bucketContentsPage.uploadFileToBucket("../fixtures/uploadedFiles/logo.png")
+
+      // delete the file
+      bucketContentsPage.deleteFileOrFolder()
+      deletionCompleteToast.body().should("be.visible")
+      deletionCompleteToast.closeButton().click()
+      bucketContentsPage.fileItemRow().should("have.length", 0)
+    })
+
+    it("can delete a folder inside the chainsafe bucket", () => {
+      const chainsafeBucketName = `chainsafe bucket ${Date.now()}`
+      const folderName = `folder ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: chainsafeBucketName, type: "chainsafe" }] })
+      navigationMenu.bucketsNavButton().click()
+
+      // go inside the bucket
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      // create a folder inside the bucket
+      bucketContentsPage.createNewFolder(folderName)
+
+      // delete the folder
+      bucketContentsPage.deleteFileOrFolder()
+      deletionCompleteToast.body().should("be.visible")
+      deletionCompleteToast.closeButton().click()
+      bucketContentsPage.fileItemRow().should("have.length", 0)
+    })
+
+    it("can delete a file inside the ipfs bucket", () => {
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
+      navigationMenu.bucketsNavButton().click()
+
+      // go inside the bucket
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      // upload a file
+      bucketContentsPage.uploadFileToBucket("../fixtures/uploadedFiles/logo.png")
+
+      // delete the file
+      bucketContentsPage.deleteFileOrFolder()
+      deletionCompleteToast.body().should("be.visible")
+      deletionCompleteToast.closeButton().click()
+      bucketContentsPage.fileItemRow().should("have.length", 0)
+    })
+
+    it("can delete a folder inside the ipfs bucket", () => {
+      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+      const folderName = `folder ${Date.now()}`
+
+      cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets: [{ name: ipfsBucketName, type: "ipfs" }] })
+      navigationMenu.bucketsNavButton().click()
+
+      // go inside the bucket
+      bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().dblclick()
+
+      // create a folder inside the bucket
+      bucketContentsPage.createNewFolder(folderName)
+
+      // delete the folder
+      bucketContentsPage.deleteFileOrFolder()
+      deletionCompleteToast.body().should("be.visible")
+      deletionCompleteToast.closeButton().click()
+      bucketContentsPage.fileItemRow().should("have.length", 0)
     })
   })
 })
