@@ -49,15 +49,6 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
         fill: constants.fileSystemItemRow.menuIcon
       }
     },
-    name: {
-      textAlign: "left",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      overflow: "hidden",
-      "&.editing": {
-        overflow: "visible"
-      }
-    },
     tableRow: {
       border: "2px solid transparent",
       transitionDuration: `${animation.transform}ms`,
@@ -86,6 +77,7 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
       }
     },
     filename: {
+      textAlign: "left",
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       overflow: "hidden",
@@ -186,7 +178,7 @@ const BucketRow = ({ bucket, onRemoveBucket, handleContextMenu, handleRename }: 
       onContextMenu={(e) => handleContextMenu(e, menuItems)}
     >
       <TableCell
-        className={classes.name}
+        className={clsx(classes.filename, isRenaming && "editing")}
         data-cy="cell-bucket-name"
         onClick={() => !isRenaming && redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}
       >
