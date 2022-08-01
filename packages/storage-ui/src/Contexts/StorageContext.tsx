@@ -7,7 +7,8 @@ import {
   PinStatus,
   BucketSummaryResponse,
   PinResult,
-  FileSystemType
+  FileSystemType,
+  UpdateBucketRequest
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
@@ -65,6 +66,7 @@ type StorageContext = {
   onSearch: (searchParams: RefreshPinParams) => void
   pageNumber: number
   resetPins: () => void
+  editBucket: (bucketId: string, updateRequest: UpdateBucketRequest) => Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -518,9 +520,14 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     ).catch(console.error)
   }, [storageApiClient])
 
+  const editBucket = useCallback((bucketId: string, updateRequest: UpdateBucketRequest) => {
+    return storageApiClient.updateBucket(bucketId, updateRequest).catch(console.error)
+  }, [storageApiClient])
+
   return (
     <StorageContext.Provider
       value={{
+        editBucket,
         addPin,
         storageSummary,
         getStorageSummary,
