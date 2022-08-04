@@ -423,7 +423,10 @@ const BucketsPage = () => {
                     />
                   </div>
                   <div>
-                    <Typography variant="caption">Looking for IPFS MFS support? Email <a href="mailto:colin@chainsafe.io"><i style={{ fontStyle: "italic" }}>colin@chainsafe.io</i></a> to inquire.</Typography>
+                    <Typography variant="caption">Looking for IPFS MFS support? Email <a
+                      style={{ fontStyle: "italic" }}
+                      href="mailto:colin@chainsafe.io">colin@chainsafe.io</a> to inquire.
+                    </Typography>
                   </div>
                 </label>
               </Grid>
