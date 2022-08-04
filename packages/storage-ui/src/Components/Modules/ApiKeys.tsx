@@ -198,7 +198,9 @@ const ApiKeys = () => {
   return (
     <>
       <div className={classes.root}>
-        <header className={classes.header}>
+        <header
+          className={classes.header}
+          data-cy="api-keys-header">
           <Typography
             variant="h1"
             component="h1"
@@ -209,7 +211,7 @@ const ApiKeys = () => {
           </Typography>
           <div className={classes.controls}>
             <Button
-              data-cy="add-s3-api-key-button"
+              data-cy="button-add-s3-key"
               onClick={createS3AccessKey}
               variant="outline"
               size="large"
@@ -220,7 +222,7 @@ const ApiKeys = () => {
               </span>
             </Button>
             <Button
-              data-cy="add-storage-api-key-button"
+              data-cy="button-add-api-key"
               onClick={createStorageAccessKey}
               variant="outline"
               size="large"
@@ -278,22 +280,24 @@ const ApiKeys = () => {
                 key={k.id}
                 type='grid'
                 className={classes.tableRow}>
-                <TableCell align='left'>
+                <TableCell
+                  align='left'
+                  data-cy="cell-api-keys-id">
                   <Typography>
                     {k.id}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell data-cy="cell-api-keys-type">
                   <Typography>
                     {k.type}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell data-cy="cell-api-keys-status">
                   <Typography>
                     {k.status}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell data-cy="cell-api-keys-created-at">
                   <Typography>
                     {dayjs(k.created_at).format("DD MMM YYYY h:mm a")}
                   </Typography>
@@ -306,7 +310,7 @@ const ApiKeys = () => {
                       contents: (
                         <>
                           <DeleteSvg className={classes.menuIcon} />
-                          <span data-cy="menu-share">
+                          <span data-cy="menu-delete">
                             <Trans>Delete Key</Trans>
                           </span>
                         </>
@@ -319,6 +323,7 @@ const ApiKeys = () => {
                       item: classes.dropdownItem
                     }}
                     indicator={MoreIcon}
+                    testId="api-keys-kebab"
                   />
                 </TableCell>
               </TableRow>)}
@@ -344,7 +349,9 @@ const ApiKeys = () => {
           <Typography variant='h4'>
             <Trans>Key ID</Trans>
           </Typography>
-          <Typography className={classes.field}>{newKey?.id}</Typography>
+          <Typography
+            className={classes.field}
+            data-cy="label-new-key-modal-key-id">{newKey?.id}</Typography>
           <Typography variant='h4'>
             <Trans>Secret</Trans>
           </Typography>
@@ -367,6 +374,7 @@ const ApiKeys = () => {
                 variant="body1"
                 component="p"
                 className={classes.secret}
+                data-cy="label-new-key-modal-secret"
               >
                 {newKey?.secret}
               </Typography>
@@ -379,6 +387,7 @@ const ApiKeys = () => {
               setIsNewKeyModalOpen(false)
               setNewKey(undefined)
             }}
+            data-cy="button-new-key-modal-close"
           >
             Close
           </Button>
