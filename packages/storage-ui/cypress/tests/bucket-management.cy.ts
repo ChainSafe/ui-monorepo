@@ -82,69 +82,69 @@ describe("Bucket management", () => {
       bucketsPage.bucketItemName().should("not.exist")
     })
 
-    it("can create, upload file and delete an ipfs bucket", () => {
-      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+    // it("can create, upload file and delete an ipfs bucket", () => {
+    //   const ipfsBucketName = `ipfs bucket ${Date.now()}`
 
-      cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
-      navigationMenu.bucketsNavButton().click()
+    //   cy.web3Login({ clearPins: true, deleteFpsBuckets: true })
+    //   navigationMenu.bucketsNavButton().click()
 
-      // go to create bucket modal
-      bucketsPage.createBucketButton().click()
-      createBucketModal.body().should("be.visible")
+    //   // go to create bucket modal
+    //   bucketsPage.createBucketButton().click()
+    //   createBucketModal.body().should("be.visible")
 
-      // ensure can't create an empty bucket
-      createBucketModal.submitButton().click()
-      createBucketModal.bucketNameInput().should("have.class", "error")
+    //   // ensure can't create an empty bucket
+    //   createBucketModal.submitButton().click()
+    //   createBucketModal.bucketNameInput().should("have.class", "error")
 
-      // ensure can't create a bucket with only spaces
-      createBucketModal.bucketNameInput().type("  ")
-      createBucketModal.submitButton().click()
-      createBucketModal.bucketNameInput().should("have.class", "error")
+    //   // ensure can't create a bucket with only spaces
+    //   createBucketModal.bucketNameInput().type("  ")
+    //   createBucketModal.submitButton().click()
+    //   createBucketModal.bucketNameInput().should("have.class", "error")
 
-      // create a bucket and see it in the bucket table
-      createBucketModal.bucketNameInput().type(ipfsBucketName)
-      createBucketModal.ipfsRadioInput().click()
-      createBucketModal.submitButton().click()
-      bucketsPage.bucketItemRow().should("have.length", 1)
-      bucketsPage.bucketItemName().should("have.text", ipfsBucketName)
-      bucketsPage.bucketFileSystemType().should("have.text", "IPFS MFS")
+    //   // create a bucket and see it in the bucket table
+    //   createBucketModal.bucketNameInput().type(ipfsBucketName)
+    //   createBucketModal.ipfsRadioInput().click()
+    //   createBucketModal.submitButton().click()
+    //   bucketsPage.bucketItemRow().should("have.length", 1)
+    //   bucketsPage.bucketItemName().should("have.text", ipfsBucketName)
+    //   bucketsPage.bucketFileSystemType().should("have.text", "IPFS MFS")
 
-      // ensure can't create a bucket with the same name
-      bucketsPage.createBucketButton().click()
-      createBucketModal.bucketNameInput().type(ipfsBucketName)
-      createBucketModal.submitButton().click()
-      createBucketModal.bucketNameInput().should("have.class", "error")
-      createBucketModal.cancelButton().click()
+    //   // ensure can't create a bucket with the same name
+    //   bucketsPage.createBucketButton().click()
+    //   createBucketModal.bucketNameInput().type(ipfsBucketName)
+    //   createBucketModal.submitButton().click()
+    //   createBucketModal.bucketNameInput().should("have.class", "error")
+    //   createBucketModal.cancelButton().click()
 
-      // open bucket and ensure header matches the expected value
-      bucketsPage.bucketItemName().dblclick()
-      bucketContentsPage.bucketHeaderLabel()
-        .should("be.visible")
-        .should("contain.text", ipfsBucketName)
+    //   // open bucket and ensure header matches the expected value
+    //   bucketsPage.bucketItemName().dblclick()
+    //   bucketContentsPage.bucketHeaderLabel()
+    //     .should("be.visible")
+    //     .should("contain.text", ipfsBucketName)
 
-      // upload a file to the bucket
-      bucketContentsPage.uploadButton().click()
-      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/logo.png")
-      fileUploadModal.fileList().should("have.length", 1)
-      fileUploadModal.uploadButton().safeClick()
-      fileUploadModal.body().should("not.exist")
-      bucketContentsPage.awaitBucketRefresh()
-      uploadCompleteToast.body().should("be.visible")
-      uploadCompleteToast.closeButton().click()
-      bucketContentsPage.fileItemRow().should("have.length", 1)
+    //   // upload a file to the bucket
+    //   bucketContentsPage.uploadButton().click()
+    //   fileUploadModal.body().attachFile("../fixtures/uploadedFiles/logo.png")
+    //   fileUploadModal.fileList().should("have.length", 1)
+    //   fileUploadModal.uploadButton().safeClick()
+    //   fileUploadModal.body().should("not.exist")
+    //   bucketContentsPage.awaitBucketRefresh()
+    //   uploadCompleteToast.body().should("be.visible")
+    //   uploadCompleteToast.closeButton().click()
+    //   bucketContentsPage.fileItemRow().should("have.length", 1)
 
-      // delete ipfs bucket
-      navigationMenu.bucketsNavButton().click()
-      bucketsPage.bucketRowKebabButton()
-        .should("be.visible")
-        .click()
-      bucketsPage.deleteBucketMenuOption().click()
-      deleteBucketModal.body().should("be.visible")
-      deleteBucketModal.confirmButton().safeClick()
-      deleteBucketModal.body().should("not.exist")
-      bucketsPage.bucketItemRow().should("not.exist")
-      bucketsPage.bucketItemName().should("not.exist")
-    })
+    //   // delete ipfs bucket
+    //   navigationMenu.bucketsNavButton().click()
+    //   bucketsPage.bucketRowKebabButton()
+    //     .should("be.visible")
+    //     .click()
+    //   bucketsPage.deleteBucketMenuOption().click()
+    //   deleteBucketModal.body().should("be.visible")
+    //   deleteBucketModal.confirmButton().safeClick()
+    //   deleteBucketModal.body().should("not.exist")
+    //   bucketsPage.bucketItemRow().should("not.exist")
+    //   bucketsPage.bucketItemName().should("not.exist")
+    // })
 
     it("can sort by name or file system in buckets table", () => {
       const chainSafeBucketName = `cs bucket ${Date.now()}`
