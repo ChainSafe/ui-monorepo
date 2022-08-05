@@ -126,7 +126,7 @@ type SortDirection = "ascend" | "descend"
 
 const BucketsPage = () => {
   const classes = useStyles()
-  const { storageBuckets, createBucket, refreshBuckets, removeBucket } = useStorage()
+  const { storageBuckets, createBucket, refreshBuckets, removeBucket, editBucket } = useStorage()
   const { accountRestricted } = useStorageApi()
   const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
   const [bucketToRemove, setBucketToRemove] = useState<Bucket | undefined>()
@@ -252,6 +252,14 @@ const BucketsPage = () => {
     }
   }
 
+  const handleRename = useCallback((bucket: Bucket, newName: string) => {
+    return editBucket(bucket.id, {
+      ...bucket,
+      name: newName
+    }).then(() => refreshBuckets())
+      .catch(console.error)
+  }, [editBucket, refreshBuckets])
+
   return (
     <div className={classes.root}>
       <Helmet>
@@ -340,6 +348,7 @@ const BucketsPage = () => {
                 key={bucket.id}
                 onRemoveBucket={setBucketToRemove}
                 handleContextMenu={handleContextMenu}
+                handleRename={handleRename}
               />
             )}
         </TableBody>

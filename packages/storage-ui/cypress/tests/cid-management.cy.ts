@@ -11,10 +11,22 @@ describe("CID management", () => {
       cy.web3Login({ withNewSession: true })
       navigationMenu.cidsNavButton().click()
 
-      // pin a cid and see it in the pinned items table
+      // go to pin a cid modal and type the name
       cidsPage.pinButton().click()
       addCidModal.body().should("be.visible")
       addCidModal.nameInput().type(testCidName)
+
+      // ensure can't pin an empty cid
+      // TODO: uncomment when #2229 issue is fixed
+      //addCidModal.pinSubmitButton().safeClick()
+      //addCidModal.nameInput().should("have.class", "error")
+
+      // ensure can't pin an invalid cid
+      addCidModal.cidInput().type("invalid cid")
+      addCidModal.cidInput().should("have.class", "error")
+      addCidModal.cidInput().clear()
+
+      // pin a valid cid and see it in the pinned items table
       addCidModal.cidInput().type(testCid)
       addCidModal.pinSubmitButton().safeClick()
       cidsPage.cidItemRow().should("have.length", 1)
