@@ -199,13 +199,13 @@ const BucketsPage = () => {
   )
 
   const formik = useFormik({
-    initialValues:{
+    initialValues: {
       name: "",
       fileSystemType: "chainsafe"
     },
     enableReinitialize: true,
     validationSchema: bucketNameValidationSchema,
-    onSubmit:(values, helpers) => {
+    onSubmit: (values, helpers) => {
       helpers.setSubmitting(true)
       createBucket(values.name.trim(), values.fileSystemType as FileSystemType)
         .then(() => {
@@ -226,7 +226,7 @@ const BucketsPage = () => {
 
   const handleContextMenu = useCallback((e: React.MouseEvent, options?: IMenuItem[]) => {
     e.preventDefault()
-    if(options){
+    if (options) {
       setContextMenuOptions(options)
     } else {
       setContextMenuOptions(generalContextMenuOptions)
@@ -419,7 +419,14 @@ const BucketsPage = () => {
                       id='ipfs'
                       label='IPFS'
                       testId="ipfs"
+                      disabled
                     />
+                  </div>
+                  <div>
+                    <Typography variant="caption">Looking for IPFS MFS support? Email <a
+                      style={{ fontStyle: "italic" }}
+                      href="mailto:colin@chainsafe.io">colin@chainsafe.io</a> to inquire.
+                    </Typography>
                   </div>
                 </label>
               </Grid>
@@ -447,19 +454,19 @@ const BucketsPage = () => {
             </Form>
           </FormikProvider>
         </div>
-      </CustomModal>
+      </CustomModal >
       <Dialog
         active={!!bucketToRemove}
         reject={() => setBucketToRemove(undefined)}
         accept={handleRemoveBucket}
         requestMessage={t`You are about to delete the bucket ${bucketToRemove?.name}`}
-        rejectText = {t`Cancel`}
-        acceptText = {t`Delete`}
+        rejectText={t`Cancel`}
+        acceptText={t`Delete`}
         acceptButtonProps={{ loading: isRemovingBucket, disabled: isRemovingBucket }}
         rejectButtonProps={{ disabled: isRemovingBucket }}
         testId={"bucket-deletion"}
       />
-    </div>
+    </div >
   )
 }
 
