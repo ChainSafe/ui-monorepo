@@ -17,7 +17,7 @@ import {
   PowerDownIcon,
   useLocation,
   KeySvg,
-  CreditCardOutlinedSvg,
+  CreditCardOutlinedSvg
   // FileWithImageSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
