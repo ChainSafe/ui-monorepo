@@ -18,7 +18,7 @@ import {
   useLocation,
   KeySvg,
   CreditCardOutlinedSvg,
-  FileWithImageSvg
+  // FileWithImageSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
@@ -344,7 +344,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>CIDs</Trans>
                 </Typography>
               </Link>
-              <Link
+              {/* <Link
                 data-cy="nfts-nav"
                 onClick={handleOnClick}
                 className={clsx(classes.navItem, classes.navItemIconStroke, appNavTab === "nfts" && "selected")}
@@ -356,7 +356,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 >
                   <Trans>NFTs</Trans>
                 </Typography>
-              </Link>
+              </Link> */}
               <Link
                 data-cy="api-keys-nav"
                 onClick={handleOnClick}
