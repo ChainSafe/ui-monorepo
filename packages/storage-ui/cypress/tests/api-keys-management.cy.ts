@@ -35,7 +35,6 @@ describe("Main Navigation", () => {
       apiKeysPage.apiKeyIdCell().should("not.exist")
     })
 
-
     it("can add and delete a s3 api key", () => {
       // go to api keys section
       navigationMenu.apiKeysNavButton().click()
@@ -61,6 +60,35 @@ describe("Main Navigation", () => {
       apiKeysPage.deleteMenuOption().click()
       apiKeysPage.apiKeyIdCell().should("not.exist")
     })
-  })
 
+    it("can copy to clipboard secret s3 api key", () => {
+      // go to api keys section
+      navigationMenu.apiKeysNavButton().click()
+
+      // add new s3 api key
+      apiKeysPage.addS3KeyButton().click()
+
+      // ensure can copy to clipboard the secret key
+      newKeyModal.secretLabel().should("be.visible")
+      newKeyModal.secretLabel().click()
+      cy.window().its("navigator.clipboard").invoke("readText").then((text) => {
+        newKeyModal.secretLabel().should("have.text", text)
+      })
+    })
+
+    it("can copy to clipboard secret storage api key", () => {
+      // go to api keys section
+      navigationMenu.apiKeysNavButton().click()
+
+      // add new s3 api key
+      apiKeysPage.addApiKeyButton().click()
+
+      // ensure can copy to clipboard the secret key
+      newKeyModal.secretLabel().should("be.visible")
+      newKeyModal.secretLabel().click()
+      cy.window().its("navigator.clipboard").invoke("readText").then((text) => {
+        newKeyModal.secretLabel().should("have.text", text)
+      })
+    })
+  })
 })
