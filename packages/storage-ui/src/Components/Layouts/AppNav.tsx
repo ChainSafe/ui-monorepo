@@ -18,6 +18,7 @@ import {
   useLocation,
   KeySvg,
   CreditCardOutlinedSvg
+  // FileWithImageSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
@@ -257,7 +258,7 @@ interface IAppNav {
   setNavOpen: (state: boolean) => void
 }
 
-type AppNavTab = "buckets" | "cids" | "settings" | "api-keys" | "subscription"
+type AppNavTab = "buckets" | "cids" | "nfts" | "settings" | "api-keys" | "subscription"
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
@@ -283,6 +284,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
       case "cids": return "cids"
       case "buckets": return "buckets"
       case "bucket": return "buckets"
+      case "nfts": return "nfts"
       case "api-keys": return "api-keys"
       case "subscription": return "subscription"
       case "settings": return "settings"
@@ -303,6 +305,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           {desktop && (
             <div>
               <Link
+                data-cy="home-nav"
                 className={classes.logo}
                 to={ROUTE_LINKS.Buckets}
               >
@@ -341,6 +344,19 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>CIDs</Trans>
                 </Typography>
               </Link>
+              {/* <Link
+                data-cy="nfts-nav"
+                onClick={handleOnClick}
+                className={clsx(classes.navItem, classes.navItemIconStroke, appNavTab === "nfts" && "selected")}
+                to={ROUTE_LINKS.NFTs}
+              >
+                <FileWithImageSvg />
+                <Typography
+                  variant="h5"
+                >
+                  <Trans>NFTs</Trans>
+                </Typography>
+              </Link> */}
               <Link
                 data-cy="api-keys-nav"
                 onClick={handleOnClick}

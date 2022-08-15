@@ -133,6 +133,9 @@ msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and 
 msgid "By switching plan, you will loose access to:"
 msgstr "By switching plan, you will loose access to:"
 
+msgid "CID"
+msgstr "CID"
+
 msgid "CID invalid"
 msgstr "CID invalid"
 
@@ -222,6 +225,9 @@ msgstr "Continue with Web3 Wallet"
 
 msgid "Copied!"
 msgstr "Copied!"
+
+msgid "Copy"
+msgstr "Copy"
 
 msgid "Create"
 msgstr "Create"
@@ -406,6 +412,9 @@ msgstr "Move to..."
 msgid "NFT"
 msgstr "NFT"
 
+msgid "NFTs"
+msgstr "NFTs"
+
 msgid "Name"
 msgstr "Name"
 
@@ -415,6 +424,9 @@ msgstr "Name (optional)"
 msgid "New Key"
 msgstr "New Key"
 
+msgid "New NFT"
+msgstr "New NFT"
+
 msgid "New folder"
 msgstr "New folder"
 
@@ -423,6 +435,9 @@ msgstr "Next payment"
 
 msgid "No Card"
 msgstr "No Card"
+
+msgid "No NFTs to show"
+msgstr "No NFTs to show"
 
 msgid "No files to show"
 msgstr "No files to show"
@@ -444,6 +459,9 @@ msgstr "Older notifications"
 
 msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
 msgstr "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
+
+msgid "One sec, getting NFTs..."
+msgstr "One sec, getting NFTs..."
 
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
@@ -495,6 +513,9 @@ msgstr "Plan price"
 
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
 msgstr "Please complete payment of the following outstanding invoices in order to avoid account suspension"
+
+msgid "Please enter a bucket name"
+msgstr "Please enter a bucket name"
 
 msgid "Please enter a file name"
 msgstr "Please enter a file name"

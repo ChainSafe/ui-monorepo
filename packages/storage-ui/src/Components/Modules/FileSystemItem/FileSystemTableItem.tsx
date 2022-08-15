@@ -311,6 +311,7 @@ const FileSystemTableItem = React.forwardRef(
                 ref={formRef}
               >
                 <FormikTextInput
+                  data-cy="input-rename-file-or-folder"
                   className={classes.renameInput}
                   name="name"
                   inputVariant="minimal"
@@ -357,7 +358,9 @@ const FileSystemTableItem = React.forwardRef(
                     </Trans>
                   </span>
                 </div>
-                <Typography component="p">
+                <Typography
+                  data-cy="label-file-item-cid"
+                  component="p">
                   { cid }
                 </Typography>
                 <CopySvg className={clsx(classes.copyIcon, { "active": copied })} />

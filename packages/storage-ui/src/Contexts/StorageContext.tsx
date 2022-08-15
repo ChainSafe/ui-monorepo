@@ -7,7 +7,8 @@ import {
   PinStatus,
   BucketSummaryResponse,
   PinResult,
-  FileSystemType
+  FileSystemType,
+  UpdateBucketRequest
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
@@ -57,6 +58,7 @@ type StorageContext = {
   refreshPins: (params?: RefreshPinParams) => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
+  NFTBucket: Bucket | undefined
   createBucket: (name: string, fileSystemType: FileSystemType) => Promise<void>
   removeBucket: (id: string) => Promise<void>
   refreshBuckets: () => void
@@ -64,6 +66,7 @@ type StorageContext = {
   onSearch: (searchParams: RefreshPinParams) => void
   pageNumber: number
   resetPins: () => void
+  editBucket: (bucketId: string, updateRequest: UpdateBucketRequest) => Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -85,6 +88,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
   const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse | undefined>()
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
+  const [NFTBucket, setNFTBucket] = useState<Bucket | undefined>()
   const [pins, setPins] = useState<PinStatus[]>([])
   const [pinsParams, setPinsParams] = useState<{
     pageNumber: number
@@ -221,7 +225,10 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const refreshBuckets = useCallback(() => {
     storageApiClient.listBuckets()
-      .then((buckets) => setStorageBuckets(buckets.filter(b => b.type === "fps")))
+      .then((buckets) => {
+        setNFTBucket(buckets.find(b => b.type === "nft"))
+        setStorageBuckets(buckets.filter(b => b.type === "fps"))
+      })
       .catch(console.error)
       .finally(() => getStorageSummary())
   }, [storageApiClient, getStorageSummary])
@@ -476,7 +483,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         type: "success",
         progress: undefined,
         onProgressCancel: undefined,
-        isClosable: true
+        isClosable: true,
+        testId: "download-complete"
       }, true)
       URL.revokeObjectURL(link.href)
       setDownloadsInProgress(false)
@@ -512,9 +520,14 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     ).catch(console.error)
   }, [storageApiClient])
 
+  const editBucket = useCallback((bucketId: string, updateRequest: UpdateBucketRequest) => {
+    return storageApiClient.updateBucket(bucketId, updateRequest).catch(console.error)
+  }, [storageApiClient])
+
   return (
     <StorageContext.Provider
       value={{
+        editBucket,
         addPin,
         storageSummary,
         getStorageSummary,
@@ -528,6 +541,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         onPreviousPins,
         unpin,
         storageBuckets,
+        NFTBucket,
         downloadFile,
         createBucket,
         removeBucket,
