@@ -147,37 +147,38 @@ describe("Bucket management", () => {
     // })
 
     it("can sort by name or file system in buckets table", () => {
-      const chainSafeBucketName = `cs bucket ${Date.now()}`
-      const ipfsBucketName = `ipfs bucket ${Date.now()}`
+      const firstChainSafeBucketName = `first cs bucket ${Date.now()}`
+      const secondChainsafeBucketName = `second ipfs bucket ${Date.now()}`
 
       cy.web3Login({ deleteFpsBuckets: true, createFpsBuckets:
-        [{ name: chainSafeBucketName, type: "chainsafe" }, { name: ipfsBucketName, type: "ipfs" }]
+        [{ name: firstChainSafeBucketName, type: "chainsafe" }, { name: secondChainsafeBucketName, type: "chainsafe" }]
       })
       navigationMenu.bucketsNavButton().click()
 
       // by default should be sort by date uploading in ascending order (oldest first)
-      bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
-      bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
+      bucketsPage.bucketItemName().eq(0).should("have.text", firstChainSafeBucketName)
+      bucketsPage.bucketItemName().eq(1).should("have.text", secondChainsafeBucketName)
 
       // ensure that sort by name in descending order (Z-A)
       bucketsPage.bucketsTableHeaderName().click()
-      bucketsPage.bucketItemName().eq(0).should("have.text", ipfsBucketName)
-      bucketsPage.bucketItemName().eq(1).should("have.text", chainSafeBucketName)
+      bucketsPage.bucketItemName().eq(0).should("have.text", secondChainsafeBucketName)
+      bucketsPage.bucketItemName().eq(1).should("have.text", firstChainSafeBucketName)
 
       // ensure that sort by name in ascending order (A-Z)
       bucketsPage.bucketsTableHeaderName().click()
-      bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
-      bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
+      bucketsPage.bucketItemName().eq(0).should("have.text", firstChainSafeBucketName)
+      bucketsPage.bucketItemName().eq(1).should("have.text", secondChainsafeBucketName)
 
+      // commented because we can't create ipfs buckets right now
       // ensure that sort by file system in descending order (Z-A)
-      bucketsPage.bucketsTableHeaderFileSystem().click()
-      bucketsPage.bucketItemName().eq(0).should("have.text", ipfsBucketName)
-      bucketsPage.bucketItemName().eq(1).should("have.text", chainSafeBucketName)
+      // bucketsPage.bucketsTableHeaderFileSystem().click()
+      // bucketsPage.bucketItemName().eq(0).should("have.text", ipfsBucketName)
+      // bucketsPage.bucketItemName().eq(1).should("have.text", chainSafeBucketName)
 
       // ensure that sort by file system in ascending order (A-Z)
-      bucketsPage.bucketsTableHeaderFileSystem().click()
-      bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
-      bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
+      // bucketsPage.bucketsTableHeaderFileSystem().click()
+      // bucketsPage.bucketItemName().eq(0).should("have.text", chainSafeBucketName)
+      // bucketsPage.bucketItemName().eq(1).should("have.text", ipfsBucketName)
     })
 
     // it("can rename a folder inside the ipfs bucket", () => {

@@ -20,7 +20,7 @@ describe("Main Navigation", () => {
     })
 
     it("can navigate to the API keys page", () => {
-      navigationMenu.APIKeysNavButton().click()
+      navigationMenu.apiKeysNavButton().click()
       cy.url().should("include", "/api-keys")
     })
 
@@ -54,7 +54,7 @@ describe("Main Navigation", () => {
     })
 
     it("can navigate to the API keys page", () => {
-      navigationMenu.APIKeysNavButton().click()
+      navigationMenu.apiKeysNavButton().click()
       cy.url().should("include", "/api-keys")
     })
 

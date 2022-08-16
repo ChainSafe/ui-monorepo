@@ -170,7 +170,7 @@ const CidsPage = () => {
       <div className={classes.root}>
         <header
           className={classes.header}
-          data-cy="header-cids"
+          data-cy="cids-header"
         >
           <Typography
             variant="h1"

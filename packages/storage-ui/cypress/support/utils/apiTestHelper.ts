@@ -71,5 +71,24 @@ export const apiTestHelper = {
           resolve()
         })
     })
+  },
+  deleteApiKeys() {
+    const apiClient = getApiClient()
+    return new Cypress.Promise(async (resolve) => {
+      cy.window()
+        .then(async (win) => {
+          const tokens = await apiClient.getRefreshToken({ refresh: win.localStorage.getItem(REFRESH_TOKEN_KEY) || "" })
+
+          await apiClient.setToken(tokens.access_token.token)
+          const keys = await apiClient.listAccessKeys()
+          cy.log(keys.length.toString())
+          keys.forEach(async (key) => {
+            cy.log(`Deleting api key: "${key.id}""`)
+            await apiClient.deleteAccessKey(key.id)
+          })
+          cy.log("Done deleting api keys.")
+          resolve()
+        })
+    })
   }
 }
