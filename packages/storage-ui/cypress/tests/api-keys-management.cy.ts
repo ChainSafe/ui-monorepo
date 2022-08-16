@@ -35,7 +35,6 @@ describe("Main Navigation", () => {
       apiKeysPage.apiKeyIdCell().should("not.exist")
     })
 
-
     it("can add and delete a s3 api key", () => {
       // go to api keys section
       navigationMenu.apiKeysNavButton().click()
