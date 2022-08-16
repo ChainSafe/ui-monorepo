@@ -200,7 +200,7 @@ const ApiKeys = () => {
       <div className={classes.root}>
         <header
           className={classes.header}
-          data-cy="api-keys-header">
+          data-cy="header-api-keys">
           <Typography
             variant="h1"
             component="h1"
