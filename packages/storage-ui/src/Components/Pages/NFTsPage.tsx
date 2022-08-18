@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { useStorage, FileSystemItem } from "../../Contexts/StorageContext"
-import {  IFileBrowserModuleProps } from "../../Contexts/types"
+import { IFileBrowserModuleProps } from "../../Contexts/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { FileBrowserContext } from "../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../Utils/Helpers"
@@ -10,8 +10,7 @@ import { usePageTrack } from "../../Contexts/PosthogContext"
 import { Helmet } from "react-helmet-async"
 import NFTsList from "../Modules/NFTsList/NFTsList"
 
-
-const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
+const NFTsPage: React.FC<IFileBrowserModuleProps> = () => {
   const { NFTBucket, getStorageSummary } = useStorage()
   const { storageApiClient } = useStorageApi()
   const { localStorageGet, localStorageSet } = useLocalStorage()
@@ -39,7 +38,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         setPathContents(mappedContents)
       }).catch(error => {
         console.error(error)
-      }).finally(() =>  {
+      }).finally(() => {
         getStorageSummary()
         showLoading && setLoadingCurrentPath(false)
       })
@@ -74,4 +73,4 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   )
 }
 
-export default BucketPage
+export default NFTsPage
