@@ -19,6 +19,11 @@ describe("Main Navigation", () => {
       cy.url().should("include", "/buckets")
     })
 
+    it.skip("can navigate to the NFTs page", () => {
+      navigationMenu.nftsNavButton().click()
+      cy.url().should("include", "/nfts")
+    })
+
     it("can navigate to the API keys page", () => {
       navigationMenu.apiKeysNavButton().click()
       cy.url().should("include", "/api-keys")
@@ -51,6 +56,11 @@ describe("Main Navigation", () => {
     it("can navigate to the buckets page", () => {
       navigationMenu.bucketsNavButton().click()
       cy.url().should("include", "/buckets")
+    })
+
+    it.skip("can navigate to the NFTs page", () => {
+      navigationMenu.nftsNavButton().click()
+      cy.url().should("include", "/nfts")
     })
 
     it("can navigate to the API keys page", () => {
