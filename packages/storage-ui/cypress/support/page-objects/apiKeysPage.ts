@@ -6,7 +6,7 @@ export const apiKeysPage = {
   ...basePage,
 
   // main api keys elements
-  apiKeysHeaderLabel: () => cy.get("[data-cy=api-keys-header]", { timeout: 20000 }),
+  apiKeysHeaderLabel: () => cy.get("[data-cy=header-api-keys]", { timeout: 20000 }),
   addApiKeyButton: () => cy.get("[data-cy=button-add-api-key]"),
   addS3KeyButton: () => cy.get("[data-cy=button-add-s3-key]"),
 
