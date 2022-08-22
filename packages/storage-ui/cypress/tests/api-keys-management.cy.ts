@@ -61,7 +61,7 @@ describe("Main Navigation", () => {
       apiKeysPage.apiKeyIdCell().should("not.exist")
     })
 
-    it("can copy to clipboard secret s3 api key", () => {
+    it("can copy secret s3 api key to the clipboard", () => {
       // go to api keys section
       navigationMenu.apiKeysNavButton().click()
 
