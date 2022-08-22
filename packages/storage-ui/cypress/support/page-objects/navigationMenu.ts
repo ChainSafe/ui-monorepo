@@ -5,6 +5,7 @@ export const navigationMenu = {
   homeNavButton: () => cy.get("[data-cy=home-nav]"),
   cidsNavButton: () => cy.get("[data-cy=cids-nav]"),
   bucketsNavButton: () => cy.get("[data-cy=buckets-nav]"),
+  nftsNavButton: () => cy.get("[data-cy=nfts-nav]"),
   apiKeysNavButton: () => cy.get("[data-cy=api-keys-nav]"),
   // settingsNavButton: () => cy.get("[data-cy=settings-nav]"),
   // docsNavButton: () => cy.get("[data-cy=docs-nav]"),
