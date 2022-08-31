@@ -76,11 +76,11 @@ describe("Main Navigation", () => {
       })
     })
 
-    it("can copy to clipboard secret storage api key", () => {
+    it("can copy secret storage api key to the clipboard", () => {
       // go to api keys section
       navigationMenu.apiKeysNavButton().click()
 
-      // add new s3 api key
+      // add new storage api key
       apiKeysPage.addApiKeyButton().click()
 
       // ensure can copy to clipboard the secret key
@@ -89,6 +89,35 @@ describe("Main Navigation", () => {
       cy.window().its("navigator.clipboard").invoke("readText").then((text) => {
         newKeyModal.secretLabel().should("have.text", text)
       })
+    })
+
+    it("can add multiple s3 api keys", () => {
+      // go to api keys section
+      navigationMenu.apiKeysNavButton().click()
+
+      // add first s3 api key
+      apiKeysPage.addS3KeyButton().click()
+      newKeyModal.secretLabel().should("be.visible")
+      newKeyModal.keyIdLabel().invoke("text").as("firstKeyId")
+      newKeyModal.closeButton().click()
+
+      // ensure key id and status of first key are correct in the table
+      cy.get<string>("@firstKeyId").then((keyId) => {
+        apiKeysPage.apiKeyIdCell().should("have.text", keyId)
+      })
+      apiKeysPage.apiKeyTypeCell().should("have.text", "s3")
+
+      // add second s3 api key
+      apiKeysPage.addS3KeyButton().click()
+      newKeyModal.secretLabel().should("be.visible")
+      newKeyModal.keyIdLabel().invoke("text").as("secondKeyId")
+      newKeyModal.closeButton().click()
+
+      // ensure key id and status of second key are correct in the table
+      cy.get<string>("@secondKeyId").then((keyId) => {
+        apiKeysPage.apiKeyIdCell().eq(1).should("have.text", keyId)
+      })
+      apiKeysPage.apiKeyTypeCell().eq(1).should("have.text", "s3")
     })
   })
 })
