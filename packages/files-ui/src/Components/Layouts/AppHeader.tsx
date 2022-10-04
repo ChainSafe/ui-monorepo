@@ -153,9 +153,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
     window.open(ROUTE_LINKS.DiscordInvite, "_blank")
   }, [])
 
-  const onJoinBetaClick = useCallback(() => {
-    setIsBetaModalOpen(true)
-  }, [])
+  // const onJoinBetaClick = useCallback(() => {
+  //   setIsBetaModalOpen(true)
+  // }, [])
 
   const onUpgradeClick = useCallback(() => {
     redirect(ROUTE_LINKS.SettingsPath("plan"))
@@ -197,14 +197,14 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 >
                   <Trans>Report a bug</Trans>
                 </Button>
-                {!isBillingEnabled && <Button
+                {/* {!isBillingEnabled && <Button
                   data-posthog="Join-beta"
                   variant="tertiary"
                   size="small"
                   onClick={onJoinBetaClick}
                 >
                   <Trans>Need more storage?</Trans>
-                </Button>}
+                </Button>} */}
                 {isBillingEnabled && <Button
                   data-posthog="Upgrade"
                   variant="tertiary"
