@@ -135,8 +135,12 @@ export const apiTestHelper = {
           throw new Error("Something wrong happened when creating a folder")
         }
 
-        navigationMenu.binNavButton().click()
-        navigationMenu.homeNavButton().click()
+        cy.intercept("POST", "**/bucket/*/ls").as("refresh").then(() => {
+          navigationMenu.binNavButton().click()
+          cy.wait("@refresh")
+          navigationMenu.homeNavButton().click()
+          cy.wait("@refresh")
+        })
 
         const firstFolderName = folderPath.split("/")[1]
         homePage.fileItemName().contains(firstFolderName)

@@ -59,6 +59,7 @@ describe("Search", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
       apiTestHelper.createFolder(folderPath)
       homePage.searchInput().type(`${folderName}{enter}`)
+      cy.url().should("contain", `/search/${folderName}`)
 
       // view contents via menu option
       searchPage.fileItemKebabButton().click()
