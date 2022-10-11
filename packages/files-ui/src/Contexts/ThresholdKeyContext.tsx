@@ -92,30 +92,31 @@ export type ShareTransferRequest = {
 const ThresholdKeyContext = React.createContext<TThresholdKeyContext | undefined>(undefined)
 const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
-const getProviderSpecificParams = (loginType: LOGIN_TYPE): { typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any } => {
-  switch (loginType) {
-    case "google": {
-      return {
-        typeOfLogin: loginType,
-        clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
-        verifier: "chainsafe-uuid-testnet"
-      }
-    }
-    case "github": {
-      return {
-        typeOfLogin: loginType,
-        clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
-        verifier: "chainsafe-uuid-testnet",
-        jwtParams: {
-          domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+const getProviderSpecificParams =
+  (loginType: LOGIN_TYPE): { typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any } => {
+    switch (loginType) {
+      case "google": {
+        return {
+          typeOfLogin: loginType,
+          clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
+          verifier: "chainsafe-uuid-testnet"
         }
       }
-    }
-    default: {
-      throw new Error(`${loginType} is unsupported`)
+      case "github": {
+        return {
+          typeOfLogin: loginType,
+          clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
+          verifier: "chainsafe-uuid-testnet",
+          jwtParams: {
+            domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+          }
+        }
+      }
+      default: {
+        throw new Error(`${loginType} is unsupported`)
+      }
     }
   }
-}
 
 const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
   const { filesApiClient, thresholdKeyLogin, logout } = useFilesApi()
