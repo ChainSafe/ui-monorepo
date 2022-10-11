@@ -150,7 +150,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       }
     ))
     : []
-    , [keyDetails])
+  , [keyDetails])
 
   const browserShares = useMemo(() => parsedShares.filter((s) => s.module === WEB_STORAGE_MODULE_NAME).map(bs => ({
     ...bs,
