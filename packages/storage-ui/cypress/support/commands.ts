@@ -45,6 +45,7 @@ export interface Web3LoginOptions {
   deleteFpsBuckets?: boolean
   withNewSession?: boolean
   createFpsBuckets?: { name: string; type: FileSystemType }[]
+  deleteApiKeys?: boolean
 }
 
 Cypress.Commands.add("clearPins", apiTestHelper.clearPins)
@@ -61,7 +62,8 @@ Cypress.Commands.add(
     withNewUser = true,
     deleteFpsBuckets = false,
     withNewSession = false,
-    createFpsBuckets
+    createFpsBuckets,
+    deleteApiKeys = false
   }: Web3LoginOptions = {}) => {
 
     cy.on("window:before:load", (win) => {
@@ -116,6 +118,10 @@ Cypress.Commands.add(
       createFpsBuckets.forEach((bucket) => {
         apiTestHelper.createBucket(bucket.name, bucket.type)
       })
+    }
+
+    if(deleteApiKeys) {
+      apiTestHelper.deleteApiKeys()
     }
   }
 )

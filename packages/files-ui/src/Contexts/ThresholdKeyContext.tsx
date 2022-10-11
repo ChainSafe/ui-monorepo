@@ -29,7 +29,7 @@ const TKEY_STORE_KEY = "csf.tkeyStore"
 const TORUS_USERINFO_KEY = "csf.userInfo"
 const PASSWORD_QUESTION = "What is your password?"
 
-export type ThresholdKeyContextStatus = "initializing"|"initialized"|"awaiting confirmation"|"logging in"|"done"
+export type ThresholdKeyContextStatus = "initializing" | "initialized" | "awaiting confirmation" | "logging in" | "done"
 export type BrowserShare = {
   shareIndex: string
   module: string
@@ -48,7 +48,7 @@ export type TThresholdKeyContext = {
   hasPasswordShare: boolean
   shouldInitializeAccount: boolean
   pendingShareTransferRequests: ShareTransferRequest[]
-  login(loginType: IdentityProvider, tokenInfo?: {token: string; email: string}): Promise<void>
+  login(loginType: IdentityProvider, tokenInfo?: { token: string; email: string }): Promise<void>
   resetIsNewDevice(): void
   resetShouldInitialize(): void
   addPasswordShare(password: string): Promise<void>
@@ -92,31 +92,31 @@ export type ShareTransferRequest = {
 const ThresholdKeyContext = React.createContext<TThresholdKeyContext | undefined>(undefined)
 const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
-const getProviderSpecificParams = (loginType: LOGIN_TYPE):
-{typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
-  switch (loginType) {
-    case "google": {
-      return {
-        typeOfLogin: loginType,
-        clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
-        verifier: "chainsafe-uuid-testnet"
-      }
-    }
-    case "github":{
-      return {
-        typeOfLogin: loginType,
-        clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
-        verifier: "chainsafe-uuid-testnet",
-        jwtParams: {
-          domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+const getProviderSpecificParams =
+  (loginType: LOGIN_TYPE): { typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any } => {
+    switch (loginType) {
+      case "google": {
+        return {
+          typeOfLogin: loginType,
+          clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
+          verifier: "chainsafe-uuid-testnet"
         }
       }
-    }
-    default:{
-      throw new Error(`${loginType} is unsupported`)
+      case "github": {
+        return {
+          typeOfLogin: loginType,
+          clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
+          verifier: "chainsafe-uuid-testnet",
+          jwtParams: {
+            domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+          }
+        }
+      }
+      default: {
+        throw new Error(`${loginType} is unsupported`)
+      }
     }
   }
-}
 
 const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
   const { filesApiClient, thresholdKeyLogin, logout } = useFilesApi()
@@ -208,9 +208,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         // The user will be required to log in to the respective service 
         tkey = new ThresholdKey({
           modules,
-          directParams: {
+          customAuthArgs: {
             baseUrl: `${window.location.origin}/serviceworker`,
             network: network,
+            networkUrl: network === "testnet" ? "https://nd-598-268-537.p2pify.com/9a34d9de132b22e6b71b52d3fde80ff1" : undefined,
             enableLogging: enableLogging,
             apiKey: apiKey
           },
@@ -286,7 +287,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   useEffect(() => {
     const loginWithThresholdKey = async () => {
       if (!userInfo) return
-      const decodedIdToken = jwtDecode<{exp: number}>(userInfo.userInfo.idToken || "")
+      const decodedIdToken = jwtDecode<{ exp: number }>(userInfo.userInfo.idToken || "")
       if (privateKey && dayjs.unix(decodedIdToken.exp).isAfter(dayjs())) {
         const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
@@ -308,7 +309,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       console.log("logging in using tkey")
       loginWithThresholdKey()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [privateKey])
 
   // Share Transfer poller
@@ -333,7 +334,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           []
         )
 
-        if(pendingShareTransferRequests.length !== pendingRequests.length){
+        if (pendingShareTransferRequests.length !== pendingRequests.length) {
           setPendingShareTransferRequests(pendingRequests)
         }
       }
@@ -404,7 +405,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const createJWT = useCallback((bucketId: string, nonceId: string, permission: NonceResponsePermission) => {
 
-    if(!privateKey) {
+    if (!privateKey) {
       console.error("no private key found")
       return
     }
@@ -415,7 +416,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     const payload = {
       type: "link_sharing",
       permission,
-      iat:  KJUR.jws.IntDate.get("now"),
+      iat: KJUR.jws.IntDate.get("now"),
       bucket_id: bucketId,
       nonce_id: nonceId
     }
@@ -427,7 +428,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     return sJWT
   }, [privateKey])
 
-  const login = async (loginType: IdentityProvider, tokenInfo?: {token: string; email: string}) => {
+  const login = async (loginType: IdentityProvider, tokenInfo?: { token: string; email: string }) => {
     if (!TKeySdk || maintenanceMode) return
     try {
       setStatus("awaiting confirmation")
@@ -456,7 +457,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           verifierId: (loginType === "web3") ? address || "" : decodedToken.uuid,
           typeOfLogin: loginType !== "web3" && loginType !== "email" ? loginType : "jwt",
           accessToken: userInfo?.accessToken,
-          state: { }
+          state: {}
         }
       }
       setUserInfo(loginResponse)
@@ -468,11 +469,11 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     sessionStorage.setItem(TORUS_POSTBOX_KEY, TKeySdk.serviceProvider.postboxKey.toString("hex"))
     setStatus("logging in")
     try {
-      const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | {message: string}>({
+      const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | { message: string }>({
         privKey: TKeySdk.serviceProvider.postboxKey
       })
       console.log("metadata", metadata)
-      const keyNotFound = (metadata as {message: string}).message === "KEY_NOT_FOUND"
+      const keyNotFound = (metadata as { message: string }).message === "KEY_NOT_FOUND"
       if (keyNotFound) {
         console.log("New key")
         setIsNewKey(true)
@@ -509,8 +510,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const getIdentityToken = async (
     loginType: IdentityProvider,
-    tokenInfo?: {token: string; email: string}
-  ): Promise<{identityToken: IdentityToken; userInfo: any}> => {
+    tokenInfo?: { token: string; email: string }
+  ): Promise<{ identityToken: IdentityToken; userInfo: any }> => {
     if (loginType === "email") {
       const uuidToken = await filesApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
@@ -525,7 +526,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
       let addressToUse = address
 
-      if (!isReady  || !provider) {
+      if (!isReady || !provider) {
         const connected = await checkIsReady()
 
         if (!connected || !provider) throw new Error("Unable to connect to wallet.")
@@ -534,7 +535,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const signer = provider.getSigner()
       if (!signer) throw new Error("Signer undefined")
 
-      if(!addressToUse){
+      if (!addressToUse) {
         // checkIsReady above doesn't make sure that the address is defined
         // we pull the address here to have it defined for sure
         addressToUse = await signer.getAddress()
@@ -791,9 +792,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
         [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule()
       },
-      directParams: {
+      customAuthArgs: {
         baseUrl: `${window.location.origin}/serviceworker`,
         network: network,
+        networkUrl: network === "testnet" ? "https://nd-598-268-537.p2pify.com/9a34d9de132b22e6b71b52d3fde80ff1" : undefined,
         enableLogging: enableLogging,
         apiKey: apiKey
       },
