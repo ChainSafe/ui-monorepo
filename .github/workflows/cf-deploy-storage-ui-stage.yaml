@@ -36,6 +36,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: 2238a825c5aca59233eab1f221f7aefb
-          projectName: storage-ui-prod
+          projectName: storage-ui-stage
           directory: ./packages/storage-ui/build
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
