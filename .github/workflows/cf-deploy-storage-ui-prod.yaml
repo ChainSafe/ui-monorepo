@@ -1,5 +1,9 @@
 name: CloudFlare Deploy - Storage-UI PROD
-on: [push]
+on:
+  push:
+    branches: ["prod"]
+  pull_request:
+    branches: ["prod"]
 
 jobs:
   deploy:
@@ -15,6 +19,18 @@ jobs:
           node-version: "16"
       - run: yarn install --frozen-lockfile
       - run: yarn build:storage-ui
+        env:
+          REACT_APP_API_URL: "https://api.chainsafe.io/api/v1"
+          REACT_APP_AUTH0_CLIENT_ID: "kkdDcP8aE1O3qGdwjAV9ybu75nl1afVv"
+          REACT_APP_AUTH0_DOMAIN: "https://chainsafe-files.us.auth0.com"
+          REACT_APP_BLOCKNATIVE_ID: "c8b9121d-7d6b-4886-a92c-c6bbc86386a6"
+          REACT_APP_GOOGLE_CLIENT_ID: "939164021653-lb5eiquuatf877em98bpi8v360p5vcs4.apps.googleusercontent.com"
+          REACT_APP_IPFS_GATEWAY: "https://ipfs.chainsafe.io/ipfs"
+          REACT_APP_POSTHOG_INSTANCE_ADDRESS: "https://app.posthog.com"
+          REACT_APP_POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY }}
+          REACT_APP_MAINTENANCE_MODE: "false"
+          REACT_APP_MAINTENANCE_TIMESTAMP: "0"
+          REACT_APP_STRIPE_PK: ${{ secrets.STRIPE_PK }}
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@1
         with:
