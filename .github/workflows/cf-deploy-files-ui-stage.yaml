@@ -25,7 +25,7 @@ jobs:
           REACT_APP_AUTH0_DOMAIN: "https://chainsafe-files.us.auth0.com"
           REACT_APP_BLOCKNATIVE_ID: "c8b9121d-7d6b-4886-a92c-c6bbc86386a6"
           REACT_APP_DIRECT_AUTH_NETWORK: "testnet"
-          REACT_APP_FILES_UUID_VERIFIER_NAME: "chainsafe-uuid"
+          REACT_APP_FILES_UUID_VERIFIER_NAME: "chainsafe-uuid-testnet"
           REACT_APP_GOOGLE_CLIENT_ID: "939164021653-lb5eiquuatf877em98bpi8v360p5vcs4.apps.googleusercontent.com"
           REACT_APP_MAINTENANCE_MODE: "false"
           REACT_APP_MAINTENANCE_TIMESTAMP: "0"
