@@ -25,7 +25,7 @@ jobs:
           REACT_APP_AUTH0_DOMAIN: "https://chainsafe-files.us.auth0.com"
           REACT_APP_BLOCKNATIVE_ID: "c8b9121d-7d6b-4886-a92c-c6bbc86386a6"
           REACT_APP_GOOGLE_CLIENT_ID: "939164021653-lb5eiquuatf877em98bpi8v360p5vcs4.apps.googleusercontent.com"
-          REACT_APP_IPFS_GATEWAY: "https://ipfs.chainsafe.io/ipfs"
+          REACT_APP_IPFS_GATEWAY: "https://stage-ipfs.chainsafe.io/ipfs"
           REACT_APP_POSTHOG_INSTANCE_ADDRESS: "https://app.posthog.com"
           REACT_APP_POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY }}
           REACT_APP_MAINTENANCE_MODE: "false"
