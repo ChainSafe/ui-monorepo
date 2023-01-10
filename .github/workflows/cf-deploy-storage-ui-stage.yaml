@@ -1,0 +1,41 @@
+name: CloudFlare Deploy - Storage-UI STAGE
+on:
+  push:
+    branches: ["dev"]
+  pull_request:
+    branches: ["dev"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: yarn
+          node-version: "16"
+      - run: yarn install --frozen-lockfile
+      - run: yarn build:storage-ui
+        env:
+          REACT_APP_API_URL: "https://stage-api.chainsafe.io/api/v1"
+          REACT_APP_AUTH0_CLIENT_ID: "kkdDcP8aE1O3qGdwjAV9ybu75nl1afVv"
+          REACT_APP_AUTH0_DOMAIN: "https://chainsafe-files.us.auth0.com"
+          REACT_APP_BLOCKNATIVE_ID: "c8b9121d-7d6b-4886-a92c-c6bbc86386a6"
+          REACT_APP_GOOGLE_CLIENT_ID: "939164021653-lb5eiquuatf877em98bpi8v360p5vcs4.apps.googleusercontent.com"
+          REACT_APP_IPFS_GATEWAY: "https://stage-ipfs.chainsafe.io/ipfs"
+          REACT_APP_POSTHOG_INSTANCE_ADDRESS: "https://app.posthog.com"
+          REACT_APP_POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY }}
+          REACT_APP_MAINTENANCE_MODE: "false"
+          REACT_APP_MAINTENANCE_TIMESTAMP: "0"
+          REACT_APP_STRIPE_PK: ${{ secrets.STRIPE_PK_STAGE }}
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 2238a825c5aca59233eab1f221f7aefb
+          projectName: storage-ui-stage
+          directory: ./packages/storage-ui/build
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
