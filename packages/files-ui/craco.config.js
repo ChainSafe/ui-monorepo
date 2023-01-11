@@ -1,12 +1,12 @@
-const TerserPlugin = require("terser-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   babel: {
     presets: [],
     plugins: ["macros"],
     loaderOptions: (babelLoaderOptions, { env, paths }) => {
-      return babelLoaderOptions
-    }
+      return babelLoaderOptions;
+    },
   },
   webpack: {
     configure: (webpackConfig) => ({
@@ -17,7 +17,7 @@ module.exports = {
           new TerserPlugin({
             terserOptions: {
               parse: {
-                ecma: 8
+                ecma: 8,
               },
               compress: {
                 ecma: 5,
@@ -28,22 +28,22 @@ module.exports = {
                 drop_debugger: true,
               },
               mangle: {
-                safari10: true
+                safari10: true,
               },
               output: {
                 ecma: 5,
                 comments: false,
-                ascii_only: true
-              }
+                ascii_only: true,
+              },
             },
             parallel: 2,
             cache: true,
-            sourceMap: true,
-            extractComments: false
-          })
-        ]
+            sourceMap: false,
+            extractComments: false,
+          }),
+        ],
       },
-      devtool: "source-map"
-    })
-  }
-}
+      devtool: "source-map",
+    }),
+  },
+};
