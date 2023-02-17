@@ -1,8 +1,3 @@
-// This service worker handles all OAuth redirects and calls, as well as parsing 
-// tokens returned, parsing said tokens and communication with the DirectAuth SDK.
-// For more information see https://github.com/torusresearch/torus-direct-web-sdk/blob/master/README.md
-// and https://docs.tor.us/direct-auth/integrating-directauth
-
 /* eslint-disable */
 function getScope() {
   return self.registration.scope;
@@ -126,8 +121,8 @@ self.addEventListener("fetch", function (event) {
       <h1 class="title content" id="closeText" style="display: none;">You can close this window now</h1>
     </div>
     <script
-      src="https://scripts.toruswallet.io/broadcastChannel_3_1_0.js"
-      integrity="sha384-xZA9e8T2sQ3eBH6+D8PNECKbFOogWEHbtcYOFp1lB1bifyxBKzWRIHnk9ecVUse4"
+      src="https://scripts.toruswallet.io/broadcastChannel_6_0_0.js"
+      integrity="sha384-tWiIvEY4iDOl9h6tNeoxETpLfPxq0tgzbIXFYjok42Gu5KoDaA9uSiAk2nG6XBcp"
       crossorigin="anonymous"
     ></script>
     <script>
