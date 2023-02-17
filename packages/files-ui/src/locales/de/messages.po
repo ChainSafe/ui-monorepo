@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
 "PO-Revision-Date: 2022-10-12 18:27+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/"
-"chainsafe-files-user-interface/de/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,10 +32,7 @@ msgid "<0>{planStorageCapacity}</0> of storage"
 msgstr "<0>{planStorageCapacity}</0> des Speichers"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-msgstr ""
-"Eine geheime Sicherungsphrase wird generiert und für Ihr Konto verwendet.<0/"
-"> Wir speichern sie nicht und <1>sie kann nur einmal angezeigt werden</1>. "
-"Speichern Sie sie an einem sicheren Ort!"
+msgstr "Eine geheime Sicherungsphrase wird generiert und für Ihr Konto verwendet.<0/> Wir speichern sie nicht und <1>sie kann nur einmal angezeigt werden</1>. Speichern Sie sie an einem sicheren Ort!"
 
 msgid "A file with the same name already exists"
 msgstr "Es existiert bereits eine Datei mit demselben Namen"
@@ -123,9 +119,7 @@ msgid "Backup secret phrase"
 msgstr "Geheime Sicherungsphrase"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
-msgstr ""
-"Die geheime Sicherungsphrase stimmt nicht mit dem Benutzerkonto überein, "
-"bitte überprüfen Sie dies und versuchen Sie es erneut."
+msgstr "Die geheime Sicherungsphrase stimmt nicht mit dem Benutzerkonto überein, bitte überprüfen Sie dies und versuchen Sie es erneut."
 
 msgid "Billing history"
 msgstr "Abrechnungshistorie"
@@ -269,9 +263,7 @@ msgid "Credit Card is expiring soon"
 msgstr "Kreditkarte läuft bald ab"
 
 msgid "Crypto payments may take a few minutes to be processed. The subscription update will reflect on next login."
-msgstr ""
-"Die Bearbeitung von Krypto-Zahlungen kann ein paar Minuten dauern. Die "
-"Aktualisierung des Abonnements wird bei der nächsten Anmeldung angezeigt."
+msgstr "Die Bearbeitung von Krypto-Zahlungen kann ein paar Minuten dauern. Die Aktualisierung des Abonnements wird bei der nächsten Anmeldung angezeigt."
 
 msgid "DAI, USDC, ETH or BTC"
 msgstr "DAI, USDC, ETH oder BTC"
@@ -388,9 +380,7 @@ msgid "Failed to migrate account, please try again."
 msgstr "Die Migration des Kontos ist fehlgeschlagen, bitte versuchen Sie es erneut."
 
 msgid "Failed to update the subscription. Please try again later."
-msgstr ""
-"Die Aktualisierung des Abonnements ist fehlgeschlagen. Bitte versuchen Sie "
-"es später erneut."
+msgstr "Die Aktualisierung des Abonnements ist fehlgeschlagen. Bitte versuchen Sie es später erneut."
 
 msgid ""
 "Failed to validate signature.\n"
@@ -416,11 +406,9 @@ msgstr "Dateigröße"
 msgid "Files"
 msgstr "Dateien"
 
-#, fuzzy
 msgid "Files Free"
 msgstr "Dateien frei"
 
-#, fuzzy
 msgid "Files Max"
 msgstr "Dateien maximal"
 
@@ -485,9 +473,7 @@ msgid "Hello again!"
 msgstr "Hallo nochmal!"
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
-msgstr ""
-"Hey! Sie haben nur zwei Anmeldemethoden. Wenn Sie diese verlieren und nur "
-"noch eine übrig haben, werden Sie für immer aus Ihrem Konto ausgesperrt."
+msgstr "Hey! Sie haben nur zwei Anmeldemethoden. Wenn Sie diese verlieren und nur noch eine übrig haben, werden Sie für immer aus Ihrem Konto ausgesperrt."
 
 msgid "Hold on, we are logging you in…"
 msgstr "Moment, wir melden Sie an …"
@@ -631,10 +617,7 @@ msgid "Older notifications"
 msgstr "Ältere Benachrichtigungen"
 
 msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
-msgstr ""
-"Sobald Sie fortfahren, wird erwartet, dass Ihr Konto innerhalb von 60 "
-"Minuten eine Zahlung leistet. Wenn keine Zahlung eingeht, wird Ihr Plan "
-"nicht geändert."
+msgstr "Sobald Sie fortfahren, wird erwartet, dass Ihr Konto innerhalb von 60 Minuten eine Zahlung leistet. Wenn keine Zahlung eingeht, wird Ihr Plan nicht geändert."
 
 msgid "One sec, getting files ready…"
 msgstr ""
@@ -694,10 +677,7 @@ msgid "Payment method"
 msgstr "Zahlungsmethode"
 
 msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
-msgstr ""
-"Zahlungen sind endgültig und nicht erstattungsfähig. Wenn Sie Ihren Plan "
-"ändern möchten, werden alle zusätzlichen Mittel als Guthaben für zukünftige "
-"Zahlungen verwendet."
+msgstr "Zahlungen sind endgültig und nicht erstattungsfähig. Wenn Sie Ihren Plan ändern möchten, werden alle zusätzlichen Mittel als Guthaben für zukünftige Zahlungen verwendet."
 
 msgid "Plan changed successfully"
 msgstr "Plan erfolgreich geändert"
@@ -706,9 +686,7 @@ msgid "Plan price"
 msgstr ""
 
 msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
-msgstr ""
-"Bitte begleichen Sie die folgenden ausstehenden Rechnungen, um eine "
-"Kontosperrung zu vermeiden"
+msgstr "Bitte begleichen Sie die folgenden ausstehenden Rechnungen, um eine Kontosperrung zu vermeiden"
 
 msgid "Please enter a file name"
 msgstr "Bitte geben Sie einen Dateinamen ein"
@@ -903,9 +881,7 @@ msgid "Sign in with a different account"
 msgstr "Mit einem anderen Konto anmelden"
 
 msgid "Sign in/up to access the shared folder"
-msgstr ""
-"Melden Sie sich an/registrieren Sie sich, um auf den gemeinsamen Ordner "
-"zuzugreifen"
+msgstr "Melden Sie sich an/registrieren Sie sich, um auf den gemeinsamen Ordner zuzugreifen"
 
 msgid "Sign-in methods"
 msgstr "Anmeldemethoden"
@@ -920,9 +896,7 @@ msgid "Social Sign-in Wallet"
 msgstr ""
 
 msgid "Something went wrong with email login! Please try again."
-msgstr ""
-"Bei der E-Mail-Anmeldung ist etwas schief gelaufen! Bitte versuchen Sie es "
-"erneut."
+msgstr "Bei der E-Mail-Anmeldung ist etwas schief gelaufen! Bitte versuchen Sie es erneut."
 
 msgid "Something went wrong!"
 msgstr "Etwas ist schief gelaufen!"
@@ -961,8 +935,7 @@ msgid "Switch to Free plan"
 msgstr "Zum kostenlosen Plan wechseln"
 
 msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
-msgstr ""
-"Die Systemwartung soll um {0} beginnen. Das System wird nicht verfügbar sein."
+msgstr "Die Systemwartung soll um {0} beginnen. Das System wird nicht verfügbar sein."
 
 msgid "Technical"
 msgstr "Technisch"
@@ -977,17 +950,13 @@ msgid "The files are already in this folder"
 msgstr "Die Dateien befinden sich bereits in diesem Ordner"
 
 msgid "The link you typed in looks malformed. Please verify it."
-msgstr ""
-"Der Link, den Sie eingegeben haben, scheint fehlerhaft zu sein. Bitte "
-"überprüfen Sie ihn."
+msgstr "Der Link, den Sie eingegeben haben, scheint fehlerhaft zu sein. Bitte überprüfen Sie ihn."
 
 msgid "The time to pay with crypto is up. Updating your plan..."
 msgstr ""
 
 msgid "The transaction was declined. Please use a different card or try again."
-msgstr ""
-"Die Transaktion wurde abgelehnt. Bitte verwenden Sie eine andere Karte oder "
-"versuchen Sie es erneut."
+msgstr "Die Transaktion wurde abgelehnt. Bitte verwenden Sie eine andere Karte oder versuchen Sie es erneut."
 
 msgid "The username is too long"
 msgstr "Der Benutzername ist zu lang"
@@ -1158,9 +1127,7 @@ msgid "We are performing routine maintenance of the system. Service status updat
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
-msgstr ""
-"Wir können keine Dateien verschlüsseln, die größer als 2 GB sind. Einige "
-"Elemente werden nicht hochgeladen"
+msgstr "Wir können keine Dateien verschlüsseln, die größer als 2 GB sind. Einige Elemente werden nicht hochgeladen"
 
 msgid "Web3: {0}"
 msgstr "Web3: {0}"
@@ -1214,14 +1181,10 @@ msgid "Your account is restricted. Until you&apos;ve settled up, you can&apos;t 
 msgstr ""
 
 msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
-msgstr ""
-"Ihr Inhalt überschreitet die Speicherkapazität von {planStorageCapacity} für "
-"diesen Plan."
+msgstr "Ihr Inhalt überschreitet die Speicherkapazität von {planStorageCapacity} für diesen Plan."
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr ""
-"Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos "
-"anstelle Ihrer geheimen Sicherungsphrase verwendet werden."
+msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihrer geheimen Sicherungsphrase verwendet werden."
 
 msgid "can-edit"
 msgstr ""
