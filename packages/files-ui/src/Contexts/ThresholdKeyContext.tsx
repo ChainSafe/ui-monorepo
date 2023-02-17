@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react"
-import DirectAuthSdk, { createHandler, ILoginHandler, LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/customauth"
+import DirectAuthSdk, { createHandler, LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/customauth"
 import ThresholdKey from "@tkey/default"
 import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
 import SecurityQuestionsModule, { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
@@ -211,7 +211,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           customAuthArgs: {
             baseUrl: `${window.location.origin}/serviceworker`,
             network: network,
-            networkUrl: network === "testnet" ? "https://nd-598-268-537.p2pify.com/9a34d9de132b22e6b71b52d3fde80ff1" : undefined,
             enableLogging: enableLogging,
             apiKey: apiKey
           },
@@ -568,7 +567,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     } else {
       const providerSpecificHandlerProps = getProviderSpecificParams(loginType)
 
-      const loginHandler: ILoginHandler = createHandler({
+      const loginHandler = createHandler({
         ...providerSpecificHandlerProps,
         redirect_uri: `${window.location.origin}/serviceworker/redirect`,
         redirectToOpener: false,
@@ -795,7 +794,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       customAuthArgs: {
         baseUrl: `${window.location.origin}/serviceworker`,
         network: network,
-        networkUrl: network === "testnet" ? "https://nd-598-268-537.p2pify.com/9a34d9de132b22e6b71b52d3fde80ff1" : undefined,
         enableLogging: enableLogging,
         apiKey: apiKey
       },
