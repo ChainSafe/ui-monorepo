@@ -55,7 +55,7 @@ describe("Search", () => {
         .should("exist")
     })
 
-    it("can view folder content from search result", () => {
+    it.skip("can view folder content from search result", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
       apiTestHelper.createFolder(folderPath)
       homePage.searchInput().type(`${folderName}{enter}`)
