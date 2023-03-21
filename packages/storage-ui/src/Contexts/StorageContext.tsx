@@ -137,9 +137,9 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       setPins(pinsResult.results || [])
       // are there more pins
       if (
-          pinsResult.results?.length &&
-          pinsResult.count &&
-          pinsResult.results.length < pinsResult.count
+        pinsResult.results?.length &&
+        pinsResult.count &&
+        pinsResult.results.length < pinsResult.count
       ) {
         pinsParams.pinsRange.before
           ? setIsNextPinsPage(true)
@@ -182,7 +182,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         before: new Date(newBeforeDate)
       }
     })
-  }, [pins, pinsParams ])
+  }, [pins, pinsParams])
 
   const onPreviousPins = useCallback(() => {
     if (!pins.length || pinsParams.pageNumber === 1) return
@@ -300,7 +300,6 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     return storageApiClient.createBucket({
       name,
       type: "fps",
-      public: "read",
       encryption_key: "",
       file_system_type: fileSystemType
     })
