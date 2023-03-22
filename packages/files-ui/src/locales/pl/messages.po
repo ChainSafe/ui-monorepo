@@ -1,0 +1,1251 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-20 00:28+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pl\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: @lingui/cli\n"
+"Mime-Version: 1.0\n"
+
+msgid "(Awaiting payment)"
+msgstr ""
+
+msgid "({0}) items selected"
+msgstr ""
+
+msgid "/month"
+msgstr ""
+
+msgid "/year"
+msgstr ""
+
+msgid "<0>{currentStorage}</0> of storage"
+msgstr ""
+
+msgid "<0>{planStorageCapacity}</0> of storage"
+msgstr ""
+
+msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
+msgstr ""
+
+msgid "A file with the same name already exists"
+msgstr ""
+
+msgid "Accept"
+msgstr ""
+
+msgid "Accepted currencies"
+msgstr ""
+
+msgid "Access your billing history in settings or view your"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Account is restricted"
+msgstr ""
+
+msgid "Account visibility"
+msgstr ""
+
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
+
+msgid "Add a username"
+msgstr ""
+
+msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
+msgstr ""
+
+msgid "Add card"
+msgstr ""
+
+msgid "Add credit card"
+msgstr ""
+
+msgid "Add more files"
+msgstr ""
+
+msgid "Add viewers and editors by username, sharing id or Ethereum address."
+msgstr ""
+
+msgid "Adding you to the shared folder..."
+msgstr ""
+
+msgid "All crypto payments are final and ineligible for credits, exchanges or refunds. If you wish to change your plan, your funds will not be reimbursed."
+msgstr ""
+
+msgid "All invoices"
+msgstr ""
+
+msgid "Allow lookup by sharing key, wallet address, username or ENS"
+msgstr ""
+
+msgid "Amount added to credit"
+msgstr ""
+
+msgid "Amount available from last bill"
+msgstr ""
+
+msgid "Amount due"
+msgstr ""
+
+msgid "Amount from credit"
+msgstr ""
+
+msgid "An error occurred:"
+msgstr ""
+
+msgid "Annual billing{0}"
+msgstr ""
+
+msgid "Approve"
+msgstr ""
+
+msgid "Are you sure? This will delete your default payment method."
+msgstr ""
+
+msgid "Backup secret phrase"
+msgstr ""
+
+msgid "Backup secret phrase does not match user account, please double-check and try again."
+msgstr ""
+
+msgid "Billing history"
+msgstr ""
+
+msgid "Billing start time"
+msgstr ""
+
+msgid "Bin"
+msgstr ""
+
+msgid "Browse {0}"
+msgstr ""
+
+msgid "Browser:"
+msgstr ""
+
+msgid "Bucket id"
+msgstr ""
+
+msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
+msgstr ""
+
+msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
+msgstr ""
+
+msgid "By switching plan, you will loose access to:"
+msgstr ""
+
+msgid "CID (Content Identifier)"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Card added"
+msgstr ""
+
+msgid "Card inputs invalid"
+msgstr ""
+
+msgid "Card updated"
+msgstr ""
+
+msgid "Change Password"
+msgstr ""
+
+msgid "Change Plan"
+msgstr ""
+
+msgid "Change password"
+msgstr ""
+
+msgid "Change plan"
+msgstr ""
+
+msgid "Check your inbox! We've sent another email."
+msgstr ""
+
+msgid "Click or drag to upload files"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Confirm Password:"
+msgstr ""
+
+msgid "Confirm plan change"
+msgstr ""
+
+msgid "Confirm plan downgrade"
+msgstr ""
+
+msgid "Confirmation"
+msgstr ""
+
+msgid "Connect Wallet"
+msgstr ""
+
+msgid "Connect Wallet to Files"
+msgstr ""
+
+msgid "Connect a new wallet"
+msgstr ""
+
+msgid "Connection failed"
+msgstr ""
+
+msgid "Contact us"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "Continue with Email"
+msgstr ""
+
+msgid "Continue with Github"
+msgstr ""
+
+msgid "Continue with Google"
+msgstr ""
+
+msgid "Continue with Web3 Wallet"
+msgstr ""
+
+msgid "Copied!"
+msgstr ""
+
+msgid "Copy file"
+msgstr ""
+
+msgid "Copy info"
+msgstr ""
+
+msgid "Copy over"
+msgstr ""
+
+msgid "Copy to"
+msgstr ""
+
+msgid "Copying files"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Create Shared Folder"
+msgstr ""
+
+msgid "Create a new shared folder"
+msgstr ""
+
+msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
+
+msgid "Credit Card is expiring soon"
+msgstr ""
+
+msgid "Crypto payments may take a few minutes to be processed. The subscription update will reflect on next login."
+msgstr ""
+
+msgid "DAI, USDC, ETH or BTC"
+msgstr ""
+
+msgid "Dark Theme"
+msgstr ""
+
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data moved to bin successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
+msgid "Date Uploaded"
+msgstr ""
+
+msgid "Date uploaded"
+msgstr ""
+
+msgid "Decline"
+msgstr ""
+
+msgid "Decryption key"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete selected"
+msgstr ""
+
+msgid "Destination Address"
+msgstr ""
+
+msgid "Device awaiting confirmation"
+msgstr ""
+
+msgid "Didn't receive the email?"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download Complete"
+msgstr ""
+
+msgid "Download as zip"
+msgstr ""
+
+msgid "Download in progress, are you sure?"
+msgstr ""
+
+msgid "Download recovery key"
+msgstr ""
+
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr ""
+
+msgid "Downloads cancelled"
+msgstr ""
+
+msgid "Downloads failed"
+msgstr ""
+
+msgid "Drop to upload files"
+msgstr ""
+
+msgid "Edit payment"
+msgstr ""
+
+msgid "Edit payment method"
+msgstr ""
+
+msgid "Edit plan"
+msgstr ""
+
+msgid "Email is required"
+msgstr ""
+
+msgid "Enter backup secret phrase:"
+msgstr ""
+
+msgid "Enter password"
+msgstr ""
+
+msgid "Enter password:"
+msgstr ""
+
+msgid "Enter the verification code:"
+msgstr ""
+
+msgid "Failed to add payment method"
+msgstr ""
+
+msgid "Failed to create a charge"
+msgstr ""
+
+msgid "Failed to get signature"
+msgstr ""
+
+msgid "Failed to migrate account, please try again."
+msgstr ""
+
+msgid "Failed to update the subscription. Please try again later."
+msgstr ""
+
+msgid ""
+"Failed to validate signature.\n"
+"If you are using a contract wallet, please make \n"
+"sure you have activated your wallet."
+msgstr ""
+
+msgid "Features"
+msgstr ""
+
+msgid "File Info"
+msgstr ""
+
+msgid "File format not supported."
+msgstr ""
+
+msgid "File path"
+msgstr ""
+
+msgid "File size"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "Files Free"
+msgstr ""
+
+msgid "Files Max"
+msgstr ""
+
+msgid "Files Pro"
+msgstr ""
+
+msgid "Files sharing key"
+msgstr ""
+
+msgid "Folder Name"
+msgstr ""
+
+msgid "Folder name is already in use"
+msgstr ""
+
+msgid "Folders"
+msgstr ""
+
+msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
+msgstr ""
+
+msgid "Forget this browser"
+msgstr ""
+
+msgid "Free"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Generate backup secret phrase"
+msgstr ""
+
+msgid "Generate sharing link"
+msgstr ""
+
+msgid "Generated"
+msgstr ""
+
+msgid "Generating…"
+msgstr ""
+
+msgid "Get Started"
+msgstr ""
+
+msgid "Go back"
+msgstr ""
+
+msgid "Go to Payments"
+msgstr ""
+
+msgid "Go to login"
+msgstr ""
+
+msgid "Got it"
+msgstr ""
+
+msgid "Have a question?"
+msgstr ""
+
+msgid "Hello again!"
+msgstr ""
+
+msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
+msgstr ""
+
+msgid "Hold on, we are logging you in…"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
+msgstr ""
+
+msgid "Info"
+msgstr ""
+
+msgid "Insufficient balance"
+msgstr ""
+
+msgid "Invoice outstanding"
+msgstr ""
+
+msgid "I’m done saving my backup secret phrase"
+msgstr ""
+
+msgid "Join our new limited-access subscription plans to upgrade to a plan with more storage."
+msgstr ""
+
+msgid "Keep original files"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Learn more"
+msgstr ""
+
+msgid "Learn more about ChainSafe"
+msgstr ""
+
+msgid "Leave"
+msgstr ""
+
+msgid "Let's get you set up."
+msgstr ""
+
+msgid "Light Theme"
+msgstr ""
+
+msgid "Loading preview"
+msgstr ""
+
+msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Loading..."
+msgstr ""
+
+msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
+msgstr ""
+
+msgid "Manage Access"
+msgstr ""
+
+msgid "Manage Shared Folder"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Move over"
+msgstr ""
+
+msgid "Move selected"
+msgstr ""
+
+msgid "Move to…"
+msgstr ""
+
+msgid "My Files"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Need more storage?"
+msgstr ""
+
+msgid "New folder"
+msgstr ""
+
+msgid "New shared folder name"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Next payment"
+msgstr ""
+
+msgid "Nice to see you again!"
+msgstr ""
+
+msgid "No Card"
+msgstr ""
+
+msgid "No file to download."
+msgstr ""
+
+msgid "No files to copy"
+msgstr ""
+
+msgid "No files to share"
+msgstr ""
+
+msgid "No files to show"
+msgstr ""
+
+msgid "No folders"
+msgstr ""
+
+msgid "No invoice found"
+msgstr ""
+
+msgid "No search results for"
+msgstr ""
+
+msgid "No thanks"
+msgstr ""
+
+msgid "No user found"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Number of copies (Replication Factor)"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Older notifications"
+msgstr ""
+
+msgid "Once you proceed, your account is expected to make a payment within 60 minutes. If no payment is received , your plan will not change."
+msgstr ""
+
+msgid "One sec, getting files ready…"
+msgstr ""
+
+msgid "Only send the exact amount of {0} to this address"
+msgstr ""
+
+msgid "Only with annual billing"
+msgstr ""
+
+msgid "Operating system:"
+msgstr ""
+
+msgid "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr ""
+
+msgid "Or using one of the following:"
+msgstr ""
+
+msgid "Owner"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Password confirmation is required"
+msgstr ""
+
+msgid "Password does not match user account, please double-check and try again."
+msgstr ""
+
+msgid "Password needs to be more complex"
+msgstr ""
+
+msgid "Password:"
+msgstr ""
+
+msgid "Passwords must match"
+msgstr ""
+
+msgid "Pay now"
+msgstr ""
+
+msgid "Pay with Crypto"
+msgstr ""
+
+msgid "Pay with crypto"
+msgstr ""
+
+msgid "Pay with {0}"
+msgstr ""
+
+msgid "Payment information"
+msgstr ""
+
+msgid "Payment method"
+msgstr ""
+
+msgid "Payments are final and non-refundable. If you wish to change your plan, any extra funds will be applied as credit towards future payments."
+msgstr ""
+
+msgid "Plan changed successfully"
+msgstr ""
+
+msgid "Plan price"
+msgstr ""
+
+msgid "Please complete payment of the following outstanding invoices in order to avoid account suspension"
+msgstr ""
+
+msgid "Please enter a file name"
+msgstr ""
+
+msgid "Please enter a folder name"
+msgstr ""
+
+msgid "Please enter a name"
+msgstr ""
+
+msgid "Please provide a password"
+msgstr ""
+
+msgid "Please select a file to upload"
+msgstr ""
+
+msgid "Please select fewer files to upload"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Pricing details"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "Proceed to payment"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Recover"
+msgstr ""
+
+msgid "Recover selected"
+msgstr ""
+
+msgid "Recover to…"
+msgstr ""
+
+msgid "Recover with passphrase"
+msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "Reject all"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
+msgid "Rename file"
+msgstr ""
+
+msgid "Rename folder"
+msgstr ""
+
+msgid "Rename shared folder"
+msgstr ""
+
+msgid "Report"
+msgstr ""
+
+msgid "Report a File"
+msgstr ""
+
+msgid "Report a bug"
+msgstr ""
+
+msgid "Request access!"
+msgstr ""
+
+msgid "Requested from"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "Restore with backup secret phrase"
+msgstr ""
+
+msgid "Save this browser for next time?"
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Saved Browser"
+msgstr ""
+
+msgid "Saved Browsers"
+msgstr ""
+
+msgid "Saved on:"
+msgstr ""
+
+msgid "Schedule a 15 min call"
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "Search…"
+msgstr ""
+
+msgid "Security"
+msgstr ""
+
+msgid "See payment info"
+msgstr ""
+
+msgid "Select a cryptocurrency"
+msgstr ""
+
+msgid "Select a wallet"
+msgstr ""
+
+msgid "Select an existing shared folder or your home"
+msgstr ""
+
+msgid "Select payment method"
+msgstr ""
+
+msgid "Select plan"
+msgstr ""
+
+msgid "Select this plan"
+msgstr ""
+
+msgid "Send another email"
+msgstr ""
+
+msgid "Set Password"
+msgstr ""
+
+msgid "Set Username"
+msgstr ""
+
+msgid "Set up a password"
+msgstr ""
+
+msgid "Setting Username"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Share"
+msgstr ""
+
+msgid "Share file"
+msgstr ""
+
+msgid "Share links to your encrypted folders."
+msgstr ""
+
+msgid "Share selected"
+msgstr ""
+
+msgid "Shared"
+msgstr ""
+
+msgid "Shared folder name"
+msgstr ""
+
+msgid "Shared folders"
+msgstr ""
+
+msgid "Shared link"
+msgstr ""
+
+msgid "Shared with"
+msgstr ""
+
+msgid "Sharing files"
+msgstr ""
+
+msgid "Sign Out"
+msgstr ""
+
+msgid "Sign in"
+msgstr ""
+
+msgid "Sign in with a different account"
+msgstr ""
+
+msgid "Sign in/up to access the shared folder"
+msgstr ""
+
+msgid "Sign-in methods"
+msgstr ""
+
+msgid "Sign-in with {0}"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Social Sign-in Wallet"
+msgstr ""
+
+msgid "Something went wrong with email login! Please try again."
+msgstr ""
+
+msgid "Something went wrong!"
+msgstr ""
+
+msgid "Something went wrong. We couldn't upload your file"
+msgstr ""
+
+msgid "Sort By:"
+msgstr ""
+
+msgid "Space running low. Join the beta to upgrade."
+msgstr ""
+
+msgid "Space running low. Upgrade here."
+msgstr ""
+
+msgid "Start Upload"
+msgstr ""
+
+msgid "Stored by miner"
+msgstr ""
+
+msgid "Subscription Plan"
+msgstr ""
+
+msgid "Subscription plan"
+msgstr ""
+
+msgid "Switch Network"
+msgstr ""
+
+msgid "Switch Plan"
+msgstr ""
+
+msgid "Switch to Free plan"
+msgstr ""
+
+msgid "System maintenance is scheduled to start at {0}. The system will be unavailable."
+msgstr ""
+
+msgid "Technical"
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr ""
+
+msgid "The authentication popup was closed"
+msgstr ""
+
+msgid "The files are already in this folder"
+msgstr ""
+
+msgid "The link you typed in looks malformed. Please verify it."
+msgstr ""
+
+msgid "The time to pay with crypto is up. Updating your plan..."
+msgstr ""
+
+msgid "The transaction was declined. Please use a different card or try again."
+msgstr ""
+
+msgid "The username is too long"
+msgstr ""
+
+msgid "Theme"
+msgstr ""
+
+msgid "There are no notifications!"
+msgstr ""
+
+msgid "There was a problem creating a charge {error}"
+msgstr ""
+
+msgid "There was an error authenticating"
+msgstr ""
+
+msgid "There was an error connecting your wallet"
+msgstr ""
+
+msgid "There was an error creating the folder {0}"
+msgstr ""
+
+msgid "There was an error deleting your data"
+msgstr ""
+
+msgid "There was an error getting search results"
+msgstr ""
+
+msgid "There was an error getting the preview."
+msgstr ""
+
+msgid "There was an error moving your data"
+msgstr ""
+
+msgid "There was an error restoring your data"
+msgstr ""
+
+msgid "There was an error when setting username."
+msgstr ""
+
+msgid "This card will become your default payment method"
+msgstr ""
+
+msgid "This link is marlformed. Please verify that you copy/pasted it correctly."
+msgstr ""
+
+msgid "This link is not valid any more."
+msgstr ""
+
+msgid "This username is already taken"
+msgstr ""
+
+msgid "This website uses cookies"
+msgstr ""
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr ""
+
+msgid "This week"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Total Amount"
+msgstr ""
+
+msgid "Transfer is in progress, are you sure?"
+msgstr ""
+
+msgid "Try again"
+msgstr ""
+
+msgid "Try another method"
+msgstr ""
+
+msgid "USDC, DAI, BTC, or ETH"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid "Update Card"
+msgstr ""
+
+msgid "Update card"
+msgstr ""
+
+msgid "Update credit card"
+msgstr ""
+
+msgid "Update your credit card"
+msgstr ""
+
+msgid "Upgrade"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Upload complete"
+msgstr ""
+
+msgid "Upload in progress, are you sure?"
+msgstr ""
+
+msgid "Upload size exceeds plan capacity"
+msgstr ""
+
+msgid "Uploads cancelled"
+msgstr ""
+
+msgid "Uploads disabled"
+msgstr ""
+
+msgid "Use a different login method"
+msgstr ""
+
+msgid "Use a saved browser"
+msgstr ""
+
+msgid "Use an existing shared folder"
+msgstr ""
+
+msgid "Use this card"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Username set successfully"
+msgstr ""
+
+msgid "Username, wallet address or ENS"
+msgstr ""
+
+msgid "Usernames are public and can't be changed after creation."
+msgstr ""
+
+msgid "Using an email:"
+msgstr ""
+
+msgid "Verification code is required"
+msgstr ""
+
+msgid "Verification code not correct!"
+msgstr ""
+
+msgid "Verification code sent!"
+msgstr ""
+
+msgid "Verifying the link..."
+msgstr ""
+
+msgid "View PDF"
+msgstr ""
+
+msgid "View folder"
+msgstr ""
+
+msgid "Wallet address"
+msgstr ""
+
+msgid "Want to help shape this product?"
+msgstr ""
+
+msgid "We are performing routine maintenance of the system. Service status updates will be posted on the <0>Files Support Channel</0> on Discord"
+msgstr ""
+
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
+msgstr ""
+
+msgid "Web3: {0}"
+msgstr ""
+
+msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
+msgstr ""
+
+msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr ""
+
+msgid "What a fine day it is."
+msgstr ""
+
+msgid "What a fine night it is."
+msgstr ""
+
+msgid "Yes, save it"
+msgstr ""
+
+msgid "You can change this later."
+msgstr ""
+
+msgid "You can now create shared folders to share a file."
+msgstr ""
+
+msgid "You can't move folders to this path"
+msgstr ""
+
+msgid "You do not have access to this shared folder."
+msgstr ""
+
+msgid "You get access to these features right now."
+msgstr ""
+
+msgid "You haven't set a username yet."
+msgstr ""
+
+msgid "You now have:"
+msgstr ""
+
+msgid "You were added to the shared folder ({0}): {1}"
+msgstr ""
+
+msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
+
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
+msgid "Your account is restricted. Until you&apos;ve settled up, you can&apos;t upload any new content."
+msgstr ""
+
+msgid "Your content exceeds the {planStorageCapacity} storage capacity for this plan."
+msgstr ""
+
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
+
+msgid "can-edit"
+msgstr ""
+
+msgid "expires"
+msgstr ""
+
+msgid "invoices here"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "unknown"
+msgstr ""
+
+msgid "view-only"
+msgstr ""
+
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} cancelled"
+msgstr ""
+
+msgid "{0} cancelled - {successCount} files {1} successfully"
+msgstr ""
+
+msgid "{0} complete"
+msgstr ""
+
+msgid "{0} failed"
+msgstr ""
+
+msgid "{0} of {1} used"
+msgstr ""
+
+msgid "{0} {fileProgress} - {1}"
+msgstr ""
+
+msgid "{currentPlanStorage} of storage"
+msgstr ""
+
+msgid "{newPlanCapacity} of storage"
+msgstr ""
+
+msgid "{newPlanStorage} of storage"
+msgstr ""
+
+msgid "{planStorageCapacity} of storage"
+msgstr ""
+
+msgid "{successCount} files transferred successfully, {0} failed"
+msgstr ""
