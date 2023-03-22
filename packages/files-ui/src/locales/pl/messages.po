@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-03-22 22:16+0000\n"
+"Last-Translator: gnu-ewm <gnu.ewm@protonmail.com>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/chainsafe-files/"
+"chainsafe-files-user-interface/pl/>\n"
 "Language: pl\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: @lingui/cli\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "(Awaiting payment)"
@@ -21,10 +22,10 @@ msgid "({0}) items selected"
 msgstr ""
 
 msgid "/month"
-msgstr ""
+msgstr "/miesiąc"
 
 msgid "/year"
-msgstr ""
+msgstr "/rok"
 
 msgid "<0>{currentStorage}</0> of storage"
 msgstr ""
@@ -39,7 +40,7 @@ msgid "A file with the same name already exists"
 msgstr ""
 
 msgid "Accept"
-msgstr ""
+msgstr "Akceptuj"
 
 msgid "Accepted currencies"
 msgstr ""
@@ -48,7 +49,7 @@ msgid "Access your billing history in settings or view your"
 msgstr ""
 
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 msgid "Account is restricted"
 msgstr ""
@@ -111,7 +112,7 @@ msgid "Annual billing{0}"
 msgstr ""
 
 msgid "Approve"
-msgstr ""
+msgstr "Zatwierdź"
 
 msgid "Are you sure? This will delete your default payment method."
 msgstr ""
@@ -135,7 +136,7 @@ msgid "Browse {0}"
 msgstr ""
 
 msgid "Browser:"
-msgstr ""
+msgstr "Przeglądarka:"
 
 msgid "Bucket id"
 msgstr ""
@@ -153,7 +154,7 @@ msgid "CID (Content Identifier)"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 msgid "Card added"
 msgstr ""
@@ -183,10 +184,10 @@ msgid "Click or drag to upload files"
 msgstr ""
 
 msgid "Close"
-msgstr ""
+msgstr "Zamknij"
 
 msgid "Confirm"
-msgstr ""
+msgstr "Potwierdź"
 
 msgid "Confirm Password:"
 msgstr ""
@@ -198,7 +199,7 @@ msgid "Confirm plan downgrade"
 msgstr ""
 
 msgid "Confirmation"
-msgstr ""
+msgstr "Potwierdzenie"
 
 msgid "Connect Wallet"
 msgstr ""
@@ -216,7 +217,7 @@ msgid "Contact us"
 msgstr ""
 
 msgid "Continue"
-msgstr ""
+msgstr "Kontynuuj"
 
 msgid "Continue with Email"
 msgstr ""
@@ -231,7 +232,7 @@ msgid "Continue with Web3 Wallet"
 msgstr ""
 
 msgid "Copied!"
-msgstr ""
+msgstr "Skopiowano!"
 
 msgid "Copy file"
 msgstr ""
@@ -249,7 +250,7 @@ msgid "Copying files"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Utwórz"
 
 msgid "Create Shared Folder"
 msgstr ""
@@ -291,13 +292,13 @@ msgid "Date uploaded"
 msgstr ""
 
 msgid "Decline"
-msgstr ""
+msgstr "Odrzuć"
 
 msgid "Decryption key"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Usuń"
 
 msgid "Delete selected"
 msgstr ""
@@ -312,10 +313,10 @@ msgid "Didn't receive the email?"
 msgstr ""
 
 msgid "Display"
-msgstr ""
+msgstr "Wyświetl"
 
 msgid "Download"
-msgstr ""
+msgstr "Pobierz"
 
 msgid "Download Complete"
 msgstr ""
@@ -390,7 +391,7 @@ msgid ""
 msgstr ""
 
 msgid "Features"
-msgstr ""
+msgstr "Funkcje"
 
 msgid "File Info"
 msgstr ""
@@ -405,7 +406,7 @@ msgid "File size"
 msgstr ""
 
 msgid "Files"
-msgstr ""
+msgstr "Pliki"
 
 msgid "Files Free"
 msgstr ""
@@ -426,7 +427,7 @@ msgid "Folder name is already in use"
 msgstr ""
 
 msgid "Folders"
-msgstr ""
+msgstr "Foldery"
 
 msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
 msgstr ""
@@ -435,10 +436,10 @@ msgid "Forget this browser"
 msgstr ""
 
 msgid "Free"
-msgstr ""
+msgstr "Bezpłatne"
 
 msgid "General"
-msgstr ""
+msgstr "Ogólne"
 
 msgid "Generate backup secret phrase"
 msgstr ""
@@ -447,10 +448,10 @@ msgid "Generate sharing link"
 msgstr ""
 
 msgid "Generated"
-msgstr ""
+msgstr "Wygenerowane"
 
 msgid "Generating…"
-msgstr ""
+msgstr "Generowanie…"
 
 msgid "Get Started"
 msgstr ""
@@ -480,13 +481,13 @@ msgid "Hold on, we are logging you in…"
 msgstr ""
 
 msgid "Home"
-msgstr ""
+msgstr "Strona główna"
 
 msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
 msgstr ""
 
 msgid "Info"
-msgstr ""
+msgstr "Informacje"
 
 msgid "Insufficient balance"
 msgstr ""
@@ -504,7 +505,7 @@ msgid "Keep original files"
 msgstr ""
 
 msgid "Language"
-msgstr ""
+msgstr "Język"
 
 msgid "Learn more"
 msgstr ""
@@ -513,7 +514,7 @@ msgid "Learn more about ChainSafe"
 msgstr ""
 
 msgid "Leave"
-msgstr ""
+msgstr "Opuść"
 
 msgid "Let's get you set up."
 msgstr ""
@@ -528,7 +529,7 @@ msgid "Loading your shared folders…"
 msgstr ""
 
 msgid "Loading..."
-msgstr ""
+msgstr "Ładowanie..."
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
@@ -540,7 +541,7 @@ msgid "Manage Shared Folder"
 msgstr ""
 
 msgid "Move"
-msgstr ""
+msgstr "Przenieś"
 
 msgid "Move over"
 msgstr ""
@@ -555,7 +556,7 @@ msgid "My Files"
 msgstr ""
 
 msgid "Name"
-msgstr ""
+msgstr "Nazwa"
 
 msgid "Need more storage?"
 msgstr ""
@@ -567,7 +568,7 @@ msgid "New shared folder name"
 msgstr ""
 
 msgid "Next"
-msgstr ""
+msgstr "Następne"
 
 msgid "Next payment"
 msgstr ""
@@ -606,13 +607,13 @@ msgid "No user found"
 msgstr ""
 
 msgid "Notifications"
-msgstr ""
+msgstr "Powiadomienia"
 
 msgid "Number of copies (Replication Factor)"
 msgstr ""
 
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgid "Older notifications"
 msgstr ""
@@ -639,10 +640,10 @@ msgid "Or using one of the following:"
 msgstr ""
 
 msgid "Owner"
-msgstr ""
+msgstr "Właściciel"
 
 msgid "Password"
-msgstr ""
+msgstr "Hasło"
 
 msgid "Password confirmation is required"
 msgstr ""
@@ -654,7 +655,7 @@ msgid "Password needs to be more complex"
 msgstr ""
 
 msgid "Password:"
-msgstr ""
+msgstr "Hasło:"
 
 msgid "Passwords must match"
 msgstr ""
@@ -708,7 +709,7 @@ msgid "Please select fewer files to upload"
 msgstr ""
 
 msgid "Preview"
-msgstr ""
+msgstr "Podgląd"
 
 msgid "Pricing details"
 msgstr ""
@@ -720,10 +721,10 @@ msgid "Proceed to payment"
 msgstr ""
 
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 msgid "Recover"
-msgstr ""
+msgstr "Odzyskaj"
 
 msgid "Recover selected"
 msgstr ""
@@ -735,16 +736,16 @@ msgid "Recover with passphrase"
 msgstr ""
 
 msgid "Reject"
-msgstr ""
+msgstr "Odrzuć"
 
 msgid "Reject all"
 msgstr ""
 
 msgid "Remove"
-msgstr ""
+msgstr "Usuń"
 
 msgid "Rename"
-msgstr ""
+msgstr "Zmień nazwę"
 
 msgid "Rename file"
 msgstr ""
@@ -756,7 +757,7 @@ msgid "Rename shared folder"
 msgstr ""
 
 msgid "Report"
-msgstr ""
+msgstr "Zgłoś"
 
 msgid "Report a File"
 msgstr ""
@@ -771,7 +772,7 @@ msgid "Requested from"
 msgstr ""
 
 msgid "Resources"
-msgstr ""
+msgstr "Zasoby"
 
 msgid "Restore with backup secret phrase"
 msgstr ""
@@ -780,7 +781,7 @@ msgid "Save this browser for next time?"
 msgstr ""
 
 msgid "Saved"
-msgstr ""
+msgstr "Zapisano"
 
 msgid "Saved Browser"
 msgstr ""
@@ -798,10 +799,10 @@ msgid "Search results"
 msgstr ""
 
 msgid "Search…"
-msgstr ""
+msgstr "Szukaj…"
 
 msgid "Security"
-msgstr ""
+msgstr "Bezpieczeństwo"
 
 msgid "See payment info"
 msgstr ""
@@ -840,10 +841,10 @@ msgid "Setting Username"
 msgstr ""
 
 msgid "Settings"
-msgstr ""
+msgstr "Ustawienia"
 
 msgid "Share"
-msgstr ""
+msgstr "Udostępnij"
 
 msgid "Share file"
 msgstr ""
@@ -855,7 +856,7 @@ msgid "Share selected"
 msgstr ""
 
 msgid "Shared"
-msgstr ""
+msgstr "Udostępnione"
 
 msgid "Shared folder name"
 msgstr ""
@@ -891,7 +892,7 @@ msgid "Sign-in with {0}"
 msgstr ""
 
 msgid "Size"
-msgstr ""
+msgstr "Rozmiar"
 
 msgid "Social Sign-in Wallet"
 msgstr ""
@@ -939,7 +940,7 @@ msgid "System maintenance is scheduled to start at {0}. The system will be unava
 msgstr ""
 
 msgid "Technical"
-msgstr ""
+msgstr "Techniczne"
 
 msgid "Terms and Conditions"
 msgstr ""
@@ -963,7 +964,7 @@ msgid "The username is too long"
 msgstr ""
 
 msgid "Theme"
-msgstr ""
+msgstr "Motyw"
 
 msgid "There are no notifications!"
 msgstr ""
