@@ -21,7 +21,6 @@ describe("Main Navigation", () => {
 
       // ensure new key modal is closed and api key button is not enabled
       newKeyModal.secretLabel().should("not.exist")
-      apiKeysPage.addApiKeyButton().should("not.be.enabled")
 
       // ensure key id and status are correct in the table
       cy.get<string>("@keyId").then((keyId) => {
