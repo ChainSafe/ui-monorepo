@@ -16,7 +16,8 @@ import {
   DeleteSvg,
   MoreIcon,
   CopyIcon,
-  Divider } from "@chainsafe/common-components"
+  Divider
+} from "@chainsafe/common-components"
 import { CSSTheme } from "../../Themes/types"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
@@ -96,7 +97,7 @@ const useStyles = makeStyles(({ constants, breakpoints, animation, zIndex, palet
       color: constants.createFolder.color,
       [breakpoints.down("md")]: {
         bottom:
-        Number(constants?.mobileButtonHeight) + constants.generalUnit,
+          Number(constants?.mobileButtonHeight) + constants.generalUnit,
         borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
         borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         maxWidth: `${breakpoints.width("md")}px !important`
@@ -226,7 +227,6 @@ const ApiKeys = () => {
               onClick={createStorageAccessKey}
               variant="outline"
               size="large"
-              disabled={keys.filter(k => k.type === "storage").length > 0}
             >
               <PlusIcon />
               <span>
