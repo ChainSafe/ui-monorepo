@@ -21,7 +21,6 @@ import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
 import { HelmetProvider } from "react-helmet-async"
 
 import ErrorModal from "./Components/Modules/ErrorModal"
-import { Box } from "@material-ui/core"
 import Banner from "./Components/Elements/Banner"
 
 // making material and jss use one className generator
