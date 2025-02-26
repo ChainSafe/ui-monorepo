@@ -14,7 +14,7 @@ const Banner = () => {
       margin={0}
     >
       <Typography variant="body1" >
-        To our valued customers, ChainSafe Files will be sunset on March 10th, 2025. Please retrieve all of your files on the platform before this date to avoid loosing access. Feel free to send an email to support@files.chainsafe.io if you have any questions or concerns.
+        To our valued customers, ChainSafe Files will be sunset on March 10th, 2025. Please retrieve all of your files on the platform before this date to avoid losing access. Feel free to send an email to support@files.chainsafe.io if you have any questions or concerns.
       </Typography>
     </Box>
   );
