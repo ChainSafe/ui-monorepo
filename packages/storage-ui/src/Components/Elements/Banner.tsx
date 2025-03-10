@@ -15,7 +15,7 @@ const Banner = () => {
     >
       <Typography variant="body1" >
         {/* eslint-disable-next-line max-len */}
-        To our valued customers, ChainSafe Storage will be sunset on March 10th, 2025. Please retrieve all of your files on the platform before this date to avoid losing access. Feel free to send an email to support@files.chainsafe.io if you have any questions or concerns.
+        To our valued customers, ChainSafe Storage will be sunset on April 1st, 2025. User uploads will be suspended prior to that date on March 20th, 2025. Please retrieve all of your files on the platform before April 1st to avoid loosing access. If you are using Storage as a back end, please switch over to another storage service. Feel free to send an email to support@files.chainsafe.io if you have any questions or concerns.
       </Typography>
     </Box>
   )
