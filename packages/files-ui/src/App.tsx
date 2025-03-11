@@ -12,7 +12,7 @@ import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
-import { FilesApiProvider }  from "./Contexts/FilesApiContext"
+import { FilesApiProvider } from "./Contexts/FilesApiContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
 import { PosthogProvider } from "./Contexts/PosthogContext"
@@ -21,6 +21,7 @@ import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
 import { HelmetProvider } from "react-helmet-async"
 
 import ErrorModal from "./Components/Modules/ErrorModal"
+import Banner from "./Components/Elements/Banner"
 
 // making material and jss use one className generator
 const generateClassName = createGenerateClassName({
@@ -123,6 +124,8 @@ const App = () => {
                               <BillingProvider>
                                 <PosthogProvider>
                                   <AppWrapper>
+                                    {/* Banner on top of the app*/}
+                                    <Banner />
                                     <FilesRoutes />
                                   </AppWrapper>
                                 </PosthogProvider>

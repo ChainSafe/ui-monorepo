@@ -10,7 +10,7 @@ import { LanguageProvider } from "./Contexts/LanguageContext"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
-import { StorageApiProvider }  from "./Contexts/StorageApiContext"
+import { StorageApiProvider } from "./Contexts/StorageApiContext"
 import { StorageProvider } from "./Contexts/StorageContext"
 import { UserProvider } from "./Contexts/UserContext"
 import { BillingProvider } from "./Contexts/BillingContext"
@@ -19,6 +19,7 @@ import { PosthogProvider } from "./Contexts/PosthogContext"
 import { HelmetProvider } from "react-helmet-async"
 import ErrorModal from "./Components/Modules/ErrorModal"
 import { StylesProvider, createGenerateClassName } from "@material-ui/styles"
+import Banner from "./Components/Elements/Banner"
 
 // making material and jss use one className generator
 const generateClassName = createGenerateClassName({
@@ -104,6 +105,8 @@ const App = () => {
                             <BillingProvider>
                               <PosthogProvider>
                                 <AppWrapper>
+                                  {/* Banner on top of the app*/}
+                                  <Banner />
                                   <StorageRoutes />
                                 </AppWrapper>
                               </PosthogProvider>
